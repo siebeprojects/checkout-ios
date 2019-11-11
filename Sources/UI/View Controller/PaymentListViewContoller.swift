@@ -61,7 +61,7 @@ import UIKit
 // MARK: - View state management
 
 extension PaymentListViewContoller {
-    fileprivate func changeState(to state: Load<PaymentSession, PaymentError>) {
+    fileprivate func changeState(to state: Load<PaymentSession, Error>) {
         switch state {
         case .success(let session):
             activityIndicator(isActive: false)
@@ -122,17 +122,25 @@ extension PaymentListViewContoller {
         activityIndicator.startAnimating()
     }
 
-    private func presentError(_ error: PaymentError?) {
+    private func presentError(_ error: Error?) {
         guard let error = error else {
             // Dismiss alert controller
             errorAlertController?.dismiss(animated: true, completion: nil)
             return
         }
+        
+        let localizedError: LocalizedError
+        if let error = error as? LocalizedError {
+            localizedError = error
+        } else {
+            localizedError = PaymentError(localizedDescription: LocalTranslation.errorDefault.localizedString, underlyingError: nil)
+        }
 
-        let controller = UIAlertController(title: error.localizedDescription, message: nil, preferredStyle: .alert)
+        let controller = UIAlertController(title: localizedError.localizedDescription, message: nil, preferredStyle: .alert)
 
         // Add retry button if needed
-        if error.underlyingError?.isNetworkError == true {
+        if let networkError = error.asNetworkError {
+            controller.title = networkError.localizedDescription
             let retryAction = UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
                 self?.load()
             }

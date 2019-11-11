@@ -2,12 +2,12 @@ import Foundation
 
 final class PaymentNetwork {
     let code: String
-    var label: String
+    let label: String
     let logo: Logo?
 
-    init(from applicableNetwork: ApplicableNetwork) {
+    init(from applicableNetwork: ApplicableNetwork, localizeUsing localizer: TranslationProvider) {
         self.code = applicableNetwork.code
-        self.label = String()
+        self.label = localizer.translation(forKey: "network.label")
         
         if let logoURL = applicableNetwork.links?["logo"] {
             logo = Logo(url: logoURL)

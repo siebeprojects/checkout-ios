@@ -1,15 +1,16 @@
 import Foundation
 
 extension Error {
-	var isNetworkError: Bool {
+    /// Returns NSError if `Self` is a retryable network error, otherwhise returns `nil`.
+	var asNetworkError: NSError? {
 		let nsError = self as NSError
 		
 		let allowedCodes: [URLError.Code] = [.notConnectedToInternet, .dataNotAllowed]
 		let allowedCodesNumber = allowedCodes.map { $0.rawValue }
 		if nsError.domain == NSURLErrorDomain, allowedCodesNumber.contains(nsError.code) {
-			return true
+			return nsError
 		} else {
-			return false
+			return nil
 		}
 	}
 }

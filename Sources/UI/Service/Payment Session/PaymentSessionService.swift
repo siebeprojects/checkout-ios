@@ -13,16 +13,17 @@ class PaymentSessionService {
         self.localizationProvider = localizationProvider
     }
 
-    func loadPaymentSession(completion: @escaping ((Load<PaymentSession, PaymentError>) -> Void)) {
-        paymentSessionProvider.loadPaymentSession { [makePaymentError] result in
+    /// - Parameter completion: `LocalizedError` or `NSError` with localized description is always returned if `Load` produced an error.
+    func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
+        paymentSessionProvider.loadPaymentSession { [localize] result in
             switch result {
             case .loading: completion(.loading)
             case .success(let session): completion(.success(session))
             case .failure(let error):
                 log(error)
 
-                let paymentError = makePaymentError(error)
-                completion(.failure(paymentError))
+                let localizedError = localize(error)
+                completion(.failure(localizedError))
             }
         }
     }
@@ -42,11 +43,17 @@ class PaymentSessionService {
         }
     }
 
-    private func makePaymentError(from error: Error) -> PaymentError {
-        let localizer = Localizer(provider: localizationProvider)
-        let localizedErrorText = localizer.localize(error: error)
-        let paymentError = PaymentError(localizedDescription: localizedErrorText, underlyingError: error)
-        return paymentError
+    private func localize(error: Error) -> Error {
+        switch error {
+        case let localizedError as LocalizedError:
+            return localizedError
+        case let error where error.asNetworkError != nil:
+            // Network errors has built-in localizations
+            return error
+        default:
+            let description: String = localizationProvider.translation(forKey: LocalTranslation.errorDefault.rawValue)
+            return PaymentError(localizedDescription: description, underlyingError: error)
+        }
     }
 }
 
