@@ -49,7 +49,7 @@ class Localizer {
                 localized = String()
             }
 
-            model[keyPath: localizationKey.field] = localized
+            model[keyPath: localizationKey.keyPath] = localized
         }
     }
 

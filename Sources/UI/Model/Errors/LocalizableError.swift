@@ -11,7 +11,7 @@ extension LocalizableError: Localizable {
 
     var localizableFields: [LocalizationKey<LocalizableError>] {
         [
-            .init(\.localizedDescription, key: localizationKey.rawValue)
+            .init(keyPath: \.localizedDescription, key: localizationKey.rawValue)
         ]
     }
 }

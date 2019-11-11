@@ -9,13 +9,8 @@ protocol Localizable {
 /// - SeeAlso: `Localizable`
 struct LocalizationKey<T> {
     /// Field where localization will be writteen
-    let field: WritableKeyPath<T, String>
+    let keyPath: WritableKeyPath<T, String>
 
     /// Localization key that would be used by a provider to lookup a translation string
     let key: String
-
-    init(_ field: WritableKeyPath<T, String>, key: String) {
-        self.field = field
-        self.key = key
-    }
 }

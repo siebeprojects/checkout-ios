@@ -91,7 +91,7 @@ extension PaymentListViewContoller {
         let methodsTableView = self.addMethodsTableView()
         self.methodsTableView = methodsTableView
 
-        let tableController = PaymentListTableController(session: session)
+        let tableController = PaymentListTableController(networkGroup: session.network)
         tableController.tableView = methodsTableView
         tableController.loadLogo = sessionService.loadLogo
         self.tableController = tableController

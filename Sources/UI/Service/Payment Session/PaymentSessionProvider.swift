@@ -150,7 +150,10 @@ class PaymentSessionProvider {
     }
 
     private func makePaymentSession(from paymentNetworks: [PaymentNetwork], completion: ((PaymentSession) -> Void)) {
-        let session = PaymentSession(networks: paymentNetworks)
+        var group = NetworkGroup(networks: paymentNetworks)
+        localizer.localize(model: &group)
+        
+        let session = PaymentSession(network: group)
         completion(session)
     }
 }
