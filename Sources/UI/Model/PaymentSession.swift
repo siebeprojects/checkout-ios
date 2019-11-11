@@ -1,7 +1,7 @@
 import Foundation
 
-struct PaymentSession {
-    var networks: [PaymentNetwork]
+final class PaymentSession {
+    let networks: [PaymentNetwork]
 
     init(networks: [PaymentNetwork]) {
         self.networks = networks

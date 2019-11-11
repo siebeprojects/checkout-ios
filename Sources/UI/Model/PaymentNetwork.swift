@@ -1,9 +1,9 @@
 import Foundation
 
-struct PaymentNetwork {
+final class PaymentNetwork {
     let code: String
     var label: String
-    var logo: Logo?
+    let logo: Logo?
 
     init(from applicableNetwork: ApplicableNetwork) {
         self.code = applicableNetwork.code
@@ -18,9 +18,13 @@ struct PaymentNetwork {
 }
 
 extension PaymentNetwork {
-    struct Logo {
+    final class Logo {
         var data: Data? = nil
         let url: URL
+        
+        init(url: URL) {
+            self.url = url
+        }
     }
 }
 
