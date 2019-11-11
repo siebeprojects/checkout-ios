@@ -1,18 +1,26 @@
 import Foundation
 
-public struct PaymentNetwork {
-    internal let applicableNetwork: ApplicableNetwork
-
-    public let code: String
-    public var label: String
-
-    var logoData: Data?
+struct PaymentNetwork {
+    let code: String
+    var label: String
+    var logo: Logo?
 
     init(from applicableNetwork: ApplicableNetwork) {
-        self.applicableNetwork = applicableNetwork
-
         self.code = applicableNetwork.code
         self.label = String()
+        
+        if let logoURL = applicableNetwork.links?["logo"] {
+            logo = Logo(url: logoURL)
+        } else {
+            logo = nil
+        }
+    }
+}
+
+extension PaymentNetwork {
+    struct Logo {
+        var data: Data? = nil
+        let url: URL
     }
 }
 

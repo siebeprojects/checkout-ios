@@ -27,21 +27,15 @@ class PaymentSessionService {
         }
     }
 
-    func loadLogo(for network: PaymentNetwork, completion: @escaping ((Data?) -> Void)) {
-        guard let logoURL = network.applicableNetwork.links?["logo"] else {
-            completion(nil)
-            return
-        }
-
-        downloadProvider.downloadData(from: logoURL) { result in
+    func loadLogo(_ logo: PaymentNetwork.Logo, completion: @escaping ((Data?) -> Void)) {
+        downloadProvider.downloadData(from: logo.url) { result in
             switch result {
             case .success(let logoData):
                 completion(logoData)
             case .failure(let error):
                 let paymentError = InternalError(
                     description: "Couldn't download a logo for a payment network %@ from %@, reason: %@",
-                    network.code, logoURL.absoluteString,
-                    error.localizedDescription)
+                    logo.url.absoluteString, error.localizedDescription)
                 paymentError.log()
                 completion(nil)
             }

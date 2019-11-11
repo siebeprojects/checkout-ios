@@ -7,7 +7,7 @@ class PaymentListTableController: NSObject {
     var dataSource: [TableGroup]
     weak var tableView: UITableView?
 
-    var loadLogo: ((PaymentNetwork, @escaping (((Data?) -> Void))) -> Void)?
+    var loadLogo: ((PaymentNetwork.Logo, @escaping (((Data?) -> Void))) -> Void)?
 
     init(session: PaymentSession) {
         // FIXME: Use localization provider
@@ -18,12 +18,16 @@ class PaymentListTableController: NSObject {
 
     fileprivate func loadLogo(for indexPath: IndexPath) {
         let network = self.network(for: indexPath)
-        guard network.logoData == nil else { return }
+        
+        // If logo was alread downloaded, do nothing
+        if network.logo?.data != nil { return }
+        
+        guard let logo = network.logo else { return }
 
-        loadLogo?(network) { [weak self] logoData in
-            guard let data = logoData else { return }
+        loadLogo?(logo) { [weak self] logoData in
+            guard let logoData = logoData else { return }
 
-            self?.dataSource[indexPath.section].networks[indexPath.row].logoData = data
+            self?.dataSource[indexPath.section].networks[indexPath.row].logo?.data = logoData
 
             DispatchQueue.main.async {
                 self?.tableView?.reloadRows(at: [indexPath], with: .fade)
@@ -49,8 +53,7 @@ extension PaymentListTableController: UITableViewDataSource {
         let network = self.network(for: indexPath)
         let cell = tableView.dequeueReusableCell(PaymentListTableViewCell.self, for: indexPath)
         cell.textLabel?.text = network.label
-        // TODO: Check if it drops framerate, maybe better to load it before cell instatination
-        cell.imageView?.image = network.logo
+        cell.imageView?.image = network.logo?.image
         return cell
     }
 
@@ -84,9 +87,9 @@ extension PaymentListTableController: UITableViewDelegate {
     }
 }
 
-private extension PaymentNetwork {
-    var logo: UIImage? {
-        guard let data = logoData else { return nil }
+private extension PaymentNetwork.Logo {
+    var image: UIImage? {
+        guard let data = data else { return nil }
         return UIImage(data: data)
     }
 }

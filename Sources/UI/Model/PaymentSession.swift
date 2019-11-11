@@ -1,9 +1,9 @@
 import Foundation
 
-public struct PaymentSession {
-    public var networks: [PaymentNetwork]
+struct PaymentSession {
+    var networks: [PaymentNetwork]
 
-    public init(networks: [PaymentNetwork]) {
+    init(networks: [PaymentNetwork]) {
         self.networks = networks
     }
 }
