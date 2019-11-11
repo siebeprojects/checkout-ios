@@ -5,22 +5,22 @@ import PackageDescription
 
 let package = Package(
     name: "Optile",
-	platforms: [
-		.iOS(.v10)
-	],
+    platforms: [
+        .iOS(.v10)
+    ],
     products: [
-		.library(name: "Optile", targets: ["Payment"]),
+        .library(name: "Optile", targets: ["Payment"])
     ],
     dependencies: [
-//		.package(url: "https://github.com/shibapm/Komondor.git", from: "1.0.4"),
-//		.package(url: "https://github.com/Realm/SwiftLint", from: "0.35.0"),
-	],
-    targets: [
-		.target(name: "Payment", path: "Sources"),
-		
-		.testTarget(name: "PaymentTests", dependencies: ["Payment"], path: "Tests")
+        //.package(url: "https://github.com/shibapm/Komondor.git", from: "1.0.4"),
+        .package(url: "https://github.com/Realm/SwiftLint", from: "0.36.0")
     ],
-	swiftLanguageVersions: [
-		.v5
-	]
+    targets: [
+        .target(name: "Payment", path: "Sources"),
+        
+        .testTarget(name: "PaymentTests", dependencies: ["Payment"], path: "Tests")
+    ],
+    swiftLanguageVersions: [
+        .v5
+    ]
 )

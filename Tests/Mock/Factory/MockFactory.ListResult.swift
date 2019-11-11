@@ -2,27 +2,27 @@ import Foundation
 @testable import Payment
 
 extension MockFactory {
-	class ListResult {
-		private init() {}
-	}
+    class ListResult {
+        private init() {}
+    }
 }
 
 extension MockFactory.ListResult {
-	static var paymentSession: PaymentSession {
-		let listResultData = listResult.data(using: .utf8)!
-		let listResult = try! JSONDecoder().decode(Payment.ListResult.self, from: listResultData)
-		
-		var paymentNetworks = [PaymentNetwork]()
-		for network in listResult.networks.applicable {
-			let paymentNetwork = PaymentNetwork(from: network)
-			paymentNetworks.append(paymentNetwork)
-		}
+    static var paymentSession: PaymentSession {
+        let listResultData = listResult.data(using: .utf8)!
+        let listResult = try! JSONDecoder().decode(Payment.ListResult.self, from: listResultData)
 
-		return PaymentSession(networks: paymentNetworks)
-	}
-	
-	static var listResult: String {
-		let json = """
+        var paymentNetworks = [PaymentNetwork]()
+        for network in listResult.networks.applicable {
+            let paymentNetwork = PaymentNetwork(from: network)
+            paymentNetworks.append(paymentNetwork)
+        }
+
+        return PaymentSession(networks: paymentNetworks)
+    }
+
+    static var listResult: String {
+        let json = """
 		{
 		  "links": {
 			"self": "https://api.sandbox.oscato.com/pci/v1/5da7002fa6cd3d5b4b32f045l7q04nh5g1uimnm68dc7ktuf51"
@@ -548,7 +548,7 @@ extension MockFactory.ListResult {
 		  }
 		}
 		"""
-		
-		return json
-	}
+
+        return json
+    }
 }

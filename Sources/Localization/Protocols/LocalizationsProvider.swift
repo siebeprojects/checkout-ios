@@ -1,5 +1,5 @@
 import Foundation
 
 protocol TranslationProvider {
-	var translations: [Dictionary<String, String>] { get }
+    var translations: [[String: String]] { get }
 }

@@ -1,8 +1,8 @@
 import Foundation
 
 struct LocalizableInteraction {
-	let code: String
-	let reason: String
+    let code: String
+    let reason: String
 
-	var localizedDescription: String = String()
+    var localizedDescription: String = String()
 }
