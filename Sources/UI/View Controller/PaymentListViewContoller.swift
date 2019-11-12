@@ -93,7 +93,7 @@ extension PaymentListViewContoller {
 
         let tableController = PaymentListTableController(networks: session.networks, translationProvider: localizationsProvider)
         tableController.tableView = methodsTableView
-        tableController.loadLogo = sessionService.loadLogo
+        tableController.delegate = self
         self.tableController = tableController
 
         methodsTableView.dataSource = tableController
@@ -157,7 +157,7 @@ extension PaymentListViewContoller {
     }
 }
 
-// MARK: - Table View
+// MARK: - Table View UI
 
 extension PaymentListViewContoller {
     fileprivate func addMethodsTableView() -> UITableView {
@@ -179,4 +179,16 @@ extension PaymentListViewContoller {
         return methodsTableView
     }
 }
+
+extension PaymentListViewContoller: PaymentListTableControllerDelegate {
+    func load(logo: PaymentNetwork.Logo, completion: @escaping (Data?) -> Void) {
+        sessionService.loadLogo(logo, completion: completion)
+    }
+    
+    func didSelect(paymentNetwork: PaymentNetwork) {
+        let inputViewController = InputViewController(for: paymentNetwork.applicableNetwork, localizeUsing: paymentNetwork.translation)
+        navigationController?.pushViewController(inputViewController, animated: true)
+    }
+}
+
 #endif

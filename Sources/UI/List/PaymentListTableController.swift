@@ -3,13 +3,18 @@
 import Foundation
 import UIKit
 
+protocol PaymentListTableControllerDelegate: class {
+    func didSelect(paymentNetwork: PaymentNetwork)
+    func load(logo: PaymentNetwork.Logo, completion: @escaping (Data?) -> Void)
+}
+
 class PaymentListTableController: NSObject {
     private let sections: [Section]
     weak var tableView: UITableView?
 
     let translationProvider: TranslationProvider
     
-    var loadLogo: ((PaymentNetwork.Logo, @escaping (((Data?) -> Void))) -> Void)?
+    weak var delegate: PaymentListTableControllerDelegate?
 
     init(networks: [PaymentNetwork], translationProvider: TranslationProvider) {
         sections = [.networks(networks)]
@@ -30,7 +35,7 @@ class PaymentListTableController: NSObject {
         /// If logo was already downloaded
         guard logo.data == nil else { return }
 
-        loadLogo?(logo) { [weak self] logoData in
+        delegate?.load(logo: logo) { [weak self] logoData in
             guard let logoData = logoData else { return }
             logo.data = logoData
 
@@ -81,6 +86,13 @@ extension PaymentListTableController: UITableViewDataSourcePrefetching {
 extension PaymentListTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         loadLogo(for: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch sections[indexPath.section] {
+        case .networks(let networks):
+            delegate?.didSelect(paymentNetwork: networks[indexPath.row])
+        }
     }
 }
 
