@@ -1,9 +1,12 @@
 import Foundation
 
 final class PaymentSession {
-    let network: NetworkGroup
+    let listResult: ListResult
     
-    init(network: NetworkGroup) {
-        self.network = network
+    let networks: [PaymentNetwork]
+    
+    init(listResult: ListResult, networks: [PaymentNetwork]) {
+        self.listResult = listResult
+        self.networks = networks
     }
 }

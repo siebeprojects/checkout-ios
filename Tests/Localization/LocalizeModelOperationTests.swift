@@ -64,9 +64,9 @@ private struct MockModel: Localizable {
     var notFoundKey: String
 
     var localizableFields: [LocalizationKey<MockModel>] = [
-        .init(\.testValue, key: "some.key"),
-        .init(\.otherValue, key: "some2.key"),
-        .init(\.notFoundKey, key: "no.key")
+        .init(keyPath: \.testValue, key: "some.key"),
+        .init(keyPath: \.otherValue, key: "some2.key"),
+        .init(keyPath: \.notFoundKey, key: "no.key")
     ]
 
     init(testValue: String = "original", otherValue: String = "original2", notFoundKey: String = "original") {

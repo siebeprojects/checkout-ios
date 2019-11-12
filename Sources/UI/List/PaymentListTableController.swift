@@ -7,18 +7,21 @@ class PaymentListTableController: NSObject {
     private let sections: [Section]
     weak var tableView: UITableView?
 
+    let translationProvider: TranslationProvider
+    
     var loadLogo: ((PaymentNetwork.Logo, @escaping (((Data?) -> Void))) -> Void)?
 
-    init(networkGroup: NetworkGroup) {
-        sections = [.networks(networkGroup)]
+    init(networks: [PaymentNetwork], translationProvider: TranslationProvider) {
+        sections = [.networks(networks)]
+        self.translationProvider = translationProvider
     }
 
     fileprivate func loadLogo(for indexPath: IndexPath) {
         let optionalLogo: PaymentNetwork.Logo?
         
         switch sections[indexPath.section] {
-        case .networks(let networksGroup):
-            optionalLogo = networksGroup.networks[indexPath.row].logo
+        case .networks(let networks):
+            optionalLogo = networks[indexPath.row].logo
         }
 
         // There is no logo for that cell
@@ -45,20 +48,20 @@ extension PaymentListTableController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch sections[section] {
-        case .networks(let networkGroup): return networkGroup.networks.count
+        case .networks(let networks): return networks.count
         }
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch sections[section] {
-        case .networks(let networkGroup): return networkGroup.title
+        case .networks: return translationProvider.translation(forKey: LocalTranslation.listHeaderNetworks.rawValue)
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch sections[indexPath.section] {
-        case .networks(let networksGroup):
-            let network = networksGroup.networks[indexPath.row]
+        case .networks(let networks):
+            let network = networks[indexPath.row]
             let cell = tableView.dequeueReusableCell(PaymentListTableViewCell.self, for: indexPath)
             cell.textLabel?.text = network.label
             cell.imageView?.image = network.logo?.image
@@ -89,7 +92,7 @@ private extension PaymentNetwork.Logo {
 }
 
 private enum Section {
-    case networks(NetworkGroup)
+    case networks([PaymentNetwork])
 }
 
 #endif
