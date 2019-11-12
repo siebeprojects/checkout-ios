@@ -7,8 +7,6 @@ class PaymentSessionProvider {
 
     let connection: Connection
     
-    private var listResult: ListResult?
-
     init(paymentSessionURL: URL, connection: Connection, localizationsProvider: SharedTranslationProvider) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
@@ -26,12 +24,8 @@ class PaymentSessionProvider {
             switch result {
             case .success(let translationsByApplicableNetwork):
                 let paymentNetworks = weakSelf.transform(translationsByApplicableNetwork: translationsByApplicableNetwork)
-                do {
-                    let paymentSession = try weakSelf.createPaymentSession(from: paymentNetworks)
-                    completion(.success(paymentSession))
-                } catch {
-                    completion(.failure(error))
-                }
+                let paymentSession = weakSelf.createPaymentSession(from: paymentNetworks)
+                completion(.success(paymentSession))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -147,12 +141,7 @@ class PaymentSessionProvider {
         return paymentNetworks
     }
 
-    private func createPaymentSession(from paymentNetworks: [PaymentNetwork]) throws -> PaymentSession {
-        guard let listResult = self.listResult else {
-            let error = InternalError(description: "ListResult wasn't set")
-            throw error
-        }
-        
-        return PaymentSession(listResult: listResult, networks: paymentNetworks)
+    private func createPaymentSession(from paymentNetworks: [PaymentNetwork]) -> PaymentSession {
+        return PaymentSession(networks: paymentNetworks)
     }
 }

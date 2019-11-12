@@ -1,11 +1,17 @@
 import Foundation
 
 final class PaymentNetwork {
+    let applicableNetwork: ApplicableNetwork
+    let translation: TranslationProvider
+
     let code: String
     let label: String
     let logo: Logo?
-
+    
     init(from applicableNetwork: ApplicableNetwork, localizeUsing localizer: TranslationProvider) {
+        self.applicableNetwork = applicableNetwork
+        self.translation = localizer
+        
         self.code = applicableNetwork.code
         self.label = localizer.translation(forKey: "network.label")
         
