@@ -39,10 +39,26 @@ import UIKit
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
 
-        // FIXME: Localize
-        title = "Payment method"
-
         load()
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Select / deselect animation on back gesture
+        if let selectedIndexPath = methodsTableView?.indexPathForSelectedRow {
+            if let coordinator = transitionCoordinator {
+                coordinator.animate(alongsideTransition: { context in
+                    self.methodsTableView?.deselectRow(at: selectedIndexPath, animated: true)
+                }) { context in
+                    if context.isCancelled {
+                        self.methodsTableView?.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+                    }
+                }
+            } else {
+                self.methodsTableView?.deselectRow(at: selectedIndexPath, animated: animated)
+            }
+        }
     }
 
     @objc private func cancelButtonDidPress() {
@@ -52,6 +68,7 @@ import UIKit
     private func load() {
         sessionService.loadPaymentSession { session in
             DispatchQueue.main.async {
+                self.title = self.localizationsProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
                 self.changeState(to: session)
             }
         }
@@ -162,7 +179,13 @@ extension PaymentListViewContoller {
 extension PaymentListViewContoller {
     fileprivate func addMethodsTableView() -> UITableView {
         let methodsTableView = UITableView(frame: CGRect.zero, style: .grouped)
-
+        if #available(iOS 11.0, *) {
+            methodsTableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+            // FIXME: Check how it looks on iOS 10
+        }
+        
         configuration.customize?(tableView: methodsTableView)
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -186,7 +209,7 @@ extension PaymentListViewContoller: PaymentListTableControllerDelegate {
     }
     
     func didSelect(paymentNetwork: PaymentNetwork) {
-        let inputViewController = InputViewController(for: paymentNetwork.applicableNetwork, localizeUsing: paymentNetwork.translation)
+        let inputViewController = InputViewController(for: paymentNetwork)
         navigationController?.pushViewController(inputViewController, animated: true)
     }
 }
