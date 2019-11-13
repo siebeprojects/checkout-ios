@@ -4,10 +4,19 @@ import UIKit
 class InputViewController: UIViewController {
     // MARK: Model
     var network: PaymentNetwork
+    private var inputFields: [InputField]
+    
+    private let tableController: InputTableController
+    
+    // MARK: UI
+    private weak var tableView: UITableView?
     
     init(for paymentNetwork: PaymentNetwork) {
         self.network = paymentNetwork
+        let localizedInputElements = network.applicableNetwork.localizedInputElements ?? [InputElement]()
+        self.inputFields = localizedInputElements.map { InputField(from: $0, localizeUsing: paymentNetwork.translation) }
         
+        self.tableController = InputTableController(inputFields: inputFields)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -20,6 +29,31 @@ class InputViewController: UIViewController {
         
         title = network.label
         view.backgroundColor = UIColor.white
+        
+        let tableView = addTableView()
+        tableView.register(InputTableViewCell.self)
+        tableView.dataSource = tableController
+        tableView.delegate = tableController
+        self.tableView = tableView
+    }
+    
+    private func addTableView() -> UITableView {
+        let tableView = UITableView(frame: CGRect.zero, style: .grouped)
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(PaymentListTableViewCell.self)
+        tableView.estimatedRowHeight = 44
+        
+        view.addSubview(tableView)
+
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
+
+        return tableView
     }
 }
 #endif
