@@ -14,16 +14,20 @@ class PaymentSessionService {
     }
 
     /// - Parameter completion: `LocalizedError` or `NSError` with localized description is always returned if `Load` produced an error.
-    func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
-        paymentSessionProvider.loadPaymentSession { [localize] result in
+    func loadPaymentSession(loadDidComplete: @escaping (Load<PaymentSession, Error>) -> Void, shouldSelect: @escaping (PaymentNetwork) -> Void) {
+        paymentSessionProvider.loadPaymentSession { [firstSelectedNetwork, localize] result in
             switch result {
-            case .loading: completion(.loading)
-            case .success(let session): completion(.success(session))
+            case .loading: loadDidComplete(.loading)
+            case .success(let session):
+                loadDidComplete(.success(session))
+                if let selectedNetwork = firstSelectedNetwork(session) {
+                    shouldSelect(selectedNetwork)
+                }
             case .failure(let error):
                 log(error)
 
                 let localizedError = localize(error)
-                completion(.failure(localizedError))
+                loadDidComplete(.failure(localizedError))
             }
         }
     }
@@ -54,6 +58,17 @@ class PaymentSessionService {
             let description: String = localizationProvider.translation(forKey: LocalTranslation.errorDefault.rawValue)
             return PaymentError(localizedDescription: description, underlyingError: error)
         }
+    }
+    
+    /// Return first preselected network in a session
+    private func firstSelectedNetwork(in session: PaymentSession) -> PaymentNetwork? {
+        for network in session.networks {
+            if network.applicableNetwork.selected == true {
+                return network
+            }
+        }
+        
+        return nil
     }
 }
 

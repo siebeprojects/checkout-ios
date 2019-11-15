@@ -66,12 +66,24 @@ import UIKit
     }
 
     private func load() {
-        sessionService.loadPaymentSession { session in
-            DispatchQueue.main.async {
-                self.title = self.localizationsProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
-                self.changeState(to: session)
+        sessionService.loadPaymentSession(
+            loadDidComplete: { [weak self]  session in
+                DispatchQueue.main.async {
+                    self?.title = self?.localizationsProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
+                    self?.changeState(to: session)
+                }
+            },
+            shouldSelect: { [weak self] network in
+                DispatchQueue.main.async {
+                    self?.show(paymentNetwork: network, animated: true)
+                }
             }
-        }
+        )
+    }
+    
+    fileprivate func show(paymentNetwork: PaymentNetwork, animated: Bool) {
+        let inputViewController = InputViewController(for: paymentNetwork)
+        navigationController?.pushViewController(inputViewController, animated: animated)
     }
 }
 
@@ -209,8 +221,7 @@ extension PaymentListViewContoller: PaymentListTableControllerDelegate {
     }
     
     func didSelect(paymentNetwork: PaymentNetwork) {
-        let inputViewController = InputViewController(for: paymentNetwork)
-        navigationController?.pushViewController(inputViewController, animated: true)
+        show(paymentNetwork: paymentNetwork, animated: true)
     }
 }
 
