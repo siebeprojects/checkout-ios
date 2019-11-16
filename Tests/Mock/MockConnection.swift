@@ -2,6 +2,7 @@ import Foundation
 import Payment
 
 class MockConnection: Connection {
+    private let serialQueue = DispatchQueue(label: "Mock connection serial queue")
     private(set) var requestedURL: URL?
     let dataSource: MockDataSource
 
@@ -10,7 +11,10 @@ class MockConnection: Connection {
     }
 
     func send(request: URLRequest, completionHandler: @escaping ((Result<Data?, Error>) -> Void)) {
-        self.requestedURL = request.url!
+        serialQueue.sync(flags: .barrier) {
+            self.requestedURL = request.url!
+        }
+        
         completionHandler(dataSource.fakeData(for: request))
     }
 

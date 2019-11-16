@@ -36,24 +36,37 @@ class PaymentSessionServiceTests: XCTestCase {
         XCTAssertEqual(session.networks.count, 4)
         XCTAssertEqual(session.networks[1].label, "Visa Electron Localized")
     }
+    
+    func testAsyncMass() {
+        measure {
+            for _ in 1...100 {
+                testValid()
+            }
+        }
+    }
 
     // MARK: - Helper methods
 
-    private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Load<PaymentSession, PaymentError> {
+    private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Load<PaymentSession, Error> {
         let connection = MockConnection(dataSource: dataSource)
         let provider = PaymentSessionService(paymentSessionURL: URL.example, connection: connection, localizationProvider: SharedTranslationProvider())
 
         let loadingPromise = expectation(description: "PaymentSessionProvider: loading")
         let resultPromise = expectation(description: "PaymentSessionProvider: completed")
-        var sessionResult: Load<PaymentSession, PaymentError>!
-        provider.loadPaymentSession { result in
-            switch result {
-            case .loading: loadingPromise.fulfill()
-            default:
-                sessionResult = result
-                resultPromise.fulfill()
+        var sessionResult: Load<PaymentSession, Error>!
+        provider.loadPaymentSession(
+            loadDidComplete: { result in
+                switch result {
+                case .loading: loadingPromise.fulfill()
+                default:
+                    sessionResult = result
+                    resultPromise.fulfill()
+                }
+            },
+            shouldSelect: { _ in
+                return
             }
-        }
+        )
         wait(for: [loadingPromise, resultPromise], timeout: 1, enforceOrder: true)
 
         let attachment = XCTAttachment(subject: sessionResult)
