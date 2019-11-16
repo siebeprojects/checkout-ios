@@ -14,7 +14,7 @@ extension MockFactory.ListResult {
 
         var paymentNetworks = [PaymentNetwork]()
         for network in listResult.networks.applicable {
-            let paymentNetwork = PaymentNetwork(from: network)
+            let paymentNetwork = PaymentNetwork(from: network, localizeUsing: MockFactory.Localization.provider)
             paymentNetworks.append(paymentNetwork)
         }
 

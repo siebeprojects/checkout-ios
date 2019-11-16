@@ -97,10 +97,13 @@ class PaymentSessionProvider {
     }
 
     private func downloadLocalizations(for applicableNetworks: [ApplicableNetwork], completion: @escaping ((Result<[ApplicableNetwork: Dictionary<String, String>], Error>) -> Void)) {
+        let serialQueue = DispatchQueue(label: "Thread-safe write")
         var translationsByApplicableNetwork: [ApplicableNetwork: Dictionary<String, String>] = [:]
         
         let completionOperation = BlockOperation {
-            completion(.success(translationsByApplicableNetwork))
+            serialQueue.sync {
+                completion(.success(translationsByApplicableNetwork))
+            }
         }
 
         for network in applicableNetworks {
@@ -114,7 +117,10 @@ class PaymentSessionProvider {
             let downloadOperation = SendRequestOperation(connection: connection, request: request)
             downloadOperation.downloadCompletionBlock = { [localizationQueue] result in
                 switch result {
-                case .success(let translation): translationsByApplicableNetwork[network] = translation
+                case .success(let translation):
+                    serialQueue.sync {
+                        translationsByApplicableNetwork[network] = translation
+                    }
                 case .failure(let error):
                     localizationQueue.cancelAllOperations()
                     completion(.failure(error))
