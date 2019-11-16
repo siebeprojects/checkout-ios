@@ -75,7 +75,7 @@ import UIKit
             },
             shouldSelect: { [weak self] network in
                 DispatchQueue.main.async {
-                    self?.show(paymentNetwork: network, animated: true)
+                    self?.show(paymentNetwork: network, animated: false)
                 }
             }
         )
