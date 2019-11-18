@@ -118,7 +118,7 @@ class PaymentSessionProvider {
             downloadOperation.downloadCompletionBlock = { [localizationQueue] result in
                 switch result {
                 case .success(let translation):
-                    serialQueue.sync {
+                    serialQueue.sync(flags: .barrier) {
                         translationsByApplicableNetwork[network] = translation
                     }
                 case .failure(let error):
