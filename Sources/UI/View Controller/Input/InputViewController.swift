@@ -4,7 +4,6 @@ import UIKit
 class InputViewController: UIViewController {
     // MARK: Model
     var network: PaymentNetwork
-    private var inputFields: [InputField]
     
     private let tableController: InputTableController
     
@@ -13,10 +12,8 @@ class InputViewController: UIViewController {
     
     init(for paymentNetwork: PaymentNetwork) {
         self.network = paymentNetwork
-        let localizedInputElements = network.applicableNetwork.localizedInputElements ?? [InputElement]()
-        self.inputFields = localizedInputElements.map { InputField(from: $0, localizeUsing: paymentNetwork.translation) }
         
-        self.tableController = InputTableController(inputFields: inputFields)
+        self.tableController = InputTableController(network: network)
         super.init(nibName: nil, bundle: nil)
     }
     

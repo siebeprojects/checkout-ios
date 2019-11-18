@@ -2,10 +2,15 @@
 import UIKit
 
 class InputTableController: NSObject {
-    private let inputFields: [InputField]
-
-    init(inputFields: [InputField]) {
-        self.inputFields = inputFields
+    private let network: PaymentNetwork
+    let inputFields: [ViewRepresentable]
+    
+    init(network: PaymentNetwork) {
+        self.network = network
+        let factory = ViewRepresentableFactory(translator: network.translation)
+        let inputElements = network.applicableNetwork.localizedInputElements ?? [InputElement]()
+        inputFields = factory.make(from: inputElements)
+        
         super.init()
     }
 }
@@ -20,10 +25,9 @@ extension InputTableController: UITableViewDataSource {
     }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let inputField = inputFields[indexPath.row]
         let cell = tableView.dequeueReusableCell(InputTableViewCell.self, for: indexPath)
         cell.selectionStyle = .none
-        cell.inputField = inputField
+        cell.model = inputFields[indexPath.row]
         return cell
      }
 }
