@@ -24,7 +24,7 @@ class InputViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = network.label
+//        title = network.label
         
         let tableView = addTableView()
         tableView.register(InputTableViewCell.self)
@@ -37,8 +37,8 @@ class InputViewController: UIViewController {
         }
         self.tableView = tableView
         
-        let tableFooterView = makeTableViewFooter()
-        tableView.tableFooterView = tableFooterView
+        tableView.tableHeaderView = makeTableViewHeader()
+        tableView.tableFooterView = makeTableViewFooter()
     }
     
     private func addTableView() -> UITableView {
@@ -58,6 +58,70 @@ class InputViewController: UIViewController {
         ])
 
         return tableView
+    }
+    
+    private func makeTableViewHeader() -> UIView {
+        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 200))
+        
+        // Image Content View
+        let imageContentView = UIView(frame: .zero)
+        contentView.addSubview(imageContentView)
+        if #available(iOS 13.0, *) {
+//            imageContentView.backgroundColor = UIColor.systemGray6
+        } else {
+            imageContentView.backgroundColor = UIColor.systemGray
+        }
+        
+        imageContentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageContentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageContentView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 2/3)
+        ])
+        
+        let imageContentViewTrailing = imageContentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        imageContentViewTrailing.priority = .defaultHigh
+        imageContentViewTrailing.isActive = true
+        
+        // Image
+        let imageView: UIImageView
+        if let image = network.logo?.image {
+            imageView = UIImageView(image: image)
+        } else {
+            imageView = UIImageView(frame: .zero)
+        }
+        imageContentView.addSubview(imageView)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: imageContentView.layoutMarginsGuide.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: imageContentView.layoutMarginsGuide.centerYAnchor)
+        ])
+        
+        // Title
+        let title = UILabel(frame: .zero)
+        contentView.addSubview(title)
+        
+        title.text = network.label
+        title.textAlignment = .center
+        if #available(iOS 11.0, *) {
+            title.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .largeTitle).pointSize)
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        title.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            title.topAnchor.constraint(equalTo: imageContentView.bottomAnchor, constant: 16),
+            title.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            title.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -24)
+        ])
+        
+        let titleTrailing = title.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor)
+        titleTrailing.priority = .defaultHigh
+        titleTrailing.isActive = true
+        
+        return contentView
     }
     
     private func makeTableViewFooter() -> UIView {

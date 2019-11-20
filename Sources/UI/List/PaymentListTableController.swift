@@ -96,13 +96,6 @@ extension PaymentListTableController: UITableViewDelegate {
     }
 }
 
-private extension PaymentNetwork.Logo {
-    var image: UIImage? {
-        guard let data = data else { return nil }
-        return UIImage(data: data)
-    }
-}
-
 private enum Section {
     case networks([PaymentNetwork])
 }

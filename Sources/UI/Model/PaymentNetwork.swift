@@ -43,3 +43,14 @@ extension PaymentNetwork: Equatable, Hashable {
         hasher.combine(code)
     }
 }
+
+#if canImport(UIKit)
+import UIKit
+
+extension PaymentNetwork.Logo {
+    var image: UIImage? {
+        guard let data = self.data else { return nil }
+        return UIImage(data: data)
+    }
+}
+#endif
