@@ -40,6 +40,18 @@ class InputViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: payButton())
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addKeyboardFrameChangesObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeKeyboardFrameChangesObserver()
+    }
+    
     private func addTableView() -> UITableView {
         let tableView = UITableView(frame: .zero, style: .grouped)
 
@@ -108,5 +120,9 @@ class InputViewController: UIViewController {
     @objc private func dismissNavigation() {
         navigationController?.dismiss(animated: true, completion: nil)
     }
+}
+
+extension InputViewController: ModifableInsetsOnKeyboardFrameChanges {
+    var scrollViewToModify: UIScrollView? { tableView }
 }
 #endif
