@@ -10,10 +10,10 @@ final class GenericInputField {
     }
 }
 
-extension GenericInputField: TextInputField, ViewRepresentable {}
+extension GenericInputField: TextInputField {}
 
 #if canImport(UIKit)
 import UIKit
 
-extension GenericInputField: DefinesKeyboardStyle {}
+extension GenericInputField: CellRepresentable, DefinesKeyboardStyle {}
 #endif

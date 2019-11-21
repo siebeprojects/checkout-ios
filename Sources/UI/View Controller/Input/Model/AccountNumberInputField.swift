@@ -10,12 +10,12 @@ final class AccountNumberInputField {
     }
 }
 
-extension AccountNumberInputField: TextInputField, ViewRepresentable {}
+extension AccountNumberInputField: TextInputField {}
 
 #if canImport(UIKit)
 import UIKit
 
-extension AccountNumberInputField: DefinesKeyboardStyle {
+extension AccountNumberInputField: CellRepresentable, DefinesKeyboardStyle {
     var contentType: UITextContentType? { return .creditCardNumber }
 }
 #endif

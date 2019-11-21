@@ -25,14 +25,9 @@ class InputViewController: UIViewController {
         super.viewDidLoad()
         
         let tableView = addTableView()
-        tableView.register(InputTableViewCell.self)
+        tableView.register(TextFieldViewCell.self)
         tableView.dataSource = tableController
         tableView.delegate = tableController
-        if #available(iOS 13.0, *) {
-            tableView.backgroundColor = UIColor.systemBackground
-        } else {
-            tableView.backgroundColor = UIColor.white
-        }
         tableView.tableHeaderView = tableViewHeader()
         
         self.tableView = tableView
@@ -54,6 +49,12 @@ class InputViewController: UIViewController {
     
     private func addTableView() -> UITableView {
         let tableView = UITableView(frame: .zero, style: .grouped)
+        
+        if #available(iOS 13.0, *) {
+            tableView.backgroundColor = UIColor.systemBackground
+        } else {
+            tableView.backgroundColor = UIColor.white
+        }
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(PaymentListTableViewCell.self)
