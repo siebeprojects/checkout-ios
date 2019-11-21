@@ -24,8 +24,6 @@ class InputViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        title = network.label
-        
         let tableView = addTableView()
         tableView.register(InputTableViewCell.self)
         tableView.dataSource = tableController
@@ -35,10 +33,11 @@ class InputViewController: UIViewController {
         } else {
             tableView.backgroundColor = UIColor.white
         }
-        self.tableView = tableView
+        tableView.tableHeaderView = tableViewHeader()
         
-        tableView.tableHeaderView = makeTableViewHeader()
-        tableView.tableFooterView = makeTableViewFooter()
+        self.tableView = tableView
+                
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: payButton())
     }
     
     private func addTableView() -> UITableView {
@@ -60,7 +59,7 @@ class InputViewController: UIViewController {
         return tableView
     }
     
-    private func makeTableViewHeader() -> UIView {
+    private func tableViewHeader() -> UIView {
         let contentView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 200))
         contentView.preservesSuperviewLayoutMargins = true
         
@@ -88,33 +87,22 @@ class InputViewController: UIViewController {
         return contentView
     }
     
-    private func makeTableViewFooter() -> UIView {
-        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 76))
-        
+    private func payButton() -> UIButton {
         let button = UIButton(frame: .zero)
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 17
         button.backgroundColor = view.tintColor
-        let title = NSAttributedString(string: "Pay", attributes: [
-            .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize, weight: .semibold),
+        let title = NSAttributedString(string: network.translation.translation(forKey: "button.charge.label"), attributes: [
+            .font: UIFont.boldSystemFont(ofSize: UIFont.buttonFontSize),
             .foregroundColor: UIColor.white
         ])
         
         button.setAttributedTitle(title, for: .normal)
         button.addTarget(self, action: #selector(dismissNavigation), for: .touchUpInside)
-
-        contentView.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            button.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16)
-        ])
         
-        let trailing = button.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor)
-        trailing.priority = .defaultHigh
-        trailing.isActive = true
+        let desiredWidth = button.intrinsicContentSize.width
+        button.widthAnchor.constraint(equalToConstant: desiredWidth + 30).isActive = true
         
-        return contentView
+        return button
     }
     
     @objc private func dismissNavigation() {
