@@ -2,18 +2,15 @@
 import UIKit
 
 class InputViewController: UIViewController {
-    // MARK: Model
     var network: PaymentNetwork
     
     private let tableController: InputTableController
-    
-    // MARK: UI
-    private weak var tableView: UITableView?
+    private let tableView = UITableView(frame: .zero, style: .grouped)
     
     init(for paymentNetwork: PaymentNetwork) {
         self.network = paymentNetwork
+        self.tableController = InputTableController(network: network, tableView: tableView)
         
-        self.tableController = InputTableController(network: network)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -24,13 +21,7 @@ class InputViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tableView = addTableView()
-        tableView.register(TextFieldViewCell.self)
-        tableView.dataSource = tableController
-        tableView.delegate = tableController
-        tableView.tableHeaderView = tableViewHeader()
-        
-        self.tableView = tableView
+        configure(tableView: tableView)
                 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: payButton())
     }
@@ -44,7 +35,7 @@ class InputViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        tableView?.cellForRow(at: [0, 0])?.becomeFirstResponder()
+        tableView.cellForRow(at: [0, 0])?.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -53,8 +44,11 @@ class InputViewController: UIViewController {
         removeKeyboardFrameChangesObserver()
     }
     
-    private func addTableView() -> UITableView {
-        let tableView = UITableView(frame: .zero, style: .grouped)
+    private func configure(tableView: UITableView) {
+        tableView.register(TextFieldViewCell.self)
+        tableView.dataSource = tableController
+        tableView.delegate = tableController
+        tableView.tableHeaderView = tableViewHeader()
         
         if #available(iOS 13.0, *) {
             tableView.backgroundColor = UIColor.systemBackground
@@ -74,8 +68,6 @@ class InputViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
-
-        return tableView
     }
     
     private func tableViewHeader() -> UIView {

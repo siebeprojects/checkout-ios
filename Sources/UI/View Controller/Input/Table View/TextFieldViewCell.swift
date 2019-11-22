@@ -1,9 +1,13 @@
 #if canImport(UIKit)
 import UIKit
 
-class TextFieldViewCell: UITableViewCell, DequeueableTableCell {
+class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCellDelegate {
+    weak var delegate: InputCellDelegate?
+    
     private let label: UILabel
     private let textField: UITextField
+    
+    var indexPath: IndexPath!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         label = .init(frame: .zero)
@@ -14,6 +18,8 @@ class TextFieldViewCell: UITableViewCell, DequeueableTableCell {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        textField.delegate = self
+        
         contentView.addSubview(label)
         contentView.addSubview(textField)
         
@@ -54,6 +60,12 @@ class TextFieldViewCell: UITableViewCell, DequeueableTableCell {
         if let contentType = model.contentType {
             textField.textContentType = contentType
         }
+    }
+}
+
+extension TextFieldViewCell: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.inputCellBecameFirstResponder(at: indexPath)
     }
 }
 #endif
