@@ -41,6 +41,12 @@ class InputViewController: UIViewController {
         addKeyboardFrameChangesObserver()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView?.cellForRow(at: [0, 0])?.becomeFirstResponder()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         

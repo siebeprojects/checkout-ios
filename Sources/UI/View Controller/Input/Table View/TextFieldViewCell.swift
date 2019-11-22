@@ -37,6 +37,13 @@ class TextFieldViewCell: UITableViewCell, DequeueableTableCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var canBecomeFirstResponder: Bool { return true }
+    
+    override func becomeFirstResponder() -> Bool {
+        super.becomeFirstResponder()
+            return textField.becomeFirstResponder()
+    }
+    
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
         label.text = model.label
         textField.placeholder = model.placeholder
