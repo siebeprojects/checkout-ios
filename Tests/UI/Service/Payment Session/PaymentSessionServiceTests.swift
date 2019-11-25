@@ -37,11 +37,10 @@ class PaymentSessionServiceTests: XCTestCase {
         XCTAssertEqual(session.networks[1].label, "Visa Electron Localized")
     }
     
-    func testAsyncMass() {
-        measure {
-            for _ in 1...100 {
-                testValid()
-            }
+    // May detect async crash because we running concurrently a lot of tasks
+    func testThreadingCrashes() {
+        for _ in 1...20 {
+            testValid()
         }
     }
 
