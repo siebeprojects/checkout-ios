@@ -1,5 +1,6 @@
 import Foundation
 
+/// Generic UI model for input element
 protocol InputField {
     var inputElement: InputElement { get }
     var translator: TranslationProvider { get }

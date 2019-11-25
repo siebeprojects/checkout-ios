@@ -1,6 +1,7 @@
 #if canImport(UIKit)
 import UIKit
 
+/// Acts as a datasource for input table views and responds on delegate events from a table and cells.
 class InputTableController: NSObject {
     let network: PaymentNetwork
     unowned let tableView: UITableView

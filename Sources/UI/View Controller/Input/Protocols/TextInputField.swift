@@ -1,5 +1,6 @@
 import Foundation
 
+/// UI model for all text input fields
 protocol TextInputField: InputField {
     var placeholder: String { get }
 }

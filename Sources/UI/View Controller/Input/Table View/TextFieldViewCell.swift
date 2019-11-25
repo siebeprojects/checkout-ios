@@ -1,6 +1,10 @@
 #if canImport(UIKit)
 import UIKit
 
+/// Cell that represents all text inputs, contains label and text field.
+/// Upon some actions calls `delegate`, don't forget to set it.
+///
+/// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
 class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCellDelegate {
     weak var delegate: InputCellDelegate?
     

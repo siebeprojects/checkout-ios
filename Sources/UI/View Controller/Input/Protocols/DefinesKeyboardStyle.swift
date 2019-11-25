@@ -1,6 +1,7 @@
 #if canImport(UIKit)
 import UIKit
 
+/// Controls keyboard's appearance
 protocol DefinesKeyboardStyle where Self: TextInputField {
     var contentType: UITextContentType? { get }
     var keyboardType: UIKeyboardType { get }

@@ -1,5 +1,7 @@
 import Foundation
 
+
+/// Generic input field model that is used for all `localizableInputElements` that doesn't have explict type (e.g. `AccountNumberInputField`)
 final class GenericInputField {
     let inputElement: InputElement
     let translator: TranslationProvider
