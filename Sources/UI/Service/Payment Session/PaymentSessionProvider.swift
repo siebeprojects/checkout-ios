@@ -16,14 +16,13 @@ class PaymentSessionProvider {
     func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
         completion(.loading)
 
-        let job = getListResult ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> downloadLocalizations
+        let job = getListResult ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
 
         job(paymentSessionURL) { [weak self] result in
             guard let weakSelf = self else { return }
             
             switch result {
-            case .success(let translationsByApplicableNetwork):
-                let paymentNetworks = weakSelf.transform(translationsByApplicableNetwork: translationsByApplicableNetwork)
+            case .success(let paymentNetworks):
                 let paymentSession = weakSelf.createPaymentSession(from: paymentNetworks)
                 completion(.success(paymentSession))
             case .failure(let error):
@@ -96,39 +95,46 @@ class PaymentSessionProvider {
         completion(filteredPaymentNetworks)
     }
 
-    private func downloadLocalizations(for applicableNetworks: [ApplicableNetwork], completion: @escaping ((Result<[ApplicableNetwork: Dictionary<String, String>], Error>) -> Void)) {
-        let serialQueue = DispatchQueue(label: "Thread-safe write")
-        var translationsByApplicableNetwork: [ApplicableNetwork: Dictionary<String, String>] = [:]
+    private func localize(applicableNetworks: [ApplicableNetwork], completion: @escaping ((Result<[PaymentNetwork], Error>) -> Void)) {
+        var operations = [DownloadTranslationOperation]()
         
-        let completionOperation = BlockOperation {
-            serialQueue.sync {
-                completion(.success(translationsByApplicableNetwork))
-            }
-        }
-
-        for network in applicableNetworks {
-            guard let localizationURL = network.links?["lang"] else {
-                let error = InternalError(description: "Applicable network doesn't contain localization URL. Network: %@", objects: network)
-                completion(.failure(error))
-                return
-            }
+        // That operation is called after all localizations were downloaded
+        let completionOperation = BlockOperation { [localizationsProvider] in
+            var paymentNetworks = [PaymentNetwork]()
             
-            let request = DownloadLocalization(from: localizationURL)
-            let downloadOperation = SendRequestOperation(connection: connection, request: request)
-            downloadOperation.downloadCompletionBlock = { [localizationQueue] result in
-                switch result {
-                case .success(let translation):
-                    serialQueue.sync(flags: .barrier) {
-                        translationsByApplicableNetwork[network] = translation
-                    }
-                case .failure(let error):
-                    localizationQueue.cancelAllOperations()
+            // Fill translations with operations' results
+            for operation in operations {
+                switch operation.result {
+                case .some(.success(let translation)):
+                    let combinedProvider = CombinedTranslationProvider(priorityTranslation: translation, otherProvider: localizationsProvider)
+                    let paymentNetwork = PaymentNetwork(from: operation.network, localizeUsing: combinedProvider)
+                    paymentNetworks.append(paymentNetwork)
+                case .some(.failure(let error)):
+                    // If translation wasn't downloaded don't proceed anymore, throw an error and exit
                     completion(.failure(error))
+                    return
+                case .none:
+                    // Should never happen, but if...
+                    let unexpectedError = InternalError(description: "Download localization operation wasn't completed")
+                    completion(.failure(unexpectedError))
                 }
             }
             
-            completionOperation.addDependency(downloadOperation)
-            localizationQueue.addOperation(downloadOperation)
+            completion(.success(paymentNetworks))
+        }
+
+        // Download translations for each network
+        for network in applicableNetworks {
+            do {
+                let downloadTranslation = try DownloadTranslationOperation(for: network, using: connection)
+                operations.append(downloadTranslation)
+                completionOperation.addDependency(downloadTranslation)
+                localizationQueue.addOperation(downloadTranslation)
+            } catch {
+                localizationQueue.cancelAllOperations()
+                completion(.failure(error))
+                return
+            }
         }
 
         localizationQueue.addOperation(completionOperation)
@@ -136,17 +142,6 @@ class PaymentSessionProvider {
     
     // MARK: - Synchronous methods
     
-    private func transform(translationsByApplicableNetwork: [ApplicableNetwork: Dictionary<String, String>]) -> [PaymentNetwork] {
-        var paymentNetworks: [PaymentNetwork] = []
-        for (applicableNetwork, translation) in translationsByApplicableNetwork {
-            let combinedProvider = CombinedTranslationProvider(priorityTranslation: translation, otherProvider: localizationsProvider)
-            let paymentNetwork = PaymentNetwork(from: applicableNetwork, localizeUsing: combinedProvider)
-            paymentNetworks.append(paymentNetwork)
-        }
-        
-        return paymentNetworks
-    }
-
     private func createPaymentSession(from paymentNetworks: [PaymentNetwork]) -> PaymentSession {
         return PaymentSession(networks: paymentNetworks)
     }
