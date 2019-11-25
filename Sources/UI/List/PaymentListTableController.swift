@@ -3,27 +3,41 @@
 import Foundation
 import UIKit
 
+protocol PaymentListTableControllerDelegate: class {
+    func didSelect(paymentNetwork: PaymentNetwork)
+    func load(logo: PaymentNetwork.Logo, completion: @escaping (Data?) -> Void)
+}
+
 class PaymentListTableController: NSObject {
-    var dataSource: [TableGroup]
+    private let sections: [Section]
     weak var tableView: UITableView?
 
-    var loadLogo: ((PaymentNetwork, @escaping (((Data?) -> Void))) -> Void)?
+    let translationProvider: TranslationProvider
+    
+    weak var delegate: PaymentListTableControllerDelegate?
 
-    init(session: PaymentSession) {
-        // FIXME: Use localization provider
-        var group = TableGroup(groupName: LocalTranslation.listHeaderNetworks.localizedString)
-        group.networks = session.networks
-        dataSource = [group]
+    init(networks: [PaymentNetwork], translationProvider: TranslationProvider) {
+        sections = [.networks(networks)]
+        self.translationProvider = translationProvider
     }
 
     fileprivate func loadLogo(for indexPath: IndexPath) {
-        let network = self.network(for: indexPath)
-        guard network.logoData == nil else { return }
+        let optionalLogo: PaymentNetwork.Logo?
+        
+        switch sections[indexPath.section] {
+        case .networks(let networks):
+            optionalLogo = networks[indexPath.row].logo
+        }
 
-        loadLogo?(network) { [weak self] logoData in
-            guard let data = logoData else { return }
+        // There is no logo for that cell
+        guard let logo = optionalLogo else { return }
+        
+        /// If logo was already downloaded
+        guard logo.data == nil else { return }
 
-            self?.dataSource[indexPath.section].networks[indexPath.row].logoData = data
+        delegate?.load(logo: logo) { [weak self] logoData in
+            guard let logoData = logoData else { return }
+            logo.data = logoData
 
             DispatchQueue.main.async {
                 self?.tableView?.reloadRows(at: [indexPath], with: .fade)
@@ -33,39 +47,30 @@ class PaymentListTableController: NSObject {
 }
 
 extension PaymentListTableController: UITableViewDataSource {
-    fileprivate func network(for indexPath: IndexPath) -> PaymentNetwork {
-        return dataSource[indexPath.section].networks[indexPath.row]
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource[section].networks.count
-    }
-
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.count
+        return sections.count
     }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let network = self.network(for: indexPath)
-        let cell = tableView.dequeueReusableCell(PaymentListTableViewCell.self, for: indexPath)
-        cell.textLabel?.text = network.label
-        // TODO: Check if it drops framerate, maybe better to load it before cell instatination
-        cell.imageView?.image = network.logo
-        return cell
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch sections[section] {
+        case .networks(let networks): return networks.count
+        }
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return dataSource[section].groupName
+        switch sections[section] {
+        case .networks: return translationProvider.translation(forKey: LocalTranslation.listHeaderNetworks.rawValue)
+        }
     }
-
-    // MARK: -
-
-    struct TableGroup {
-        let groupName: String
-        var networks = [PaymentNetwork]()
-
-        init(groupName: String) {
-            self.groupName = groupName
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch sections[indexPath.section] {
+        case .networks(let networks):
+            let network = networks[indexPath.row]
+            let cell = tableView.dequeueReusableCell(PaymentListTableViewCell.self, for: indexPath)
+            cell.textLabel?.text = network.label
+            cell.imageView?.image = network.logo?.image
+            return cell
         }
     }
 }
@@ -82,13 +87,24 @@ extension PaymentListTableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         loadLogo(for: indexPath)
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch sections[indexPath.section] {
+        case .networks(let networks):
+            delegate?.didSelect(paymentNetwork: networks[indexPath.row])
+        }
+    }
 }
 
-private extension PaymentNetwork {
-    var logo: UIImage? {
-        guard let data = logoData else { return nil }
+private extension PaymentNetwork.Logo {
+    var image: UIImage? {
+        guard let data = data else { return nil }
         return UIImage(data: data)
     }
+}
+
+private enum Section {
+    case networks([PaymentNetwork])
 }
 
 #endif

@@ -3,7 +3,7 @@ import Foundation
 public class SendRequestOperation<T>: AsynchronousOperation where T: Request {
     let connection: Connection
     public let request: T
-
+    
     public var downloadCompletionBlock: ((Result<T.Response, Error>) -> Void)?
 
     public init(connection: Connection, request: T) {
@@ -17,8 +17,7 @@ public class SendRequestOperation<T>: AsynchronousOperation where T: Request {
         do {
             urlRequest = try request.build()
         } catch {
-            downloadCompletionBlock?(.failure(error))
-            finish()
+            self.finish(with: .failure(error))
             return
         }
 
@@ -27,16 +26,19 @@ public class SendRequestOperation<T>: AsynchronousOperation where T: Request {
             case .success(let data):
                 do {
                     let decodedResponse = try self.request.decodeResponse(with: data)
-                    self.downloadCompletionBlock?(.success(decodedResponse))
+                    self.finish(with: .success(decodedResponse))
                 } catch {
-                    self.downloadCompletionBlock?(.failure(error))
+                    self.finish(with: .failure(error))
                 }
             case .failure(let error):
-                self.downloadCompletionBlock?(.failure(error))
+                self.finish(with: .failure(error))
             }
-
-            self.finish()
         }
+    }
+    
+    private func finish(with result: Result<T.Response, Error>) {
+        downloadCompletionBlock?(result)
+        finish()
     }
 
     public override func cancel() {

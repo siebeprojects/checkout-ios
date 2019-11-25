@@ -1,5 +1,6 @@
 import Foundation
 
+/// Provider is used to keep globally shared translations: built-in local translation and remote shared translation.
 class SharedTranslationProvider: TranslationProvider {
     private let localTranslations: [String: String]
     private var remoteSharedTranslations: [String: String] = [:]

@@ -13,46 +13,62 @@ class PaymentSessionService {
         self.localizationProvider = localizationProvider
     }
 
-    func loadPaymentSession(completion: @escaping ((Load<PaymentSession, PaymentError>) -> Void)) {
-        paymentSessionProvider.loadPaymentSession { [makePaymentError] result in
+    /// - Parameter completion: `LocalizedError` or `NSError` with localized description is always returned if `Load` produced an error.
+    func loadPaymentSession(loadDidComplete: @escaping (Load<PaymentSession, Error>) -> Void, shouldSelect: @escaping (PaymentNetwork) -> Void) {
+        paymentSessionProvider.loadPaymentSession { [firstSelectedNetwork, localize] result in
             switch result {
-            case .loading: completion(.loading)
-            case .success(let session): completion(.success(session))
+            case .loading: loadDidComplete(.loading)
+            case .success(let session):
+                loadDidComplete(.success(session))
+                if let selectedNetwork = firstSelectedNetwork(session) {
+                    shouldSelect(selectedNetwork)
+                }
             case .failure(let error):
                 log(error)
 
-                let paymentError = makePaymentError(error)
-                completion(.failure(paymentError))
+                let localizedError = localize(error)
+                loadDidComplete(.failure(localizedError))
             }
         }
     }
 
-    func loadLogo(for network: PaymentNetwork, completion: @escaping ((Data?) -> Void)) {
-        guard let logoURL = network.applicableNetwork.links?["logo"] else {
-            completion(nil)
-            return
-        }
-
-        downloadProvider.downloadData(from: logoURL) { result in
+    func loadLogo(_ logo: PaymentNetwork.Logo, completion: @escaping ((Data?) -> Void)) {
+        downloadProvider.downloadData(from: logo.url) { result in
             switch result {
             case .success(let logoData):
                 completion(logoData)
             case .failure(let error):
                 let paymentError = InternalError(
                     description: "Couldn't download a logo for a payment network %@ from %@, reason: %@",
-                    network.code, logoURL.absoluteString,
-                    error.localizedDescription)
+                    logo.url.absoluteString, error.localizedDescription)
                 paymentError.log()
                 completion(nil)
             }
         }
     }
 
-    private func makePaymentError(from error: Error) -> PaymentError {
-        let localizer = Localizer(provider: localizationProvider)
-        let localizedErrorText = localizer.localize(error: error)
-        let paymentError = PaymentError(localizedDescription: localizedErrorText, underlyingError: error)
-        return paymentError
+    private func localize(error: Error) -> Error {
+        switch error {
+        case let localizedError as LocalizedError:
+            return localizedError
+        case let error where error.asNetworkError != nil:
+            // Network errors has built-in localizations
+            return error
+        default:
+            let description: String = localizationProvider.translation(forKey: LocalTranslation.errorDefault.rawValue)
+            return PaymentError(localizedDescription: description, underlyingError: error)
+        }
+    }
+    
+    /// Return first preselected network in a session
+    private func firstSelectedNetwork(in session: PaymentSession) -> PaymentNetwork? {
+        for network in session.networks {
+            if network.applicableNetwork.selected == true {
+                return network
+            }
+        }
+        
+        return nil
     }
 }
 

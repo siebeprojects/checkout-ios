@@ -1,4 +1,5 @@
 import Foundation
+@testable import Payment
 
 extension MockFactory {
     class Localization {
@@ -6,7 +7,29 @@ extension MockFactory {
     }
 }
 
+
+
+
 extension MockFactory.Localization {
+    class MockTranslationProvider: TranslationProvider {
+        private(set) var translations = [[String : String]]()
+        
+        init() {
+            let downloadLocalizationRequest = DownloadLocalization(from: URL.example)
+            let connection = MockConnection(dataSource: MockFactory.Localization.paymentPage)
+            let sendRequestOperation = SendRequestOperation(connection: connection, request: downloadLocalizationRequest)
+            
+            sendRequestOperation.downloadCompletionBlock = { result in
+                self.translations = [try! result.get()]
+            }
+
+            sendRequestOperation.start()
+            sendRequestOperation.waitUntilFinished()
+        }
+    }
+    
+    static var provider: MockTranslationProvider  = { MockTranslationProvider() }()
+    
     static var paymentPage: String {
         return """
         registeredNetworksTitle=

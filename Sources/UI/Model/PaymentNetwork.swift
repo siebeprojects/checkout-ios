@@ -1,18 +1,36 @@
 import Foundation
 
-public struct PaymentNetwork {
-    internal let applicableNetwork: ApplicableNetwork
+final class PaymentNetwork {
+    let applicableNetwork: ApplicableNetwork
+    let translation: TranslationProvider
 
-    public let code: String
-    public var label: String
-
-    var logoData: Data?
-
-    init(from applicableNetwork: ApplicableNetwork) {
+    let code: String
+    let label: String
+    let logo: Logo?
+    
+    init(from applicableNetwork: ApplicableNetwork, localizeUsing localizer: TranslationProvider) {
         self.applicableNetwork = applicableNetwork
-
+        self.translation = localizer
+        
         self.code = applicableNetwork.code
-        self.label = String()
+        self.label = localizer.translation(forKey: "network.label")
+        
+        if let logoURL = applicableNetwork.links?["logo"] {
+            logo = Logo(url: logoURL)
+        } else {
+            logo = nil
+        }
+    }
+}
+
+extension PaymentNetwork {
+    final class Logo {
+        var data: Data? = nil
+        let url: URL
+        
+        init(url: URL) {
+            self.url = url
+        }
     }
 }
 

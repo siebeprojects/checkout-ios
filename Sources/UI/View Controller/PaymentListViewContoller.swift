@@ -39,10 +39,26 @@ import UIKit
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
 
-        // FIXME: Localize
-        title = "Payment method"
-
         load()
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Select / deselect animation on back gesture
+        if let selectedIndexPath = methodsTableView?.indexPathForSelectedRow {
+            if let coordinator = transitionCoordinator {
+                coordinator.animate(alongsideTransition: { context in
+                    self.methodsTableView?.deselectRow(at: selectedIndexPath, animated: true)
+                }) { context in
+                    if context.isCancelled {
+                        self.methodsTableView?.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+                    }
+                }
+            } else {
+                self.methodsTableView?.deselectRow(at: selectedIndexPath, animated: animated)
+            }
+        }
     }
 
     @objc private func cancelButtonDidPress() {
@@ -50,18 +66,31 @@ import UIKit
     }
 
     private func load() {
-        sessionService.loadPaymentSession { session in
-            DispatchQueue.main.async {
-                self.changeState(to: session)
+        sessionService.loadPaymentSession(
+            loadDidComplete: { [weak self]  session in
+                DispatchQueue.main.async {
+                    self?.title = self?.localizationsProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
+                    self?.changeState(to: session)
+                }
+            },
+            shouldSelect: { [weak self] network in
+                DispatchQueue.main.async {
+                    self?.show(paymentNetwork: network, animated: false)
+                }
             }
-        }
+        )
+    }
+    
+    fileprivate func show(paymentNetwork: PaymentNetwork, animated: Bool) {
+        let inputViewController = InputViewController(for: paymentNetwork)
+        navigationController?.pushViewController(inputViewController, animated: animated)
     }
 }
 
 // MARK: - View state management
 
 extension PaymentListViewContoller {
-    fileprivate func changeState(to state: Load<PaymentSession, PaymentError>) {
+    fileprivate func changeState(to state: Load<PaymentSession, Error>) {
         switch state {
         case .success(let session):
             activityIndicator(isActive: false)
@@ -91,9 +120,9 @@ extension PaymentListViewContoller {
         let methodsTableView = self.addMethodsTableView()
         self.methodsTableView = methodsTableView
 
-        let tableController = PaymentListTableController(session: session)
+        let tableController = PaymentListTableController(networks: session.networks, translationProvider: localizationsProvider)
         tableController.tableView = methodsTableView
-        tableController.loadLogo = sessionService.loadLogo
+        tableController.delegate = self
         self.tableController = tableController
 
         methodsTableView.dataSource = tableController
@@ -122,17 +151,25 @@ extension PaymentListViewContoller {
         activityIndicator.startAnimating()
     }
 
-    private func presentError(_ error: PaymentError?) {
+    private func presentError(_ error: Error?) {
         guard let error = error else {
             // Dismiss alert controller
             errorAlertController?.dismiss(animated: true, completion: nil)
             return
         }
+        
+        let localizedError: LocalizedError
+        if let error = error as? LocalizedError {
+            localizedError = error
+        } else {
+            localizedError = PaymentError(localizedDescription: LocalTranslation.errorDefault.localizedString, underlyingError: nil)
+        }
 
-        let controller = UIAlertController(title: error.localizedDescription, message: nil, preferredStyle: .alert)
+        let controller = UIAlertController(title: localizedError.localizedDescription, message: nil, preferredStyle: .alert)
 
         // Add retry button if needed
-        if error.underlyingError?.isNetworkError == true {
+        if let networkError = error.asNetworkError {
+            controller.title = networkError.localizedDescription
             let retryAction = UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
                 self?.load()
             }
@@ -149,12 +186,18 @@ extension PaymentListViewContoller {
     }
 }
 
-// MARK: - Table View
+// MARK: - Table View UI
 
 extension PaymentListViewContoller {
     fileprivate func addMethodsTableView() -> UITableView {
         let methodsTableView = UITableView(frame: CGRect.zero, style: .grouped)
-
+        if #available(iOS 11.0, *) {
+            methodsTableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+            // FIXME: Check how it looks on iOS 10
+        }
+        
         configuration.customize?(tableView: methodsTableView)
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -171,4 +214,15 @@ extension PaymentListViewContoller {
         return methodsTableView
     }
 }
+
+extension PaymentListViewContoller: PaymentListTableControllerDelegate {
+    func load(logo: PaymentNetwork.Logo, completion: @escaping (Data?) -> Void) {
+        sessionService.loadLogo(logo, completion: completion)
+    }
+    
+    func didSelect(paymentNetwork: PaymentNetwork) {
+        show(paymentNetwork: paymentNetwork, animated: true)
+    }
+}
+
 #endif
