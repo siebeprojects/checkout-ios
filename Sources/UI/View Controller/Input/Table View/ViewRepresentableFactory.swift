@@ -7,8 +7,8 @@ class ViewRepresentableFactory {
         self.translator = translator
     }
     
-    func make(from inputElements: [InputElement]) -> [CellRepresentable] {
-        var fields = [CellRepresentable]()
+    func make(from inputElements: [InputElement]) -> [InputField & CellRepresentable] {
+        var fields = [InputField & CellRepresentable]()
         for inputElement in inputElements {
             let newField = make(from: inputElement)
             fields.append(newField)
@@ -17,7 +17,7 @@ class ViewRepresentableFactory {
         return fields
     }
     
-    private func make(from inputElement: InputElement) -> CellRepresentable {
+    private func make(from inputElement: InputElement) -> InputField & CellRepresentable {
         switch (inputElement.name, inputElement.inputElementType) {
         case ("number", .some(.numeric)):
             return AccountNumberInputField(from: inputElement, translator: translator)

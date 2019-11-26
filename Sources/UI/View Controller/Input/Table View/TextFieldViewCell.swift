@@ -21,8 +21,9 @@ class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCel
         textField = .init(frame: .zero)
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         textField.delegate = self
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
         contentView.addSubview(label)
         contentView.addSubview(textField)
@@ -65,11 +66,17 @@ class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCel
             textField.textContentType = contentType
         }
     }
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
+    }
 }
 
 extension TextFieldViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         delegate?.inputCellBecameFirstResponder(at: indexPath)
     }
+    
+    
 }
 #endif

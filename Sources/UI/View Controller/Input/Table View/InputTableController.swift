@@ -5,7 +5,7 @@ import UIKit
 class InputTableController: NSObject {
     let network: PaymentNetwork
     unowned let tableView: UITableView
-    private var cells: [CellRepresentable]
+    private var cells: [CellRepresentable & InputField]
     
     init(network: PaymentNetwork, tableView: UITableView) {
         self.network = network
@@ -46,6 +46,11 @@ extension InputTableController: UITableViewDelegate {
 extension InputTableController: InputCellDelegate {
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+    }
+    
+    func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
+        let model = cells[indexPath.row]
+        model.value = newValue
     }
 }
 #endif

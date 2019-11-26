@@ -1,12 +1,13 @@
 import Foundation
 
 /// Generic UI model for input element
-protocol InputField {
+protocol InputField: class {
     var inputElement: InputElement { get }
     var translator: TranslationProvider { get }
     
     var name: String { get }
     var label: String { get }
+    var value: String? { get set }
 }
 
 extension InputField {

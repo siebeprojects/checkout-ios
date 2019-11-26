@@ -3,6 +3,7 @@ import Foundation
 final class HolderNameInputField {
     let inputElement: InputElement
     let translator: TranslationProvider
+    var value: String?
     
     init(from inputElement: InputElement, translator: TranslationProvider) {
         self.inputElement = inputElement
