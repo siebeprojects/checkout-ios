@@ -2,7 +2,7 @@
 import UIKit
 
 class InputViewController: UIViewController {
-    var network: PaymentNetwork
+    let network: PaymentNetwork
     
     private let tableController: InputTableController
     private let tableView = UITableView(frame: .zero, style: .grouped)

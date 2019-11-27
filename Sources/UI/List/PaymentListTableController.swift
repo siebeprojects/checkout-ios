@@ -5,7 +5,7 @@ import UIKit
 
 protocol PaymentListTableControllerDelegate: class {
     func didSelect(paymentNetwork: PaymentNetwork)
-    func load(logo: PaymentNetwork.Logo, completion: @escaping (Data?) -> Void)
+    func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 class PaymentListTableController: NSObject {
@@ -22,22 +22,18 @@ class PaymentListTableController: NSObject {
     }
 
     fileprivate func loadLogo(for indexPath: IndexPath) {
-        let optionalLogo: PaymentNetwork.Logo?
-        
+        let network: PaymentNetwork
+                
         switch sections[indexPath.section] {
         case .networks(let networks):
-            optionalLogo = networks[indexPath.row].logo
+            network = networks[indexPath.row]
         }
 
-        // There is no logo for that cell
-        guard let logo = optionalLogo else { return }
-        
         /// If logo was already downloaded
-        guard logo.data == nil else { return }
+        guard case let .some(.notLoaded(url)) = network.logo else { return }
 
-        delegate?.load(logo: logo) { [weak self] logoData in
-            guard let logoData = logoData else { return }
-            logo.data = logoData
+        delegate?.load(from: url) { [weak self] result in
+            network.logo = .loaded(result)
 
             DispatchQueue.main.async {
                 self?.tableView?.reloadRows(at: [indexPath], with: .fade)

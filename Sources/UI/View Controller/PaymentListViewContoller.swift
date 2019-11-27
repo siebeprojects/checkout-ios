@@ -216,8 +216,8 @@ extension PaymentListViewContoller {
 }
 
 extension PaymentListViewContoller: PaymentListTableControllerDelegate {
-    func load(logo: PaymentNetwork.Logo, completion: @escaping (Data?) -> Void) {
-        sessionService.loadLogo(logo, completion: completion)
+    func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
+        sessionService.load(from: url, completion: completion)
     }
     
     func didSelect(paymentNetwork: PaymentNetwork) {
