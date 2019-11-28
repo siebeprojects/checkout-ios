@@ -54,7 +54,17 @@ private extension Sequence where Element == PaymentNetwork {
         
         for network in self {
             let isGroupingAllowed = (rules.first(withCode: network.applicableNetwork.code) != nil)
+            
             if isGroupingAllowed {
+                // Check if input elements are equal
+                if let firstNetwork = groupedNetworks.first {
+                    guard firstNetwork.applicableNetwork.localizedInputElements == network.applicableNetwork.localizedInputElements else {
+                        // Input elements are not equal, don't group that network
+                        ungroupedNetworks.append(network)
+                        continue
+                    }
+                }
+                
                 groupedNetworks.append(network)
             } else {
                 ungroupedNetworks.append(network)
@@ -75,5 +85,32 @@ private extension Sequence where Element == GroupingService.Rule {
         }
         
         return nil
+    }
+}
+
+// MARK: - InputElement equality check
+
+extension InputElement {
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let rhs = object as? InputElement else { return false }
+        
+        return (
+            name == rhs.name &&
+            type == rhs.type &&
+            label == rhs.label &&
+            options == rhs.options
+        )
+    }
+}
+
+extension SelectOption {
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let rhs = object as? SelectOption else { return false }
+        
+        return (
+            value == rhs.value &&
+            label == rhs.label &&
+            selected == rhs.selected
+        )
     }
 }
