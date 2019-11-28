@@ -125,7 +125,7 @@ extension PaymentListViewContoller {
         tableController.delegate = self
         self.tableController = tableController
 
-        methodsTableView.dataSource = tableController
+        methodsTableView.dataSource = tableController.dataSource
         methodsTableView.delegate = tableController
         methodsTableView.prefetchDataSource = tableController
     }
@@ -220,8 +220,9 @@ extension PaymentListViewContoller: PaymentListTableControllerDelegate {
         sessionService.load(from: url, completion: completion)
     }
     
-    func didSelect(paymentNetwork: PaymentNetwork) {
-        show(paymentNetwork: paymentNetwork, animated: true)
+    func didSelect(paymentNetworks: [PaymentNetwork]) {
+        // FIXME (TEMPORARY)
+        show(paymentNetwork: paymentNetworks.first!, animated: true)
     }
 }
 
