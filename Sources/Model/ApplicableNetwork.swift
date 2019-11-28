@@ -29,7 +29,6 @@ public class ApplicableNetwork: NSObject, Decodable {
     public let selected: Bool?
 
     /// Map of public available contract data from the first possible route.
-    // - FIXME: Unknown data type
     // public let contractData: String?
 
     /// Data what should been used to dynamically pre-fill a form for this network

@@ -33,8 +33,8 @@ public class AccountMask: NSObject, Decodable {
     public let expiryYear: Int?
 
     /// IBAN number, usually truncated.
-    public let iban: String
+    public let iban: String?
 
     /// Account login name.
-    public let login: String
+    public let login: String?
 }

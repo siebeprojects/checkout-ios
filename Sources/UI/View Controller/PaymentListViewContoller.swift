@@ -9,21 +9,21 @@ import UIKit
     let configuration: PaymentListParameters
     let sessionService: PaymentSessionService
     fileprivate(set) var tableController: PaymentListTableController?
-    let localizationsProvider: SharedTranslationProvider
+    let sharedTranslationProvider: SharedTranslationProvider
 
     /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
     /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
     @objc public convenience init(tableConfiguration: PaymentListParameters = DefaultPaymentListParameters(), listResultURL: URL) {
-        let localizationsProvider = SharedTranslationProvider()
+        let sharedTranslationProvider = SharedTranslationProvider()
         let connection = URLSessionConnection()
 
-        self.init(tableConfiguration: tableConfiguration, listResultURL: listResultURL, connection: connection, localizationsProvider: localizationsProvider)
+        self.init(tableConfiguration: tableConfiguration, listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider)
     }
 
-    init(tableConfiguration: PaymentListParameters, listResultURL: URL, connection: Connection, localizationsProvider: SharedTranslationProvider) {
-        sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: localizationsProvider)
+    init(tableConfiguration: PaymentListParameters, listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
+        sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
         configuration = tableConfiguration
-        self.localizationsProvider = localizationsProvider
+        self.sharedTranslationProvider = sharedTranslationProvider
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -69,7 +69,7 @@ import UIKit
         sessionService.loadPaymentSession(
             loadDidComplete: { [weak self]  session in
                 DispatchQueue.main.async {
-                    self?.title = self?.localizationsProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
+                    self?.title = self?.sharedTranslationProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
                     self?.changeState(to: session)
                 }
             },
@@ -120,7 +120,7 @@ extension PaymentListViewContoller {
         let methodsTableView = self.addMethodsTableView()
         self.methodsTableView = methodsTableView
 
-        let tableController = PaymentListTableController(networks: session.networks, translationProvider: localizationsProvider)
+        let tableController = PaymentListTableController(networks: session.networks, translationProvider: sharedTranslationProvider)
         tableController.tableView = methodsTableView
         tableController.delegate = self
         self.tableController = tableController
