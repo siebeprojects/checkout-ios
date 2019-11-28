@@ -32,10 +32,12 @@ public struct DownloadLocalization: GetRequest {
 
         var localization = [String: String]()
         for line in unescapedString.components(separatedBy: .newlines) {
-            let trimmedLine = line.trimmingCharacters(in: .whitespaces)
-            let keyValueLine = trimmedLine.components(separatedBy: "=")
+            let keyValueLine = line.components(separatedBy: "=")
             guard keyValueLine.count == 2 else { continue }
-            localization[keyValueLine[0]] = keyValueLine[1]
+            
+            let key = keyValueLine[0].trimmingCharacters(in: .whitespaces)
+            let value = keyValueLine[1].trimmingCharacters(in: .whitespaces)
+            localization[key] = value
         }
 
         return localization
