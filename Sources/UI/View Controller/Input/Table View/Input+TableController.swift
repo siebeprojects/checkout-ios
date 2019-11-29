@@ -1,24 +1,26 @@
 #if canImport(UIKit)
 import UIKit
 
-/// Acts as a datasource for input table views and responds on delegate events from a table and cells.
-class InputTableController: NSObject {
-    let network: PaymentNetwork
-    unowned let tableView: UITableView
-    private var cells: [CellRepresentable & InputField]
-    
-    init(network: PaymentNetwork, tableView: UITableView) {
-        self.network = network
-        self.tableView = tableView
+extension Input {
+    /// Acts as a datasource for input table views and responds on delegate events from a table and cells.
+    class TableController: NSObject {
+        let network: PaymentNetwork
+        unowned let tableView: UITableView
+        private var cells: [CellRepresentable & InputField]
         
-        let factory = ViewRepresentableFactory(translator: network.translation)
-        let inputElements = network.applicableNetwork.localizedInputElements ?? [InputElement]()
-        cells = factory.make(from: inputElements)
-        super.init()
+        init(for network: PaymentNetwork, tableView: UITableView) {
+            self.network = network
+            self.tableView = tableView
+            
+            let factory = ViewRepresentableFactory(translator: network.translation)
+            let inputElements = network.applicableNetwork.localizedInputElements ?? [InputElement]()
+            cells = factory.make(from: inputElements)
+            super.init()
+        }
     }
 }
 
-extension InputTableController: UITableViewDataSource {
+extension Input.TableController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
          return 1
     }
@@ -36,14 +38,14 @@ extension InputTableController: UITableViewDataSource {
      }
 }
 
-extension InputTableController: UITableViewDelegate {
+extension Input.TableController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = tableView.cellForRow(at: indexPath)
         row?.becomeFirstResponder()
     }
 }
 
-extension InputTableController: InputCellDelegate {
+extension Input.TableController: InputCellDelegate {
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
     }

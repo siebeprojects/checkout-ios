@@ -82,7 +82,7 @@ import UIKit
     }
     
     fileprivate func show(paymentNetwork: PaymentNetwork, animated: Bool) {
-        let inputViewController = InputViewController(for: paymentNetwork)
+        let inputViewController = Input.ViewController(for: paymentNetwork)
         navigationController?.pushViewController(inputViewController, animated: animated)
     }
 }

@@ -1,12 +1,16 @@
 import Foundation
 
-class ViewRepresentableFactory {
-    let translator: TranslationProvider
-    
-    init(translator: TranslationProvider) {
-        self.translator = translator
+extension Input {
+    class ViewRepresentableFactory {
+        let translator: TranslationProvider
+        
+        init(translator: TranslationProvider) {
+            self.translator = translator
+        }
     }
-    
+}
+
+extension Input.ViewRepresentableFactory {
     func make(from inputElements: [InputElement]) -> [InputField & CellRepresentable] {
         var fields = [InputField & CellRepresentable]()
         for inputElement in inputElements {
@@ -20,11 +24,11 @@ class ViewRepresentableFactory {
     private func make(from inputElement: InputElement) -> InputField & CellRepresentable {
         switch (inputElement.name, inputElement.inputElementType) {
         case ("number", .some(.numeric)):
-            return AccountNumberInputField(from: inputElement, translator: translator)
+            return Input.AccountNumberInputField(from: inputElement, translator: translator)
         case ("holderName", .some(.string)):
-            return HolderNameInputField(from: inputElement, translator: translator)
+            return Input.HolderNameInputField(from: inputElement, translator: translator)
         default:
-            return GenericInputField(from: inputElement, translator: translator)
+            return Input.GenericInputField(from: inputElement, translator: translator)
         }
     }
 }

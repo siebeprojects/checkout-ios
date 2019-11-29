@@ -1,23 +1,27 @@
 #if canImport(UIKit)
 import UIKit
 
-class InputViewController: UIViewController {
-    let network: PaymentNetwork
-    
-    private let tableController: InputTableController
-    private let tableView = UITableView(frame: .zero, style: .grouped)
-    
-    init(for paymentNetwork: PaymentNetwork) {
-        self.network = paymentNetwork
-        self.tableController = InputTableController(network: network, tableView: tableView)
+extension Input {
+    class ViewController: UIViewController {
+        let network: PaymentNetwork
         
-        super.init(nibName: nil, bundle: nil)
+        private let tableController: TableController
+        private let tableView = UITableView(frame: .zero, style: .grouped)
+        
+        init(for network: PaymentNetwork) {
+            self.network = network
+            self.tableController = .init(for: network, tableView: tableView)
+            
+            super.init(nibName: nil, bundle: nil)
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+}
+
+extension Input.ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,7 +49,7 @@ class InputViewController: UIViewController {
     }
     
     private func configure(tableView: UITableView) {
-        tableView.register(TextFieldViewCell.self)
+        tableView.register(Input.TextFieldViewCell.self)
         tableView.dataSource = tableController
         tableView.delegate = tableController
         tableView.tableHeaderView = tableViewHeader()
@@ -121,7 +125,7 @@ class InputViewController: UIViewController {
     }
 }
 
-extension InputViewController: ModifableInsetsOnKeyboardFrameChanges {
+extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { tableView }
 }
 #endif
