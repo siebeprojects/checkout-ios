@@ -33,7 +33,7 @@ class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCel
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: textField.layoutMarginsGuide.leadingAnchor, constant: -8),
+            label.trailingAnchor.constraint(equalTo: textField.leadingAnchor, constant: -8),
             label.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
             label.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             label.widthAnchor.constraint(equalToConstant: 140),
