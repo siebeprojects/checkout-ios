@@ -29,7 +29,6 @@ import UIKit
     }
 
     required init?(coder: NSCoder) {
-        // FIXME
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -75,15 +74,19 @@ import UIKit
             },
             shouldSelect: { [weak self] network in
                 DispatchQueue.main.async {
-                    self?.show(paymentNetwork: network, animated: false)
+                    self?.show(paymentNetworks: [network], animated: false)
                 }
             }
         )
     }
     
-    fileprivate func show(paymentNetwork: PaymentNetwork, animated: Bool) {
-        let inputViewController = Input.ViewController(for: paymentNetwork)
-        navigationController?.pushViewController(inputViewController, animated: animated)
+    fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
+        do {
+            let inputViewController = try Input.ViewController(for: paymentNetworks)
+            navigationController?.pushViewController(inputViewController, animated: animated)
+        } catch {
+            changeState(to: .failure(error))
+        }
     }
 }
 
@@ -221,8 +224,7 @@ extension PaymentListViewContoller: PaymentListTableControllerDelegate {
     }
     
     func didSelect(paymentNetworks: [PaymentNetwork]) {
-        // FIXME (TEMPORARY)
-        show(paymentNetwork: paymentNetworks.first!, animated: true)
+        show(paymentNetworks: paymentNetworks, animated: true)
     }
 }
 

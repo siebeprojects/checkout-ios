@@ -21,17 +21,18 @@ class PaymentListTableController: NSObject {
     fileprivate func loadLogo(for indexPath: IndexPath) {
         let networks = dataSource.networks(for: indexPath)
         
-        // Don't load logo for multiple networks for now
-        guard let network = networks.first, networks.count == 1 else { return }
+        for network in networks {
+            /// If logo was already downloaded
+            guard case let .some(.notLoaded(url)) = network.logo else { continue }
+            
+            delegate?.load(from: url) { [weak self] result in
+                network.logo = .loaded(result)
 
-        /// If logo was already downloaded
-        guard case let .some(.notLoaded(url)) = network.logo else { return }
-
-        delegate?.load(from: url) { [weak self] result in
-            network.logo = .loaded(result)
-
-            DispatchQueue.main.async {
-                self?.tableView?.reloadRows(at: [indexPath], with: .fade)
+                // Don't reload rows if multiple networks (we don't show logos for now for them)
+                guard networks.count == 1 else { return }
+                DispatchQueue.main.async {
+                    self?.tableView?.reloadRows(at: [indexPath], with: .fade)
+                }
             }
         }
     }

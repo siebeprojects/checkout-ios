@@ -4,18 +4,34 @@ import UIKit
 extension Input {
     /// Acts as a datasource for input table views and responds on delegate events from a table and cells.
     class TableController: NSObject {
-        let network: PaymentNetwork
+        var network: Network {
+            didSet {
+                networkDidUpdate()
+            }
+        }
+        
         unowned let tableView: UITableView
         private var cells: [CellRepresentable & InputField]
+        weak var inputChangesListener: InputValueChangesListener?
         
-        init(for network: PaymentNetwork, tableView: UITableView) {
+        init(for network: Network, tableView: UITableView) {
             self.network = network
             self.tableView = tableView
-            
-            let factory = ViewRepresentableFactory(translator: network.translation)
-            let inputElements = network.applicableNetwork.localizedInputElements ?? [InputElement]()
-            cells = factory.make(from: inputElements)
+            self.cells = network.inputFields
             super.init()
+        }
+        
+        private func networkDidUpdate() {
+            cells = network.inputFields
+
+            guard !cells.isEmpty else {
+                tableView.reloadData()
+                return
+            }
+            
+            for (index, cell) in tableView.visibleCells.enumerated() {
+                cells[index].configure(cell: cell)
+            }
         }
     }
 }
@@ -31,7 +47,8 @@ extension Input.TableController: UITableViewDataSource {
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellRepresentable = cells[indexPath.row]
-        let cell = cellRepresentable.dequeueConfiguredCell(for: tableView, indexPath: indexPath)
+        let cell = cellRepresentable.dequeueCell(for: tableView, indexPath: indexPath)
+        cellRepresentable.configure(cell: cell)
         cell.delegate = self
         cell.selectionStyle = .none
         return cell
@@ -53,6 +70,8 @@ extension Input.TableController: InputCellDelegate {
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
         let model = cells[indexPath.row]
         model.value = newValue
+        
+        inputChangesListener?.valueDidChange(for: model)
     }
 }
 #endif

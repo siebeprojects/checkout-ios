@@ -10,7 +10,7 @@ extension Input {
         weak var delegate: InputCellDelegate?
         
         private let label: UILabel
-        private let textField: UITextField
+        let textField: UITextField
         
         var indexPath: IndexPath!
         
@@ -25,6 +25,7 @@ extension Input {
             
             textField.delegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
             
             contentView.addSubview(label)
             contentView.addSubview(textField)
@@ -62,6 +63,7 @@ extension Input.TextFieldViewCell {
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
         label.text = model.label
         textField.placeholder = model.placeholder
+        textField.text = model.value
 
         textField.keyboardType = model.keyboardType
         textField.autocapitalizationType = model.autocapitalizationType

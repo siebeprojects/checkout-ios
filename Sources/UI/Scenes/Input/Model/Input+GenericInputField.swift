@@ -14,7 +14,6 @@ extension Input {
     }
 }
 
-
 extension Input.GenericInputField: TextInputField {}
 
 #if canImport(UIKit)

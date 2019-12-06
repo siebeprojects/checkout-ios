@@ -4,6 +4,7 @@ extension Input {
     final class AccountNumberInputField {
         let inputElement: InputElement
         let translator: TranslationProvider
+        
         var value: String?
         
         init(from inputElement: InputElement, translator: TranslationProvider) {
