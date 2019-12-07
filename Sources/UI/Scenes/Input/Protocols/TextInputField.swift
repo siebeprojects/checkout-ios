@@ -10,5 +10,5 @@ extension TextInputField {
         translator.translation(forKey: translationPrefix + "placeholder")
     }
     
-    private var translationPrefix: String { "account." + name + "." }
+    var translationPrefix: String { "account." + name + "." }
 }

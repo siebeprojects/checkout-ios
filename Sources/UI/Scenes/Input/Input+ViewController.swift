@@ -1,30 +1,34 @@
 #if canImport(UIKit)
 import UIKit
 
+// MARK: Initializers
+
 extension Input {
     class ViewController: UIViewController {
         let networks: [Network]
         
         private let tableController: TableController
         private let tableView = UITableView(frame: .zero, style: .grouped)
+        fileprivate let smartSwitch: SmartSwitch.Selector
         
-        /// - Throws: `InternalError` if `networks` array is empty
-        init(for networks: [PaymentNetwork]) throws {
-            self.networks = networks.map { Transformer.transform(paymentNetwork: $0) }
+        init(for paymentNetworks: [PaymentNetwork]) throws {
+            let transfomer = Transformer()
+            networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
+            smartSwitch = try .init(networks: self.networks)
+            tableController = .init(for: smartSwitch.selected.network, tableView: tableView)
             
-            guard let firstNetwork = self.networks.first else {
-                throw InternalError(description: "Tried to initialize with 0 PaymentNetworks")
-            }
-            
-            guard self.networks.isInputFieldsGroupable() else {
+            guard networks.isInputFieldsGroupable() else {
                 throw InternalError(description: "Input fields are not groupable: %@", objects: self.networks)
             }
-            
-            self.tableController = .init(for: firstNetwork, tableView: tableView)
             
             super.init(nibName: nil, bundle: nil)
             
             tableController.inputChangesListener = self
+            
+            // Placeholder translation suffixer
+            for field in transfomer.verificationCodeFields {
+                field.keySuffixer = self
+            }
         }
         
         required init?(coder: NSCoder) {
@@ -32,6 +36,8 @@ extension Input {
         }
     }
 }
+
+// MARK: - Overrides
 
 extension Input.ViewController {
     override func viewDidLoad() {
@@ -60,8 +66,12 @@ extension Input.ViewController {
         
         removeKeyboardFrameChangesObserver()
     }
-    
-    private func configure(tableView: UITableView) {
+}
+
+// MARK: - View configurator
+
+extension Input.ViewController {
+    fileprivate func configure(tableView: UITableView) {
         tableView.register(Input.TextFieldViewCell.self)
         tableView.dataSource = tableController
         tableView.delegate = tableController
@@ -86,7 +96,11 @@ extension Input.ViewController {
             tableView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
     }
-    
+}
+
+// MARK: - View constructors
+
+extension Input.ViewController {
     private func makeTableViewHeader(for network: Input.Network) -> UIView {
         let contentView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 200))
         contentView.preservesSuperviewLayoutMargins = true
@@ -133,26 +147,25 @@ extension Input.ViewController {
     }
 }
 
+// MARK: - InputValueChangesListener
+
 extension Input.ViewController: InputValueChangesListener {
     /// Switch to a new network if needed (based on input field's type and value).
     /// - Note: called by `TableController`
     func valueDidChange(for field: InputField) {
-        // React only on account numbers
-        guard let accountNumber = field as? Input.AccountNumberInputField else { return }
-        guard let value = accountNumber.value else { return }
+        // React only on account number changes
+        guard let accountNumberField = field as? Input.AccountNumberInputField else { return }
+        guard let accountNumber = accountNumberField.value else { return }
         
-        let switchSelector = Input.SmartSwitch.Selector(networks: networks, currentNetwork: tableController.network)
-        guard let newNetwork = switchSelector.select(usingAccountNumber: value) else { return }
+        let previousSelection = smartSwitch.selected
+        let newSelection = smartSwitch.select(usingAccountNumber: accountNumber)
         
-        // Continue only if the new network is not equal to current
-        guard newNetwork != self.tableController.network else { return }
-        
-        // Save previously entered input values and move to the new model
-        switchSelector.moveInputValues(to: newNetwork)
-                
+        // Change UI only if the new network is not equal to current
+        guard newSelection != previousSelection else { return }
+                        
         DispatchQueue.main.async {
             // UI changes
-            self.replaceCurrentNetwork(with: newNetwork)
+            self.replaceCurrentNetwork(with: newSelection.network)
         }
     }
     
@@ -162,7 +175,19 @@ extension Input.ViewController: InputValueChangesListener {
     }
 }
 
+// MARK: - ModifableInsetsOnKeyboardFrameChanges
+
 extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { tableView }
+}
+
+// MARK: - VerificationCodeTranslationKeySuffixer
+extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
+    var suffixKey: String {
+        switch smartSwitch.selected {
+        case .generic: return "generic"
+        case .specific: return "specific"
+        }
+    }
 }
 #endif

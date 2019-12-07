@@ -2,13 +2,15 @@ import Foundation
 
 extension Input {
     class Transformer {
-        private init() {}
+        fileprivate(set) var verificationCodeFields = [Input.VerificationCodeField]()
+        
+        init() {}
     }
 }
 
 extension Input.Transformer {
     /// Transform `PaymentNetwork` to `Input.Network`
-    static func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
+    func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
         // Logo
         let logoData: Data?
         // Was loading started? Was loading completed? Was it completed successfully?
@@ -24,7 +26,7 @@ extension Input.Transformer {
             transform(inputElement: $0, translateUsing: paymentNetwork.translation)
         }
 
-        // Switch rule
+        // SmartSwitch rule
         let switchRule: Input.SmartSwitch.Rule?
         do {
             let switchProvider = Input.SmartSwitch.Provider()
@@ -40,12 +42,16 @@ extension Input.Transformer {
     }
     
     /// Transform `InputElement` to `InputField`
-    private static func transform(inputElement: InputElement, translateUsing translator: TranslationProvider) -> InputField & CellRepresentable {
+    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider) -> InputField & CellRepresentable {
         switch (inputElement.name, inputElement.inputElementType) {
         case ("number", .some(.numeric)):
             return Input.AccountNumberInputField(from: inputElement, translator: translator)
         case ("holderName", .some(.string)):
             return Input.HolderNameInputField(from: inputElement, translator: translator)
+        case ("verificationCode", .some(.integer)):
+            let field = Input.VerificationCodeField(from: inputElement, translator: translator)
+            verificationCodeFields.append(field)
+            return field
         default:
             return Input.GenericInputField(from: inputElement, translator: translator)
         }
