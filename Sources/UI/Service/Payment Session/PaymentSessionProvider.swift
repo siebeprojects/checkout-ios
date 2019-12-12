@@ -3,14 +3,14 @@ import Foundation
 class PaymentSessionProvider {
     private let paymentSessionURL: URL
     private let localizationQueue = OperationQueue()
-    private let localizationsProvider: SharedTranslationProvider
+    private let sharedTranslationProvider: SharedTranslationProvider
 
     let connection: Connection
     
     init(paymentSessionURL: URL, connection: Connection, localizationsProvider: SharedTranslationProvider) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
-        self.localizationsProvider = localizationsProvider
+        self.sharedTranslationProvider = localizationsProvider
     }
 
     func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
@@ -53,7 +53,7 @@ class PaymentSessionProvider {
                 return
         }
 
-        localizationsProvider.download(from: localeURL, using: connection) { error in
+        sharedTranslationProvider.download(from: localeURL, using: connection) { error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -71,7 +71,7 @@ class PaymentSessionProvider {
         }
         
         let localizedReason: String? =
-            localizationsProvider.translation(forKey: listResult.interaction.code + "." + listResult.interaction.reason)
+            sharedTranslationProvider.translation(forKey: listResult.interaction.code + "." + listResult.interaction.reason)
 
         let error: Error
         if let localizedReason = localizedReason {
@@ -99,14 +99,14 @@ class PaymentSessionProvider {
         var operations = [DownloadTranslationOperation]()
         
         // That operation is called after all localizations were downloaded
-        let completionOperation = BlockOperation { [localizationsProvider] in
+        let completionOperation = BlockOperation { [sharedTranslationProvider] in
             var paymentNetworks = [PaymentNetwork]()
             
             // Fill translations with operations' results
             for operation in operations {
                 switch operation.result {
                 case .some(.success(let translation)):
-                    let combinedProvider = CombinedTranslationProvider(priorityTranslation: translation, otherProvider: localizationsProvider)
+                    let combinedProvider = CombinedTranslationProvider(priorityTranslation: translation, otherProvider: sharedTranslationProvider)
                     let paymentNetwork = PaymentNetwork(from: operation.network, localizeUsing: combinedProvider)
                     paymentNetworks.append(paymentNetwork)
                 case .some(.failure(let error)):

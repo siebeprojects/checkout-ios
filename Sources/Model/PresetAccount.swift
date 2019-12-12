@@ -20,6 +20,5 @@ public class PresetAccount: NSObject, Decodable {
     public let redirect: Redirect
 
     /// Map of public available contract data from the first possible route for this preset account.
-    // FIXME: What type does use that property?
-    public let contractData: String?
+//    public let contractData: String?
 }

@@ -24,13 +24,20 @@ public struct DownloadLocalization: GetRequest {
         guard let text = String(data: data, encoding: .isoLatin1) else {
             throw InternalError(description: "Unable to decode localization file: unable to decode a data fro isoLatin1")
         }
+        
+        let transform = StringTransform(rawValue: "Any-Hex/Java")
+        guard let unescapedString = text.applyingTransform(transform, reverse: true) else {
+            throw InternalError(description: "Couldn't unescape string: %@", text)
+        }
 
         var localization = [String: String]()
-        for line in text.components(separatedBy: .newlines) {
-            let trimmedLine = line.trimmingCharacters(in: .whitespaces)
-            let keyValueLine = trimmedLine.components(separatedBy: "=")
+        for line in unescapedString.components(separatedBy: .newlines) {
+            let keyValueLine = line.components(separatedBy: "=")
             guard keyValueLine.count == 2 else { continue }
-            localization[keyValueLine[0]] = keyValueLine[1]
+            
+            let key = keyValueLine[0].trimmingCharacters(in: .whitespaces)
+            let value = keyValueLine[1].trimmingCharacters(in: .whitespaces)
+            localization[key] = value
         }
 
         return localization
