@@ -12,7 +12,7 @@ extension TranslationProvider {
             return translation
         } else {
             log(.error, "Localization for key %@ is not found", key)
-            return key
+            return String()
         }
     }
     
