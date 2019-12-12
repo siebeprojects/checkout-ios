@@ -110,14 +110,17 @@ extension Input.ViewController {
         imageView.contentMode = .scaleAspectFit
         contentView.addSubview(imageView)
 
+        let imageViewMargin: CGFloat = 8*4
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Constraints
         NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 8*4),
-            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 8*4),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8*4),
+            imageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: imageViewMargin),
+            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: imageViewMargin),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -imageViewMargin),
         ])
         
-        let imageContentViewTrailing = imageView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -8*4)
+        let imageContentViewTrailing = imageView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -imageViewMargin)
         imageContentViewTrailing.priority = .defaultHigh
         imageContentViewTrailing.isActive = true
         
@@ -137,7 +140,8 @@ extension Input.ViewController {
         button.addTarget(self, action: #selector(dismissNavigation), for: .touchUpInside)
         
         let desiredWidth = button.intrinsicContentSize.width
-        button.widthAnchor.constraint(equalToConstant: desiredWidth + 30).isActive = true
+        let buttonMargin: CGFloat = 30
+        button.widthAnchor.constraint(equalToConstant: desiredWidth + buttonMargin).isActive = true
         
         return button
     }
