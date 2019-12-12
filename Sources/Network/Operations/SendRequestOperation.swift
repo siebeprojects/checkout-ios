@@ -3,9 +3,10 @@ import Foundation
 public class SendRequestOperation<T>: AsynchronousOperation where T: Request {
     let connection: Connection
     public let request: T
-    
     public var downloadCompletionBlock: ((Result<T.Response, Error>) -> Void)?
 
+    public private(set) var result: Result<T.Response, Error>?
+    
     public init(connection: Connection, request: T) {
         self.connection = connection
         self.request = request
@@ -37,6 +38,7 @@ public class SendRequestOperation<T>: AsynchronousOperation where T: Request {
     }
     
     private func finish(with result: Result<T.Response, Error>) {
+        self.result = result
         downloadCompletionBlock?(result)
         finish()
     }
