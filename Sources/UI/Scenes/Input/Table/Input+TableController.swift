@@ -21,6 +21,15 @@ extension Input {
             super.init()
         }
         
+        func validateFields() {
+            for cell in cells {
+                guard let validatable = cell as? Validatable else { continue }
+                validatable.validateAndSaveResult()
+            }
+            
+            tableView.reloadData()
+        }
+        
         private func networkDidUpdate() {
             cells = network.inputFields
 
@@ -63,6 +72,13 @@ extension Input.TableController: UITableViewDelegate {
 }
 
 extension Input.TableController: InputCellDelegate {
+    func inputCellDidEndEditing(at indexPath: IndexPath) {
+        guard let model = cells[indexPath.row] as? Validatable else { return }
+        
+        model.validateAndSaveResult()
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
     }

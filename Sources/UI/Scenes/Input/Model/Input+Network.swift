@@ -7,11 +7,11 @@ extension Input {
 
         let label: String
         let logoData: Data?
-        let inputFields: [InputField & CellRepresentable]
+        let inputFields: [InputField & CellRepresentable & Validatable]
         
         let switchRule: SmartSwitch.Rule?
 
-        init(paymentNetwork: PaymentNetwork, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], switchRule: SmartSwitch.Rule?) {
+        init(paymentNetwork: PaymentNetwork, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable & Validatable], switchRule: SmartSwitch.Rule?) {
             self.applicableNetwork = paymentNetwork.applicableNetwork
             self.translation = paymentNetwork.translation
             
