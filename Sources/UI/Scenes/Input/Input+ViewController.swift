@@ -137,7 +137,7 @@ extension Input.ViewController {
         ])
         
         button.setAttributedTitle(title, for: .normal)
-        button.addTarget(self, action: #selector(dismissNavigation), for: .touchUpInside)
+        button.addTarget(self, action: #selector(payButtonDidTap), for: .touchUpInside)
         
         let desiredWidth = button.intrinsicContentSize.width
         let buttonMargin: CGFloat = 30
@@ -146,8 +146,8 @@ extension Input.ViewController {
         return button
     }
     
-    @objc private func dismissNavigation() {
-        navigationController?.dismiss(animated: true, completion: nil)
+    @objc private func payButtonDidTap() {
+        tableController.validateFields()
     }
 }
 

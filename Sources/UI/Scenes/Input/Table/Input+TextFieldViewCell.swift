@@ -71,6 +71,31 @@ extension Input.TextFieldViewCell {
         if let contentType = model.contentType {
             textField.textContentType = contentType
         }
+        
+        showValidationResult(for: model)
+    }
+    
+    private func showValidationResult(for model: Any) {
+        guard let model = model as? Validatable else {
+            if #available(iOS 13.0, *) {
+                label.textColor = .label
+            } else {
+                label.textColor = .darkText
+            }
+            
+            return
+        }
+        
+        if let errorText = model.validationErrorText {
+            label.textColor = .systemRed
+            print(errorText)
+        } else {
+            if #available(iOS 13.0, *) {
+                label.textColor = .label
+            } else {
+                label.textColor = .darkText
+            }
+        }
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
@@ -81,6 +106,10 @@ extension Input.TextFieldViewCell {
 extension Input.TextFieldViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         delegate?.inputCellBecameFirstResponder(at: indexPath)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        delegate?.inputCellDidEndEditing(at: indexPath)
     }
 }
 #endif
