@@ -169,5 +169,24 @@ extension Input.TextFieldViewCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         delegate?.inputCellDidEndEditing(at: indexPath)
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let allowed: CharacterSet
+        switch textField.keyboardType {
+        case .numbersAndPunctuation:
+            var set = CharacterSet.decimalDigits
+            set.formUnion(CharacterSet(charactersIn: " -"))
+            allowed = set
+        case .numberPad:
+            allowed = .decimalDigits
+        default: return true
+        }
+        
+        if CharacterSet(charactersIn: string).isSubset(of: allowed) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 #endif
