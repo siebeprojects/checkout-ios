@@ -47,7 +47,7 @@ extension Input.VerificationCodeField: TextInputField {
 extension Input.VerificationCodeField: Validatable {
     func localize(error: Input.Validation.ValidationError) -> String {
         switch error {
-        case .invalidValue: return translator.translation(forKey: "error.INVALID_VERIFICATION_CODE")
+        case .invalidValue, .incorrectLength: return translator.translation(forKey: "error.INVALID_VERIFICATION_CODE")
         case .missingValue: return translator.translation(forKey: "error.MISSING_VERIFICATION_CODE")
         }
     }

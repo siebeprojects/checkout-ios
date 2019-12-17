@@ -22,7 +22,7 @@ extension Input.AccountNumberInputField: TextInputField {}
 extension Input.AccountNumberInputField: Validatable {
     func localize(error: Input.Validation.ValidationError) -> String {
         switch error {
-        case .invalidValue: return translator.translation(forKey: "error.INVALID_ACCOUNT_NUMBER")
+        case .invalidValue, .incorrectLength: return translator.translation(forKey: "error.INVALID_ACCOUNT_NUMBER")
         case .missingValue: return translator.translation(forKey: "error.MISSING_ACCOUNT_NUMBER")
         }
     }

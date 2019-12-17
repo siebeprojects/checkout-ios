@@ -7,6 +7,16 @@ extension Input {
 // MARK: - Model
 
 extension Input.Validation {
+    struct Options: OptionSet {
+        let rawValue: Int
+
+        static let valueExists = Options(rawValue: 1 << 0)
+        static let validValue  = Options(rawValue: 1 << 1)
+        static let maxLength   = Options(rawValue: 1 << 2)
+        
+        static let all: Options = [.valueExists, .validValue, .maxLength]
+    }
+    
     enum Result {
         case success
         case failure(ValidationError)
@@ -15,7 +25,10 @@ extension Input.Validation {
     enum ValidationError: Error {
         case missingValue
         case invalidValue
+        case incorrectLength
     }
+    
+    // MARK: Decodable models
     
     /// Network with validation rules for input fields
     struct Network: Decodable {

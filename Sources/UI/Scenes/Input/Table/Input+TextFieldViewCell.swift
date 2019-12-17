@@ -1,6 +1,10 @@
 #if canImport(UIKit)
 import UIKit
 
+private struct UIConstant {
+    static let defaultSpacing: CGFloat = 8
+}
+
 extension Input {
     /// Cell that represents all text inputs, contains label and text field.
     /// Upon some actions calls `delegate`, don't forget to set it.
@@ -11,6 +15,8 @@ extension Input {
         
         private let label: UILabel
         let textField: UITextField
+        private weak var errorLabel: UILabel?
+        private var bottomConstraint: NSLayoutConstraint?
         
         var indexPath: IndexPath!
         
@@ -35,15 +41,18 @@ extension Input {
             
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-                label.trailingAnchor.constraint(equalTo: textField.leadingAnchor, constant: -8),
+                label.trailingAnchor.constraint(equalTo: textField.leadingAnchor, constant: -UIConstant.defaultSpacing),
                 label.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
                 label.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
                 label.widthAnchor.constraint(equalToConstant: 140),
 
                 textField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-                textField.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: 1),
                 textField.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor)
             ])
+            
+            let bottomConstraint = textField.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+            bottomConstraint.isActive = true
+            self.bottomConstraint = bottomConstraint
         }
         
         required init?(coder: NSCoder) {
@@ -51,6 +60,8 @@ extension Input {
         }
     }
 }
+
+// MARK: - Cell configuration
 
 extension Input.TextFieldViewCell {
     override var canBecomeFirstResponder: Bool { return true }
@@ -75,7 +86,16 @@ extension Input.TextFieldViewCell {
         showValidationResult(for: model)
     }
     
-    private func showValidationResult(for model: Any) {
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
+    }
+}
+
+// MARK: - Validation error label
+
+extension Input.TextFieldViewCell {
+    func showValidationResult(for model: Any) {
+        // If model is not validatable just set a normal text color
         guard let model = model as? Validatable else {
             if #available(iOS 13.0, *) {
                 label.textColor = .label
@@ -87,9 +107,10 @@ extension Input.TextFieldViewCell {
         }
         
         if let errorText = model.validationErrorText {
-            label.textColor = .systemRed
-            print(errorText)
+            showErrorLabel(withText: errorText)
         } else {
+            removeErrorLabel()
+            
             if #available(iOS 13.0, *) {
                 label.textColor = .label
             } else {
@@ -98,10 +119,47 @@ extension Input.TextFieldViewCell {
         }
     }
     
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
+    private func showErrorLabel(withText: String) {
+        if let label = errorLabel {
+            label.text = withText
+            return
+        }
+        
+        let errorLabel = UILabel(frame: .zero)
+        errorLabel.textColor = .systemRed
+        errorLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        errorLabel.text = withText
+        
+        contentView.addSubview(errorLabel)
+        self.errorLabel = errorLabel
+        
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            errorLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
+            errorLabel.trailingAnchor.constraint(equalTo: textField.trailingAnchor),
+            errorLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: UIConstant.defaultSpacing)
+        ])
+        
+        bottomConstraint?.isActive = false
+        
+        let bottomConstraint = errorLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+        bottomConstraint.isActive = true
+        self.bottomConstraint = bottomConstraint
+    }
+    
+    private func removeErrorLabel() {
+        errorLabel?.removeFromSuperview()
+        
+        bottomConstraint?.isActive = false
+        
+        let bottomConstraint = textField.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+        bottomConstraint.isActive = true
+        self.bottomConstraint = bottomConstraint
     }
 }
+
+// MARK: - UITextFieldDelegate
 
 extension Input.TextFieldViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {

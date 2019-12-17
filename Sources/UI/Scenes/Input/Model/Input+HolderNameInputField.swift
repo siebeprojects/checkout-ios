@@ -22,7 +22,7 @@ extension Input.HolderNameInputField: TextInputField {}
 extension Input.HolderNameInputField: Validatable {
     func localize(error: Input.Validation.ValidationError) -> String {
         switch error {
-        case .invalidValue: return translator.translation(forKey: "error.INVALID_HOLDER_NAME")
+        case .invalidValue, .incorrectLength: return translator.translation(forKey: "error.INVALID_HOLDER_NAME")
         case .missingValue: return translator.translation(forKey: "error.MISSING_HOLDER_NAME")
         }
     }

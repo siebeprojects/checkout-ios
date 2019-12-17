@@ -23,7 +23,7 @@ extension Input.GenericInputField: TextInputField {}
 extension Input.GenericInputField: Validatable {
     // FIXME: How to get localization for a unknown fields?
     func localize(error: Input.Validation.ValidationError) -> String {
-        return String()
+        return "<FIXME> No localization"
     }
 }
 

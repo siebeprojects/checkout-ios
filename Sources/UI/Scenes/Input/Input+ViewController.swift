@@ -85,7 +85,6 @@ extension Input.ViewController {
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(PaymentListTableViewCell.self)
-        tableView.rowHeight = 50
         
         view.addSubview(tableView)
 
@@ -147,7 +146,7 @@ extension Input.ViewController {
     }
     
     @objc private func payButtonDidTap() {
-        tableController.validateFields()
+        tableController.validateFields(options: .all)
     }
 }
 

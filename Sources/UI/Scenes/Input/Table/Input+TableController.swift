@@ -21,10 +21,13 @@ extension Input {
             super.init()
         }
         
-        func validateFields() {
+        func validateFields(options: Validation.Options) {
+            // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
+            tableView.endEditing(true)
+            
             for cell in cells {
                 guard let validatable = cell as? Validatable else { continue }
-                validatable.validateAndSaveResult()
+                validatable.validateAndSaveResult(options: options)
             }
             
             tableView.reloadData()
@@ -75,12 +78,12 @@ extension Input.TableController: InputCellDelegate {
     func inputCellDidEndEditing(at indexPath: IndexPath) {
         guard let model = cells[indexPath.row] as? Validatable else { return }
         
-        model.validateAndSaveResult()
+        model.validateAndSaveResult(options: [.validValue, .maxLength])
         tableView.reloadRows(at: [indexPath], with: .none)
     }
     
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
     }
     
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
