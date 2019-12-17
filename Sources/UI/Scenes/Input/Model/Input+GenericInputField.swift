@@ -20,13 +20,6 @@ extension Input {
 
 extension Input.GenericInputField: TextInputField {}
 
-extension Input.GenericInputField: Validatable {
-    // FIXME: How to get localization for a unknown fields?
-    func localize(error: Input.Validation.ValidationError) -> String {
-        return "<FIXME> No localization"
-    }
-}
-
 #if canImport(UIKit)
 import UIKit
 

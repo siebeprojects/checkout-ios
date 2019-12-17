@@ -42,7 +42,7 @@ extension Input.Transformer {
         
         // Transform input fields
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
-        let inputFields = inputElements.map { inputElement -> InputField & CellRepresentable & Validatable in
+        let inputFields = inputElements.map { inputElement -> InputField & CellRepresentable in
             let validationRule = validationRules.first(withType: inputElement.name)
             return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule)
         }
@@ -63,7 +63,7 @@ extension Input.Transformer {
     }
     
     /// Transform `InputElement` to `InputField`
-    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Validation.Rule?) -> InputField & CellRepresentable & Validatable {
+    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Validation.Rule?) -> InputField & CellRepresentable {
         switch (inputElement.name, inputElement.inputElementType) {
         case ("number", .some(.numeric)):
             return Input.AccountNumberInputField(from: inputElement, translator: translator, validationRule: validationRule)
