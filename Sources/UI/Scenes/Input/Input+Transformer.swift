@@ -73,6 +73,10 @@ extension Input.Transformer {
             let field = Input.VerificationCodeField(from: inputElement, translator: translator, validationRule: validationRule)
             verificationCodeFields.append(field)
             return field
+        case ("expiryMonth", .some(.select)):
+            return Input.ExpiryMonthInputField(from: inputElement, translator: translator)
+        case ("expiryYear", .some(.select)):
+            return Input.ExpiryYearInputField(from: inputElement, translator: translator)
         default:
             return Input.GenericInputField(from: inputElement, translator: translator, validationRule: validationRule)
         }

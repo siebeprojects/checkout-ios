@@ -5,21 +5,26 @@ protocol Validatable: class {
     var validationErrorText: String? { get set }
     
     func validateAndSaveResult(options: Input.Validation.Options)
+    func validate(using options: Input.Validation.Options) -> Input.Validation.Result
     func localize(error: Input.Validation.ValidationError) -> String
 }
 
-extension Validatable where Self: TextInputField {
+extension Validatable {
     /// Validate and write result to `validationResult`
     func validateAndSaveResult(options: Input.Validation.Options) {
-        switch validate(options: options) {
+        switch validate(using: options) {
         case .success:
             validationErrorText = nil
         case .failure(let validationError):
             validationErrorText = localize(error: validationError)
         }
     }
-    
-    private func validate(options: Input.Validation.Options) -> Input.Validation.Result {
+}
+
+// MARK: - TextInputField
+
+extension Validatable where Self: TextInputField {
+    func validate(using options: Input.Validation.Options) -> Input.Validation.Result {
         // Value exists
         if options.contains(.valueExists) {
             guard let value = self.value, !value.isEmpty else {
@@ -54,3 +59,33 @@ extension Validatable where Self: TextInputField {
     }
 }
 
+// MARK: - SelectInputField
+
+extension Validatable where Self: SelectInputField {
+    var validationRule: Input.Validation.Rule? { return nil }
+    
+    func validate(using options: Input.Validation.Options) -> Input.Validation.Result {
+        // Value exists
+        if options.contains(.valueExists) {
+            guard let value = self.value, !value.isEmpty else {
+                return .failure(.missingValue)
+            }
+        }
+        
+        // Valid value, we check validity only if value is not empty. If it is empty you want to check it with `.valueExists`
+        if options.contains(.validValue), let value = self.value, !value.isEmpty, let options = inputElement.options {
+            let validLabels: [String] = options.compactMap { selectOption in
+                // Example key: `account.expiryMonth.05`
+                let translationKey = "account." + inputElement.name + "." + selectOption.value
+                guard let translatedLabel = translator.translation(forKey: translationKey) else { return nil }
+                return translatedLabel
+            }
+            
+            guard validLabels.contains(value) else {
+                return .failure(.invalidValue)
+            }
+        }
+        
+        return .success
+    }
+}
