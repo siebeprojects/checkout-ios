@@ -2,6 +2,7 @@
 import UIKit
 
 @objc public final class PaymentListViewContoller: UIViewController {
+    weak var scrollView: UIScrollView?
     weak var methodsTableView: UITableView?
     weak var activityIndicator: UIActivityIndicatorView?
     weak var errorAlertController: UIAlertController?
@@ -59,6 +60,11 @@ import UIKit
             }
         }
     }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableController?.viewDidLayoutSubviews()
+    }
 
     @objc private func cancelButtonDidPress() {
         dismiss(animated: true, completion: nil)
@@ -113,14 +119,21 @@ extension PaymentListViewContoller {
     private func showPaymentMethods(for session: PaymentSession?) {
         guard let session = session else {
             // Hide payment methods
+            scrollView?.removeFromSuperview()
+            scrollView = nil
+            
             methodsTableView?.removeFromSuperview()
             methodsTableView = nil
             tableController = nil
+            
             return
         }
 
         // Show payment methods
-        let methodsTableView = self.addMethodsTableView()
+        let scrollView = addScrollView()
+        self.scrollView = scrollView
+        
+        let methodsTableView = addMethodsTableView(to: scrollView)
         self.methodsTableView = methodsTableView
 
         let tableController = PaymentListTableController(networks: session.networks, translationProvider: sharedTranslationProvider)
@@ -131,6 +144,8 @@ extension PaymentListViewContoller {
         methodsTableView.dataSource = tableController.dataSource
         methodsTableView.delegate = tableController
         methodsTableView.prefetchDataSource = tableController
+        
+        methodsTableView.invalidateIntrinsicContentSize()
     }
 
     private func activityIndicator(isActive: Bool) {
@@ -192,27 +207,55 @@ extension PaymentListViewContoller {
 // MARK: - Table View UI
 
 extension PaymentListViewContoller {
-    fileprivate func addMethodsTableView() -> UITableView {
-        let methodsTableView = UITableView(frame: CGRect.zero, style: .grouped)
+    fileprivate func addScrollView() -> UIScrollView {
+        let scrollView = UIScrollView(frame: .zero)
+        scrollView.alwaysBounceVertical = true
+        scrollView.preservesSuperviewLayoutMargins = true
+        view.addSubview(scrollView)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+        ])
+        
+        return scrollView
+    }
+    
+    fileprivate func addMethodsTableView(to superview: UIView) -> UITableView {
+        let methodsTableView = MethodsListTableView(frame: CGRect.zero, style: .grouped)
+        methodsTableView.separatorStyle = .none
+        methodsTableView.backgroundColor = .clear
         if #available(iOS 11.0, *) {
             methodsTableView.contentInsetAdjustmentBehavior = .never
         } else {
-            // Fallback on earlier versions
-            // FIXME: Check how it looks on iOS 10
+            automaticallyAdjustsScrollViewInsets = false
         }
+
+        // Use that to remove extra spacing at top
+        methodsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
+        
+        methodsTableView.isScrollEnabled = false
         
         configuration.customize?(tableView: methodsTableView)
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
         methodsTableView.register(PaymentListTableViewCell.self)
-        view.addSubview(methodsTableView)
+        superview.addSubview(methodsTableView)
 
         NSLayoutConstraint.activate([
-            methodsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            methodsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            methodsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            methodsTableView.topAnchor.constraint(equalTo: view.topAnchor)
+            methodsTableView.leadingAnchor.constraint(equalTo: superview.layoutMarginsGuide.leadingAnchor),
+            methodsTableView.bottomAnchor.constraint(equalTo: superview.bottomAnchor),
+            methodsTableView.topAnchor.constraint(equalTo: superview.topAnchor),
+            methodsTableView.centerXAnchor.constraint(equalTo: superview.centerXAnchor)
         ])
+        
+        let trailingConstraint = methodsTableView.trailingAnchor.constraint(equalTo: superview.layoutMarginsGuide.trailingAnchor)
+        trailingConstraint.priority = .defaultHigh
+        trailingConstraint.isActive = true
 
         return methodsTableView
     }
