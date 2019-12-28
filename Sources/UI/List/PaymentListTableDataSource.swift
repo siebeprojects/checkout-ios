@@ -24,6 +24,14 @@ class PaymentListTableDataSource: NSObject {
 }
 
 extension PaymentListTableDataSource: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -45,8 +53,17 @@ extension PaymentListTableDataSource: UITableViewDataSource {
         case .networks(let rows):
             let row = rows[indexPath.row]
             let cell = tableView.dequeueReusableCell(PaymentListTableViewCell.self, for: indexPath)
-            cell.textLabel?.text = row.label
-            cell.imageView?.image = row.logoImage
+            cell.networkLabel?.text = row.label
+            cell.networkLogoView?.image = row.logoImage
+            
+            // Set cell position
+            let numberOfRows = self.tableView(tableView, numberOfRowsInSection: indexPath.section)
+            switch indexPath.row {
+            case let row where row == 0: cell.cellIndex = .first
+            case let row where row == numberOfRows - 1: cell.cellIndex = .last
+            default: cell.cellIndex = .middle
+            }
+            
             return cell
         }
     }

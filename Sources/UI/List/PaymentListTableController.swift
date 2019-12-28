@@ -17,6 +17,14 @@ class PaymentListTableController: NSObject {
     init(networks: [PaymentNetwork], translationProvider: SharedTranslationProvider) {
         dataSource = .init(networks: networks, translation: translationProvider)
     }
+    
+    func viewDidLayoutSubviews() {
+        guard let tableView = self.tableView else { return }
+        for cell in tableView.visibleCells {
+            guard let paymentCell = cell as? PaymentListTableViewCell else { continue }
+            paymentCell.viewDidLayoutSubviews()
+        }
+    }
 
     fileprivate func loadLogo(for indexPath: IndexPath) {
         let networks = dataSource.networks(for: indexPath)
