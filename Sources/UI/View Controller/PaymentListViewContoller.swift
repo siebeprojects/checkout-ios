@@ -248,8 +248,8 @@ extension PaymentListViewContoller {
 
         NSLayoutConstraint.activate([
             methodsTableView.leadingAnchor.constraint(equalTo: superview.layoutMarginsGuide.leadingAnchor),
-            methodsTableView.bottomAnchor.constraint(equalTo: superview.bottomAnchor),
-            methodsTableView.topAnchor.constraint(equalTo: superview.topAnchor),
+            methodsTableView.bottomAnchor.constraint(equalTo: superview.layoutMarginsGuide.bottomAnchor),
+            methodsTableView.topAnchor.constraint(equalTo: superview.layoutMarginsGuide.topAnchor),
             methodsTableView.centerXAnchor.constraint(equalTo: superview.centerXAnchor)
         ])
         
