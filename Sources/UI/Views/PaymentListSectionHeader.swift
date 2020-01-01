@@ -17,7 +17,7 @@ class PaymentListSectionHeader: UIView {
         
         NSLayoutConstraint.activate([
             textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            textLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: .topPadding),
+            textLabel.topAnchor.constraint(equalTo: self.topAnchor),
             textLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             textLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])

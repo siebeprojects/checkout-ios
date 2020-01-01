@@ -229,6 +229,7 @@ extension PaymentListViewContoller {
         let methodsTableView = MethodsListTableView(frame: CGRect.zero, style: .grouped)
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
+        
         if #available(iOS 11.0, *) {
             methodsTableView.contentInsetAdjustmentBehavior = .never
         } else {
@@ -246,10 +247,12 @@ extension PaymentListViewContoller {
         methodsTableView.register(PaymentListTableViewCell.self)
         superview.addSubview(methodsTableView)
 
+        let topPadding: CGFloat = 30
+        
         NSLayoutConstraint.activate([
             methodsTableView.leadingAnchor.constraint(equalTo: superview.layoutMarginsGuide.leadingAnchor),
             methodsTableView.bottomAnchor.constraint(equalTo: superview.layoutMarginsGuide.bottomAnchor),
-            methodsTableView.topAnchor.constraint(equalTo: superview.layoutMarginsGuide.topAnchor),
+            methodsTableView.topAnchor.constraint(equalTo: superview.layoutMarginsGuide.topAnchor, constant: topPadding),
             methodsTableView.centerXAnchor.constraint(equalTo: superview.centerXAnchor)
         ])
         

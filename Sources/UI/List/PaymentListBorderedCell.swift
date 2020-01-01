@@ -2,12 +2,9 @@
 import Foundation
 import UIKit
 
-/// Cell for payment method list
+/// Cell with borders.
 /// - Note: set `cellIndex`
-class PaymentListTableViewCell: UITableViewCell, DequeueableTableCell {
-    weak var networkLabel: UILabel?
-    weak var networkLogoView: UIImageView?
-    
+class PaymentListBorderedCell: UITableViewCell {
     weak var outerView: UIView?
     weak var innerView: UIView?
     weak var separatorView: UIView?
@@ -20,7 +17,6 @@ class PaymentListTableViewCell: UITableViewCell, DequeueableTableCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         addBordersViews()
-        addContentViews()
     }
     
     func viewDidLayoutSubviews() {
@@ -35,9 +31,9 @@ class PaymentListTableViewCell: UITableViewCell, DequeueableTableCell {
         let constraint: NSLayoutConstraint
         switch cellIndex {
         case .first, .middle:
-            constraint = separatorView.bottomAnchor.constraint(equalTo: outerView.bottomAnchor, constant: 0)
+            constraint = separatorView.bottomAnchor.constraint(equalTo: outerView.bottomAnchor)
         case .last:
-            constraint = separatorView.topAnchor.constraint(equalTo: outerView.topAnchor, constant: 0)
+            constraint = separatorView.topAnchor.constraint(equalTo: outerView.topAnchor)
         }
         constraint.isActive = true
         self.separatorStickyConstraint = constraint
@@ -52,7 +48,7 @@ class PaymentListTableViewCell: UITableViewCell, DequeueableTableCell {
         }
 
         for view in [innerView, outerView] {
-            let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: 2, height: 2))
+            let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: .cornerRadius, height: .cornerRadius))
             let maskLayer = CAShapeLayer()
             maskLayer.frame = view.bounds
             maskLayer.path = path.cgPath
@@ -67,7 +63,7 @@ class PaymentListTableViewCell: UITableViewCell, DequeueableTableCell {
 
 // MARK: - Content views
 
-extension PaymentListTableViewCell {
+extension PaymentListBorderedCell {
     /// Add border views.
     /// - Description: we create 2 rectangles, outer rectangle will have a border background color, inner background will have a normal background color and it will have 1px spacing between outer one. Result will be a border that we could round.
     // I think it's the best way to create a rounded border around section's content and use dynamic constraints instead of frame calculations. It's iOS10+ way, if requirements will be iOS11+ that could be done easier with `maskedCorners`.
@@ -104,41 +100,12 @@ extension PaymentListTableViewCell {
             
             separatorView.leadingAnchor.constraint(equalTo: outerView.leadingAnchor, constant: 1),
             separatorView.trailingAnchor.constraint(equalTo: outerView.trailingAnchor, constant: -1),
-            separatorView.heightAnchor.constraint(equalToConstant: 1)
+            separatorView.heightAnchor.constraint(equalToConstant: .separatorWidth)
         ])
-    }
-    
-    fileprivate func addContentViews() {
-        let networkLabel = UILabel(frame: .zero)
-        networkLabel.translatesAutoresizingMaskIntoConstraints = false
-        networkLabel.font = .preferredFont(forTextStyle: .body)
-        networkLabel.textColor = .text
-        contentView.addSubview(networkLabel)
-        self.networkLabel = networkLabel
-        
-        let networkLogoView = UIImageView(image: nil)
-        networkLogoView.translatesAutoresizingMaskIntoConstraints = false
-        networkLogoView.contentMode = .scaleAspectFit
-        contentView.addSubview(networkLogoView)
-        self.networkLogoView = networkLogoView
-        
-        NSLayoutConstraint.activate([
-            networkLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: .labelToLeftSeparatorSpacing),
-            networkLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            networkLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            networkLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            
-            networkLogoView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            networkLogoView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            networkLogoView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            networkLogoView.trailingAnchor.constraint(equalTo: networkLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)
-        ])
-        
-        networkLogoView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 }
 
-extension PaymentListTableViewCell {
+extension PaymentListBorderedCell {
     enum CellIndex {
         case first
         case middle
@@ -168,8 +135,6 @@ private extension UIColor {
 
 private extension CGFloat {
     static var separatorWidth: CGFloat { return 1 }
-    static var labelToLeftSeparatorSpacing: CGFloat { return 68 }
-    static var defaultSpacing: CGFloat { return 8 }
+    static var cornerRadius: CGFloat { return 2 }
 }
-
 #endif
