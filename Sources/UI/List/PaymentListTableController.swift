@@ -63,5 +63,11 @@ extension PaymentListTableController: UITableViewDelegate {
         let selectedNetworks = dataSource.networks(for: indexPath)
         delegate?.didSelect(paymentNetworks: selectedNetworks)
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = PaymentListSectionHeader(frame: .zero)
+        view.textLabel?.text = tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: section)
+        return view
+    }
 }
 #endif
