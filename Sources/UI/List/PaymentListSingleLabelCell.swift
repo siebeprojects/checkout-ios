@@ -4,7 +4,7 @@ import UIKit
 
 /// Cell for payment method list
 /// - Note: set `cellIndex`
-final class PaymentListTableViewCell: PaymentListBorderedCell, DequeueableTableCell {
+final class PaymentListSingleLabelCell: PaymentListBorderedCell, DequeueableTableCell {
     weak var networkLabel: UILabel?
     weak var networkLogoView: UIImageView?
     
@@ -21,7 +21,7 @@ final class PaymentListTableViewCell: PaymentListBorderedCell, DequeueableTableC
 
 // MARK: - Content views
 
-extension PaymentListTableViewCell {
+extension PaymentListSingleLabelCell {
     fileprivate func addContentViews() {
         let networkLabel = UILabel(frame: .zero)
         networkLabel.translatesAutoresizingMaskIntoConstraints = false

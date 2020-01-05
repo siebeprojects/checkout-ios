@@ -25,7 +25,7 @@ import UIKit
         sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
         configuration = tableConfiguration
         self.sharedTranslationProvider = sharedTranslationProvider
-
+        
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -229,6 +229,7 @@ extension PaymentListViewContoller {
         let methodsTableView = MethodsListTableView(frame: CGRect.zero, style: .grouped)
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
+        methodsTableView.rowHeight = .rowHeight
         
         if #available(iOS 11.0, *) {
             methodsTableView.contentInsetAdjustmentBehavior = .never
@@ -244,7 +245,8 @@ extension PaymentListViewContoller {
         configuration.customize?(tableView: methodsTableView)
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
-        methodsTableView.register(PaymentListTableViewCell.self)
+        methodsTableView.register(PaymentListSingleLabelCell.self)
+        methodsTableView.register(PaymentListDetailedLabelCell.self)
         superview.addSubview(methodsTableView)
 
         let topPadding: CGFloat = 30
@@ -274,4 +276,7 @@ extension PaymentListViewContoller: PaymentListTableControllerDelegate {
     }
 }
 
+extension CGFloat {
+    static var rowHeight: CGFloat { return 64 }
+}
 #endif

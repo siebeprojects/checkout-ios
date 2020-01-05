@@ -9,9 +9,25 @@ class PaymentListTableDataSource: NSObject {
     init(networks: [PaymentNetwork], translation: SharedTranslationProvider) {
         self.translationProvider = translation
         
+        // Make an internal model
         let groupedNetworks = GroupingService().group(networks: networks)
-        let rows = groupedNetworks.map { Row(networks: $0) }
-        sections = [.networks(rows)]
+        
+        var singleRows = [SingleRow]()
+        var detailedRows = [DetailedRow]()
+        
+        for networks in groupedNetworks {
+            guard !networks.isEmpty else { continue }
+            
+            if networks.count == 1, let network = networks.first {
+                let row = SingleRow(network: network)
+                singleRows.append(row)
+            } else {
+                let row = DetailedRow(networks: networks)
+                detailedRows.append(row)
+            }
+        }
+        
+        sections = [.networks(rows: detailedRows + singleRows)]
     }
     
     func networks(for indexPath: IndexPath) -> [PaymentNetwork] {
@@ -23,15 +39,9 @@ class PaymentListTableDataSource: NSObject {
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension PaymentListTableDataSource: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -52,12 +62,45 @@ extension PaymentListTableDataSource: UITableViewDataSource {
         switch sections[indexPath.section] {
         case .networks(let rows):
             let row = rows[indexPath.row]
-            let cell = tableView.dequeueReusableCell(PaymentListTableViewCell.self, for: indexPath)
-            cell.networkLabel?.text = row.label
-            cell.networkLogoView?.image = row.logoImage
+            let cell = row.dequeueConfiguredReusableCell(for: tableView, at: indexPath)
+            return cell
+        }
+    }
+}
+
+// MARK: - Table's model
+
+protocol PaymentListTableRow {
+    var networks: [PaymentNetwork] { get }
+    
+    func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell
+}
+
+extension PaymentListTableDataSource {
+    fileprivate enum Section {
+        case networks(rows: [PaymentListTableRow])
+    }
+
+    // MARK: Single row
+    
+    /// Row for a single network
+    class SingleRow: PaymentListTableRow {
+        let network: PaymentNetwork
+        var networks: [PaymentNetwork] { return [network] }
+        
+        init(network: PaymentNetwork) {
+            self.network = network
+        }
+        
+        func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(PaymentListSingleLabelCell.self, for: indexPath)
+            
+            // Set model
+            cell.networkLabel?.text = network.label
+            cell.networkLogoView?.image = network.logo?.image
             
             // Set cell position
-            let numberOfRows = self.tableView(tableView, numberOfRowsInSection: indexPath.section)
+            let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
             switch indexPath.row {
             case let row where row == 0: cell.cellIndex = .first
             case let row where row == numberOfRows - 1: cell.cellIndex = .last
@@ -69,33 +112,54 @@ extension PaymentListTableDataSource: UITableViewDataSource {
             return cell
         }
     }
-}
-
-// MARK: - Table's model
-
-private enum Section {
-    case networks([Row])
-}
-
-private class Row {
-    let networks: [PaymentNetwork]
     
-    var label: String {
-        let labels = networks.map { $0.label }
-        return labels.joined(separator: ", ")
-    }
+    // MARK: Detailed row
     
-    var logoImage: UIImage? {
-        if let network = networks.first, networks.count == 1 {
-            // if row has only 1 network
-            return network.logo?.image
-        } else {
-            return nil
+    /// Row for a combined network, containing primary and secondary labels
+    class DetailedRow: PaymentListTableRow {
+        let networks: [PaymentNetwork]
+
+        private var primaryLabel: String {
+            guard let firstNetwork = networks.first else {
+                return String()
+            }
+            
+            return firstNetwork.translation.translation(forKey: LocalTranslation.creditCard.rawValue)
         }
-    }
-    
-    init(networks: [PaymentNetwork]) {
-        self.networks = networks
+        
+        private var secondaryLabel: String {
+            let labels = networks.map { $0.label }
+            return labels.joined(separator: " / ")
+        }
+        
+        private var logoImages: [UIImage] {
+            return networks.compactMap { $0.logo?.image }
+        }
+        
+        init(networks: [PaymentNetwork]) {
+            self.networks = networks
+        }
+        
+        func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(PaymentListDetailedLabelCell.self, for: indexPath)
+            
+            // Set model
+            cell.primaryLabel?.text = primaryLabel
+            cell.secondaryLabel?.text = secondaryLabel
+            cell.setImages(logoImages)
+            
+            // Set cell position
+            let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
+            switch indexPath.row {
+            case let row where row == 0: cell.cellIndex = .first
+            case let row where row == numberOfRows - 1: cell.cellIndex = .last
+            default: cell.cellIndex = .middle
+            }
+            
+            cell.accessoryType = .disclosureIndicator
+            
+            return cell
+        }
     }
 }
 #endif

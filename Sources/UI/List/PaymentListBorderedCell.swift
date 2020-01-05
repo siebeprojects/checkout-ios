@@ -25,7 +25,7 @@ class PaymentListBorderedCell: UITableViewCell {
 
         // Stick separator to top or bottom
         if let constraint = separatorStickyConstraint {
-            outerView.removeConstraint(constraint)
+            separatorView.removeConstraint(constraint)
         }
 
         let constraint: NSLayoutConstraint

@@ -84,7 +84,7 @@ extension Input.ViewController {
         }
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(PaymentListTableViewCell.self)
+        tableView.register(PaymentListSingleLabelCell.self)
         
         view.addSubview(tableView)
 

@@ -21,7 +21,7 @@ class PaymentListTableController: NSObject {
     func viewDidLayoutSubviews() {
         guard let tableView = self.tableView else { return }
         for cell in tableView.visibleCells {
-            guard let paymentCell = cell as? PaymentListTableViewCell else { continue }
+            guard let paymentCell = cell as? PaymentListBorderedCell else { continue }
             paymentCell.viewDidLayoutSubviews()
         }
     }
@@ -37,7 +37,7 @@ class PaymentListTableController: NSObject {
                 network.logo = .loaded(result)
 
                 // Don't reload rows if multiple networks (we don't show logos for now for them)
-                guard networks.count == 1 else { return }
+                // TODO: Potential multiple updates for a single cell
                 DispatchQueue.main.async {
                     self?.tableView?.reloadRows(at: [indexPath], with: .fade)
                 }
