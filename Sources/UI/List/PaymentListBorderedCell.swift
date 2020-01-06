@@ -61,7 +61,7 @@ class PaymentListBorderedCell: UITableViewCell {
     }
 }
 
-// MARK: - Content views
+// MARK: - Views
 
 extension PaymentListBorderedCell {
     /// Add border views.
@@ -69,6 +69,7 @@ extension PaymentListBorderedCell {
     // I think it's the best way to create a rounded border around section's content and use dynamic constraints instead of frame calculations. It's iOS10+ way, if requirements will be iOS11+ that could be done easier with `maskedCorners`.
     fileprivate func addBordersViews() {
         let outerView = UIView(frame: .zero)
+        self.backgroundView = outerView
         outerView.translatesAutoresizingMaskIntoConstraints = false
         outerView.backgroundColor = .border
         addSubview(outerView)
@@ -102,6 +103,28 @@ extension PaymentListBorderedCell {
             separatorView.trailingAnchor.constraint(equalTo: outerView.trailingAnchor, constant: -1),
             separatorView.heightAnchor.constraint(equalToConstant: .separatorWidth)
         ])
+        
+        addSelectedBackgroundView()
+    }
+    
+    private func addSelectedBackgroundView() {
+        let selectedBackgroundView = UIView(frame: .zero)
+        selectedBackgroundView.backgroundColor = .clear
+        self.selectedBackgroundView = selectedBackgroundView
+        
+        let viewWithPaddings = UIView(frame: .zero)
+        viewWithPaddings.backgroundColor = UIColor.separator.withAlphaComponent(0.5)
+        selectedBackgroundView.addSubview(viewWithPaddings)
+        
+        viewWithPaddings.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            viewWithPaddings.leadingAnchor.constraint(equalTo: selectedBackgroundView.leadingAnchor),
+            viewWithPaddings.topAnchor.constraint(equalTo: selectedBackgroundView.topAnchor),
+            // Have to be the same as outer's view bottom anchor constant
+            viewWithPaddings.bottomAnchor.constraint(equalTo: selectedBackgroundView.bottomAnchor, constant: 1),
+            viewWithPaddings.trailingAnchor.constraint(equalTo: selectedBackgroundView.trailingAnchor)
+        ])
     }
 }
 
@@ -130,6 +153,11 @@ private extension UIColor {
         } else {
             return .white
         }
+    }
+    
+    class var selected: UIColor {
+        // FIXME: I don't know the selected color
+        return UIColor.lightGray
     }
 }
 
