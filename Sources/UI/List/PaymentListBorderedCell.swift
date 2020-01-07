@@ -156,8 +156,7 @@ private extension UIColor {
     }
     
     class var selected: UIColor {
-        // FIXME: I don't know the selected color
-        return UIColor.lightGray
+        return UIColor(red: 242, green: 242, blue: 242, alpha: 1)
     }
 }
 
