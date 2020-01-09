@@ -64,13 +64,13 @@ extension PaymentListDetailedLabelCell {
         
         NSLayoutConstraint.activate([
             primaryLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leadingAnchor, constant: .labelToLeftSeparatorSpacing),
-            primaryLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: .verticalSpacing / 2),
-            primaryLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
+            primaryLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor),
+            primaryLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor, constant: .verticalSpacing / -2),
             primaryLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
 
             secondaryLabel.leadingAnchor.constraint(equalTo: logosStackView.trailingAnchor, constant: .defaultSpacing * 2),
-            secondaryLabel.topAnchor.constraint(equalTo: contentView.centerYAnchor, constant: .verticalSpacing / -2),
-            secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor, constant: .verticalSpacing),
+            secondaryLabel.topAnchor.constraint(equalTo: contentView.centerYAnchor, constant: .verticalSpacing / 2),
+            secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor),
             secondaryLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             
             logosStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
@@ -86,6 +86,6 @@ extension PaymentListDetailedLabelCell {
 private extension CGFloat {
     static var labelToLeftSeparatorSpacing: CGFloat { return 68 }
     static var defaultSpacing: CGFloat { return 8 }
-    static var verticalSpacing: CGFloat { return 12 }
+    static var verticalSpacing: CGFloat { return 4 }
 }
 #endif
