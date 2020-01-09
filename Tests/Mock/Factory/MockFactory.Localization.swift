@@ -1,5 +1,5 @@
 import Foundation
-@testable import Payment
+@testable import Optile
 
 extension MockFactory {
     class Localization {

@@ -1,5 +1,5 @@
 import UIKit
-import Payment
+import Optile
 
 class ViewController: UIViewController {
 

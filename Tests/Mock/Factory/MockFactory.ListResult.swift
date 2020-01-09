@@ -1,5 +1,5 @@
 import Foundation
-@testable import Payment
+@testable import Optile
 
 extension MockFactory {
     class ListResult {
@@ -10,7 +10,7 @@ extension MockFactory {
 extension MockFactory.ListResult {
     static var paymentSession: PaymentSession {
         let listResultData = listResult.data(using: .utf8)!
-        let listResult = try! JSONDecoder().decode(Payment.ListResult.self, from: listResultData)
+        let listResult = try! JSONDecoder().decode(Optile.ListResult.self, from: listResultData)
 
         var paymentNetworks = [PaymentNetwork]()
         for network in listResult.networks.applicable {

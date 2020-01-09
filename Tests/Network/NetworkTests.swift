@@ -1,5 +1,5 @@
 import XCTest
-@testable import Payment
+@testable import Optile
 
 final class NetworkTests: XCTestCase {
     func testGetListResult() {
