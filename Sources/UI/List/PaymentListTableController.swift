@@ -14,8 +14,12 @@ class PaymentListTableController: NSObject {
 
     let dataSource: PaymentListTableDataSource
     
-    init(networks: [PaymentNetwork], translationProvider: SharedTranslationProvider) {
-        dataSource = .init(networks: networks, translation: translationProvider)
+    init(networks: [PaymentNetwork], translationProvider: SharedTranslationProvider) throws {
+        guard let genericLogo = AssetProvider.iconCard else {
+            throw InternalError(description: "Unable to load a credit card's generic icon")
+        }
+        
+        dataSource = .init(networks: networks, translation: translationProvider, genericLogo: genericLogo)
     }
     
     func viewDidLayoutSubviews() {

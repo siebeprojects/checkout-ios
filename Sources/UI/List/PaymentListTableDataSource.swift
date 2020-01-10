@@ -6,7 +6,7 @@ class PaymentListTableDataSource: NSObject {
     private let sections: [Section]
     private let translationProvider: TranslationProvider
     
-    init(networks: [PaymentNetwork], translation: SharedTranslationProvider) {
+    init(networks: [PaymentNetwork], translation: SharedTranslationProvider, genericLogo: UIImage) {
         self.translationProvider = translation
         
         // Make an internal model
@@ -22,7 +22,7 @@ class PaymentListTableDataSource: NSObject {
                 let row = SingleRow(network: network)
                 singleRows.append(row)
             } else {
-                let row = DetailedRow(networks: networks)
+                let row = DetailedRow(networks: networks, genericLogo: genericLogo)
                 detailedRows.append(row)
             }
         }
@@ -39,7 +39,7 @@ class PaymentListTableDataSource: NSObject {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: UITableViewDataSource
 
 extension PaymentListTableDataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -80,86 +80,134 @@ extension PaymentListTableDataSource {
     fileprivate enum Section {
         case networks(rows: [PaymentListTableRow])
     }
+}
 
-    // MARK: Single row
-    
+// MARK: - Single row
+
+extension PaymentListTableDataSource {
     /// Row for a single network
-    class SingleRow: PaymentListTableRow {
+    class SingleRow {
         let network: PaymentNetwork
         var networks: [PaymentNetwork] { return [network] }
-        
+
         init(network: PaymentNetwork) {
             self.network = network
         }
-        
-        func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(PaymentListSingleLabelCell.self, for: indexPath)
-            
-            // Set model
-            cell.networkLabel?.text = network.label
-            cell.networkLogoView?.image = network.logo?.image
-            
-            // Set cell position
-            let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
-            switch indexPath.row {
-            case let row where row == 0: cell.cellIndex = .first
-            case let row where row == numberOfRows - 1: cell.cellIndex = .last
-            default: cell.cellIndex = .middle
-            }
-            
-            cell.accessoryType = .disclosureIndicator
-            
-            return cell
-        }
     }
-    
-    // MARK: Detailed row
-    
+}
+
+extension PaymentListTableDataSource.SingleRow: PaymentListTableRow {
+    func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(PaymentListSingleLabelCell.self, for: indexPath)
+
+        // Set model
+        cell.networkLabel?.text = network.label
+        cell.networkLogoView?.image = network.logo?.image
+
+        // Set cell position
+        let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
+        switch indexPath.row {
+        case let row where row == 0: cell.cellIndex = .first
+        case let row where row == numberOfRows - 1: cell.cellIndex = .last
+        default: cell.cellIndex = .middle
+        }
+
+        cell.accessoryType = .disclosureIndicator
+
+        return cell
+    }
+}
+
+// MARK: - Detailed row
+
+extension PaymentListTableDataSource {
     /// Row for a combined network, containing primary and secondary labels
-    class DetailedRow: PaymentListTableRow {
+    class DetailedRow {
         let networks: [PaymentNetwork]
 
-        private var primaryLabel: String {
-            guard let firstNetwork = networks.first else {
-                return String()
-            }
-            
-            return firstNetwork.translation.translation(forKey: LocalTranslation.creditCard.rawValue)
-        }
+        private let genericLogo: UIImage
+        private var maxDisplayableLogos = 2
         
-        private var secondaryLabel: String {
-            let labels = networks.map { $0.label }
-            return labels.joined(separator: " / ")
-        }
-        
-        private var logoImages: [UIImage] {
-            return networks.compactMap { $0.logo?.image }
-        }
-        
-        init(networks: [PaymentNetwork]) {
+        init(networks: [PaymentNetwork], genericLogo: UIImage) {
             self.networks = networks
+            self.genericLogo = genericLogo
+        }
+    }
+}
+
+// MARK: Computed variables
+
+extension PaymentListTableDataSource.DetailedRow {
+    private var primaryLabel: String {
+        guard let firstNetwork = networks.first else {
+            return String()
         }
         
-        func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(PaymentListDetailedLabelCell.self, for: indexPath)
-            
-            // Set model
-            cell.primaryLabel?.text = primaryLabel
-            cell.secondaryLabel?.text = secondaryLabel
-            cell.setImages(logoImages)
-            
-            // Set cell position
-            let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
-            switch indexPath.row {
-            case let row where row == 0: cell.cellIndex = .first
-            case let row where row == numberOfRows - 1: cell.cellIndex = .last
-            default: cell.cellIndex = .middle
-            }
-            
-            cell.accessoryType = .disclosureIndicator
-            
-            return cell
+        return firstNetwork.translation.translation(forKey: LocalTranslation.creditCard.rawValue)
+    }
+    
+    private var secondaryLabel: String {
+        let labels = networks.map { $0.label }
+        return labels.joined(separator: " / ")
+    }
+    
+    private var logoImages: [UIImage] {
+        if networks.count > maxDisplayableLogos {
+            return [genericLogo]
         }
+        
+        var allLogos = [UIImage]()
+        
+        for network in networks {
+            switch network.logo {
+            // Network doesn't have a logo, we don't want to show "some" logos that may confuse an user, show a generic icon
+            case .none: return [genericLogo]
+                
+            // Logo is being downloadedd, just show an empty space to avoid flickering
+            case .notLoaded: return .init()
+                
+            case .loaded(let loadResult):
+                switch loadResult {
+                // Logo was failed to download, show a generic logo, don't show "some" logos
+                case .failure: return [genericLogo]
+                    
+                // Checks were passed, add logo to a stack
+                case .success(let imageData):
+                    guard let image = UIImage(data: imageData) else {
+                        return [genericLogo]
+                    }
+                    
+                    allLogos.append(image)
+                }
+            }
+        }
+        
+        return allLogos
+    }
+}
+
+// MARK: PaymentListTableRow
+
+extension PaymentListTableDataSource.DetailedRow: PaymentListTableRow {
+    func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(PaymentListDetailedLabelCell.self, for: indexPath)
+        
+        // Set model
+        cell.primaryLabel?.text = primaryLabel
+        cell.secondaryLabel?.text = secondaryLabel
+        cell.setImages(logoImages)
+        
+        // Set cell position
+        let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
+        switch indexPath.row {
+        case let row where row == 0: cell.cellIndex = .first
+        case let row where row == numberOfRows - 1: cell.cellIndex = .last
+        default: cell.cellIndex = .middle
+        }
+        
+        cell.accessoryType = .disclosureIndicator
+        
+        return cell
     }
 }
 #endif

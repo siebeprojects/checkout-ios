@@ -102,21 +102,33 @@ extension PaymentListViewContoller {
     fileprivate func changeState(to state: Load<PaymentSession, Error>) {
         switch state {
         case .success(let session):
-            activityIndicator(isActive: false)
-            showPaymentMethods(for: session)
-            presentError(nil)
+            do {
+                activityIndicator(isActive: false)
+                try showPaymentMethods(for: session)
+                presentError(nil)
+            } catch {
+                changeState(to: .failure(error))
+            }
         case .loading:
-            activityIndicator(isActive: true)
-            showPaymentMethods(for: nil)
-            presentError(nil)
+            do {
+                activityIndicator(isActive: true)
+                try showPaymentMethods(for: nil)
+                presentError(nil)
+            } catch {
+               changeState(to: .failure(error))
+           }
         case .failure(let error):
-            activityIndicator(isActive: true)
-            showPaymentMethods(for: nil)
-            presentError(error)
+            do {
+                activityIndicator(isActive: true)
+                try showPaymentMethods(for: nil)
+                presentError(error)
+            } catch {
+                changeState(to: .failure(error))
+            }
         }
     }
 
-    private func showPaymentMethods(for session: PaymentSession?) {
+    private func showPaymentMethods(for session: PaymentSession?) throws {
         guard let session = session else {
             // Hide payment methods
             scrollView?.removeFromSuperview()
@@ -136,7 +148,7 @@ extension PaymentListViewContoller {
         let methodsTableView = addMethodsTableView(to: scrollView)
         self.methodsTableView = methodsTableView
 
-        let tableController = PaymentListTableController(networks: session.networks, translationProvider: sharedTranslationProvider)
+        let tableController = try PaymentListTableController(networks: session.networks, translationProvider: sharedTranslationProvider)
         tableController.tableView = methodsTableView
         tableController.delegate = self
         self.tableController = tableController

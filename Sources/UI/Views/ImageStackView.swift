@@ -14,9 +14,10 @@ class ImageStackView: UIStackView {
         for image in images {
             let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFit
-            imageView.backgroundColor = .gray
             
             addArrangedSubview(imageView)
+            
+            guard image.size.height != 0 else { continue }
             
             // Eliminate a free space around the image
             let imageAspectRatio = image.size.width / image.size.height

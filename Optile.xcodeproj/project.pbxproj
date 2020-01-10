@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D943F10623C7E9E500E31100 /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D943F10523C7E9E500E31100 /* AssetProvider.swift */; };
+		D943F10923C7EFC100E31100 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D943F10723C7EA6900E31100 /* Media.xcassets */; };
 		OBJ_159 /* InternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* InternalError.swift */; };
 		OBJ_160 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* log.swift */; };
 		OBJ_161 /* LocalTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* LocalTranslation.swift */; };
@@ -146,6 +148,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D943F10523C7E9E500E31100 /* AssetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
+		D943F10723C7EA6900E31100 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		OBJ_10 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		OBJ_100 /* Selectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
 		OBJ_101 /* TextInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
@@ -275,6 +279,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D943F10223C7E85400E31100 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				D943F10723C7EA6900E31100 /* Media.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		OBJ_103 /* Table */ = {
 			isa = PBXGroup;
 			children = (
@@ -548,6 +560,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_57 /* RawProvider.swift */,
+				D943F10523C7E9E500E31100 /* AssetProvider.swift */,
 				OBJ_58 /* groups.json.swift */,
 				OBJ_59 /* validations.json.swift */,
 			);
@@ -602,6 +615,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D943F10223C7E85400E31100 /* Assets */,
 				OBJ_8 /* Core */,
 				OBJ_11 /* Localization */,
 				OBJ_18 /* Model */,
@@ -702,6 +716,7 @@
 			buildPhases = (
 				OBJ_158 /* Sources */,
 				OBJ_249 /* Frameworks */,
+				D943F10823C7EFB900E31100 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -772,6 +787,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		D943F10823C7EFB900E31100 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D943F10923C7EFC100E31100 /* Media.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_158 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -832,6 +858,7 @@
 				OBJ_211 /* DequeueableTableCell.swift in Sources */,
 				OBJ_212 /* KeyboardChangeFrameObserver.swift in Sources */,
 				OBJ_213 /* Input+SmartSwitch.swift in Sources */,
+				D943F10623C7E9E500E31100 /* AssetProvider.swift in Sources */,
 				OBJ_214 /* Input+Transformer.swift in Sources */,
 				OBJ_215 /* Input+Validation.swift in Sources */,
 				OBJ_216 /* Input+ViewController.swift in Sources */,
