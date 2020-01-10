@@ -2,7 +2,7 @@
 import Foundation
 import UIKit
 
-/// Cell for payment method list
+/// Cell with multiple images, primary and secondary labels.
 /// - Note: set `cellIndex`
 final class PaymentListDetailedLabelCell: PaymentListBorderedCell, DequeueableTableCell {
     weak var primaryLabel: UILabel?
@@ -51,7 +51,7 @@ extension PaymentListDetailedLabelCell {
         contentView.addSubview(logosStackView)
         self.logosStackView = logosStackView
         
-        // UI
+        // Layout
         
         let logoStackViewTralingConstraint = logosStackView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)
         

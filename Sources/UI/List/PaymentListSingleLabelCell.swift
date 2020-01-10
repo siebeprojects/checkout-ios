@@ -2,7 +2,7 @@
 import Foundation
 import UIKit
 
-/// Cell for payment method list
+/// Cell with one image and one label.
 /// - Note: set `cellIndex`
 final class PaymentListSingleLabelCell: PaymentListBorderedCell, DequeueableTableCell {
     weak var networkLabel: UILabel?

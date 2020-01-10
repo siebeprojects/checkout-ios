@@ -85,7 +85,7 @@ extension PaymentListTableDataSource {
 // MARK: - Single row
 
 extension PaymentListTableDataSource {
-    /// Row for a single network
+    /// Model for a single network.
     class SingleRow {
         let network: PaymentNetwork
         var networks: [PaymentNetwork] { return [network] }
@@ -121,7 +121,7 @@ extension PaymentListTableDataSource.SingleRow: PaymentListTableRow {
 // MARK: - Detailed row
 
 extension PaymentListTableDataSource {
-    /// Row for a combined network, containing primary and secondary labels
+    /// Row for a combined network, containing primary and secondary labels.
     class DetailedRow {
         let networks: [PaymentNetwork]
 

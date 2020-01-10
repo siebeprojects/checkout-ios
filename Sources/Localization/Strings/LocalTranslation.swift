@@ -47,7 +47,8 @@ enum LocalTranslation: String, CaseIterable {
         case .buttonCancel: return "Cancel"
         case .buttonRetry: return "Retry"
         case .buttonUpdate: return "Update"
-            
+        
+        // iOS only
         case .creditCard: return "Credit card"
         }
     }

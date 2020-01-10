@@ -1,6 +1,7 @@
 #if canImport(UIKit)
 import UIKit
 
+/// UIStackView with proportionally scaled images with support of `intrinsicContentSize`.
 class ImageStackView: UIStackView {
     let imagesTintColor: UIColor
     
