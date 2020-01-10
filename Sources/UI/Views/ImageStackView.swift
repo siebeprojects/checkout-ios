@@ -2,6 +2,17 @@
 import UIKit
 
 class ImageStackView: UIStackView {
+    let imagesTintColor: UIColor
+    
+    init(frame: CGRect, imagesTintColor: UIColor) {
+        self.imagesTintColor = imagesTintColor
+        super.init(frame: frame)
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     var images = [UIImage]() {
         didSet {
             setImages(images)
@@ -14,6 +25,7 @@ class ImageStackView: UIStackView {
         for image in images {
             let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFit
+            imageView.tintColor = imagesTintColor
             
             addArrangedSubview(imageView)
             

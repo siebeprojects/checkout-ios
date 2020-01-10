@@ -43,7 +43,7 @@ extension PaymentListDetailedLabelCell {
         contentView.addSubview(secondaryLabel)
         self.secondaryLabel = secondaryLabel
     
-        let logosStackView = ImageStackView(frame: .zero)
+        let logosStackView = ImageStackView(frame: .zero, imagesTintColor: .detailedText)
         logosStackView.translatesAutoresizingMaskIntoConstraints = false
         logosStackView.axis = .horizontal
         logosStackView.distribution = .fillProportionally
