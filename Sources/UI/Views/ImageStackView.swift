@@ -27,13 +27,16 @@ class ImageStackView: UIStackView {
             imageView.contentMode = .scaleAspectFit
             imageView.tintColor = imagesTintColor
             
+            imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+            
             addArrangedSubview(imageView)
             
             guard image.size.height != 0 else { continue }
             
             // Eliminate a free space around the image
             let imageAspectRatio = image.size.width / image.size.height
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: imageAspectRatio).isActive = true
+            imageView.widthAnchor.constraint(lessThanOrEqualTo: imageView.heightAnchor, multiplier: imageAspectRatio).isActive = true
         }
         
         invalidateIntrinsicContentSize()
