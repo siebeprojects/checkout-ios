@@ -39,12 +39,8 @@ extension Input.SmartSwitch {
     /// Provides SmartSwitch rules
     class Provider {
         func getRules() throws -> [Rule] {
-            let jsonString = RawProvider.groupsJSON
-            guard let jsonData = jsonString.data(using: .utf8) else {
-                throw InternalError(description: "Unable to encode string to data")
-            }
-            
-            let root = try JSONDecoder().decode(Root.self, from: jsonData)
+            let groupingData = try AssetProvider.getGroupingRulesData()
+            let root = try JSONDecoder().decode(Root.self, from: groupingData)
             return root.items
         }
     }

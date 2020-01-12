@@ -17,7 +17,7 @@ class ViewController: UIViewController {
             return
         }
 
-        let viewController = PaymentListViewContoller(listResultURL: url)
+        let viewController = List.ViewController(listResultURL: url)
         let navigationController = PaymentNavigationController(rootViewController: viewController)
         present(navigationController, animated: true, completion: nil)
     }

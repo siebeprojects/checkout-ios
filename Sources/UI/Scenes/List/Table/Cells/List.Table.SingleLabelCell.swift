@@ -2,26 +2,28 @@
 import Foundation
 import UIKit
 
-/// Cell with one image and one label.
-/// - Note: set `cellIndex`
-final class PaymentListSingleLabelCell: PaymentListBorderedCell, DequeueableTableCell {
-    weak var networkLabel: UILabel?
-    weak var networkLogoView: UIImageView?
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+extension List.Table {
+    /// Cell with one image and one label.
+    /// - Note: set `cellIndex`
+    final class SingleLabelCell: List.Table.BorderedCell, DequeueableTableCell {
+        weak var networkLabel: UILabel?
+        weak var networkLogoView: UIImageView?
         
-        addContentViews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            
+            addContentViews()
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
 }
 
 // MARK: - Content views
 
-extension PaymentListSingleLabelCell {
+extension List.Table.SingleLabelCell {
     fileprivate func addContentViews() {
         let networkLabel = UILabel(frame: .zero)
         networkLabel.translatesAutoresizingMaskIntoConstraints = false

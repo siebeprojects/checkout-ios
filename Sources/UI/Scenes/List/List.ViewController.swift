@@ -1,38 +1,42 @@
 #if canImport(UIKit)
 import UIKit
 
-@objc public final class PaymentListViewContoller: UIViewController {
-    weak var scrollView: UIScrollView?
-    weak var methodsTableView: UITableView?
-    weak var activityIndicator: UIActivityIndicatorView?
-    weak var errorAlertController: UIAlertController?
+extension List {
+    @objc public final class ViewController: UIViewController {
+        weak var scrollView: UIScrollView?
+        weak var methodsTableView: UITableView?
+        weak var activityIndicator: UIActivityIndicatorView?
+        weak var errorAlertController: UIAlertController?
 
-    let configuration: PaymentListParameters
-    let sessionService: PaymentSessionService
-    fileprivate(set) var tableController: PaymentListTableController?
-    let sharedTranslationProvider: SharedTranslationProvider
+        let configuration: PaymentListParameters
+        let sessionService: PaymentSessionService
+        fileprivate(set) var tableController: List.Table.Controller?
+        let sharedTranslationProvider: SharedTranslationProvider
 
-    /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
-    /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
-    @objc public convenience init(tableConfiguration: PaymentListParameters = DefaultPaymentListParameters(), listResultURL: URL) {
-        let sharedTranslationProvider = SharedTranslationProvider()
-        let connection = URLSessionConnection()
+        /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
+        /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
+        @objc public convenience init(tableConfiguration: PaymentListParameters = DefaultPaymentListParameters(), listResultURL: URL) {
+            let sharedTranslationProvider = SharedTranslationProvider()
+            let connection = URLSessionConnection()
 
-        self.init(tableConfiguration: tableConfiguration, listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider)
+            self.init(tableConfiguration: tableConfiguration, listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider)
+        }
+
+        init(tableConfiguration: PaymentListParameters, listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
+            sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
+            configuration = tableConfiguration
+            self.sharedTranslationProvider = sharedTranslationProvider
+            
+            super.init(nibName: nil, bundle: nil)
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
+}
 
-    init(tableConfiguration: PaymentListParameters, listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
-        sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
-        configuration = tableConfiguration
-        self.sharedTranslationProvider = sharedTranslationProvider
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+extension List.ViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
@@ -98,7 +102,7 @@ import UIKit
 
 // MARK: - View state management
 
-extension PaymentListViewContoller {
+extension List.ViewController {
     fileprivate func changeState(to state: Load<PaymentSession, Error>) {
         switch state {
         case .success(let session):
@@ -148,7 +152,7 @@ extension PaymentListViewContoller {
         let methodsTableView = addMethodsTableView(to: scrollView)
         self.methodsTableView = methodsTableView
 
-        let tableController = try PaymentListTableController(networks: session.networks, translationProvider: sharedTranslationProvider)
+        let tableController = try List.Table.Controller(networks: session.networks, translationProvider: sharedTranslationProvider)
         tableController.tableView = methodsTableView
         tableController.delegate = self
         self.tableController = tableController
@@ -218,7 +222,7 @@ extension PaymentListViewContoller {
 
 // MARK: - Table View UI
 
-extension PaymentListViewContoller {
+extension List.ViewController {
     fileprivate func addScrollView() -> UIScrollView {
         let scrollView = UIScrollView(frame: .zero)
         scrollView.alwaysBounceVertical = true
@@ -238,7 +242,7 @@ extension PaymentListViewContoller {
     }
     
     fileprivate func addMethodsTableView(to superview: UIView) -> UITableView {
-        let methodsTableView = MethodsListTableView(frame: CGRect.zero, style: .grouped)
+        let methodsTableView = List.Table.TableView(frame: CGRect.zero, style: .grouped)
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
         methodsTableView.rowHeight = .rowHeight
@@ -257,8 +261,8 @@ extension PaymentListViewContoller {
         configuration.customize?(tableView: methodsTableView)
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
-        methodsTableView.register(PaymentListSingleLabelCell.self)
-        methodsTableView.register(PaymentListDetailedLabelCell.self)
+        methodsTableView.register(List.Table.SingleLabelCell.self)
+        methodsTableView.register(List.Table.DetailedLabelCell.self)
         superview.addSubview(methodsTableView)
 
         let topPadding: CGFloat = 30
@@ -278,7 +282,7 @@ extension PaymentListViewContoller {
     }
 }
 
-extension PaymentListViewContoller: PaymentListTableControllerDelegate {
+extension List.ViewController: ListTableControllerDelegate {
     func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         sessionService.load(from: url, completion: completion)
     }

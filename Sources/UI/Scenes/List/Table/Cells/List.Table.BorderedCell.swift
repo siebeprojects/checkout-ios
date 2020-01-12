@@ -2,23 +2,35 @@
 import Foundation
 import UIKit
 
-/// Cell with borders.
-/// - Note: set `cellIndex`
-class PaymentListBorderedCell: UITableViewCell {
-    weak var outerView: UIView?
-    weak var innerView: UIView?
-    weak var separatorView: UIView?
-    weak var separatorStickyConstraint: NSLayoutConstraint?
-    
-    /// Cell's position in a table, used for rounding correct corners
-    var cellIndex: CellIndex = .middle
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+extension List.Table {
+    class BorderedCell: UITableViewCell {
+        weak var outerView: UIView?
+        weak var innerView: UIView?
+        weak var separatorView: UIView?
+        weak var separatorStickyConstraint: NSLayoutConstraint?
         
-        addBordersViews()
+        /// Cell's position in a table, used for rounding correct corners
+        var cellIndex: CellIndex = .middle
+        
+        enum CellIndex {
+            case first
+            case middle
+            case last
+        }
+        
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            
+            addBordersViews()
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
-    
+}
+
+extension List.Table.BorderedCell {
     func viewDidLayoutSubviews() {
         guard let separatorView = self.separatorView else { return }
         guard let innerView = self.innerView, let outerView = self.outerView else { return }
@@ -55,15 +67,12 @@ class PaymentListBorderedCell: UITableViewCell {
             view.layer.mask = maskLayer
         }
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
+
 
 // MARK: - Views
 
-extension PaymentListBorderedCell {
+extension List.Table.BorderedCell {
     /// Add border views.
     /// - Description: we create 2 rectangles, outer rectangle will have a border background color, inner background will have a normal background color and it will have 1px spacing between outer one. Result will be a border that we could round.
     // I think it's the best way to create a rounded border around section's content and use dynamic constraints instead of frame calculations. It's iOS10+ way, if requirements will be iOS11+ that could be done easier with `maskedCorners`.
@@ -125,14 +134,6 @@ extension PaymentListBorderedCell {
             viewWithPaddings.bottomAnchor.constraint(equalTo: selectedBackgroundView.bottomAnchor, constant: 1),
             viewWithPaddings.trailingAnchor.constraint(equalTo: selectedBackgroundView.trailingAnchor)
         ])
-    }
-}
-
-extension PaymentListBorderedCell {
-    enum CellIndex {
-        case first
-        case middle
-        case last
     }
 }
 

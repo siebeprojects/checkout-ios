@@ -2,46 +2,49 @@
 import UIKit
 import Foundation
 
-class PaymentListTableDataSource: NSObject {
-    private let sections: [Section]
-    private let translationProvider: TranslationProvider
-    
-    init(networks: [PaymentNetwork], translation: SharedTranslationProvider, genericLogo: UIImage) {
-        self.translationProvider = translation
+extension List.Table {
+    final class DataSource: NSObject {
+        private let sections: [Section]
+        private let translationProvider: TranslationProvider
         
-        // Make an internal model
-        let groupedNetworks = GroupingService().group(networks: networks)
-        
-        var singleRows = [SingleRow]()
-        var detailedRows = [DetailedRow]()
-        
-        for networks in groupedNetworks {
-            guard !networks.isEmpty else { continue }
+        init(networks: [PaymentNetwork], translation: SharedTranslationProvider, genericLogo: UIImage) {
+            self.translationProvider = translation
             
-            if networks.count == 1, let network = networks.first {
-                let row = SingleRow(network: network)
-                singleRows.append(row)
-            } else {
-                let row = DetailedRow(networks: networks, genericLogo: genericLogo)
-                detailedRows.append(row)
+            // Make an internal model
+            let groupedNetworks = GroupingService().group(networks: networks)
+            
+            var singleRows = [SingleRow]()
+            var detailedRows = [DetailedRow]()
+            
+            for networks in groupedNetworks {
+                guard !networks.isEmpty else { continue }
+                
+                if networks.count == 1, let network = networks.first {
+                    let row = SingleRow(network: network)
+                    singleRows.append(row)
+                } else {
+                    let row = DetailedRow(networks: networks, genericLogo: genericLogo)
+                    detailedRows.append(row)
+                }
             }
+            
+            sections = [.networks(rows: detailedRows + singleRows)]
         }
         
-        sections = [.networks(rows: detailedRows + singleRows)]
-    }
-    
-    func networks(for indexPath: IndexPath) -> [PaymentNetwork] {
-        switch sections[indexPath.section] {
-        case .networks(let rows):
-            let row = rows[indexPath.row]
-            return row.networks
+        func networks(for indexPath: IndexPath) -> [PaymentNetwork] {
+            switch sections[indexPath.section] {
+            case .networks(let rows):
+                let row = rows[indexPath.row]
+                return row.networks
+            }
         }
     }
 }
 
+
 // MARK: UITableViewDataSource
 
-extension PaymentListTableDataSource: UITableViewDataSource {
+extension List.Table.DataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -70,21 +73,21 @@ extension PaymentListTableDataSource: UITableViewDataSource {
 
 // MARK: - Table's model
 
-protocol PaymentListTableRow {
+private protocol PaymentMethodRow {
     var networks: [PaymentNetwork] { get }
     
     func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell
 }
 
-extension PaymentListTableDataSource {
+extension List.Table.DataSource {
     fileprivate enum Section {
-        case networks(rows: [PaymentListTableRow])
+        case networks(rows: [PaymentMethodRow])
     }
 }
 
 // MARK: - Single row
 
-extension PaymentListTableDataSource {
+extension List.Table.DataSource {
     /// Model for a single network.
     class SingleRow {
         let network: PaymentNetwork
@@ -96,9 +99,9 @@ extension PaymentListTableDataSource {
     }
 }
 
-extension PaymentListTableDataSource.SingleRow: PaymentListTableRow {
+extension List.Table.DataSource.SingleRow: PaymentMethodRow {
     func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(PaymentListSingleLabelCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(List.Table.SingleLabelCell.self, for: indexPath)
 
         // Set model
         cell.networkLabel?.text = network.label
@@ -120,7 +123,7 @@ extension PaymentListTableDataSource.SingleRow: PaymentListTableRow {
 
 // MARK: - Detailed row
 
-extension PaymentListTableDataSource {
+extension List.Table.DataSource {
     /// Row for a combined network, containing primary and secondary labels.
     class DetailedRow {
         let networks: [PaymentNetwork]
@@ -137,7 +140,7 @@ extension PaymentListTableDataSource {
 
 // MARK: Computed variables
 
-extension PaymentListTableDataSource.DetailedRow {
+extension List.Table.DataSource.DetailedRow {
     private var primaryLabel: String {
         guard let firstNetwork = networks.first else {
             return String()
@@ -186,11 +189,11 @@ extension PaymentListTableDataSource.DetailedRow {
     }
 }
 
-// MARK: PaymentListTableRow
+// MARK: PaymentMethodRow
 
-extension PaymentListTableDataSource.DetailedRow: PaymentListTableRow {
+extension List.Table.DataSource.DetailedRow: PaymentMethodRow {
     func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(PaymentListDetailedLabelCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
         
         // Set model
         cell.primaryLabel?.text = primaryLabel

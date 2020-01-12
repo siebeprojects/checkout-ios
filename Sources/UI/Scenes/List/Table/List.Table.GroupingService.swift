@@ -1,12 +1,14 @@
 import Foundation
 
-class GroupingService {
+extension List.Table {
+    final class GroupingService {}
+}
+
+extension List.Table.GroupingService {
     private func get() throws -> [Rule] {
-        guard let data = RawProvider.groupsJSON.data(using: .utf8) else {
-            throw InternalError(description: "Unable to convert data to utf8")
-        }
+        let groupingData = try AssetProvider.getGroupingRulesData()
         
-        let core = try JSONDecoder().decode(Core.self, from: data)
+        let core = try JSONDecoder().decode(Core.self, from: groupingData)
         return core.items
     }
     
@@ -48,7 +50,7 @@ class GroupingService {
 // MARK: - Grouping extension
 
 private extension Sequence where Element == PaymentNetwork {
-    func grouped(using rules: [GroupingService.Rule]) -> [[PaymentNetwork]] {
+    func grouped(using rules: [List.Table.GroupingService.Rule]) -> [[PaymentNetwork]] {
         var ungroupedNetworks = [PaymentNetwork]()
         var groupedNetworks = [PaymentNetwork]()
         
@@ -78,7 +80,7 @@ private extension Sequence where Element == PaymentNetwork {
     }
 }
 
-private extension Sequence where Element == GroupingService.Rule {
+private extension Sequence where Element == List.Table.GroupingService.Rule {
     func first(withCode: String) -> Element? {
         for item in self where item.code == withCode {
             return item

@@ -23,6 +23,9 @@
 /* Begin PBXBuildFile section */
 		D943F10623C7E9E500E31100 /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D943F10523C7E9E500E31100 /* AssetProvider.swift */; };
 		D943F10923C7EFC100E31100 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D943F10723C7EA6900E31100 /* Media.xcassets */; };
+		D990A3BF23CBAEE0003FAA0D /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = D990A3BE23CBAEE0003FAA0D /* List.swift */; };
+		D990A3C123CBAF68003FAA0D /* List.Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D990A3C023CBAF68003FAA0D /* List.Table.swift */; };
+		D990A3C623CBE1E7003FAA0D /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* groups.json */; };
 		OBJ_159 /* InternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* InternalError.swift */; };
 		OBJ_160 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* log.swift */; };
 		OBJ_161 /* LocalTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* LocalTranslation.swift */; };
@@ -63,15 +66,14 @@
 		OBJ_196 /* GetListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_54 /* GetListResult.swift */; };
 		OBJ_197 /* URLSessionConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_55 /* URLSessionConnection.swift */; };
 		OBJ_198 /* RawProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_57 /* RawProvider.swift */; };
-		OBJ_199 /* groups.json.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* groups.json.swift */; };
 		OBJ_200 /* validations.json.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_59 /* validations.json.swift */; };
 		OBJ_201 /* Error+isNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_62 /* Error+isNetworkError.swift */; };
 		OBJ_202 /* mergeClosures.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_64 /* mergeClosures.swift */; };
-		OBJ_203 /* PaymentListBorderedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* PaymentListBorderedCell.swift */; };
-		OBJ_204 /* PaymentListDetailedLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* PaymentListDetailedLabelCell.swift */; };
-		OBJ_205 /* PaymentListSingleLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* PaymentListSingleLabelCell.swift */; };
-		OBJ_206 /* PaymentListTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* PaymentListTableController.swift */; };
-		OBJ_207 /* PaymentListTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* PaymentListTableDataSource.swift */; };
+		OBJ_203 /* List.Table.BorderedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_66 /* List.Table.BorderedCell.swift */; };
+		OBJ_204 /* List.Table.DetailedLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_67 /* List.Table.DetailedLabelCell.swift */; };
+		OBJ_205 /* List.Table.SingleLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_68 /* List.Table.SingleLabelCell.swift */; };
+		OBJ_206 /* List.Table.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_69 /* List.Table.Controller.swift */; };
+		OBJ_207 /* List.Table.DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_70 /* List.Table.DataSource.swift */; };
 		OBJ_208 /* PaymentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_72 /* PaymentError.swift */; };
 		OBJ_209 /* PaymentNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_73 /* PaymentNetwork.swift */; };
 		OBJ_210 /* PaymentSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_74 /* PaymentSession.swift */; };
@@ -100,19 +102,18 @@
 		OBJ_233 /* Validatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_102 /* Validatable.swift */; };
 		OBJ_234 /* Input+TableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_104 /* Input+TableController.swift */; };
 		OBJ_235 /* Input+TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* Input+TextFieldViewCell.swift */; };
-		OBJ_236 /* GroupingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* GroupingService.swift */; };
+		OBJ_236 /* List.Table.GroupingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* List.Table.GroupingService.swift */; };
 		OBJ_237 /* DataDownloadProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* DataDownloadProvider.swift */; };
 		OBJ_238 /* DownloadTranslationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* DownloadTranslationOperation.swift */; };
 		OBJ_239 /* PaymentSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_111 /* PaymentSessionProvider.swift */; };
 		OBJ_240 /* PaymentSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* PaymentSessionService.swift */; };
 		OBJ_241 /* PaymentListParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_114 /* PaymentListParameters.swift */; };
 		OBJ_242 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_115 /* UIColor+.swift */; };
-		OBJ_243 /* PaymentListViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_117 /* PaymentListViewContoller.swift */; };
+		OBJ_243 /* List.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_117 /* List.ViewController.swift */; };
 		OBJ_244 /* PaymentNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* PaymentNavigationController.swift */; };
-		OBJ_245 /* ImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_120 /* ImageStackView.swift */; };
-		OBJ_246 /* InputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_121 /* InputTextField.swift */; };
-		OBJ_247 /* MethodsListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* MethodsListTableView.swift */; };
-		OBJ_248 /* PaymentListSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* PaymentListSectionHeader.swift */; };
+		OBJ_245 /* List.ImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_120 /* List.ImageStackView.swift */; };
+		OBJ_247 /* List.Table.TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* List.Table.TableView.swift */; };
+		OBJ_248 /* List.Table.SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* List.Table.SectionHeader.swift */; };
 		OBJ_266 /* URL+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* URL+Example.swift */; };
 		OBJ_267 /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* XCTAttachment+subject.swift */; };
 		OBJ_268 /* XCTFail+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_129 /* XCTFail+Error.swift */; };
@@ -150,25 +151,26 @@
 /* Begin PBXFileReference section */
 		D943F10523C7E9E500E31100 /* AssetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
 		D943F10723C7EA6900E31100 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		D990A3BE23CBAEE0003FAA0D /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		D990A3C023CBAF68003FAA0D /* List.Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.swift; sourceTree = "<group>"; };
 		OBJ_10 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		OBJ_100 /* Selectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
 		OBJ_101 /* TextInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
 		OBJ_102 /* Validatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validatable.swift; sourceTree = "<group>"; };
 		OBJ_104 /* Input+TableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Input+TableController.swift"; sourceTree = "<group>"; };
 		OBJ_105 /* Input+TextFieldViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Input+TextFieldViewCell.swift"; sourceTree = "<group>"; };
-		OBJ_107 /* GroupingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupingService.swift; sourceTree = "<group>"; };
+		OBJ_107 /* List.Table.GroupingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.GroupingService.swift; sourceTree = "<group>"; };
 		OBJ_109 /* DataDownloadProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDownloadProvider.swift; sourceTree = "<group>"; };
 		OBJ_110 /* DownloadTranslationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTranslationOperation.swift; sourceTree = "<group>"; };
 		OBJ_111 /* PaymentSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionProvider.swift; sourceTree = "<group>"; };
 		OBJ_112 /* PaymentSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionService.swift; sourceTree = "<group>"; };
 		OBJ_114 /* PaymentListParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListParameters.swift; sourceTree = "<group>"; };
 		OBJ_115 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
-		OBJ_117 /* PaymentListViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListViewContoller.swift; sourceTree = "<group>"; };
+		OBJ_117 /* List.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.ViewController.swift; sourceTree = "<group>"; };
 		OBJ_118 /* PaymentNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentNavigationController.swift; sourceTree = "<group>"; };
-		OBJ_120 /* ImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStackView.swift; sourceTree = "<group>"; };
-		OBJ_121 /* InputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextField.swift; sourceTree = "<group>"; };
-		OBJ_122 /* MethodsListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodsListTableView.swift; sourceTree = "<group>"; };
-		OBJ_123 /* PaymentListSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListSectionHeader.swift; sourceTree = "<group>"; };
+		OBJ_120 /* List.ImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.ImageStackView.swift; sourceTree = "<group>"; };
+		OBJ_122 /* List.Table.TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.TableView.swift; sourceTree = "<group>"; };
+		OBJ_123 /* List.Table.SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.SectionHeader.swift; sourceTree = "<group>"; };
 		OBJ_127 /* URL+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Example.swift"; sourceTree = "<group>"; };
 		OBJ_128 /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		OBJ_129 /* XCTFail+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTFail+Error.swift"; sourceTree = "<group>"; };
@@ -223,15 +225,15 @@
 		OBJ_54 /* GetListResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetListResult.swift; sourceTree = "<group>"; };
 		OBJ_55 /* URLSessionConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionConnection.swift; sourceTree = "<group>"; };
 		OBJ_57 /* RawProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawProvider.swift; sourceTree = "<group>"; };
-		OBJ_58 /* groups.json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = groups.json.swift; sourceTree = "<group>"; };
+		OBJ_58 /* groups.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = groups.json; sourceTree = "<group>"; };
 		OBJ_59 /* validations.json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = validations.json.swift; sourceTree = "<group>"; };
 		OBJ_62 /* Error+isNetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+isNetworkError.swift"; sourceTree = "<group>"; };
 		OBJ_64 /* mergeClosures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mergeClosures.swift; sourceTree = "<group>"; };
-		OBJ_66 /* PaymentListBorderedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListBorderedCell.swift; sourceTree = "<group>"; };
-		OBJ_67 /* PaymentListDetailedLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListDetailedLabelCell.swift; sourceTree = "<group>"; };
-		OBJ_68 /* PaymentListSingleLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListSingleLabelCell.swift; sourceTree = "<group>"; };
-		OBJ_69 /* PaymentListTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListTableController.swift; sourceTree = "<group>"; };
-		OBJ_70 /* PaymentListTableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListTableDataSource.swift; sourceTree = "<group>"; };
+		OBJ_66 /* List.Table.BorderedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.BorderedCell.swift; sourceTree = "<group>"; };
+		OBJ_67 /* List.Table.DetailedLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DetailedLabelCell.swift; sourceTree = "<group>"; };
+		OBJ_68 /* List.Table.SingleLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.SingleLabelCell.swift; sourceTree = "<group>"; };
+		OBJ_69 /* List.Table.Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.Controller.swift; sourceTree = "<group>"; };
+		OBJ_70 /* List.Table.DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.swift; sourceTree = "<group>"; };
 		OBJ_72 /* PaymentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentError.swift; sourceTree = "<group>"; };
 		OBJ_73 /* PaymentNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentNetwork.swift; sourceTree = "<group>"; };
 		OBJ_74 /* PaymentSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSession.swift; sourceTree = "<group>"; };
@@ -279,12 +281,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D9361DE423C8C50100DF71AA /* List */ = {
+			isa = PBXGroup;
+			children = (
+				D990A3BE23CBAEE0003FAA0D /* List.swift */,
+				OBJ_117 /* List.ViewController.swift */,
+				D990A3C223CBAF82003FAA0D /* Table */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
 		D943F10223C7E85400E31100 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
 				D943F10723C7EA6900E31100 /* Media.xcassets */,
+				OBJ_58 /* groups.json */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		D990A3C223CBAF82003FAA0D /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				D990A3C023CBAF68003FAA0D /* List.Table.swift */,
+				OBJ_69 /* List.Table.Controller.swift */,
+				OBJ_70 /* List.Table.DataSource.swift */,
+				OBJ_107 /* List.Table.GroupingService.swift */,
+				D990A3C423CBDD02003FAA0D /* Views */,
+				D990A3C323CBAF9F003FAA0D /* Cells */,
+			);
+			path = Table;
+			sourceTree = "<group>";
+		};
+		D990A3C323CBAF9F003FAA0D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_66 /* List.Table.BorderedCell.swift */,
+				OBJ_67 /* List.Table.DetailedLabelCell.swift */,
+				OBJ_68 /* List.Table.SingleLabelCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		D990A3C423CBDD02003FAA0D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_120 /* List.ImageStackView.swift */,
+				OBJ_122 /* List.Table.TableView.swift */,
+				OBJ_123 /* List.Table.SectionHeader.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		OBJ_103 /* Table */ = {
@@ -299,21 +345,12 @@
 		OBJ_106 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_107 /* GroupingService.swift */,
-				OBJ_108 /* Payment Session */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
-		OBJ_108 /* Payment Session */ = {
-			isa = PBXGroup;
-			children = (
 				OBJ_109 /* DataDownloadProvider.swift */,
 				OBJ_110 /* DownloadTranslationOperation.swift */,
 				OBJ_111 /* PaymentSessionProvider.swift */,
 				OBJ_112 /* PaymentSessionService.swift */,
 			);
-			path = "Payment Session";
+			path = Service;
 			sourceTree = "<group>";
 		};
 		OBJ_11 /* Localization */ = {
@@ -337,21 +374,9 @@
 		OBJ_116 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_117 /* PaymentListViewContoller.swift */,
 				OBJ_118 /* PaymentNavigationController.swift */,
 			);
 			path = "View Controller";
-			sourceTree = "<group>";
-		};
-		OBJ_119 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_120 /* ImageStackView.swift */,
-				OBJ_121 /* InputTextField.swift */,
-				OBJ_122 /* MethodsListTableView.swift */,
-				OBJ_123 /* PaymentListSectionHeader.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		OBJ_12 /* Strings */ = {
@@ -561,7 +586,6 @@
 			children = (
 				OBJ_57 /* RawProvider.swift */,
 				D943F10523C7E9E500E31100 /* AssetProvider.swift */,
-				OBJ_58 /* groups.json.swift */,
 				OBJ_59 /* validations.json.swift */,
 			);
 			path = Raw;
@@ -571,14 +595,12 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_61 /* Core */,
-				OBJ_65 /* List */,
 				OBJ_71 /* Model */,
 				OBJ_75 /* Protocols */,
 				OBJ_78 /* Scenes */,
 				OBJ_106 /* Service */,
 				OBJ_113 /* Theme */,
 				OBJ_116 /* View Controller */,
-				OBJ_119 /* Views */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -598,18 +620,6 @@
 				OBJ_64 /* mergeClosures.swift */,
 			);
 			path = Infix;
-			sourceTree = "<group>";
-		};
-		OBJ_65 /* List */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_66 /* PaymentListBorderedCell.swift */,
-				OBJ_67 /* PaymentListDetailedLabelCell.swift */,
-				OBJ_68 /* PaymentListSingleLabelCell.swift */,
-				OBJ_69 /* PaymentListTableController.swift */,
-				OBJ_70 /* PaymentListTableDataSource.swift */,
-			);
-			path = List;
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -648,6 +658,7 @@
 		OBJ_78 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				D9361DE423C8C50100DF71AA /* List */,
 				OBJ_79 /* Input */,
 			);
 			path = Scenes;
@@ -792,6 +803,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D990A3C623CBE1E7003FAA0D /* groups.json in Resources */,
 				D943F10923C7EFC100E31100 /* Media.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -824,6 +836,7 @@
 				OBJ_177 /* Installments.swift in Sources */,
 				OBJ_178 /* InstallmentsPlan.swift in Sources */,
 				OBJ_179 /* Interaction.swift in Sources */,
+				D990A3BF23CBAEE0003FAA0D /* List.swift in Sources */,
 				OBJ_180 /* ListResult.swift in Sources */,
 				OBJ_181 /* Networks.swift in Sources */,
 				OBJ_182 /* Parameter.swift in Sources */,
@@ -835,6 +848,7 @@
 				OBJ_188 /* HTTPMethod.swift in Sources */,
 				OBJ_189 /* AsynchronousOperation.swift in Sources */,
 				OBJ_190 /* SendRequestOperation.swift in Sources */,
+				D990A3C123CBAF68003FAA0D /* List.Table.swift in Sources */,
 				OBJ_191 /* Connection.swift in Sources */,
 				OBJ_192 /* GetRequest.swift in Sources */,
 				OBJ_193 /* Request.swift in Sources */,
@@ -843,15 +857,14 @@
 				OBJ_196 /* GetListResult.swift in Sources */,
 				OBJ_197 /* URLSessionConnection.swift in Sources */,
 				OBJ_198 /* RawProvider.swift in Sources */,
-				OBJ_199 /* groups.json.swift in Sources */,
 				OBJ_200 /* validations.json.swift in Sources */,
 				OBJ_201 /* Error+isNetworkError.swift in Sources */,
 				OBJ_202 /* mergeClosures.swift in Sources */,
-				OBJ_203 /* PaymentListBorderedCell.swift in Sources */,
-				OBJ_204 /* PaymentListDetailedLabelCell.swift in Sources */,
-				OBJ_205 /* PaymentListSingleLabelCell.swift in Sources */,
-				OBJ_206 /* PaymentListTableController.swift in Sources */,
-				OBJ_207 /* PaymentListTableDataSource.swift in Sources */,
+				OBJ_203 /* List.Table.BorderedCell.swift in Sources */,
+				OBJ_204 /* List.Table.DetailedLabelCell.swift in Sources */,
+				OBJ_205 /* List.Table.SingleLabelCell.swift in Sources */,
+				OBJ_206 /* List.Table.Controller.swift in Sources */,
+				OBJ_207 /* List.Table.DataSource.swift in Sources */,
 				OBJ_208 /* PaymentError.swift in Sources */,
 				OBJ_209 /* PaymentNetwork.swift in Sources */,
 				OBJ_210 /* PaymentSession.swift in Sources */,
@@ -881,19 +894,18 @@
 				OBJ_233 /* Validatable.swift in Sources */,
 				OBJ_234 /* Input+TableController.swift in Sources */,
 				OBJ_235 /* Input+TextFieldViewCell.swift in Sources */,
-				OBJ_236 /* GroupingService.swift in Sources */,
+				OBJ_236 /* List.Table.GroupingService.swift in Sources */,
 				OBJ_237 /* DataDownloadProvider.swift in Sources */,
 				OBJ_238 /* DownloadTranslationOperation.swift in Sources */,
 				OBJ_239 /* PaymentSessionProvider.swift in Sources */,
 				OBJ_240 /* PaymentSessionService.swift in Sources */,
 				OBJ_241 /* PaymentListParameters.swift in Sources */,
 				OBJ_242 /* UIColor+.swift in Sources */,
-				OBJ_243 /* PaymentListViewContoller.swift in Sources */,
+				OBJ_243 /* List.ViewController.swift in Sources */,
 				OBJ_244 /* PaymentNavigationController.swift in Sources */,
-				OBJ_245 /* ImageStackView.swift in Sources */,
-				OBJ_246 /* InputTextField.swift in Sources */,
-				OBJ_247 /* MethodsListTableView.swift in Sources */,
-				OBJ_248 /* PaymentListSectionHeader.swift in Sources */,
+				OBJ_245 /* List.ImageStackView.swift in Sources */,
+				OBJ_247 /* List.Table.TableView.swift in Sources */,
+				OBJ_248 /* List.Table.SectionHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

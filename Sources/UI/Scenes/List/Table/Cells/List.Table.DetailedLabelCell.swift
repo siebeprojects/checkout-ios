@@ -2,32 +2,34 @@
 import Foundation
 import UIKit
 
-/// Cell with multiple images, primary and secondary labels.
-/// - Note: set `cellIndex`
-final class PaymentListDetailedLabelCell: PaymentListBorderedCell, DequeueableTableCell {
-    weak var primaryLabel: UILabel?
-    weak var secondaryLabel: UILabel?
-    private weak var logosStackView: ImageStackView?
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+extension List.Table {
+    /// Cell with multiple images, primary and secondary labels.
+    /// - Note: set `cellIndex`
+    final class DetailedLabelCell: List.Table.BorderedCell, DequeueableTableCell {
+        weak var primaryLabel: UILabel?
+        weak var secondaryLabel: UILabel?
+        private weak var logosStackView: ImageStackView?
         
-        addContentViews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setImages(_ images: [UIImage]) {
-        logosStackView?.images = images
-        logosStackView?.layoutIfNeeded()
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            
+            addContentViews()
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        func setImages(_ images: [UIImage]) {
+            logosStackView?.images = images
+            logosStackView?.layoutIfNeeded()
+        }
     }
 }
 
 // MARK: - Content views
 
-extension PaymentListDetailedLabelCell {
+extension List.Table.DetailedLabelCell {
     fileprivate func addContentViews() {
         let primaryLabel = UILabel(frame: .zero)
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +45,7 @@ extension PaymentListDetailedLabelCell {
         contentView.addSubview(secondaryLabel)
         self.secondaryLabel = secondaryLabel
     
-        let logosStackView = ImageStackView(frame: .zero, imagesTintColor: .detailedText)
+        let logosStackView = List.Table.ImageStackView(frame: .zero, imagesTintColor: .detailedText)
         logosStackView.translatesAutoresizingMaskIntoConstraints = false
         logosStackView.axis = .horizontal
         logosStackView.distribution = .fillProportionally
