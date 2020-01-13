@@ -69,6 +69,10 @@ extension List.ViewController {
         super.viewDidLayoutSubviews()
         tableController?.viewDidLayoutSubviews()
     }
+    
+    public override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        methodsTableView?.reloadData()
+    }
 
     @objc private func cancelButtonDidPress() {
         dismiss(animated: true, completion: nil)

@@ -22,7 +22,6 @@ extension List.Table {
         
         func setImages(_ images: [UIImage]) {
             logosStackView?.images = images
-            logosStackView?.layoutIfNeeded()
         }
     }
 }

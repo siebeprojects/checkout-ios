@@ -22,7 +22,10 @@ extension List.Table {
         }
         
         private func setImages(_ images: [UIImage]) {
-            arrangedSubviews.forEach { self.removeArrangedSubview($0) }
+            arrangedSubviews.forEach {
+                self.removeArrangedSubview($0)
+                $0.removeFromSuperview()
+            }
             
             for image in images {
                 let imageView = UIImageView(image: image)
