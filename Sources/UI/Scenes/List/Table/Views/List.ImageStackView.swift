@@ -68,18 +68,4 @@ extension List.Table {
         }
     }
 }
-
-private class FixedWidthAspectFitImageView: UIImageView {
-    override var intrinsicContentSize: CGSize {
-        guard let image = self.image else {
-            return .init(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
-        }
-        
-        print("Wanted frame: \(self.frame.size)")
-        
-        let aspectRatio = image.size.width / image.size.height
-        let scaledHeight = frame.width * aspectRatio
-        return CGSize(width: frame.width, height: scaledHeight)
-    }
-}
 #endif
