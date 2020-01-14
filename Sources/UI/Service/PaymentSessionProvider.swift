@@ -2,7 +2,6 @@ import Foundation
 
 class PaymentSessionProvider {
     private let paymentSessionURL: URL
-    private let localizationQueue = OperationQueue()
     private let sharedTranslationProvider: SharedTranslationProvider
 
     let connection: Connection
@@ -85,64 +84,34 @@ class PaymentSessionProvider {
         completion(.failure(error))
     }
 
-    private func filterUnsupportedNetworks(listResult: ListResult, completion: (([ApplicableNetwork]) -> Void)) {
+    private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])
+    
+    private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworksTuple) -> Void)) {
         // swiftlint:disable:next line_length
         let supportedCodes = ["AMEX", "CASTORAMA", "DINERS", "DISCOVER", "MASTERCARD", "UNIONPAY", "VISA", "VISA_DANKORT", "VISAELECTRON", "CARTEBANCAIRE", "MAESTRO", "MAESTROUK", "POSTEPAY", "SEPADD", "JCB"]
 
         let filteredPaymentNetworks = listResult.networks.applicable
             .filter { supportedCodes.contains($0.code) }
-
-        completion(filteredPaymentNetworks)
-    }
-
-    private func localize(applicableNetworks: [ApplicableNetwork], completion: @escaping ((Result<[PaymentNetwork], Error>) -> Void)) {
-        var operations = [DownloadTranslationOperation]()
         
-        // That operation is called after all localizations were downloaded
-        let completionOperation = BlockOperation { [sharedTranslationProvider] in
-            var paymentNetworks = [PaymentNetwork]()
-            
-            // Fill translations with operations' results
-            for operation in operations {
-                switch operation.result {
-                case .some(.success(let translation)):
-                    let combinedProvider = CombinedTranslationProvider(priorityTranslation: translation, otherProvider: sharedTranslationProvider)
-                    let paymentNetwork = PaymentNetwork(from: operation.network, localizeUsing: combinedProvider)
-                    paymentNetworks.append(paymentNetwork)
-                case .some(.failure(let error)):
-                    // If translation wasn't downloaded don't proceed anymore, throw an error and exit
-                    completion(.failure(error))
-                    return
-                case .none:
-                    // Should never happen, but if...
-                    let unexpectedError = InternalError(description: "Download localization operation wasn't completed")
-                    completion(.failure(unexpectedError))
-                }
-            }
-            
-            completion(.success(paymentNetworks))
+        let filteredRegisteredNetworks: [AccountRegistration]
+        if let accounts = listResult.accounts {
+            filteredRegisteredNetworks = accounts.filter { supportedCodes.contains($0.code) }
+        } else {
+            filteredRegisteredNetworks = .init()
         }
-
-        // Download translations for each network
-        for network in applicableNetworks {
-            do {
-                let downloadTranslation = try DownloadTranslationOperation(for: network, using: connection)
-                operations.append(downloadTranslation)
-                completionOperation.addDependency(downloadTranslation)
-                localizationQueue.addOperation(downloadTranslation)
-            } catch {
-                localizationQueue.cancelAllOperations()
-                completion(.failure(error))
-                return
-            }
-        }
-
-        localizationQueue.addOperation(completionOperation)
+        
+        completion((filteredPaymentNetworks, filteredRegisteredNetworks))
+    }
+    
+    private func localize(tuple: APINetworksTuple, completion: @escaping TranslationService.CompletionBlock) {
+        let translationService = TranslationService(networks: tuple.applicableNetworks, accounts: tuple.accountRegistrations, sharedTranslation: sharedTranslationProvider)
+        translationService.localize(using: connection, completion: completion)
     }
     
     // MARK: - Synchronous methods
     
-    private func createPaymentSession(from paymentNetworks: [PaymentNetwork]) -> PaymentSession {
-        return PaymentSession(networks: paymentNetworks)
+    private func createPaymentSession(from tuple: TranslationService.ConvertedNetworksTuple) -> PaymentSession {
+        let accounts = tuple.registeredAccounts.isEmpty ? nil : tuple.registeredAccounts
+        return .init(networks: tuple.paymentNetworks, registeredAccounts: accounts)
     }
 }

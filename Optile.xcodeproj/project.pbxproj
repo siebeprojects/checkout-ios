@@ -26,6 +26,7 @@
 		D990A3BF23CBAEE0003FAA0D /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = D990A3BE23CBAEE0003FAA0D /* List.swift */; };
 		D990A3C123CBAF68003FAA0D /* List.Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D990A3C023CBAF68003FAA0D /* List.Table.swift */; };
 		D990A3C623CBE1E7003FAA0D /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = OBJ_58 /* groups.json */; };
+		D9E23DE623CDFF3E002E503E /* RegisteredAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E23DE523CDFF3E002E503E /* RegisteredAccount.swift */; };
 		OBJ_159 /* InternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* InternalError.swift */; };
 		OBJ_160 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* log.swift */; };
 		OBJ_161 /* LocalTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* LocalTranslation.swift */; };
@@ -104,7 +105,7 @@
 		OBJ_235 /* Input+TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_105 /* Input+TextFieldViewCell.swift */; };
 		OBJ_236 /* List.Table.GroupingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_107 /* List.Table.GroupingService.swift */; };
 		OBJ_237 /* DataDownloadProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_109 /* DataDownloadProvider.swift */; };
-		OBJ_238 /* DownloadTranslationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* DownloadTranslationOperation.swift */; };
+		OBJ_238 /* TranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_110 /* TranslationService.swift */; };
 		OBJ_239 /* PaymentSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_111 /* PaymentSessionProvider.swift */; };
 		OBJ_240 /* PaymentSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_112 /* PaymentSessionService.swift */; };
 		OBJ_241 /* PaymentListParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_114 /* PaymentListParameters.swift */; };
@@ -153,6 +154,7 @@
 		D943F10723C7EA6900E31100 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D990A3BE23CBAEE0003FAA0D /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		D990A3C023CBAF68003FAA0D /* List.Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.swift; sourceTree = "<group>"; };
+		D9E23DE523CDFF3E002E503E /* RegisteredAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredAccount.swift; sourceTree = "<group>"; };
 		OBJ_10 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		OBJ_100 /* Selectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
 		OBJ_101 /* TextInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
@@ -161,7 +163,7 @@
 		OBJ_105 /* Input+TextFieldViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Input+TextFieldViewCell.swift"; sourceTree = "<group>"; };
 		OBJ_107 /* List.Table.GroupingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.GroupingService.swift; sourceTree = "<group>"; };
 		OBJ_109 /* DataDownloadProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDownloadProvider.swift; sourceTree = "<group>"; };
-		OBJ_110 /* DownloadTranslationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTranslationOperation.swift; sourceTree = "<group>"; };
+		OBJ_110 /* TranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationService.swift; sourceTree = "<group>"; };
 		OBJ_111 /* PaymentSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionProvider.swift; sourceTree = "<group>"; };
 		OBJ_112 /* PaymentSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionService.swift; sourceTree = "<group>"; };
 		OBJ_114 /* PaymentListParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListParameters.swift; sourceTree = "<group>"; };
@@ -346,7 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_109 /* DataDownloadProvider.swift */,
-				OBJ_110 /* DownloadTranslationOperation.swift */,
+				OBJ_110 /* TranslationService.swift */,
 				OBJ_111 /* PaymentSessionProvider.swift */,
 				OBJ_112 /* PaymentSessionService.swift */,
 			);
@@ -641,6 +643,7 @@
 			children = (
 				OBJ_72 /* PaymentError.swift */,
 				OBJ_73 /* PaymentNetwork.swift */,
+				D9E23DE523CDFF3E002E503E /* RegisteredAccount.swift */,
 				OBJ_74 /* PaymentSession.swift */,
 			);
 			path = Model;
@@ -888,6 +891,7 @@
 				OBJ_227 /* InputCellDelegate.swift in Sources */,
 				OBJ_228 /* InputField.swift in Sources */,
 				OBJ_229 /* InputValueChangesListener.swift in Sources */,
+				D9E23DE623CDFF3E002E503E /* RegisteredAccount.swift in Sources */,
 				OBJ_230 /* SelectInputField.swift in Sources */,
 				OBJ_231 /* Selectable.swift in Sources */,
 				OBJ_232 /* TextInputField.swift in Sources */,
@@ -896,7 +900,7 @@
 				OBJ_235 /* Input+TextFieldViewCell.swift in Sources */,
 				OBJ_236 /* List.Table.GroupingService.swift in Sources */,
 				OBJ_237 /* DataDownloadProvider.swift in Sources */,
-				OBJ_238 /* DownloadTranslationOperation.swift in Sources */,
+				OBJ_238 /* TranslationService.swift in Sources */,
 				OBJ_239 /* PaymentSessionProvider.swift in Sources */,
 				OBJ_240 /* PaymentSessionService.swift in Sources */,
 				OBJ_241 /* PaymentListParameters.swift in Sources */,
