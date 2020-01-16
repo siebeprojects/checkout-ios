@@ -21,6 +21,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D91ACA7423D09B17009A38BB /* LoadableLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91ACA7323D09B17009A38BB /* LoadableLogo.swift */; };
+		D93BDCB023D094B700BFE527 /* List.Table.DataSource.AccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BDCAF23D094B700BFE527 /* List.Table.DataSource.AccountRow.swift */; };
+		D93BDCB223D0957900BFE527 /* List.Table.DataSource.SingleNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BDCB123D0957900BFE527 /* List.Table.DataSource.SingleNetworkRow.swift */; };
+		D93BDCB423D0962C00BFE527 /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BDCB323D0962C00BFE527 /* List.Table.DataSource.GroupedNetworkRow.swift */; };
 		D943F10623C7E9E500E31100 /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D943F10523C7E9E500E31100 /* AssetProvider.swift */; };
 		D943F10923C7EFC100E31100 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D943F10723C7EA6900E31100 /* Media.xcassets */; };
 		D990A3BF23CBAEE0003FAA0D /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = D990A3BE23CBAEE0003FAA0D /* List.swift */; };
@@ -150,6 +154,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D91ACA7323D09B17009A38BB /* LoadableLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableLogo.swift; sourceTree = "<group>"; };
+		D93BDCAF23D094B700BFE527 /* List.Table.DataSource.AccountRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.AccountRow.swift; sourceTree = "<group>"; };
+		D93BDCB123D0957900BFE527 /* List.Table.DataSource.SingleNetworkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.SingleNetworkRow.swift; sourceTree = "<group>"; };
+		D93BDCB323D0962C00BFE527 /* List.Table.DataSource.GroupedNetworkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.GroupedNetworkRow.swift; sourceTree = "<group>"; };
 		D943F10523C7E9E500E31100 /* AssetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
 		D943F10723C7EA6900E31100 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D990A3BE23CBAEE0003FAA0D /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -293,6 +301,17 @@
 			path = List;
 			sourceTree = "<group>";
 		};
+		D93BDCAE23D0949B00BFE527 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_70 /* List.Table.DataSource.swift */,
+				D93BDCAF23D094B700BFE527 /* List.Table.DataSource.AccountRow.swift */,
+				D93BDCB123D0957900BFE527 /* List.Table.DataSource.SingleNetworkRow.swift */,
+				D93BDCB323D0962C00BFE527 /* List.Table.DataSource.GroupedNetworkRow.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
 		D943F10223C7E85400E31100 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,8 +325,9 @@
 			isa = PBXGroup;
 			children = (
 				D990A3C023CBAF68003FAA0D /* List.Table.swift */,
+				D91ACA7323D09B17009A38BB /* LoadableLogo.swift */,
 				OBJ_69 /* List.Table.Controller.swift */,
-				OBJ_70 /* List.Table.DataSource.swift */,
+				D93BDCAE23D0949B00BFE527 /* DataSource */,
 				OBJ_107 /* List.Table.GroupingService.swift */,
 				D990A3C423CBDD02003FAA0D /* Views */,
 				D990A3C323CBAF9F003FAA0D /* Cells */,
@@ -824,6 +844,7 @@
 				OBJ_162 /* CombinedTranslationProvider.swift in Sources */,
 				OBJ_163 /* SharedTranslationProvider.swift in Sources */,
 				OBJ_164 /* TranslationProvider.swift in Sources */,
+				D93BDCB023D094B700BFE527 /* List.Table.DataSource.AccountRow.swift in Sources */,
 				OBJ_165 /* AccountFormData.swift in Sources */,
 				OBJ_166 /* AccountMask.swift in Sources */,
 				OBJ_167 /* AccountRegistration.swift in Sources */,
@@ -861,6 +882,7 @@
 				OBJ_197 /* URLSessionConnection.swift in Sources */,
 				OBJ_198 /* RawProvider.swift in Sources */,
 				OBJ_200 /* validations.json.swift in Sources */,
+				D93BDCB423D0962C00BFE527 /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */,
 				OBJ_201 /* Error+isNetworkError.swift in Sources */,
 				OBJ_202 /* mergeClosures.swift in Sources */,
 				OBJ_203 /* List.Table.BorderedCell.swift in Sources */,
@@ -897,6 +919,8 @@
 				OBJ_232 /* TextInputField.swift in Sources */,
 				OBJ_233 /* Validatable.swift in Sources */,
 				OBJ_234 /* Input+TableController.swift in Sources */,
+				D93BDCB223D0957900BFE527 /* List.Table.DataSource.SingleNetworkRow.swift in Sources */,
+				D91ACA7423D09B17009A38BB /* LoadableLogo.swift in Sources */,
 				OBJ_235 /* Input+TextFieldViewCell.swift in Sources */,
 				OBJ_236 /* List.Table.GroupingService.swift in Sources */,
 				OBJ_237 /* DataDownloadProvider.swift in Sources */,
