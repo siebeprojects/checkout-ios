@@ -4,52 +4,50 @@ final class PaymentNetwork {
     let applicableNetwork: ApplicableNetwork
     let translation: TranslationProvider
 
-    let code: String
     let label: String
-    let logo: Logo?
+    var logo: Loadable<Data>?
     
     init(from applicableNetwork: ApplicableNetwork, localizeUsing localizer: TranslationProvider) {
         self.applicableNetwork = applicableNetwork
         self.translation = localizer
         
-        self.code = applicableNetwork.code
         self.label = localizer.translation(forKey: "network.label")
         
         if let logoURL = applicableNetwork.links?["logo"] {
-            logo = Logo(url: logoURL)
+            logo = .notLoaded(logoURL)
         } else {
             logo = nil
         }
     }
 }
 
-extension PaymentNetwork {
-    final class Logo {
-        var data: Data? = nil
-        let url: URL
+enum Loadable<T> {
+    case loaded(Result<T, Error>)
+    case notLoaded(URL)
+    
+    var value: T? {
+        guard case let .loaded(loadedResult) = self else { return nil }
         
-        init(url: URL) {
-            self.url = url
-        }
+        return try? loadedResult.get()
     }
 }
 
 extension PaymentNetwork: Equatable, Hashable {
     public static func == (lhs: PaymentNetwork, rhs: PaymentNetwork) -> Bool {
-        return (lhs.code == rhs.code)
+        return (lhs.applicableNetwork.code == rhs.applicableNetwork.code)
     }
 
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(code)
+        hasher.combine(applicableNetwork.code)
     }
 }
 
 #if canImport(UIKit)
 import UIKit
 
-extension PaymentNetwork.Logo {
+extension Loadable where T == Data {
     var image: UIImage? {
-        guard let data = self.data else { return nil }
+        guard let data = value else { return nil }
         return UIImage(data: data)
     }
 }

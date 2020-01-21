@@ -29,7 +29,6 @@ import UIKit
     }
 
     required init?(coder: NSCoder) {
-        // FIXME
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -75,15 +74,19 @@ import UIKit
             },
             shouldSelect: { [weak self] network in
                 DispatchQueue.main.async {
-                    self?.show(paymentNetwork: network, animated: false)
+                    self?.show(paymentNetworks: [network], animated: false)
                 }
             }
         )
     }
     
-    fileprivate func show(paymentNetwork: PaymentNetwork, animated: Bool) {
-        let inputViewController = InputViewController(for: paymentNetwork)
-        navigationController?.pushViewController(inputViewController, animated: animated)
+    fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
+        do {
+            let inputViewController = try Input.ViewController(for: paymentNetworks)
+            navigationController?.pushViewController(inputViewController, animated: animated)
+        } catch {
+            changeState(to: .failure(error))
+        }
     }
 }
 
@@ -125,7 +128,7 @@ extension PaymentListViewContoller {
         tableController.delegate = self
         self.tableController = tableController
 
-        methodsTableView.dataSource = tableController
+        methodsTableView.dataSource = tableController.dataSource
         methodsTableView.delegate = tableController
         methodsTableView.prefetchDataSource = tableController
     }
@@ -216,12 +219,12 @@ extension PaymentListViewContoller {
 }
 
 extension PaymentListViewContoller: PaymentListTableControllerDelegate {
-    func load(logo: PaymentNetwork.Logo, completion: @escaping (Data?) -> Void) {
-        sessionService.loadLogo(logo, completion: completion)
+    func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
+        sessionService.load(from: url, completion: completion)
     }
     
-    func didSelect(paymentNetwork: PaymentNetwork) {
-        show(paymentNetwork: paymentNetwork, animated: true)
+    func didSelect(paymentNetworks: [PaymentNetwork]) {
+        show(paymentNetworks: paymentNetworks, animated: true)
     }
 }
 
