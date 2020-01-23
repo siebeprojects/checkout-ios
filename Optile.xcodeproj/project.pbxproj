@@ -110,7 +110,6 @@
 		OBJ_241 /* PaymentListParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_114 /* PaymentListParameters.swift */; };
 		OBJ_242 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_115 /* UIColor+.swift */; };
 		OBJ_243 /* List.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_117 /* List.ViewController.swift */; };
-		OBJ_244 /* PaymentNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_118 /* PaymentNavigationController.swift */; };
 		OBJ_245 /* List.ImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_120 /* List.ImageStackView.swift */; };
 		OBJ_247 /* List.Table.TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_122 /* List.Table.TableView.swift */; };
 		OBJ_248 /* List.Table.SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_123 /* List.Table.SectionHeader.swift */; };
@@ -167,7 +166,6 @@
 		OBJ_114 /* PaymentListParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListParameters.swift; sourceTree = "<group>"; };
 		OBJ_115 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		OBJ_117 /* List.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.ViewController.swift; sourceTree = "<group>"; };
-		OBJ_118 /* PaymentNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentNavigationController.swift; sourceTree = "<group>"; };
 		OBJ_120 /* List.ImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.ImageStackView.swift; sourceTree = "<group>"; };
 		OBJ_122 /* List.Table.TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.TableView.swift; sourceTree = "<group>"; };
 		OBJ_123 /* List.Table.SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.SectionHeader.swift; sourceTree = "<group>"; };
@@ -369,14 +367,6 @@
 				OBJ_115 /* UIColor+.swift */,
 			);
 			path = Theme;
-			sourceTree = "<group>";
-		};
-		OBJ_116 /* View Controller */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_118 /* PaymentNavigationController.swift */,
-			);
-			path = "View Controller";
 			sourceTree = "<group>";
 		};
 		OBJ_12 /* Strings */ = {
@@ -600,7 +590,6 @@
 				OBJ_78 /* Scenes */,
 				OBJ_106 /* Service */,
 				OBJ_113 /* Theme */,
-				OBJ_116 /* View Controller */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -902,7 +891,6 @@
 				OBJ_241 /* PaymentListParameters.swift in Sources */,
 				OBJ_242 /* UIColor+.swift in Sources */,
 				OBJ_243 /* List.ViewController.swift in Sources */,
-				OBJ_244 /* PaymentNavigationController.swift in Sources */,
 				OBJ_245 /* List.ImageStackView.swift in Sources */,
 				OBJ_247 /* List.Table.TableView.swift in Sources */,
 				OBJ_248 /* List.Table.SectionHeader.swift in Sources */,
