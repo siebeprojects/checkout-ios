@@ -1,16 +1,16 @@
 import Foundation
 
-extension Input {
+extension Input.Field {
     class Transformer {
         /// Transformed verification code fields.
         /// - Note: we need it to set a placholder suffix delegate after transformation
-        fileprivate(set) var verificationCodeFields = [Input.VerificationCodeField]()
+        fileprivate(set) var verificationCodeFields = [Input.Field.VerificationCode]()
         
         init() {}
     }
 }
 
-extension Input.Transformer {
+extension Input.Field.Transformer {
     /// Transform `PaymentNetwork` to `Input.Network`
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
         // Logo
@@ -24,20 +24,20 @@ extension Input.Transformer {
         }
         
         // Get validation rules for a network
-        let validationRules: [Input.Validation.Rule]
+        let validationRules: [Input.Field.Validation.Rule]
         
         do {
-            let networks = try Input.Validation.Provider().get()
+            let networks = try Input.Field.Validation.Provider().get()
             if let network = networks.first(withCode: paymentNetwork.applicableNetwork.code) {
                 validationRules = network.items
             } else {
-                validationRules = [Input.Validation.Rule]()
+                validationRules = [Input.Field.Validation.Rule]()
             }
         } catch {
             let getRulesError = InternalError(description: "Failed to get validation rules: %@", objects: error)
             getRulesError.log()
             
-            validationRules = [Input.Validation.Rule]()
+            validationRules = [Input.Field.Validation.Rule]()
         }
         
         // Transform input fields
@@ -63,22 +63,22 @@ extension Input.Transformer {
     }
     
     /// Transform `InputElement` to `InputField`
-    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Validation.Rule?) -> InputField & CellRepresentable {
+    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?) -> InputField & CellRepresentable {
         switch (inputElement.name, inputElement.inputElementType) {
         case ("number", .some(.numeric)):
-            return Input.AccountNumberInputField(from: inputElement, translator: translator, validationRule: validationRule)
+            return Input.Field.AccountNumber(from: inputElement, translator: translator, validationRule: validationRule)
         case ("holderName", .some(.string)):
-            return Input.HolderNameInputField(from: inputElement, translator: translator, validationRule: validationRule)
+            return Input.Field.HolderName(from: inputElement, translator: translator, validationRule: validationRule)
         case ("verificationCode", .some(.integer)):
-            let field = Input.VerificationCodeField(from: inputElement, translator: translator, validationRule: validationRule)
+            let field = Input.Field.VerificationCode(from: inputElement, translator: translator, validationRule: validationRule)
             verificationCodeFields.append(field)
             return field
         case ("expiryMonth", .some(.select)):
-            return Input.ExpiryMonthInputField(from: inputElement, translator: translator)
+            return Input.Field.ExpiryMonth(from: inputElement, translator: translator)
         case ("expiryYear", .some(.select)):
-            return Input.ExpiryYearInputField(from: inputElement, translator: translator)
+            return Input.Field.ExpiryYear(from: inputElement, translator: translator)
         default:
-            return Input.GenericInputField(from: inputElement, translator: translator, validationRule: validationRule)
+            return Input.Field.Generic(from: inputElement, translator: translator, validationRule: validationRule)
         }
     }
 }
