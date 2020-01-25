@@ -6,7 +6,13 @@ protocol Validatable: class {
     
     func validateAndSaveResult(options: Input.Field.Validation.Options)
     func validate(using options: Input.Field.Validation.Options) -> Input.Field.Validation.Result
+
+    
     func localize(error: Input.Field.Validation.ValidationError) -> String
+    
+    // Optional method to add additional value checks (such as IBAN or Luhn validation). 
+    // Default: true
+    func isPassedCustomValidation(value: String) -> Bool
 }
 
 extension Validatable {
@@ -19,6 +25,8 @@ extension Validatable {
             validationErrorText = localize(error: validationError)
         }
     }
+    
+    func isPassedCustomValidation(value: String) -> Bool { return true }
 }
 
 // MARK: - TextInputField
@@ -56,7 +64,7 @@ extension Validatable where Self: TextInputField {
         // Valid value, we check validity only if value is not empty. If it is empty you want to check it with `.valueExists`
         if options.contains(.validValue), !value.isEmpty, let regex = self.validationRule?.regex {
             let isMatched = (value.range(of: regex, options: .regularExpression) != nil)
-            guard isMatched else {
+            guard isMatched, isPassedCustomValidation(value: value) else {
                 return .failure(.invalidValue)
             }
         }
