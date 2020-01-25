@@ -8,6 +8,8 @@ extension Input.Field {
         
         var value: String?
         
+        weak var expiryYearField: ExpiryYear?
+        
         init(from inputElement: InputElement, translator: TranslationProvider) {
             self.inputElement = inputElement
             self.translator = translator
@@ -21,6 +23,16 @@ extension Input.Field.ExpiryMonth: Validatable {
         case .invalidValue, .incorrectLength: return translator.translation(forKey: "error.INVALID_EXPIRY_MONTH")
         case .missingValue: return translator.translation(forKey: "error.MISSING_EXPIRY_MONTH")
         }
+    }
+    
+    func isPassedCustomValidation(value: String) -> Bool {
+        guard let expiryYear = expiryYearField?.value else {
+            // Don't check if year is not filled, that have to be done when is filled option is used.
+            return true
+        }
+        
+        let validationResult = Input.Field.Validation.ExpiryDate.isInFuture(expiryMonth: value, expiryYear: expiryYear) ?? false
+        return validationResult
     }
 }
 

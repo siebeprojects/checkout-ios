@@ -5,6 +5,8 @@ extension Input.Field {
         /// Transformed verification code fields.
         /// - Note: we need it to set a placholder suffix delegate after transformation
         fileprivate(set) var verificationCodeFields = [Input.Field.VerificationCode]()
+        fileprivate var expiryMonth: ExpiryMonth?
+        fileprivate var expiryYear: ExpiryYear?
         
         init() {}
     }
@@ -46,6 +48,10 @@ extension Input.Field.Transformer {
             
             return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule)
         }
+        
+        // Link month and year fields
+        expiryYear?.expiryMonthField = expiryMonth
+        expiryMonth?.expiryYearField = expiryYear
 
         // Get SmartSwitch rules for a network
         let switchRule: Input.SmartSwitch.Rule?
@@ -76,9 +82,13 @@ extension Input.Field.Transformer {
             verificationCodeFields.append(field)
             return field
         case ("expiryMonth", .some(.select)):
-            return Input.Field.ExpiryMonth(from: inputElement, translator: translator)
+            let field = Input.Field.ExpiryMonth(from: inputElement, translator: translator)
+            self.expiryMonth = field
+            return field
         case ("expiryYear", .some(.select)):
-            return Input.Field.ExpiryYear(from: inputElement, translator: translator)
+            let field = Input.Field.ExpiryYear(from: inputElement, translator: translator)
+            self.expiryYear = field
+            return field
         default:
             return Input.Field.Generic(from: inputElement, translator: translator, validationRule: validationRule)
         }
