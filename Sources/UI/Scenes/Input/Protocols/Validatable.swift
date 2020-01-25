@@ -48,8 +48,8 @@ extension Validatable where Self: TextInputField {
         }
         
         // Valid value, we check validity only if value is not empty. If it is empty you want to check it with `.valueExists`
-        if options.contains(.validValue), !value.isEmpty, let rule = self.validationRule {
-            let isMatched = (value.range(of: rule.regex, options: .regularExpression) != nil)
+        if options.contains(.validValue), !value.isEmpty, let regex = self.validationRule?.regex {
+            let isMatched = (value.range(of: regex, options: .regularExpression) != nil)
             guard isMatched else {
                 return .failure(.invalidValue)
             }

@@ -23,27 +23,27 @@ extension Input.Field.Transformer {
             logoData = nil
         }
         
-        // Get validation rules for a network
-        let validationRules: [Input.Field.Validation.Rule]
+        // Get validation rules
+        let validationProvider: Input.Field.Validation.Provider?
         
         do {
-            let networks = try Input.Field.Validation.Provider().get()
-            if let network = networks.first(withCode: paymentNetwork.applicableNetwork.code) {
-                validationRules = network.items
-            } else {
-                validationRules = [Input.Field.Validation.Rule]()
-            }
+            validationProvider = try .init()
         } catch {
-            let getRulesError = InternalError(description: "Failed to get validation rules: %@", objects: error)
-            getRulesError.log()
+            if let internalError = error as? InternalError {
+                internalError.log()
+            } else {
+                let getRulesError = InternalError(description: "Failed to get validation rules: %@", objects: error)
+                getRulesError.log()
+            }
             
-            validationRules = [Input.Field.Validation.Rule]()
+            validationProvider = nil
         }
         
         // Transform input fields
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
         let inputFields = inputElements.map { inputElement -> InputField & CellRepresentable in
-            let validationRule = validationRules.first(withType: inputElement.name)
+            let validationRule = validationProvider?.getRule(forNetworkCode: paymentNetwork.applicableNetwork.code, withInputElementName: inputElement.name)
+            
             return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule)
         }
 
