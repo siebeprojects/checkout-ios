@@ -67,6 +67,8 @@ extension Input.Field.Transformer {
         switch (inputElement.name, inputElement.inputElementType) {
         case ("number", .some(.numeric)):
             return Input.Field.AccountNumber(from: inputElement, translator: translator, validationRule: validationRule)
+        case ("iban", .some(.string)):
+            return Input.Field.IBAN(from: inputElement, translator: translator, validationRule: validationRule)
         case ("holderName", .some(.string)):
             return Input.Field.HolderName(from: inputElement, translator: translator, validationRule: validationRule)
         case ("verificationCode", .some(.integer)):

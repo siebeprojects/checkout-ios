@@ -26,6 +26,10 @@ extension Input.Field.AccountNumber: Validatable {
         case .missingValue: return translator.translation(forKey: "error.MISSING_ACCOUNT_NUMBER")
         }
     }
+    
+    func isPassedCustomValidation(value: String) -> Bool {
+        return Input.Field.Validation.Luhn.isValid(accountNumber: value)
+    }
 }
 
 #if canImport(UIKit)
