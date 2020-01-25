@@ -23,6 +23,12 @@ extension Validatable {
 
 // MARK: - TextInputField
 
+extension TextInputField where Self: Validatable {
+    var maxInputLength: Int? {
+        return validationRule?.maxLength
+    }
+}
+
 extension Validatable where Self: TextInputField {
     func validate(using options: Input.Field.Validation.Options) -> Input.Field.Validation.Result {
         // Value exists

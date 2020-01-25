@@ -12,6 +12,7 @@ extension Input.Table {
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
     class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
+        var maxInputLength: Int?
         
         private let label: UILabel
         let textField: UITextField
@@ -171,8 +172,32 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard containsOnlyAllowedCharacters(string: string, allowedKeyBoardType: textField.keyboardType) else {
+            return false
+        }
+        
+        guard isValidLength(for: textField, changedCharactersIn: range, replacementString: string) else {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isValidLength(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let maxInputLength = self.maxInputLength else { return true }
+        
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+                return true
+        }
+        let substringToReplace = textFieldText[rangeOfTextToReplace]
+        let count = textFieldText.count - substringToReplace.count + string.count
+        return count <= maxInputLength
+    }
+    
+    private func containsOnlyAllowedCharacters(string: String, allowedKeyBoardType: UIKeyboardType) -> Bool {
         let allowed: CharacterSet
-        switch textField.keyboardType {
+        switch allowedKeyBoardType {
         case .numbersAndPunctuation:
             var set = CharacterSet.decimalDigits
             set.formUnion(CharacterSet(charactersIn: " -"))

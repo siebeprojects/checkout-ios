@@ -18,7 +18,9 @@ extension Input.Field {
     }
 }
 
-extension Input.Field.Generic: TextInputField {}
+extension Input.Field.Generic: TextInputField {
+    var maxInputLength: Int? { nil }
+}
 
 #if canImport(UIKit)
 import UIKit
