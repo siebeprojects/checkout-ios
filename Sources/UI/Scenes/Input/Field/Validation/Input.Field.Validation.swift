@@ -1,12 +1,12 @@
 import Foundation
 
-extension Input {
+extension Input.Field {
     enum Validation {}
 }
 
 // MARK: - Model
 
-extension Input.Validation {
+extension Input.Field.Validation {
     struct Options: OptionSet {
         let rawValue: Int
 
@@ -43,13 +43,13 @@ extension Input.Validation {
         let type: String
         
         /// Regular expression
-        let regex: String
+        let regex: String?
         
         let maxLength: Int?
     }
 }
 
-extension Sequence where Element == Input.Validation.Network {
+extension Sequence where Element == Input.Field.Validation.Network {
     /// First found network with specified network code
     func first(withCode: String) -> Element? {
         for element in self where element.code == withCode {
@@ -60,7 +60,7 @@ extension Sequence where Element == Input.Validation.Network {
     }
 }
 
-extension Sequence where Element == Input.Validation.Rule {
+extension Sequence where Element == Input.Field.Validation.Rule {
     /// First found rule with specified type code
     func first(withType: String) -> Element? {
         for element in self where element.type == withType {
@@ -73,15 +73,36 @@ extension Sequence where Element == Input.Validation.Rule {
 
 // MARK: - Provider
 
-extension Input.Validation {
+extension Input.Field.Validation {
     class Provider {
-        func get() throws -> [Network] {
-            guard let jsonData = RawProvider.validationsJSON.data(using: .utf8) else {
+        let networks: [Network]
+        let defaultRules: [Input.Field.Validation.Rule]
+        
+        init() throws {
+            // Network specific
+            guard let networkValidationsJsonData = RawProvider.validationsJSON.data(using: .utf8) else {
                 throw InternalError(description: "Couldn't make a JSON data from a validation JSON string")
             }
             
-            let networks = try JSONDecoder().decode([Network].self, from: jsonData)
-            return networks
+            networks = try JSONDecoder().decode([Network].self, from: networkValidationsJsonData)
+
+            // Default
+            guard let defaultValidationsData = RawProvider.validationsDefaultsJSON.data(using: .utf8) else {
+                throw InternalError(description: "Couldn't make a JSON data from a default validation JSON string")
+            }
+            
+            defaultRules = try JSONDecoder().decode([Rule].self, from: defaultValidationsData)
+        }
+        
+        func getRule(forNetworkCode networkCode: String, withInputElementName inputName: String) -> Rule? {
+            
+            if let network = networks.first(withCode: networkCode) {
+                return network.items.first(withType: inputName)
+            } else if let defaultRule = defaultRules.first(withType: inputName) {
+                return defaultRule
+            } else {
+                return nil
+            }
         }
     }
 }

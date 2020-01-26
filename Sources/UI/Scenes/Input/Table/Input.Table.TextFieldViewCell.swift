@@ -5,13 +5,14 @@ private struct UIConstant {
     static let defaultSpacing: CGFloat = 8
 }
 
-extension Input {
+extension Input.Table {
     /// Cell that represents all text inputs, contains label and text field.
     /// Upon some actions calls `delegate`, don't forget to set it.
     ///
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
     class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
+        var maxInputLength: Int?
         
         private let label: UILabel
         let textField: UITextField
@@ -63,7 +64,7 @@ extension Input {
 
 // MARK: - Cell configuration
 
-extension Input.TextFieldViewCell {
+extension Input.Table.TextFieldViewCell {
     override var canBecomeFirstResponder: Bool { return true }
     
     override func becomeFirstResponder() -> Bool {
@@ -93,7 +94,7 @@ extension Input.TextFieldViewCell {
 
 // MARK: - Validation error label
 
-extension Input.TextFieldViewCell {
+extension Input.Table.TextFieldViewCell {
     func showValidationResult(for model: Any) {
         // If model is not validatable just set a normal text color
         guard let model = model as? Validatable else {
@@ -161,7 +162,7 @@ extension Input.TextFieldViewCell {
 
 // MARK: - UITextFieldDelegate
 
-extension Input.TextFieldViewCell: UITextFieldDelegate {
+extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         delegate?.inputCellBecameFirstResponder(at: indexPath)
     }
@@ -171,8 +172,32 @@ extension Input.TextFieldViewCell: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard containsOnlyAllowedCharacters(string: string, allowedKeyBoardType: textField.keyboardType) else {
+            return false
+        }
+        
+        guard isValidLength(for: textField, changedCharactersIn: range, replacementString: string) else {
+            return false
+        }
+        
+        return true
+    }
+    
+    private func isValidLength(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let maxInputLength = self.maxInputLength else { return true }
+        
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+                return true
+        }
+        let substringToReplace = textFieldText[rangeOfTextToReplace]
+        let count = textFieldText.count - substringToReplace.count + string.count
+        return count <= maxInputLength
+    }
+    
+    private func containsOnlyAllowedCharacters(string: String, allowedKeyBoardType: UIKeyboardType) -> Bool {
         let allowed: CharacterSet
-        switch textField.keyboardType {
+        switch allowedKeyBoardType {
         case .numbersAndPunctuation:
             var set = CharacterSet.decimalDigits
             set.formUnion(CharacterSet(charactersIn: " -"))

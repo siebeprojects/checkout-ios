@@ -1,16 +1,18 @@
 import Foundation
 
-extension Input {
+extension Input.Field {
     class Transformer {
         /// Transformed verification code fields.
         /// - Note: we need it to set a placholder suffix delegate after transformation
-        fileprivate(set) var verificationCodeFields = [Input.VerificationCodeField]()
+        fileprivate(set) var verificationCodeFields = [Input.Field.VerificationCode]()
+        fileprivate var expiryMonth: ExpiryMonth?
+        fileprivate var expiryYear: ExpiryYear?
         
         init() {}
     }
 }
 
-extension Input.Transformer {
+extension Input.Field.Transformer {
     /// Transform `PaymentNetwork` to `Input.Network`
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
         // Logo
@@ -23,29 +25,33 @@ extension Input.Transformer {
             logoData = nil
         }
         
-        // Get validation rules for a network
-        let validationRules: [Input.Validation.Rule]
+        // Get validation rules
+        let validationProvider: Input.Field.Validation.Provider?
         
         do {
-            let networks = try Input.Validation.Provider().get()
-            if let network = networks.first(withCode: paymentNetwork.applicableNetwork.code) {
-                validationRules = network.items
-            } else {
-                validationRules = [Input.Validation.Rule]()
-            }
+            validationProvider = try .init()
         } catch {
-            let getRulesError = InternalError(description: "Failed to get validation rules: %@", objects: error)
-            getRulesError.log()
+            if let internalError = error as? InternalError {
+                internalError.log()
+            } else {
+                let getRulesError = InternalError(description: "Failed to get validation rules: %@", objects: error)
+                getRulesError.log()
+            }
             
-            validationRules = [Input.Validation.Rule]()
+            validationProvider = nil
         }
         
         // Transform input fields
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
         let inputFields = inputElements.map { inputElement -> InputField & CellRepresentable in
-            let validationRule = validationRules.first(withType: inputElement.name)
+            let validationRule = validationProvider?.getRule(forNetworkCode: paymentNetwork.applicableNetwork.code, withInputElementName: inputElement.name)
+            
             return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule)
         }
+        
+        // Link month and year fields
+        expiryYear?.expiryMonthField = expiryMonth
+        expiryMonth?.expiryYearField = expiryYear
 
         // Get SmartSwitch rules for a network
         let switchRule: Input.SmartSwitch.Rule?
@@ -63,22 +69,28 @@ extension Input.Transformer {
     }
     
     /// Transform `InputElement` to `InputField`
-    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Validation.Rule?) -> InputField & CellRepresentable {
+    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?) -> InputField & CellRepresentable {
         switch (inputElement.name, inputElement.inputElementType) {
         case ("number", .some(.numeric)):
-            return Input.AccountNumberInputField(from: inputElement, translator: translator, validationRule: validationRule)
+            return Input.Field.AccountNumber(from: inputElement, translator: translator, validationRule: validationRule)
+        case ("iban", .some(.string)):
+            return Input.Field.IBAN(from: inputElement, translator: translator, validationRule: validationRule)
         case ("holderName", .some(.string)):
-            return Input.HolderNameInputField(from: inputElement, translator: translator, validationRule: validationRule)
+            return Input.Field.HolderName(from: inputElement, translator: translator, validationRule: validationRule)
         case ("verificationCode", .some(.integer)):
-            let field = Input.VerificationCodeField(from: inputElement, translator: translator, validationRule: validationRule)
+            let field = Input.Field.VerificationCode(from: inputElement, translator: translator, validationRule: validationRule)
             verificationCodeFields.append(field)
             return field
         case ("expiryMonth", .some(.select)):
-            return Input.ExpiryMonthInputField(from: inputElement, translator: translator)
+            let field = Input.Field.ExpiryMonth(from: inputElement, translator: translator)
+            self.expiryMonth = field
+            return field
         case ("expiryYear", .some(.select)):
-            return Input.ExpiryYearInputField(from: inputElement, translator: translator)
+            let field = Input.Field.ExpiryYear(from: inputElement, translator: translator)
+            self.expiryYear = field
+            return field
         default:
-            return Input.GenericInputField(from: inputElement, translator: translator, validationRule: validationRule)
+            return Input.Field.Generic(from: inputElement, translator: translator, validationRule: validationRule)
         }
     }
 }

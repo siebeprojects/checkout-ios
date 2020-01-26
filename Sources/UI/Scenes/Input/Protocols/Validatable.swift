@@ -1,17 +1,23 @@
 import Foundation
 
 protocol Validatable: class {
-    var validationRule: Input.Validation.Rule? { get }
+    var validationRule: Input.Field.Validation.Rule? { get }
     var validationErrorText: String? { get set }
     
-    func validateAndSaveResult(options: Input.Validation.Options)
-    func validate(using options: Input.Validation.Options) -> Input.Validation.Result
-    func localize(error: Input.Validation.ValidationError) -> String
+    func validateAndSaveResult(options: Input.Field.Validation.Options)
+    func validate(using options: Input.Field.Validation.Options) -> Input.Field.Validation.Result
+
+    
+    func localize(error: Input.Field.Validation.ValidationError) -> String
+    
+    // Optional method to add additional value checks (such as IBAN or Luhn validation). 
+    // Default: true
+    func isPassedCustomValidation(value: String) -> Bool
 }
 
 extension Validatable {
     /// Validate and write result to `validationResult`
-    func validateAndSaveResult(options: Input.Validation.Options) {
+    func validateAndSaveResult(options: Input.Field.Validation.Options) {
         switch validate(using: options) {
         case .success:
             validationErrorText = nil
@@ -19,12 +25,20 @@ extension Validatable {
             validationErrorText = localize(error: validationError)
         }
     }
+    
+    func isPassedCustomValidation(value: String) -> Bool { return true }
 }
 
 // MARK: - TextInputField
 
+extension TextInputField where Self: Validatable {
+    var maxInputLength: Int? {
+        return validationRule?.maxLength
+    }
+}
+
 extension Validatable where Self: TextInputField {
-    func validate(using options: Input.Validation.Options) -> Input.Validation.Result {
+    func validate(using options: Input.Field.Validation.Options) -> Input.Field.Validation.Result {
         // Value exists
         if options.contains(.valueExists) {
             guard let value = self.value, !value.isEmpty else {
@@ -48,9 +62,15 @@ extension Validatable where Self: TextInputField {
         }
         
         // Valid value, we check validity only if value is not empty. If it is empty you want to check it with `.valueExists`
-        if options.contains(.validValue), !value.isEmpty, let rule = self.validationRule {
-            let isMatched = (value.range(of: rule.regex, options: .regularExpression) != nil)
-            guard isMatched else {
+        if options.contains(.validValue), !value.isEmpty {
+            if let regex = self.validationRule?.regex {
+                let isMatched = (value.range(of: regex, options: .regularExpression) != nil)
+                guard isMatched else {
+                    return .failure(.invalidValue)
+                }
+            }
+
+            guard isPassedCustomValidation(value: value) else {
                 return .failure(.invalidValue)
             }
         }
@@ -62,9 +82,9 @@ extension Validatable where Self: TextInputField {
 // MARK: - SelectInputField
 
 extension Validatable where Self: SelectInputField {
-    var validationRule: Input.Validation.Rule? { return nil }
+    var validationRule: Input.Field.Validation.Rule? { return nil }
     
-    func validate(using options: Input.Validation.Options) -> Input.Validation.Result {
+    func validate(using options: Input.Field.Validation.Options) -> Input.Field.Validation.Result {
         // Value exists
         if options.contains(.valueExists) {
             guard let value = self.value, !value.isEmpty else {
