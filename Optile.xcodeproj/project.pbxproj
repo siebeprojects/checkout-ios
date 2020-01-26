@@ -107,7 +107,6 @@
 		D9A72A1823DE225500CEABE0 /* RawProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729AD23DE225500CEABE0 /* RawProvider.swift */; };
 		D9A72A1923DE225500CEABE0 /* validations-default.json.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729AE23DE225500CEABE0 /* validations-default.json.swift */; };
 		D9A72A1A23DE225500CEABE0 /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729AF23DE225500CEABE0 /* AssetProvider.swift */; };
-		D9A72A1B23DE225500CEABE0 /* validations.json.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729B023DE225500CEABE0 /* validations.json.swift */; };
 		D9A72A1C23DE225500CEABE0 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729B323DE225500CEABE0 /* AsynchronousOperation.swift */; };
 		D9A72A1D23DE225500CEABE0 /* SendRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729B423DE225500CEABE0 /* SendRequestOperation.swift */; };
 		D9A72A1E23DE225500CEABE0 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729B523DE225500CEABE0 /* HTTPMethod.swift */; };
@@ -122,6 +121,7 @@
 		D9A72A2723DE225500CEABE0 /* InternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729C123DE225500CEABE0 /* InternalError.swift */; };
 		D9A72A2823DE225500CEABE0 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A729C323DE225500CEABE0 /* Media.xcassets */; };
 		D9A72A2923DE225500CEABE0 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A729C423DE225500CEABE0 /* groups.json */; };
+		D9A72A2B23DE22F800CEABE0 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A72A2A23DE22F800CEABE0 /* validations.json */; };
 		OBJ_266 /* URL+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_127 /* URL+Example.swift */; };
 		OBJ_267 /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_128 /* XCTAttachment+subject.swift */; };
 		OBJ_268 /* XCTFail+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_129 /* XCTFail+Error.swift */; };
@@ -243,7 +243,6 @@
 		D9A729AD23DE225500CEABE0 /* RawProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawProvider.swift; sourceTree = "<group>"; };
 		D9A729AE23DE225500CEABE0 /* validations-default.json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "validations-default.json.swift"; sourceTree = "<group>"; };
 		D9A729AF23DE225500CEABE0 /* AssetProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
-		D9A729B023DE225500CEABE0 /* validations.json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = validations.json.swift; sourceTree = "<group>"; };
 		D9A729B323DE225500CEABE0 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
 		D9A729B423DE225500CEABE0 /* SendRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequestOperation.swift; sourceTree = "<group>"; };
 		D9A729B523DE225500CEABE0 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
@@ -258,6 +257,7 @@
 		D9A729C123DE225500CEABE0 /* InternalError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalError.swift; sourceTree = "<group>"; };
 		D9A729C323DE225500CEABE0 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D9A729C423DE225500CEABE0 /* groups.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = groups.json; sourceTree = "<group>"; };
+		D9A72A2A23DE22F800CEABE0 /* validations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
 		OBJ_127 /* URL+Example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Example.swift"; sourceTree = "<group>"; };
 		OBJ_128 /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		OBJ_129 /* XCTFail+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTFail+Error.swift"; sourceTree = "<group>"; };
@@ -575,7 +575,6 @@
 				D9A729AD23DE225500CEABE0 /* RawProvider.swift */,
 				D9A729AE23DE225500CEABE0 /* validations-default.json.swift */,
 				D9A729AF23DE225500CEABE0 /* AssetProvider.swift */,
-				D9A729B023DE225500CEABE0 /* validations.json.swift */,
 			);
 			path = Raw;
 			sourceTree = "<group>";
@@ -635,6 +634,7 @@
 			children = (
 				D9A729C323DE225500CEABE0 /* Media.xcassets */,
 				D9A729C423DE225500CEABE0 /* groups.json */,
+				D9A72A2A23DE22F800CEABE0 /* validations.json */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -853,6 +853,7 @@
 			files = (
 				D9A72A2823DE225500CEABE0 /* Media.xcassets in Resources */,
 				D9A72A2923DE225500CEABE0 /* groups.json in Resources */,
+				D9A72A2B23DE22F800CEABE0 /* validations.json in Resources */,
 				D9A72A0923DE225500CEABE0 /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -906,7 +907,6 @@
 				D9A729F023DE225500CEABE0 /* List.Table.TableView.swift in Sources */,
 				D9A72A0323DE225500CEABE0 /* PresetAccount.swift in Sources */,
 				D9A729D123DE225500CEABE0 /* Input.Field.swift in Sources */,
-				D9A72A1B23DE225500CEABE0 /* validations.json.swift in Sources */,
 				D9A729EB23DE225500CEABE0 /* List.Table.swift in Sources */,
 				D9A729EC23DE225500CEABE0 /* List.Table.DataSource.swift in Sources */,
 				D9A72A1523DE225500CEABE0 /* SelectOption.swift in Sources */,

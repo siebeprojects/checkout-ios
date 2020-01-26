@@ -5,7 +5,7 @@ import UIKit
 #endif
 
 final class AssetProvider {
-    static var bundle: Bundle {
+    private static var bundle: Bundle {
         .init(for: AssetProvider.self)
     }
     
@@ -19,6 +19,14 @@ final class AssetProvider {
     static func getGroupingRulesData() throws -> Data {
         guard let url = bundle.url(forResource: "groups", withExtension: "json") else {
             throw InternalError(description: "Unable to build a path for groups.json")
+        }
+        
+        return try Data(contentsOf: url)
+    }
+    
+    static func getValidationsData() throws -> Data {
+        guard let url = bundle.url(forResource: "validations", withExtension: "json") else {
+            throw InternalError(description: "Unable to build a path for validations.json")
         }
         
         return try Data(contentsOf: url)
