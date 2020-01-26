@@ -104,7 +104,6 @@
 		D9A72A1523DE225500CEABE0 /* SelectOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729A923DE225500CEABE0 /* SelectOption.swift */; };
 		D9A72A1623DE225500CEABE0 /* AccountRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729AA23DE225500CEABE0 /* AccountRegistration.swift */; };
 		D9A72A1723DE225500CEABE0 /* AccountFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729AB23DE225500CEABE0 /* AccountFormData.swift */; };
-		D9A72A1823DE225500CEABE0 /* RawProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729AD23DE225500CEABE0 /* RawProvider.swift */; };
 		D9A72A1A23DE225500CEABE0 /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729AF23DE225500CEABE0 /* AssetProvider.swift */; };
 		D9A72A1C23DE225500CEABE0 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729B323DE225500CEABE0 /* AsynchronousOperation.swift */; };
 		D9A72A1D23DE225500CEABE0 /* SendRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A729B423DE225500CEABE0 /* SendRequestOperation.swift */; };
@@ -240,7 +239,6 @@
 		D9A729A923DE225500CEABE0 /* SelectOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectOption.swift; sourceTree = "<group>"; };
 		D9A729AA23DE225500CEABE0 /* AccountRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRegistration.swift; sourceTree = "<group>"; };
 		D9A729AB23DE225500CEABE0 /* AccountFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountFormData.swift; sourceTree = "<group>"; };
-		D9A729AD23DE225500CEABE0 /* RawProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawProvider.swift; sourceTree = "<group>"; };
 		D9A729AF23DE225500CEABE0 /* AssetProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
 		D9A729B323DE225500CEABE0 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
 		D9A729B423DE225500CEABE0 /* SendRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequestOperation.swift; sourceTree = "<group>"; };
@@ -569,15 +567,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		D9A729AC23DE225500CEABE0 /* Raw */ = {
-			isa = PBXGroup;
-			children = (
-				D9A729AD23DE225500CEABE0 /* RawProvider.swift */,
-				D9A729AF23DE225500CEABE0 /* AssetProvider.swift */,
-			);
-			path = Raw;
-			sourceTree = "<group>";
-		};
 		D9A729B123DE225500CEABE0 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -622,6 +611,7 @@
 		D9A729BF23DE225500CEABE0 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				D9A729AF23DE225500CEABE0 /* AssetProvider.swift */,
 				D9A729C023DE225500CEABE0 /* log.swift */,
 				D9A729C123DE225500CEABE0 /* InternalError.swift */,
 			);
@@ -760,7 +750,6 @@
 				D9A7294123DE225500CEABE0 /* Localization */,
 				D9A7299323DE225500CEABE0 /* Model */,
 				D9A729B123DE225500CEABE0 /* Network */,
-				D9A729AC23DE225500CEABE0 /* Raw */,
 				D9A7294823DE225500CEABE0 /* UI */,
 			);
 			path = Sources;
@@ -891,7 +880,6 @@
 				D9A72A0A23DE225500CEABE0 /* Installments.swift in Sources */,
 				D9A729E423DE225500CEABE0 /* TextInputField.swift in Sources */,
 				D9A729D223DE225500CEABE0 /* Input.Field.Validation.IBAN.swift in Sources */,
-				D9A72A1823DE225500CEABE0 /* RawProvider.swift in Sources */,
 				D9A729F923DE225500CEABE0 /* PaymentSession.swift in Sources */,
 				D9A729D423DE225500CEABE0 /* Input.Field.Validation.Luhn.swift in Sources */,
 				D9A729FD23DE225500CEABE0 /* DataDownloadProvider.swift in Sources */,
