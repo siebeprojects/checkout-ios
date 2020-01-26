@@ -31,4 +31,12 @@ final class AssetProvider {
         
         return try Data(contentsOf: url)
     }
+    
+    static func getValidationsDefaultData() throws -> Data {
+        guard let url = bundle.url(forResource: "validations-default", withExtension: "json") else {
+            throw InternalError(description: "Unable to build a path for validations-default.json")
+        }
+        
+        return try Data(contentsOf: url)
+    }
 }
