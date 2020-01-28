@@ -1,0 +1,109 @@
+import XCTest
+@testable import Payment
+
+class ValidationTests: XCTestCase {
+    private let translationProvider = KeysOnlyTranslationProvider()
+    private let validationProvider = try! Input.Field.Validation.Provider()
+    
+    /// Run multiple tests for input fields.
+    /// Tests configurations is stored at `MockFactory.Validation` JSON.
+    func testInputFieldValidations() {
+        for network in MockFactory.Validation.validationTestCases {
+            // Make a fake network from ruleset
+            let testableInputElements = makeTestableInputElements(for: network)
+            
+            for testableInputElement in testableInputElements {
+                XCTContext.runActivity(named: "Testing network " + testableInputElement.network.applicableNetwork.code) { (activity) in
+                    testableInputElement.test(within: activity)
+                }
+            }
+        }
+    }
+    
+    /// Make applicable network with one input field for each input element's test case.
+    private func makeTestableInputElements(for validatableNetwork: MockFactory.Validation.Network) -> [TestableInputElement] {
+        var networks = [TestableInputElement]()
+        
+        for inputElementWithRules in validatableNetwork.inputElements {
+            XCTAssert(inputElementWithRules.name != nil && inputElementWithRules.type != nil, "Name and type are nulls, JSON is incorrect")
+
+            let name = inputElementWithRules.name ?? "unknownName"
+            let type = inputElementWithRules.type ?? InputElement.InputElementType.string.rawValue
+            
+            let inputElement = InputElement(name: name, type: type, label: "")
+            let applicableNetwork = ApplicableNetwork(code: validatableNetwork.networkCode, label: "", method: "", grouping: "", registration: "", recurrence: "", redirect: false, localizedInputElements: [inputElement])
+            let paymentNetwork = PaymentNetwork(from: applicableNetwork, localizeUsing: translationProvider)
+            let testableInputElement = TestableInputElement(network: paymentNetwork, testCases: inputElementWithRules.tests)
+            networks.append(testableInputElement)
+        }
+        
+        return networks
+    }
+    
+    private class TestableInputElement {
+        let network: PaymentNetwork
+        let testCases: [MockFactory.Validation.InputElementTestCase]
+        
+        func test(within activity: XCTActivity) {
+            let transformer = Input.Field.Transformer()
+            let inputNetwork = transformer.transform(paymentNetwork: network)
+                        
+            guard let inputElement = inputNetwork.inputFields.first else {
+                fatalError("Input element is not present applicable network, programmatic error")
+            }
+            
+            let attachment = XCTAttachment(subject: inputElement)
+            attachment.name = "inputField_\(inputElement.name)"
+            activity.add(attachment)
+            
+            guard let validatableInputElement = inputElement as? InputField & Validatable else {
+                XCTFail("InputField doesn't conform to Validatable protocol")
+                return
+            }
+            
+            for testCase in testCases {
+                let activityName = testCase.value ?? "<nil>"
+                
+                XCTContext.runActivity(named: "Testing using value \(activityName)") {
+                    test(inputElement: validatableInputElement, testCase: testCase, within: $0)
+                }
+            }
+        }
+        
+        private func test(inputElement: InputField & Validatable, testCase: MockFactory.Validation.InputElementTestCase, within activity: XCTActivity) {
+            inputElement.validationErrorText = nil
+            inputElement.value = testCase.value
+            inputElement.validateAndSaveResult(options: .all)
+            
+            let attachment = XCTAttachment(subject: testCase)
+            attachment.name = "testCase"
+            activity.add(attachment)
+            
+            if let expectedError = testCase.error {
+                let expectedLocalizationErrorKey = "error." + expectedError
+                
+                XCTAssertEqual(inputElement.validationErrorText, expectedLocalizationErrorKey)
+            } else {
+                XCTAssertEqual(inputElement.validationErrorText, nil)
+            }
+        }
+        
+        init(network: PaymentNetwork, testCases: [MockFactory.Validation.InputElementTestCase]) {
+            self.network = network
+            self.testCases = testCases
+        }
+    }
+}
+
+/// Translation provider that doesn't translate (we don't need in that test case), it just returns localization keys as translation
+private class KeysOnlyTranslationProvider: TranslationProvider {
+    let translations = [[String : String]]()
+    
+    func translation(forKey key: String) -> String {
+        return key
+    }
+    
+    func translation(forKey key: String) -> String? {
+        fatalError("Method is prohibited and shouldn't be called")
+    }
+}
