@@ -8,7 +8,7 @@ extension Input.Field {
         let networkMethod: String
         var validationErrorText: String?
         
-        var value: String?
+        var value: String = ""
 
         /// - Parameters:
         ///   - networkMethod: Indicates payment method this network belongs (from `ApplicableNetwork`)
@@ -33,7 +33,7 @@ extension Input.Field.AccountNumber: Validatable {
         }
     }
     
-    func isPassedCustomValidation(value: String) -> Bool {
+    var isPassedCustomValidation: Bool {
         // Validate only some networks
         if luhnValidatableMethods.contains(networkMethod) {
             return Input.Field.Validation.Luhn.isValid(accountNumber: value)
