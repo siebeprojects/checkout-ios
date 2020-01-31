@@ -77,14 +77,12 @@ extension Validatable where Self: TextInputField {
     }
     
     fileprivate var isValueValid: Bool {
-        guard let regex = validationRule?.regex else {
-            return true
-        }
-        
-        let isMatched = (value.range(of: regex, options: .regularExpression) != nil)
-        
-        guard isMatched else {
-            return false
+        if let regex = validationRule?.regex {
+            let isMatched = (value.range(of: regex, options: .regularExpression) != nil)
+            
+            guard isMatched else {
+                return false
+            }
         }
         
         guard isPassedCustomValidation else {
