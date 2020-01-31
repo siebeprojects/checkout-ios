@@ -9,12 +9,24 @@ class ValidationTests: XCTestCase {
     /// Tests configurations is stored at `MockFactory.Validation` JSON.
     func testInputFieldValidations() {
         for network in MockFactory.Validation.validationTestCases {
-            // Make a fake network from ruleset
-            let testableInputElements = makeTestableInputElements(for: network)
+            var networkName: String = ""
             
-            for testableInputElement in testableInputElements {
-                XCTContext.runActivity(named: "Testing network " + testableInputElement.network.applicableNetwork.code) { (activity) in
-                    testableInputElement.test(within: activity)
+            if let code = network.code {
+                networkName = code
+            }
+            
+            if let method = network.method {
+                networkName += " (" + method + ")"
+            }
+                
+            XCTContext.runActivity(named: "Test network " + networkName) { _ in
+                // Make a fake network from ruleset
+                let testableInputElements = makeTestableInputElements(for: network)
+                
+                for testableInputElement in testableInputElements {
+                    XCTContext.runActivity(named: "Test input element " + testableInputElement.name) { (activity) in
+                        testableInputElement.test(within: activity)
+                    }
                 }
             }
         }
@@ -25,15 +37,14 @@ class ValidationTests: XCTestCase {
         var networks = [TestableInputElement]()
         
         for inputElementWithRules in validatableNetwork.inputElements {
-            XCTAssert(inputElementWithRules.name != nil && inputElementWithRules.type != nil, "Name and type are nulls, JSON is incorrect")
-
-            let name = inputElementWithRules.name ?? "unknownName"
-            let type = inputElementWithRules.type ?? InputElement.InputElementType.string.rawValue
+            // Network variables
+            let networkCode = validatableNetwork.code ?? ""
+            let method = validatableNetwork.method ?? ""
             
-            let inputElement = InputElement(name: name, type: type, label: "")
-            let applicableNetwork = ApplicableNetwork(code: validatableNetwork.networkCode, label: "", method: "", grouping: "", registration: "", recurrence: "", redirect: false, localizedInputElements: [inputElement])
+            let inputElement = InputElement(name: inputElementWithRules.name, type: "", label: "")
+            let applicableNetwork = ApplicableNetwork(code: networkCode, label: "", method: method, grouping: "", registration: "", recurrence: "", redirect: false, localizedInputElements: [inputElement])
             let paymentNetwork = PaymentNetwork(from: applicableNetwork, localizeUsing: translationProvider)
-            let testableInputElement = TestableInputElement(network: paymentNetwork, testCases: inputElementWithRules.tests)
+            let testableInputElement = TestableInputElement(name: inputElementWithRules.name, network: paymentNetwork, testCases: inputElementWithRules.tests)
             networks.append(testableInputElement)
         }
         
@@ -42,6 +53,7 @@ class ValidationTests: XCTestCase {
     
     private class TestableInputElement {
         let network: PaymentNetwork
+        let name: String
         let testCases: [MockFactory.Validation.InputElementTestCase]
         
         func test(within activity: XCTActivity) {
@@ -64,7 +76,7 @@ class ValidationTests: XCTestCase {
             for testCase in testCases {
                 let activityName = testCase.value ?? "<nil>"
                 
-                XCTContext.runActivity(named: "Testing using value \(activityName)") {
+                XCTContext.runActivity(named: "Test using value \(activityName)") {
                     test(inputElement: validatableInputElement, testCase: testCase, within: $0)
                 }
             }
@@ -72,8 +84,8 @@ class ValidationTests: XCTestCase {
         
         private func test(inputElement: InputField & Validatable, testCase: MockFactory.Validation.InputElementTestCase, within activity: XCTActivity) {
             inputElement.validationErrorText = nil
-            inputElement.value = testCase.value
-            inputElement.validateAndSaveResult(options: .all)
+            inputElement.value = testCase.value ?? ""
+            inputElement.validateAndSaveResult(option: .fullCheck)
             
             let attachment = XCTAttachment(subject: testCase)
             attachment.name = "testCase"
@@ -88,7 +100,8 @@ class ValidationTests: XCTestCase {
             }
         }
         
-        init(network: PaymentNetwork, testCases: [MockFactory.Validation.InputElementTestCase]) {
+        init(name: String, network: PaymentNetwork, testCases: [MockFactory.Validation.InputElementTestCase]) {
+            self.name = name
             self.network = network
             self.testCases = testCases
         }
