@@ -148,7 +148,55 @@ extension MockFactory.Validation {
                         "error": null
                       },
                       {
+                        "value": "4556260657599841",
+                        "error": null
+                      },
+                      {
+                        "value": "5386813397330555",
+                        "error": null
+                      },
+                      {
+                        "value": "6011206880824187",
+                        "error": null
+                      },
+                      {
+                        "value": "376848137807457",
+                        "error": null
+                      },
+                      {
+                        "value": "3540173304463363",
+                        "error": null
+                      },
+                      {
+                        "value": "5545674672092247",
+                        "error": null
+                      },
+                      {
+                        "value": "30121723749105",
+                        "error": null
+                      },
+                      {
+                        "value": "36394455633086",
+                        "error": null
+                      },
+                      {
+                        "value": "6762174698488713",
+                        "error": null
+                      },
+                      {
+                        "value": "4917582391037711",
+                        "error": null
+                      },
+                      {
+                        "value": "6393363361928900",
+                        "error": null
+                      },
+                      {
                         "value": "12345",
+                        "error": "INVALID_ACCOUNT_NUMBER"
+                      },
+                      {
+                        "value": "1234567890123456",
                         "error": "INVALID_ACCOUNT_NUMBER"
                       },
                       {
