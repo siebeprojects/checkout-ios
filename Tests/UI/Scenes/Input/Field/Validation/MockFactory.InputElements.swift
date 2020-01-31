@@ -80,6 +80,14 @@ extension MockFactory.Validation {
                         "error": null
                       },
                       {
+                        "value": "DE27100777770209299700",
+                        "error": null
+                      },
+                      {
+                        "value": "AT1234567890123456",
+                        "error": "INVALID_IBAN"
+                      },
+                      {
                         "value": "ABCD",
                         "error": "INVALID_IBAN"
                       },
