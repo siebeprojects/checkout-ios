@@ -89,6 +89,8 @@ extension Input.Field.Transformer {
             let field = Input.Field.ExpiryYear(from: inputElement, translator: translator)
             self.expiryYear = field
             return field
+        case "bankCode":
+            return Input.Field.BankCode(from: inputElement, translator: translator, validationRule: validationRule)
         default:
             return Input.Field.Generic(from: inputElement, translator: translator, validationRule: validationRule)
         }
