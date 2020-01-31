@@ -91,6 +91,8 @@ extension Input.Field.Transformer {
             return field
         case "bankCode":
             return Input.Field.BankCode(from: inputElement, translator: translator, validationRule: validationRule)
+        case "bic":
+            return Input.Field.BIC(from: inputElement, translator: translator, validationRule: validationRule)
         default:
             return Input.Field.Generic(from: inputElement, translator: translator, validationRule: validationRule)
         }
