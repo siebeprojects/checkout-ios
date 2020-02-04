@@ -33,14 +33,29 @@ extension Input.Field.Validation {
     }
     
     /// Rule to check input field value
-    struct Rule: Decodable {
+    struct Rule {
         /// Input element's name
         let type: String
         
         /// Regular expression
         let regex: String?
         
-        let maxLength: Int?
+        let maxLength: Int
+    }
+}
+
+extension Input.Field.Validation.Rule: Decodable {
+    private static var defaultMaxLength: Int { return 128 }
+    
+    private enum CodingKeys: String, CodingKey {
+        case type, regex, maxLength
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        type = try values.decode(String.self, forKey: .type)
+        regex = try values.decodeIfPresent(String.self, forKey: .regex)
+        maxLength = try values.decodeIfPresent(Int.self, forKey: .maxLength) ?? Self.defaultMaxLength
     }
 }
 
@@ -90,7 +105,6 @@ extension Input.Field.Validation {
         }
         
         func getRule(forNetworkCode networkCode: String, withInputElementName inputName: String) -> Rule? {
-            
             if let network = networks.first(withCode: networkCode) {
                 return network.items.first(withType: inputName)
             } else if let defaultRule = defaultRules.first(withType: inputName) {
