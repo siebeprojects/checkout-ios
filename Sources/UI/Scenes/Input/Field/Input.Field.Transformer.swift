@@ -13,6 +13,10 @@ extension Input.Field {
 }
 
 extension Input.Field.Transformer {
+    private var ignoredFields: [IgnoredFields] {[
+        .init(networkCode: "SEPADD", inputElementName: "bic")
+    ]}
+    
     /// Transform `PaymentNetwork` to `Input.Network`
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
         // Logo
@@ -43,7 +47,11 @@ extension Input.Field.Transformer {
         
         // Transform input fields
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
-        let inputFields = inputElements.map { inputElement -> InputField & CellRepresentable in
+        let inputFields = inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
+            for ignored in ignoredFields {
+                if paymentNetwork.applicableNetwork.code == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
+            }
+            
             let validationRule = validationProvider?.getRule(forNetworkCode: paymentNetwork.applicableNetwork.code, withInputElementName: inputElement.name)
             
             return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule, networkMethod: paymentNetwork.applicableNetwork.method)
@@ -96,5 +104,12 @@ extension Input.Field.Transformer {
         default:
             return Input.Field.Generic(from: inputElement, translator: translator, validationRule: validationRule)
         }
+    }
+}
+
+extension Input.Field.Transformer {
+    fileprivate struct IgnoredFields {
+        let networkCode: String
+        let inputElementName: String
     }
 }
