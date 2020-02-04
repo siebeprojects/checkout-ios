@@ -46,7 +46,7 @@ extension Input.Field.Transformer {
         let inputFields = inputElements.map { inputElement -> InputField & CellRepresentable in
             let validationRule = validationProvider?.getRule(forNetworkCode: paymentNetwork.applicableNetwork.code, withInputElementName: inputElement.name)
             
-            return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule)
+            return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule, networkMethod: paymentNetwork.applicableNetwork.method)
         }
         
         // Link month and year fields
@@ -69,26 +69,30 @@ extension Input.Field.Transformer {
     }
     
     /// Transform `InputElement` to `InputField`
-    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?) -> InputField & CellRepresentable {
-        switch (inputElement.name, inputElement.inputElementType) {
-        case ("number", .some(.numeric)):
-            return Input.Field.AccountNumber(from: inputElement, translator: translator, validationRule: validationRule)
-        case ("iban", .some(.string)):
+    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?, networkMethod: String) -> InputField & CellRepresentable {
+        switch inputElement.name {
+        case "number":
+            return Input.Field.AccountNumber(from: inputElement, translator: translator, validationRule: validationRule, networkMethod: networkMethod)
+        case "iban":
             return Input.Field.IBAN(from: inputElement, translator: translator, validationRule: validationRule)
-        case ("holderName", .some(.string)):
+        case "holderName":
             return Input.Field.HolderName(from: inputElement, translator: translator, validationRule: validationRule)
-        case ("verificationCode", .some(.integer)):
+        case "verificationCode":
             let field = Input.Field.VerificationCode(from: inputElement, translator: translator, validationRule: validationRule)
             verificationCodeFields.append(field)
             return field
-        case ("expiryMonth", .some(.select)):
+        case "expiryMonth":
             let field = Input.Field.ExpiryMonth(from: inputElement, translator: translator)
             self.expiryMonth = field
             return field
-        case ("expiryYear", .some(.select)):
+        case "expiryYear":
             let field = Input.Field.ExpiryYear(from: inputElement, translator: translator)
             self.expiryYear = field
             return field
+        case "bankCode":
+            return Input.Field.BankCode(from: inputElement, translator: translator, validationRule: validationRule)
+        case "bic":
+            return Input.Field.BIC(from: inputElement, translator: translator, validationRule: validationRule)
         default:
             return Input.Field.Generic(from: inputElement, translator: translator, validationRule: validationRule)
         }

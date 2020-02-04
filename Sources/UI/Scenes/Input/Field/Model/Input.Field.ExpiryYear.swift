@@ -6,7 +6,7 @@ extension Input.Field {
         let translator: TranslationProvider
         var validationErrorText: String?
         
-        var value: String?
+        var value: String = ""
         
         weak var expiryMonthField: ExpiryMonth?
         
@@ -25,7 +25,7 @@ extension Input.Field.ExpiryYear: Validatable {
         }
     }
     
-    func isPassedCustomValidation(value: String) -> Bool {
+    var isPassedCustomValidation: Bool {
         guard let expiryMonth = expiryMonthField?.value else {
             // Don't check if year is not filled, that have to be done when is filled option is used.
             return true

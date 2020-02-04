@@ -7,7 +7,7 @@ protocol InputField: class {
     
     var name: String { get }
     var label: String { get }
-    var value: String? { get set }
+    var value: String { get set }
 }
 
 extension InputField {

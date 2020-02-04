@@ -146,7 +146,7 @@ extension Input.ViewController {
     }
     
     @objc private func payButtonDidTap() {
-        tableController.validateFields(options: .all)
+        tableController.validateFields(option: .fullCheck)
     }
 }
 
@@ -158,7 +158,8 @@ extension Input.ViewController: InputValueChangesListener {
     func valueDidChange(for field: InputField) {
         // React only on account number changes
         guard let accountNumberField = field as? Input.Field.AccountNumber else { return }
-        guard let accountNumber = accountNumberField.value else { return }
+        
+        let accountNumber = accountNumberField.value
         
         let previousSelection = smartSwitch.selected
         let newSelection = smartSwitch.select(usingAccountNumber: accountNumber)

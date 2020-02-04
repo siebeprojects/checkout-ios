@@ -7,14 +7,9 @@ extension Input.Field {
 // MARK: - Model
 
 extension Input.Field.Validation {
-    struct Options: OptionSet {
-        let rawValue: Int
-
-        static let valueExists = Options(rawValue: 1 << 0)
-        static let validValue  = Options(rawValue: 1 << 1)
-        static let maxLength   = Options(rawValue: 1 << 2)
-        
-        static let all: Options = [.valueExists, .validValue, .maxLength]
+    enum Option {
+        case preCheck
+        case fullCheck
     }
     
     enum Result {

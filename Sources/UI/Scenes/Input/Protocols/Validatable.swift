@@ -4,21 +4,20 @@ protocol Validatable: class {
     var validationRule: Input.Field.Validation.Rule? { get }
     var validationErrorText: String? { get set }
     
-    func validateAndSaveResult(options: Input.Field.Validation.Options)
-    func validate(using options: Input.Field.Validation.Options) -> Input.Field.Validation.Result
+    func validateAndSaveResult(option: Input.Field.Validation.Option)
+    func validate(using option: Input.Field.Validation.Option) -> Input.Field.Validation.Result
 
-    
     func localize(error: Input.Field.Validation.ValidationError) -> String
     
-    // Optional method to add additional value checks (such as IBAN or Luhn validation). 
-    // Default: true
-    func isPassedCustomValidation(value: String) -> Bool
+    /// Optional method to add additional value checks (such as IBAN or Luhn validation).
+    /// Default: true
+    var isPassedCustomValidation: Bool { get }
 }
 
 extension Validatable {
     /// Validate and write result to `validationResult`
-    func validateAndSaveResult(options: Input.Field.Validation.Options) {
-        switch validate(using: options) {
+    func validateAndSaveResult(option: Input.Field.Validation.Option) {
+        switch validate(using: option) {
         case .success:
             validationErrorText = nil
         case .failure(let validationError):
@@ -26,7 +25,7 @@ extension Validatable {
         }
     }
     
-    func isPassedCustomValidation(value: String) -> Bool { return true }
+    var isPassedCustomValidation: Bool { return true }
 }
 
 // MARK: - TextInputField
@@ -38,44 +37,59 @@ extension TextInputField where Self: Validatable {
 }
 
 extension Validatable where Self: TextInputField {
-    func validate(using options: Input.Field.Validation.Options) -> Input.Field.Validation.Result {
-        // Value exists
-        if options.contains(.valueExists) {
-            guard let value = self.value, !value.isEmpty else {
-                return .failure(.missingValue)
-            }
-        }
-        
-        guard let value = self.value, let rule = self.validationRule else {
-            return .success
-        }
-        
-        // Correct length
-        if options.contains(.maxLength) {
-            guard let maxLength = rule.maxLength else {
+    func validate(using option: Input.Field.Validation.Option) -> Input.Field.Validation.Result {
+        if case .preCheck = option {
+            guard isValueExists else {
+                // If value doesn't exists don't proceed
                 return .success
             }
-            
-            guard value.count <= maxLength else {
-                return .failure(.incorrectLength)
+        }
+
+        guard isValueValid else {
+            if !isValueExists {
+                return .failure(.missingValue)
             }
+            
+            return .failure(.invalidValue)
         }
         
-        // Valid value, we check validity only if value is not empty. If it is empty you want to check it with `.valueExists`
-        if options.contains(.validValue), !value.isEmpty {
-            if let regex = self.validationRule?.regex {
-                let isMatched = (value.range(of: regex, options: .regularExpression) != nil)
-                guard isMatched else {
-                    return .failure(.invalidValue)
-                }
-            }
-
-            guard isPassedCustomValidation(value: value) else {
-                return .failure(.invalidValue)
-            }
+        guard isCorrectLength else {
+            return .failure(.incorrectLength)
         }
         
         return .success
+    }
+    
+    fileprivate var isValueExists: Bool {
+        return !value.isEmpty
+    }
+    
+    fileprivate var isCorrectLength: Bool {
+        guard let maxLength = validationRule?.maxLength else {
+            return true
+        }
+        
+        guard value.count <= maxLength else {
+            return false
+        }
+        
+        return true
+    }
+    
+    fileprivate var isValueValid: Bool {
+        if let regex = validationRule?.regex {
+            let isMatched = (value.range(of: regex, options: .regularExpression) != nil)
+            
+            guard isMatched else {
+                return false
+            }
+        }
+        
+        guard isPassedCustomValidation else {
+            return false
+        }
+        
+        return true
     }
 }
 
@@ -84,16 +98,21 @@ extension Validatable where Self: TextInputField {
 extension Validatable where Self: SelectInputField {
     var validationRule: Input.Field.Validation.Rule? { return nil }
     
-    func validate(using options: Input.Field.Validation.Options) -> Input.Field.Validation.Result {
-        // Value exists
-        if options.contains(.valueExists) {
-            guard let value = self.value, !value.isEmpty else {
+    func validate(using option: Input.Field.Validation.Option) -> Input.Field.Validation.Result {
+        switch option {
+        case .preCheck:
+            guard isValueExists else {
+                // If value doesn't exists don't proceed
+                return .success
+            }
+        case .fullCheck:
+            guard isValueExists else {
                 return .failure(.missingValue)
             }
         }
         
         // Valid value, we check validity only if value is not empty. If it is empty you want to check it with `.valueExists`
-        if options.contains(.validValue), let value = self.value, !value.isEmpty, let options = inputElement.options {
+        if let options = inputElement.options {
             let validLabels: [String] = options.compactMap { selectOption in
                 // Example key: `account.expiryMonth.05`
                 let translationKey = "account." + inputElement.name + "." + selectOption.value
