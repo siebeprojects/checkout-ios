@@ -52,6 +52,14 @@ extension MockFactory.Validation {
                       {
                         "value": null,
                         "error": "MISSING_HOLDER_NAME"
+                      },
+                      {
+                        "value": "MoreThan128_XPEV349YOlM5aAL3nx7equiKeaUvavq6ZFbSh2M3JKZyJQ5weuZ9wWRTmzYwBcpjm7VhNhl3fTe7FQxRtmIpQbKvnlsfewjQmiWlFvXGt3fojnJhO2HT2Hy55v0Rk0VZF",
+                        "error": "INVALID_HOLDER_NAME"
+                      },
+                      {
+                        "value": "aa",
+                        "error": "INVALID_HOLDER_NAME"
                       }
                     ]
                   },
