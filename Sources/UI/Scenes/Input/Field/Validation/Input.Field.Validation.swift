@@ -105,8 +105,8 @@ extension Input.Field.Validation {
         }
         
         func getRule(forNetworkCode networkCode: String, withInputElementName inputName: String) -> Rule? {
-            if let network = networks.first(withCode: networkCode) {
-                return network.items.first(withType: inputName)
+            if let network = networks.first(withCode: networkCode), let ruleForNetwork = network.items.first(withType: inputName) {
+                return ruleForNetwork
             } else if let defaultRule = defaultRules.first(withType: inputName) {
                 return defaultRule
             } else {
