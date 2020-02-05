@@ -83,6 +83,22 @@ extension Input.Table.Controller: InputCellDelegate {
     }
     
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
+        // Don't show an error text when input field is focused
+        if let model = cells[indexPath.row] as? Validatable,
+            model.validationErrorText != nil {
+            model.validationErrorText = nil
+            
+            tableView.beginUpdates()
+            
+            switch tableView.cellForRow(at: indexPath) {
+            case let textFieldViewCell as Input.Table.TextFieldViewCell:
+                textFieldViewCell.showValidationResult(for: model)
+            default: break
+            }
+            
+            tableView.endUpdates()
+        }
+        
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
     }
     
