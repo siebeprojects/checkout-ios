@@ -1,5 +1,5 @@
 import Foundation
-import Payment
+import Optile
 
 class MockConnection: Connection {
     private let serialQueue = DispatchQueue(label: "Mock connection serial queue")

@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D9D705FE23703B66004000AE /* Optile in Frameworks */ = {isa = PBXBuildFile; productRef = D9D705FD23703B66004000AE /* Optile */; };
+		D95651D923C7D577002AE827 /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95651D623C7D449002AE827 /* Optile.framework */; };
+		D95651DA23C7D577002AE827 /* Optile.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D95651D623C7D449002AE827 /* Optile.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB0234143BD0021184C /* AppDelegate.swift */; };
 		D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB4234143BD0021184C /* ViewController.swift */; };
 		D9E0AEB8234143BD0021184C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB6234143BD0021184C /* Main.storyboard */; };
@@ -15,8 +16,40 @@
 		D9E0AEBD234143BF0021184C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D95651D523C7D449002AE827 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D95651CE23C7D446002AE827 /* Optile.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "Optile::Optile::Product";
+			remoteInfo = Optile;
+		};
+		D95651D723C7D449002AE827 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D95651CE23C7D446002AE827 /* Optile.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "Optile::Tests::Product";
+			remoteInfo = Tests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D95651DB23C7D577002AE827 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D95651DA23C7D577002AE827 /* Optile.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		D9BF40C5236AF86B000B949D /* ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ios-sdk"; path = ..; sourceTree = "<group>"; };
+		D95651CE23C7D446002AE827 /* Optile.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Optile.xcodeproj; path = ../Optile.xcodeproj; sourceTree = "<group>"; };
+		D967F71723C7C6450001B778 /* Optile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E0AEAD234143BD0021184C /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E0AEB0234143BD0021184C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9E0AEB4234143BD0021184C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,16 +64,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9D705FE23703B66004000AE /* Optile in Frameworks */,
+				D95651D923C7D577002AE827 /* Optile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D95651CF23C7D446002AE827 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D95651D623C7D449002AE827 /* Optile.framework */,
+				D95651D823C7D449002AE827 /* Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D9D705FC23703B66004000AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D967F71723C7C6450001B778 /* Optile.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -48,8 +91,8 @@
 		D9E0AEA4234143BD0021184C = {
 			isa = PBXGroup;
 			children = (
-				D9BF40C5236AF86B000B949D /* ios-sdk */,
-				D9E0AEAF234143BD0021184C /* Example */,
+				D95651CE23C7D446002AE827 /* Optile.xcodeproj */,
+				D9E0AEAF234143BD0021184C /* Sources */,
 				D9E0AEAE234143BD0021184C /* Products */,
 				D9D705FC23703B66004000AE /* Frameworks */,
 			);
@@ -63,7 +106,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D9E0AEAF234143BD0021184C /* Example */ = {
+		D9E0AEAF234143BD0021184C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				D9E0AEB0234143BD0021184C /* AppDelegate.swift */,
@@ -73,7 +116,7 @@
 				D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */,
 				D9E0AEBE234143BF0021184C /* Info.plist */,
 			);
-			path = Example;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,15 +129,13 @@
 				D9E0AEA9234143BD0021184C /* Sources */,
 				D9E0AEAA234143BD0021184C /* Frameworks */,
 				D9E0AEAB234143BD0021184C /* Resources */,
+				D95651DB23C7D577002AE827 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Example;
-			packageProductDependencies = (
-				D9D705FD23703B66004000AE /* Optile */,
-			);
 			productName = Example;
 			productReference = D9E0AEAD234143BD0021184C /* Example.app */;
 			productType = "com.apple.product-type.application";
@@ -125,12 +166,35 @@
 			mainGroup = D9E0AEA4234143BD0021184C;
 			productRefGroup = D9E0AEAE234143BD0021184C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D95651CF23C7D446002AE827 /* Products */;
+					ProjectRef = D95651CE23C7D446002AE827 /* Optile.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D9E0AEAC234143BD0021184C /* Example */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D95651D623C7D449002AE827 /* Optile.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Optile.framework;
+			remoteRef = D95651D523C7D449002AE827 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D95651D823C7D449002AE827 /* Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = file;
+			path = Tests.xctest;
+			remoteRef = D95651D723C7D449002AE827 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D9E0AEAB234143BD0021184C /* Resources */ = {
@@ -297,7 +361,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7X2PJ6H6YM;
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -316,7 +380,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7X2PJ6H6YM;
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -351,13 +415,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D9D705FD23703B66004000AE /* Optile */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Optile;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D9E0AEA5234143BD0021184C /* Project object */;
 }

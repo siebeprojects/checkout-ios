@@ -21,6 +21,9 @@ enum LocalTranslation: String, CaseIterable {
     case buttonCancel = "pmlocal_button_cancel"
     case buttonRetry = "pmlocal_button_retry"
     case buttonUpdate = "pmlocal_button_update"
+    
+    // iOS only
+    case creditCard = "pmlocal_ios_credit_card"
 
     var localizedString: String {
         switch self {
@@ -44,6 +47,9 @@ enum LocalTranslation: String, CaseIterable {
         case .buttonCancel: return "Cancel"
         case .buttonRetry: return "Retry"
         case .buttonUpdate: return "Update"
+        
+        // iOS only
+        case .creditCard: return "Credit card"
         }
     }
 }
