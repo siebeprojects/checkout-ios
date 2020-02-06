@@ -41,7 +41,10 @@ extension List.ViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
+        // If view was presented modally show Cancel button
+        if navigationController == nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
+        }
 
         load()
     }
