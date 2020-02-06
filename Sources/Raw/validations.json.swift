@@ -181,19 +181,7 @@ extension RawProvider {
                     }
                 ]
             }
-
         ]
         """
     }
 }
-
-
-//{
-//    "code": "SEPADD",
-//    "items": [
-//        {
-//            "type": "bic",
-//            "hide": true
-//        }
-//    ]
-//}
