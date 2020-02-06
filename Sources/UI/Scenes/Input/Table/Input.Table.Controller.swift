@@ -1,10 +1,10 @@
 #if canImport(UIKit)
 import UIKit
 
-extension Input {
+extension Input.Table {
     /// Acts as a datasource for input table views and responds on delegate events from a table and cells.
-    class TableController: NSObject {
-        var network: Network {
+    class Controller: NSObject {
+        var network: Input.Network {
             didSet {
                 networkDidUpdate()
             }
@@ -14,11 +14,23 @@ extension Input {
         private var cells: [CellRepresentable & InputField]
         weak var inputChangesListener: InputValueChangesListener?
         
-        init(for network: Network, tableView: UITableView) {
+        init(for network: Input.Network, tableView: UITableView) {
             self.network = network
             self.tableView = tableView
             self.cells = network.inputFields
             super.init()
+        }
+        
+        func validateFields(option: Input.Field.Validation.Option) {
+            // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
+            tableView.endEditing(true)
+            
+            for cell in cells {
+                guard let validatable = cell as? Validatable else { continue }
+                validatable.validateAndSaveResult(option: option)
+            }
+            
+            tableView.reloadData()
         }
         
         private func networkDidUpdate() {
@@ -36,7 +48,7 @@ extension Input {
     }
 }
 
-extension Input.TableController: UITableViewDataSource {
+extension Input.Table.Controller: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
          return 1
     }
@@ -55,21 +67,44 @@ extension Input.TableController: UITableViewDataSource {
      }
 }
 
-extension Input.TableController: UITableViewDelegate {
+extension Input.Table.Controller: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = tableView.cellForRow(at: indexPath)
         row?.becomeFirstResponder()
     }
 }
 
-extension Input.TableController: InputCellDelegate {
+extension Input.Table.Controller: InputCellDelegate {
+    func inputCellDidEndEditing(at indexPath: IndexPath) {
+        guard let model = cells[indexPath.row] as? Validatable else { return }
+        
+        model.validateAndSaveResult(option: .preCheck)
+        tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+        // Don't show an error text when input field is focused
+        if let model = cells[indexPath.row] as? Validatable,
+            model.validationErrorText != nil {
+            model.validationErrorText = nil
+            
+            tableView.beginUpdates()
+            
+            switch tableView.cellForRow(at: indexPath) {
+            case let textFieldViewCell as Input.Table.TextFieldViewCell:
+                textFieldViewCell.showValidationResult(for: model)
+            default: break
+            }
+            
+            tableView.endUpdates()
+        }
+        
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
     }
     
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
         let model = cells[indexPath.row]
-        model.value = newValue
+        model.value = newValue ?? ""
         
         inputChangesListener?.valueDidChange(for: model)
     }

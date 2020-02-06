@@ -5,6 +5,7 @@ import UIKit
 protocol InputCellDelegate: class {
     func inputCellBecameFirstResponder(at indexPath: IndexPath)
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath)
+    func inputCellDidEndEditing(at indexPath: IndexPath)
 }
 
 /// Indicates that delegate could be set for that cell

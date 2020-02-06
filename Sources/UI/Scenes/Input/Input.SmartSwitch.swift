@@ -111,7 +111,7 @@ extension Input.SmartSwitch.Selector {
     private func moveInputValues(from oldNetwork: Input.Network, to newNetwork: Input.Network) {
         for (index, oldField) in oldNetwork.inputFields.enumerated() {
             newNetwork.inputFields[index].value = oldField.value
-            oldField.value = nil
+            oldField.value = ""
         }
     }
 
