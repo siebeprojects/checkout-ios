@@ -7,12 +7,12 @@ extension Input {
     class ViewController: UIViewController {
         let networks: [Network]
         
-        private let tableController: TableController
+        private let tableController: Table.Controller
         private let tableView = UITableView(frame: .zero, style: .grouped)
         fileprivate let smartSwitch: SmartSwitch.Selector
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
-            let transfomer = Transformer()
+            let transfomer = Field.Transformer()
             networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
             smartSwitch = try .init(networks: self.networks)
             tableController = .init(for: smartSwitch.selected.network, tableView: tableView)
@@ -72,7 +72,7 @@ extension Input.ViewController {
 
 extension Input.ViewController {
     fileprivate func configure(tableView: UITableView) {
-        tableView.register(Input.TextFieldViewCell.self)
+        tableView.register(Input.Table.TextFieldViewCell.self)
         tableView.dataSource = tableController
         tableView.delegate = tableController
         tableView.tableHeaderView = makeTableViewHeader(for: tableController.network)
@@ -146,7 +146,7 @@ extension Input.ViewController {
     }
     
     @objc private func payButtonDidTap() {
-        tableController.validateFields(options: .all)
+        tableController.validateFields(option: .fullCheck)
     }
 }
 
@@ -157,8 +157,9 @@ extension Input.ViewController: InputValueChangesListener {
     /// - Note: called by `TableController`
     func valueDidChange(for field: InputField) {
         // React only on account number changes
-        guard let accountNumberField = field as? Input.AccountNumberInputField else { return }
-        guard let accountNumber = accountNumberField.value else { return }
+        guard let accountNumberField = field as? Input.Field.AccountNumber else { return }
+        
+        let accountNumber = accountNumberField.value
         
         let previousSelection = smartSwitch.selected
         let newSelection = smartSwitch.select(usingAccountNumber: accountNumber)

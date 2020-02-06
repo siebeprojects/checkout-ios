@@ -2,6 +2,9 @@ import Foundation
 
 protocol TranslationProvider {
     var translations: [[String: String]] { get }
+    
+    func translation(forKey key: String) -> String
+    func translation(forKey key: String) -> String?
 }
 
 extension TranslationProvider {
