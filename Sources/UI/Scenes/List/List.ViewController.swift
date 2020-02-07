@@ -159,7 +159,7 @@ extension List.ViewController {
         let methodsTableView = addMethodsTableView(to: scrollView)
         self.methodsTableView = methodsTableView
 
-        let tableController = try List.Table.Controller(networks: session.networks, translationProvider: sharedTranslationProvider)
+        let tableController = try List.Table.Controller(session: session, translationProvider: sharedTranslationProvider)
         tableController.tableView = methodsTableView
         tableController.delegate = self
         self.tableController = tableController

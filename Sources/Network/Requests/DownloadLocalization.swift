@@ -22,7 +22,7 @@ public struct DownloadLocalization: GetRequest {
         }
 
         guard let text = String(data: data, encoding: .isoLatin1) else {
-            throw InternalError(description: "Unable to decode localization file: unable to decode a data fro isoLatin1")
+            throw InternalError(description: "Unable to decode localization file: unable to decode a data from isoLatin1")
         }
         
         let transform = StringTransform(rawValue: "Any-Hex/Java")

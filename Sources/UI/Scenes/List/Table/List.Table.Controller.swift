@@ -15,12 +15,12 @@ extension List.Table {
 
         let dataSource: List.Table.DataSource
         
-        init(networks: [PaymentNetwork], translationProvider: SharedTranslationProvider) throws {
+        init(session: PaymentSession, translationProvider: SharedTranslationProvider) throws {
             guard let genericLogo = AssetProvider.iconCard else {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }
             
-            dataSource = .init(networks: networks, translation: translationProvider, genericLogo: genericLogo)
+            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, translation: translationProvider, genericLogo: genericLogo)
         }
         
         func viewDidLayoutSubviews() {
@@ -32,20 +32,18 @@ extension List.Table {
         }
 
         fileprivate func loadLogo(for indexPath: IndexPath) {
-            let networks = dataSource.networks(for: indexPath)
+            guard let model = dataSource.logo(for: indexPath) else { return }
             
-            for network in networks {
-                /// If logo was already downloaded
-                guard case let .some(.notLoaded(url)) = network.logo else { continue }
-                
-                delegate?.load(from: url) { [weak self] result in
-                    network.logo = .loaded(result)
+            /// If logo was already downloaded
+            guard case let .some(.notLoaded(url)) = model.logo else { return }
+            
+            delegate?.load(from: url) { [weak self] result in
+                model.logo = .loaded(result)
 
-                    // Don't reload rows if multiple networks (we don't show logos for now for them)
-                    // TODO: Potential multiple updates for a single cell
-                    DispatchQueue.main.async {
-                        self?.tableView?.reloadRows(at: [indexPath], with: .fade)
-                    }
+                // Don't reload rows if multiple networks (we don't show logos for now for them)
+                // TODO: Potential multiple updates for a single cell
+                DispatchQueue.main.async {
+                    self?.tableView?.reloadRows(at: [indexPath], with: .fade)
                 }
             }
         }
@@ -67,7 +65,7 @@ extension List.Table.Controller: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedNetworks = dataSource.networks(for: indexPath)
+        guard let selectedNetworks = dataSource.model(for: indexPath) else { return }
         delegate?.didSelect(paymentNetworks: selectedNetworks)
     }
     
