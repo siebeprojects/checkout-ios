@@ -18,7 +18,7 @@ extension MockFactory.ListResult {
             paymentNetworks.append(paymentNetwork)
         }
 
-        return PaymentSession(networks: paymentNetworks)
+        return PaymentSession(networks: paymentNetworks, registeredAccounts: nil)
     }
 
     static var listResult: String {
