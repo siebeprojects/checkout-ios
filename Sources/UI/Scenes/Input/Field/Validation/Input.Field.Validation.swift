@@ -90,17 +90,12 @@ extension Input.Field.Validation {
         
         init() throws {
             // Network specific
-            guard let networkValidationsJsonData = RawProvider.validationsJSON.data(using: .utf8) else {
-                throw InternalError(description: "Couldn't make a JSON data from a validation JSON string")
-            }
+            let networkValidationsJsonData = try AssetProvider.getValidationsData()
             
             networks = try JSONDecoder().decode([Network].self, from: networkValidationsJsonData)
 
             // Default
-            guard let defaultValidationsData = RawProvider.validationsDefaultsJSON.data(using: .utf8) else {
-                throw InternalError(description: "Couldn't make a JSON data from a default validation JSON string")
-            }
-            
+            let defaultValidationsData = try AssetProvider.getValidationsDefaultData()
             defaultRules = try JSONDecoder().decode([Rule].self, from: defaultValidationsData)
         }
         
