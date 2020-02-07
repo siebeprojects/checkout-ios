@@ -1,14 +1,14 @@
 import Foundation
 
-extension Input {
-    /// Generic input field model that is used for all `localizableInputElements` that doesn't have explict type (e.g. `AccountNumberInputField`)
-    final class GenericInputField {
+extension Input.Field {
+    /// Generic input field model that is used for all `localizableInputElements` that doesn't have explict type (e.g. `AccountNumber`)
+    final class Generic {
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
         
-        var value: String?
+        var value: String = ""
         
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
             self.inputElement = inputElement
@@ -18,10 +18,12 @@ extension Input {
     }
 }
 
-extension Input.GenericInputField: TextInputField {}
+extension Input.Field.Generic: TextInputField {
+    var maxInputLength: Int? { nil }
+}
 
 #if canImport(UIKit)
 import UIKit
 
-extension Input.GenericInputField: CellRepresentable, DefinesKeyboardStyle {}
+extension Input.Field.Generic: CellRepresentable, DefinesKeyboardStyle {}
 #endif

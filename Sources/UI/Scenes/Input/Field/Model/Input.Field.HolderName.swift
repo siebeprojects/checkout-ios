@@ -1,13 +1,13 @@
 import Foundation
 
-extension Input {
-    final class HolderNameInputField {
+extension Input.Field {
+    final class HolderName {
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
         
-        var value: String?
+        var value: String = ""
         
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
             self.inputElement = inputElement
@@ -17,10 +17,10 @@ extension Input {
     }
 }
 
-extension Input.HolderNameInputField: TextInputField {}
+extension Input.Field.HolderName: TextInputField {}
 
-extension Input.HolderNameInputField: Validatable {
-    func localize(error: Input.Validation.ValidationError) -> String {
+extension Input.Field.HolderName: Validatable {
+    func localize(error: Input.Field.Validation.ValidationError) -> String {
         switch error {
         case .invalidValue, .incorrectLength: return translator.translation(forKey: "error.INVALID_HOLDER_NAME")
         case .missingValue: return translator.translation(forKey: "error.MISSING_HOLDER_NAME")
@@ -31,7 +31,7 @@ extension Input.HolderNameInputField: Validatable {
 #if canImport(UIKit)
 import UIKit
 
-extension Input.HolderNameInputField: CellRepresentable, DefinesKeyboardStyle {
+extension Input.Field.HolderName: CellRepresentable, DefinesKeyboardStyle {
     var contentType: UITextContentType? { return .name }
     var autocapitalizationType: UITextAutocapitalizationType { .words }
 }
