@@ -7,7 +7,7 @@ extension Input.Field {
         let validationRule: Validation.Rule?
         var validationErrorText: String?
         
-        var value: String?
+        var value: String = ""
         
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
             self.inputElement = inputElement
@@ -27,7 +27,7 @@ extension Input.Field.IBAN: Validatable {
         }
     }
     
-    func isPassedCustomValidation(value: String) -> Bool {
+    var isPassedCustomValidation: Bool {
         return Input.Field.Validation.IBAN.isValid(iban: value)
     }
 }

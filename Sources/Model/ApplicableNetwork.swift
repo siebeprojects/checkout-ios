@@ -45,4 +45,21 @@ public class ApplicableNetwork: NSObject, Decodable {
 
     /// Collection of links related to this payment network in scope of the `LIST` session
     public let links: [String: URL]?
+    
+    internal init(code: String, label: String, method: String, grouping: String, registration: String, recurrence: String, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, localizedInputElements: [InputElement]?, links: [String : URL]? = nil) {
+        self.code = code
+        self.label = label
+        self.method = method
+        self.grouping = grouping
+        self.registration = registration
+        self.recurrence = recurrence
+        self.redirect = redirect
+        self.button = button
+        self.selected = selected
+        self.formData = formData
+        self.iFrameHeight = iFrameHeight
+        self.emptyForm = emptyForm
+        self.localizedInputElements = localizedInputElements
+        self.links = links
+    }
 }

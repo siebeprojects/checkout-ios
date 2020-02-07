@@ -7,14 +7,9 @@ extension Input.Field {
 // MARK: - Model
 
 extension Input.Field.Validation {
-    struct Options: OptionSet {
-        let rawValue: Int
-
-        static let valueExists = Options(rawValue: 1 << 0)
-        static let validValue  = Options(rawValue: 1 << 1)
-        static let maxLength   = Options(rawValue: 1 << 2)
-        
-        static let all: Options = [.valueExists, .validValue, .maxLength]
+    enum Option {
+        case preCheck
+        case fullCheck
     }
     
     enum Result {
@@ -38,14 +33,29 @@ extension Input.Field.Validation {
     }
     
     /// Rule to check input field value
-    struct Rule: Decodable {
+    struct Rule {
         /// Input element's name
         let type: String
         
         /// Regular expression
         let regex: String?
         
-        let maxLength: Int?
+        let maxLength: Int
+    }
+}
+
+extension Input.Field.Validation.Rule: Decodable {
+    private static var defaultMaxLength: Int { return 128 }
+    
+    private enum CodingKeys: String, CodingKey {
+        case type, regex, maxLength
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        type = try values.decode(String.self, forKey: .type)
+        regex = try values.decodeIfPresent(String.self, forKey: .regex)
+        maxLength = try values.decodeIfPresent(Int.self, forKey: .maxLength) ?? Self.defaultMaxLength
     }
 }
 
@@ -90,9 +100,8 @@ extension Input.Field.Validation {
         }
         
         func getRule(forNetworkCode networkCode: String, withInputElementName inputName: String) -> Rule? {
-            
-            if let network = networks.first(withCode: networkCode) {
-                return network.items.first(withType: inputName)
+            if let network = networks.first(withCode: networkCode), let ruleForNetwork = network.items.first(withType: inputName) {
+                return ruleForNetwork
             } else if let defaultRule = defaultRules.first(withType: inputName) {
                 return defaultRule
             } else {

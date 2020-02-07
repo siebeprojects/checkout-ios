@@ -16,7 +16,8 @@ extension Input.Field {
         let validationRule: Validation.Rule?
         var validationErrorText: String?
         
-        var value: String?
+        var value: String = ""
+        
         weak var keySuffixer: VerificationCodeTranslationKeySuffixer?
         
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
