@@ -1,7 +1,7 @@
 import Foundation
 
 extension Input.Field {
-    final class IBAN {
+    final class IBAN: InputElementModel {
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?

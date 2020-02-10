@@ -2,7 +2,6 @@ import Foundation
 
 /// Generic UI model for input element
 protocol InputField: class {
-    var inputElement: InputElement { get }
     var translator: TranslationProvider { get }
     
     var name: String { get }
@@ -11,10 +10,13 @@ protocol InputField: class {
 }
 
 extension InputField {
-    var name: String { inputElement.name }
     var label: String {
         translator.translation(forKey: translationPrefix + "label")
     }
     
     private var translationPrefix: String { "account." + name + "." }
+}
+
+extension InputField where Self: InputElementModel {
+    var name: String { inputElement.name }
 }
