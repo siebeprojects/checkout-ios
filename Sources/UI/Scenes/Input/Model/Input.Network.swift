@@ -39,35 +39,3 @@ extension Input.Network {
     }
 }
 #endif
-
-extension Collection where Element: Input.Network {
-    func isInputFieldsGroupable() -> Bool {
-        guard let firstNetwork = self.first else { return true }
-        
-        for network in self {
-            guard firstNetwork.isInputFieldsGroupable(with: network) else { return false }
-        }
-        
-        return true
-    }
-}
-
-private extension Input.Network {
-    func isInputFieldsGroupable(with otherNetwork: Input.Network) -> Bool {
-        let lhs = inputFields
-        let rhs = otherNetwork.inputFields
-        
-        guard lhs.count == rhs.count else { return false }
-        
-        for (index, lhsElement) in lhs.enumerated() {
-            let rhsElement = rhs[index]
-            
-            guard
-                lhsElement.name == rhsElement.name,
-                lhsElement.inputElement.type == rhsElement.inputElement.type
-            else { return false }
-        }
-        
-        return true
-    }
-}

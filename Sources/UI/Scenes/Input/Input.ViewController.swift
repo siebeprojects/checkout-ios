@@ -17,10 +17,6 @@ extension Input {
             smartSwitch = try .init(networks: self.networks)
             tableController = .init(for: smartSwitch.selected.network, tableView: tableView)
             
-            guard networks.isInputFieldsGroupable() else {
-                throw InternalError(description: "Input fields are not groupable: %@", objects: self.networks)
-            }
-            
             super.init(nibName: nil, bundle: nil)
             
             tableController.inputChangesListener = self
