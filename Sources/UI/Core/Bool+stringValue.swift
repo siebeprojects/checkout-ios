@@ -1,8 +1,17 @@
-//
-//  Bool+stringValue.swift
-//  Optile
-//
-//  Created by Vasily Ulianov on 11.02.2020.
-//
-
 import Foundation
+
+extension Bool {
+    var stringValue: String {
+        return self ? "true" : "false"
+    }
+}
+
+extension Bool {
+    init?(stringValue: String) {
+        switch stringValue {
+        case "true": self = true
+        case "false": self = false
+        default: return nil
+        }
+    }
+}

@@ -62,4 +62,15 @@ public class ApplicableNetwork: NSObject, Decodable {
         self.localizedInputElements = localizedInputElements
         self.links = links
     }
+    
+    // MARK: -
+    
+    public enum Requirement: String {
+        case NONE, OPTIONAL, OPTIONAL_PRESELECTED, FORCED, FORCED_DISPLAYED
+    }
+    
+    public var registrationRequirement: Requirement? { Requirement(rawValue: registration) }
+    public var recurrenceRequirement: Requirement? {
+        Requirement(rawValue: recurrence)
+    }
 }

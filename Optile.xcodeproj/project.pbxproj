@@ -147,6 +147,7 @@
 		D9D9986423ED9580002B6A37 /* SharedTranslationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9985423ED9580002B6A37 /* SharedTranslationProviderTests.swift */; };
 		D9EF147323F20A5000FB7017 /* Input.Field.Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF147223F20A5000FB7017 /* Input.Field.Checkbox.swift */; };
 		D9EF147523F20D4A00FB7017 /* InputElementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF147423F20D4A00FB7017 /* InputElementModel.swift */; };
+		D9EF147723F22E5300FB7017 /* Bool+stringValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF147623F22E5300FB7017 /* Bool+stringValue.swift */; };
 		OBJ_281 /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Optile::Optile::Product" /* Optile.framework */; };
 /* End PBXBuildFile section */
 
@@ -296,6 +297,7 @@
 		D9D9985423ED9580002B6A37 /* SharedTranslationProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTranslationProviderTests.swift; sourceTree = "<group>"; };
 		D9EF147223F20A5000FB7017 /* Input.Field.Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Checkbox.swift; sourceTree = "<group>"; };
 		D9EF147423F20D4A00FB7017 /* InputElementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputElementModel.swift; sourceTree = "<group>"; };
+		D9EF147623F22E5300FB7017 /* Bool+stringValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+stringValue.swift"; sourceTree = "<group>"; };
 		OBJ_152 /* Optile.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Optile.podspec; sourceTree = "<group>"; };
 		OBJ_153 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		"Optile::Optile::Product" /* Optile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -506,6 +508,7 @@
 				D9D9978023ED956F002B6A37 /* String+removeCharacters.swift */,
 				D9D9978123ED956F002B6A37 /* Infix */,
 				D9D9978323ED956F002B6A37 /* Error+isNetworkError.swift */,
+				D9EF147623F22E5300FB7017 /* Bool+stringValue.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -932,6 +935,7 @@
 				D9D997D423ED956F002B6A37 /* Input.Field.VerificationCode.swift in Sources */,
 				D9D9981923ED956F002B6A37 /* PresetAccount.swift in Sources */,
 				D9D997D323ED956F002B6A37 /* Input.Field.ExpiryYear.swift in Sources */,
+				D9EF147723F22E5300FB7017 /* Bool+stringValue.swift in Sources */,
 				D9D9982823ED956F002B6A37 /* Checkbox.swift in Sources */,
 				D9D9980723ED956F002B6A37 /* DequeueableTableCell.swift in Sources */,
 				D9D997F023ED956F002B6A37 /* List.Table.SingleLabelCell.swift in Sources */,
