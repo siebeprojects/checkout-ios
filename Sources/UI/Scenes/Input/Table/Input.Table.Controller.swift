@@ -21,6 +21,11 @@ extension Input.Table {
             super.init()
         }
         
+        func registerCells() {
+            tableView.register(TextFieldViewCell.self)
+            tableView.register(CheckboxViewCell.self)
+        }
+        
         func validateFields(option: Input.Field.Validation.Option) {
             // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
             tableView.endEditing(true)

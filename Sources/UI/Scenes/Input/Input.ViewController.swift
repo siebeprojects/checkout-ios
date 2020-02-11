@@ -68,7 +68,8 @@ extension Input.ViewController {
 
 extension Input.ViewController {
     fileprivate func configure(tableView: UITableView) {
-        tableView.register(Input.Table.TextFieldViewCell.self)
+        tableController.registerCells()
+        
         tableView.dataSource = tableController
         tableView.delegate = tableController
         tableView.tableHeaderView = makeTableViewHeader(for: tableController.network)
@@ -80,7 +81,6 @@ extension Input.ViewController {
         }
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(List.Table.SingleLabelCell.self)
         
         view.addSubview(tableView)
 
