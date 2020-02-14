@@ -52,7 +52,7 @@ extension Input.Field.Transformer {
         
         // Transform input fields
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
-        var inputFields = inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
+        let inputFields = inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
             for ignored in Constant.ignoredFields {
                 if paymentNetwork.applicableNetwork.code == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
@@ -62,8 +62,8 @@ extension Input.Field.Transformer {
             return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule, networkMethod: paymentNetwork.applicableNetwork.method)
         }
         
-        addCheckbox(translationKey: Constant.registrationCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.registrationRequirement, translator: paymentNetwork.translation, to: &inputFields)
-        addCheckbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation, to: &inputFields)
+        let registrationCheckbox = checkbox(translationKey: Constant.registrationCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.registrationRequirement, translator: paymentNetwork.translation)
+        let recurrenceCheckbox = checkbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation)
         
         // Link month and year fields
         expiryYear?.expiryMonthField = expiryMonth
@@ -81,10 +81,10 @@ extension Input.Field.Transformer {
             switchRule = nil
         }
         
-        return .init(paymentNetwork: paymentNetwork, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, switchRule: switchRule)
+        return .init(paymentNetwork: paymentNetwork, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, autoRegistration: registrationCheckbox, allowRecurrence: recurrenceCheckbox, switchRule: switchRule)
     }
     
-    private func addCheckbox(translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider, to inputFields: inout [CellRepresentable & InputField]) {
+    private func checkbox(translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox {
         let isOn: Bool
         var isEnabled: Bool = true
         var isHidden: Bool = false
@@ -98,10 +98,12 @@ extension Input.Field.Transformer {
         case .FORCED_DISPLAYED:
             isOn = true
             isEnabled = false
-        default: return
+        default:
+            isOn = false
+            isHidden = true
         }
         
-        inputFields += [Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)]
+        return Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
     }
     
     /// Transform `InputElement` to `InputField`

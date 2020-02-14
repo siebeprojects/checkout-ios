@@ -4,20 +4,26 @@ import UIKit
 extension Input.Table {
     /// Acts as a datasource for input table views and responds on delegate events from a table and cells.
     class Controller: NSObject {
+        private struct Section {
+            static let inputFields = 0
+            static let checkboxFields = 1
+        }
+        
         var network: Input.Network {
             didSet {
-                networkDidUpdate()
+                networkDidUpdate(new: network, old: oldValue)
             }
         }
         
         unowned let tableView: UITableView
-        private var cells: [CellRepresentable & InputField]
+        private var dataSource: [[CellRepresentable & InputField]]
         weak var inputChangesListener: InputValueChangesListener?
         
         init(for network: Input.Network, tableView: UITableView) {
             self.network = network
             self.tableView = tableView
-            self.cells = network.inputFields
+            
+            dataSource = Self.arrangeBySections(network: network)
             super.init()
         }
         
@@ -30,7 +36,7 @@ extension Input.Table {
             // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
             tableView.endEditing(true)
             
-            for cell in cells {
+            for cell in dataSource.flatMap({ $0 }) {
                 guard let validatable = cell as? Validatable else { continue }
                 validatable.validateAndSaveResult(option: option)
             }
@@ -38,32 +44,62 @@ extension Input.Table {
             tableView.reloadData()
         }
         
-        private func networkDidUpdate() {
-            cells = network.inputFields
-
-            guard !cells.isEmpty else {
+        private func networkDidUpdate(new: Input.Network, old: Input.Network) {
+            guard !network.inputFields.isEmpty else {
                 tableView.reloadData()
                 return
             }
             
-            for (index, cell) in tableView.visibleCells.enumerated() {
-                cells[index].configure(cell: cell)
+            let oldDataSource = dataSource
+            dataSource = Self.arrangeBySections(network: new)
+            
+            for (sectionNumber, newSectionFields) in dataSource.enumerated() {
+                sectionDidUpdate(sectionNumber, new: newSectionFields, old: oldDataSource[sectionNumber])
             }
+        }
+        
+        private func sectionDidUpdate(_ section: Int, new: [CellRepresentable & InputField], old: [CellRepresentable & InputField]) {
+            guard new.count == old.count else {
+                tableView.reloadSections([section], with: .fade)
+                return
+            }
+            
+            for visibleIndexPath in tableView.indexPathsForVisibleRows ?? [] {
+                guard visibleIndexPath.section == section else { continue }
+                guard let cell = tableView.cellForRow(at: visibleIndexPath) else { continue }
+                
+                dataSource[section][visibleIndexPath.row].configure(cell: cell)
+            }
+        }
+        
+        /// Arrange models by sections
+        private static func arrangeBySections(network: Input.Network) -> [[CellRepresentable & InputField]] {
+            let inputFields = network.inputFields.filter { !$0.isHidden }
+            var dataSource = [inputFields]
+            
+            var checkboxes = [Input.Field.Checkbox]()
+            for field in [network.autoRegistration, network.allowRecurrence] where !field.isHidden {
+                checkboxes.append(field)
+            }
+            
+            dataSource.append(checkboxes)
+            
+            return dataSource
         }
     }
 }
 
 extension Input.Table.Controller: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-         return 1
+         return 2
     }
      
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cells.count
+        return dataSource[section].count
     }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellRepresentable = cells[indexPath.row]
+        let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         let cell = cellRepresentable.dequeueCell(for: tableView, indexPath: indexPath)
         cellRepresentable.configure(cell: cell)
         cell.delegate = self
@@ -81,7 +117,7 @@ extension Input.Table.Controller: UITableViewDelegate {
 
 extension Input.Table.Controller: InputCellDelegate {
     func inputCellDidEndEditing(at indexPath: IndexPath) {
-        guard let model = cells[indexPath.row] as? Validatable else { return }
+        guard let model = dataSource[indexPath.section][indexPath.row] as? Validatable else { return }
         
         model.validateAndSaveResult(option: .preCheck)
         tableView.reloadRows(at: [indexPath], with: .none)
@@ -89,7 +125,7 @@ extension Input.Table.Controller: InputCellDelegate {
     
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
         // Don't show an error text when input field is focused
-        if let model = cells[indexPath.row] as? Validatable,
+        if let model = dataSource[indexPath.section][indexPath.row] as? Validatable,
             model.validationErrorText != nil {
             model.validationErrorText = nil
             
@@ -108,7 +144,7 @@ extension Input.Table.Controller: InputCellDelegate {
     }
     
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
-        let model = cells[indexPath.row]
+        let model = dataSource[indexPath.section][indexPath.row]
         model.value = newValue ?? ""
         
         inputChangesListener?.valueDidChange(for: model)

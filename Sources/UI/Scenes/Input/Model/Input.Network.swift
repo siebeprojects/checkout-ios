@@ -8,16 +8,20 @@ extension Input {
         let label: String
         let logoData: Data?
         let inputFields: [InputField & CellRepresentable]
+        let autoRegistration: Input.Field.Checkbox
+        let allowRecurrence: Input.Field.Checkbox
         
         let switchRule: SmartSwitch.Rule?
 
-        init(paymentNetwork: PaymentNetwork, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], switchRule: SmartSwitch.Rule?) {
+        init(paymentNetwork: PaymentNetwork, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], autoRegistration: Input.Field.Checkbox, allowRecurrence: Input.Field.Checkbox, switchRule: SmartSwitch.Rule?) {
             self.applicableNetwork = paymentNetwork.applicableNetwork
             self.translation = paymentNetwork.translation
             
             self.label = label
             self.logoData = logoData
             self.inputFields = inputFields
+            self.autoRegistration = autoRegistration
+            self.allowRecurrence = allowRecurrence
             self.switchRule = switchRule
         }
     }
