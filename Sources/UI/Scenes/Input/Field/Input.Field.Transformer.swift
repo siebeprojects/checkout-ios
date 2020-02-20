@@ -13,9 +13,14 @@ extension Input.Field {
 }
 
 extension Input.Field.Transformer {
-    private var ignoredFields: [IgnoredFields] {[
-        .init(networkCode: "SEPADD", inputElementName: "bic")
-    ]}
+    private struct Constant {
+        static var ignoredFields: [IgnoredFields] { [
+            .init(networkCode: "SEPADD", inputElementName: "bic")
+        ] }
+        
+        static var registrationCheckboxLocalizationKey: String { "autoRegistrationLabel" }
+        static var recurrenceCheckboxLocalizationKey: String { "allowRecurrenceLabel" }
+    }
     
     /// Transform `PaymentNetwork` to `Input.Network`
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
@@ -48,7 +53,7 @@ extension Input.Field.Transformer {
         // Transform input fields
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
         let inputFields = inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
-            for ignored in ignoredFields {
+            for ignored in Constant.ignoredFields {
                 if paymentNetwork.applicableNetwork.code == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
             
@@ -56,6 +61,9 @@ extension Input.Field.Transformer {
             
             return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule, networkMethod: paymentNetwork.applicableNetwork.method)
         }
+        
+        let registrationCheckbox = checkbox(translationKey: Constant.registrationCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.registrationRequirement, translator: paymentNetwork.translation)
+        let recurrenceCheckbox = checkbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation)
         
         // Link month and year fields
         expiryYear?.expiryMonthField = expiryMonth
@@ -73,7 +81,29 @@ extension Input.Field.Transformer {
             switchRule = nil
         }
         
-        return .init(paymentNetwork: paymentNetwork, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, switchRule: switchRule)
+        return .init(paymentNetwork: paymentNetwork, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, autoRegistration: registrationCheckbox, allowRecurrence: recurrenceCheckbox, switchRule: switchRule)
+    }
+    
+    private func checkbox(translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox {
+        let isOn: Bool
+        var isEnabled: Bool = true
+        var isHidden: Bool = false
+        
+        switch requirement {
+        case .OPTIONAL: isOn = false
+        case .OPTIONAL_PRESELECTED: isOn = true
+        case .FORCED:
+            isOn = true
+            isHidden = true
+        case .FORCED_DISPLAYED:
+            isOn = true
+            isEnabled = false
+        default:
+            isOn = false
+            isHidden = true
+        }
+        
+        return Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
     }
     
     /// Transform `InputElement` to `InputField`

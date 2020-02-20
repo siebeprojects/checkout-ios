@@ -2,7 +2,7 @@ import Foundation
 
 extension Input.Field {
     /// Generic input field model that is used for all `localizableInputElements` that doesn't have explict type (e.g. `AccountNumber`)
-    final class Generic {
+    final class Generic: InputElementModel {
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?

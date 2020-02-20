@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D9904D9423F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9904D9323F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift */; };
 		D9D997CB23ED956F002B6A37 /* Input.Field.Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */; };
 		D9D997CC23ED956F002B6A37 /* Input.Field.AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974823ED956F002B6A37 /* Input.Field.AccountNumber.swift */; };
 		D9D997CD23ED956F002B6A37 /* Input.Field.ExpiryMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974923ED956F002B6A37 /* Input.Field.ExpiryMonth.swift */; };
@@ -144,6 +145,9 @@
 		D9D9986223ED9580002B6A37 /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9985123ED9580002B6A37 /* XCTAttachment+subject.swift */; };
 		D9D9986323ED9580002B6A37 /* URL+Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9985223ED9580002B6A37 /* URL+Example.swift */; };
 		D9D9986423ED9580002B6A37 /* SharedTranslationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9985423ED9580002B6A37 /* SharedTranslationProviderTests.swift */; };
+		D9EF147323F20A5000FB7017 /* Input.Field.Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF147223F20A5000FB7017 /* Input.Field.Checkbox.swift */; };
+		D9EF147523F20D4A00FB7017 /* InputElementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF147423F20D4A00FB7017 /* InputElementModel.swift */; };
+		D9EF147723F22E5300FB7017 /* Bool+stringValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF147623F22E5300FB7017 /* Bool+stringValue.swift */; };
 		OBJ_281 /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Optile::Optile::Product" /* Optile.framework */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +169,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D9904D9323F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
 		D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Transformer.swift; sourceTree = "<group>"; };
 		D9D9974823ED956F002B6A37 /* Input.Field.AccountNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.AccountNumber.swift; sourceTree = "<group>"; };
 		D9D9974923ED956F002B6A37 /* Input.Field.ExpiryMonth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.ExpiryMonth.swift; sourceTree = "<group>"; };
@@ -290,6 +295,9 @@
 		D9D9985123ED9580002B6A37 /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		D9D9985223ED9580002B6A37 /* URL+Example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Example.swift"; sourceTree = "<group>"; };
 		D9D9985423ED9580002B6A37 /* SharedTranslationProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTranslationProviderTests.swift; sourceTree = "<group>"; };
+		D9EF147223F20A5000FB7017 /* Input.Field.Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Checkbox.swift; sourceTree = "<group>"; };
+		D9EF147423F20D4A00FB7017 /* InputElementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputElementModel.swift; sourceTree = "<group>"; };
+		D9EF147623F22E5300FB7017 /* Bool+stringValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+stringValue.swift"; sourceTree = "<group>"; };
 		OBJ_152 /* Optile.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Optile.podspec; sourceTree = "<group>"; };
 		OBJ_153 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		"Optile::Optile::Product" /* Optile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -387,6 +395,7 @@
 				D9D9974E23ED956F002B6A37 /* Input.Field.BIC.swift */,
 				D9D9974F23ED956F002B6A37 /* Input.Field.ExpiryYear.swift */,
 				D9D9975023ED956F002B6A37 /* Input.Field.VerificationCode.swift */,
+				D9EF147223F20A5000FB7017 /* Input.Field.Checkbox.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -407,6 +416,7 @@
 			children = (
 				D9D9975A23ED956F002B6A37 /* Input.Table.Controller.swift */,
 				D9D9975B23ED956F002B6A37 /* Input.Table.TextFieldViewCell.swift */,
+				D9904D9323F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift */,
 				D9D9975C23ED956F002B6A37 /* Input.Table.swift */,
 			);
 			path = Table;
@@ -424,6 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				D9D9976023ED956F002B6A37 /* SelectInputField.swift */,
+				D9EF147423F20D4A00FB7017 /* InputElementModel.swift */,
 				D9D9976123ED956F002B6A37 /* DefinesKeyboardStyle.swift */,
 				D9D9976223ED956F002B6A37 /* InputValueChangesListener.swift */,
 				D9D9976323ED956F002B6A37 /* InputField.swift */,
@@ -497,6 +508,7 @@
 				D9D9978023ED956F002B6A37 /* String+removeCharacters.swift */,
 				D9D9978123ED956F002B6A37 /* Infix */,
 				D9D9978323ED956F002B6A37 /* Error+isNetworkError.swift */,
+				D9EF147623F22E5300FB7017 /* Bool+stringValue.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -923,6 +935,7 @@
 				D9D997D423ED956F002B6A37 /* Input.Field.VerificationCode.swift in Sources */,
 				D9D9981923ED956F002B6A37 /* PresetAccount.swift in Sources */,
 				D9D997D323ED956F002B6A37 /* Input.Field.ExpiryYear.swift in Sources */,
+				D9EF147723F22E5300FB7017 /* Bool+stringValue.swift in Sources */,
 				D9D9982823ED956F002B6A37 /* Checkbox.swift in Sources */,
 				D9D9980723ED956F002B6A37 /* DequeueableTableCell.swift in Sources */,
 				D9D997F023ED956F002B6A37 /* List.Table.SingleLabelCell.swift in Sources */,
@@ -967,6 +980,7 @@
 				D9D9981523ED956F002B6A37 /* Request.swift in Sources */,
 				D9D9980F23ED956F002B6A37 /* GetListResult.swift in Sources */,
 				D9D997EB23ED956F002B6A37 /* List.swift in Sources */,
+				D9904D9423F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift in Sources */,
 				D9D997DA23ED956F002B6A37 /* Input.SmartSwitch.swift in Sources */,
 				D9D997F423ED956F002B6A37 /* LoadableLogo.swift in Sources */,
 				D9D9980023ED956F002B6A37 /* RegisteredAccount.swift in Sources */,
@@ -981,6 +995,7 @@
 				D9D9981323ED956F002B6A37 /* Connection.swift in Sources */,
 				D9D997E623ED956F002B6A37 /* InputCellDelegate.swift in Sources */,
 				D9D9980923ED956F002B6A37 /* log.swift in Sources */,
+				D9EF147523F20D4A00FB7017 /* InputElementModel.swift in Sources */,
 				D9D997F523ED956F002B6A37 /* List.Table.GroupingService.swift in Sources */,
 				D9D997D723ED956F002B6A37 /* Input.Field.Validation.ExpiryDate.swift in Sources */,
 				D9D9981C23ED956F002B6A37 /* Parameter.swift in Sources */,
@@ -990,6 +1005,7 @@
 				D9D9981223ED956F002B6A37 /* URLSessionConnection.swift in Sources */,
 				D9D997FE23ED956F002B6A37 /* PaymentListParameters.swift in Sources */,
 				D9D997CF23ED956F002B6A37 /* Input.Field.HolderName.swift in Sources */,
+				D9EF147323F20A5000FB7017 /* Input.Field.Checkbox.swift in Sources */,
 				D9D9983223ED956F002B6A37 /* LocalTranslation.swift in Sources */,
 				D9D997E823ED956F002B6A37 /* TextInputField.swift in Sources */,
 				D9D997F923ED956F002B6A37 /* List.ImageStackView.swift in Sources */,

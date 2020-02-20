@@ -1,7 +1,7 @@
 import Foundation
 
 extension Input.Field {
-    final class BIC {
+    final class BIC: InputElementModel {
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?

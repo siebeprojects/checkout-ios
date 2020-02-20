@@ -21,4 +21,17 @@ extension CellRepresentable where Self: DefinesKeyboardStyle {
         cell.configure(with: self)
     }
 }
+
+extension CellRepresentable where Self == Input.Field.Checkbox {
+    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell & ContainsInputCellDelegate {
+        let cell = tableView.dequeueReusableCell(Input.Table.CheckboxViewCell.self, for: indexPath)
+        cell.indexPath = indexPath
+        return cell
+    }
+    
+    func configure(cell: UITableViewCell) {
+        guard let cell = cell as? Input.Table.CheckboxViewCell else { return }
+        cell.configure(with: self)
+    }
+}
 #endif
