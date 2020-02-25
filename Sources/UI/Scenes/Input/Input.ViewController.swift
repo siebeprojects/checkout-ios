@@ -31,6 +31,25 @@ extension Input {
             }
         }
         
+        init(for registeredAccount: RegisteredAccount) {
+            let transfomer = Field.Transformer()
+            let network = transfomer.transform(registeredAccount: registeredAccount)
+            networks = [network]
+            smartSwitch = .init(network: network)
+            tableController = .init(for: smartSwitch.selected.network, tableView: tableView)
+            
+            super.init(nibName: nil, bundle: nil)
+            
+            self.scrollView = tableView
+            
+            tableController.inputChangesListener = self
+            
+            // Placeholder translation suffixer
+            for field in transfomer.verificationCodeFields {
+                field.keySuffixer = self
+            }
+        }
+        
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }

@@ -5,6 +5,7 @@ import UIKit
 
 protocol ListTableControllerDelegate: class {
     func didSelect(paymentNetworks: [PaymentNetwork])
+    func didSelect(registeredAccount: RegisteredAccount)
     func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
@@ -65,8 +66,10 @@ extension List.Table.Controller: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedNetworks = dataSource.model(for: indexPath) else { return }
-        delegate?.didSelect(paymentNetworks: selectedNetworks)
+        switch dataSource.model(for: indexPath) {
+        case .account(let account): delegate?.didSelect(registeredAccount: account)
+        case .network(let networks): delegate?.didSelect(paymentNetworks: networks)
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

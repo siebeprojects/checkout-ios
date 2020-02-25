@@ -2,7 +2,6 @@ import Foundation
 
 extension Input {
     class Network {
-        private let applicableNetwork: ApplicableNetwork
         let translation: TranslationProvider
 
         let label: String
@@ -10,11 +9,11 @@ extension Input {
         let inputFields: [InputField & CellRepresentable]
         
         let switchRule: SmartSwitch.Rule?
-
-        init(paymentNetwork: PaymentNetwork, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], switchRule: SmartSwitch.Rule?) {
-            self.applicableNetwork = paymentNetwork.applicableNetwork
-            self.translation = paymentNetwork.translation
-            
+        let networkCode: String
+        
+        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], switchRule: SmartSwitch.Rule?) {
+            self.translation = translator
+            self.networkCode = networkCode
             self.label = label
             self.logoData = logoData
             self.inputFields = inputFields
@@ -25,7 +24,7 @@ extension Input {
 
 extension Input.Network: Equatable {
     static func == (lhs: Input.Network, rhs: Input.Network) -> Bool {
-        return lhs.applicableNetwork.code == rhs.applicableNetwork.code
+        return (lhs.networkCode == rhs.networkCode) && (lhs.label == rhs.label)
     }
 }
 

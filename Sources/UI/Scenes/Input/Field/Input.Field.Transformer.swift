@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 extension Input.Field {
     class Transformer {
@@ -17,11 +18,16 @@ extension Input.Field.Transformer {
         .init(networkCode: "SEPADD", inputElementName: "bic")
     ]}
     
-    /// Transform `PaymentNetwork` to `Input.Network`
+    func transform(registeredAccount: RegisteredAccount) -> Input.Network {
+        let logoData = registeredAccount.logo?.value
+        let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
+        return transform(logoData: logoData, inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, label: registeredAccount.networkLabel, translator: registeredAccount.translation)
+    }
+    
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
-        // Logo
         let logoData: Data?
         
+        // FIXME: Use refactored method
         // Was loading started? Was loading completed? Was it completed successfully?
         if case let .some(.loaded(.success(imageData))) = paymentNetwork.logo {
             logoData = imageData
@@ -29,6 +35,13 @@ extension Input.Field.Transformer {
             logoData = nil
         }
         
+        let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
+        
+        return transform(logoData: logoData, inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, label: paymentNetwork.label, translator: paymentNetwork.translation)
+    }
+    
+    /// Transform `PaymentNetwork` to `Input.Network`
+    private func transform(logoData: Data?, inputElements: [InputElement], networkCode: String, networkMethod: String?, label: String, translator: TranslationProvider) -> Input.Network {
         // Get validation rules
         let validationProvider: Input.Field.Validation.Provider?
         
@@ -41,20 +54,18 @@ extension Input.Field.Transformer {
                 let getRulesError = InternalError(description: "Failed to get validation rules: %@", objects: error)
                 getRulesError.log()
             }
-            
             validationProvider = nil
         }
         
         // Transform input fields
-        let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
         let inputFields = inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
             for ignored in ignoredFields {
-                if paymentNetwork.applicableNetwork.code == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
+                if networkCode == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
             
-            let validationRule = validationProvider?.getRule(forNetworkCode: paymentNetwork.applicableNetwork.code, withInputElementName: inputElement.name)
+            let validationRule = validationProvider?.getRule(forNetworkCode: networkCode, withInputElementName: inputElement.name)
             
-            return transform(inputElement: inputElement, translateUsing: paymentNetwork.translation, validationRule: validationRule, networkMethod: paymentNetwork.applicableNetwork.method)
+            return transform(inputElement: inputElement, translateUsing: translator, validationRule: validationRule, networkMethod: networkMethod)
         }
         
         // Link month and year fields
@@ -65,7 +76,7 @@ extension Input.Field.Transformer {
         let switchRule: Input.SmartSwitch.Rule?
         do {
             let switchProvider = Input.SmartSwitch.Provider()
-            switchRule = try switchProvider.getRules().first(withCode: paymentNetwork.applicableNetwork.code)
+            switchRule = try switchProvider.getRules().first(withCode: networkCode)
         } catch {
             let internalError = InternalError(description: "Unable to decode smart switch rules: %@", objects: error)
             internalError.log()
@@ -73,11 +84,18 @@ extension Input.Field.Transformer {
             switchRule = nil
         }
         
-        return .init(paymentNetwork: paymentNetwork, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, switchRule: switchRule)
+        return .init(
+            networkCode: networkCode,
+            translator: translator,
+            label: label,
+            logoData: logoData,
+            inputFields: inputFields,
+            switchRule: switchRule
+        )
     }
     
     /// Transform `InputElement` to `InputField`
-    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?, networkMethod: String) -> InputField & CellRepresentable {
+    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?, networkMethod: String?) -> InputField & CellRepresentable {
         switch inputElement.name {
         case "number":
             return Input.Field.AccountNumber(from: inputElement, translator: translator, validationRule: validationRule, networkMethod: networkMethod)

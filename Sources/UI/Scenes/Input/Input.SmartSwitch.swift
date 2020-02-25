@@ -56,7 +56,7 @@ extension Input.SmartSwitch {
         init(networks: [Input.Network]) throws {
             self.networks = networks
             
-            guard let firstNetwork = self.networks.first else {
+            guard let firstNetwork = networks.first else {
                 throw InternalError(description: "Tried to initialize with empty networks array")
             }
             
@@ -67,6 +67,11 @@ extension Input.SmartSwitch {
                 // We don't know the account number for now, we will show the first network from an array
                 selected = .generic(firstNetwork)
             }
+        }
+        
+        init(network: Input.Network) {
+            self.networks = [network]
+            selected = .specific(network)
         }
     }
 }
