@@ -11,8 +11,11 @@ final class AssetProvider {
     
     #if canImport(UIKit)
     static var iconCard: UIImage? {
-        let image = UIImage(named: "iconCard", in: bundle, compatibleWith: nil)
-        return image
+        return UIImage(named: "iconCard", in: bundle, compatibleWith: nil)
+    }
+    
+    static var iconClose: UIImage? {
+        return UIImage(named: "iconClose", in: bundle, compatibleWith: nil)
     }
     #endif
     

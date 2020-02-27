@@ -69,7 +69,7 @@ extension Input.ViewController {
         tableView.layoutIfNeeded()
         setPreferredContentSize()
                 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
     }
     
     override func viewWillAppear(_ animated: Bool) {
