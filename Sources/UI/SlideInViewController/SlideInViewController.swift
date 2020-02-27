@@ -16,10 +16,6 @@ class SlideInViewController: UIViewController {
         super.viewDidLoad()
 
         scrollView.bounces = isPresentedAsForm
-
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(rightBarButtonDidTap))
-        saveButton.style = .done
-        navigationItem.setRightBarButton(saveButton, animated: false)
     }
 
     @objc func rightBarButtonDidTap() {

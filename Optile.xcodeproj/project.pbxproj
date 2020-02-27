@@ -24,6 +24,7 @@
 		D90197012400113900949664 /* SlideInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FD2400113900949664 /* SlideInViewController.swift */; };
 		D90197022400113900949664 /* SlideInPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FE2400113900949664 /* SlideInPresentationManager.swift */; };
 		D90197032400113900949664 /* SlideInPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FF2400113900949664 /* SlideInPresentationController.swift */; };
+		D931F39F2407DE8800AF6BF9 /* Input.RoundedNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D931F39E2407DE8800AF6BF9 /* Input.RoundedNavigationController.swift */; };
 		D9D997CB23ED956F002B6A37 /* Input.Field.Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */; };
 		D9D997CC23ED956F002B6A37 /* Input.Field.AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974823ED956F002B6A37 /* Input.Field.AccountNumber.swift */; };
 		D9D997CD23ED956F002B6A37 /* Input.Field.ExpiryMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974923ED956F002B6A37 /* Input.Field.ExpiryMonth.swift */; };
@@ -171,6 +172,7 @@
 		D90196FD2400113900949664 /* SlideInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInViewController.swift; sourceTree = "<group>"; };
 		D90196FE2400113900949664 /* SlideInPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationManager.swift; sourceTree = "<group>"; };
 		D90196FF2400113900949664 /* SlideInPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationController.swift; sourceTree = "<group>"; };
+		D931F39E2407DE8800AF6BF9 /* Input.RoundedNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.RoundedNavigationController.swift; sourceTree = "<group>"; };
 		D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Transformer.swift; sourceTree = "<group>"; };
 		D9D9974823ED956F002B6A37 /* Input.Field.AccountNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.AccountNumber.swift; sourceTree = "<group>"; };
 		D9D9974923ED956F002B6A37 /* Input.Field.ExpiryMonth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.ExpiryMonth.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				D9D9975D23ED956F002B6A37 /* Model */,
 				D9D9975F23ED956F002B6A37 /* Protocols */,
 				D9D9976923ED956F002B6A37 /* Input.ViewController.swift */,
+				D931F39E2407DE8800AF6BF9 /* Input.RoundedNavigationController.swift */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -1015,6 +1018,7 @@
 				D9D997F923ED956F002B6A37 /* List.ImageStackView.swift in Sources */,
 				D9D9981B23ED956F002B6A37 /* InstallmentsPlan.swift in Sources */,
 				D9D997F223ED956F002B6A37 /* List.Table.DetailedLabelCell.swift in Sources */,
+				D931F39F2407DE8800AF6BF9 /* Input.RoundedNavigationController.swift in Sources */,
 				D9D997D623ED956F002B6A37 /* Input.Field.Validation.IBAN.swift in Sources */,
 				D9D997ED23ED956F002B6A37 /* List.Table.DataSource.swift in Sources */,
 				D9D9980A23ED956F002B6A37 /* InternalError.swift in Sources */,
