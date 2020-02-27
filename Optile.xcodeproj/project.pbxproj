@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D90197012400113900949664 /* SlideInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FD2400113900949664 /* SlideInViewController.swift */; };
+		D90197022400113900949664 /* SlideInPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FE2400113900949664 /* SlideInPresentationManager.swift */; };
+		D90197032400113900949664 /* SlideInPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FF2400113900949664 /* SlideInPresentationController.swift */; };
 		D9D997CB23ED956F002B6A37 /* Input.Field.Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */; };
 		D9D997CC23ED956F002B6A37 /* Input.Field.AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974823ED956F002B6A37 /* Input.Field.AccountNumber.swift */; };
 		D9D997CD23ED956F002B6A37 /* Input.Field.ExpiryMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974923ED956F002B6A37 /* Input.Field.ExpiryMonth.swift */; };
@@ -165,6 +168,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D90196FD2400113900949664 /* SlideInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInViewController.swift; sourceTree = "<group>"; };
+		D90196FE2400113900949664 /* SlideInPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationManager.swift; sourceTree = "<group>"; };
+		D90196FF2400113900949664 /* SlideInPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationController.swift; sourceTree = "<group>"; };
 		D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Transformer.swift; sourceTree = "<group>"; };
 		D9D9974823ED956F002B6A37 /* Input.Field.AccountNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.AccountNumber.swift; sourceTree = "<group>"; };
 		D9D9974923ED956F002B6A37 /* Input.Field.ExpiryMonth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.ExpiryMonth.swift; sourceTree = "<group>"; };
@@ -315,6 +321,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D90196FC2400113900949664 /* SlideInViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D90196FD2400113900949664 /* SlideInViewController.swift */,
+				D90196FE2400113900949664 /* SlideInPresentationManager.swift */,
+				D90196FF2400113900949664 /* SlideInPresentationController.swift */,
+			);
+			path = SlideInViewController;
+			sourceTree = "<group>";
+		};
 		D9D9974123ED956F002B6A37 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +347,7 @@
 		D9D9974223ED956F002B6A37 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D90196FC2400113900949664 /* SlideInViewController */,
 				D9D9974323ED956F002B6A37 /* Scenes */,
 				D9D9977F23ED956F002B6A37 /* Core */,
 				D9D9978423ED956F002B6A37 /* Theme */,
@@ -935,6 +952,7 @@
 				D9D9980323ED956F002B6A37 /* PaymentSessionProvider.swift in Sources */,
 				D9D997CD23ED956F002B6A37 /* Input.Field.ExpiryMonth.swift in Sources */,
 				D9D9982223ED956F002B6A37 /* ExtraElements.swift in Sources */,
+				D90197022400113900949664 /* SlideInPresentationManager.swift in Sources */,
 				D9D9981723ED956F002B6A37 /* PaymentAmount.swift in Sources */,
 				D9D9980623ED956F002B6A37 /* TranslationService.swift in Sources */,
 				D9D997E723ED956F002B6A37 /* Selectable.swift in Sources */,
@@ -985,7 +1003,9 @@
 				D9D997D723ED956F002B6A37 /* Input.Field.Validation.ExpiryDate.swift in Sources */,
 				D9D9981C23ED956F002B6A37 /* Parameter.swift in Sources */,
 				D9D9980423ED956F002B6A37 /* PaymentSessionService.swift in Sources */,
+				D90197012400113900949664 /* SlideInViewController.swift in Sources */,
 				D9D997DD23ED956F002B6A37 /* Input.Table.TextFieldViewCell.swift in Sources */,
+				D90197032400113900949664 /* SlideInPresentationController.swift in Sources */,
 				D9D997FF23ED956F002B6A37 /* PaymentNetwork.swift in Sources */,
 				D9D9981223ED956F002B6A37 /* URLSessionConnection.swift in Sources */,
 				D9D997FE23ED956F002B6A37 /* PaymentListParameters.swift in Sources */,
