@@ -4,11 +4,11 @@ import UIKit
 // MARK: Initializers
 
 extension Input {
-    class ViewController: UIViewController {
+    class ViewController: SlideInViewController {
         let networks: [Network]
         
         private let tableController: Table.Controller
-        private let tableView = UITableView(frame: .zero, style: .grouped)
+        private let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .grouped)
         fileprivate let smartSwitch: SmartSwitch.Selector
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
@@ -22,6 +22,8 @@ extension Input {
             }
             
             super.init(nibName: nil, bundle: nil)
+            
+            self.scrollView = tableView
             
             tableController.inputChangesListener = self
             
@@ -63,27 +65,30 @@ extension Input.ViewController {
         super.viewDidLoad()
         
         configure(tableView: tableView)
+        
+        tableView.layoutIfNeeded()
+        setPreferredContentSize()
                 
-        let payButton = makePayButton(using: tableController.network.translation)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: payButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         addKeyboardFrameChangesObserver()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
         tableView.cellForRow(at: [0, 0])?.becomeFirstResponder()
     }
-    
+        
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         removeKeyboardFrameChangesObserver()
+    }
+}
+
+extension Input.ViewController {
+    @objc func dismissView() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -108,8 +113,8 @@ extension Input.ViewController {
         view.addSubview(tableView)
 
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
@@ -143,25 +148,6 @@ extension Input.ViewController {
         imageContentViewTrailing.isActive = true
         
         return contentView
-    }
-    
-    private func makePayButton(using translation: TranslationProvider) -> UIButton {
-        let button = UIButton(frame: .zero)
-        button.layer.cornerRadius = 17
-        button.backgroundColor = view.tintColor
-        let title = NSAttributedString(string: translation.translation(forKey: "button.charge.label"), attributes: [
-            .font: UIFont.boldSystemFont(ofSize: UIFont.buttonFontSize),
-            .foregroundColor: UIColor.white
-        ])
-        
-        button.setAttributedTitle(title, for: .normal)
-        button.addTarget(self, action: #selector(payButtonDidTap), for: .touchUpInside)
-        
-        let desiredWidth = button.intrinsicContentSize.width
-        let buttonMargin: CGFloat = 30
-        button.widthAnchor.constraint(equalToConstant: desiredWidth + buttonMargin).isActive = true
-        
-        return button
     }
     
     @objc private func payButtonDidTap() {
