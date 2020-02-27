@@ -10,13 +10,16 @@ protocol DefinesKeyboardStyle where Self: TextInputField {
 
 extension DefinesKeyboardStyle where Self: TextInputField {
     var contentType: UITextContentType? { nil }
+    var autocapitalizationType: UITextAutocapitalizationType { .none }
+}
+
+extension DefinesKeyboardStyle where Self: InputElementModel {
     var keyboardType: UIKeyboardType {
-        switch self.inputElement.inputElementType {
+        switch inputElement.inputElementType {
         case .some(.numeric): return .numbersAndPunctuation
         case .some(.integer): return .numberPad
         default: return .default
         }
     }
-    var autocapitalizationType: UITextAutocapitalizationType { .none }
 }
 #endif

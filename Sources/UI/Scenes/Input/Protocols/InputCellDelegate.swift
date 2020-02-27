@@ -8,6 +8,10 @@ protocol InputCellDelegate: class {
     func inputCellDidEndEditing(at indexPath: IndexPath)
 }
 
+extension InputCellDelegate {
+    func inputCellBecameFirstResponder(at indexPath: IndexPath) {}
+}
+
 /// Indicates that delegate could be set for that cell
 protocol ContainsInputCellDelegate: class {
     var delegate: InputCellDelegate? { get set }

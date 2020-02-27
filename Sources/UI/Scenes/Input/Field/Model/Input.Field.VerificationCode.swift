@@ -10,7 +10,7 @@ protocol VerificationCodeTranslationKeySuffixer: class {
 // MARK: - VerificationCodeField
 
 extension Input.Field {
-    final class VerificationCode {
+    final class VerificationCode: InputElementModel {
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?

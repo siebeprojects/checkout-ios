@@ -14,14 +14,22 @@ extension Input.Field {
 }
 
 extension Input.Field.Transformer {
-    private var ignoredFields: [IgnoredFields] {[
-        .init(networkCode: "SEPADD", inputElementName: "bic")
-    ]}
+    private struct Constant {
+        static var ignoredFields: [IgnoredFields] { [
+            .init(networkCode: "SEPADD", inputElementName: "bic")
+        ] }
+        
+        static var registrationCheckboxLocalizationKey: String { "autoRegistrationLabel" }
+        static var recurrenceCheckboxLocalizationKey: String { "allowRecurrenceLabel" }
+    }
     
     func transform(registeredAccount: RegisteredAccount) -> Input.Network {
         let logoData = registeredAccount.logo?.value
         let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
-        return transform(logoData: logoData, inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, label: registeredAccount.networkLabel, translator: registeredAccount.translation)
+        
+        let modelToTransform = TransformableModel(logoData: logoData, inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, label: registeredAccount.networkLabel, translator: registeredAccount.translation, registrationRequirement: nil, recurrenceRequirement: nil)
+        
+        return transform(modelToTransform)
     }
     
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
@@ -37,11 +45,25 @@ extension Input.Field.Transformer {
         
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
         
-        return transform(logoData: logoData, inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, label: paymentNetwork.label, translator: paymentNetwork.translation)
+        let modelToTransform = TransformableModel(logoData: logoData, inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, label: paymentNetwork.label, translator: paymentNetwork.translation, registrationRequirement: paymentNetwork.applicableNetwork.registrationRequirement, recurrenceRequirement: paymentNetwork.applicableNetwork.recurrenceRequirement)
+        
+        return transform(modelToTransform)
     }
     
-    /// Transform `PaymentNetwork` to `Input.Network`
-    private func transform(logoData: Data?, inputElements: [InputElement], networkCode: String, networkMethod: String?, label: String, translator: TranslationProvider) -> Input.Network {
+    /// Used as input for `transform(:)` method
+    private struct TransformableModel {
+        var logoData: Data?
+        var inputElements: [InputElement]
+        var networkCode: String
+        var networkMethod: String?
+        var label: String
+        var translator: TranslationProvider
+        var registrationRequirement: ApplicableNetwork.Requirement?
+        var recurrenceRequirement: ApplicableNetwork.Requirement?
+    }
+    
+    /// Transform model to `Input.Network`
+    private func transform(_ model: TransformableModel) -> Input.Network {
         // Get validation rules
         let validationProvider: Input.Field.Validation.Provider?
         
@@ -58,15 +80,18 @@ extension Input.Field.Transformer {
         }
         
         // Transform input fields
-        let inputFields = inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
-            for ignored in ignoredFields {
-                if networkCode == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
+        let inputFields = model.inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
+            for ignored in Constant.ignoredFields {
+                if model.networkCode == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
             
-            let validationRule = validationProvider?.getRule(forNetworkCode: networkCode, withInputElementName: inputElement.name)
+            let validationRule = validationProvider?.getRule(forNetworkCode: model.networkCode, withInputElementName: inputElement.name)
             
-            return transform(inputElement: inputElement, translateUsing: translator, validationRule: validationRule, networkMethod: networkMethod)
+            return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod)
         }
+        
+        let registrationCheckbox = checkbox(translationKey: Constant.registrationCheckboxLocalizationKey, requirement: model.registrationRequirement, translator: model.translator)
+        let recurrenceCheckbox = checkbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: model.recurrenceRequirement, translator: model.translator)
         
         // Link month and year fields
         expiryYear?.expiryMonthField = expiryMonth
@@ -76,7 +101,7 @@ extension Input.Field.Transformer {
         let switchRule: Input.SmartSwitch.Rule?
         do {
             let switchProvider = Input.SmartSwitch.Provider()
-            switchRule = try switchProvider.getRules().first(withCode: networkCode)
+            switchRule = try switchProvider.getRules().first(withCode: model.networkCode)
         } catch {
             let internalError = InternalError(description: "Unable to decode smart switch rules: %@", objects: error)
             internalError.log()
@@ -84,14 +109,29 @@ extension Input.Field.Transformer {
             switchRule = nil
         }
         
-        return .init(
-            networkCode: networkCode,
-            translator: translator,
-            label: label,
-            logoData: logoData,
-            inputFields: inputFields,
-            switchRule: switchRule
-        )
+        return .init(networkCode: model.networkCode, translator: model.translator, label: model.label, logoData: model.logoData, inputFields: inputFields, autoRegistration: registrationCheckbox, allowRecurrence: recurrenceCheckbox, switchRule: switchRule)
+    }
+    
+    private func checkbox(translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox {
+        let isOn: Bool
+        var isEnabled: Bool = true
+        var isHidden: Bool = false
+        
+        switch requirement {
+        case .OPTIONAL: isOn = false
+        case .OPTIONAL_PRESELECTED: isOn = true
+        case .FORCED:
+            isOn = true
+            isHidden = true
+        case .FORCED_DISPLAYED:
+            isOn = true
+            isEnabled = false
+        default:
+            isOn = false
+            isHidden = true
+        }
+        
+        return Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
     }
     
     /// Transform `InputElement` to `InputField`

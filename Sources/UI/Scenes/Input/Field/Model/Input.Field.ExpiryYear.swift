@@ -1,7 +1,7 @@
 import Foundation
 
 extension Input.Field {
-    final class ExpiryYear {
+    final class ExpiryYear: InputElementModel {
         let inputElement: InputElement
         let translator: TranslationProvider
         var validationErrorText: String?

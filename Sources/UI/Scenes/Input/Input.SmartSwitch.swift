@@ -109,6 +109,7 @@ extension Input.SmartSwitch.Selector {
     }
 
     /// Move input values to a new network's input fields.
+    /// We assume that inputFields are stored in the same order in both networks.
     private func moveInputValues(from oldNetwork: Input.Network, to newNetwork: Input.Network) {
         for (index, oldField) in oldNetwork.inputFields.enumerated() {
             newNetwork.inputFields[index].value = oldField.value
