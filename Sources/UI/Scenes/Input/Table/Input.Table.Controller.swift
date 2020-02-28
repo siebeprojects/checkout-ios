@@ -4,11 +4,6 @@ import UIKit
 extension Input.Table {
     /// Acts as a datasource for input table views and responds on delegate events from a table and cells.
     class Controller: NSObject {
-        private struct Section {
-            static let inputFields = 0
-            static let checkboxFields = 1
-        }
-        
         var network: Input.Network {
             didSet {
                 networkDidUpdate(new: network, old: oldValue)
@@ -16,7 +11,7 @@ extension Input.Table {
         }
         
         unowned let tableView: UITableView
-        private var dataSource: [[CellRepresentable & InputField]]
+        private var dataSource: [[CellRepresentable]]
         weak var inputChangesListener: InputValueChangesListener?
         
         init(for network: Input.Network, tableView: UITableView) {
@@ -30,6 +25,7 @@ extension Input.Table {
         func registerCells() {
             tableView.register(TextFieldViewCell.self)
             tableView.register(CheckboxViewCell.self)
+            tableView.register(LogoTextCell.self)
         }
         
         func validateFields(option: Input.Field.Validation.Option) {
@@ -58,7 +54,7 @@ extension Input.Table {
             }
         }
         
-        private func sectionDidUpdate(_ section: Int, new: [CellRepresentable & InputField], old: [CellRepresentable & InputField]) {
+        private func sectionDidUpdate(_ section: Int, new: [CellRepresentable], old: [CellRepresentable]) {
             guard new.count == old.count else {
                 tableView.reloadSections([section], with: .fade)
                 return
@@ -73,8 +69,11 @@ extension Input.Table {
         }
         
         /// Arrange models by sections
-        private static func arrangeBySections(network: Input.Network) -> [[CellRepresentable & InputField]] {
-            let inputFields = network.inputFields.filter { !$0.isHidden }
+        private static func arrangeBySections(network: Input.Network) -> [[CellRepresentable]] {
+            let inputFields = network.inputFields.filter {
+                if let field = $0 as? InputField, field.isHidden { return false }
+                return true
+            }
             var dataSource = [inputFields]
             
             var checkboxes = [Input.Field.Checkbox]()
@@ -144,10 +143,18 @@ extension Input.Table.Controller: InputCellDelegate {
     }
     
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
-        let model = dataSource[indexPath.section][indexPath.row]
+        guard let model = dataSource[indexPath.section][indexPath.row] as? InputField else { return }
         model.value = newValue ?? ""
         
         inputChangesListener?.valueDidChange(for: model)
+    }
+}
+
+extension Input.Table.Controller {
+    /// Structure with section numbers
+    fileprivate struct Section {
+        static let inputFields = 0
+        static let checkboxFields = 1
     }
 }
 #endif

@@ -88,7 +88,7 @@ extension Input.SmartSwitch.Selector {
         
         defer {
             if previouslySelected.network != selected.network {
-                moveInputValues(from: previouslySelected.network, to: selected.network)
+                moveInputValues(from: previouslySelected.network.inputFields as [AnyObject], to: selected.network.inputFields as [AnyObject])
             }
         }
         
@@ -108,12 +108,16 @@ extension Input.SmartSwitch.Selector {
         return selected
     }
 
-    /// Move input values to a new network's input fields.
-    /// We assume that inputFields are stored in the same order in both networks.
-    private func moveInputValues(from oldNetwork: Input.Network, to newNetwork: Input.Network) {
-        for (index, oldField) in oldNetwork.inputFields.enumerated() {
-            newNetwork.inputFields[index].value = oldField.value
-            oldField.value = ""
+    /// Move input values from `InputField` to `InputField`.
+    /// We assume that inputFields are stored in the same order in both models, non-`InputField` elements will be skipped (e.g. header cells).
+    /// - Parameters:
+    ///   - lhs: any, if not `InputField` element will be skipped
+    ///   - rhs: any, if not `InputField` element will be skipped
+    private func moveInputValues(from lhs: [AnyObject], to rhs: [AnyObject]) {
+        for (index, lhsAny) in lhs.enumerated() {
+            guard let lhsField = lhsAny as? InputField, let rhsField = rhs[index] as? InputField else { continue }
+            rhsField.value = lhsField.value
+            lhsField.value = ""
         }
     }
 

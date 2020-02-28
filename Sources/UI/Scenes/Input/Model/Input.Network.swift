@@ -6,7 +6,7 @@ extension Input {
 
         let label: String
         let logoData: Data?
-        let inputFields: [InputField & CellRepresentable]
+        let inputFields: [CellRepresentable]
         let autoRegistration: Input.Field.Checkbox
         let allowRecurrence: Input.Field.Checkbox
         
