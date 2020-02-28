@@ -77,7 +77,7 @@ extension Input.Table {
             var dataSource = [inputFields]
             
             var checkboxes = [Input.Field.Checkbox]()
-            for field in [network.autoRegistration, network.allowRecurrence] where !field.isHidden {
+            for field in network.separatedCheckboxes where !field.isHidden {
                 checkboxes.append(field)
             }
             

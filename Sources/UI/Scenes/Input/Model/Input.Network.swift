@@ -7,21 +7,21 @@ extension Input {
         let label: String
         let logoData: Data?
         let inputFields: [CellRepresentable]
-        let autoRegistration: Input.Field.Checkbox
-        let allowRecurrence: Input.Field.Checkbox
+        
+        /// Checkboxes that must be arranged in another section (used for reccurence and registration)
+        let separatedCheckboxes: [Input.Field.Checkbox]
         
         let switchRule: SmartSwitch.Rule?
         let networkCode: String
 
-        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], autoRegistration: Input.Field.Checkbox, allowRecurrence: Input.Field.Checkbox, switchRule: SmartSwitch.Rule?) {
+        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], separatedCheckboxes: [Input.Field.Checkbox], switchRule: SmartSwitch.Rule?) {
             self.networkCode = networkCode
             self.translation = translator
             
             self.label = label
             self.logoData = logoData
             self.inputFields = inputFields
-            self.autoRegistration = autoRegistration
-            self.allowRecurrence = allowRecurrence
+            self.separatedCheckboxes = separatedCheckboxes
             self.switchRule = switchRule
         }
     }
