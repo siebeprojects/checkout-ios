@@ -21,11 +21,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		D9904D9423F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9904D9323F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift */; };
 		D90197012400113900949664 /* SlideInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FD2400113900949664 /* SlideInViewController.swift */; };
 		D90197022400113900949664 /* SlideInPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FE2400113900949664 /* SlideInPresentationManager.swift */; };
 		D90197032400113900949664 /* SlideInPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90196FF2400113900949664 /* SlideInPresentationController.swift */; };
 		D931F39F2407DE8800AF6BF9 /* Input.RoundedNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D931F39E2407DE8800AF6BF9 /* Input.RoundedNavigationController.swift */; };
+		D931F3A62408170800AF6BF9 /* Input.Table.LogoTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D931F3A52408170800AF6BF9 /* Input.Table.LogoTextCell.swift */; };
+		D9904D9423F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9904D9323F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift */; };
+		D9B9C7E6240952A400E56C00 /* Input.LogoText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B9C7E5240952A400E56C00 /* Input.LogoText.swift */; };
 		D9D997CB23ED956F002B6A37 /* Input.Field.Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */; };
 		D9D997CC23ED956F002B6A37 /* Input.Field.AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974823ED956F002B6A37 /* Input.Field.AccountNumber.swift */; };
 		D9D997CD23ED956F002B6A37 /* Input.Field.ExpiryMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9974923ED956F002B6A37 /* Input.Field.ExpiryMonth.swift */; };
@@ -173,11 +175,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D9904D9323F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
 		D90196FD2400113900949664 /* SlideInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInViewController.swift; sourceTree = "<group>"; };
 		D90196FE2400113900949664 /* SlideInPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationManager.swift; sourceTree = "<group>"; };
 		D90196FF2400113900949664 /* SlideInPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationController.swift; sourceTree = "<group>"; };
 		D931F39E2407DE8800AF6BF9 /* Input.RoundedNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.RoundedNavigationController.swift; sourceTree = "<group>"; };
+		D931F3A52408170800AF6BF9 /* Input.Table.LogoTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.LogoTextCell.swift; sourceTree = "<group>"; };
+		D9904D9323F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
+		D9B9C7E5240952A400E56C00 /* Input.LogoText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.LogoText.swift; sourceTree = "<group>"; };
 		D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Transformer.swift; sourceTree = "<group>"; };
 		D9D9974823ED956F002B6A37 /* Input.Field.AccountNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.AccountNumber.swift; sourceTree = "<group>"; };
 		D9D9974923ED956F002B6A37 /* Input.Field.ExpiryMonth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.ExpiryMonth.swift; sourceTree = "<group>"; };
@@ -395,6 +399,7 @@
 		D9D9974523ED956F002B6A37 /* Field */ = {
 			isa = PBXGroup;
 			children = (
+				D9B9C7E5240952A400E56C00 /* Input.LogoText.swift */,
 				D9D9974623ED956F002B6A37 /* Input.Field.Transformer.swift */,
 				D9D9974723ED956F002B6A37 /* Model */,
 				D9D9975123ED956F002B6A37 /* Input.Field.swift */,
@@ -435,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				D9D9975A23ED956F002B6A37 /* Input.Table.Controller.swift */,
+				D931F3A52408170800AF6BF9 /* Input.Table.LogoTextCell.swift */,
 				D9D9975B23ED956F002B6A37 /* Input.Table.TextFieldViewCell.swift */,
 				D9904D9323F1D2C600A9A7B9 /* Input.Table.CheckboxViewCell.swift */,
 				D9D9975C23ED956F002B6A37 /* Input.Table.swift */,
@@ -998,6 +1004,7 @@
 				D9D9981623ED956F002B6A37 /* Redirect.swift in Sources */,
 				D9D997FC23ED956F002B6A37 /* Error+isNetworkError.swift in Sources */,
 				D9D9980823ED956F002B6A37 /* KeyboardChangeFrameObserver.swift in Sources */,
+				D9B9C7E6240952A400E56C00 /* Input.LogoText.swift in Sources */,
 				D9D9981523ED956F002B6A37 /* Request.swift in Sources */,
 				D9D9980F23ED956F002B6A37 /* GetListResult.swift in Sources */,
 				D9D997EB23ED956F002B6A37 /* List.swift in Sources */,
@@ -1046,6 +1053,7 @@
 				D9D9983423ED956F002B6A37 /* CombinedTranslationProvider.swift in Sources */,
 				D9D9982623ED956F002B6A37 /* ErrorInfo.swift in Sources */,
 				D9D997E123ED956F002B6A37 /* DefinesKeyboardStyle.swift in Sources */,
+				D931F3A62408170800AF6BF9 /* Input.Table.LogoTextCell.swift in Sources */,
 				D9D997D223ED956F002B6A37 /* Input.Field.BIC.swift in Sources */,
 				D9D997E223ED956F002B6A37 /* InputValueChangesListener.swift in Sources */,
 				D9D997EA23ED956F002B6A37 /* List.ViewController.swift in Sources */,

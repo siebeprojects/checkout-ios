@@ -33,7 +33,11 @@ extension Input.Field.Transformer {
         
         let modelToTransform = TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
         
-        let inputFields = makeInputFields(for: modelToTransform)
+        var inputFields: [CellRepresentable] = makeInputFields(for: modelToTransform)
+        
+        // Header
+        let header = Input.Field.LogoText(logoData: logoData, label: registeredAccount.networkLabel)
+        inputFields.insert(header, at: 0)
         
         return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], switchRule: nil)
     }
