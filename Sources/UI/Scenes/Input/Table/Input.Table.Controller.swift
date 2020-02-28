@@ -101,8 +101,12 @@ extension Input.Table.Controller: UITableViewDataSource {
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         let cell = cellRepresentable.dequeueCell(for: tableView, indexPath: indexPath)
         cellRepresentable.configure(cell: cell)
-        cell.delegate = self
         cell.selectionStyle = .none
+        
+        if let input = cell as? ContainsInputCellDelegate {
+            input.delegate = self
+        }
+        
         return cell
      }
 }

@@ -3,13 +3,13 @@ import UIKit
 
 /// Could be represented as a table cell
 protocol CellRepresentable {
-    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell & ContainsInputCellDelegate
+    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell
     func configure(cell: UITableViewCell)
 }
 
 // If model is `TextInputField` & `DefinesKeyboardStyle`
 extension CellRepresentable where Self: DefinesKeyboardStyle {
-    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell & ContainsInputCellDelegate {
+    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(Input.Table.TextFieldViewCell.self, for: indexPath)
         cell.maxInputLength = maxInputLength
         cell.indexPath = indexPath
@@ -23,7 +23,7 @@ extension CellRepresentable where Self: DefinesKeyboardStyle {
 }
 
 extension CellRepresentable where Self == Input.Field.Checkbox {
-    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell & ContainsInputCellDelegate {
+    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(Input.Table.CheckboxViewCell.self, for: indexPath)
         cell.indexPath = indexPath
         return cell
