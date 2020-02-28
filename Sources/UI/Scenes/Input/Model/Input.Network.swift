@@ -14,7 +14,7 @@ extension Input {
         let switchRule: SmartSwitch.Rule?
         let networkCode: String
 
-        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], separatedCheckboxes: [Input.Field.Checkbox], switchRule: SmartSwitch.Rule?) {
+        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [CellRepresentable], separatedCheckboxes: [Input.Field.Checkbox], switchRule: SmartSwitch.Rule?) {
             self.networkCode = networkCode
             self.translation = translator
             
