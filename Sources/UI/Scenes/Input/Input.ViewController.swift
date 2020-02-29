@@ -64,6 +64,9 @@ extension Input.ViewController {
         
         tableView.layoutIfNeeded()
         setPreferredContentSize()
+        
+        // FIXME: To be removed
+        title = "Example title"
                 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
     }
@@ -96,7 +99,7 @@ extension Input.ViewController {
         
         tableView.dataSource = tableController
         tableView.delegate = tableController
-        tableView.tableHeaderView = makeTableViewHeader(for: tableController.network)
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
         
         if #available(iOS 13.0, *) {
             tableView.backgroundColor = UIColor.systemBackground
@@ -120,35 +123,9 @@ extension Input.ViewController {
 // MARK: - View constructors
 
 extension Input.ViewController {
-    private func makeTableViewHeader(for network: Input.Network) -> UIView {
-        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 200))
-        contentView.preservesSuperviewLayoutMargins = true
-        
-        // Image
-        let imageView = UIImageView(image: network.logo)
-        imageView.contentMode = .scaleAspectFit
-        contentView.addSubview(imageView)
-
-        let imageViewMargin: CGFloat = 8*4
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Constraints
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: imageViewMargin),
-            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: imageViewMargin),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -imageViewMargin),
-        ])
-        
-        let imageContentViewTrailing = imageView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -imageViewMargin)
-        imageContentViewTrailing.priority = .defaultHigh
-        imageContentViewTrailing.isActive = true
-        
-        return contentView
-    }
-    
-    @objc private func payButtonDidTap() {
-        tableController.validateFields(option: .fullCheck)
-    }
+//    @objc private func payButtonDidTap() {
+//        tableController.validateFields(option: .fullCheck)
+//    }
 }
 
 // MARK: - InputValueChangesListener
@@ -176,7 +153,6 @@ extension Input.ViewController: InputValueChangesListener {
     
     private func replaceCurrentNetwork(with newNetwork: Input.Network) {
         tableController.network = newNetwork
-        tableView.tableHeaderView = makeTableViewHeader(for: newNetwork)
     }
 }
 
