@@ -7,31 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D95651D923C7D577002AE827 /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D95651D623C7D449002AE827 /* Optile.framework */; };
-		D95651DA23C7D577002AE827 /* Optile.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D95651D623C7D449002AE827 /* Optile.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		61352681302C575824379526 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B8008EEAF7624320906F94 /* Pods_Example.framework */; };
 		D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB0234143BD0021184C /* AppDelegate.swift */; };
 		D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB4234143BD0021184C /* ViewController.swift */; };
 		D9E0AEB8234143BD0021184C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB6234143BD0021184C /* Main.storyboard */; };
 		D9E0AEBA234143BF0021184C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB9234143BF0021184C /* Assets.xcassets */; };
 		D9E0AEBD234143BF0021184C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D95651D523C7D449002AE827 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D95651CE23C7D446002AE827 /* Optile.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "Optile::Optile::Product";
-			remoteInfo = Optile;
-		};
-		D95651D723C7D449002AE827 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D95651CE23C7D446002AE827 /* Optile.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "Optile::Tests::Product";
-			remoteInfo = Tests;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D95651DB23C7D577002AE827 /* Embed Frameworks */ = {
@@ -40,7 +22,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D95651DA23C7D577002AE827 /* Optile.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,7 +29,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D95651CE23C7D446002AE827 /* Optile.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Optile.xcodeproj; path = ../Optile.xcodeproj; sourceTree = "<group>"; };
+		533C3E6C1F1308E919D9F666 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
+		6E2BBE9B4A36CD0CFCCFA5F5 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D967F71723C7C6450001B778 /* Optile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E0AEAD234143BD0021184C /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E0AEB0234143BD0021184C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +39,7 @@
 		D9E0AEB9234143BF0021184C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9E0AEBC234143BF0021184C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9E0AEBE234143BF0021184C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4B8008EEAF7624320906F94 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,26 +47,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D95651D923C7D577002AE827 /* Optile.framework in Frameworks */,
+				61352681302C575824379526 /* Pods_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D95651CF23C7D446002AE827 /* Products */ = {
+		3C7FB3D9136B07C8DBE90F14 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D95651D623C7D449002AE827 /* Optile.framework */,
-				D95651D823C7D449002AE827 /* Tests.xctest */,
+				6E2BBE9B4A36CD0CFCCFA5F5 /* Pods-Example.debug.xcconfig */,
+				533C3E6C1F1308E919D9F666 /* Pods-Example.release.xcconfig */,
 			);
-			name = Products;
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		D9D705FC23703B66004000AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				D967F71723C7C6450001B778 /* Optile.framework */,
+				E4B8008EEAF7624320906F94 /* Pods_Example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -91,10 +76,10 @@
 		D9E0AEA4234143BD0021184C = {
 			isa = PBXGroup;
 			children = (
-				D95651CE23C7D446002AE827 /* Optile.xcodeproj */,
 				D9E0AEAF234143BD0021184C /* Sources */,
 				D9E0AEAE234143BD0021184C /* Products */,
 				D9D705FC23703B66004000AE /* Frameworks */,
+				3C7FB3D9136B07C8DBE90F14 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -126,10 +111,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9E0AEC1234143BF0021184C /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
+				D25592E5D3A3C86A4F29E643 /* [CP] Check Pods Manifest.lock */,
 				D9E0AEA9234143BD0021184C /* Sources */,
 				D9E0AEAA234143BD0021184C /* Frameworks */,
 				D9E0AEAB234143BD0021184C /* Resources */,
 				D95651DB23C7D577002AE827 /* Embed Frameworks */,
+				69054DAF21F14C87D1FD1948 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -166,35 +153,12 @@
 			mainGroup = D9E0AEA4234143BD0021184C;
 			productRefGroup = D9E0AEAE234143BD0021184C /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = D95651CF23C7D446002AE827 /* Products */;
-					ProjectRef = D95651CE23C7D446002AE827 /* Optile.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				D9E0AEAC234143BD0021184C /* Example */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		D95651D623C7D449002AE827 /* Optile.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Optile.framework;
-			remoteRef = D95651D523C7D449002AE827 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D95651D823C7D449002AE827 /* Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = file;
-			path = Tests.xctest;
-			remoteRef = D95651D723C7D449002AE827 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D9E0AEAB234143BD0021184C /* Resources */ = {
@@ -208,6 +172,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		69054DAF21F14C87D1FD1948 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D25592E5D3A3C86A4F29E643 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D9E0AEA9234143BD0021184C /* Sources */ = {
@@ -357,6 +363,7 @@
 		};
 		D9E0AEC2234143BF0021184C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E2BBE9B4A36CD0CFCCFA5F5 /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -376,6 +383,7 @@
 		};
 		D9E0AEC3234143BF0021184C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 533C3E6C1F1308E919D9F666 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
