@@ -100,8 +100,9 @@ extension Input.Table.Controller: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         let cell = cellRepresentable.dequeueCell(for: tableView, indexPath: indexPath)
-        cellRepresentable.configure(cell: cell)
+        cell.tintColor = tableView.tintColor
         cell.selectionStyle = .none
+        cellRepresentable.configure(cell: cell)
         
         if let input = cell as? ContainsInputCellDelegate {
             input.delegate = self

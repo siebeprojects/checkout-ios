@@ -60,6 +60,7 @@ extension Input.ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.tintColor = .tintColor
         configure(tableView: tableView)
         
         tableView.layoutIfNeeded()
@@ -100,6 +101,8 @@ extension Input.ViewController {
         tableView.dataSource = tableController
         tableView.delegate = tableController
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
+        tableView.separatorStyle = .none
+        tableView.tintColor = view.tintColor
         
         if #available(iOS 13.0, *) {
             tableView.backgroundColor = UIColor.systemBackground

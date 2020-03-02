@@ -11,7 +11,6 @@ protocol CellRepresentable {
 extension CellRepresentable where Self: DefinesKeyboardStyle {
     func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(Input.Table.TextFieldViewCell.self, for: indexPath)
-        cell.maxInputLength = maxInputLength
         cell.indexPath = indexPath
         return cell
     }
