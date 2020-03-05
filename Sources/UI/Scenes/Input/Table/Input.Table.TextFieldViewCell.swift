@@ -24,6 +24,8 @@ extension Input.Table {
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             textField = .init()
             textFieldController = .init(textInput: textField)
+            textField.leadingUnderlineLabel.numberOfLines = 0
+            textField.leadingUnderlineLabel.lineBreakMode = .byWordWrapping
             
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
