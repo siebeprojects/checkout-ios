@@ -7,9 +7,30 @@ extension Input.Field {
         let label: String
         var detailedLabel: String?
 
-        init(logoData: Data?, label: String) {
+        private init(logoData: Data?, label: String) {
             self.logoData = logoData
             self.label = label
+        }
+        
+        /// Initializes header with transformed label and detailed label from `maskedAccount` data.
+        /// E.g.: •••• 1234, 5 / 20
+        convenience init(from registeredAccount: RegisteredAccount) {
+            let maskedNumber: String
+            
+            if let number = registeredAccount.apiModel.maskedAccount.number {
+                // Expected input number format: `41 *** 1111`
+                maskedNumber = "•••• " + number.suffix(4)
+            } else {
+                maskedNumber = ""
+            }
+            
+            let label = [registeredAccount.networkLabel, maskedNumber].joined(separator: " ")
+            
+            self.init(logoData: registeredAccount.logo?.value, label: label)
+            
+            if let expiryMonth = registeredAccount.apiModel.maskedAccount.expiryMonth, let expiryYear = registeredAccount.apiModel.maskedAccount.expiryYear {
+                detailedLabel = String(expiryMonth) + " / " + String(expiryYear).suffix(2)
+            }
         }
     }
 }
