@@ -21,16 +21,16 @@ extension Input.Table {
             self.accessoryType = .checkmark
 
             label.font = .preferredFont(forTextStyle: .body)
+            detailedLabel.font = .preferredFont(forTextStyle: .footnote)
+            label.textColor = .text
+            detailedLabel.textColor = .text
             
             contentView.addSubview(label)
             contentView.addSubview(detailedLabel)
             contentView.addSubview(logoView)
 
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.textColor = .text
-            
             detailedLabel.translatesAutoresizingMaskIntoConstraints = false
-            detailedLabel.textColor = .text
             
             logoView.translatesAutoresizingMaskIntoConstraints = false
             logoView.contentMode = .scaleAspectFit
