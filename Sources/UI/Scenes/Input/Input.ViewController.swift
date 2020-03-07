@@ -65,9 +65,6 @@ extension Input.ViewController {
         
         tableView.layoutIfNeeded()
         setPreferredContentSize()
-        
-        // FIXME: To be removed
-        title = "Example title"
                 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
     }
