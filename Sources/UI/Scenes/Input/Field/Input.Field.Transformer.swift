@@ -36,7 +36,9 @@ extension Input.Field.Transformer {
         var inputFields: [CellRepresentable] = makeInputFields(for: modelToTransform)
         
         // Header
-        let header = Input.Field.LogoText(logoData: logoData, label: registeredAccount.networkLabel)
+        let header = Input.Field.Header(logoData: logoData, label: registeredAccount.networkLabel)
+        header.detailedLabel = "11 / 22"
+        
         inputFields.insert(header, at: 0)
         
         return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], switchRule: nil)

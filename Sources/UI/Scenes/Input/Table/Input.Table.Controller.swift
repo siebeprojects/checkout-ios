@@ -26,6 +26,7 @@ extension Input.Table {
             tableView.register(TextFieldViewCell.self)
             tableView.register(CheckboxViewCell.self)
             tableView.register(LogoTextCell.self)
+            tableView.register(DetailedTextLogoCell.self)
         }
         
         func validateFields(option: Input.Field.Validation.Option) {
