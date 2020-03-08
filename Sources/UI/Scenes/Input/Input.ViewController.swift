@@ -8,7 +8,7 @@ extension Input {
         let networks: [Network]
         
         private let tableController: Table.Controller
-        private let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .grouped)
+        private let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .plain)
         fileprivate let smartSwitch: SmartSwitch.Selector
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
