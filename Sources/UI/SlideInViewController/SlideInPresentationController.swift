@@ -40,6 +40,8 @@ class SlideInPresentationController: UIPresentationController {
         coordinator.animate(alongsideTransition: { _ in
             self.dimmingView.alpha = 0.0
         })
+        
+        removeKeyboardFrameChangesObserver()
     }
 
     override func containerViewWillLayoutSubviews() {
@@ -81,7 +83,7 @@ class SlideInPresentationController: UIPresentationController {
         self.containerView?.setNeedsLayout()
     }
 
-    override func adaptivePresentationStyle(for traitCollection: UITraitCollection) -> UIModalPresentationStyle {       
+    override func adaptivePresentationStyle(for traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         if traitCollection.verticalSizeClass == .compact || traitCollection.horizontalSizeClass == .regular {
             return .formSheet
         } else {

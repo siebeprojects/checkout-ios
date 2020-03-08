@@ -18,16 +18,6 @@ class SlideInViewController: UIViewController {
         scrollView.bounces = isPresentedAsForm
     }
 
-    @objc func rightBarButtonDidTap() {
-        navigationController?.dismiss(animated: true, completion: nil)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.addKeyboardFrameChangesObserver()
-    }
-
     @available(iOS 11.0, *)
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
@@ -39,11 +29,6 @@ class SlideInViewController: UIViewController {
 
         if isPresentedAsForm {
             scrollView.bounces = true
-
-            coordinator.animate(alongsideTransition: { (_) in
-                self.scrollView.contentInset = UIEdgeInsets.zero
-                self.scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
-            }, completion: nil)
         } else {
             scrollView.bounces = false
         }
@@ -55,16 +40,5 @@ class SlideInViewController: UIViewController {
         var contentSize = scrollView.contentSize
         contentSize.width = view.frame.width
         preferredContentSize = contentSize
-    }
-}
-
-extension SlideInViewController: KeyboardFrameChangesObserver {
-    func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
-        if traitCollection.verticalSizeClass == .compact && traitCollection.horizontalSizeClass == .compact {
-            UIView.animate(withDuration: animationDuration, delay: 0, options: animationOptions, animations: {
-                self.scrollView.contentInset = .zero
-                self.scrollView.scrollIndicatorInsets = .zero
-            }, completion: nil)
-        }
     }
 }

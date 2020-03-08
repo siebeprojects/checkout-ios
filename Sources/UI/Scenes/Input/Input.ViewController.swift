@@ -160,6 +160,38 @@ extension Input.ViewController: InputValueChangesListener {
 
 extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { tableView }
+    
+    func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
+         guard let scrollViewToModify = scrollViewToModify else { return }
+        
+         if navigationController?.modalPresentationStyle == .custom {
+            scrollViewToModify.contentInset = .zero
+            scrollViewToModify.scrollIndicatorInsets = .zero
+            
+            return
+        }
+        
+         var adjustedHeight = height
+         
+         if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
+             adjustedHeight -= tabBarHeight
+         } else if let toolbarHeight = navigationController?.toolbar.frame.height, navigationController?.isToolbarHidden == false {
+             adjustedHeight -= toolbarHeight
+         }
+         
+         if #available(iOS 11.0, *) {
+             adjustedHeight -= view.safeAreaInsets.bottom
+         }
+         
+         if adjustedHeight < 0 { adjustedHeight = 0 }
+         
+         UIView.animate(withDuration: animationDuration, animations: {
+             let newInsets = UIEdgeInsets(top: 0, left: 0, bottom: adjustedHeight, right: 0)
+
+             scrollViewToModify.contentInset = newInsets
+             scrollViewToModify.scrollIndicatorInsets = newInsets
+         })
+     }
 }
 
 // MARK: - VerificationCodeTranslationKeySuffixer
