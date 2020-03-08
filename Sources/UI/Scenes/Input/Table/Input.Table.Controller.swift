@@ -18,7 +18,12 @@ extension Input.Table {
             self.network = network
             self.tableView = tableView
             
-            dataSource = Self.arrangeBySections(network: network)
+            // Prepare data source
+            var dataSource = Self.arrangeBySections(network: network)
+            let payButton = Input.Field.Button(label: network.translation.translation(forKey: "button.registered.charge.label"))
+            dataSource.append([payButton])
+            self.dataSource = dataSource
+            
             super.init()
         }
         
@@ -27,6 +32,7 @@ extension Input.Table {
             tableView.register(CheckboxViewCell.self)
             tableView.register(LogoTextCell.self)
             tableView.register(DetailedTextLogoCell.self)
+            tableView.register(ButtonCell.self)
         }
         
         func validateFields(option: Input.Field.Validation.Option) {
@@ -91,7 +97,7 @@ extension Input.Table {
 
 extension Input.Table.Controller: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-         return 2
+        return dataSource.count
     }
      
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
