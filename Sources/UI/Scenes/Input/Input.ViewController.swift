@@ -73,7 +73,13 @@ extension Input.ViewController {
         super.viewWillAppear(animated)
         
         addKeyboardFrameChangesObserver()
-        tableView.cellForRow(at: [0, 0])?.becomeFirstResponder()
+        
+        for cell in tableView.visibleCells {
+            guard cell.canBecomeFirstResponder else { continue }
+            
+            cell.becomeFirstResponder()
+            break
+        }
     }
         
     override func viewWillDisappear(_ animated: Bool) {
