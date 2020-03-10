@@ -17,12 +17,7 @@ extension Input.Table {
         init(for network: Input.Network, tableView: UITableView) {
             self.network = network
             self.tableView = tableView
-            
-            // Prepare data source
-            var dataSource = Self.arrangeBySections(network: network)
-            let payButton = Input.Field.Button(label: network.translation.translation(forKey: "button.registered.charge.label"))
-            dataSource.append([payButton])
-            self.dataSource = dataSource
+            self.dataSource = Self.arrangeBySections(network: network)
             
             super.init()
         }
@@ -89,6 +84,8 @@ extension Input.Table {
             }
             
             dataSource.append(checkboxes)
+
+            dataSource.append([network.submitButton])
             
             return dataSource
         }

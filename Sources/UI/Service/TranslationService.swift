@@ -4,6 +4,7 @@ import Foundation
 final class TranslationService {
     private let networks: [ApplicableNetwork]
     private let accounts: [AccountRegistration]
+    private let listResult: ListResult
     private let sharedTranslationProvider: TranslationProvider
     
     private let localizationQueue = OperationQueue()
@@ -11,13 +12,14 @@ final class TranslationService {
     private var downloadNetworkOperations = [DownloadTranslationOperation<ApplicableNetwork>]()
     private var downloadAccountsOperations = [DownloadTranslationOperation<AccountRegistration>]()
     
-    typealias ConvertedNetworksTuple = (paymentNetworks: [PaymentNetwork], registeredAccounts: [RegisteredAccount])
+    typealias ConvertedNetworksTuple = (paymentNetworks: [PaymentNetwork], registeredAccounts: [RegisteredAccount], listResult: ListResult)
     typealias CompletionBlock = (Result<ConvertedNetworksTuple, Error>) -> Void
     
-    init(networks: [ApplicableNetwork], accounts: [AccountRegistration], sharedTranslation: SharedTranslationProvider) {
+    init(networks: [ApplicableNetwork], accounts: [AccountRegistration], listResult: ListResult, sharedTranslation: SharedTranslationProvider) {
         self.networks = networks
         self.accounts = accounts
         self.sharedTranslationProvider = sharedTranslation
+        self.listResult = listResult
     }
     
     func localize(using connection: Connection, completion: @escaping CompletionBlock) {
@@ -101,7 +103,7 @@ final class TranslationService {
             }
         }
         
-        let resultTuple = (paymentNetworks, registeredAccounts)
+        let resultTuple = (paymentNetworks, registeredAccounts, listResult)
         completion(.success(resultTuple))
     }
 }

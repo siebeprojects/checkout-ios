@@ -7,6 +7,8 @@ final class RegisteredAccount {
     let networkLabel: String
     var logo: Loadable<Data>?
     
+    weak var session: PaymentSession?
+    
     init(from apiModel: AccountRegistration, localizeUsing localizer: TranslationProvider) {
         self.apiModel = apiModel
         self.translation = localizer
