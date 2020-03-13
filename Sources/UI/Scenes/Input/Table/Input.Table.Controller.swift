@@ -169,15 +169,6 @@ extension Input.Table.Controller: UITableViewDataSource {
      }
 }
 
-// MARK: - UITableViewDelegate
-
-extension Input.Table.Controller: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row = tableView.cellForRow(at: indexPath)
-        row?.becomeFirstResponder()
-    }
-}
-
 // MARK: - InputCellDelegate
 
 extension Input.Table.Controller: InputCellDelegate {
