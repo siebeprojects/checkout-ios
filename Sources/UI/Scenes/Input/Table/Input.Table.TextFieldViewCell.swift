@@ -26,7 +26,7 @@ extension Input.Table {
             textFieldController = .init(textInput: textField)
             textField.leadingUnderlineLabel.numberOfLines = 0
             textField.leadingUnderlineLabel.lineBreakMode = .byWordWrapping
-            
+                        
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
             textField.delegate = self
@@ -67,6 +67,7 @@ extension Input.Table.TextFieldViewCell {
         textField.tintColor = self.tintColor
         textFieldController.activeColor = textField.tintColor
         textFieldController.floatingPlaceholderActiveColor = textField.tintColor
+        textFieldController.leadingUnderlineLabelTextColor = textField.tintColor
         
         textFieldController.textInputFont = .preferredFont(forTextStyle: .body)
         textFieldController.inlinePlaceholderFont = textFieldController.textInputFont
