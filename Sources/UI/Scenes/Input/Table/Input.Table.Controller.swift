@@ -29,6 +29,10 @@ extension Input.Table {
             self.dataSource = Self.arrangeBySections(network: network)
             
             super.init()
+            
+            network.submitButton.buttonDidTap = { [weak self] _ in
+                self?.validateFields(option: .fullCheck)
+            }
         }
         
         func registerCells() {

@@ -4,6 +4,8 @@ import Foundation
 extension Input.Field {
     final class Button {
         let label: String
+        
+        var buttonDidTap: ((Button) -> Void)?
 
         init(label: String) {
             self.label = label

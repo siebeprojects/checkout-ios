@@ -121,14 +121,6 @@ extension Input.ViewController {
     }
 }
 
-// MARK: - View constructors
-
-extension Input.ViewController {
-//    @objc private func payButtonDidTap() {
-//        tableController.validateFields(option: .fullCheck)
-//    }
-}
-
 // MARK: - InputValueChangesListener
 
 extension Input.ViewController: InputValueChangesListener {
