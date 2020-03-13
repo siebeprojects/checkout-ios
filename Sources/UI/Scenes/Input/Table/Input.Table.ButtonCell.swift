@@ -5,7 +5,7 @@ private extension UIColor {
 }
 
 private extension CGFloat {
-    static var cornerRadius: CGFloat { return 8 }
+    static var cornerRadius: CGFloat { return 4 }
     static var buttonHeight: CGFloat { 44 }
 }
 
