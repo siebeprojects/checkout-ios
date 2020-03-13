@@ -29,7 +29,7 @@ extension Input.Field {
             self.init(logoData: registeredAccount.logo?.value, label: label)
             
             if let expiryMonth = registeredAccount.apiModel.maskedAccount.expiryMonth, let expiryYear = registeredAccount.apiModel.maskedAccount.expiryYear {
-                detailedLabel = String(expiryMonth) + " / " + String(expiryYear).suffix(2)
+                detailedLabel = String(format: "%02d", expiryMonth) + " / " + String(expiryYear).suffix(2)
             }
         }
     }
