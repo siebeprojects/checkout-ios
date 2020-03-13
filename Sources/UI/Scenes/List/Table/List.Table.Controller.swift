@@ -70,6 +70,8 @@ extension List.Table.Controller: UITableViewDelegate {
         case .account(let account): delegate?.didSelect(registeredAccount: account)
         case .network(let networks): delegate?.didSelect(paymentNetworks: networks)
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

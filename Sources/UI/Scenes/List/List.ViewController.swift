@@ -51,25 +51,6 @@ extension List.ViewController {
         load()
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Select / deselect animation on back gesture
-        if let selectedIndexPath = methodsTableView?.indexPathForSelectedRow {
-            if let coordinator = transitionCoordinator {
-                coordinator.animate(alongsideTransition: { context in
-                    self.methodsTableView?.deselectRow(at: selectedIndexPath, animated: true)
-                }) { context in
-                    if context.isCancelled {
-                        self.methodsTableView?.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
-                    }
-                }
-            } else {
-                self.methodsTableView?.deselectRow(at: selectedIndexPath, animated: animated)
-            }
-        }
-    }
-    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableController?.viewDidLayoutSubviews()
