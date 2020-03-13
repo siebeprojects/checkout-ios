@@ -2,7 +2,9 @@
 import UIKit
 
 extension Input.Table {
-    /// Acts as a datasource for input table views and responds on delegate events from a table and cells.
+    /// Acts as a datasource and delegate for input table views and responds on delegate events from a table and cells.
+    /// - Note: We use custom section approach (sections are presented as rows `SectionHeaderCell`) because we have to use `.plain` table type to get correct `tableView.contentSize` calculations and plain table type has floating sections that we don't want, so we switched to sections as rows.
+    /// - See also: `DataSourceElement`
     class Controller: NSObject {
         var network: Input.Network {
             didSet {
@@ -11,8 +13,15 @@ extension Input.Table {
         }
         
         unowned let tableView: UITableView
-        private var dataSource: [[CellRepresentable]]
+        private var dataSource: [DataSourceElement]
         weak var inputChangesListener: InputValueChangesListener?
+        
+        enum DataSourceElement {
+            case row(CellRepresentable)
+            
+            /// Separator acts as delimiter and section divider
+            case separator
+        }
         
         init(for network: Input.Network, tableView: UITableView) {
             self.network = network
@@ -28,14 +37,29 @@ extension Input.Table {
             tableView.register(LogoTextCell.self)
             tableView.register(DetailedTextLogoCell.self)
             tableView.register(ButtonCell.self)
+            tableView.register(SectionHeaderCell.self)
+        }
+        
+        @discardableResult
+        func becomeFirstResponder() -> Bool {
+            for cell in tableView.visibleCells {
+                guard cell.canBecomeFirstResponder else { continue }
+                
+                cell.becomeFirstResponder()
+                return true
+            }
+            
+            return false
         }
         
         func validateFields(option: Input.Field.Validation.Option) {
             // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
             tableView.endEditing(true)
             
-            for cell in dataSource.flatMap({ $0 }) {
-                guard let validatable = cell as? Validatable else { continue }
+            for cell in dataSource {
+                guard case let .row(cellRepresentable) = cell else { continue }
+                guard let validatable = cellRepresentable as? Validatable else { continue }
+                
                 validatable.validateAndSaveResult(option: option)
             }
             
@@ -49,72 +73,99 @@ extension Input.Table {
             }
             
             let oldDataSource = dataSource
-            dataSource = Self.arrangeBySections(network: new)
+            let newDataSource = Self.arrangeBySections(network: new)
             
-            for (sectionNumber, newSectionFields) in dataSource.enumerated() {
-                sectionDidUpdate(sectionNumber, new: newSectionFields, old: oldDataSource[sectionNumber])
-            }
-        }
-        
-        private func sectionDidUpdate(_ section: Int, new: [CellRepresentable], old: [CellRepresentable]) {
-            guard new.count == old.count else {
-                tableView.reloadSections([section], with: .fade)
+            guard newDataSource.count == oldDataSource.count else {
+                tableView.endEditing(true)
+                self.dataSource = newDataSource
+                tableView.reloadData()
+                becomeFirstResponder()
+                
                 return
             }
             
             for visibleIndexPath in tableView.indexPathsForVisibleRows ?? [] {
-                guard visibleIndexPath.section == section else { continue }
                 guard let cell = tableView.cellForRow(at: visibleIndexPath) else { continue }
+                guard case let .row(cellRepresentable) = dataSource[visibleIndexPath.row] else { continue }
                 
-                dataSource[section][visibleIndexPath.row].configure(cell: cell)
+                cellRepresentable.configure(cell: cell)
             }
         }
         
         /// Arrange models by sections
-        private static func arrangeBySections(network: Input.Network) -> [[CellRepresentable]] {
+        private static func arrangeBySections(network: Input.Network) -> [DataSourceElement] {
+            var sections = [[CellRepresentable]]()
+            
+            // Header
+            if let header = network.header {
+                sections += [[header]]
+            }
+            
+            // Input Fields
             let inputFields = network.inputFields.filter {
                 if let field = $0 as? InputField, field.isHidden { return false }
                 return true
             }
-            var dataSource = [inputFields]
+            sections += [inputFields]
             
-            var checkboxes = [Input.Field.Checkbox]()
+            // Checkboxes
+            var checkboxes = [CellRepresentable]()
             for field in network.separatedCheckboxes where !field.isHidden {
                 checkboxes.append(field)
             }
-            
-            dataSource.append(checkboxes)
+            sections += [checkboxes]
 
-            dataSource.append([network.submitButton])
+            // Submit
+            sections += [[network.submitButton]]
+
+            // Add separators
+            var dataSource = [DataSourceElement]()
+            for section in sections where !section.isEmpty {
+                let rows: [DataSourceElement] = section.map { .row($0) }
+                dataSource.append(contentsOf: rows)
+                dataSource.append(.separator)
+            }
+            
+            // Remove last separator
+            if let lastElement = dataSource.last, case .separator = lastElement {
+                dataSource.removeLast()
+            }
             
             return dataSource
         }
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension Input.Table.Controller: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.count
+        return 1
     }
      
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource[section].count
+        return dataSource.count
     }
      
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellRepresentable = dataSource[indexPath.section][indexPath.row]
-        let cell = cellRepresentable.dequeueCell(for: tableView, indexPath: indexPath)
-        cell.tintColor = tableView.tintColor
-        cell.selectionStyle = .none
-        cellRepresentable.configure(cell: cell)
-        
-        if let input = cell as? ContainsInputCellDelegate {
-            input.delegate = self
+        switch dataSource[indexPath.row] {
+        case .separator: return Input.Table.SectionHeaderCell.dequeue(by: tableView, for: indexPath)
+        case .row(let cellRepresentable):
+            let cell = cellRepresentable.dequeueCell(for: tableView, indexPath: indexPath)
+            cell.tintColor = tableView.tintColor
+            cell.selectionStyle = .none
+            cellRepresentable.configure(cell: cell)
+            
+            if let input = cell as? ContainsInputCellDelegate {
+                input.delegate = self
+            }
+            
+            return cell
         }
-        
-        return cell
      }
 }
+
+// MARK: - UITableViewDelegate
 
 extension Input.Table.Controller: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -123,25 +174,29 @@ extension Input.Table.Controller: UITableViewDelegate {
     }
 }
 
+// MARK: - InputCellDelegate
+
 extension Input.Table.Controller: InputCellDelegate {
     func inputCellDidEndEditing(at indexPath: IndexPath) {
-        guard let model = dataSource[indexPath.section][indexPath.row] as? Validatable else { return }
+        guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
+        guard let validatableRow = cellRepresentable as? Validatable else { return }
         
-        model.validateAndSaveResult(option: .preCheck)
+        validatableRow.validateAndSaveResult(option: .preCheck)
         tableView.reloadRows(at: [indexPath], with: .none)
     }
     
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
         // Don't show an error text when input field is focused
-        if let model = dataSource[indexPath.section][indexPath.row] as? Validatable,
-            model.validationErrorText != nil {
-            model.validationErrorText = nil
+        guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
+        
+        if let validatableModel = cellRepresentable as? Validatable, validatableModel.validationErrorText != nil {
+            validatableModel.validationErrorText = nil
             
             tableView.beginUpdates()
             
             switch tableView.cellForRow(at: indexPath) {
             case let textFieldViewCell as Input.Table.TextFieldViewCell:
-                textFieldViewCell.showValidationResult(for: model)
+                textFieldViewCell.showValidationResult(for: validatableModel)
             default: break
             }
             
@@ -152,18 +207,11 @@ extension Input.Table.Controller: InputCellDelegate {
     }
     
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
-        guard let model = dataSource[indexPath.section][indexPath.row] as? InputField else { return }
-        model.value = newValue ?? ""
+        guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
+        guard let inputField = cellRepresentable as? InputField else { return }
         
-        inputChangesListener?.valueDidChange(for: model)
-    }
-}
-
-extension Input.Table.Controller {
-    /// Structure with section numbers
-    fileprivate struct Section {
-        static let inputFields = 0
-        static let checkboxFields = 1
+        inputField.value = newValue ?? ""
+        inputChangesListener?.valueDidChange(for: inputField)
     }
 }
 #endif

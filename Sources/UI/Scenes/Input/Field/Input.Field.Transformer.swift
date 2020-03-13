@@ -33,15 +33,13 @@ extension Input.Field.Transformer {
         
         let modelToTransform = TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
         
-        var inputFields: [CellRepresentable] = makeInputFields(for: modelToTransform)
+        let inputFields: [CellRepresentable] = makeInputFields(for: modelToTransform)
         
-        // Header
         let header = Input.Field.Header(from: registeredAccount)
-        inputFields.insert(header, at: 0)
-        
+
         let submitButton = makeSubmitButton(session: registeredAccount.session, translator: registeredAccount.translation)
         
-        return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
+        return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, header: header, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
     }
     
     func makeSubmitButton(session: PaymentSession?, translator: TranslationProvider) -> Input.Field.Button {
@@ -75,7 +73,7 @@ extension Input.Field.Transformer {
         
         let submitButton = makeSubmitButton(session: paymentNetwork.session, translator: paymentNetwork.translation)
         
-        return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
+        return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, header: nil, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
     }
     
     // MARK: Smart Switch

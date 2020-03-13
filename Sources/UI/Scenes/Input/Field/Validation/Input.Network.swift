@@ -6,6 +6,7 @@ extension Input {
 
         let label: String
         let logoData: Data?
+        let header: Input.Field.Header?
         let inputFields: [CellRepresentable]
         
         /// Checkboxes that must be arranged in another section (used for reccurence and registration)
@@ -16,12 +17,13 @@ extension Input {
         let switchRule: SmartSwitch.Rule?
         let networkCode: String
 
-        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [CellRepresentable], separatedCheckboxes: [Field.Checkbox], submitButton: Field.Button, switchRule: SmartSwitch.Rule?) {
+        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, header: Input.Field.Header?, inputFields: [CellRepresentable], separatedCheckboxes: [Field.Checkbox], submitButton: Field.Button, switchRule: SmartSwitch.Rule?) {
             self.networkCode = networkCode
             self.translation = translator
             
             self.label = label
             self.logoData = logoData
+            self.header = header
             self.inputFields = inputFields
             self.separatedCheckboxes = separatedCheckboxes
             self.submitButton = submitButton
