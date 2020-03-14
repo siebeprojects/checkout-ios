@@ -26,6 +26,7 @@ extension Input.Table {
 
             label.translatesAutoresizingMaskIntoConstraints = false
             label.textColor = .text
+            label.lineBreakMode = .byTruncatingMiddle
             logoView.translatesAutoresizingMaskIntoConstraints = false
             logoView.contentMode = .scaleAspectFit
             
