@@ -13,18 +13,22 @@ extension Input.Field {
         }
         
         /// Initializes header with transformed label and detailed label from `maskedAccount` data.
-        /// E.g.: •••• 1234, 5 / 20
         convenience init(from registeredAccount: RegisteredAccount) {
-            let maskedNumber: String
+            let label: String
             
+            // Use custom transformation
             if let number = registeredAccount.apiModel.maskedAccount.number {
                 // Expected input number format: `41 *** 1111`
-                maskedNumber = "•••• " + number.suffix(4)
+                let maskedNumber = "•••• " + number.suffix(4)
+                label = [registeredAccount.networkLabel, maskedNumber].joined(separator: " ")
+                // Output: VISA •••• 1234
+            } else if let iban = registeredAccount.apiModel.maskedAccount.iban {
+                label = iban.prefix(2) + " •••• " + iban.suffix(2)
+                // Output: DE •••• 24
             } else {
-                maskedNumber = ""
+                // Fallback to server's display label
+                label = registeredAccount.apiModel.maskedAccount.displayLabel ?? ""
             }
-            
-            let label = [registeredAccount.networkLabel, maskedNumber].joined(separator: " ")
             
             self.init(logoData: registeredAccount.logo?.value, label: label)
             
