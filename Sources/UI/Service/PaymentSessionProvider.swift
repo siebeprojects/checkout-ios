@@ -84,7 +84,7 @@ class PaymentSessionProvider {
         completion(.failure(error))
     }
 
-    private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration], listResult: ListResult)
+    private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])
     
     private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworksTuple) -> Void)) {
         // swiftlint:disable:next line_length
@@ -100,11 +100,11 @@ class PaymentSessionProvider {
             filteredRegisteredNetworks = .init()
         }
         
-        completion((filteredPaymentNetworks, filteredRegisteredNetworks, listResult))
+        completion((filteredPaymentNetworks, filteredRegisteredNetworks))
     }
     
     private func localize(tuple: APINetworksTuple, completion: @escaping TranslationService.CompletionBlock) {
-        let translationService = TranslationService(networks: tuple.applicableNetworks, accounts: tuple.accountRegistrations, listResult: tuple.listResult, sharedTranslation: sharedTranslationProvider)
+        let translationService = TranslationService(networks: tuple.applicableNetworks, accounts: tuple.accountRegistrations, sharedTranslation: sharedTranslationProvider)
         translationService.localize(using: connection, completion: completion)
     }
     
@@ -112,6 +112,6 @@ class PaymentSessionProvider {
     
     private func createPaymentSession(from tuple: TranslationService.ConvertedNetworksTuple) -> PaymentSession {
         let accounts = tuple.registeredAccounts.isEmpty ? nil : tuple.registeredAccounts
-        return .init(listResult: tuple.listResult, networks: tuple.paymentNetworks, registeredAccounts: accounts)
+        return .init(networks: tuple.paymentNetworks, registeredAccounts: accounts)
     }
 }

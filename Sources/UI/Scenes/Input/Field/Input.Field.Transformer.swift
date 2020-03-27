@@ -37,16 +37,10 @@ extension Input.Field.Transformer {
         
         let header = Input.Field.Header(from: registeredAccount)
 
-        let submitButton = makeSubmitButton(session: registeredAccount.session, translator: registeredAccount.translation)
+        // FIXME: Use as static label as temporary solution for upcoming commits with label logic
+        let submitButton = Input.Field.Button(label: "button.registered.charge.label")
         
         return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, header: header, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
-    }
-    
-    func makeSubmitButton(session: PaymentSession?, translator: TranslationProvider) -> Input.Field.Button {
-        var operationType = session?.operationType ?? "charge"
-        operationType = "button.registered." + operationType + ".label"
-        
-        return .init(label: translator.translation(forKey: operationType.lowercased()))
     }
     
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
@@ -71,7 +65,8 @@ extension Input.Field.Transformer {
             checkbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation)
             ].compactMap { $0 }
         
-        let submitButton = makeSubmitButton(session: paymentNetwork.session, translator: paymentNetwork.translation)
+        // FIXME: Use as static label as temporary solution for upcoming commits with label logic
+        let submitButton = Input.Field.Button(label: "button.registered.charge.label")
         
         return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, header: nil, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
     }

@@ -117,6 +117,7 @@ extension Input.Table {
             for field in network.separatedCheckboxes where !field.isHidden {
                 checkboxes.append(field)
             }
+
             sections += [checkboxes]
 
             // Submit

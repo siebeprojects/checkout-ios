@@ -3,8 +3,7 @@ import Foundation
 final class PaymentNetwork {
     let applicableNetwork: ApplicableNetwork
     let translation: TranslationProvider
-    weak var session: PaymentSession?
-    
+
     let label: String
     var logo: Loadable<Data>?
     
