@@ -103,15 +103,14 @@ class PaymentSessionProvider {
         completion((filteredPaymentNetworks, filteredRegisteredNetworks))
     }
     
-    private func localize(tuple: APINetworksTuple, completion: @escaping TranslationService.CompletionBlock) {
-        let translationService = TranslationService(networks: tuple.applicableNetworks, accounts: tuple.accountRegistrations, sharedTranslation: sharedTranslationProvider)
+    private func localize(tuple: APINetworksTuple, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
+        let translationService = DownloadTranslationService(networks: tuple.applicableNetworks, accounts: tuple.accountRegistrations, sharedTranslation: sharedTranslationProvider)
         translationService.localize(using: connection, completion: completion)
     }
     
     // MARK: - Synchronous methods
     
-    private func createPaymentSession(from tuple: TranslationService.ConvertedNetworksTuple) -> PaymentSession {
-        let accounts = tuple.registeredAccounts.isEmpty ? nil : tuple.registeredAccounts
-        return .init(networks: tuple.paymentNetworks, registeredAccounts: accounts)
+    private func createPaymentSession(from translations: DownloadTranslationService.Translations) -> PaymentSession {
+        return .init(networks: translations.networks, accounts: translations.accounts)
     }
 }

@@ -37,9 +37,8 @@ extension Input.Field.Transformer {
         
         let header = Input.Field.Header(from: registeredAccount)
 
-        // FIXME: Use as static label as temporary solution for upcoming commits with label logic
-        let submitButton = Input.Field.Button(label: "button.registered.charge.label")
-        
+        let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
+
         return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, header: header, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
     }
     
@@ -65,8 +64,7 @@ extension Input.Field.Transformer {
             checkbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation)
             ].compactMap { $0 }
         
-        // FIXME: Use as static label as temporary solution for upcoming commits with label logic
-        let submitButton = Input.Field.Button(label: "button.registered.charge.label")
+        let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
         
         return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, header: nil, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
     }
