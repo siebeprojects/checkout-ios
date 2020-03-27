@@ -69,7 +69,7 @@ class SlideInPresentationController: UIPresentationController {
         frame.size = size(forChildContentContainer: presentedViewController,
                           withParentContainerSize: containerView.bounds.size)
 
-        frame.origin.y = containerView.frame.height - presentedViewController.preferredContentSize.height - currentKeyboardHeight
+        frame.origin.y = (containerView.frame.height - presentedViewController.preferredContentSize.height) - currentKeyboardHeight
 
         return frame
     }
