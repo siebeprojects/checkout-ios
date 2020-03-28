@@ -35,7 +35,7 @@ extension Input.Field.Transformer {
         
         let inputFields: [CellRepresentable] = makeInputFields(for: modelToTransform)
         
-        let header = Input.Field.Header(from: registeredAccount)
+        let header = Input.Field.TextHeader(from: registeredAccount)
 
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 

@@ -22,7 +22,7 @@
 		D9A88DA7241C55040043F535 /* Input.Field.BIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D14241C55040043F535 /* Input.Field.BIC.swift */; };
 		D9A88DA8241C55040043F535 /* Input.Field.ExpiryYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D15241C55040043F535 /* Input.Field.ExpiryYear.swift */; };
 		D9A88DA9241C55040043F535 /* Input.Field.VerificationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D16241C55040043F535 /* Input.Field.VerificationCode.swift */; };
-		D9A88DAA241C55040043F535 /* Input.Field.Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D17241C55040043F535 /* Input.Field.Header.swift */; };
+		D9A88DAA241C55040043F535 /* Input.Field.TextHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D17241C55040043F535 /* Input.Field.TextHeader.swift */; };
 		D9A88DAB241C55040043F535 /* Input.Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D18241C55040043F535 /* Input.Field.swift */; };
 		D9A88DAC241C55040043F535 /* Input.Field.Validation.IBAN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D1A241C55040043F535 /* Input.Field.Validation.IBAN.swift */; };
 		D9A88DAD241C55040043F535 /* Input.Field.Validation.ExpiryDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D1B241C55040043F535 /* Input.Field.Validation.ExpiryDate.swift */; };
@@ -179,7 +179,7 @@
 		D9A88D14241C55040043F535 /* Input.Field.BIC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.BIC.swift; sourceTree = "<group>"; };
 		D9A88D15241C55040043F535 /* Input.Field.ExpiryYear.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.ExpiryYear.swift; sourceTree = "<group>"; };
 		D9A88D16241C55040043F535 /* Input.Field.VerificationCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.VerificationCode.swift; sourceTree = "<group>"; };
-		D9A88D17241C55040043F535 /* Input.Field.Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Header.swift; sourceTree = "<group>"; };
+		D9A88D17241C55040043F535 /* Input.Field.TextHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.TextHeader.swift; sourceTree = "<group>"; };
 		D9A88D18241C55040043F535 /* Input.Field.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.swift; sourceTree = "<group>"; };
 		D9A88D1A241C55040043F535 /* Input.Field.Validation.IBAN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.IBAN.swift; sourceTree = "<group>"; };
 		D9A88D1B241C55040043F535 /* Input.Field.Validation.ExpiryDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.ExpiryDate.swift; sourceTree = "<group>"; };
@@ -395,7 +395,7 @@
 				D9A88D0A241C55040043F535 /* Input.Field.Transformer.swift */,
 				D9A88D0B241C55040043F535 /* Input.Field.Button.swift */,
 				D9A88D0C241C55040043F535 /* Model */,
-				D9A88D17241C55040043F535 /* Input.Field.Header.swift */,
+				D9A88D17241C55040043F535 /* Input.Field.TextHeader.swift */,
 				D9A88D18241C55040043F535 /* Input.Field.swift */,
 				D9A88D19241C55040043F535 /* Validation */,
 			);
@@ -1044,7 +1044,7 @@
 				D9A88DE7241C55040043F535 /* DequeueableTableCell.swift in Sources */,
 				D9A88DBF241C55040043F535 /* InputField.swift in Sources */,
 				D9A88DBD241C55040043F535 /* DefinesKeyboardStyle.swift in Sources */,
-				D9A88DAA241C55040043F535 /* Input.Field.Header.swift in Sources */,
+				D9A88DAA241C55040043F535 /* Input.Field.TextHeader.swift in Sources */,
 				D9A88E0D241C55040043F535 /* AccountFormData.swift in Sources */,
 				D9A88DFE241C55040043F535 /* AccountMask.swift in Sources */,
 				D9A88DA8241C55040043F535 /* Input.Field.ExpiryYear.swift in Sources */,

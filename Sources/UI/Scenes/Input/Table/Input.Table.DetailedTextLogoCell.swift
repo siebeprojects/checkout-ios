@@ -62,7 +62,7 @@ extension Input.Table {
 }
 
 extension Input.Table.DetailedTextLogoCell {
-    func configure(with model: Input.Field.Header) {
+    func configure(with model: Input.Field.TextHeader) {
         let image: UIImage?
         if let imageData = model.logoData {
             image = UIImage(data: imageData)

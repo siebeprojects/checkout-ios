@@ -2,7 +2,7 @@ import UIKit
 import Foundation
 
 extension Input.Field {
-    final class Header {
+    final class TextHeader {
         let logoData: Data?
         let label: String
         var detailedLabel: String?
@@ -39,7 +39,7 @@ extension Input.Field {
     }
 }
 
-extension Input.Field.Header: CellRepresentable {
+extension Input.Field.TextHeader: CellRepresentable {
     func configure(cell: UITableViewCell) {
         switch cell {
         case let cell as Input.Table.LogoTextCell: cell.configure(with: self)
