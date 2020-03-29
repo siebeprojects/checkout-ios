@@ -282,9 +282,7 @@ extension List.ViewController {
 }
 
 extension List.ViewController: ListTableControllerDelegate {
-    func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
-        sessionService.load(from: url, completion: completion)
-    }
+    var downloadProvider: DataDownloadProvider { sessionService.downloadProvider }
     
     func didSelect(paymentNetworks: [PaymentNetwork]) {
         show(paymentNetworks: paymentNetworks, animated: true)
