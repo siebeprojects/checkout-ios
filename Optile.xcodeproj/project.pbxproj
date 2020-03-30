@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		53826028AA641BA4113DFC2D /* Pods_Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
+		D9A1A134242FC56400307C36 /* Input.Table.ImageViewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A1A133242FC56400307C36 /* Input.Table.ImageViewsCell.swift */; };
 		D9A88D9D241C55040043F535 /* Input.NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D08241C55040043F535 /* Input.NavigationController.swift */; };
 		D9A88D9E241C55040043F535 /* Input.Field.Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D0A241C55040043F535 /* Input.Field.Transformer.swift */; };
 		D9A88D9F241C55040043F535 /* Input.Field.Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D0B241C55040043F535 /* Input.Field.Button.swift */; };
@@ -22,7 +23,7 @@
 		D9A88DA7241C55040043F535 /* Input.Field.BIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D14241C55040043F535 /* Input.Field.BIC.swift */; };
 		D9A88DA8241C55040043F535 /* Input.Field.ExpiryYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D15241C55040043F535 /* Input.Field.ExpiryYear.swift */; };
 		D9A88DA9241C55040043F535 /* Input.Field.VerificationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D16241C55040043F535 /* Input.Field.VerificationCode.swift */; };
-		D9A88DAA241C55040043F535 /* Input.Field.TextHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D17241C55040043F535 /* Input.Field.TextHeader.swift */; };
+		D9A88DAA241C55040043F535 /* Input.TextHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D17241C55040043F535 /* Input.TextHeader.swift */; };
 		D9A88DAB241C55040043F535 /* Input.Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D18241C55040043F535 /* Input.Field.swift */; };
 		D9A88DAC241C55040043F535 /* Input.Field.Validation.IBAN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D1A241C55040043F535 /* Input.Field.Validation.IBAN.swift */; };
 		D9A88DAD241C55040043F535 /* Input.Field.Validation.ExpiryDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D1B241C55040043F535 /* Input.Field.Validation.ExpiryDate.swift */; };
@@ -33,10 +34,10 @@
 		D9A88DB2241C55040043F535 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D20241C55040043F535 /* Input.swift */; };
 		D9A88DB3241C55040043F535 /* Input.Table.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D22241C55040043F535 /* Input.Table.Controller.swift */; };
 		D9A88DB4241C55040043F535 /* Input.Table.SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D23241C55040043F535 /* Input.Table.SectionHeaderCell.swift */; };
-		D9A88DB5241C55040043F535 /* Input.Table.DetailedTextLogoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D24241C55040043F535 /* Input.Table.DetailedTextLogoCell.swift */; };
+		D9A88DB5241C55040043F535 /* Input.Table.DetailedTextLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D24241C55040043F535 /* Input.Table.DetailedTextLogoView.swift */; };
 		D9A88DB6241C55040043F535 /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D25241C55040043F535 /* Input.Table.CheckboxViewCell.swift */; };
 		D9A88DB7241C55040043F535 /* Input.Table.TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D26241C55040043F535 /* Input.Table.TextFieldViewCell.swift */; };
-		D9A88DB8241C55040043F535 /* Input.Table.LogoTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D27241C55040043F535 /* Input.Table.LogoTextCell.swift */; };
+		D9A88DB8241C55040043F535 /* Input.Table.LogoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D27241C55040043F535 /* Input.Table.LogoTextView.swift */; };
 		D9A88DB9241C55040043F535 /* Input.Table.ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D28241C55040043F535 /* Input.Table.ButtonCell.swift */; };
 		D9A88DBA241C55040043F535 /* Input.Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D29241C55040043F535 /* Input.Table.swift */; };
 		D9A88DBB241C55040043F535 /* InputElementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D2C241C55040043F535 /* InputElementModel.swift */; };
@@ -146,6 +147,7 @@
 		D9A88E48241C56490043F535 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D92241C55040043F535 /* Media.xcassets */; };
 		D9A938BF242E169C0030B910 /* DownloadTranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A938BE242E169C0030B910 /* DownloadTranslationService.swift */; };
 		D9A938C1242E16DB0030B910 /* TranslatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A938C0242E16DB0030B910 /* TranslatedModel.swift */; };
+		D9AAC8452432305300C90A9F /* ViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AAC8442432305300C90A9F /* ViewRepresentable.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +167,7 @@
 		95E5DEA2906240D51D3804B0 /* Pods-Optile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.debug.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.debug.xcconfig"; sourceTree = "<group>"; };
 		AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1464685FF385FE59D6C10F5 /* Pods-Optile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.release.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.release.xcconfig"; sourceTree = "<group>"; };
+		D9A1A133242FC56400307C36 /* Input.Table.ImageViewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.ImageViewsCell.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A88D08241C55040043F535 /* Input.NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.NavigationController.swift; sourceTree = "<group>"; };
 		D9A88D0A241C55040043F535 /* Input.Field.Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Transformer.swift; sourceTree = "<group>"; };
@@ -179,7 +182,7 @@
 		D9A88D14241C55040043F535 /* Input.Field.BIC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.BIC.swift; sourceTree = "<group>"; };
 		D9A88D15241C55040043F535 /* Input.Field.ExpiryYear.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.ExpiryYear.swift; sourceTree = "<group>"; };
 		D9A88D16241C55040043F535 /* Input.Field.VerificationCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.VerificationCode.swift; sourceTree = "<group>"; };
-		D9A88D17241C55040043F535 /* Input.Field.TextHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.TextHeader.swift; sourceTree = "<group>"; };
+		D9A88D17241C55040043F535 /* Input.TextHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.TextHeader.swift; sourceTree = "<group>"; };
 		D9A88D18241C55040043F535 /* Input.Field.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.swift; sourceTree = "<group>"; };
 		D9A88D1A241C55040043F535 /* Input.Field.Validation.IBAN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.IBAN.swift; sourceTree = "<group>"; };
 		D9A88D1B241C55040043F535 /* Input.Field.Validation.ExpiryDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.ExpiryDate.swift; sourceTree = "<group>"; };
@@ -190,10 +193,10 @@
 		D9A88D20241C55040043F535 /* Input.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		D9A88D22241C55040043F535 /* Input.Table.Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.Controller.swift; sourceTree = "<group>"; };
 		D9A88D23241C55040043F535 /* Input.Table.SectionHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.SectionHeaderCell.swift; sourceTree = "<group>"; };
-		D9A88D24241C55040043F535 /* Input.Table.DetailedTextLogoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DetailedTextLogoCell.swift; sourceTree = "<group>"; };
+		D9A88D24241C55040043F535 /* Input.Table.DetailedTextLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DetailedTextLogoView.swift; sourceTree = "<group>"; };
 		D9A88D25241C55040043F535 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
 		D9A88D26241C55040043F535 /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
-		D9A88D27241C55040043F535 /* Input.Table.LogoTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LogoTextCell.swift; sourceTree = "<group>"; };
+		D9A88D27241C55040043F535 /* Input.Table.LogoTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LogoTextView.swift; sourceTree = "<group>"; };
 		D9A88D28241C55040043F535 /* Input.Table.ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ButtonCell.swift; sourceTree = "<group>"; };
 		D9A88D29241C55040043F535 /* Input.Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.swift; sourceTree = "<group>"; };
 		D9A88D2C241C55040043F535 /* InputElementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputElementModel.swift; sourceTree = "<group>"; };
@@ -303,6 +306,7 @@
 		D9A88E35241C56340043F535 /* SharedTranslationProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTranslationProviderTests.swift; sourceTree = "<group>"; };
 		D9A938BE242E169C0030B910 /* DownloadTranslationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadTranslationService.swift; sourceTree = "<group>"; };
 		D9A938C0242E16DB0030B910 /* TranslatedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslatedModel.swift; sourceTree = "<group>"; };
+		D9AAC8442432305300C90A9F /* ViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRepresentable.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -379,7 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				D9A88D08241C55040043F535 /* Input.NavigationController.swift */,
-				D9A88D09241C55040043F535 /* Field */,
+				D9A88D09241C55040043F535 /* Model */,
 				D9A88D1F241C55040043F535 /* Input.SmartSwitch.swift */,
 				D9A88D20241C55040043F535 /* Input.swift */,
 				D9A88D21241C55040043F535 /* Table */,
@@ -389,22 +393,22 @@
 			path = Input;
 			sourceTree = "<group>";
 		};
-		D9A88D09241C55040043F535 /* Field */ = {
+		D9A88D09241C55040043F535 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D9A88D0A241C55040043F535 /* Input.Field.Transformer.swift */,
-				D9A88D0B241C55040043F535 /* Input.Field.Button.swift */,
-				D9A88D0C241C55040043F535 /* Model */,
-				D9A88D17241C55040043F535 /* Input.Field.TextHeader.swift */,
-				D9A88D18241C55040043F535 /* Input.Field.swift */,
-				D9A88D19241C55040043F535 /* Validation */,
+				D9A88D1C241C55040043F535 /* Input.Network.swift */,
+				D9AAC84A243236C900C90A9F /* Header */,
+				D9A88D0C241C55040043F535 /* Field */,
 			);
-			path = Field;
+			path = Model;
 			sourceTree = "<group>";
 		};
-		D9A88D0C241C55040043F535 /* Model */ = {
+		D9A88D0C241C55040043F535 /* Field */ = {
 			isa = PBXGroup;
 			children = (
+				D9A88D19241C55040043F535 /* Validation */,
+				D9A88D18241C55040043F535 /* Input.Field.swift */,
+				D9A88D0A241C55040043F535 /* Input.Field.Transformer.swift */,
 				D9A88D0D241C55040043F535 /* Input.Field.Checkbox.swift */,
 				D9A88D0E241C55040043F535 /* Input.Field.AccountNumber.swift */,
 				D9A88D0F241C55040043F535 /* Input.Field.ExpiryMonth.swift */,
@@ -415,8 +419,9 @@
 				D9A88D14241C55040043F535 /* Input.Field.BIC.swift */,
 				D9A88D15241C55040043F535 /* Input.Field.ExpiryYear.swift */,
 				D9A88D16241C55040043F535 /* Input.Field.VerificationCode.swift */,
+				D9A88D0B241C55040043F535 /* Input.Field.Button.swift */,
 			);
-			path = Model;
+			path = Field;
 			sourceTree = "<group>";
 		};
 		D9A88D19241C55040043F535 /* Validation */ = {
@@ -424,7 +429,6 @@
 			children = (
 				D9A88D1A241C55040043F535 /* Input.Field.Validation.IBAN.swift */,
 				D9A88D1B241C55040043F535 /* Input.Field.Validation.ExpiryDate.swift */,
-				D9A88D1C241C55040043F535 /* Input.Network.swift */,
 				D9A88D1D241C55040043F535 /* Input.Field.Validation.Luhn.swift */,
 				D9A88D1E241C55040043F535 /* Input.Field.Validation.swift */,
 			);
@@ -434,13 +438,9 @@
 		D9A88D21241C55040043F535 /* Table */ = {
 			isa = PBXGroup;
 			children = (
+				D9AAC8492432355700C90A9F /* Header */,
+				D9AAC8482432354B00C90A9F /* Cell */,
 				D9A88D22241C55040043F535 /* Input.Table.Controller.swift */,
-				D9A88D23241C55040043F535 /* Input.Table.SectionHeaderCell.swift */,
-				D9A88D24241C55040043F535 /* Input.Table.DetailedTextLogoCell.swift */,
-				D9A88D25241C55040043F535 /* Input.Table.CheckboxViewCell.swift */,
-				D9A88D26241C55040043F535 /* Input.Table.TextFieldViewCell.swift */,
-				D9A88D27241C55040043F535 /* Input.Table.LogoTextCell.swift */,
-				D9A88D28241C55040043F535 /* Input.Table.ButtonCell.swift */,
 				D9A88D29241C55040043F535 /* Input.Table.swift */,
 			);
 			path = Table;
@@ -459,6 +459,7 @@
 				D9A88D33241C55040043F535 /* InputCellDelegate.swift */,
 				D9A88D34241C55040043F535 /* Selectable.swift */,
 				D9A88D35241C55040043F535 /* TextInputField.swift */,
+				D9AAC8442432305300C90A9F /* ViewRepresentable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -826,6 +827,35 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
+		D9AAC8482432354B00C90A9F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D9A88D23241C55040043F535 /* Input.Table.SectionHeaderCell.swift */,
+				D9A88D25241C55040043F535 /* Input.Table.CheckboxViewCell.swift */,
+				D9A88D26241C55040043F535 /* Input.Table.TextFieldViewCell.swift */,
+				D9A88D28241C55040043F535 /* Input.Table.ButtonCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		D9AAC8492432355700C90A9F /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				D9A88D27241C55040043F535 /* Input.Table.LogoTextView.swift */,
+				D9A88D24241C55040043F535 /* Input.Table.DetailedTextLogoView.swift */,
+				D9A1A133242FC56400307C36 /* Input.Table.ImageViewsCell.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
+		D9AAC84A243236C900C90A9F /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				D9A88D17241C55040043F535 /* Input.TextHeader.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
 		D9C9572B241C54CA00049AFE = {
 			isa = PBXGroup;
 			children = (
@@ -1044,7 +1074,7 @@
 				D9A88DE7241C55040043F535 /* DequeueableTableCell.swift in Sources */,
 				D9A88DBF241C55040043F535 /* InputField.swift in Sources */,
 				D9A88DBD241C55040043F535 /* DefinesKeyboardStyle.swift in Sources */,
-				D9A88DAA241C55040043F535 /* Input.Field.TextHeader.swift in Sources */,
+				D9A88DAA241C55040043F535 /* Input.TextHeader.swift in Sources */,
 				D9A88E0D241C55040043F535 /* AccountFormData.swift in Sources */,
 				D9A88DFE241C55040043F535 /* AccountMask.swift in Sources */,
 				D9A88DA8241C55040043F535 /* Input.Field.ExpiryYear.swift in Sources */,
@@ -1052,6 +1082,7 @@
 				D9A88DBC241C55040043F535 /* SelectInputField.swift in Sources */,
 				D9A88DCC241C55040043F535 /* List.Table.SingleLabelCell.swift in Sources */,
 				D9A88E06241C55040043F535 /* ErrorInfo.swift in Sources */,
+				D9A1A134242FC56400307C36 /* Input.Table.ImageViewsCell.swift in Sources */,
 				D9A88E0A241C55040043F535 /* Networks.swift in Sources */,
 				D9A88DED241C55040043F535 /* SendRequestOperation.swift in Sources */,
 				D9A88DB1241C55040043F535 /* Input.SmartSwitch.swift in Sources */,
@@ -1111,7 +1142,7 @@
 				D9A88DDA241C55040043F535 /* UIColor+.swift in Sources */,
 				D9A88E08241C55040043F535 /* Checkbox.swift in Sources */,
 				D9A88E04241C55040043F535 /* ExtraElement.swift in Sources */,
-				D9A88DB5241C55040043F535 /* Input.Table.DetailedTextLogoCell.swift in Sources */,
+				D9A88DB5241C55040043F535 /* Input.Table.DetailedTextLogoView.swift in Sources */,
 				D9A88DC4241C55040043F535 /* TextInputField.swift in Sources */,
 				D9A88DC2241C55040043F535 /* InputCellDelegate.swift in Sources */,
 				D9A88DE5241C55040043F535 /* DataDownloadProvider.swift in Sources */,
@@ -1119,9 +1150,10 @@
 				D9A88DA7241C55040043F535 /* Input.Field.BIC.swift in Sources */,
 				D9A88DD9241C55040043F535 /* Error+isNetworkError.swift in Sources */,
 				D9A88DC9241C55040043F535 /* List.Table.DataSource.swift in Sources */,
-				D9A88DB8241C55040043F535 /* Input.Table.LogoTextCell.swift in Sources */,
+				D9A88DB8241C55040043F535 /* Input.Table.LogoTextView.swift in Sources */,
 				D9A88DAE241C55040043F535 /* Input.Network.swift in Sources */,
 				D9A88DC6241C55040043F535 /* List.ViewController.swift in Sources */,
+				D9AAC8452432305300C90A9F /* ViewRepresentable.swift in Sources */,
 				D9A88DF2241C55040043F535 /* URLSessionConnection.swift in Sources */,
 				D9A88E09241C55040043F535 /* InputElement.swift in Sources */,
 				D9A88DFD241C55040043F535 /* InstallmentItem.swift in Sources */,

@@ -38,8 +38,6 @@ extension Input.Table {
         func registerCells() {
             tableView.register(TextFieldViewCell.self)
             tableView.register(CheckboxViewCell.self)
-            tableView.register(LogoTextCell.self)
-            tableView.register(DetailedTextLogoCell.self)
             tableView.register(ButtonCell.self)
             tableView.register(SectionHeaderCell.self)
         }
@@ -99,11 +97,6 @@ extension Input.Table {
         /// Arrange models by sections
         private static func arrangeBySections(network: Input.Network) -> [DataSourceElement] {
             var sections = [[CellRepresentable]]()
-            
-            // Header
-            if let header = network.header {
-                sections += [[header]]
-            }
             
             // Input Fields
             let inputFields = network.inputFields.filter {

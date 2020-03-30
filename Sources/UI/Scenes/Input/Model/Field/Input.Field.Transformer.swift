@@ -35,11 +35,9 @@ extension Input.Field.Transformer {
         
         let inputFields: [CellRepresentable] = makeInputFields(for: modelToTransform)
         
-        let header = Input.Field.TextHeader(from: registeredAccount)
-
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 
-        return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, header: header, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
+        return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
     }
     
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
@@ -66,7 +64,7 @@ extension Input.Field.Transformer {
         
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
         
-        return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, header: nil, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
+        return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
     }
     
     // MARK: Smart Switch
