@@ -35,6 +35,9 @@ class SlideInViewController: UIViewController {
     func setPreferredContentSize() {
         var contentSize = scrollView.contentSize
         contentSize.width = view.frame.width
+        if #available(iOS 11.0, *) {
+            contentSize.height += view.safeAreaInsets.bottom
+        }
         preferredContentSize = contentSize
     }
 }

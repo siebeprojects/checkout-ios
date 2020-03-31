@@ -100,7 +100,7 @@ extension Input.ViewController {
         tableController.registerCells()
         
         tableView.dataSource = tableController
-        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
+        tableView.delegate = tableController
         tableView.separatorStyle = .none
         tableView.tintColor = view.tintColor
         

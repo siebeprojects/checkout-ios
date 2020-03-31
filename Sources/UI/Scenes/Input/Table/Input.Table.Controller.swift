@@ -163,6 +163,16 @@ extension Input.Table.Controller: UITableViewDataSource {
      }
 }
 
+
+extension Input.Table.Controller: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch dataSource[indexPath.row] {
+        case .separator: return Input.Table.SectionHeaderCell.Constant.height
+        case .row(let cell): return cell.estimatedHeightForRow
+        }
+    }
+}
+
 // MARK: - InputCellDelegate
 
 extension Input.Table.Controller: InputCellDelegate {
