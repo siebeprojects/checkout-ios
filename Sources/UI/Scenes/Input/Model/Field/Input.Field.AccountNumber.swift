@@ -5,14 +5,14 @@ extension Input.Field {
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
-        let networkMethod: String
+        let networkMethod: String?
         var validationErrorText: String?
         
         var value: String = ""
 
         /// - Parameters:
         ///   - networkMethod: Indicates payment method this network belongs (from `ApplicableNetwork`)
-        init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?, networkMethod: String) {
+        init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?, networkMethod: String?) {
             self.inputElement = inputElement
             self.translator = translator
             self.validationRule = validationRule
@@ -34,6 +34,8 @@ extension Input.Field.AccountNumber: Validatable {
     }
     
     var isPassedCustomValidation: Bool {
+        guard let networkMethod = self.networkMethod else { return true }
+        
         // Validate only some networks
         if luhnValidatableMethods.contains(networkMethod) {
             return Input.Field.Validation.Luhn.isValid(accountNumber: value)

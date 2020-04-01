@@ -12,6 +12,8 @@ extension List {
         let sessionService: PaymentSessionService
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
+        
+        lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
         /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
         /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
@@ -49,25 +51,6 @@ extension List.ViewController {
         load()
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Select / deselect animation on back gesture
-        if let selectedIndexPath = methodsTableView?.indexPathForSelectedRow {
-            if let coordinator = transitionCoordinator {
-                coordinator.animate(alongsideTransition: { context in
-                    self.methodsTableView?.deselectRow(at: selectedIndexPath, animated: true)
-                }) { context in
-                    if context.isCancelled {
-                        self.methodsTableView?.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
-                    }
-                }
-            } else {
-                self.methodsTableView?.deselectRow(at: selectedIndexPath, animated: animated)
-            }
-        }
-    }
-    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableController?.viewDidLayoutSubviews()
@@ -100,10 +83,19 @@ extension List.ViewController {
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
         do {
             let inputViewController = try Input.ViewController(for: paymentNetworks)
-            navigationController?.pushViewController(inputViewController, animated: animated)
+            let navigationController = UINavigationController(rootViewController: inputViewController)
+            present(navigationController, animated: animated, completion: nil)
         } catch {
             changeState(to: .failure(error))
         }
+    }
+    
+    fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
+        let inputViewController = Input.ViewController(for: registeredAccount)
+        let navigationController = Input.NavigationController(rootViewController: inputViewController)
+        navigationController.modalPresentationStyle = .custom
+        navigationController.transitioningDelegate = slideInPresentationManager
+        present(navigationController, animated: animated, completion: nil)
     }
 }
 
@@ -295,12 +287,14 @@ extension List.ViewController {
 }
 
 extension List.ViewController: ListTableControllerDelegate {
-    func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
-        sessionService.load(from: url, completion: completion)
-    }
+    var downloadProvider: DataDownloadProvider { sessionService.downloadProvider }
     
     func didSelect(paymentNetworks: [PaymentNetwork]) {
         show(paymentNetworks: paymentNetworks, animated: true)
+    }
+    
+    func didSelect(registeredAccount: RegisteredAccount) {
+        show(registeredAccount: registeredAccount, animated: true)
     }
 }
 

@@ -49,16 +49,20 @@ extension List.Table {
         
         func logo(for indexPath: IndexPath) -> LoadableLogo? {
             switch sections[indexPath.section] {
-            case .accounts(let accountRows): return accountRows[indexPath.row] as? LoadableLogo
+            case .accounts(let accountRows): return accountRows[indexPath.row]
             case .networks(let networkRows): return networkRows[indexPath.row] as? LoadableLogo
             }
         }
         
-        // - TODO: Used as temporary solution while we haven't implemented POST request
-        func model(for indexPath: IndexPath) -> [PaymentNetwork]? {
+        enum Model {
+            case network([PaymentNetwork])
+            case account(RegisteredAccount)
+        }
+        
+        func model(for indexPath: IndexPath) ->  Model {
             switch sections[indexPath.section] {
-            case .accounts: return nil
-            case .networks(let networkRows): return networkRows[indexPath.row].networks
+            case .accounts(let accountRows): return .account(accountRows[indexPath.row].account)
+            case .networks(let networkRows): return .network(networkRows[indexPath.row].networks)
             }
         }
     }
@@ -102,7 +106,7 @@ extension List.Table.DataSource: UITableViewDataSource {
 
 extension List.Table.DataSource {
     fileprivate enum Section {
-        case accounts(rows: [SingleLabelRow])
+        case accounts(rows: [AccountRow])
         case networks(rows: [NetworkRow])
     }
 }

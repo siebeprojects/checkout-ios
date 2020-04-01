@@ -4,20 +4,44 @@ import UIKit
 // MARK: Initializers
 
 extension Input {
-    class ViewController: UIViewController {
+    class ViewController: SlideInViewController {
         let networks: [Network]
         
         private let tableController: Table.Controller
-        private let tableView = UITableView(frame: .zero, style: .grouped)
+        private let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .plain)
         fileprivate let smartSwitch: SmartSwitch.Selector
+        fileprivate let headerModel: ViewRepresentable?
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
             let transfomer = Field.Transformer()
             networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
+            headerModel = nil
             smartSwitch = try .init(networks: self.networks)
             tableController = .init(for: smartSwitch.selected.network, tableView: tableView)
             
             super.init(nibName: nil, bundle: nil)
+            
+            self.scrollView = tableView
+            
+            tableController.inputChangesListener = self
+            
+            // Placeholder translation suffixer
+            for field in transfomer.verificationCodeFields {
+                field.keySuffixer = self
+            }
+        }
+        
+        init(for registeredAccount: RegisteredAccount) {
+            let transfomer = Field.Transformer()
+            let network = transfomer.transform(registeredAccount: registeredAccount)
+            networks = [network]
+            headerModel = Input.TextHeader(from: registeredAccount)
+            smartSwitch = .init(network: network)
+            tableController = .init(for: smartSwitch.selected.network, tableView: tableView)
+            
+            super.init(nibName: nil, bundle: nil)
+            
+            self.scrollView = tableView
             
             tableController.inputChangesListener = self
             
@@ -39,28 +63,33 @@ extension Input.ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.tintColor = .tintColor
         configure(tableView: tableView)
+        
+        tableView.layoutIfNeeded()
+        setPreferredContentSize()
                 
-        let payButton = makePayButton(using: tableController.network.translation)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: payButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         addKeyboardFrameChangesObserver()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
-        tableView.cellForRow(at: [0, 0])?.becomeFirstResponder()
+        tableController.becomeFirstResponder()
     }
-    
+        
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         removeKeyboardFrameChangesObserver()
+    }
+}
+
+extension Input.ViewController {
+    @objc func dismissView() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -72,7 +101,8 @@ extension Input.ViewController {
         
         tableView.dataSource = tableController
         tableView.delegate = tableController
-        tableView.tableHeaderView = makeTableViewHeader(for: tableController.network)
+        tableView.separatorStyle = .none
+        tableView.tintColor = view.tintColor
         
         if #available(iOS 13.0, *) {
             tableView.backgroundColor = UIColor.systemBackground
@@ -85,64 +115,40 @@ extension Input.ViewController {
         view.addSubview(tableView)
 
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
+        
+        // Table header
+        if let model = headerModel {
+            tableView.tableHeaderView = makeTableHeaderView(for: model)
+        } else {
+            tableView.tableHeaderView = nil
+        }
     }
-}
-
-// MARK: - View constructors
-
-extension Input.ViewController {
-    private func makeTableViewHeader(for network: Input.Network) -> UIView {
-        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 200))
-        contentView.preservesSuperviewLayoutMargins = true
+    
+    private func makeTableHeaderView(for model: ViewRepresentable) -> UIView {
+        let headerContentView = model.configurableViewType.init(frame: .zero)
+        try? model.configure(view: headerContentView)
         
-        // Image
-        let imageView = UIImageView(image: network.logo)
-        imageView.contentMode = .scaleAspectFit
-        contentView.addSubview(imageView)
-
-        let imageViewMargin: CGFloat = 8*4
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        let headerContentViewSize = headerContentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        headerContentView.frame = CGRect(origin: .zero, size: headerContentViewSize)
         
-        // Constraints
+        let viewHeightWithSeparator = headerContentViewSize.height + Input.Table.SectionHeaderCell.Constant.height
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: viewHeightWithSeparator))
+        headerView.preservesSuperviewLayoutMargins = true
+        headerView.addSubview(headerContentView)
         NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: imageViewMargin),
-            imageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: imageViewMargin),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -imageViewMargin),
+            headerContentView.topAnchor.constraint(equalTo: headerView.topAnchor),
+            headerContentView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
+            headerContentView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            headerContentView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor)
         ])
         
-        let imageContentViewTrailing = imageView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -imageViewMargin)
-        imageContentViewTrailing.priority = .defaultHigh
-        imageContentViewTrailing.isActive = true
-        
-        return contentView
-    }
-    
-    private func makePayButton(using translation: TranslationProvider) -> UIButton {
-        let button = UIButton(frame: .zero)
-        button.layer.cornerRadius = 17
-        button.backgroundColor = view.tintColor
-        let title = NSAttributedString(string: translation.translation(forKey: "button.charge.label"), attributes: [
-            .font: UIFont.boldSystemFont(ofSize: UIFont.buttonFontSize),
-            .foregroundColor: UIColor.white
-        ])
-        
-        button.setAttributedTitle(title, for: .normal)
-        button.addTarget(self, action: #selector(payButtonDidTap), for: .touchUpInside)
-        
-        let desiredWidth = button.intrinsicContentSize.width
-        let buttonMargin: CGFloat = 30
-        button.widthAnchor.constraint(equalToConstant: desiredWidth + buttonMargin).isActive = true
-        
-        return button
-    }
-    
-    @objc private func payButtonDidTap() {
-        tableController.validateFields(option: .fullCheck)
+        return headerView
     }
 }
 
@@ -171,7 +177,6 @@ extension Input.ViewController: InputValueChangesListener {
     
     private func replaceCurrentNetwork(with newNetwork: Input.Network) {
         tableController.network = newNetwork
-        tableView.tableHeaderView = makeTableViewHeader(for: newNetwork)
     }
 }
 
@@ -179,6 +184,38 @@ extension Input.ViewController: InputValueChangesListener {
 
 extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { tableView }
+    
+    func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
+         guard let scrollViewToModify = scrollViewToModify else { return }
+        
+         if navigationController?.modalPresentationStyle == .custom {
+            scrollViewToModify.contentInset = .zero
+            scrollViewToModify.scrollIndicatorInsets = .zero
+            
+            return
+        }
+        
+         var adjustedHeight = height
+         
+         if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
+             adjustedHeight -= tabBarHeight
+         } else if let toolbarHeight = navigationController?.toolbar.frame.height, navigationController?.isToolbarHidden == false {
+             adjustedHeight -= toolbarHeight
+         }
+         
+         if #available(iOS 11.0, *) {
+             adjustedHeight -= view.safeAreaInsets.bottom
+         }
+         
+         if adjustedHeight < 0 { adjustedHeight = 0 }
+         
+         UIView.animate(withDuration: animationDuration, animations: {
+             let newInsets = UIEdgeInsets(top: 0, left: 0, bottom: adjustedHeight, right: 0)
+
+             scrollViewToModify.contentInset = newInsets
+             scrollViewToModify.scrollIndicatorInsets = newInsets
+         })
+     }
 }
 
 // MARK: - VerificationCodeTranslationKeySuffixer

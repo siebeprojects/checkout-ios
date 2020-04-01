@@ -8,20 +8,18 @@ TODO: Add long description of the pod here.
                        DESC
 
   s.homepage         = 'https://github.com/optile/ios-sdk'
-  # s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'MIT' }
   s.author           = { 'optile GmbH' => '' }
   s.source           = { :git => 'https://github.com/optile/ios-sdk.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '10.0'
 
-  s.source_files = 'Sources/**/*'
+  s.source_files = 'Sources/**/*.swift'
   
-  # s.resource_bundles = {
-  #   'Optile' => ['Optile/Assets/*.png']
-  # }
+  s.resources = ['Sources/Assets/*']
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit'
-  # s.dependency 'API'
+  s.frameworks = 'UIKit'
+  s.dependency 'MaterialComponents/TextFields', '103.1.0'
 
 end

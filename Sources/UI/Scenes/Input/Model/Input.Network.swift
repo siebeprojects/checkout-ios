@@ -2,26 +2,29 @@ import Foundation
 
 extension Input {
     class Network {
-        private let applicableNetwork: ApplicableNetwork
         let translation: TranslationProvider
 
         let label: String
         let logoData: Data?
-        let inputFields: [InputField & CellRepresentable]
-        let autoRegistration: Input.Field.Checkbox
-        let allowRecurrence: Input.Field.Checkbox
+        let inputFields: [CellRepresentable]
+        
+        /// Checkboxes that must be arranged in another section (used for reccurence and registration)
+        let separatedCheckboxes: [Input.Field.Checkbox]
+        
+        let submitButton: Input.Field.Button
         
         let switchRule: SmartSwitch.Rule?
+        let networkCode: String
 
-        init(paymentNetwork: PaymentNetwork, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], autoRegistration: Input.Field.Checkbox, allowRecurrence: Input.Field.Checkbox, switchRule: SmartSwitch.Rule?) {
-            self.applicableNetwork = paymentNetwork.applicableNetwork
-            self.translation = paymentNetwork.translation
+        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [CellRepresentable], separatedCheckboxes: [Field.Checkbox], submitButton: Field.Button, switchRule: SmartSwitch.Rule?) {
+            self.networkCode = networkCode
+            self.translation = translator
             
             self.label = label
             self.logoData = logoData
             self.inputFields = inputFields
-            self.autoRegistration = autoRegistration
-            self.allowRecurrence = allowRecurrence
+            self.separatedCheckboxes = separatedCheckboxes
+            self.submitButton = submitButton
             self.switchRule = switchRule
         }
     }
@@ -29,7 +32,7 @@ extension Input {
 
 extension Input.Network: Equatable {
     static func == (lhs: Input.Network, rhs: Input.Network) -> Bool {
-        return lhs.applicableNetwork.code == rhs.applicableNetwork.code
+        return (lhs.networkCode == rhs.networkCode) && (lhs.label == rhs.label)
     }
 }
 

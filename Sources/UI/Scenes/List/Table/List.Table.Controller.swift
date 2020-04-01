@@ -5,7 +5,9 @@ import UIKit
 
 protocol ListTableControllerDelegate: class {
     func didSelect(paymentNetworks: [PaymentNetwork])
-    func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void)
+    func didSelect(registeredAccount: RegisteredAccount)
+    
+    var downloadProvider: DataDownloadProvider { get }
 }
 
 extension List.Table {
@@ -32,20 +34,20 @@ extension List.Table {
         }
 
         fileprivate func loadLogo(for indexPath: IndexPath) {
-            guard let model = dataSource.logo(for: indexPath) else { return }
-            
-            /// If logo was already downloaded
-            guard case let .some(.notLoaded(url)) = model.logo else { return }
-            
-            delegate?.load(from: url) { [weak self] result in
-                model.logo = .loaded(result)
-
-                // Don't reload rows if multiple networks (we don't show logos for now for them)
-                // TODO: Potential multiple updates for a single cell
-                DispatchQueue.main.async {
-                    self?.tableView?.reloadRows(at: [indexPath], with: .fade)
-                }
+            let models: [ContainsLoadableData]
+            switch dataSource.model(for: indexPath) {
+            case .account(let account): models = [account]
+            case .network(let networks): models = networks
             }
+            
+            // Require array to have some not loaded logos, do nothing if everything is loaded
+            guard !models.isFullyLoaded else { return }
+            
+            delegate?.downloadProvider.downloadData(for: models, completion: { [weak tableView] in
+                DispatchQueue.main.async {
+                    tableView?.reloadRows(at: [indexPath], with: .fade)
+                }
+            })
         }
     }
 }
@@ -65,8 +67,12 @@ extension List.Table.Controller: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let selectedNetworks = dataSource.model(for: indexPath) else { return }
-        delegate?.didSelect(paymentNetworks: selectedNetworks)
+        switch dataSource.model(for: indexPath) {
+        case .account(let account): delegate?.didSelect(registeredAccount: account)
+        case .network(let networks): delegate?.didSelect(paymentNetworks: networks)
+        }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -76,3 +82,17 @@ extension List.Table.Controller: UITableViewDelegate {
     }
 }
 #endif
+
+// MARK: - Loadable extension
+
+private extension Sequence where Element == ContainsLoadableData {
+    /// Is all elements in array loaded.
+    /// - Note: if some elements were loaded but proccess was finished with error they count as _loaded_ element
+    var isFullyLoaded: Bool {
+        for element in self {
+            if case .notLoaded = element.loadable { return false }
+        }
+        
+        return true
+    }
+}

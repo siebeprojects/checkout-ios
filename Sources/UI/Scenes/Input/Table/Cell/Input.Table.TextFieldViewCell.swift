@@ -1,8 +1,9 @@
 #if canImport(UIKit)
 import UIKit
+import MaterialComponents.MaterialTextFields
 
-private struct UIConstant {
-    static let defaultSpacing: CGFloat = 8
+extension CGFloat {
+    static let cellVerticalSpacing: CGFloat = 8
 }
 
 extension Input.Table {
@@ -12,48 +13,36 @@ extension Input.Table {
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
     class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
-        var maxInputLength: Int?
+
+        private let textField: MDCTextField
+        fileprivate let textFieldController: MDCTextInputControllerFilled
         
-        private let label: UILabel
-        let textField: UITextField
-        private weak var errorLabel: UILabel?
-        private var bottomConstraint: NSLayoutConstraint?
+        private(set) var model: (TextInputField & DefinesKeyboardStyle)!
         
         var indexPath: IndexPath!
         
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-            label = .init(frame: .zero)
-            label.adjustsFontSizeToFitWidth = true
-            label.minimumScaleFactor = 0.5
-            
-            textField = .init(frame: .zero)
-            
+            textField = .init()
+            textFieldController = .init(textInput: textField)
+            textField.leadingUnderlineLabel.numberOfLines = 0
+            textField.leadingUnderlineLabel.lineBreakMode = .byWordWrapping
+                        
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
             textField.delegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
             
-            contentView.addSubview(label)
             contentView.addSubview(textField)
             
-            label.translatesAutoresizingMaskIntoConstraints = false
             textField.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-                label.trailingAnchor.constraint(equalTo: textField.leadingAnchor, constant: -UIConstant.defaultSpacing),
-                label.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-                label.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-                label.widthAnchor.constraint(equalToConstant: 140),
-
+                textField.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
                 textField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-                textField.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor)
+                textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .cellVerticalSpacing / 2),
+                contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: .cellVerticalSpacing / 2)
             ])
-            
-            let bottomConstraint = textField.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
-            bottomConstraint.isActive = true
-            self.bottomConstraint = bottomConstraint
         }
         
         required init?(coder: NSCoder) {
@@ -73,8 +62,17 @@ extension Input.Table.TextFieldViewCell {
     }
     
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
-        label.text = model.label
-        textField.placeholder = model.placeholder
+        self.model = model
+        
+        textField.tintColor = self.tintColor
+        textFieldController.activeColor = textField.tintColor
+        textFieldController.floatingPlaceholderActiveColor = textField.tintColor
+        textFieldController.leadingUnderlineLabelTextColor = textField.tintColor
+        
+        textFieldController.textInputFont = .preferredFont(forTextStyle: .body)
+        textFieldController.inlinePlaceholderFont = textFieldController.textInputFont
+        
+        textFieldController.placeholderText = model.label
         textField.text = model.value
 
         textField.keyboardType = model.keyboardType
@@ -96,67 +94,21 @@ extension Input.Table.TextFieldViewCell {
 
 extension Input.Table.TextFieldViewCell {
     func showValidationResult(for model: Any) {
-        // If model is not validatable just set a normal text color
-        guard let model = model as? Validatable else {
-            if #available(iOS 13.0, *) {
-                label.textColor = .label
-            } else {
-                label.textColor = .darkText
-            }
-            
-            return
-        }
+        guard let model = model as? Validatable else { return }
         
         if let errorText = model.validationErrorText {
             showErrorLabel(withText: errorText)
         } else {
             removeErrorLabel()
-            
-            if #available(iOS 13.0, *) {
-                label.textColor = .label
-            } else {
-                label.textColor = .darkText
-            }
         }
     }
     
     private func showErrorLabel(withText: String) {
-        if let label = errorLabel {
-            label.text = withText
-            return
-        }
-        
-        let errorLabel = UILabel(frame: .zero)
-        errorLabel.textColor = .systemRed
-        errorLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
-        errorLabel.text = withText
-        
-        contentView.addSubview(errorLabel)
-        self.errorLabel = errorLabel
-        
-        errorLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            errorLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
-            errorLabel.trailingAnchor.constraint(equalTo: textField.trailingAnchor),
-            errorLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: UIConstant.defaultSpacing)
-        ])
-        
-        bottomConstraint?.isActive = false
-        
-        let bottomConstraint = errorLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
-        bottomConstraint.isActive = true
-        self.bottomConstraint = bottomConstraint
+        textFieldController.setErrorText(withText, errorAccessibilityValue: nil)
     }
     
     private func removeErrorLabel() {
-        errorLabel?.removeFromSuperview()
-        
-        bottomConstraint?.isActive = false
-        
-        let bottomConstraint = textField.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
-        bottomConstraint.isActive = true
-        self.bottomConstraint = bottomConstraint
+        textFieldController.setErrorText(nil, errorAccessibilityValue: nil)
     }
 }
 
@@ -164,10 +116,12 @@ extension Input.Table.TextFieldViewCell {
 
 extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        textFieldController.setHelperText(model.placeholder, helperAccessibilityLabel: model.placeholder)
         delegate?.inputCellBecameFirstResponder(at: indexPath)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        textFieldController.setHelperText(nil, helperAccessibilityLabel: nil)
         delegate?.inputCellDidEndEditing(at: indexPath)
     }
     
@@ -184,7 +138,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     }
     
     private func isValidLength(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let maxInputLength = self.maxInputLength else { return true }
+        guard let maxInputLength = model.maxInputLength else { return true }
         
         guard let textFieldText = textField.text,
             let rangeOfTextToReplace = Range(range, in: textFieldText) else {
