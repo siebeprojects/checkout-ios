@@ -19,8 +19,8 @@ extension Input.Table {
         
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             label = .init(frame: .zero)
-            label.adjustsFontSizeToFitWidth = true
-            label.minimumScaleFactor = 0.5
+            label.lineBreakMode = .byWordWrapping
+            label.numberOfLines = 0
                         
             checkbox = .init(frame: .zero)
             
@@ -41,8 +41,7 @@ extension Input.Table {
                 label.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
 
                 checkbox.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-                checkbox.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-                checkbox.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+                checkbox.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor)
             ])
         }
         
