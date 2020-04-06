@@ -21,6 +21,7 @@ extension Input.Table {
             label = .init(frame: .zero)
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 0
+            label.textColor = .text
                         
             checkbox = .init(frame: .zero)
             
