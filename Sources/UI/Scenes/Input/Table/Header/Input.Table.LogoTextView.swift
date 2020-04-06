@@ -37,7 +37,7 @@ extension Input.Table {
 
             NSLayoutConstraint.activate([
                 label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-                label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
+                label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2),
                 label.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
                 
                 logoView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),

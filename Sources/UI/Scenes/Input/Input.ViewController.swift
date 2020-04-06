@@ -15,7 +15,7 @@ extension Input {
         init(for paymentNetworks: [PaymentNetwork]) throws {
             let transfomer = Field.Transformer()
             networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
-            headerModel = nil
+            headerModel = Input.ImagesHeader(from: networks)
             smartSwitch = try .init(networks: self.networks)
             tableController = .init(for: smartSwitch.selected.network, tableView: tableView)
             
@@ -85,6 +85,12 @@ extension Input.ViewController {
         
         removeKeyboardFrameChangesObserver()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+       updateTableViewHeaderFrame()
+    }
 }
 
 extension Input.ViewController {
@@ -96,6 +102,14 @@ extension Input.ViewController {
 // MARK: - View configurator
 
 extension Input.ViewController {
+    fileprivate func updateTableViewHeaderFrame() {
+        guard let headerView = tableView.tableHeaderView else { return }
+
+        let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        let headerViewFrame = CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: headerViewSize.height))
+        headerView.frame = headerViewFrame
+    }
+    
     fileprivate func configure(tableView: UITableView) {
         tableController.registerCells()
         
@@ -123,32 +137,13 @@ extension Input.ViewController {
         
         // Table header
         if let model = headerModel {
-            tableView.tableHeaderView = makeTableHeaderView(for: model)
+            let headerView = model.configurableViewType.init(frame: .zero)
+            try? model.configure(view: headerView)
+            tableView.tableHeaderView = headerView
+            updateTableViewHeaderFrame()
         } else {
             tableView.tableHeaderView = nil
         }
-    }
-    
-    private func makeTableHeaderView(for model: ViewRepresentable) -> UIView {
-        let headerContentView = model.configurableViewType.init(frame: .zero)
-        try? model.configure(view: headerContentView)
-        
-        let headerContentViewSize = headerContentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        headerContentView.frame = CGRect(origin: .zero, size: headerContentViewSize)
-        
-        let viewHeightWithSeparator = headerContentViewSize.height + Input.Table.SectionHeaderCell.Constant.height
-        
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: viewHeightWithSeparator))
-        headerView.preservesSuperviewLayoutMargins = true
-        headerView.addSubview(headerContentView)
-        NSLayoutConstraint.activate([
-            headerContentView.topAnchor.constraint(equalTo: headerView.topAnchor),
-            headerContentView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
-            headerContentView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            headerContentView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor)
-        ])
-        
-        return headerView
     }
 }
 

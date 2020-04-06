@@ -46,7 +46,7 @@ extension Input.Table {
                 label.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
                 
                 detailedLabel.topAnchor.constraint(equalTo: label.bottomAnchor),
-                detailedLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
+                detailedLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2),
                 detailedLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor),
                 detailedLabel.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
                 
