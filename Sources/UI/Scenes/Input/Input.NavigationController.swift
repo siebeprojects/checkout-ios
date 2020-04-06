@@ -6,6 +6,11 @@ extension Input {
             super.viewDidLoad()
             
             view.tintColor = .tintColor
+            if #available(iOS 13.0, *) {
+                navigationBar.backgroundColor = .systemBackground
+            } else {
+                navigationBar.backgroundColor = .white
+            }
             
             // Remove shadow line and background
             navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
