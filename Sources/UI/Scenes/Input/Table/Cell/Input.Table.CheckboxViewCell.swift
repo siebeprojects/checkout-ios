@@ -19,16 +19,19 @@ extension Input.Table {
         
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             label = .init(frame: .zero)
-            label.lineBreakMode = .byWordWrapping
-            label.numberOfLines = 0
-            label.textColor = .text
-                        
             checkbox = .init(frame: .zero)
             
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
+            // Configure label
+            label.lineBreakMode = .byWordWrapping
+            label.numberOfLines = 0
+            label.textColor = .text
+            
+            // Configure checkbox
             checkbox.addTarget(self, action: #selector(checkboxValueChanged), for: .valueChanged)
             
+            // Layout
             contentView.addSubview(label)
             contentView.addSubview(checkbox)
             
@@ -64,6 +67,7 @@ extension Input.Table.CheckboxViewCell {
         checkbox.isOn = model.isOn
         checkbox.isHidden = model.isHidden
         checkbox.isEnabled = model.isEnabled
+        checkbox.onTintColor = self.tintColor
     }
 }
 
