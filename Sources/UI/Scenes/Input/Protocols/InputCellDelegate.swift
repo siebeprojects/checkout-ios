@@ -6,6 +6,9 @@ protocol InputCellDelegate: class {
     func inputCellBecameFirstResponder(at indexPath: IndexPath)
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath)
     func inputCellDidEndEditing(at indexPath: IndexPath)
+    
+    /// Action button was tapped (e.g. `Next` or `Done`)
+    func inputCellPrimaryActionTriggered(at indexPath: IndexPath)
 }
 
 extension InputCellDelegate {

@@ -176,6 +176,13 @@ extension Input.Table.Controller: UITableViewDelegate {
 // MARK: - InputCellDelegate
 
 extension Input.Table.Controller: InputCellDelegate {
+    func inputCellPrimaryActionTriggered(at indexPath: IndexPath) {
+        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+        guard let cell = tableView.cellForRow(at: nextIndexPath) else { return }
+        guard cell.canBecomeFirstResponder else { return }
+        cell.becomeFirstResponder()
+    }
+    
     func inputCellDidEndEditing(at indexPath: IndexPath) {
         guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
         guard let validatableRow = cellRepresentable as? Validatable else { return }

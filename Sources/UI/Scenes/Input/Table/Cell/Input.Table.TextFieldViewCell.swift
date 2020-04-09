@@ -32,6 +32,7 @@ extension Input.Table {
             textField.delegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
+            textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
             
             contentView.addSubview(textField)
             
@@ -87,6 +88,10 @@ extension Input.Table.TextFieldViewCell {
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
         delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
+    }
+    
+    @objc private func textFieldPrimaryActionTriggered(_ textField: UITextField) {
+        delegate?.inputCellPrimaryActionTriggered(at: indexPath)
     }
 }
 
