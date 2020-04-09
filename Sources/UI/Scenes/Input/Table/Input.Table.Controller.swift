@@ -154,15 +154,35 @@ extension Input.Table.Controller: UITableViewDataSource {
             cell.selectionStyle = .none
             cellRepresentable.configure(cell: cell)
             
-            if let input = cell as? ContainsInputCellDelegate {
-                input.delegate = self
+            if let cell = cell as? ContainsInputCellDelegate {
+                cell.delegate = self
+            }
+            
+            if let cell = cell as? SupportsPrimaryAction {
+                let isLastRow = isLastTextField(at: indexPath)
+                let action: PrimaryAction = isLastRow ? .done : .next
+                cell.setPrimaryAction(to: action)
             }
             
             return cell
         }
      }
+    
+    private func isLastTextField(at indexPath: IndexPath) -> Bool {
+        var lastTextFieldRow: Int? = nil
+        
+        for row in indexPath.row...dataSource.count - 1 {
+            let element = dataSource[row]
+            guard case let .row(rowModel) = element, let _ = rowModel as? TextInputField else { continue }
+            lastTextFieldRow = row
+        }
+        
+        if lastTextFieldRow == nil { return true }
+        if lastTextFieldRow == indexPath.row { return true }
+        
+        return false
+    }
 }
-
 
 extension Input.Table.Controller: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -177,6 +197,12 @@ extension Input.Table.Controller: UITableViewDelegate {
 
 extension Input.Table.Controller: InputCellDelegate {
     func inputCellPrimaryActionTriggered(at indexPath: IndexPath) {
+        // If it is a last textfield just dismiss a keyboard
+        if isLastTextField(at: indexPath) {
+            tableView.endEditing(false)
+            return
+        }
+        
         let nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
         guard let cell = tableView.cellForRow(at: nextIndexPath) else { return }
         guard cell.canBecomeFirstResponder else { return }

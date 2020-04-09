@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -153,6 +153,7 @@
 		D9A938BF242E169C0030B910 /* DownloadTranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A938BE242E169C0030B910 /* DownloadTranslationService.swift */; };
 		D9A938C1242E16DB0030B910 /* TranslatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A938C0242E16DB0030B910 /* TranslatedModel.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
+		D9EF3F55243F1E1B00AF7F12 /* SupportsPrimaryAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF3F54243F1E1B00AF7F12 /* SupportsPrimaryAction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -317,6 +318,7 @@
 		D9A938C0242E16DB0030B910 /* TranslatedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslatedModel.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9EF3F54243F1E1B00AF7F12 /* SupportsPrimaryAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportsPrimaryAction.swift; sourceTree = "<group>"; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -461,6 +463,7 @@
 		D902154F243C742100CA88FD /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				D9EF3F54243F1E1B00AF7F12 /* SupportsPrimaryAction.swift */,
 				D9021550243C742100CA88FD /* InputElementModel.swift */,
 				D9021551243C742100CA88FD /* SelectInputField.swift */,
 				D9021552243C742100CA88FD /* DefinesKeyboardStyle.swift */,
@@ -1184,6 +1187,7 @@
 				D902157B243C742100CA88FD /* Input.Field.Validation.Luhn.swift in Sources */,
 				D9A88DD0241C55040043F535 /* LoadableLogo.swift in Sources */,
 				D9A88DEC241C55040043F535 /* AsynchronousOperation.swift in Sources */,
+				D9EF3F55243F1E1B00AF7F12 /* SupportsPrimaryAction.swift in Sources */,
 				D9A88DFB241C55040043F535 /* InstallmentsPlan.swift in Sources */,
 				D9A88DD5241C55040043F535 /* List.ImageStackView.swift in Sources */,
 				D9A88DD8241C55040043F535 /* mergeClosures.swift in Sources */,

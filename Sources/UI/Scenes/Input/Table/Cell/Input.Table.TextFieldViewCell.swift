@@ -90,7 +90,7 @@ extension Input.Table.TextFieldViewCell {
         delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
     }
     
-    @objc private func textFieldPrimaryActionTriggered(_ textField: UITextField) {
+    @objc fileprivate func textFieldPrimaryActionTriggered() {
         delegate?.inputCellPrimaryActionTriggered(at: indexPath)
     }
 }
@@ -171,6 +171,38 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         } else {
             return false
         }
+    }
+}
+
+extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
+    func setPrimaryAction(to action: PrimaryAction) {
+        switch action {
+        case .next: textField.returnKeyType = .next
+        case .done: textField.returnKeyType = .done
+        }
+        
+        // Show input accessory view for number pads with "Next" button
+        // We need that because number pads doesn't support display of a return key
+        if textField.keyboardType == .numberPad {
+            textField.inputAccessoryView = makeAccessoryView(for: action)
+        } else {
+            textField.inputAccessoryView = nil
+        }
+    }
+    
+    private func makeAccessoryView(for action: PrimaryAction) -> UIView {
+        let frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 44)
+        let toolbar = UIToolbar(frame: frame)
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let primaryAction: UIBarButtonItem
+            
+        switch action {
+        case .next: primaryAction = UIBarButtonItem(title: model.translator.translation(forKey: LocalTranslation.next.rawValue), style: .plain, target: self, action: #selector(textFieldPrimaryActionTriggered))
+        case .done: primaryAction = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(textFieldPrimaryActionTriggered))
+        }
+
+        toolbar.setItems([space, primaryAction], animated: false)
+        return toolbar
     }
 }
 #endif
