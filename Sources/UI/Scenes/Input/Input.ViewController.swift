@@ -63,6 +63,7 @@ extension Input.ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = networks.first?.translation.translation(forKey: LocalTranslation.inputViewTitle.rawValue)
         view.tintColor = .tintColor
         configure(tableView: tableView)
         
