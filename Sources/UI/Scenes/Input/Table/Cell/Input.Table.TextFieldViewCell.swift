@@ -87,6 +87,11 @@ extension Input.Table.TextFieldViewCell {
     }
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
+        if let length = textField.text?.count, let maxLength = model.maxInputLength, length == maxLength {
+            // Press primary action instead of an user when all characters were entered
+            delegate?.inputCellPrimaryActionTriggered(at: indexPath)
+        }
+        
         delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
     }
     
@@ -135,23 +140,25 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
             return false
         }
         
-        guard isValidLength(for: textField, changedCharactersIn: range, replacementString: string) else {
-            return false
+        if let maxLength = model.maxInputLength {
+            let length = lengthAfterReplacement(for: textField, changedCharactersIn: range, replacementString: string)
+            
+            // If use tries to insert a character(s) that exceeds max length
+            guard length <= maxLength else {
+                return false
+            }
         }
         
         return true
     }
     
-    private func isValidLength(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let maxInputLength = model.maxInputLength else { return true }
+    private func lengthAfterReplacement(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Int {
+        guard let textFieldText = textField.text else { return 0 }
+        guard let rangeOfTextToReplace = Range(range, in: textFieldText) else { return textFieldText.count }
         
-        guard let textFieldText = textField.text,
-            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
-                return true
-        }
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
-        return count <= maxInputLength
+        return count
     }
     
     private func containsOnlyAllowedCharacters(string: String, allowedKeyBoardType: UIKeyboardType) -> Bool {
