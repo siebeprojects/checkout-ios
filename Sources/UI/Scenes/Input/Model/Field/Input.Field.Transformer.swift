@@ -86,18 +86,15 @@ extension Input.Field.Transformer {
     
     private func checkbox(translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox? {
         let isOn: Bool
-        var isEnabled: Bool = true
+        let isEnabled: Bool = true
         var isHidden: Bool = false
         
         switch requirement {
         case .OPTIONAL: isOn = false
         case .OPTIONAL_PRESELECTED: isOn = true
-        case .FORCED:
+        case .FORCED, .FORCED_DISPLAYED:
             isOn = true
             isHidden = true
-        case .FORCED_DISPLAYED:
-            isOn = true
-            isEnabled = false
         default:
             return nil
         }
