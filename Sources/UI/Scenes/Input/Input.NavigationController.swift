@@ -7,14 +7,10 @@ extension Input {
             
             view.tintColor = .tintColor
             if #available(iOS 13.0, *) {
-                navigationBar.backgroundColor = .systemBackground
+                navigationBar.barTintColor = .systemBackground
             } else {
-                navigationBar.backgroundColor = .white
+                navigationBar.barTintColor = .white
             }
-            
-            // Remove shadow line and background
-            navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-            navigationBar.shadowImage = UIImage()
         }
         
         override func viewDidLayoutSubviews() {

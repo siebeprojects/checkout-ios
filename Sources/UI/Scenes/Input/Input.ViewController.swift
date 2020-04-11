@@ -66,11 +66,38 @@ extension Input.ViewController {
         title = networks.first?.translation.translation(forKey: LocalTranslation.inputViewTitle.rawValue)
         view.tintColor = .tintColor
         configure(tableView: tableView)
+        tableController.scrollViewWillBeginDraggingBlock = scrollViewWillBeginDragging
         
         tableView.layoutIfNeeded()
         setPreferredContentSize()
-                
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        guard let navigationController = self.navigationController else { return }
+        
+        let insets: UIEdgeInsets
+        if #available(iOS 11.0, *) {
+            insets = scrollView.safeAreaInsets
+        } else {
+            insets = scrollView.contentInset
+        }
+
+        let yOffset = scrollView.contentOffset.y + insets.top
+
+        // If scroll view is on top
+        if yOffset == 0 {
+            // Hide shadow line
+            navigationController.navigationBar.shadowImage = UIImage()
+            navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        } else {
+            if navigationController.navigationBar.shadowImage != nil {
+                // Show shadow line
+                navigationController.navigationBar.setBackgroundImage(nil, for: .default)
+                navigationController.navigationBar.shadowImage = nil
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

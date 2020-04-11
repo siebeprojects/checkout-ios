@@ -16,6 +16,8 @@ extension Input.Table {
         private var dataSource: [DataSourceElement]
         weak var inputChangesListener: InputValueChangesListener?
         
+        var scrollViewWillBeginDraggingBlock: ((UIScrollView) -> Void)?
+        
         enum DataSourceElement {
             case row(CellRepresentable)
             
@@ -190,6 +192,10 @@ extension Input.Table.Controller: UITableViewDelegate {
         case .separator: return Input.Table.SectionHeaderCell.Constant.height
         case .row(let cell): return cell.estimatedHeightForRow
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollViewWillBeginDraggingBlock?(scrollView)
     }
 }
 
