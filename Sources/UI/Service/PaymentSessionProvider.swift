@@ -15,7 +15,7 @@ class PaymentSessionProvider {
     func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
         completion(.loading)
 
-        let job = getListResult ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
+        let job = getListResult ->> checkOperationType ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
 
         job(paymentSessionURL) { [weak self] result in
             guard let weakSelf = self else { return }
@@ -42,6 +42,28 @@ class PaymentSessionProvider {
             }
         }
         getListResultOperation.start()
+    }
+    
+    private func checkOperationType(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
+        guard let operationType = listResult.operationType else {
+            let error = InternalError(description: "Operation type is not specified")
+            completion(.failure(error))
+            return
+        }
+        
+        guard let operation = Operation(rawValue: operationType) else {
+            let error = InternalError(description: "Operation type is not known: %s", operationType)
+            completion(.failure(error))
+            return
+        }
+        
+        guard case .CHARGE = operation else {
+            let error = InternalError(description: "Operation type is not supported: %s", operationType)
+            completion(.failure(error))
+            return
+        }
+        
+        completion(.success(listResult))
     }
 
     private func downloadSharedLocalization(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
@@ -112,5 +134,11 @@ class PaymentSessionProvider {
     
     private func createPaymentSession(from translations: DownloadTranslationService.Translations) -> PaymentSession {
         return .init(networks: translations.networks, accounts: translations.accounts)
+    }
+}
+
+private extension PaymentSessionProvider {
+    enum Operation: String {
+        case CHARGE
     }
 }
