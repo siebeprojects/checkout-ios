@@ -7,7 +7,7 @@ extension Input.Field {
         let validationRule: Validation.Rule?
         let networkMethod: String?
         var validationErrorText: String?
-        
+
         var value: String = ""
 
         /// - Parameters:
@@ -25,17 +25,17 @@ extension Input.Field.AccountNumber: TextInputField {}
 
 extension Input.Field.AccountNumber: Validatable {
     private var luhnValidatableMethods: [String] { ["DEBIT_CARD", "CREDIT_CARD"] }
-    
+
     func localize(error: Input.Field.Validation.ValidationError) -> String {
         switch error {
         case .invalidValue, .incorrectLength: return translator.translation(forKey: "error.INVALID_ACCOUNT_NUMBER")
         case .missingValue: return translator.translation(forKey: "error.MISSING_ACCOUNT_NUMBER")
         }
     }
-    
+
     var isPassedCustomValidation: Bool {
         guard let networkMethod = self.networkMethod else { return true }
-        
+
         // Validate only some networks
         if luhnValidatableMethods.contains(networkMethod) {
             return Input.Field.Validation.Luhn.isValid(accountNumber: value)

@@ -45,8 +45,8 @@ public class ApplicableNetwork: NSObject, Decodable {
 
     /// Collection of links related to this payment network in scope of the `LIST` session
     public let links: [String: URL]?
-    
-    internal init(code: String, label: String, method: String, grouping: String, registration: String, recurrence: String, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, localizedInputElements: [InputElement]?, links: [String : URL]? = nil) {
+
+    internal init(code: String, label: String, method: String, grouping: String, registration: String, recurrence: String, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, localizedInputElements: [InputElement]?, links: [String: URL]? = nil) {
         self.code = code
         self.label = label
         self.method = method
@@ -62,13 +62,13 @@ public class ApplicableNetwork: NSObject, Decodable {
         self.localizedInputElements = localizedInputElements
         self.links = links
     }
-    
+
     // MARK: -
-    
+
     public enum Requirement: String {
         case NONE, OPTIONAL, OPTIONAL_PRESELECTED, FORCED, FORCED_DISPLAYED
     }
-    
+
     public var registrationRequirement: Requirement? { Requirement(rawValue: registration) }
     public var recurrenceRequirement: Requirement? {
         Requirement(rawValue: recurrence)

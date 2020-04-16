@@ -2,7 +2,7 @@ import Foundation
 
 protocol TranslationProvider {
     var translations: [[String: String]] { get }
-    
+
     func translation(forKey key: String) -> String
     func translation(forKey key: String) -> String?
 }
@@ -18,7 +18,7 @@ extension TranslationProvider {
             return String()
         }
     }
-    
+
     /// Find a translation for a key
     /// - Returns: translation or `nil` if translation wasn't found
     func translation(forKey key: String) -> String? {

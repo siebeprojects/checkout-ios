@@ -16,28 +16,28 @@ extension Input.Table {
 
         private let textField: MDCTextField
         fileprivate let textFieldController: MDCTextInputControllerFilled
-        
+
         private(set) var model: (TextInputField & DefinesKeyboardStyle)!
-        
+
         var indexPath: IndexPath!
-        
+
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             textField = .init()
             textFieldController = .init(textInput: textField)
             textField.leadingUnderlineLabel.numberOfLines = 0
             textField.leadingUnderlineLabel.lineBreakMode = .byWordWrapping
-                        
+
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-            
+
             textField.delegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
-            
+
             contentView.addSubview(textField)
-            
+
             textField.translatesAutoresizingMaskIntoConstraints = false
-            
+
             NSLayoutConstraint.activate([
                 textField.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
                 textField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
@@ -45,7 +45,7 @@ extension Input.Table {
                 contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: .cellVerticalSpacing / 2)
             ])
         }
-        
+
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
@@ -56,45 +56,45 @@ extension Input.Table {
 
 extension Input.Table.TextFieldViewCell {
     override var canBecomeFirstResponder: Bool { return true }
-    
+
     override func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
             return textField.becomeFirstResponder()
     }
-    
+
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
         self.model = model
-        
+
         textField.tintColor = self.tintColor
         textFieldController.activeColor = textField.tintColor
         textFieldController.floatingPlaceholderActiveColor = textField.tintColor
         textFieldController.leadingUnderlineLabelTextColor = textField.tintColor
-        
+
         textFieldController.textInputFont = .preferredFont(forTextStyle: .body)
         textFieldController.inlinePlaceholderFont = textFieldController.textInputFont
-        
+
         textFieldController.placeholderText = model.label
         textField.text = model.value
 
         textField.keyboardType = model.keyboardType
         textField.autocapitalizationType = model.autocapitalizationType
-        
+
         if let contentType = model.contentType {
             textField.textContentType = contentType
         }
-        
+
         showValidationResult(for: model)
     }
-    
+
     @objc private func textFieldDidChange(_ textField: UITextField) {
         if let length = textField.text?.count, let maxLength = model.maxInputLength, length == maxLength {
             // Press primary action instead of an user when all characters were entered
             delegate?.inputCellPrimaryActionTriggered(at: indexPath)
         }
-        
+
         delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
     }
-    
+
     @objc fileprivate func textFieldPrimaryActionTriggered() {
         delegate?.inputCellPrimaryActionTriggered(at: indexPath)
     }
@@ -105,18 +105,18 @@ extension Input.Table.TextFieldViewCell {
 extension Input.Table.TextFieldViewCell {
     func showValidationResult(for model: Any) {
         guard let model = model as? Validatable else { return }
-        
+
         if let errorText = model.validationErrorText {
             showErrorLabel(withText: errorText)
         } else {
             removeErrorLabel()
         }
     }
-    
+
     private func showErrorLabel(withText: String) {
         textFieldController.setErrorText(withText, errorAccessibilityValue: nil)
     }
-    
+
     private func removeErrorLabel() {
         textFieldController.setErrorText(nil, errorAccessibilityValue: nil)
     }
@@ -129,38 +129,38 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         textFieldController.setHelperText(model.placeholder, helperAccessibilityLabel: model.placeholder)
         delegate?.inputCellBecameFirstResponder(at: indexPath)
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         textFieldController.setHelperText(nil, helperAccessibilityLabel: nil)
         delegate?.inputCellDidEndEditing(at: indexPath)
     }
-    
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard containsOnlyAllowedCharacters(string: string, allowedKeyBoardType: textField.keyboardType) else {
             return false
         }
-        
+
         if let maxLength = model.maxInputLength {
             let length = lengthAfterReplacement(for: textField, changedCharactersIn: range, replacementString: string)
-            
+
             // If use tries to insert a character(s) that exceeds max length
             guard length <= maxLength else {
                 return false
             }
         }
-        
+
         return true
     }
-    
+
     private func lengthAfterReplacement(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Int {
         guard let textFieldText = textField.text else { return 0 }
         guard let rangeOfTextToReplace = Range(range, in: textFieldText) else { return textFieldText.count }
-        
+
         let substringToReplace = textFieldText[rangeOfTextToReplace]
         let count = textFieldText.count - substringToReplace.count + string.count
         return count
     }
-    
+
     private func containsOnlyAllowedCharacters(string: String, allowedKeyBoardType: UIKeyboardType) -> Bool {
         let allowed: CharacterSet
         switch allowedKeyBoardType {
@@ -172,7 +172,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
             allowed = .decimalDigits
         default: return true
         }
-        
+
         if CharacterSet(charactersIn: string).isSubset(of: allowed) {
             return true
         } else {
@@ -187,7 +187,7 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
         case .next: textField.returnKeyType = .next
         case .done: textField.returnKeyType = .done
         }
-        
+
         // Show input accessory view for number pads with "Next" button
         // We need that because number pads doesn't support display of a return key
         if textField.keyboardType == .numberPad && UIDevice.current.userInterfaceIdiom != .pad {
@@ -196,7 +196,7 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
             textField.inputAccessoryView = nil
         }
     }
-    
+
     private func makeAccessoryView(for action: PrimaryAction) -> UIView {
         let view = UIInputView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 44), inputViewStyle: .default)
 
@@ -204,25 +204,25 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
         toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let primaryAction: UIBarButtonItem
-            
+
         switch action {
         case .next: primaryAction = UIBarButtonItem(title: model.translator.translation(forKey: LocalTranslation.next.rawValue), style: .plain, target: self, action: #selector(textFieldPrimaryActionTriggered))
         case .done: primaryAction = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(textFieldPrimaryActionTriggered))
         }
 
         toolbar.setItems([space, primaryAction], animated: false)
-        
+
         // Layout
         view.addSubview(toolbar)
         toolbar.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             toolbar.topAnchor.constraint(equalTo: view.topAnchor),
             toolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
+
         return view
     }
 }

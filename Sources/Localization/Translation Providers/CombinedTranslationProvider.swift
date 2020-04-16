@@ -4,8 +4,8 @@ import Foundation
 class CombinedTranslationProvider {
     private let priorityTranslation: [String: String]
     private let otherProvider: TranslationProvider
-    
-    init(priorityTranslation: Dictionary<String, String>, otherProvider: TranslationProvider) {
+
+    init(priorityTranslation: [String: String], otherProvider: TranslationProvider) {
         self.otherProvider = otherProvider
         self.priorityTranslation = priorityTranslation
     }

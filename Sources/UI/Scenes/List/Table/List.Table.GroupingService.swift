@@ -7,11 +7,11 @@ extension List.Table {
 extension List.Table.GroupingService {
     private func get() throws -> [Rule] {
         let groupingData = try AssetProvider.getGroupingRulesData()
-        
+
         let core = try JSONDecoder().decode(Core.self, from: groupingData)
         return core.items
     }
-    
+
     func group(networks: [PaymentNetwork]) -> [[PaymentNetwork]] {
         do {
             let rules = try get()
@@ -22,25 +22,25 @@ extension List.Table.GroupingService {
             return networks.map { [$0] }
         }
     }
-    
+
    // MARK: - Model
-    
+
     private struct Core: Decodable {
         let items: [Rule]
     }
-    
+
     struct Rule: Decodable {
         let code: String
         let regex: NSRegularExpression
-        
+
         enum CodingKeys: String, CodingKey {
             case code, regex
         }
-        
+
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             code = try container.decode(String.self, forKey: .code)
-            
+
             let regexString = try container.decode(String.self, forKey: .regex)
             regex = try NSRegularExpression(pattern: regexString, options: [])
         }
@@ -53,10 +53,10 @@ private extension Sequence where Element == PaymentNetwork {
     func grouped(using rules: [List.Table.GroupingService.Rule]) -> [[PaymentNetwork]] {
         var ungroupedNetworks = [PaymentNetwork]()
         var groupedNetworks = [PaymentNetwork]()
-        
+
         for network in self {
             let isGroupingAllowed = (rules.first(withCode: network.applicableNetwork.code) != nil)
-            
+
             if isGroupingAllowed {
                 // Check if input elements are equal
                 if let firstNetwork = groupedNetworks.first {
@@ -66,16 +66,16 @@ private extension Sequence where Element == PaymentNetwork {
                         continue
                     }
                 }
-                
+
                 groupedNetworks.append(network)
             } else {
                 ungroupedNetworks.append(network)
             }
         }
-        
+
         var groupedResult = ungroupedNetworks.map { [$0] }
         groupedResult.append(groupedNetworks)
-        
+
         return groupedResult
     }
 }
@@ -85,7 +85,7 @@ private extension Sequence where Element == List.Table.GroupingService.Rule {
         for item in self where item.code == withCode {
             return item
         }
-        
+
         return nil
     }
 }
@@ -95,7 +95,7 @@ private extension Sequence where Element == List.Table.GroupingService.Rule {
 extension InputElement {
     override public func isEqual(_ object: Any?) -> Bool {
         guard let rhs = object as? InputElement else { return false }
-        
+
         return (
             name == rhs.name &&
             type == rhs.type &&
@@ -108,7 +108,7 @@ extension InputElement {
 extension SelectOption {
     override public func isEqual(_ object: Any?) -> Bool {
         guard let rhs = object as? SelectOption else { return false }
-        
+
         return (
             value == rhs.value &&
             label == rhs.label &&

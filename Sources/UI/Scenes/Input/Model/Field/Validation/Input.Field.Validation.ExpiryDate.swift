@@ -8,12 +8,12 @@ extension Input.Field.Validation {
             var components = DateComponents()
             components.month = Int(expiryMonth)
             components.year = Int(expiryYear)
-            
+
             let calendar = Calendar.current
             guard let expiryDate = calendar.date(from: components) else { return nil }
-            
+
             let result = calendar.compare(expiryDate, to: Date(), toGranularity: .month)
-            
+
             switch result {
             case .orderedAscending:
                 // expiryDate is in the past

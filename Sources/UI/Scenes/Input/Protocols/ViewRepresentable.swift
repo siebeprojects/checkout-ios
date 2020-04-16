@@ -3,7 +3,7 @@ import UIKit
 /// Model that could configure view to represent itself.
 protocol ViewRepresentable {
     var configurableViewType: UIView.Type { get }
-    
+
     /// - Throws: `InternalError` if input view is not supported.
     func configure(view: UIView) throws
 }

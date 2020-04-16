@@ -4,11 +4,11 @@ extension Input.Field {
     final class Checkbox {
         let translationKey: String
         let translator: TranslationProvider
-        
+
         let isEnabled: Bool
         var isOn: Bool
         var isHidden: Bool
-        
+
         init(isOn: Bool, isEnabled: Bool, isHidden: Bool, translationKey: String, translator: TranslationProvider) {
             self.translationKey = translationKey
             self.translator = translator
@@ -27,11 +27,11 @@ extension Input.Field.Checkbox: InputField {
                 InternalError(description: "Tried to set boolean from unexpected string value: %@", newValue).log()
                 return
             }
-            
+
             isOn = newBoolean
         }
     }
-    
+
     var name: String {
         translator.translation(forKey: translationKey)
     }

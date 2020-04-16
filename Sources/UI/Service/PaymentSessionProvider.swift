@@ -5,7 +5,7 @@ class PaymentSessionProvider {
     private let sharedTranslationProvider: SharedTranslationProvider
 
     let connection: Connection
-    
+
     init(paymentSessionURL: URL, connection: Connection, localizationsProvider: SharedTranslationProvider) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
@@ -19,7 +19,7 @@ class PaymentSessionProvider {
 
         job(paymentSessionURL) { [weak self] result in
             guard let weakSelf = self else { return }
-            
+
             switch result {
             case .success(let paymentNetworks):
                 let paymentSession = weakSelf.createPaymentSession(from: paymentNetworks)
@@ -43,26 +43,26 @@ class PaymentSessionProvider {
         }
         getListResultOperation.start()
     }
-    
+
     private func checkOperationType(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
         guard let operationType = listResult.operationType else {
             let error = InternalError(description: "Operation type is not specified")
             completion(.failure(error))
             return
         }
-        
+
         guard let operation = Operation(rawValue: operationType) else {
             let error = InternalError(description: "Operation type is not known: %s", operationType)
             completion(.failure(error))
             return
         }
-        
+
         guard case .CHARGE = operation else {
             let error = InternalError(description: "Operation type is not supported: %s", operationType)
             completion(.failure(error))
             return
         }
-        
+
         completion(.success(listResult))
     }
 
@@ -90,7 +90,7 @@ class PaymentSessionProvider {
             completion(.success(listResult))
             return
         }
-        
+
         let localizedReason: String? =
             sharedTranslationProvider.translation(forKey: listResult.interaction.code + "." + listResult.interaction.reason)
 
@@ -107,31 +107,31 @@ class PaymentSessionProvider {
     }
 
     private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])
-    
+
     private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworksTuple) -> Void)) {
         // swiftlint:disable:next line_length
         let supportedCodes = ["AMEX", "CASTORAMA", "DINERS", "DISCOVER", "MASTERCARD", "UNIONPAY", "VISA", "VISA_DANKORT", "VISAELECTRON", "CARTEBANCAIRE", "MAESTRO", "MAESTROUK", "POSTEPAY", "SEPADD", "JCB"]
 
         let filteredPaymentNetworks = listResult.networks.applicable
             .filter { supportedCodes.contains($0.code) }
-        
+
         let filteredRegisteredNetworks: [AccountRegistration]
         if let accounts = listResult.accounts {
             filteredRegisteredNetworks = accounts.filter { supportedCodes.contains($0.code) }
         } else {
             filteredRegisteredNetworks = .init()
         }
-        
+
         completion((filteredPaymentNetworks, filteredRegisteredNetworks))
     }
-    
+
     private func localize(tuple: APINetworksTuple, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
         let translationService = DownloadTranslationService(networks: tuple.applicableNetworks, accounts: tuple.accountRegistrations, sharedTranslation: sharedTranslationProvider)
         translationService.localize(using: connection, completion: completion)
     }
-    
+
     // MARK: - Synchronous methods
-    
+
     private func createPaymentSession(from translations: DownloadTranslationService.Translations) -> PaymentSession {
         return .init(networks: translations.networks, accounts: translations.accounts)
     }

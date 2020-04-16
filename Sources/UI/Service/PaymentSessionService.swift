@@ -44,7 +44,7 @@ class PaymentSessionService {
             return PaymentError(localizedDescription: description, underlyingError: error)
         }
     }
-    
+
     /// Return first preselected network in a session
     private func firstSelectedNetwork(in session: PaymentSession) -> PaymentNetwork? {
         for network in session.networks {
@@ -52,7 +52,7 @@ class PaymentSessionService {
                 return network
             }
         }
-        
+
         return nil
     }
 }

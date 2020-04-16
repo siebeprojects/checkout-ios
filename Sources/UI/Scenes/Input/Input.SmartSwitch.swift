@@ -12,11 +12,11 @@ extension Input.SmartSwitch {
     struct Rule: Decodable {
         /// Network code
         let code: String
-        
+
         /// Regular expression
         let regex: String
     }
-    
+
     fileprivate struct Root: Decodable {
         let items: [Rule]
     }
@@ -28,7 +28,7 @@ extension Sequence where Element == Input.SmartSwitch.Rule {
         for element in self where element.code == withCode {
             return element
         }
-        
+
         return nil
     }
 }
@@ -55,11 +55,11 @@ extension Input.SmartSwitch {
 
         init(networks: [Input.Network]) throws {
             self.networks = networks
-            
+
             guard let firstNetwork = networks.first else {
                 throw InternalError(description: "Tried to initialize with empty networks array")
             }
-            
+
             if networks.count == 1 {
                 // If only 1 network is present - it is always specific
                 selected = .specific(firstNetwork)
@@ -68,7 +68,7 @@ extension Input.SmartSwitch {
                 selected = .generic(firstNetwork)
             }
         }
-        
+
         init(network: Input.Network) {
             self.networks = [network]
             selected = .specific(network)
@@ -83,26 +83,26 @@ extension Input.SmartSwitch.Selector {
             // Keep specific network if only 1 network is in array
             return selected
         }
-        
+
         let previouslySelected = selected
-        
+
         defer {
             if previouslySelected.network != selected.network {
                 moveInputValues(from: previouslySelected.network.inputFields as [AnyObject], to: selected.network.inputFields as [AnyObject])
             }
         }
-        
+
         // Try to find a specific network
         for network in networks {
             guard let rule = network.switchRule else { continue }
-            
+
             let isMatched = (accountNumber.range(of: rule.regex, options: .regularExpression) != nil)
             guard isMatched else { continue }
-            
+
             selected = .specific(network)
             return selected
         }
-        
+
         // Unable to find, return previously selected network as a generic one
         selected = .generic(previouslySelected.network)
         return selected
@@ -124,11 +124,11 @@ extension Input.SmartSwitch.Selector {
     enum DetectedNetwork: Equatable {
         /// Specific network wasn't detected, using a generic one
         case generic(Input.Network)
-        
+
         /// Account number is valid for one of specific networks.
         /// - Note: that case is also used if only 1 network is present.
         case specific(Input.Network)
-        
+
         var network: Input.Network {
             switch self {
             case .generic(let genericNetwork): return genericNetwork

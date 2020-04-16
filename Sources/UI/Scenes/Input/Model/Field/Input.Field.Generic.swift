@@ -7,9 +7,9 @@ extension Input.Field {
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
-        
+
         var value: String = ""
-        
+
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
             self.inputElement = inputElement
             self.translator = translator

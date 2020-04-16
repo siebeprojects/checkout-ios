@@ -7,14 +7,14 @@ final class PaymentNetwork {
     let label: String
     let submitButtonLabel: String
     var logo: Loadable<Data>?
-    
+
     init(from applicableNetwork: ApplicableNetwork, localizeUsing localizer: TranslationProvider) {
         self.applicableNetwork = applicableNetwork
         self.translation = localizer
-        
+
         self.label = localizer.translation(forKey: "network.label")
         self.submitButtonLabel = translation.translation(forKey: applicableNetwork.button ?? "button.charge.label")
-        
+
         if let logoURL = applicableNetwork.links?["logo"] {
             logo = .notLoaded(logoURL)
         } else {
@@ -26,10 +26,10 @@ final class PaymentNetwork {
 enum Loadable<T> {
     case loaded(Result<T, Error>)
     case notLoaded(URL)
-    
+
     var value: T? {
         guard case let .loaded(loadedResult) = self else { return nil }
-        
+
         return try? loadedResult.get()
     }
 }

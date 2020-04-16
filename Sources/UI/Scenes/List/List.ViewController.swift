@@ -12,7 +12,7 @@ extension List {
         let sessionService: PaymentSessionService
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
-        
+
         lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
         /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
@@ -28,7 +28,7 @@ extension List {
             sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
             configuration = tableConfiguration
             self.sharedTranslationProvider = sharedTranslationProvider
-            
+
             super.init(nibName: nil, bundle: nil)
         }
 
@@ -50,12 +50,12 @@ extension List.ViewController {
 
         load()
     }
-    
+
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableController?.viewDidLayoutSubviews()
     }
-    
+
     public override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         methodsTableView?.reloadData()
     }
@@ -79,7 +79,7 @@ extension List.ViewController {
             }
         )
     }
-    
+
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
         do {
             let inputViewController = try Input.ViewController(for: paymentNetworks)
@@ -89,7 +89,7 @@ extension List.ViewController {
             changeState(to: .failure(error))
         }
     }
-    
+
     fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
         let inputViewController = Input.ViewController(for: registeredAccount)
         let navigationController = Input.NavigationController(rootViewController: inputViewController)
@@ -136,18 +136,18 @@ extension List.ViewController {
             // Hide payment methods
             scrollView?.removeFromSuperview()
             scrollView = nil
-            
+
             methodsTableView?.removeFromSuperview()
             methodsTableView = nil
             tableController = nil
-            
+
             return
         }
 
         // Show payment methods
         let scrollView = addScrollView()
         self.scrollView = scrollView
-        
+
         let methodsTableView = addMethodsTableView(to: scrollView)
         self.methodsTableView = methodsTableView
 
@@ -159,7 +159,7 @@ extension List.ViewController {
         methodsTableView.dataSource = tableController.dataSource
         methodsTableView.delegate = tableController
         methodsTableView.prefetchDataSource = tableController
-        
+
         methodsTableView.invalidateIntrinsicContentSize()
     }
 
@@ -190,7 +190,7 @@ extension List.ViewController {
             errorAlertController?.dismiss(animated: true, completion: nil)
             return
         }
-        
+
         let localizedError: LocalizedError
         if let error = error as? LocalizedError {
             localizedError = error
@@ -232,25 +232,25 @@ extension List.ViewController {
         scrollView.alwaysBounceVertical = true
         scrollView.preservesSuperviewLayoutMargins = true
         view.addSubview(scrollView)
-        
+
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
-        
+
         return scrollView
     }
-    
+
     fileprivate func addMethodsTableView(to superview: UIView) -> UITableView {
         let methodsTableView = List.Table.TableView(frame: CGRect.zero, style: .grouped)
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
         methodsTableView.rowHeight = .rowHeight
-        
+
         if #available(iOS 11.0, *) {
             methodsTableView.contentInsetAdjustmentBehavior = .never
         } else {
@@ -259,9 +259,9 @@ extension List.ViewController {
 
         // Use that to remove extra spacing at top
         methodsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
-        
+
         methodsTableView.isScrollEnabled = false
-        
+
         configuration.customize?(tableView: methodsTableView)
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -270,14 +270,14 @@ extension List.ViewController {
         superview.addSubview(methodsTableView)
 
         let topPadding: CGFloat = 30
-        
+
         NSLayoutConstraint.activate([
             methodsTableView.leadingAnchor.constraint(equalTo: superview.layoutMarginsGuide.leadingAnchor),
             methodsTableView.bottomAnchor.constraint(equalTo: superview.layoutMarginsGuide.bottomAnchor),
             methodsTableView.topAnchor.constraint(equalTo: superview.layoutMarginsGuide.topAnchor, constant: topPadding),
             methodsTableView.centerXAnchor.constraint(equalTo: superview.centerXAnchor)
         ])
-        
+
         let trailingConstraint = methodsTableView.trailingAnchor.constraint(equalTo: superview.layoutMarginsGuide.trailingAnchor)
         trailingConstraint.priority = .defaultHigh
         trailingConstraint.isActive = true
@@ -288,11 +288,11 @@ extension List.ViewController {
 
 extension List.ViewController: ListTableControllerDelegate {
     var downloadProvider: DataDownloadProvider { sessionService.downloadProvider }
-    
+
     func didSelect(paymentNetworks: [PaymentNetwork]) {
         show(paymentNetworks: paymentNetworks, animated: true)
     }
-    
+
     func didSelect(registeredAccount: RegisteredAccount) {
         show(registeredAccount: registeredAccount, animated: true)
     }

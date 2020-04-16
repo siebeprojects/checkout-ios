@@ -10,6 +10,6 @@ extension TextInputField {
     var placeholder: String {
         translator.translation(forKey: translationPrefix + "placeholder")
     }
-    
+
     var translationPrefix: String { "account." + name + "." }
 }

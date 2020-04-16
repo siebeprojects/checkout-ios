@@ -4,7 +4,7 @@ import Foundation
 extension Input.Field {
     final class Button {
         let label: String
-        
+
         var buttonDidTap: ((Button) -> Void)?
 
         init(label: String) {
@@ -21,10 +21,10 @@ extension Input.Field.Button: CellRepresentable {
         }
         cell.configure(with: self)
     }
-    
+
     func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeueReusableCell(Input.Table.ButtonCell.self, for: indexPath)
     }
-    
+
     var estimatedHeightForRow: CGFloat { 66 }
 }

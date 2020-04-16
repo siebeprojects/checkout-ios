@@ -3,11 +3,11 @@ import UIKit
 
 // MARK: Constants
 
-fileprivate struct Constant {
+private struct Constant {
     static var ignoredFields: [IgnoredFields] { [
         .init(networkCode: "SEPADD", inputElementName: "bic")
     ] }
-    
+
     static var registrationCheckboxLocalizationKey: String { "autoRegistrationLabel" }
     static var recurrenceCheckboxLocalizationKey: String { "allowRecurrenceLabel" }
 }
@@ -21,7 +21,7 @@ extension Input.Field {
         fileprivate(set) var verificationCodeFields = [Input.Field.VerificationCode]()
         fileprivate var expiryMonth: ExpiryMonth?
         fileprivate var expiryYear: ExpiryYear?
-        
+
         init() {}
     }
 }
@@ -30,45 +30,45 @@ extension Input.Field.Transformer {
     func transform(registeredAccount: RegisteredAccount) -> Input.Network {
         let logoData = registeredAccount.logo?.value
         let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
-        
+
         let modelToTransform = TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
-        
+
         let inputFields: [CellRepresentable] = makeInputFields(for: modelToTransform)
-        
+
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 
         return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
     }
-    
+
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
         let logoData = paymentNetwork.logo?.value
-        
+
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
-        
+
         // Input fields
         let modelToTransform = TransformableModel(inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, translator: paymentNetwork.translation)
         let inputFields = makeInputFields(for: modelToTransform)
-        
+
         // Switch rule
         let smartSwitchRule = switchRule(forNetworkCode: paymentNetwork.applicableNetwork.code)
-        
+
         // Link month and year fields
         expiryYear?.expiryMonthField = expiryMonth
         expiryMonth?.expiryYearField = expiryYear
-        
+
         // Checkboxes
         let checkboxes = [
             checkbox(translationKey: Constant.registrationCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.registrationRequirement, translator: paymentNetwork.translation),
             checkbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation)
             ].compactMap { $0 }
-        
+
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
-        
+
         return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
     }
-    
+
     // MARK: Smart Switch
-    
+
     /// Get SmartSwitch rule for a network
     private func switchRule(forNetworkCode networkCode: String) -> Input.SmartSwitch.Rule? {
         do {
@@ -77,18 +77,18 @@ extension Input.Field.Transformer {
         } catch {
             let internalError = InternalError(description: "Unable to decode smart switch rules: %@", objects: error)
             internalError.log()
-            
+
             return nil
         }
     }
-    
+
     // MARK: Checkboxes
-    
+
     private func checkbox(translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox? {
         let isOn: Bool
         let isEnabled: Bool = true
         var isHidden: Bool = false
-        
+
         switch requirement {
         case .OPTIONAL: isOn = false
         case .OPTIONAL_PRESELECTED: isOn = true
@@ -98,7 +98,7 @@ extension Input.Field.Transformer {
         default:
             return nil
         }
-        
+
         return Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
     }
 }
@@ -112,11 +112,11 @@ extension Input.Field.Transformer {
         var networkMethod: String?
         var translator: TranslationProvider
     }
-    
+
     fileprivate func makeInputFields(for model: TransformableModel) -> [CellRepresentable & InputField] {
         // Get validation rules
         let validationProvider: Input.Field.Validation.Provider?
-        
+
         do {
             validationProvider = try .init()
         } catch {
@@ -128,21 +128,21 @@ extension Input.Field.Transformer {
             }
             validationProvider = nil
         }
-        
+
         // Transform input fields
         let inputFields = model.inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
             for ignored in Constant.ignoredFields {
                 if model.networkCode == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
-            
+
             let validationRule = validationProvider?.getRule(forNetworkCode: model.networkCode, withInputElementName: inputElement.name)
-            
+
             return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod)
         }
-        
+
         return inputFields
     }
-    
+
     /// Transform `InputElement` to `InputField`
     private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?, networkMethod: String?) -> InputField & CellRepresentable {
         switch inputElement.name {
@@ -174,7 +174,7 @@ extension Input.Field.Transformer {
     }
 }
 
-fileprivate struct IgnoredFields {
+private struct IgnoredFields {
     let networkCode: String
     let inputElementName: String
 }

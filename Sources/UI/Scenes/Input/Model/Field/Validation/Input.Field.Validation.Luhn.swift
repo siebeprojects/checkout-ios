@@ -4,7 +4,7 @@ extension Input.Field.Validation {
     struct Luhn {
         static func isValid(accountNumber: String) -> Bool {
             let accountNumberWithoutSpace = accountNumber.remove(charactersIn: .whitespaces)
-            
+
             var sum = 0
             let digitStrings = accountNumberWithoutSpace.reversed().map { String($0) }
 

@@ -4,10 +4,10 @@ extension Input.Table {
     class ImagesCollectionView: UICollectionView {
         override func reloadData() {
             super.reloadData()
-            
+
             self.invalidateIntrinsicContentSize()
         }
-        
+
         override func layoutSubviews() {
             super.layoutSubviews()
             invalidateIntrinsicContentSize()
