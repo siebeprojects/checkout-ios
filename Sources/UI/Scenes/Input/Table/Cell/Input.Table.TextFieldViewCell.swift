@@ -198,8 +198,10 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
     }
     
     private func makeAccessoryView(for action: PrimaryAction) -> UIView {
-        let frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 44)
-        let toolbar = UIToolbar(frame: frame)
+        let view = UIInputView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 44), inputViewStyle: .default)
+
+        let toolbar = UIToolbar()
+        toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let primaryAction: UIBarButtonItem
             
@@ -209,7 +211,19 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
         }
 
         toolbar.setItems([space, primaryAction], animated: false)
-        return toolbar
+        
+        // Layout
+        view.addSubview(toolbar)
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            toolbar.topAnchor.constraint(equalTo: view.topAnchor),
+            toolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        return view
     }
 }
 #endif
