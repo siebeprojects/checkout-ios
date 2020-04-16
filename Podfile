@@ -2,6 +2,8 @@
 platform :ios, '10.0'
 use_frameworks!
 
+pod 'SwiftLint'
+
 target 'Optile' do
   pod 'MaterialComponents/TextFields', '103.1.0'
 end
