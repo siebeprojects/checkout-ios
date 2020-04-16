@@ -190,7 +190,7 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
         
         // Show input accessory view for number pads with "Next" button
         // We need that because number pads doesn't support display of a return key
-        if textField.keyboardType == .numberPad {
+        if textField.keyboardType == .numberPad && UIDevice.current.userInterfaceIdiom != .pad {
             textField.inputAccessoryView = makeAccessoryView(for: action)
         } else {
             textField.inputAccessoryView = nil
