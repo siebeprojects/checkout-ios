@@ -10,32 +10,32 @@ extension Input.Table {
         private let label: UILabel
         private let detailedLabel: UILabel
         private let logoView: UIImageView
-        
+
         override init(frame: CGRect) {
             label = .init(frame: .zero)
             detailedLabel = .init(frame: .zero)
             logoView = .init(frame: .zero)
-            
+
             super.init(frame: frame)
-            
+
             // FIXME: Return checkmark
 //            self.accessoryType = .checkmark
 
             self.preservesSuperviewLayoutMargins = true
-            
+
             label.font = .preferredFont(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
             detailedLabel.font = .preferredFont(forTextStyle: .footnote)
             label.textColor = .text
             detailedLabel.textColor = .text
-            
+
             self.addSubview(label)
             self.addSubview(detailedLabel)
             self.addSubview(logoView)
 
             label.translatesAutoresizingMaskIntoConstraints = false
             detailedLabel.translatesAutoresizingMaskIntoConstraints = false
-            
+
             logoView.translatesAutoresizingMaskIntoConstraints = false
             logoView.contentMode = .scaleAspectFit
             logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
@@ -44,19 +44,19 @@ extension Input.Table {
                 label.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: .imageLabelSpacing),
                 label.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
                 label.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
-                
+
                 detailedLabel.topAnchor.constraint(equalTo: label.bottomAnchor),
-                detailedLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
+                detailedLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2),
                 detailedLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor),
                 detailedLabel.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
-                
+
                 logoView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
                 logoView.topAnchor.constraint(equalTo: label.topAnchor),
                 logoView.bottomAnchor.constraint(equalTo: detailedLabel.bottomAnchor),
-                logoView.widthAnchor.constraint(equalToConstant: .logoWidth),
+                logoView.widthAnchor.constraint(equalToConstant: .logoWidth)
             ])
          }
-         
+
          required init?(coder: NSCoder) {
              fatalError("init(coder:) has not been implemented")
          }
@@ -71,7 +71,7 @@ extension Input.Table.DetailedTextLogoView {
         } else {
             image = nil
         }
-        
+
         logoView.image = image
         label.text = model.label
         detailedLabel.text = model.detailedLabel

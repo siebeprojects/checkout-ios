@@ -14,7 +14,7 @@ class MockConnection: Connection {
         serialQueue.sync(flags: .barrier) {
             self.requestedURL = request.url!
         }
-        
+
         completionHandler(dataSource.fakeData(for: request))
     }
 

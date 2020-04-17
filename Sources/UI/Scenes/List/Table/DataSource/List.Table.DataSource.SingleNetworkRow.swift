@@ -4,7 +4,7 @@ extension List.Table.DataSource {
     /// Model for a single network.
     class SingleNetworkRow {
         let network: PaymentNetwork
-        
+
         init(network: PaymentNetwork) {
             self.network = network
         }

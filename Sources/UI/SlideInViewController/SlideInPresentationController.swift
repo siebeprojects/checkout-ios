@@ -40,7 +40,7 @@ class SlideInPresentationController: UIPresentationController {
         coordinator.animate(alongsideTransition: { _ in
             self.dimmingView.alpha = 0.0
         })
-        
+
         removeKeyboardFrameChangesObserver()
     }
 
@@ -48,7 +48,7 @@ class SlideInPresentationController: UIPresentationController {
         guard adaptivePresentationStyle(for: traitCollection) != .formSheet else {
             return
         }
-        
+
         presentedView?.frame = frameOfPresentedViewInContainerView
     }
 
@@ -60,11 +60,11 @@ class SlideInPresentationController: UIPresentationController {
         guard adaptivePresentationStyle(for: traitCollection) != .formSheet else {
             return super.frameOfPresentedViewInContainerView
         }
-        
+
         guard let containerView = self.containerView else {
             return CGRect.zero
         }
-        
+
         var frameSize = size(forChildContentContainer: presentedViewController, withParentContainerSize: containerView.bounds.size)
         var frameY = (containerView.frame.height - presentedViewController.preferredContentSize.height) - currentKeyboardHeight
 
@@ -75,9 +75,9 @@ class SlideInPresentationController: UIPresentationController {
                 frameY -= containerView.safeAreaInsets.bottom
             }
         }
-        
+
         let origin = CGPoint(x: 0, y: frameY)
-        
+
         let frame = CGRect(origin: origin, size: frameSize)
         return frame
     }
@@ -86,7 +86,7 @@ class SlideInPresentationController: UIPresentationController {
         guard adaptivePresentationStyle(for: traitCollection) != .formSheet else {
             return
         }
-        
+
         super.preferredContentSizeDidChange(forChildContentContainer: container)
         self.containerView?.setNeedsLayout()
     }

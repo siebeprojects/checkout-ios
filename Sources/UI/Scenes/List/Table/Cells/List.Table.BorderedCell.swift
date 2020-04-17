@@ -8,22 +8,22 @@ extension List.Table {
         weak var innerView: UIView?
         weak var separatorView: UIView?
         weak var separatorStickyConstraint: NSLayoutConstraint?
-        
+
         /// Cell's position in a table, used for rounding correct corners
         var cellIndex: CellIndex = .middle
-        
+
         enum CellIndex {
             case first
             case middle
             case last
         }
-        
+
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-            
+
             addBordersViews()
         }
-        
+
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
@@ -49,10 +49,10 @@ extension List.Table.BorderedCell {
         }
         constraint.isActive = true
         self.separatorStickyConstraint = constraint
-        
+
         // Round corners
         let corners: UIRectCorner
-        
+
         switch cellIndex {
         case .first: corners = [.topLeft, .topRight]
         case .middle: corners = []
@@ -69,7 +69,6 @@ extension List.Table.BorderedCell {
     }
 }
 
-
 // MARK: - Views
 
 extension List.Table.BorderedCell {
@@ -84,49 +83,49 @@ extension List.Table.BorderedCell {
         addSubview(outerView)
         sendSubviewToBack(outerView)
         self.outerView = outerView
-        
+
         let innerView = UIView(frame: .zero)
         innerView.translatesAutoresizingMaskIntoConstraints = false
         innerView.backgroundColor = .background
         outerView.addSubview(innerView)
         self.innerView = innerView
-        
+
         let separatorView = UIView(frame: .zero)
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         separatorView.backgroundColor = .separator
         outerView.addSubview(separatorView)
         self.separatorView = separatorView
-        
+
         NSLayoutConstraint.activate([
             outerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             outerView.topAnchor.constraint(equalTo: topAnchor),
             outerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 1),
             outerView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
+
             innerView.leadingAnchor.constraint(equalTo: outerView.leadingAnchor, constant: 1),
             innerView.topAnchor.constraint(equalTo: outerView.topAnchor, constant: 1),
             innerView.bottomAnchor.constraint(equalTo: outerView.bottomAnchor, constant: -1),
             innerView.trailingAnchor.constraint(equalTo: outerView.trailingAnchor, constant: -1),
-            
+
             separatorView.leadingAnchor.constraint(equalTo: outerView.leadingAnchor, constant: 1),
             separatorView.trailingAnchor.constraint(equalTo: outerView.trailingAnchor, constant: -1),
             separatorView.heightAnchor.constraint(equalToConstant: .separatorWidth)
         ])
-        
+
         addSelectedBackgroundView()
     }
-    
+
     private func addSelectedBackgroundView() {
         let selectedBackgroundView = UIView(frame: .zero)
         selectedBackgroundView.backgroundColor = .clear
         self.selectedBackgroundView = selectedBackgroundView
-        
+
         let viewWithPaddings = UIView(frame: .zero)
         viewWithPaddings.backgroundColor = UIColor.separator.withAlphaComponent(0.5)
         selectedBackgroundView.addSubview(viewWithPaddings)
-        
+
         viewWithPaddings.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             viewWithPaddings.leadingAnchor.constraint(equalTo: selectedBackgroundView.leadingAnchor),
             viewWithPaddings.topAnchor.constraint(equalTo: selectedBackgroundView.topAnchor),
@@ -143,11 +142,11 @@ private extension UIColor {
     class var border: UIColor {
         return UIColor(white: 224.0 / 255.0, alpha: 1.0)
     }
-    
+
     class var separator: UIColor {
         return UIColor(white: 242.0 / 255.0, alpha: 1.0)
     }
-    
+
     class var background: UIColor {
         if #available(iOS 13.0, *) {
             return .systemBackground
@@ -155,7 +154,7 @@ private extension UIColor {
             return .white
         }
     }
-    
+
     class var selected: UIColor {
         return UIColor(red: 242, green: 242, blue: 242, alpha: 1)
     }

@@ -5,13 +5,12 @@ extension MockFactory {
     class Validation {}
 }
 
-
 extension MockFactory.Validation {
     static var validationTestCases: [Network] {
         let jsonData = validationJSON.data(using: .utf8)!
         return try! JSONDecoder().decode([Network].self, from: jsonData)
     }
-    
+
     static var validationJSON: String {
         return """
             [

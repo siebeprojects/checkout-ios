@@ -10,7 +10,7 @@ extension Sequence where Element: Selectable {
         for element in self where element.isSelected {
             return element
         }
-        
+
         return nil
     }
 }

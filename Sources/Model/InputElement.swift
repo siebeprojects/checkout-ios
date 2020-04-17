@@ -22,7 +22,7 @@ public class InputElement: NSObject, Decodable {
     public enum InputElementType: String, Decodable {
         case string, numeric, integer, select, checkbox
     }
-    
+
     internal init(name: String, type: String, label: String, options: [SelectOption]? = nil) {
         self.name = name
         self.type = type

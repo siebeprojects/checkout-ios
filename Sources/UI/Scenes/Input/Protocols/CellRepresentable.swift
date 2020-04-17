@@ -5,7 +5,7 @@ import UIKit
 protocol CellRepresentable {
     func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell
     func configure(cell: UITableViewCell)
-    
+
     var estimatedHeightForRow: CGFloat { get }
 }
 
@@ -16,12 +16,12 @@ extension CellRepresentable where Self: DefinesKeyboardStyle {
         cell.indexPath = indexPath
         return cell
     }
-    
+
     func configure(cell: UITableViewCell) {
         guard let cell = cell as? Input.Table.TextFieldViewCell else { return }
         cell.configure(with: self)
     }
-    
+
     var estimatedHeightForRow: CGFloat { 95.5 }
 }
 
@@ -31,12 +31,12 @@ extension CellRepresentable where Self == Input.Field.Checkbox {
         cell.indexPath = indexPath
         return cell
     }
-    
+
     func configure(cell: UITableViewCell) {
         guard let cell = cell as? Input.Table.CheckboxViewCell else { return }
         cell.configure(with: self)
     }
-    
+
     var estimatedHeightForRow: CGFloat { 53 }
 }
 #endif

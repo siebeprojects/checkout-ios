@@ -45,21 +45,25 @@ PODS:
     - MaterialComponents/private/Math
   - MDFInternationalization (2.0.0)
   - MDFTextAccessibility (2.0.0)
+  - SwiftLint (0.39.1)
 
 DEPENDENCIES:
   - MaterialComponents/TextFields (= 103.1.0)
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
     - MaterialComponents
     - MDFInternationalization
     - MDFTextAccessibility
+    - SwiftLint
 
 SPEC CHECKSUMS:
   MaterialComponents: 0312a643d1aed5e5f10cba4be06a6aa62bd07c14
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
+  SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
 
-PODFILE CHECKSUM: 3583371fe44840c8b160cd0d7e4c094fad1584d1
+PODFILE CHECKSUM: 4e60100f9a3f940514cde89f6b83084eb733f52b
 
 COCOAPODS: 1.9.1

@@ -12,4 +12,12 @@ pod 'Optile', :git => 'https://github.com/optile/ios-sdk', :branch => 'develop'
 ```
 
 ## Example
-We prepared an example application where you could try our framework. To launch it please open `Example/Example.xcodeproj` file in XCode.
+We prepared an example application where you could try our framework. To launch it complete these steps:
+
+1. Install local dependency using:
+  ```bash
+cd Example
+pod install
+```
+
+2. Open `Example/Example.xcworkspace` file in XCode.

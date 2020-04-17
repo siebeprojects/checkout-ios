@@ -4,7 +4,7 @@ import Optile
 class ViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.barTintColor = .navigationBarTintColor

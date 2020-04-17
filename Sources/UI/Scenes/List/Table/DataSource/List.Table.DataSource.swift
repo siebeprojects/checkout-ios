@@ -6,12 +6,12 @@ extension List.Table {
     final class DataSource: NSObject {
         private let sections: [Section]
         private let translationProvider: TranslationProvider
-        
+
         init(networks: [PaymentNetwork], accounts: [RegisteredAccount]?, translation: SharedTranslationProvider, genericLogo: UIImage) {
             self.translationProvider = translation
-            
+
             var sections = [Section]()
-            
+
             // Fill accounts
             if let accounts = accounts {
                 var rows = [AccountRow]()
@@ -19,20 +19,20 @@ extension List.Table {
                     let row = AccountRow(account: account)
                     rows.append(row)
                 }
-                
+
                 let accountSection = Section.accounts(rows: rows)
                 sections.append(accountSection)
             }
-            
+
             // Fill networrks
             let groupedNetworks = GroupingService().group(networks: networks)
-            
+
             var singleRows = [SingleNetworkRow]()
             var detailedRows = [GroupedNetworkRow]()
-            
+
             for networks in groupedNetworks {
                 guard !networks.isEmpty else { continue }
-                
+
                 if networks.count == 1, let network = networks.first {
                     let row = SingleNetworkRow(network: network)
                     singleRows.append(row)
@@ -43,23 +43,23 @@ extension List.Table {
             }
             let networkSection = Section.networks(rows: detailedRows + singleRows)
             sections.append(networkSection)
-            
+
             self.sections = sections
         }
-        
+
         func logo(for indexPath: IndexPath) -> LoadableLogo? {
             switch sections[indexPath.section] {
             case .accounts(let accountRows): return accountRows[indexPath.row]
             case .networks(let networkRows): return networkRows[indexPath.row] as? LoadableLogo
             }
         }
-        
+
         enum Model {
             case network([PaymentNetwork])
             case account(RegisteredAccount)
         }
-        
-        func model(for indexPath: IndexPath) ->  Model {
+
+        func model(for indexPath: IndexPath) -> Model {
             switch sections[indexPath.section] {
             case .accounts(let accountRows): return .account(accountRows[indexPath.row].account)
             case .networks(let networkRows): return .network(networkRows[indexPath.row].networks)
@@ -68,14 +68,13 @@ extension List.Table {
     }
 }
 
-
 // MARK: UITableViewDataSource
 
 extension List.Table.DataSource: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch sections[section] {
         case .accounts(let accounts): return accounts.count
@@ -89,15 +88,15 @@ extension List.Table.DataSource: UITableViewDataSource {
         case .networks: return translationProvider.translation(forKey: LocalTranslation.listHeaderNetworks.rawValue)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row: DequeuableRow
-        
+
         switch sections[indexPath.section] {
         case .accounts(let rows): row = rows[indexPath.row]
         case .networks(let rows): row = rows[indexPath.row]
         }
-        
+
         return row.dequeueConfiguredReusableCell(for: tableView, at: indexPath)
     }
 }

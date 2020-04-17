@@ -9,17 +9,17 @@ extension List.Table {
         weak var primaryLabel: UILabel?
         weak var secondaryLabel: UILabel?
         private weak var logosStackView: ImageStackView?
-        
+
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-            
+
             addContentViews()
         }
-        
+
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        
+
         func setImages(_ images: [UIImage]) {
             logosStackView?.images = images
         }
@@ -36,14 +36,14 @@ extension List.Table.DetailedLabelCell {
         primaryLabel.textColor = .text
         contentView.addSubview(primaryLabel)
         self.primaryLabel = primaryLabel
-        
+
         let secondaryLabel = UILabel(frame: .zero)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         secondaryLabel.font = .preferredFont(forTextStyle: .footnote)
         secondaryLabel.textColor = .detailedText
         contentView.addSubview(secondaryLabel)
         self.secondaryLabel = secondaryLabel
-    
+
         let logosStackView = List.Table.ImageStackView(frame: .zero, imagesTintColor: .detailedText)
         logosStackView.translatesAutoresizingMaskIntoConstraints = false
         logosStackView.axis = .horizontal
@@ -51,18 +51,18 @@ extension List.Table.DetailedLabelCell {
         logosStackView.spacing = .defaultSpacing
         contentView.addSubview(logosStackView)
         self.logosStackView = logosStackView
-        
+
         // Layout
-        
+
         let logoStackViewTralingConstraint = logosStackView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)
-        
+
         logosStackView.setContentHuggingPriority(.required, for: .horizontal)
         logosStackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        
+
         primaryLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         primaryLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         secondaryLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        
+
         NSLayoutConstraint.activate([
             primaryLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leadingAnchor, constant: .labelToLeftSeparatorSpacing),
             primaryLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor),
@@ -73,7 +73,7 @@ extension List.Table.DetailedLabelCell {
             secondaryLabel.topAnchor.constraint(equalTo: contentView.centerYAnchor, constant: .verticalSpacing / 2),
             secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor),
             secondaryLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            
+
             logosStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             logosStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             logosStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),

@@ -15,11 +15,11 @@ extension Input.Field {
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
-        
+
         var value: String = ""
-        
+
         weak var keySuffixer: VerificationCodeTranslationKeySuffixer?
-        
+
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
             self.inputElement = inputElement
             self.translator = translator
@@ -31,16 +31,16 @@ extension Input.Field {
 extension Input.Field.VerificationCode: TextInputField {
     var placeholder: String {
         let key: String
-        
+
         if let suffix = keySuffixer?.suffixKey {
             key = translationPrefix + suffix + ".placeholder"
         } else {
             let error = InternalError(description: "keySuffixer is not set, it's not an intended behaviour, programmatic error")
             error.log()
-            
+
             key = translationPrefix + "placeholder"
         }
-        
+
         return translator.translation(forKey: key)
     }
 }

@@ -6,9 +6,9 @@ extension Input.Field {
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
-        
+
         var value: String = ""
-        
+
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
             self.inputElement = inputElement
             self.translator = translator
@@ -26,7 +26,7 @@ extension Input.Field.IBAN: Validatable {
         case .missingValue: return translator.translation(forKey: "error.MISSING_IBAN")
         }
     }
-    
+
     var isPassedCustomValidation: Bool {
         return Input.Field.Validation.IBAN.isValid(iban: value)
     }

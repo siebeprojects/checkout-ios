@@ -13,13 +13,13 @@ class DataDownloadProvider {
         let completionOperation = BlockOperation {
             completion()
         }
-        
+
         // Add download operations
         for model in models {
             guard case let .notLoaded(url) = model.loadable else {
                 continue
             }
-            
+
             let downloadRequest = DownloadData(from: url)
             let sendRequestOperation = SendRequestOperation(connection: connection, request: downloadRequest)
             sendRequestOperation.downloadCompletionBlock = {
@@ -28,7 +28,7 @@ class DataDownloadProvider {
             completionOperation.addDependency(sendRequestOperation)
             operationQueue.addOperation(sendRequestOperation)
         }
-        
+
         operationQueue.addOperation(completionOperation)
     }
 }

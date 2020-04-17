@@ -14,7 +14,7 @@ class DataDownloadProviderTests: XCTestCase {
                 promise.fulfill()
                 return
             }
-            
+
             switch result {
             case .success(let data):
                 XCTAssertEqual(data, "test42".data(using: .isoLatin1))
@@ -23,7 +23,7 @@ class DataDownloadProviderTests: XCTestCase {
             }
             promise.fulfill()
         }
-        
+
         wait(for: [promise], timeout: 1)
     }
 }

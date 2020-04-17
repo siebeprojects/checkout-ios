@@ -9,7 +9,7 @@ class SlideInViewController: UIViewController {
     private var isPresentedAsForm: Bool {
         return navigationController?.presentationController?.adaptivePresentationStyle(for: traitCollection) == .some(.formSheet)
     }
-    
+
     // MARK: Overrides
 
     override func viewDidLoad() {

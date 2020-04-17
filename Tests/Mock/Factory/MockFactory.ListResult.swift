@@ -15,7 +15,7 @@ extension MockFactory.ListResult {
         let translatedNetworks = listResult.networks.applicable.map {
             TranslatedModel(model: $0, translator: MockFactory.Localization.provider)
         }
-        
+
         return PaymentSession(networks: translatedNetworks, accounts: nil)
     }
 

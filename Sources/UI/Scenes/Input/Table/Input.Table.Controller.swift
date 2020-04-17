@@ -11,100 +11,102 @@ extension Input.Table {
                 networkDidUpdate(new: network, old: oldValue)
             }
         }
-        
+
         unowned let tableView: UITableView
         private var dataSource: [DataSourceElement]
         weak var inputChangesListener: InputValueChangesListener?
-        
+
+        var scrollViewWillBeginDraggingBlock: ((UIScrollView) -> Void)?
+
         enum DataSourceElement {
             case row(CellRepresentable)
-            
+
             /// Separator acts as delimiter and section divider
             case separator
         }
-        
+
         init(for network: Input.Network, tableView: UITableView) {
             self.network = network
             self.tableView = tableView
             self.dataSource = Self.arrangeBySections(network: network)
-            
+
             super.init()
-            
+
             network.submitButton.buttonDidTap = { [weak self] _ in
                 self?.validateFields(option: .fullCheck)
             }
         }
-        
+
         func registerCells() {
             tableView.register(TextFieldViewCell.self)
             tableView.register(CheckboxViewCell.self)
             tableView.register(ButtonCell.self)
             tableView.register(SectionHeaderCell.self)
         }
-        
+
         @discardableResult
         func becomeFirstResponder() -> Bool {
             for cell in tableView.visibleCells {
                 guard cell.canBecomeFirstResponder else { continue }
-                
+
                 cell.becomeFirstResponder()
                 return true
             }
-            
+
             return false
         }
-        
+
         func validateFields(option: Input.Field.Validation.Option) {
             // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
             tableView.endEditing(true)
-            
+
             for cell in dataSource {
                 guard case let .row(cellRepresentable) = cell else { continue }
                 guard let validatable = cellRepresentable as? Validatable else { continue }
-                
+
                 validatable.validateAndSaveResult(option: option)
             }
-            
+
             tableView.reloadData()
         }
-        
+
         private func networkDidUpdate(new: Input.Network, old: Input.Network) {
             guard !network.inputFields.isEmpty else {
                 tableView.reloadData()
                 return
             }
-            
+
             let oldDataSource = dataSource
             let newDataSource = Self.arrangeBySections(network: new)
-            
+
             guard newDataSource.count == oldDataSource.count else {
                 tableView.endEditing(true)
                 self.dataSource = newDataSource
                 tableView.reloadData()
                 becomeFirstResponder()
-                
+
                 return
             }
-            
+
             for visibleIndexPath in tableView.indexPathsForVisibleRows ?? [] {
                 guard let cell = tableView.cellForRow(at: visibleIndexPath) else { continue }
                 guard case let .row(cellRepresentable) = dataSource[visibleIndexPath.row] else { continue }
-                
+
                 cellRepresentable.configure(cell: cell)
             }
         }
-        
+
         /// Arrange models by sections
         private static func arrangeBySections(network: Input.Network) -> [DataSourceElement] {
             var sections = [[CellRepresentable]]()
-            
+
             // Input Fields
             let inputFields = network.inputFields.filter {
                 if let field = $0 as? InputField, field.isHidden { return false }
                 return true
             }
             sections += [inputFields]
-            
+
             // Checkboxes
             var checkboxes = [CellRepresentable]()
             for field in network.separatedCheckboxes where !field.isHidden {
@@ -123,12 +125,12 @@ extension Input.Table {
                 dataSource.append(contentsOf: rows)
                 dataSource.append(.separator)
             }
-            
+
             // Remove last separator
             if let lastElement = dataSource.last, case .separator = lastElement {
                 dataSource.removeLast()
             }
-            
+
             return dataSource
         }
     }
@@ -140,11 +142,11 @@ extension Input.Table.Controller: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-     
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
     }
-     
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch dataSource[indexPath.row] {
         case .separator: return Input.Table.SectionHeaderCell.dequeue(by: tableView, for: indexPath)
@@ -153,16 +155,36 @@ extension Input.Table.Controller: UITableViewDataSource {
             cell.tintColor = tableView.tintColor
             cell.selectionStyle = .none
             cellRepresentable.configure(cell: cell)
-            
-            if let input = cell as? ContainsInputCellDelegate {
-                input.delegate = self
+
+            if let cell = cell as? ContainsInputCellDelegate {
+                cell.delegate = self
             }
-            
+
+            if let cell = cell as? SupportsPrimaryAction {
+                let isLastRow = isLastTextField(at: indexPath)
+                let action: PrimaryAction = isLastRow ? .done : .next
+                cell.setPrimaryAction(to: action)
+            }
+
             return cell
         }
      }
-}
 
+    private func isLastTextField(at indexPath: IndexPath) -> Bool {
+        var lastTextFieldRow: Int?
+
+        for row in indexPath.row...dataSource.count - 1 {
+            let element = dataSource[row]
+            guard case let .row(rowModel) = element, let _ = rowModel as? TextInputField else { continue }
+            lastTextFieldRow = row
+        }
+
+        if lastTextFieldRow == nil { return true }
+        if lastTextFieldRow == indexPath.row { return true }
+
+        return false
+    }
+}
 
 extension Input.Table.Controller: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -171,44 +193,61 @@ extension Input.Table.Controller: UITableViewDelegate {
         case .row(let cell): return cell.estimatedHeightForRow
         }
     }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollViewWillBeginDraggingBlock?(scrollView)
+    }
 }
 
 // MARK: - InputCellDelegate
 
 extension Input.Table.Controller: InputCellDelegate {
+    func inputCellPrimaryActionTriggered(at indexPath: IndexPath) {
+        // If it is a last textfield just dismiss a keyboard
+        if isLastTextField(at: indexPath) {
+            tableView.endEditing(false)
+            return
+        }
+
+        let nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
+        guard let cell = tableView.cellForRow(at: nextIndexPath) else { return }
+        guard cell.canBecomeFirstResponder else { return }
+        cell.becomeFirstResponder()
+    }
+
     func inputCellDidEndEditing(at indexPath: IndexPath) {
         guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
         guard let validatableRow = cellRepresentable as? Validatable else { return }
-        
+
         validatableRow.validateAndSaveResult(option: .preCheck)
         tableView.reloadRows(at: [indexPath], with: .none)
     }
-    
+
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
         // Don't show an error text when input field is focused
         guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
-        
+
         if let validatableModel = cellRepresentable as? Validatable, validatableModel.validationErrorText != nil {
             validatableModel.validationErrorText = nil
-            
+
             tableView.beginUpdates()
-            
+
             switch tableView.cellForRow(at: indexPath) {
             case let textFieldViewCell as Input.Table.TextFieldViewCell:
                 textFieldViewCell.showValidationResult(for: validatableModel)
             default: break
             }
-            
+
             tableView.endUpdates()
         }
-        
+
         tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
     }
-    
+
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
         guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
         guard let inputField = cellRepresentable as? InputField else { return }
-        
+
         inputField.value = newValue ?? ""
         inputChangesListener?.valueDidChange(for: inputField)
     }

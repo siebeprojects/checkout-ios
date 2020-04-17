@@ -11,11 +11,11 @@ extension Input {
             self.logoData = logoData
             self.label = label
         }
-        
+
         /// Initializes header with transformed label and detailed label from `maskedAccount` data.
         convenience init(from registeredAccount: RegisteredAccount) {
             let label: String
-            
+
             // Use custom transformation
             if let number = registeredAccount.apiModel.maskedAccount.number {
                 // Expected input number format: `41 *** 1111`
@@ -29,9 +29,9 @@ extension Input {
                 // Fallback to server's display label
                 label = registeredAccount.apiModel.maskedAccount.displayLabel ?? ""
             }
-            
+
             self.init(logoData: registeredAccount.logo?.value, label: label)
-            
+
             if let expiryMonth = registeredAccount.apiModel.maskedAccount.expiryMonth, let expiryYear = registeredAccount.apiModel.maskedAccount.expiryYear {
                 detailedLabel = String(format: "%02d", expiryMonth) + " / " + String(expiryYear).suffix(2)
             }
@@ -47,7 +47,7 @@ extension Input.TextHeader: ViewRepresentable {
         default: throw errorForIncorrectView(view)
         }
     }
-    
+
     var configurableViewType: UIView.Type {
         return detailedLabel == nil ? Input.Table.LogoTextView.self : Input.Table.DetailedTextLogoView.self
     }
