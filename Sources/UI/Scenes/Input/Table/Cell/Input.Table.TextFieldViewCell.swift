@@ -140,7 +140,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         if string == "\n" {
             return true
         }
-        
+
         guard containsOnlyAllowedCharacters(string: string, allowedKeyBoardType: textField.keyboardType) else {
             return false
         }
@@ -153,13 +153,13 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
                 return false
             }
         }
-        
+
         if let processor = model.formatProcessor {
             let formatter = TextFormatter(processor: processor)
             let formatted = formatter.format(string: textField.text!, shouldChangeCharactersIn: range, replacementString: string)
-            
+
             textField.apply(formattedString: formatted)
-            
+
             // We need to call these manually because we're returning false so UIKit won't call that method
             textFieldDidChange(textField)
 

@@ -8,7 +8,7 @@ extension Input.Field {
         let networkMethod: String?
         var validationErrorText: String?
         let formatProcessor: TextFormatProcessor? = CardFormatProcessor()
-        
+
         var value: String = ""
 
         /// - Parameters:
