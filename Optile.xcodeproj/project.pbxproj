@@ -155,6 +155,7 @@
 		D9A938C1242E16DB0030B910 /* TranslatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A938C0242E16DB0030B910 /* TranslatedModel.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
 		D9D92D1E244D1F410037359F /* CardFormatProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D92D1D244D1F410037359F /* CardFormatProcessor.swift */; };
+		D9EA56AA244D25E700D32E8D /* IBANFormatProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA56A9244D25E700D32E8D /* IBANFormatProcessor.swift */; };
 		D9EF3F55243F1E1B00AF7F12 /* SupportsPrimaryAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EF3F54243F1E1B00AF7F12 /* SupportsPrimaryAction.swift */; };
 /* End PBXBuildFile section */
 
@@ -322,6 +323,7 @@
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D92D1D244D1F410037359F /* CardFormatProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFormatProcessor.swift; sourceTree = "<group>"; };
+		D9EA56A9244D25E700D32E8D /* IBANFormatProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBANFormatProcessor.swift; sourceTree = "<group>"; };
 		D9EF3F54243F1E1B00AF7F12 /* SupportsPrimaryAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportsPrimaryAction.swift; sourceTree = "<group>"; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -909,6 +911,7 @@
 			children = (
 				D947E9B2244CE03A00FE737E /* TextFormatter.swift */,
 				D9D92D1D244D1F410037359F /* CardFormatProcessor.swift */,
+				D9EA56A9244D25E700D32E8D /* IBANFormatProcessor.swift */,
 			);
 			path = TextFormatter;
 			sourceTree = "<group>";
@@ -1160,6 +1163,7 @@
 				D9A88DEF241C55040043F535 /* GetListResult.swift in Sources */,
 				D9A88E02241C55040043F535 /* ExtraElements.swift in Sources */,
 				D9A88DCB241C55040043F535 /* List.Table.DataSource.AccountRow.swift in Sources */,
+				D9EA56AA244D25E700D32E8D /* IBANFormatProcessor.swift in Sources */,
 				D9021570243C742100CA88FD /* Input.Field.IBAN.swift in Sources */,
 				D9A88DCA241C55040043F535 /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */,
 				D9A88E13241C55040043F535 /* TranslationProvider.swift in Sources */,

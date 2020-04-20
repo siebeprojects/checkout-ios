@@ -6,6 +6,7 @@ extension Input.Field {
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
+        let formatProcessor: TextFormatProcessor? = IBANFormatProcessor()
 
         var value: String = ""
 
