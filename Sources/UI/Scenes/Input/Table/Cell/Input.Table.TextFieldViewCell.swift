@@ -30,7 +30,6 @@ extension Input.Table {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
 
             textField.delegate = self
-            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
 
@@ -86,7 +85,7 @@ extension Input.Table.TextFieldViewCell {
         showValidationResult(for: model)
     }
 
-    @objc private func textFieldDidChange(_ textField: UITextField) {
+    @objc func textFieldDidChange(_ textField: UITextField) {
         if let length = textField.text?.count, let maxLength = model.maxInputLength, length == maxLength {
             // Press primary action instead of an user when all characters were entered
             delegate?.inputCellPrimaryActionTriggered(at: indexPath)
@@ -136,6 +135,12 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // Check if primary action was triggered.
+        // Manual check required because we could return false in future steps and that will fail `primaryActionTriggered` UIKit call
+        if string == "\n" {
+            return true
+        }
+        
         guard containsOnlyAllowedCharacters(string: string, allowedKeyBoardType: textField.keyboardType) else {
             return false
         }
@@ -148,8 +153,21 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
                 return false
             }
         }
+        
+        if let processor = model.formatProcessor {
+            let formatter = TextFormatter(processor: processor)
+            let formatted = formatter.format(string: textField.text!, shouldChangeCharactersIn: range, replacementString: string)
+            
+            textField.apply(formattedString: formatted)
+            
+            // We need to call these manually because we're returning false so UIKit won't call that method
+            textFieldDidChange(textField)
 
-        return true
+            // We need to return false because we already changed the text via `textField.apply`
+            return false
+        } else {
+            return true
+        }
     }
 
     private func lengthAfterReplacement(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Int {
