@@ -163,7 +163,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
 
         if let processor = model.formatProcessor {
             let formatter = TextFormatter(processor: processor)
-            let formatted = formatter.format(string: textField.text!, shouldChangeCharactersIn: range, replacementString: string)
+            let formatted = formatter.format(string: textField.text ?? String(), shouldChangeCharactersIn: range, replacementString: string)
 
             textField.apply(formattedString: formatted)
 

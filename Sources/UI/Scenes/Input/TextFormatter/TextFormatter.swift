@@ -64,7 +64,7 @@ extension TextFormatter {
 extension UITextField {
     func apply(formattedString: TextFormatter.FormattedString) {
         self.text = formattedString.formattedString
-        let position = self.position(from: self.beginningOfDocument, offset: formattedString.cursorOffset)!
+        let position = self.position(from: beginningOfDocument, offset: formattedString.cursorOffset) ?? endOfDocument
         let newTextRange = self.textRange(from: position, to: position)
         DispatchQueue.main.async {
             self.selectedTextRange = newTextRange
