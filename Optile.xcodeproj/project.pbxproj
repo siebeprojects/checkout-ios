@@ -57,6 +57,7 @@
 		D902158A243C742100CA88FD /* Input.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D902155B243C742100CA88FD /* Input.ViewController.swift */; };
 		D947E9AF244CB1EA00FE737E /* Input.Table.TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D947E9AE244CB1EA00FE737E /* Input.Table.TextFieldViewCell.swift */; };
 		D947E9B3244CE03A00FE737E /* TextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D947E9B2244CE03A00FE737E /* TextFormatter.swift */; };
+		D9A1FA84244FCABA0092F802 /* StringProtocol+insertSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A1FA83244FCAB90092F802 /* StringProtocol+insertSeparator.swift */; };
 		D9A88DC6241C55040043F535 /* List.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D38241C55040043F535 /* List.ViewController.swift */; };
 		D9A88DC7241C55040043F535 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D39241C55040043F535 /* List.swift */; };
 		D9A88DC8241C55040043F535 /* List.Table.DataSource.SingleNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A88D3C241C55040043F535 /* List.Table.DataSource.SingleNetworkRow.swift */; };
@@ -223,6 +224,7 @@
 		D902155B243C742100CA88FD /* Input.ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.swift; sourceTree = "<group>"; };
 		D947E9AE244CB1EA00FE737E /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
 		D947E9B2244CE03A00FE737E /* TextFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatter.swift; sourceTree = "<group>"; };
+		D9A1FA83244FCAB90092F802 /* StringProtocol+insertSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol+insertSeparator.swift"; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A88D38241C55040043F535 /* List.ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.ViewController.swift; sourceTree = "<group>"; };
 		D9A88D39241C55040043F535 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -911,6 +913,7 @@
 			children = (
 				D947E9B2244CE03A00FE737E /* TextFormatter.swift */,
 				D9D92D1D244D1F410037359F /* CardFormatProcessor.swift */,
+				D9A1FA83244FCAB90092F802 /* StringProtocol+insertSeparator.swift */,
 				D9EA56A9244D25E700D32E8D /* IBANFormatProcessor.swift */,
 			);
 			path = TextFormatter;
@@ -1181,6 +1184,7 @@
 				D9A88DDA241C55040043F535 /* UIColor+.swift in Sources */,
 				D9A88E08241C55040043F535 /* Checkbox.swift in Sources */,
 				D902157C243C742100CA88FD /* Input.Field.Validation.swift in Sources */,
+				D9A1FA84244FCABA0092F802 /* StringProtocol+insertSeparator.swift in Sources */,
 				D9021560243C742100CA88FD /* Input.Table.SectionHeaderCell.swift in Sources */,
 				D9021578243C742100CA88FD /* Input.Field.swift in Sources */,
 				D902157E243C742100CA88FD /* Input.ImagesHeader.swift in Sources */,

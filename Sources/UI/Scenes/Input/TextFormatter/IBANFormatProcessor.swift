@@ -1,21 +1,19 @@
 import Foundation
 
 struct IBANFormatProcessor: TextFormatProcessor {
-    private let separator: Character = " "
-    private let separatorPosition = 2
+    private let separator = " "
+    private let groupSize = 4
 
     func format(string: String) -> String {
-        guard string.count > 2 else { return string }
+        let setWithNumberSeparator = CharacterSet.init(charactersIn: separator)
 
-        var modifiedString = clearFormat(in: string)
-        let insertPosition = modifiedString.index(modifiedString.startIndex, offsetBy: separatorPosition)
-        modifiedString.insert(separator, at: insertPosition)
+        var formattedText = string.remove(charactersIn: setWithNumberSeparator)
+        
+        formattedText = formattedText.uppercased()
+        
+        formattedText.insert(separator: separator, every: groupSize)
+        formattedText = formattedText.trimmingCharacters(in: setWithNumberSeparator)
 
-        return modifiedString
-    }
-
-    private func clearFormat(in string: String) -> String {
-        let setWithSeparator = CharacterSet(charactersIn: String(separator))
-        return string.remove(charactersIn: setWithSeparator)
+        return formattedText
     }
 }
