@@ -11,7 +11,8 @@ class TextFormatter {
         let textRange = Range(range, in: currentString)!
         let replacedString = currentString.replacingCharacters(in: textRange, with: replacementString)
 
-        let formattedString = processor.format(string: replacedString)
+        var formattedString = processor.clear(formattingFromString: replacedString)
+        formattedString = processor.format(string: formattedString)
 
         // Calculate cursor offset
         let action: CursorOffsetLocator.Action = replacementString.isEmpty ? .delete : .insert
@@ -73,4 +74,5 @@ extension UITextField {
 
 protocol TextFormatProcessor {
     func format(string: String) -> String
+    func clear(formattingFromString formattedString: String) -> String
 }

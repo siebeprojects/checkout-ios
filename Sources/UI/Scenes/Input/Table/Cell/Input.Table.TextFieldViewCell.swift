@@ -73,7 +73,7 @@ extension Input.Table.TextFieldViewCell {
         textFieldController.inlinePlaceholderFont = textFieldController.textInputFont
 
         textFieldController.placeholderText = model.label
-        textField.text = model.value
+        textField.text = model.formatProcessor?.format(string: model.value) ?? model.value
 
         textField.keyboardType = model.keyboardType
         textField.autocapitalizationType = model.autocapitalizationType
@@ -91,7 +91,14 @@ extension Input.Table.TextFieldViewCell {
             delegate?.inputCellPrimaryActionTriggered(at: indexPath)
         }
 
-        delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
+        let value: String?
+        if let text = textField.text, let unformattedString = model.formatProcessor?.clear(formattingFromString: text) {
+            value = unformattedString
+        } else {
+            value = textField.text
+        }
+        
+        delegate?.inputCellValueDidChange(to: value, at: indexPath)
     }
 
     @objc fileprivate func textFieldPrimaryActionTriggered() {
@@ -198,6 +205,8 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         }
     }
 }
+
+// MARK: - SupportsPrimaryAction
 
 extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
     func setPrimaryAction(to action: PrimaryAction) {
