@@ -38,5 +38,6 @@ import UIKit
 
 extension Input.Field.IBAN: CellRepresentable, DefinesKeyboardStyle {
     var keyboardType: UIKeyboardType { .asciiCapable }
+    var autocapitalizationType: UITextAutocapitalizationType { .allCharacters }
 }
 #endif
