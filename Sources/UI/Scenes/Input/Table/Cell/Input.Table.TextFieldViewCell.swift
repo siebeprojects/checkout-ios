@@ -86,16 +86,16 @@ extension Input.Table.TextFieldViewCell {
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
-        if let length = textField.text?.count, let maxLength = model.maxInputLength, length == maxLength {
-            // Press primary action instead of an user when all characters were entered
-            delegate?.inputCellPrimaryActionTriggered(at: indexPath)
-        }
-
         let value: String?
         if let text = textField.text, let unformattedString = model.formatProcessor?.clear(formattingFromString: text) {
             value = unformattedString
         } else {
             value = textField.text
+        }
+        
+        if let length = value?.count, let maxLength = model.maxInputLength, length >= maxLength {
+            // Press primary action instead of an user when all characters were entered
+            delegate?.inputCellPrimaryActionTriggered(at: indexPath)
         }
         
         delegate?.inputCellValueDidChange(to: value, at: indexPath)
@@ -148,15 +148,17 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
             return true
         }
 
-        guard containsOnlyAllowedCharacters(string: string, allowedKeyBoardType: textField.keyboardType) else {
+        // Strip special characters for validation purposes
+        let replaceableString = Input.ReplaceableString(origin: textField.text ?? String(), changesRange: range, replacement: string)
+        let replacedStringWithoutFormatting = model.formatProcessor?.clear(formattingFromString: replaceableString.replacing()) ?? String()
+        
+        guard containsOnlyAllowedCharacters(string: replacedStringWithoutFormatting, allowedKeyBoardType: textField.keyboardType) else {
             return false
         }
-
+        
         if let maxLength = model.maxInputLength {
-            let length = lengthAfterReplacement(for: textField, changedCharactersIn: range, replacementString: string)
-
             // If use tries to insert a character(s) that exceeds max length
-            guard length <= maxLength else {
+            guard replacedStringWithoutFormatting.count <= maxLength else {
                 return false
             }
         }
@@ -175,15 +177,6 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         } else {
             return true
         }
-    }
-
-    private func lengthAfterReplacement(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Int {
-        guard let textFieldText = textField.text else { return 0 }
-        guard let rangeOfTextToReplace = Range(range, in: textFieldText) else { return textFieldText.count }
-
-        let substringToReplace = textFieldText[rangeOfTextToReplace]
-        let count = textFieldText.count - substringToReplace.count + string.count
-        return count
     }
 
     private func containsOnlyAllowedCharacters(string: String, allowedKeyBoardType: UIKeyboardType) -> Bool {
