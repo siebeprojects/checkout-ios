@@ -18,6 +18,7 @@ extension Input.Table {
         fileprivate let textFieldController: MDCTextInputControllerFilled
 
         private(set) var model: (TextInputField & DefinesKeyboardStyle)!
+        fileprivate var formatter: (TextInputFormatter & TextFormatter)?
 
         var indexPath: IndexPath!
 
@@ -64,6 +65,14 @@ extension Input.Table.TextFieldViewCell {
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
         self.model = model
 
+        if let pattern = model.formatPattern {
+            self.formatter = DefaultTextInputFormatter(textPattern: pattern.textPattern, patternSymbol: pattern.patternSymbol)
+            textField.text = formatter?.format(model.value)
+        } else {
+            self.formatter = nil
+            textField.text = model.value
+        }
+
         textField.tintColor = self.tintColor
         textFieldController.activeColor = textField.tintColor
         textFieldController.floatingPlaceholderActiveColor = textField.tintColor
@@ -73,7 +82,6 @@ extension Input.Table.TextFieldViewCell {
         textFieldController.inlinePlaceholderFont = textFieldController.textInputFont
 
         textFieldController.placeholderText = model.label
-        textField.text = model.formatProcessor?.format(string: model.value) ?? model.value
 
         textField.keyboardType = model.keyboardType
         textField.autocapitalizationType = model.autocapitalizationType
@@ -86,18 +94,14 @@ extension Input.Table.TextFieldViewCell {
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
-        let value: String?
-        if let text = textField.text, let unformattedString = model.formatProcessor?.clear(formattingFromString: text) {
-            value = unformattedString
-        } else {
-            value = textField.text
-        }
-        
+        let text = textField.text ?? String()
+        let value = formatter?.unformat(text)
+
         if let length = value?.count, let maxLength = model.maxInputLength, length >= maxLength {
             // Press primary action instead of an user when all characters were entered
             delegate?.inputCellPrimaryActionTriggered(at: indexPath)
         }
-        
+
         delegate?.inputCellValueDidChange(to: value, at: indexPath)
     }
 
@@ -148,14 +152,24 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
             return true
         }
 
+        // Make new full text string (replaced)
+        let originText = textField.text ?? String()
+        let newFullString: String
+        if let textRange = Range(range, in: originText) {
+            newFullString = originText.replacingCharacters(in: textRange, with: string)
+        } else {
+            newFullString = .init()
+        }
+
         // Strip special characters for validation purposes
-        let replaceableString = Input.ReplaceableString(origin: textField.text ?? String(), changesRange: range, replacement: string)
-        let replacedStringWithoutFormatting = model.formatProcessor?.clear(formattingFromString: replaceableString.replacing()) ?? String()
-        
+        let replacedStringWithoutFormatting = formatter?.unformat(newFullString) ?? String()
+
+        // Validate if input contains only allowed chars
         guard containsOnlyAllowedCharacters(string: replacedStringWithoutFormatting, allowedKeyBoardType: textField.keyboardType) else {
             return false
         }
-        
+
+        // Validate length
         if let maxLength = model.maxInputLength {
             // If use tries to insert a character(s) that exceeds max length
             guard replacedStringWithoutFormatting.count <= maxLength else {
@@ -163,11 +177,9 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
             }
         }
 
-        if let processor = model.formatProcessor {
-            let formatter = TextFormatter(processor: processor)
-            let formatted = formatter.format(string: textField.text ?? String(), shouldChangeCharactersIn: range, replacementString: string)
-
-            textField.apply(formattedString: formatted)
+        if let formatter = self.formatter {
+            let formatted = formatter.formatInput(currentText: originText, range: range, replacementString: string)
+            textField.apply(formattedValue: formatted)
 
             // We need to call these manually because we're returning false so UIKit won't call that method
             textFieldDidChange(textField)
@@ -244,6 +256,18 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
         ])
 
         return view
+    }
+}
+
+private extension UITextField {
+    func apply(formattedValue: FormattedTextValue) {
+        self.text = formattedValue.formattedText
+
+        if let cursorLocation = position(from: beginningOfDocument, offset: formattedValue.caretBeginOffset) {
+            DispatchQueue.main.async {
+                self.selectedTextRange = self.textRange(from: cursorLocation, to: cursorLocation)
+            }
+        }
     }
 }
 #endif
