@@ -20,9 +20,33 @@ class DefaultTextInputFormatter: DefaultTextFormatter, TextInputFormatter {
         let oldUnformattedText = unformat(currentText) as NSString
 
         let newText = oldUnformattedText.replacingCharacters(in: unformattedRange, with: unformat(text))
-        let formattedText = self.format(newText)
 
-        let caretOffset = getCorrectedCaretPosition(range: range, replacementString: text)
+        // Decision about keeping trailing pattern characters
+        let addTrailingPattern: Bool
+
+        if text.isEmpty {
+            // Text is about to be deleted
+            if let patternCharacter = textPattern.characterAt(range.lowerBound), patternCharacter != patternSymbol {
+                // User tries to remove a formatting pattern character, we allow to do that if user at the end of a string
+                addTrailingPattern = false
+            } else {
+                // User deleted a data character, we will keep a trail
+                addTrailingPattern = true
+            }
+        } else {
+            addTrailingPattern = true
+        }
+
+        let formattedText = self.format(newText, addTrailingPattern: addTrailingPattern)
+
+        // Offset calculations
+        let caretOffset: Int
+        if currentText.count == range.upperBound {
+            // If caret was at the end keep it in the end
+            caretOffset = formattedText.count
+        } else {
+            caretOffset = getCorrectedCaretPosition(range: range, replacementString: text)
+        }
 
         return FormattedTextValue(formattedText: formattedText, caretBeginOffset: caretOffset)
     }

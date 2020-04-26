@@ -21,23 +21,32 @@ class DefaultTextFormatter: TextFormatter {
     /// Formatting text with current textPattern
     /// - Parameter unformattedText: String, that need to be convert with current textPattern
     /// - Returns: formatted text with current textPattern
-    func format(_ unformattedText: String) -> String {
+    func format(_ unformattedText: String, addTrailingPattern: Bool) -> String {
         var formatted = String()
         var unformattedIndex = 0
         var patternIndex = 0
 
-        while patternIndex < textPattern.count && unformattedIndex < unformattedText.count {
+        while patternIndex < textPattern.count {
             guard let patternCharacter = textPattern.characterAt(patternIndex) else { break }
-            if patternCharacter == patternSymbol {
-                if let unformattedCharacter = unformattedText.characterAt(unformattedIndex) {
-                    formatted.append(unformattedCharacter)
+
+            if unformattedIndex < unformattedText.count {
+                if patternCharacter == patternSymbol {
+                    if let unformattedCharacter = unformattedText.characterAt(unformattedIndex) {
+                        formatted.append(unformattedCharacter)
+                    }
+                    unformattedIndex += 1
+                } else {
+                    formatted.append(patternCharacter)
                 }
-                unformattedIndex += 1
             } else {
+                guard addTrailingPattern else { break }
+                guard patternCharacter != patternSymbol else { break }
                 formatted.append(patternCharacter)
             }
+
             patternIndex += 1
         }
+
         return formatted
     }
 

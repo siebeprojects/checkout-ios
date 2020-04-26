@@ -439,7 +439,6 @@
 			isa = PBXGroup;
 			children = (
 				D92342D62455E3070096C415 /* Input.NavigationController.swift */,
-				D92342D72455E3070096C415 /* TextFormatter */,
 				D92342D82455E3070096C415 /* Input.SmartSwitch.swift */,
 				D92342D92455E3070096C415 /* Input.swift */,
 				D92342DA2455E3070096C415 /* Table */,
@@ -448,13 +447,6 @@
 				D923430F2455E3070096C415 /* Input.ViewController.swift */,
 			);
 			path = Input;
-			sourceTree = "<group>";
-		};
-		D92342D72455E3070096C415 /* TextFormatter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TextFormatter;
 			sourceTree = "<group>";
 		};
 		D92342DA2455E3070096C415 /* Table */ = {

@@ -4,7 +4,7 @@
 import Foundation
 
 protocol TextFormatter {
-    func format(_ unformattedText: String) -> String
+    func format(_ unformattedText: String, addTrailingPattern: Bool) -> String
 
     /// Remove format pattern from the text. All characters specified in `formatPattern` (except `patternSymbol`) will be removed.
     func unformat(_ formattedText: String) -> String

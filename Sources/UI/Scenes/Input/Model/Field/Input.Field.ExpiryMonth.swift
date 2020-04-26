@@ -6,6 +6,8 @@ extension Input.Field {
         let translator: TranslationProvider
         var validationErrorText: String?
 
+        let formatPattern: TextFormatPattern? = .init(textPattern: "## / ##")
+
         var value: String = ""
 
         weak var expiryYearField: ExpiryYear?

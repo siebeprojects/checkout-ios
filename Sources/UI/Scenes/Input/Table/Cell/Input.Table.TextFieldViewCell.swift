@@ -67,7 +67,7 @@ extension Input.Table.TextFieldViewCell {
 
         if let pattern = model.formatPattern {
             self.formatter = DefaultTextInputFormatter(textPattern: pattern.textPattern, patternSymbol: pattern.patternSymbol)
-            textField.text = formatter?.format(model.value)
+            textField.text = formatter?.format(model.value, addTrailingPattern: false)
         } else {
             self.formatter = nil
             textField.text = model.value
