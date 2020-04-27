@@ -6,7 +6,11 @@ extension Input.Field {
         let translator: TranslationProvider
         var validationErrorText: String?
 
-        let formatPattern: TextFormatPattern? = .init(textPattern: "## / ##")
+        let patternFormatter: InputPatternFormatter? = {
+            let formatter = InputPatternFormatter(textPattern: "## / ##")
+            formatter.shouldAddTrailingPattern = true
+            return formatter
+        }()
 
         var value: String = ""
 

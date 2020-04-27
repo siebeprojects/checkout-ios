@@ -3,19 +3,19 @@
 
 import Foundation
 
-class DefaultTextFormatter: TextFormatter {
+class PatternFormatter: TextFormatter {
     /// String, that will use for formatting of string replacing patter symbol, example: patternSymbol - "#", format - "### (###) ###-##-##"
     let textPattern: String
 
     /// Symbol that will be replace by input symbols
-    let patternSymbol: Character
+    let replaceable: Character
 
     /// - Parameters:
     ///   - textPattern: example: `## ## ## #`
-    ///   - patternSymbol: character, that will be replaced by input characters in textPattern
-    init(textPattern: String, patternSymbol: Character) {
+    ///   - replaceableCharacter: character, that will be replaced by input characters in textPattern
+    init(textPattern: String, replaceableCharacter: Character) {
         self.textPattern = textPattern
-        self.patternSymbol = patternSymbol
+        self.replaceable = replaceableCharacter
     }
 
     /// Formatting text with current textPattern
@@ -30,17 +30,24 @@ class DefaultTextFormatter: TextFormatter {
             guard let patternCharacter = textPattern.characterAt(patternIndex) else { break }
 
             if unformattedIndex < unformattedText.count {
-                if patternCharacter == patternSymbol {
+                if patternCharacter == replaceable {
+                    // Current character needed to be replaced with data
                     if let unformattedCharacter = unformattedText.characterAt(unformattedIndex) {
                         formatted.append(unformattedCharacter)
                     }
                     unformattedIndex += 1
                 } else {
+                    // Append a pattern character (like " ")
                     formatted.append(patternCharacter)
                 }
             } else {
-                guard addTrailingPattern else { break }
-                guard patternCharacter != patternSymbol else { break }
+                // Formatted all text, add trail until we meet next replaceable character
+                // E.g. if pattern is ## ##, input is "22", we will add one space before next # to add a trail. Output will be "22 "
+                if !addTrailingPattern { break }
+                
+                // Don't add trail after replaceable character is met
+                if patternCharacter == replaceable { break }
+                
                 formatted.append(patternCharacter)
             }
 
@@ -51,7 +58,7 @@ class DefaultTextFormatter: TextFormatter {
     }
 
     func unformat(_ formatted: String) -> String {
-        let patternSymbolCharacterSet = CharacterSet(charactersIn: String(patternSymbol))
+        let patternSymbolCharacterSet = CharacterSet(charactersIn: String(replaceable))
         let charactersToRemove = textPattern.remove(charactersIn: patternSymbolCharacterSet)
         let setToRemove = CharacterSet(charactersIn: charactersToRemove)
 

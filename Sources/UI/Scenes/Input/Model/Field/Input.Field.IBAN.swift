@@ -6,9 +6,8 @@ extension Input.Field {
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
-        let formatPattern: TextFormatPattern? =
-            .init(textPattern: "#### #### #### #### #### #### #### #### ##")
-
+        let patternFormatter: InputPatternFormatter? = .init(textPattern: "#### #### #### #### #### #### #### #### ##")
+        
         var value: String = ""
 
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {

@@ -18,7 +18,6 @@ extension Input.Table {
         fileprivate let textFieldController: MDCTextInputControllerFilled
 
         private(set) var model: (TextInputField & DefinesKeyboardStyle)!
-        fileprivate var formatter: (TextInputFormatter & TextFormatter)?
 
         var indexPath: IndexPath!
 
@@ -65,11 +64,9 @@ extension Input.Table.TextFieldViewCell {
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
         self.model = model
 
-        if let pattern = model.formatPattern {
-            self.formatter = DefaultTextInputFormatter(textPattern: pattern.textPattern, patternSymbol: pattern.patternSymbol)
-            textField.text = formatter?.format(model.value, addTrailingPattern: false)
+        if let inputFormatter = model.patternFormatter {
+            textField.text = inputFormatter.formatter.format(model.value, addTrailingPattern: false)
         } else {
-            self.formatter = nil
             textField.text = model.value
         }
 
@@ -95,7 +92,7 @@ extension Input.Table.TextFieldViewCell {
 
     @objc func textFieldDidChange(_ textField: UITextField) {
         let text = textField.text ?? String()
-        let value = formatter?.unformat(text)
+        let value = model.patternFormatter?.formatter.unformat(text)
 
         if let length = value?.count, let maxLength = model.maxInputLength, length >= maxLength {
             // Press primary action instead of an user when all characters were entered
@@ -162,7 +159,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         }
 
         // Strip special characters for validation purposes
-        let replacedStringWithoutFormatting = formatter?.unformat(newFullString) ?? String()
+        let replacedStringWithoutFormatting = model.patternFormatter?.formatter.unformat(newFullString) ?? String()
 
         // Validate if input contains only allowed chars
         guard containsOnlyAllowedCharacters(string: replacedStringWithoutFormatting, allowedKeyBoardType: textField.keyboardType) else {
@@ -177,8 +174,8 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
             }
         }
 
-        if let formatter = self.formatter {
-            let formatted = formatter.formatInput(currentText: originText, range: range, replacementString: string)
+        if let inputFormatter = model.patternFormatter {
+            let formatted = inputFormatter.formatInput(replaceableString: .init(originText: originText, changesRange: range, replacementText: string))
             textField.apply(formattedValue: formatted)
 
             // We need to call these manually because we're returning false so UIKit won't call that method

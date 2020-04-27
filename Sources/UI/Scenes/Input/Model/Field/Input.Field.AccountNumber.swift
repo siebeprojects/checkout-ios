@@ -7,8 +7,7 @@ extension Input.Field {
         let validationRule: Validation.Rule?
         let networkMethod: String?
         var validationErrorText: String?
-        let formatPattern: TextFormatPattern? =
-            .init(textPattern: "#### #### #### #### ###")
+        let patternFormatter: InputPatternFormatter? = .init(textPattern: "#### #### #### ####| ###")
 
         var value: String = ""
 
