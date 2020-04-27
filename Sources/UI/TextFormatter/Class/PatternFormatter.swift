@@ -6,8 +6,6 @@ import Foundation
 class PatternFormatter: TextFormatter {
     /// String, that will use for formatting of string replacing patter symbol, example: patternSymbol - "#", format - "### (###) ###-##-##"
     let textPattern: String
-
-    /// Symbol that will be replace by input symbols
     let replaceable: Character
 
     /// - Parameters:
