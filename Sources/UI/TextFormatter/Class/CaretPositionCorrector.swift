@@ -29,7 +29,7 @@ class CaretPositionCorrector {
     /// Find indexes of patterns symbols in range
     /// - Parameter searchRange: range in string for searching indexes
     /// - Returns: array of indexes of characters, that equal to patternSymbol in textPattern
-    func indexesOfPatternSymbols(in searchRange: Range<String.Index>) -> [String.Index] {
+    private func indexesOfPatternSymbols(in searchRange: Range<String.Index>) -> [String.Index] {
         var indexes: [String.Index] = []
         var tempRange = searchRange
         while let range = textPattern.range(
@@ -43,7 +43,7 @@ class CaretPositionCorrector {
     /// Calculate offset for caret, when characters will remove
     /// - Parameter location: current location of caret
     /// - Returns: offset for caret from beginning of textPattern while remove characters in textInput
-    func offsetForRemove(current location: Int) -> Int {
+    private func offsetForRemove(current location: Int) -> Int {
         let startIndex = textPattern.startIndex
         let searchRange = startIndex..<textPattern.index(startIndex, offsetBy: location)
         let indexes = indexesOfPatternSymbols(in: searchRange)
@@ -60,7 +60,7 @@ class CaretPositionCorrector {
     ///   - location: current location of caret
     ///   - replacementLength: length of replacement string
     /// - Returns: offset for caret from beginning of textPattern while insert characters in textInput
-    func offsetForInsert(from location: Int, replacementLength: Int) -> Int {
+    private func offsetForInsert(from location: Int, replacementLength: Int) -> Int {
         let startIndex = textPattern.index(textPattern.startIndex, offsetBy: location)
         let searchRange = startIndex..<textPattern.endIndex
         let indexes = indexesOfPatternSymbols(in: searchRange)
