@@ -1,5 +1,5 @@
 import Foundation
 
 protocol InputModifier {
-    func modify(text: ReplaceableString) -> ReplaceableString
+    func modify(replaceableString: inout ReplaceableString)
 }

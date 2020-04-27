@@ -6,7 +6,11 @@ extension Input.Field {
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
-        let patternFormatter: InputPatternFormatter? = .init(textPattern: "#### #### #### #### #### #### #### #### ##")
+        let patternFormatter: InputPatternFormatter? = {
+            let formatter = InputPatternFormatter(textPattern: "#### #### #### #### #### #### #### #### ##")
+            formatter.inputModifiers = [UppercaseInputModifier()]
+            return formatter
+        }()
         
         var value: String = ""
 

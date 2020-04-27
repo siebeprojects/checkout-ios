@@ -5,7 +5,7 @@ import Foundation
 
 class InputPatternFormatter {
     let formatter: PatternFormatter
-    let inputModifiers: [InputModifier]
+    var inputModifiers = [InputModifier]()
     var shouldAddTrailingPattern: Bool = false
     
     private let caretPositionCorrector: CaretPositionCorrector
@@ -13,21 +13,20 @@ class InputPatternFormatter {
     /// - Parameters:
     ///   - textPattern: string with special characters, that will be used for formatting (e.g. `### ##`)
     ///   - patternSymbol: parameter, that represent character, that will be replaced in formatted string
-    init(formatter: PatternFormatter, inputModifiers: [InputModifier] = .init()) {
+    init(formatter: PatternFormatter) {
         self.formatter = formatter
-        self.inputModifiers = inputModifiers
         self.caretPositionCorrector = CaretPositionCorrector(textPattern: formatter.textPattern, patternSymbol: formatter.replaceable)
     }
     
-    convenience init(textPattern: String, replaceableCharacter: Character = "#", inputModifiers: [InputModifier] = .init()) {
+    convenience init(textPattern: String, replaceableCharacter: Character = "#") {
         let formatter = PatternFormatter(textPattern: textPattern, replaceableCharacter: replaceableCharacter)
-        self.init(formatter: formatter, inputModifiers: inputModifiers)
+        self.init(formatter: formatter)
     }
 
     func formatInput(replaceableString: ReplaceableString) -> FormattedTextValue {
         var modifiedInput = replaceableString
         for modifier in inputModifiers {
-            modifiedInput = modifier.modify(text: modifiedInput)
+            modifier.modify(replaceableString: &modifiedInput)
         }
         
         let unformattedRange = self.unformattedRange(from: modifiedInput.changesRange)

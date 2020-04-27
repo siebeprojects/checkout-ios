@@ -143,6 +143,7 @@
 		D96FBD8224573995001B6D45 /* FormattedTextValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96FBD7924573995001B6D45 /* FormattedTextValue.swift */; };
 		D96FBD8324573995001B6D45 /* ReplaceableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96FBD7A24573995001B6D45 /* ReplaceableString.swift */; };
 		D96FBD8424573995001B6D45 /* TextFormatPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96FBD7B24573995001B6D45 /* TextFormatPattern.swift */; };
+		D9A0E30124573E75000073E9 /* UppercaseInputModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0E30024573E75000073E9 /* UppercaseInputModifier.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
@@ -316,6 +317,7 @@
 		D96FBD7924573995001B6D45 /* FormattedTextValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattedTextValue.swift; sourceTree = "<group>"; };
 		D96FBD7A24573995001B6D45 /* ReplaceableString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceableString.swift; sourceTree = "<group>"; };
 		D96FBD7B24573995001B6D45 /* TextFormatPattern.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFormatPattern.swift; sourceTree = "<group>"; };
+		D9A0E30024573E75000073E9 /* UppercaseInputModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UppercaseInputModifier.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A88D92241C55040043F535 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
@@ -641,6 +643,7 @@
 		D923432B2455E3070096C415 /* TextFormatter */ = {
 			isa = PBXGroup;
 			children = (
+				D9A0E2FF24573E56000073E9 /* InputModifier */,
 				D96FBD7124573995001B6D45 /* Class */,
 				D96FBD7824573995001B6D45 /* Model */,
 				D96FBD7524573995001B6D45 /* Protocol */,
@@ -795,6 +798,14 @@
 				D96FBD7B24573995001B6D45 /* TextFormatPattern.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D9A0E2FF24573E56000073E9 /* InputModifier */ = {
+			isa = PBXGroup;
+			children = (
+				D9A0E30024573E75000073E9 /* UppercaseInputModifier.swift */,
+			);
+			path = InputModifier;
 			sourceTree = "<group>";
 		};
 		D9A88D04241C55040043F535 /* Sources */ = {
@@ -1230,6 +1241,7 @@
 				D92343992455E3080096C415 /* Input.Field.Validation.Luhn.swift in Sources */,
 				D923437A2455E3080096C415 /* Input.NavigationController.swift in Sources */,
 				D923438A2455E3080096C415 /* Input.Field.Checkbox.swift in Sources */,
+				D9A0E30124573E75000073E9 /* UppercaseInputModifier.swift in Sources */,
 				D923438C2455E3080096C415 /* Input.Field.Transformer.swift in Sources */,
 				D92343B42455E3080096C415 /* LoadableLogo.swift in Sources */,
 				D96FBD8124573995001B6D45 /* TextFormatter.swift in Sources */,
