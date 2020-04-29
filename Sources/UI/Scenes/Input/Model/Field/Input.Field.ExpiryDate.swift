@@ -46,8 +46,8 @@ extension Input.Field.ExpiryDate: Validatable {
 extension Input.Field.ExpiryDate: TextInputField {
     var maxInputLength: Int? { 4 }
     var name: String { "expirationDate" }
-    var label: String { translator.translation(forKey: LocalTranslation.expirationDateTitle.rawValue) }
-    var placeholder: String { translator.translation(forKey: LocalTranslation.expirationDatePlaceholder.rawValue) }
+    var label: String { translator.translation(forKey: LocalTranslation.expirationDatePlaceholder.rawValue) }
+    var placeholder: String { translator.translation(forKey: LocalTranslation.expirationDateTitle.rawValue) }
 }
 
 #if canImport(UIKit)
