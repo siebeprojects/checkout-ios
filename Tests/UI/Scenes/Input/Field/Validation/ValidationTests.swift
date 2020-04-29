@@ -57,7 +57,7 @@ class ValidationTests: XCTestCase {
         let testCases: [MockFactory.Validation.InputElementTestCase]
 
         func test(within activity: XCTActivity) {
-            let transformer = Input.Field.Transformer()
+            let transformer = Input.Field.ModelTransformer()
             let inputNetwork = transformer.transform(paymentNetwork: network)
 
             guard let inputElement = inputNetwork.inputFields.first as? InputField else {

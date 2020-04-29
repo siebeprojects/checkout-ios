@@ -27,6 +27,8 @@ enum LocalTranslation: String, CaseIterable {
     case pay = "pmlocal_ios_pay"
     case next = "pmlocal_ios_next"
     case inputViewTitle = "pmlocal_input_view_title"
+    case expirationDateTitle = "pmlocal_expirationdate_title"
+    case expirationDatePlaceholder = "pmlocal_expirationdate_placeholder"
 
     var localizedString: String {
         switch self {
@@ -56,6 +58,8 @@ enum LocalTranslation: String, CaseIterable {
         case .pay: return "Pay"
         case .next: return "Next"
         case .inputViewTitle: return "Payment details"
+        case .expirationDateTitle: return "Expiration date"
+        case .expirationDatePlaceholder: return "MM / YY"
         }
     }
 }
