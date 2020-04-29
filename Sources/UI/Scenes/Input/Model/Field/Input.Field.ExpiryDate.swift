@@ -11,7 +11,7 @@ extension Input.Field {
             formatter.inputModifiers = [ExpirationDateInputModifier()]
             return formatter
         }()
-        
+
         var value: String = ""
 
         init(translator: TranslationProvider) {
@@ -22,7 +22,7 @@ extension Input.Field {
 
 extension Input.Field.ExpiryDate: Validatable {
     var validationRule: Input.Field.Validation.Rule? { nil }
-    
+
     func localize(error: Input.Field.Validation.ValidationError) -> String {
         switch error {
         case .invalidValue, .incorrectLength: return translator.translation(forKey: "error.INVALID_EXPIRY_DATE")
@@ -34,7 +34,7 @@ extension Input.Field.ExpiryDate: Validatable {
         guard value.count == 4 else {
             return false
         }
-        
+
         let month = String(value.prefix(2))
         let year = String("20" + value.suffix(2))
 

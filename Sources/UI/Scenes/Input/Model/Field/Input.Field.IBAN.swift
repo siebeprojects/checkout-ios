@@ -11,7 +11,7 @@ extension Input.Field {
             formatter.inputModifiers = [UppercaseInputModifier()]
             return formatter
         }()
-        
+
         var value: String = ""
 
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {

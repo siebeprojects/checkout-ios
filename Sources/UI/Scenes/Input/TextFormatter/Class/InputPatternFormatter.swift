@@ -7,7 +7,7 @@ class InputPatternFormatter {
     let formatter: PatternFormatter
     var inputModifiers = [InputModifier]()
     var shouldAddTrailingPattern: Bool = false
-    
+
     private let caretPositionCorrector: CaretPositionCorrector
 
     /// - Parameters:
@@ -17,7 +17,7 @@ class InputPatternFormatter {
         self.formatter = formatter
         self.caretPositionCorrector = CaretPositionCorrector(textPattern: formatter.textPattern, patternSymbol: formatter.replaceable)
     }
-    
+
     convenience init(textPattern: String, replaceableCharacter: Character = "#") {
         let formatter = PatternFormatter(textPattern: textPattern, replaceableCharacter: replaceableCharacter)
         self.init(formatter: formatter)
@@ -28,7 +28,7 @@ class InputPatternFormatter {
         for modifier in inputModifiers {
             modifier.modify(replaceableString: &modifiedInput)
         }
-        
+
         let unformattedRange = self.unformattedRange(from: modifiedInput.changesRange)
         let oldUnformattedText = formatter.unformat(modifiedInput.originText) as NSString
 
@@ -49,13 +49,13 @@ class InputPatternFormatter {
 
         return FormattedTextValue(formattedText: formattedText, caretBeginOffset: caretOffset)
     }
-    
+
     private func shouldAddTrailingCharacters(for replaceableString: ReplaceableString) -> Bool {
         guard self.shouldAddTrailingPattern else { return false }
-        
+
         // Character was inserted, trail should be shown
         if !replaceableString.replacementText.isEmpty { return true }
-        
+
         // Text is about to be deleted
         if let patternCharacter = formatter.textPattern.characterAt(replaceableString.changesRange.lowerBound), patternCharacter != formatter.replaceable {
             // User tries to remove a formatting pattern character, we allow to do that if user at the end of a string
@@ -65,7 +65,7 @@ class InputPatternFormatter {
             return true
         }
     }
-    
+
     /// Convert range in formatted string to range in unformatted string
     /// - Parameter range: range in formatted (with current textPattern) string
     /// - Returns: range in unformatted (with current textPattern) string

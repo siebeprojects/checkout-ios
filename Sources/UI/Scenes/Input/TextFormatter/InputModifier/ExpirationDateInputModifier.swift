@@ -6,12 +6,12 @@ class ExpirationDateInputModifier: InputModifier {
             replaceableString.replacementText = ""
             return
         }
-        
+
         // Help user only on initial input
         guard replaceableString.originText.isEmpty else { return }
-        
+
         guard let firstCharacter = replaceableString.replacementText.first else { return }
-        
+
         switch firstCharacter {
         case "0", "1": return
         default:
