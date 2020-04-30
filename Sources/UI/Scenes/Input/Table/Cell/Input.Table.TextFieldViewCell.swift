@@ -92,9 +92,9 @@ extension Input.Table.TextFieldViewCell {
 
     @objc func textFieldDidChange(_ textField: UITextField) {
         let text = textField.text ?? String()
-        let value = model.patternFormatter?.formatter.unformat(text)
+        let value = model.patternFormatter?.formatter.unformat(text) ?? text
 
-        if let length = value?.count, let maxLength = model.maxInputLength, length >= maxLength {
+        if let maxLength = model.maxInputLength, value.count >= maxLength {
             // Press primary action instead of an user when all characters were entered
             delegate?.inputCellPrimaryActionTriggered(at: indexPath)
         }
