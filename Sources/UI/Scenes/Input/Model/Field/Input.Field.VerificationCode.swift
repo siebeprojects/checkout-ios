@@ -43,6 +43,8 @@ extension Input.Field.VerificationCode: TextInputField {
 
         return translator.translation(forKey: key)
     }
+    
+    var allowedCharacters: CharacterSet? { return .decimalDigits }
 }
 
 extension Input.Field.VerificationCode: Validatable {

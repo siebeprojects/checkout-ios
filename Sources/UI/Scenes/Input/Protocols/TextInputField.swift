@@ -5,6 +5,7 @@ protocol TextInputField: InputField {
     var placeholder: String { get }
     var maxInputLength: Int? { get }
     var patternFormatter: InputPatternFormatter? { get }
+    var allowedCharacters: CharacterSet? { get }
 }
 
 extension TextInputField {

@@ -21,5 +21,17 @@ extension DefinesKeyboardStyle where Self: InputElementModel {
         default: return .default
         }
     }
+    
+    var allowedCharacters: CharacterSet? {
+        switch inputElement.inputElementType {
+        case .some(.integer): return .decimalDigits
+        case .some(.numeric):
+            var set = CharacterSet.decimalDigits
+            set.insert(charactersIn: " -")
+            return set
+        default: return nil
+        }
+    }
 }
+
 #endif

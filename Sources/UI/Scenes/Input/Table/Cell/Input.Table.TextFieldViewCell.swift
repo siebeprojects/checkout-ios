@@ -80,13 +80,13 @@ extension Input.Table.TextFieldViewCell {
 
         textFieldController.placeholderText = model.label
 
-        textField.keyboardType = model.keyboardType
-        textField.autocapitalizationType = model.autocapitalizationType
-
         if let contentType = model.contentType {
             textField.textContentType = contentType
         }
 
+        textField.keyboardType = model.keyboardType
+        textField.autocapitalizationType = model.autocapitalizationType
+        
         showValidationResult(for: model)
     }
 
@@ -159,7 +159,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         }
 
         // Strip special characters for validation purposes
-        let replacedStringWithoutFormatting = model.patternFormatter?.formatter.unformat(newFullString) ?? String()
+        let replacedStringWithoutFormatting = model.patternFormatter?.formatter.unformat(newFullString) ?? newFullString
 
         // Validate if input contains only allowed chars
         guard containsOnlyAllowedCharacters(string: replacedStringWithoutFormatting, allowedKeyBoardType: textField.keyboardType) else {
@@ -189,22 +189,11 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     }
 
     private func containsOnlyAllowedCharacters(string: String, allowedKeyBoardType: UIKeyboardType) -> Bool {
-        let allowed: CharacterSet
-        switch allowedKeyBoardType {
-        case .numbersAndPunctuation:
-            var set = CharacterSet.decimalDigits
-            set.formUnion(CharacterSet(charactersIn: " -"))
-            allowed = set
-        case .numberPad:
-            allowed = .decimalDigits
-        default: return true
-        }
-
-        if CharacterSet(charactersIn: string).isSubset(of: allowed) {
+        guard let allowedCharacters = model.allowedCharacters else {
             return true
-        } else {
-            return false
         }
+        
+        return CharacterSet(charactersIn: string).isSubset(of: allowedCharacters)
     }
 }
 
