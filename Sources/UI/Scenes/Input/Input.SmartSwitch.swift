@@ -85,13 +85,8 @@ extension Input.SmartSwitch.Selector {
         }
 
         let previouslySelected = selected
-
-        defer {
-            if previouslySelected.network != selected.network {
-                moveInputValues(from: previouslySelected.network.inputFields as [AnyObject], to: selected.network.inputFields as [AnyObject])
-            }
-        }
-
+        var newSelection: DetectedNetwork?
+        
         // Try to find a specific network
         for network in networks {
             guard let rule = network.switchRule else { continue }
@@ -99,12 +94,20 @@ extension Input.SmartSwitch.Selector {
             let isMatched = (accountNumber.range(of: rule.regex, options: .regularExpression) != nil)
             guard isMatched else { continue }
 
-            selected = .specific(network)
-            return selected
+            newSelection = .specific(network)
         }
-
-        // Unable to find, return previously selected network as a generic one
-        selected = .generic(previouslySelected.network)
+        
+        if let newSelection = newSelection {
+            selected = newSelection
+        } else {
+            // Unable to find, return previously selected network as a generic one
+            selected = .generic(previouslySelected.network)
+        }
+        
+        if previouslySelected.network != selected.network {
+            moveInputValues(from: previouslySelected.network.inputFields, to: selected.network.inputFields)
+        }
+        
         return selected
     }
 
@@ -113,11 +116,13 @@ extension Input.SmartSwitch.Selector {
     /// - Parameters:
     ///   - lhs: any, if not `InputField` element will be skipped
     ///   - rhs: any, if not `InputField` element will be skipped
-    private func moveInputValues(from lhs: [AnyObject], to rhs: [AnyObject]) {
-        for (index, lhsAny) in lhs.enumerated() {
-            guard let lhsField = lhsAny as? InputField, let rhsField = rhs[index] as? InputField else { continue }
-            rhsField.value = lhsField.value
-            lhsField.value = ""
+    private func moveInputValues(from lhs: [InputField], to rhs: [InputField]) {
+        for fromInputField in lhs {
+            for toInputField in rhs where toInputField.name == fromInputField.name {
+                toInputField.value = fromInputField.value
+            }
+            
+            fromInputField.value = String()
         }
     }
 
