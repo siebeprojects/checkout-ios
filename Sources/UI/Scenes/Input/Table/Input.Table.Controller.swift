@@ -76,24 +76,25 @@ extension Input.Table {
                 return
             }
 
-            let oldDataSource = dataSource
-            let newDataSource = Self.arrangeBySections(network: new)
-
-            guard newDataSource.count == oldDataSource.count else {
+            let oldDataSourceCount = dataSource.count
+            self.dataSource = Self.arrangeBySections(network: new)
+            
+            guard dataSource.count == oldDataSourceCount else {
                 tableView.endEditing(true)
-                self.dataSource = newDataSource
                 tableView.reloadData()
                 becomeFirstResponder()
 
                 return
             }
 
+            tableView.beginUpdates()
             for visibleIndexPath in tableView.indexPathsForVisibleRows ?? [] {
                 guard let cell = tableView.cellForRow(at: visibleIndexPath) else { continue }
                 guard case let .row(cellRepresentable) = dataSource[visibleIndexPath.row] else { continue }
 
                 cellRepresentable.configure(cell: cell)
             }
+            tableView.endUpdates()
         }
 
         /// Arrange models by sections
