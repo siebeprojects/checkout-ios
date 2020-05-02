@@ -86,7 +86,7 @@ extension Input.SmartSwitch.Selector {
 
         let previouslySelected = selected
         var newSelection: DetectedNetwork?
-        
+
         // Try to find a specific network
         for network in networks {
             guard let rule = network.switchRule else { continue }
@@ -96,18 +96,18 @@ extension Input.SmartSwitch.Selector {
 
             newSelection = .specific(network)
         }
-        
+
         if let newSelection = newSelection {
             selected = newSelection
         } else {
             // Unable to find, return previously selected network as a generic one
             selected = .generic(previouslySelected.network)
         }
-        
+
         if previouslySelected.network != selected.network {
             moveInputValues(from: previouslySelected.network.inputFields, to: selected.network.inputFields)
         }
-        
+
         return selected
     }
 
@@ -121,7 +121,7 @@ extension Input.SmartSwitch.Selector {
             for toInputField in rhs where toInputField.name == fromInputField.name {
                 toInputField.value = fromInputField.value
             }
-            
+
             fromInputField.value = String()
         }
     }

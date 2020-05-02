@@ -78,7 +78,7 @@ extension Input.Table {
 
             let oldDataSourceCount = dataSource.count
             self.dataSource = Self.arrangeBySections(network: new)
-            
+
             guard dataSource.count == oldDataSourceCount else {
                 tableView.endEditing(true)
                 tableView.reloadData()
