@@ -3,17 +3,17 @@ import Foundation
 
 extension Input {
     final class ImagesHeader {
-        let logosData: [Data]
+        var logosData: [Data] = .init()
 
-        private init(logosData: [Data]) {
-            self.logosData = logosData
+        init() {}
+        
+        convenience init(for networks: [Input.Network]) {
+            self.init()
+            self.setNetworks(networks)
         }
-
-        /// Initializes header with transformed label and detailed label from `maskedAccount` data.
-        convenience init(from networks: [Input.Network]) {
-            let logosData = networks.compactMap { $0.logoData }
-
-            self.init(logosData: logosData)
+        
+        func setNetworks(_ networks: [Input.Network]) {
+            self.logosData = networks.compactMap { $0.logoData }
         }
     }
 }

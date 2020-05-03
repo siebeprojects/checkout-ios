@@ -8,14 +8,15 @@ extension Input {
         let networks: [Network]
 
         private let tableController: Table.Controller
-        private let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .plain)
         fileprivate let smartSwitch: SmartSwitch.Selector
         fileprivate let headerModel: ViewRepresentable?
 
+        private let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), style: .plain)
+        
         init(for paymentNetworks: [PaymentNetwork]) throws {
             let transfomer = Field.Transformer()
             networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
-            headerModel = Input.ImagesHeader(from: networks)
+            headerModel = Input.ImagesHeader(for: networks)
             smartSwitch = try .init(networks: self.networks)
             tableController = .init(for: smartSwitch.selected.network, tableView: tableView)
 
@@ -194,12 +195,20 @@ extension Input.ViewController: InputValueChangesListener {
 
         DispatchQueue.main.async {
             // UI changes
-            self.replaceCurrentNetwork(with: newSelection.network)
+            self.replaceCurrentNetwork(with: newSelection)
         }
     }
 
-    private func replaceCurrentNetwork(with newNetwork: Input.Network) {
-        tableController.network = newNetwork
+    private func replaceCurrentNetwork(with newSelection: Input.SmartSwitch.Selector.DetectedNetwork) {
+        tableController.network = newSelection.network
+        if let imagesHeader = headerModel as? Input.ImagesHeader, let tableHeaderView = tableView.tableHeaderView {
+            switch newSelection {
+            case .generic: imagesHeader.setNetworks(self.networks)
+            case .specific(let specificNetwork): imagesHeader.setNetworks([specificNetwork])
+            }
+            
+            try! imagesHeader.configure(view: tableHeaderView)
+        }
     }
 }
 
