@@ -14,7 +14,7 @@ private extension String {
 
 extension Input.Table {
     class ImagesCollectionViewController: NSObject {
-        var dataSource = [UIImage]()
+        var dataSource = [Input.Network]()
 
         func registerCells(for collectionView: UICollectionView) {
             collectionView.register(Input.Table.ImageViewCell.self, forCellWithReuseIdentifier: .cellIdentifier)
@@ -29,7 +29,7 @@ extension Input.Table.ImagesCollectionViewController: UICollectionViewDataSource
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .cellIdentifier, for: indexPath) as! Input.Table.ImageViewCell
-        cell.imageView.image = dataSource[indexPath.row]
+        cell.imageView.image = dataSource[indexPath.row].logo
         return cell
     }
 }

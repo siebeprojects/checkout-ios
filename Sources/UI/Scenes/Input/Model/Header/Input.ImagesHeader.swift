@@ -3,7 +3,7 @@ import Foundation
 
 extension Input {
     final class ImagesHeader {
-        var logosData: [Data] = .init()
+        var networks: [Network] = .init()
 
         init() {}
         
@@ -13,7 +13,7 @@ extension Input {
         }
         
         func setNetworks(_ networks: [Input.Network]) {
-            self.logosData = networks.compactMap { $0.logoData }
+            self.networks = networks
         }
     }
 }
