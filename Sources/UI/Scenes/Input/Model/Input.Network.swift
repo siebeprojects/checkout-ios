@@ -8,7 +8,7 @@ extension Input {
         let logoData: Data?
         let inputFields: [InputField & CellRepresentable]
 
-        /// Checkboxes that must be arranged in another section (used for reccurence and registration)
+        /// Checkboxes that must be arranged in another section (used for recurrence and registration)
         let separatedCheckboxes: [Input.Field.Checkbox]
 
         let submitButton: Input.Field.Button
