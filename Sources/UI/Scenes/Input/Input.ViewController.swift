@@ -207,7 +207,7 @@ extension Input.ViewController: InputValueChangesListener {
             case .specific(let specificNetwork): imagesHeader.setNetworks([specificNetwork])
             }
             
-            try! imagesHeader.configure(view: tableHeaderView)
+            try? imagesHeader.configure(view: tableHeaderView)
         }
     }
 }
