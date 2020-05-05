@@ -35,8 +35,15 @@ extension Input.Field.ExpiryDate: Validatable {
             return false
         }
 
+        // Get current year without suffix (we will add that suffix later)
+        // E.g. 2050 = 20
+        let calendar = Calendar.current
+        let currentYear = String(calendar.component(.year, from: Date()))
+        let prefixCharacters = currentYear.count - 2
+        let currentYearWithoutSuffix = currentYear.prefix(prefixCharacters)
+
         let month = String(value.prefix(2))
-        let year = String("20" + value.suffix(2))
+        let year = String(currentYearWithoutSuffix + value.suffix(2))
 
         let validationResult = Input.Field.Validation.ExpiryDate.isInFuture(expiryMonth: month, expiryYear: year) ?? false
         return validationResult
