@@ -71,6 +71,10 @@ extension Input.Table {
         }
 
         private func networkDidUpdate(new: Input.Network, old: Input.Network) {
+            new.submitButton.buttonDidTap = { [weak self] _ in
+                self?.validateFields(option: .fullCheck)
+            }
+
             guard !network.inputFields.isEmpty else {
                 tableView.reloadData()
                 return
