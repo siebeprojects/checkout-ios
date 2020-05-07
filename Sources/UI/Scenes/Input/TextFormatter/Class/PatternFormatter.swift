@@ -42,10 +42,10 @@ class PatternFormatter: TextFormatter {
                 // Formatted all text, add trail until we meet next replaceable character
                 // E.g. if pattern is ## ##, input is "22", we will add one space before next # to add a trail. Output will be "22 "
                 if !addTrailingPattern { break }
-                
+
                 // Don't add trail after replaceable character is met
                 if patternCharacter == replaceable { break }
-                
+
                 formatted.append(patternCharacter)
             }
 
