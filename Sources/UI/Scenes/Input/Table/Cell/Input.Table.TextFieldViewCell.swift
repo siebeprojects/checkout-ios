@@ -30,7 +30,6 @@ extension Input.Table {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
 
             textField.delegate = self
-            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
 
@@ -65,6 +64,12 @@ extension Input.Table.TextFieldViewCell {
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
         self.model = model
 
+        if let inputFormatter = model.patternFormatter {
+            textField.text = inputFormatter.formatter.format(model.value, addTrailingPattern: false)
+        } else {
+            textField.text = model.value
+        }
+
         textField.tintColor = self.tintColor
         textFieldController.activeColor = textField.tintColor
         textFieldController.floatingPlaceholderActiveColor = textField.tintColor
@@ -74,7 +79,6 @@ extension Input.Table.TextFieldViewCell {
         textFieldController.inlinePlaceholderFont = textFieldController.textInputFont
 
         textFieldController.placeholderText = model.label
-        textField.text = model.value
 
         textField.keyboardType = model.keyboardType
         textField.autocapitalizationType = model.autocapitalizationType
@@ -86,13 +90,16 @@ extension Input.Table.TextFieldViewCell {
         showValidationResult(for: model)
     }
 
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        if let length = textField.text?.count, let maxLength = model.maxInputLength, length == maxLength {
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        let text = textField.text ?? String()
+        let value = model.patternFormatter?.formatter.unformat(text) ?? text
+
+        if let maxLength = model.maxInputLength, value.count >= maxLength {
             // Press primary action instead of an user when all characters were entered
             delegate?.inputCellPrimaryActionTriggered(at: indexPath)
         }
 
-        delegate?.inputCellValueDidChange(to: textField.text, at: indexPath)
+        delegate?.inputCellValueDidChange(to: value, at: indexPath)
     }
 
     @objc fileprivate func textFieldPrimaryActionTriggered() {
@@ -136,29 +143,49 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard containsOnlyAllowedCharacters(string: string, allowedKeyBoardType: textField.keyboardType) else {
+        // Check if primary action was triggered.
+        // Manual check required because we could return false in future steps and that will fail `primaryActionTriggered` UIKit call
+        if string == "\n" {
+            return true
+        }
+
+        // Make new full text string (replaced)
+        let originText = textField.text ?? String()
+        let newFullString: String
+        if let textRange = Range(range, in: originText) {
+            newFullString = originText.replacingCharacters(in: textRange, with: string)
+        } else {
+            newFullString = .init()
+        }
+
+        // Strip special characters for validation purposes
+        let replacedStringWithoutFormatting = model.patternFormatter?.formatter.unformat(newFullString) ?? String()
+
+        // Validate if input contains only allowed chars
+        guard containsOnlyAllowedCharacters(string: replacedStringWithoutFormatting, allowedKeyBoardType: textField.keyboardType) else {
             return false
         }
 
+        // Validate length
         if let maxLength = model.maxInputLength {
-            let length = lengthAfterReplacement(for: textField, changedCharactersIn: range, replacementString: string)
-
             // If use tries to insert a character(s) that exceeds max length
-            guard length <= maxLength else {
+            guard replacedStringWithoutFormatting.count <= maxLength else {
                 return false
             }
         }
 
-        return true
-    }
+        if let inputFormatter = model.patternFormatter {
+            let formatted = inputFormatter.formatInput(replaceableString: .init(originText: originText, changesRange: range, replacementText: string))
+            textField.apply(formattedValue: formatted)
 
-    private func lengthAfterReplacement(for textField: UITextField, changedCharactersIn range: NSRange, replacementString string: String) -> Int {
-        guard let textFieldText = textField.text else { return 0 }
-        guard let rangeOfTextToReplace = Range(range, in: textFieldText) else { return textFieldText.count }
+            // We need to call these manually because we're returning false so UIKit won't call that method
+            textFieldDidChange(textField)
 
-        let substringToReplace = textFieldText[rangeOfTextToReplace]
-        let count = textFieldText.count - substringToReplace.count + string.count
-        return count
+            // We need to return false because we already changed the text via `textField.apply`
+            return false
+        } else {
+            return true
+        }
     }
 
     private func containsOnlyAllowedCharacters(string: String, allowedKeyBoardType: UIKeyboardType) -> Bool {
@@ -180,6 +207,8 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         }
     }
 }
+
+// MARK: - SupportsPrimaryAction
 
 extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
     func setPrimaryAction(to action: PrimaryAction) {
@@ -224,6 +253,18 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
         ])
 
         return view
+    }
+}
+
+private extension UITextField {
+    func apply(formattedValue: FormattedTextValue) {
+        self.text = formattedValue.formattedText
+
+        if let cursorLocation = position(from: beginningOfDocument, offset: formattedValue.caretBeginOffset) {
+            DispatchQueue.main.async {
+                self.selectedTextRange = self.textRange(from: cursorLocation, to: cursorLocation)
+            }
+        }
     }
 }
 #endif
