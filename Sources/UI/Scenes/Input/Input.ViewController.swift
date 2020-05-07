@@ -13,7 +13,7 @@ extension Input {
         fileprivate let headerModel: ViewRepresentable?
 
         init(for paymentNetworks: [PaymentNetwork]) throws {
-            let transfomer = Field.Transformer()
+            let transfomer = ModelTransformer()
             networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
             headerModel = Input.ImagesHeader(from: networks)
             smartSwitch = try .init(networks: self.networks)
@@ -32,7 +32,7 @@ extension Input {
         }
 
         init(for registeredAccount: RegisteredAccount) {
-            let transfomer = Field.Transformer()
+            let transfomer = ModelTransformer()
             let network = transfomer.transform(registeredAccount: registeredAccount)
             networks = [network]
             headerModel = Input.TextHeader(from: registeredAccount)

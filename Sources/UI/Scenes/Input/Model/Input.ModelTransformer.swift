@@ -10,30 +10,35 @@ private struct Constant {
 
     static var registrationCheckboxLocalizationKey: String { "autoRegistrationLabel" }
     static var recurrenceCheckboxLocalizationKey: String { "allowRecurrenceLabel" }
+
+    struct InputElementName {
+        static var expiryMonth: String = "expiryMonth"
+        static var expiryYear: String = "expiryYear"
+    }
 }
 
 // MARK: - Transformer
 
-extension Input.Field {
-    class Transformer {
+extension Input {
+    class ModelTransformer {
         /// Transformed verification code fields.
-        /// - Note: we need it to set a placholder suffix delegate after transformation
+        /// - Note: we need it to set a placeholder suffix delegate after transformation
         fileprivate(set) var verificationCodeFields = [Input.Field.VerificationCode]()
-        fileprivate var expiryMonth: ExpiryMonth?
-        fileprivate var expiryYear: ExpiryYear?
+        fileprivate let inputFieldFactory = InputFieldFactory()
 
         init() {}
     }
 }
 
-extension Input.Field.Transformer {
+extension Input.ModelTransformer {
     func transform(registeredAccount: RegisteredAccount) -> Input.Network {
         let logoData = registeredAccount.logo?.value
         let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
 
-        let modelToTransform = TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
+        let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
 
-        let inputFields = makeInputFields(for: modelToTransform)
+        let inputFields = inputFieldFactory.makeInputFields(for: modelToTransform)
+        self.verificationCodeFields = inputFieldFactory.verificationCodeFields
 
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 
@@ -46,15 +51,12 @@ extension Input.Field.Transformer {
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
 
         // Input fields
-        let modelToTransform = TransformableModel(inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, translator: paymentNetwork.translation)
-        let inputFields = makeInputFields(for: modelToTransform)
+        let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, translator: paymentNetwork.translation)
+        let inputFields = inputFieldFactory.makeInputFields(for: modelToTransform)
+        self.verificationCodeFields = inputFieldFactory.verificationCodeFields
 
         // Switch rule
         let smartSwitchRule = switchRule(forNetworkCode: paymentNetwork.applicableNetwork.code)
-
-        // Link month and year fields
-        expiryYear?.expiryMonthField = expiryMonth
-        expiryMonth?.expiryYearField = expiryYear
 
         // Checkboxes
         let checkboxes = [
@@ -103,8 +105,11 @@ extension Input.Field.Transformer {
     }
 }
 
-// MARK: - Input fields
-extension Input.Field.Transformer {
+private class InputFieldFactory {
+    /// Transformed verification code fields.
+    /// - Note: we need it to set a placeholder suffix delegate after transformation
+    fileprivate(set) var verificationCodeFields = [Input.Field.VerificationCode]()
+
     /// Used as input for `makeInputFields(for:)` method
     fileprivate struct TransformableModel {
         var inputElements: [InputElement]
@@ -129,18 +134,46 @@ extension Input.Field.Transformer {
             validationProvider = nil
         }
 
+        var hasExpiryMonth = false
+        var hasExpiryYear = false
+
+        var transformingInputElements = [InputElement]()
+        /// Expiration month & year elements
+        var skippingInputElements = [InputElement]()
+
+        for inputElement in model.inputElements {
+            if inputElement.name == Constant.InputElementName.expiryMonth {
+                hasExpiryMonth = true
+                skippingInputElements.append(inputElement)
+            } else if inputElement.name == Constant.InputElementName.expiryYear {
+                hasExpiryYear = true
+                skippingInputElements.append(inputElement)
+            } else {
+                transformingInputElements.append(inputElement)
+            }
+        }
+
+        var transformedInputFields = [InputField & CellRepresentable]()
+
+        if hasExpiryMonth && hasExpiryYear {
+            // Custom transform for combined expiry date field
+            transformedInputFields += [Input.Field.ExpiryDate(translator: model.translator)]
+        } else {
+            // Add skipped input elements if only one field exists (expiry year / month)
+            transformingInputElements.append(contentsOf: skippingInputElements)
+        }
+
         // Transform input fields
-        let inputFields = model.inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
+        transformedInputFields += transformingInputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
             for ignored in Constant.ignoredFields {
                 if model.networkCode == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
 
             let validationRule = validationProvider?.getRule(forNetworkCode: model.networkCode, withInputElementName: inputElement.name)
-
             return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod)
         }
 
-        return inputFields
+        return transformedInputFields
     }
 
     /// Transform `InputElement` to `InputField`
@@ -155,14 +188,6 @@ extension Input.Field.Transformer {
         case "verificationCode":
             let field = Input.Field.VerificationCode(from: inputElement, translator: translator, validationRule: validationRule)
             verificationCodeFields.append(field)
-            return field
-        case "expiryMonth":
-            let field = Input.Field.ExpiryMonth(from: inputElement, translator: translator)
-            self.expiryMonth = field
-            return field
-        case "expiryYear":
-            let field = Input.Field.ExpiryYear(from: inputElement, translator: translator)
-            self.expiryYear = field
             return field
         case "bankCode":
             return Input.Field.BankCode(from: inputElement, translator: translator, validationRule: validationRule)

@@ -103,7 +103,7 @@ extension Input.Table {
 
             // Input Fields
             let inputFields = network.inputFields.filter {
-                if let field = $0 as? InputField, field.isHidden { return false }
+                if $0.isHidden { return false }
                 return true
             }
             sections += [inputFields]

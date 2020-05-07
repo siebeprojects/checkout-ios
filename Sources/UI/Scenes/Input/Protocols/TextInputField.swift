@@ -4,6 +4,11 @@ import Foundation
 protocol TextInputField: InputField {
     var placeholder: String { get }
     var maxInputLength: Int? { get }
+    var patternFormatter: InputPatternFormatter? { get }
+}
+
+extension TextInputField {
+    var patternFormatter: InputPatternFormatter? { nil }
 }
 
 extension TextInputField {

@@ -6,6 +6,7 @@ extension Input.Field {
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
+        let patternFormatter: InputPatternFormatter?
 
         var value: String = ""
 
@@ -13,6 +14,12 @@ extension Input.Field {
             self.inputElement = inputElement
             self.translator = translator
             self.validationRule = validationRule
+
+            // Pattern formatter
+            let maxLength = validationRule?.maxLength ?? 34
+            let patternFormatter = InputPatternFormatter(maxStringLength: maxLength, separator: " ", every: 4)
+            patternFormatter.inputModifiers = [UppercaseInputModifier()]
+            self.patternFormatter = patternFormatter
         }
     }
 }
@@ -37,5 +44,6 @@ import UIKit
 
 extension Input.Field.IBAN: CellRepresentable, DefinesKeyboardStyle {
     var keyboardType: UIKeyboardType { .asciiCapable }
+    var autocapitalizationType: UITextAutocapitalizationType { .allCharacters }
 }
 #endif
