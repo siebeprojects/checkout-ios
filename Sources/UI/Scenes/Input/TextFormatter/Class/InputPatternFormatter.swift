@@ -23,6 +23,19 @@ class InputPatternFormatter {
         self.init(formatter: formatter)
     }
 
+    /// - WARNING: Don't use `#` as separator
+    convenience init(maxStringLength: Int, separator: String, every n: Int) {
+        let replaceableCharacter: Character = "#"
+        var pattern = String()
+        for _ in 1...maxStringLength {
+            pattern += String(replaceableCharacter)
+        }
+
+        pattern.insert(separator: separator, every: n)
+
+        self.init(textPattern: pattern, replaceableCharacter: replaceableCharacter)
+    }
+
     func formatInput(replaceableString: ReplaceableString) -> FormattedTextValue {
         var modifiedInput = replaceableString
         for modifier in inputModifiers {
@@ -81,5 +94,26 @@ class InputPatternFormatter {
     private func getCorrectedCaretPosition(range: NSRange, replacementString: String) -> Int {
         let offset = caretPositionCorrector.calculateCaretPositionOffset(originalRange: range, replacementFiltered: replacementString)
         return offset
+    }
+}
+
+// MARK: - String extensions
+
+private extension Collection {
+    func distance(to index: Index) -> Int { distance(from: startIndex, to: index) }
+}
+
+private extension StringProtocol where Self: RangeReplaceableCollection {
+    mutating func insert<S: StringProtocol>(separator: S, every n: Int) {
+        for index in indices.dropFirst().reversed()
+            where distance(to: index).isMultiple(of: n) {
+            insert(contentsOf: separator, at: index)
+        }
+    }
+
+    func inserting<S: StringProtocol>(separator: S, every n: Int) -> Self {
+        var string = self
+        string.insert(separator: separator, every: n)
+        return string
     }
 }

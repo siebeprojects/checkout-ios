@@ -7,7 +7,7 @@ extension Input.Field {
         let validationRule: Validation.Rule?
         let networkMethod: String?
         var validationErrorText: String?
-        let patternFormatter: InputPatternFormatter? = .init(textPattern: "#### #### #### #### ###")
+        let patternFormatter: InputPatternFormatter?
 
         var value: String = ""
 
@@ -18,6 +18,10 @@ extension Input.Field {
             self.translator = translator
             self.validationRule = validationRule
             self.networkMethod = networkMethod
+
+            // Pattern formatter
+            let maxLength = validationRule?.maxLength ?? 34
+            patternFormatter = .init(maxStringLength: maxLength, separator: " ", every: 4)
         }
     }
 }

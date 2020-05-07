@@ -6,11 +6,7 @@ extension Input.Field {
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
         var validationErrorText: String?
-        let patternFormatter: InputPatternFormatter? = {
-            let formatter = InputPatternFormatter(textPattern: "#### #### #### #### #### #### #### #### ##")
-            formatter.inputModifiers = [UppercaseInputModifier()]
-            return formatter
-        }()
+        let patternFormatter: InputPatternFormatter?
 
         var value: String = ""
 
@@ -18,6 +14,12 @@ extension Input.Field {
             self.inputElement = inputElement
             self.translator = translator
             self.validationRule = validationRule
+
+            // Pattern formatter
+            let maxLength = validationRule?.maxLength ?? 34
+            let patternFormatter = InputPatternFormatter(maxStringLength: maxLength, separator: " ", every: 4)
+            patternFormatter.inputModifiers = [UppercaseInputModifier()]
+            self.patternFormatter = patternFormatter
         }
     }
 }
