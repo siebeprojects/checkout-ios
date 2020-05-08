@@ -30,6 +30,7 @@ extension Input.Table {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
 
             textField.delegate = self
+            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
 
@@ -159,7 +160,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         }
 
         // Strip special characters for validation purposes
-        let replacedStringWithoutFormatting = model.patternFormatter?.formatter.unformat(newFullString) ?? String()
+        let replacedStringWithoutFormatting = model.patternFormatter?.formatter.unformat(newFullString) ?? newFullString
 
         // Validate if input contains only allowed chars
         guard containsOnlyAllowedCharacters(string: replacedStringWithoutFormatting, allowedKeyBoardType: textField.keyboardType) else {
