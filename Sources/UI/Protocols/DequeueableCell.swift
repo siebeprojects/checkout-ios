@@ -1,0 +1,60 @@
+#if canImport(UIKit)
+
+import UIKit
+
+protocol DequeueableCell: class {
+    static var identifier: String { get }
+}
+
+extension DequeueableCell where Self: NSObject {
+    static var identifier: String {
+        return self.nameOfClass
+    }
+}
+
+extension UITableView {
+    func dequeueReusableCell<Cell>(_ cellClass: Cell.Type, for indexPath: IndexPath) -> Cell where Cell: DequeueableCell & UITableViewCell {
+        // swiftlint:disable:next force_cast
+        return self.dequeueReusableCell(withIdentifier: Cell.identifier, for: indexPath) as! Cell
+    }
+
+    func register<Cell>(_ cellClass: Cell.Type) where Cell: DequeueableCell & UITableViewCell {
+        self.register(Cell.self, forCellReuseIdentifier: Cell.identifier)
+    }
+}
+
+extension UICollectionView {
+    func dequeueReusableCell<Cell>(_ cellClass: Cell.Type, for indexPath: IndexPath) -> Cell where Cell: DequeueableCell & UICollectionViewCell {
+        // swiftlint:disable:next force_cast
+        return self.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath) as! Cell
+    }
+
+    func register<Cell>(_ cellClass: Cell.Type) where Cell: DequeueableCell & UICollectionViewCell {
+        self.register(Cell.self, forCellWithReuseIdentifier: Cell.identifier)
+    }
+}
+
+// MARK: - NSObject extension
+
+private extension NSObject {
+    class var nameOfClass: String {
+        let fullClassName = NSStringFromClass(self)
+        guard let className = fullClassName.components(separatedBy: ".").last else {
+            assertionFailure("Using unexpected class name (full)")
+            return fullClassName
+        }
+
+        return className
+    }
+
+    var nameOfClass: String {
+        let fullClassName = NSStringFromClass(type(of: self))
+        guard let className = fullClassName.components(separatedBy: ".").last else {
+            assertionFailure("Using unexpected class name (full)")
+            return fullClassName
+        }
+
+        return className
+    }
+}
+#endif

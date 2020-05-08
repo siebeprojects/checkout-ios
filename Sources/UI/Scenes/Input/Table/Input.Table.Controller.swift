@@ -154,7 +154,7 @@ extension Input.Table.Controller: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch dataSource[indexPath.row] {
-        case .separator: return Input.Table.SectionHeaderCell.dequeue(by: tableView, for: indexPath)
+        case .separator: return tableView.dequeueReusableCell(Input.Table.SectionHeaderCell.self, for: indexPath)
         case .row(let cellRepresentable):
             let cell = cellRepresentable.dequeueCell(for: tableView, indexPath: indexPath)
             cell.tintColor = tableView.tintColor

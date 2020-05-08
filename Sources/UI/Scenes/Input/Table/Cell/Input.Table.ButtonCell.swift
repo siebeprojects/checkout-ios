@@ -10,7 +10,7 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class ButtonCell: UITableViewCell, DequeueableTableCell {
+    class ButtonCell: UITableViewCell, DequeueableCell {
         private let button: UIButton
         var model: Input.Field.Button?
 
