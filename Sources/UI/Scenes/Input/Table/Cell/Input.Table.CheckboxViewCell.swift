@@ -10,18 +10,18 @@ extension Input.Table {
     /// Upon some actions calls `delegate`, don't forget to set it.
     ///
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
-    class CheckboxViewCell: UITableViewCell, DequeueableCell {
+    class CheckboxViewCell: UICollectionViewCell, DequeueableCell {
         weak var delegate: InputCellDelegate?
 
         private let label: UILabel
         let checkbox: UISwitch
         var indexPath: IndexPath!
 
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        override init(frame: CGRect) {
             label = .init(frame: .zero)
             checkbox = .init(frame: .zero)
 
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            super.init(frame: frame)
 
             // Configure label
             label.lineBreakMode = .byWordWrapping

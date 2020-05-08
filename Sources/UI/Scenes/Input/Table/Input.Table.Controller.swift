@@ -12,7 +12,7 @@ extension Input.Table {
             }
         }
 
-        unowned let tableView: UITableView
+        unowned let collectionView: UICollectionView
         private var dataSource: [DataSourceElement]
         weak var inputChangesListener: InputValueChangesListener?
 
@@ -25,9 +25,9 @@ extension Input.Table {
             case separator
         }
 
-        init(for network: Input.Network, tableView: UITableView) {
+        init(for network: Input.Network, collectionView: UICollectionView) {
             self.network = network
-            self.tableView = tableView
+            self.collectionView = collectionView
             self.dataSource = Self.arrangeBySections(network: network)
 
             super.init()
@@ -38,15 +38,15 @@ extension Input.Table {
         }
 
         func registerCells() {
-            tableView.register(TextFieldViewCell.self)
-            tableView.register(CheckboxViewCell.self)
-            tableView.register(ButtonCell.self)
-            tableView.register(SectionHeaderCell.self)
+            collectionView.register(TextFieldViewCell.self)
+            collectionView.register(CheckboxViewCell.self)
+            collectionView.register(ButtonCell.self)
+            collectionView.register(SectionHeaderCell.self)
         }
 
         @discardableResult
         func becomeFirstResponder() -> Bool {
-            for cell in tableView.visibleCells {
+            for cell in collectionView.visibleCells {
                 guard cell.canBecomeFirstResponder else { continue }
 
                 cell.becomeFirstResponder()
@@ -58,7 +58,7 @@ extension Input.Table {
 
         func validateFields(option: Input.Field.Validation.Option) {
             // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
-            tableView.endEditing(true)
+            collectionView.endEditing(true)
 
             for cell in dataSource {
                 guard case let .row(cellRepresentable) = cell else { continue }
@@ -67,7 +67,7 @@ extension Input.Table {
                 validatable.validateAndSaveResult(option: option)
             }
 
-            tableView.reloadData()
+            collectionView.reloadData()
         }
 
         private func networkDidUpdate(new: Input.Network, old: Input.Network) {
@@ -76,7 +76,7 @@ extension Input.Table {
             }
 
             guard !network.inputFields.isEmpty else {
-                tableView.reloadData()
+                collectionView.reloadData()
                 return
             }
 
@@ -84,21 +84,23 @@ extension Input.Table {
             self.dataSource = Self.arrangeBySections(network: new)
 
             guard dataSource.count == oldDataSourceCount else {
-                tableView.endEditing(true)
-                tableView.reloadData()
+                collectionView.endEditing(true)
+                collectionView.reloadData()
                 becomeFirstResponder()
 
                 return
             }
+            
+            collectionView.performBatchUpdates({
+                for visibleIndexPath in collectionView.indexPathsForVisibleItems {
+                    guard let cell = collectionView.cellForItem(at: visibleIndexPath) else { continue }
+                    guard case let .row(cellRepresentable) = dataSource[visibleIndexPath.row] else { continue }
 
-            tableView.beginUpdates()
-            for visibleIndexPath in tableView.indexPathsForVisibleRows ?? [] {
-                guard let cell = tableView.cellForRow(at: visibleIndexPath) else { continue }
-                guard case let .row(cellRepresentable) = dataSource[visibleIndexPath.row] else { continue }
-
-                cellRepresentable.configure(cell: cell)
+                    cellRepresentable.configure(cell: cell)
+                }
+            }) { (_) in
+                
             }
-            tableView.endUpdates()
         }
 
         /// Arrange models by sections
@@ -143,22 +145,21 @@ extension Input.Table {
 
 // MARK: - UITableViewDataSource
 
-extension Input.Table.Controller: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension Input.Table.Controller: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch dataSource[indexPath.row] {
-        case .separator: return tableView.dequeueReusableCell(Input.Table.SectionHeaderCell.self, for: indexPath)
+        case .separator: return collectionView.dequeueReusableCell(Input.Table.SectionHeaderCell.self, for: indexPath)
         case .row(let cellRepresentable):
-            let cell = cellRepresentable.dequeueCell(for: tableView, indexPath: indexPath)
-            cell.tintColor = tableView.tintColor
-            cell.selectionStyle = .none
+            let cell = cellRepresentable.dequeueCell(for: collectionView, indexPath: indexPath)
+            cell.tintColor = collectionView.tintColor
             cellRepresentable.configure(cell: cell)
 
             if let cell = cell as? ContainsInputCellDelegate {
@@ -191,13 +192,14 @@ extension Input.Table.Controller: UITableViewDataSource {
     }
 }
 
-extension Input.Table.Controller: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch dataSource[indexPath.row] {
-        case .separator: return Input.Table.SectionHeaderCell.Constant.height
-        case .row(let cell): return cell.estimatedHeightForRow
-        }
-    }
+extension Input.Table.Controller: UICollectionViewDelegate {
+    // FIXME
+//    func tableView(_ collectionView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        switch dataSource[indexPath.row] {
+//        case .separator: return Input.Table.SectionHeaderCell.Constant.height
+//        case .row(let cell): return cell.estimatedHeightForRow
+//        }
+//    }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollViewWillBeginDraggingBlock?(scrollView)
@@ -210,12 +212,12 @@ extension Input.Table.Controller: InputCellDelegate {
     func inputCellPrimaryActionTriggered(at indexPath: IndexPath) {
         // If it is a last textfield just dismiss a keyboard
         if isLastTextField(at: indexPath) {
-            tableView.endEditing(false)
+            collectionView.endEditing(false)
             return
         }
 
         let nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
-        guard let cell = tableView.cellForRow(at: nextIndexPath) else { return }
+        guard let cell = collectionView.cellForItem(at: nextIndexPath) else { return }
         guard cell.canBecomeFirstResponder else { return }
         cell.becomeFirstResponder()
     }
@@ -225,7 +227,7 @@ extension Input.Table.Controller: InputCellDelegate {
         guard let validatableRow = cellRepresentable as? Validatable else { return }
 
         validatableRow.validateAndSaveResult(option: .preCheck)
-        tableView.reloadRows(at: [indexPath], with: .none)
+        collectionView.reloadItems(at: [indexPath])
     }
 
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
@@ -235,18 +237,16 @@ extension Input.Table.Controller: InputCellDelegate {
         if let validatableModel = cellRepresentable as? Validatable, validatableModel.validationErrorText != nil {
             validatableModel.validationErrorText = nil
 
-            tableView.beginUpdates()
-
-            switch tableView.cellForRow(at: indexPath) {
-            case let textFieldViewCell as Input.Table.TextFieldViewCell:
-                textFieldViewCell.showValidationResult(for: validatableModel)
-            default: break
-            }
-
-            tableView.endUpdates()
+            collectionView.performBatchUpdates({
+                switch collectionView.cellForItem(at: indexPath) {
+                case let textFieldViewCell as Input.Table.TextFieldViewCell:
+                    textFieldViewCell.showValidationResult(for: validatableModel)
+                default: break
+                }
+            }) { _ in }
         }
 
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
     }
 
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {

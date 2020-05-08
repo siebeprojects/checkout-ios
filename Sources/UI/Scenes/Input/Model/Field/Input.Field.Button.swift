@@ -14,7 +14,7 @@ extension Input.Field {
 }
 
 extension Input.Field.Button: CellRepresentable {
-    func configure(cell: UITableViewCell) {
+    func configure(cell: UICollectionViewCell) {
         guard let cell = cell as? Input.Table.ButtonCell else {
             assertionFailure("Called configure(cell:) from unexpected UITableViewCell")
             return
@@ -22,8 +22,8 @@ extension Input.Field.Button: CellRepresentable {
         cell.configure(with: self)
     }
 
-    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(Input.Table.ButtonCell.self, for: indexPath)
+    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        return view.dequeueReusableCell(Input.Table.ButtonCell.self, for: indexPath)
     }
 
     var estimatedHeightForRow: CGFloat { 66 }

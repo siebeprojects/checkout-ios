@@ -11,7 +11,7 @@ extension Input.Table {
     /// Upon some actions calls `delegate`, don't forget to set it.
     ///
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
-    class TextFieldViewCell: UITableViewCell, DequeueableCell, ContainsInputCellDelegate {
+    class TextFieldViewCell: UICollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
 
         private let textField: MDCTextField
@@ -21,13 +21,13 @@ extension Input.Table {
 
         var indexPath: IndexPath!
 
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        override init(frame: CGRect) {
             textField = .init()
             textFieldController = .init(textInput: textField)
             textField.leadingUnderlineLabel.numberOfLines = 0
             textField.leadingUnderlineLabel.lineBreakMode = .byWordWrapping
 
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            super.init(frame: frame)
 
             textField.delegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)

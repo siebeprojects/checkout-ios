@@ -10,17 +10,17 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class ButtonCell: UITableViewCell, DequeueableCell {
+    class ButtonCell: UICollectionViewCell, DequeueableCell {
         private let button: UIButton
         var model: Input.Field.Button?
 
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        override init(frame: CGRect) {
             button = .init(frame: .zero)
             button.setTitleColor(.titleColor, for: .normal)
             button.layer.cornerRadius = .cornerRadius
             button.clipsToBounds = true
 
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            super.init(frame: frame)
 
             contentView.addSubview(button)
 
