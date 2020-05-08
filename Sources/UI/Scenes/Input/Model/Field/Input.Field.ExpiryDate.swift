@@ -53,7 +53,8 @@ extension Input.Field.ExpiryDate: Validatable {
 extension Input.Field.ExpiryDate: TextInputField {
     var maxInputLength: Int? { 4 }
     var name: String { "expiryDate" }
-
+    var allowedCharacters: CharacterSet? { return .decimalDigits }
+    
     // We need to switch placeholder and label for the field
     
     var label: String {

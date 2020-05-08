@@ -24,8 +24,6 @@ extension Input.Field {
     }
 }
 
-extension Input.Field.IBAN: TextInputField {}
-
 extension Input.Field.IBAN: Validatable {
     func localize(error: Input.Field.Validation.ValidationError) -> String {
         switch error {
@@ -45,5 +43,9 @@ import UIKit
 extension Input.Field.IBAN: CellRepresentable, DefinesKeyboardStyle {
     var keyboardType: UIKeyboardType { .asciiCapable }
     var autocapitalizationType: UITextAutocapitalizationType { .allCharacters }
+}
+
+extension Input.Field.IBAN: TextInputField {
+    var allowedCharacters: CharacterSet? { return .alphanumerics }
 }
 #endif
