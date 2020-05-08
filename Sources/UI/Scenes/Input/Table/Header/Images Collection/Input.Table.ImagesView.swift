@@ -44,8 +44,42 @@ extension Input.Table {
 
 extension Input.Table.ImagesView {
     func configure(with model: Input.ImagesHeader) {
-        collectionController.dataSource = model.logosData.compactMap {
-            UIImage(data: $0)
+        let oldNetworks = collectionController.dataSource
+        let newNetworks = model.networks
+        
+        collectionView.performBatchUpdates({
+            collectionController.dataSource = newNetworks
+            
+            // Delete unused logos
+            for (index, oldNetwork) in oldNetworks.enumerated() {
+                var keepOld = false
+                
+                for newNetwork in newNetworks where newNetwork == oldNetwork {
+                    keepOld = true
+                    break
+                }
+                
+                if !keepOld {
+                    collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+                }
+            }
+            
+            // Insert new ones
+            for (index, newNetwork) in newNetworks.enumerated() {
+                var insertNew = true
+                
+                for oldNetwork in oldNetworks where oldNetwork == newNetwork {
+                    insertNew = false
+                    break
+                }
+                
+                if insertNew {
+                    collectionView.insertItems(at: [IndexPath(row: index, section: 0)])
+                }
+            }
+            
+        }) { _ in
+            
         }
     }
 }
