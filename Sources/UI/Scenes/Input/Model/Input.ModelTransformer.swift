@@ -37,7 +37,7 @@ extension Input.ModelTransformer {
 
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
 
-        let inputFields: [CellRepresentable] = inputFieldFactory.makeInputFields(for: modelToTransform)
+        let inputFields = inputFieldFactory.makeInputFields(for: modelToTransform)
         self.verificationCodeFields = inputFieldFactory.verificationCodeFields
 
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
