@@ -134,6 +134,8 @@
 		D92343F32455E3080096C415 /* InternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D923436E2455E3080096C415 /* InternalError.swift */; };
 		D92343F42455E3080096C415 /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D923436F2455E3080096C415 /* AssetProvider.swift */; };
 		D92E8C34245742FC00D4A62B /* ExpirationDateInputModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92E8C33245742FC00D4A62B /* ExpirationDateInputModifier.swift */; };
+		D940AEDD2467EE4D00007D5A /* Input.Table.FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D940AEDC2467EE4D00007D5A /* Input.Table.FlowLayout.swift */; };
+		D940AEDF2467F5F100007D5A /* Input.Table.FullWidthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D940AEDE2467F5F100007D5A /* Input.Table.FullWidthCollectionViewCell.swift */; };
 		D96FBD7C24573995001B6D45 /* String+characterAt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96FBD7024573995001B6D45 /* String+characterAt.swift */; };
 		D96FBD7D24573995001B6D45 /* PatternFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96FBD7224573995001B6D45 /* PatternFormatter.swift */; };
 		D96FBD7E24573995001B6D45 /* InputPatternFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96FBD7324573995001B6D45 /* InputPatternFormatter.swift */; };
@@ -308,6 +310,8 @@
 		D923436E2455E3080096C415 /* InternalError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalError.swift; sourceTree = "<group>"; };
 		D923436F2455E3080096C415 /* AssetProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
 		D92E8C33245742FC00D4A62B /* ExpirationDateInputModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateInputModifier.swift; sourceTree = "<group>"; };
+		D940AEDC2467EE4D00007D5A /* Input.Table.FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.FlowLayout.swift; sourceTree = "<group>"; };
+		D940AEDE2467F5F100007D5A /* Input.Table.FullWidthCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.FullWidthCollectionViewCell.swift; sourceTree = "<group>"; };
 		D96FBD7024573995001B6D45 /* String+characterAt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+characterAt.swift"; sourceTree = "<group>"; };
 		D96FBD7224573995001B6D45 /* PatternFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatternFormatter.swift; sourceTree = "<group>"; };
 		D96FBD7324573995001B6D45 /* InputPatternFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputPatternFormatter.swift; sourceTree = "<group>"; };
@@ -457,6 +461,7 @@
 			isa = PBXGroup;
 			children = (
 				D92342DB2455E3070096C415 /* Input.Table.Controller.swift */,
+				D940AEDC2467EE4D00007D5A /* Input.Table.FlowLayout.swift */,
 				D92342DC2455E3070096C415 /* Cell */,
 				D92342E12455E3070096C415 /* Header */,
 				D92342E92455E3070096C415 /* Input.Table.swift */,
@@ -468,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				D92342DD2455E3070096C415 /* Input.Table.SectionHeaderCell.swift */,
+				D940AEDE2467F5F100007D5A /* Input.Table.FullWidthCollectionViewCell.swift */,
 				D92342DE2455E3070096C415 /* Input.Table.CheckboxViewCell.swift */,
 				D92342DF2455E3070096C415 /* Input.Table.TextFieldViewCell.swift */,
 				D92342E02455E3070096C415 /* Input.Table.ButtonCell.swift */,
@@ -1246,6 +1252,7 @@
 				D92343B42455E3080096C415 /* LoadableLogo.swift in Sources */,
 				D96FBD8124573995001B6D45 /* TextFormatter.swift in Sources */,
 				D92343D32455E3080096C415 /* DequeueableCell.swift in Sources */,
+				D940AEDF2467F5F100007D5A /* Input.Table.FullWidthCollectionViewCell.swift in Sources */,
 				D92343B92455E3080096C415 /* List.ImageStackView.swift in Sources */,
 				D92343D92455E3080096C415 /* SharedTranslationProvider.swift in Sources */,
 				D92343942455E3080096C415 /* Input.Field.Button.swift in Sources */,
@@ -1270,6 +1277,7 @@
 				D92343712455E3080096C415 /* SendRequestOperation.swift in Sources */,
 				D92343C92455E3080096C415 /* RegisteredAccount.swift in Sources */,
 				D92343BA2455E3080096C415 /* String+removeCharacters.swift in Sources */,
+				D940AEDD2467EE4D00007D5A /* Input.Table.FlowLayout.swift in Sources */,
 				D92343AE2455E3080096C415 /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */,
 				D92343CC2455E3080096C415 /* SlideInViewController.swift in Sources */,
 				D92343922455E3080096C415 /* Input.Field.BIC.swift in Sources */,

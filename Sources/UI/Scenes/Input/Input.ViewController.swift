@@ -12,16 +12,14 @@ extension Input {
         fileprivate let headerModel: ViewRepresentable?
 
         private let collectionView: UICollectionView
-        private let layout = UICollectionViewFlowLayout()
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
-            collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: layout)
-            
             let transfomer = ModelTransformer()
             networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
             headerModel = Input.ImagesHeader(for: networks)
             smartSwitch = try .init(networks: self.networks)
-            tableController = .init(for: smartSwitch.selected.network, collectionView: collectionView)
+            tableController = .init(for: smartSwitch.selected.network)
+            collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
 
             super.init(nibName: nil, bundle: nil)
 
@@ -36,15 +34,14 @@ extension Input {
         }
 
         init(for registeredAccount: RegisteredAccount) {
-            collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: layout)
-            
             let transfomer = ModelTransformer()
             let network = transfomer.transform(registeredAccount: registeredAccount)
             networks = [network]
             headerModel = Input.TextHeader(from: registeredAccount)
             smartSwitch = .init(network: network)
-            tableController = .init(for: smartSwitch.selected.network, collectionView: collectionView)
-
+            tableController = .init(for: smartSwitch.selected.network)
+            collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
+            
             super.init(nibName: nil, bundle: nil)
 
             self.scrollView = collectionView
@@ -71,9 +68,12 @@ extension Input.ViewController {
 
         title = networks.first?.translation.translation(forKey: LocalTranslation.inputViewTitle.rawValue)
         view.tintColor = .tintColor
-        configure(collectionView: collectionView)
+
+        tableController.collectionView = self.collectionView
         tableController.scrollViewWillBeginDraggingBlock = scrollViewWillBeginDragging
 
+        configure(collectionView: collectionView)
+        
         collectionView.layoutIfNeeded()
         setPreferredContentSize()
 
@@ -147,12 +147,9 @@ extension Input.ViewController {
 //    }
 
     fileprivate func configure(collectionView: UICollectionView) {
-        tableController.registerCells()
-
-        collectionView.dataSource = tableController
-        collectionView.delegate = tableController
+        tableController.configure()
+        
         collectionView.tintColor = view.tintColor
-
         if #available(iOS 13.0, *) {
             collectionView.backgroundColor = UIColor.systemBackground
         } else {
@@ -169,17 +166,6 @@ extension Input.ViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
-
-        // Table header
-        if let model = headerModel {
-            let headerView = model.configurableViewType.init(frame: .zero)
-            try? model.configure(view: headerView)
-            // FIXME
-//            collectionView.tableHeaderView = headerView
-//            updateTableViewHeaderFrame()
-        } else {
-//            collectionView.tableHeaderView = nil
-        }
     }
 }
 

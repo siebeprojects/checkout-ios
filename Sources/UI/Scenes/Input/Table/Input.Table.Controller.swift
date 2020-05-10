@@ -6,16 +6,18 @@ extension Input.Table {
     /// - Note: We use custom section approach (sections are presented as rows `SectionHeaderCell`) because we have to use `.plain` table type to get correct `tableView.contentSize` calculations and plain table type has floating sections that we don't want, so we switched to sections as rows.
     /// - See also: `DataSourceElement`
     class Controller: NSObject {
+        let flowLayout = FlowLayout()
+        private var dataSource: [DataSourceElement]
+
+        // MARK: Externally set
         var network: Input.Network {
             didSet {
                 networkDidUpdate(new: network, old: oldValue)
             }
         }
-
-        unowned let collectionView: UICollectionView
-        private var dataSource: [DataSourceElement]
+        
+        weak var collectionView: UICollectionView!
         weak var inputChangesListener: InputValueChangesListener?
-
         var scrollViewWillBeginDraggingBlock: ((UIScrollView) -> Void)?
 
         enum DataSourceElement {
@@ -25,19 +27,54 @@ extension Input.Table {
             case separator
         }
 
-        init(for network: Input.Network, collectionView: UICollectionView) {
+        init(for network: Input.Network) {
             self.network = network
-            self.collectionView = collectionView
             self.dataSource = Self.arrangeBySections(network: network)
 
             super.init()
-
+        }
+        
+        func configure() {
             network.submitButton.buttonDidTap = { [weak self] _ in
                 self?.validateFields(option: .fullCheck)
             }
+            
+            registerCells()
+
+            configure(layout: flowLayout)
+            
+            collectionView.dataSource = self
+            collectionView.delegate = self
+            
+            if #available(iOS 11.0, *) {
+                collectionView.contentInsetAdjustmentBehavior = .always
+            }
+
+            // Table header
+//            if let model = headerModel {
+//                let headerView = model.configurableViewType.init(frame: .zero)
+//                try? model.configure(view: headerView)
+//                // FIXME
+//    //            collectionView.tableHeaderView = headerView
+//    //            updateTableViewHeaderFrame()
+//            } else {
+//    //            collectionView.tableHeaderView = nil
+//            }
+        }
+        
+        private func configure(layout: UICollectionViewFlowLayout) {
+            if #available(iOS 11.0, *) {
+                layout.sectionInsetReference = .fromContentInset
+            }
+            
+            layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+            layout.minimumInteritemSpacing = 10
+            layout.minimumLineSpacing = 10
+            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            layout.headerReferenceSize = CGSize(width: 0, height: 40)
         }
 
-        func registerCells() {
+        private func registerCells() {
             collectionView.register(TextFieldViewCell.self)
             collectionView.register(CheckboxViewCell.self)
             collectionView.register(ButtonCell.self)

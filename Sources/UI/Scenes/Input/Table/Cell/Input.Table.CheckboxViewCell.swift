@@ -10,7 +10,7 @@ extension Input.Table {
     /// Upon some actions calls `delegate`, don't forget to set it.
     ///
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
-    class CheckboxViewCell: UICollectionViewCell, DequeueableCell {
+    class CheckboxViewCell: FullWidthCollectionViewCell, DequeueableCell {
         weak var delegate: InputCellDelegate?
 
         private let label: UILabel
