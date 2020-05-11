@@ -16,8 +16,9 @@ extension Input.Table {
 
         override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
             guard let collectionView = collectionView else {
-                fatalError()
+                return nil
             }
+            
             guard let layoutAttributes = super.layoutAttributesForItem(at: indexPath)?.copy() as? UICollectionViewLayoutAttributes else {
                 return nil
             }
