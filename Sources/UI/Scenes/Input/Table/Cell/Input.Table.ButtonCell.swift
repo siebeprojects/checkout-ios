@@ -25,10 +25,13 @@ extension Input.Table {
             contentView.addSubview(button)
 
             button.translatesAutoresizingMaskIntoConstraints = false
-
+            
+            let buttonBottomConstraint = button.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+            buttonBottomConstraint.priority = .defaultHigh
+            
             NSLayoutConstraint.activate([
                 button.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-                button.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+                buttonBottomConstraint,
                 button.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
                 button.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
                 button.heightAnchor.constraint(equalToConstant: .buttonHeight)

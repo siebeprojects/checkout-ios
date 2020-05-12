@@ -37,12 +37,15 @@ extension Input.Table {
             contentView.addSubview(textField)
 
             textField.translatesAutoresizingMaskIntoConstraints = false
-
+            
+            let textFieldBottomAnchor = contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: .cellVerticalSpacing / 2)
+            textFieldBottomAnchor.priority = .defaultHigh
+            
             NSLayoutConstraint.activate([
                 textField.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
                 textField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
                 textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .cellVerticalSpacing / 2),
-                contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: .cellVerticalSpacing / 2)
+                textFieldBottomAnchor
             ])
         }
 
