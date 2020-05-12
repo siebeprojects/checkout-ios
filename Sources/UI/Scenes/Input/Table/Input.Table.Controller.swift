@@ -7,7 +7,9 @@ extension Input.Table {
     /// - See also: `DataSourceElement`
     class Controller: NSObject {
         let flowLayout = FlowLayout()
-        private var dataSource: [DataSourceElement]
+        private var dataSource: [[CellRepresentable]]
+        
+        private let sectionHeaderIdentifier = "header"
 
         // MARK: Externally set
         var network: Input.Network {
@@ -19,13 +21,6 @@ extension Input.Table {
         weak var collectionView: UICollectionView!
         weak var inputChangesListener: InputValueChangesListener?
         var scrollViewWillBeginDraggingBlock: ((UIScrollView) -> Void)?
-
-        enum DataSourceElement {
-            case row(CellRepresentable)
-
-            /// Separator acts as delimiter and section divider
-            case separator
-        }
 
         init(for network: Input.Network) {
             self.network = network
@@ -78,7 +73,7 @@ extension Input.Table {
             collectionView.register(TextFieldViewCell.self)
             collectionView.register(CheckboxViewCell.self)
             collectionView.register(ButtonCell.self)
-            collectionView.register(SectionHeaderCell.self)
+            collectionView.register(Input.Table.SectionHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         }
 
         @discardableResult
@@ -97,11 +92,11 @@ extension Input.Table {
             // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
             collectionView.endEditing(true)
 
-            for cell in dataSource {
-                guard case let .row(cellRepresentable) = cell else { continue }
-                guard let validatable = cellRepresentable as? Validatable else { continue }
-
-                validatable.validateAndSaveResult(option: option)
+            for section in dataSource {
+                for row in section {
+                    guard let validatable = row as? Validatable else { continue }
+                    validatable.validateAndSaveResult(option: option)
+                }
             }
 
             collectionView.reloadData()
@@ -117,10 +112,10 @@ extension Input.Table {
                 return
             }
 
-            let oldDataSourceCount = dataSource.count
+            let oldDataSource = dataSource
             self.dataSource = Self.arrangeBySections(network: new)
 
-            guard dataSource.count == oldDataSourceCount else {
+            guard dataSource.count == oldDataSource.count else {
                 collectionView.endEditing(true)
                 collectionView.reloadData()
                 becomeFirstResponder()
@@ -128,20 +123,31 @@ extension Input.Table {
                 return
             }
             
+            let visibleIndexPaths = collectionView.indexPathsForVisibleItems
             collectionView.performBatchUpdates({
-                for visibleIndexPath in collectionView.indexPathsForVisibleItems {
-                    guard let cell = collectionView.cellForItem(at: visibleIndexPath) else { continue }
-                    guard case let .row(cellRepresentable) = dataSource[visibleIndexPath.row] else { continue }
-
-                    cellRepresentable.configure(cell: cell)
+                for (newSectionIndex, newSection) in dataSource.enumerated() {
+                    guard newSection.count == oldDataSource[newSectionIndex].count else {
+                        collectionView.reloadSections([newSectionIndex])
+                        continue
+                    }
+                    
+                    for (newRowIndex, _) in newSection.enumerated() {
+                        let currentIndexPath = IndexPath(row: newRowIndex, section: newSectionIndex)
+                        
+                        guard visibleIndexPaths.contains(currentIndexPath) else {
+                            continue
+                        }
+                        
+                        guard let cell = collectionView.cellForItem(at: currentIndexPath) else { continue }
+                        let model = dataSource[newSectionIndex][newRowIndex]
+                        model.configure(cell: cell)
+                    }
                 }
-            }) { (_) in
-                
-            }
+            })
         }
 
         /// Arrange models by sections
-        private static func arrangeBySections(network: Input.Network) -> [DataSourceElement] {
+        private static func arrangeBySections(network: Input.Network) -> [[CellRepresentable]] {
             var sections = [[CellRepresentable]]()
 
             // Input Fields
@@ -162,19 +168,8 @@ extension Input.Table {
             // Submit
             sections += [[network.submitButton]]
 
-            // Add separators
-            var dataSource = [DataSourceElement]()
-            for section in sections where !section.isEmpty {
-                let rows: [DataSourceElement] = section.map { .row($0) }
-                dataSource.append(contentsOf: rows)
-                dataSource.append(.separator)
-            }
-
-            // Remove last separator
-            if let lastElement = dataSource.last, case .separator = lastElement {
-                dataSource.removeLast()
-            }
-
+            let dataSource = sections.filter { !$0.isEmpty }
+            
             return dataSource
         }
     }
@@ -184,48 +179,51 @@ extension Input.Table {
 
 extension Input.Table.Controller: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return dataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.count
+        return dataSource[section].count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch dataSource[indexPath.row] {
-        case .separator: return collectionView.dequeueReusableCell(Input.Table.SectionHeaderCell.self, for: indexPath)
-        case .row(let cellRepresentable):
-            let cell = cellRepresentable.dequeueCell(for: collectionView, indexPath: indexPath)
-            cell.tintColor = collectionView.tintColor
-            cellRepresentable.configure(cell: cell)
+        let model = dataSource[indexPath.section][indexPath.row]
+        let cell = model.dequeueCell(for: collectionView, indexPath: indexPath)
+        cell.tintColor = collectionView.tintColor
+        model.configure(cell: cell)
 
-            if let cell = cell as? ContainsInputCellDelegate {
-                cell.delegate = self
-            }
-
-            if let cell = cell as? SupportsPrimaryAction {
-                let isLastRow = isLastTextField(at: indexPath)
-                let action: PrimaryAction = isLastRow ? .done : .next
-                cell.setPrimaryAction(to: action)
-            }
-
-            return cell
+        if let cell = cell as? ContainsInputCellDelegate {
+            cell.delegate = self
         }
+
+        if let cell = cell as? SupportsPrimaryAction {
+            let isLastRow = isLastTextField(at: indexPath)
+            let action: PrimaryAction = isLastRow ? .done : .next
+            cell.setPrimaryAction(to: action)
+        }
+
+        return cell
      }
 
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: sectionHeaderIdentifier, for: indexPath)
+    }
+    
     private func isLastTextField(at indexPath: IndexPath) -> Bool {
-        var lastTextFieldRow: Int?
-
-        for row in indexPath.row...dataSource.count - 1 {
-            let element = dataSource[row]
-            guard case let .row(rowModel) = element, let _ = rowModel as? TextInputField else { continue }
-            lastTextFieldRow = row
-        }
-
-        if lastTextFieldRow == nil { return true }
-        if lastTextFieldRow == indexPath.row { return true }
-
-        return false
+        return true
+        // FIXME
+//        var lastTextFieldRow: Int?
+//
+//        for row in indexPath.row...dataSource.count - 1 {
+//            let element = dataSource[row]
+//            guard case let .row(rowModel) = element, let _ = rowModel as? TextInputField else { continue }
+//            lastTextFieldRow = row
+//        }
+//
+//        if lastTextFieldRow == nil { return true }
+//        if lastTextFieldRow == indexPath.row { return true }
+//
+//        return false
     }
 }
 
@@ -260,7 +258,7 @@ extension Input.Table.Controller: InputCellDelegate {
     }
 
     func inputCellDidEndEditing(at indexPath: IndexPath) {
-        guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
+        let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         guard let validatableRow = cellRepresentable as? Validatable else { return }
 
         validatableRow.validateAndSaveResult(option: .preCheck)
@@ -268,8 +266,7 @@ extension Input.Table.Controller: InputCellDelegate {
     }
 
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
-        // Don't show an error text when input field is focused
-        guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
+        let cellRepresentable = dataSource[indexPath.section][indexPath.row]
 
         if let validatableModel = cellRepresentable as? Validatable, validatableModel.validationErrorText != nil {
             validatableModel.validationErrorText = nil
@@ -287,7 +284,7 @@ extension Input.Table.Controller: InputCellDelegate {
     }
 
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
-        guard case let .row(cellRepresentable) = dataSource[indexPath.row] else { return }
+        let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         guard let inputField = cellRepresentable as? InputField else { return }
 
         inputField.value = newValue ?? ""
