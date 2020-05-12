@@ -8,7 +8,7 @@ extension List.Table {
     final class DetailedLabelCell: List.Table.BorderedCell, DequeueableCell {
         weak var primaryLabel: UILabel?
         weak var secondaryLabel: UILabel?
-        private weak var logosStackView: ImageStackView?
+        weak var logoView: UIImageView?
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -18,10 +18,6 @@ extension List.Table {
 
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
-        }
-
-        func setImages(_ images: [UIImage]) {
-            logosStackView?.images = images
         }
     }
 }
@@ -44,40 +40,30 @@ extension List.Table.DetailedLabelCell {
         contentView.addSubview(secondaryLabel)
         self.secondaryLabel = secondaryLabel
 
-        let logosStackView = List.Table.ImageStackView(frame: .zero, imagesTintColor: .detailedText)
-        logosStackView.translatesAutoresizingMaskIntoConstraints = false
-        logosStackView.axis = .horizontal
-        logosStackView.distribution = .fillProportionally
-        logosStackView.spacing = .defaultSpacing
-        contentView.addSubview(logosStackView)
-        self.logosStackView = logosStackView
+        let logoView = UIImageView(frame: .zero)
+        logoView.tintColor = .detailedText
+        logoView.contentMode = .scaleAspectFill
+        logoView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(logoView)
+        self.logoView = logoView
 
         // Layout
 
-        let logoStackViewTralingConstraint = logosStackView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)
-
-        logosStackView.setContentHuggingPriority(.required, for: .horizontal)
-        logosStackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
-        primaryLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        primaryLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        secondaryLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-
         NSLayoutConstraint.activate([
-            primaryLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.leadingAnchor, constant: .labelToLeftSeparatorSpacing),
+            primaryLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: .labelToLeftSeparatorSpacing),
             primaryLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor),
             primaryLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor, constant: .verticalSpacing / -2),
             primaryLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
 
-            secondaryLabel.leadingAnchor.constraint(equalTo: logosStackView.trailingAnchor, constant: .defaultSpacing * 2),
+            secondaryLabel.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: .defaultSpacing * 2),
             secondaryLabel.topAnchor.constraint(equalTo: contentView.centerYAnchor, constant: .verticalSpacing / 2),
             secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor),
             secondaryLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
 
-            logosStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            logosStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-            logosStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            logoStackViewTralingConstraint
+            logoView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            logoView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            logoView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            logoView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)
         ])
     }
 }
