@@ -61,9 +61,6 @@ extension Input.Table {
             }
             
             layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-//            layout.minimumInteritemSpacing = 10
-//            layout.minimumLineSpacing = 10
-//            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         }
 
         private func registerCells() {
@@ -246,14 +243,6 @@ extension Input.Table.Controller: UICollectionViewDataSource {
 }
 
 extension Input.Table.Controller: UICollectionViewDelegate {
-    // FIXME
-//    func tableView(_ collectionView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        switch dataSource[indexPath.row] {
-//        case .separator: return Input.Table.SectionHeaderCell.Constant.height
-//        case .row(let cell): return cell.estimatedHeightForRow
-//        }
-//    }
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollViewWillBeginDraggingBlock?(scrollView)
     }
