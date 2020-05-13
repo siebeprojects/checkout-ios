@@ -14,8 +14,8 @@ extension Input {
         weak var headerView: UIView?
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
-            let transfomer = ModelTransformer()
-            networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
+            let transformer = ModelTransformer()
+            networks = paymentNetworks.map { transformer.transform(paymentNetwork: $0) }
             smartSwitch = try .init(networks: self.networks)
             tableController = .init(for: smartSwitch.selected.network)
             tableController.headerModel = Input.ImagesHeader(for: networks)
@@ -28,7 +28,7 @@ extension Input {
             tableController.inputChangesListener = self
 
             // Placeholder translation suffixer
-            for field in transfomer.verificationCodeFields {
+            for field in transformer.verificationCodeFields {
                 field.keySuffixer = self
             }
         }
@@ -84,10 +84,6 @@ extension Input.ViewController {
         setPreferredContentSize()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
-        
-//        if let headerModel = self.headerModel {
-//            addHeaderView(from: headerModel)
-//        }
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
