@@ -23,14 +23,22 @@ extension Input.Table {
             self.addSubview(collectionView)
             collectionView.translatesAutoresizingMaskIntoConstraints = false
 
+            let bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2)
+            bottomConstraint.priority = .defaultHigh
+            
             NSLayoutConstraint.activate([
                 collectionView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
                 collectionView.topAnchor.constraint(equalTo: topAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2),
+                bottomConstraint,
                 collectionView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
             ])
-         }
-
+        }
+        
+        override func systemLayoutSizeFitting(_ targetSize: CGSize) -> CGSize {
+            collectionView.frame = CGRect(origin: .zero, size: targetSize)
+            return collectionView.collectionViewLayout.collectionViewContentSize
+        }
+        
         override func layoutSubviews() {
             collectionView.layoutSubviews()
             super.layoutSubviews()

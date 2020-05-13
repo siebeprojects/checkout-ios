@@ -44,17 +44,6 @@ extension Input.Table {
             if #available(iOS 11.0, *) {
                 collectionView.contentInsetAdjustmentBehavior = .always
             }
-
-            // Table header
-//            if let model = headerModel {
-//                let headerView = model.configurableViewType.init(frame: .zero)
-//                try? model.configure(view: headerView)
-//                // FIXME
-//    //            collectionView.tableHeaderView = headerView
-//    //            updateTableViewHeaderFrame()
-//            } else {
-//    //            collectionView.tableHeaderView = nil
-//            }
         }
         
         func configureHeader() {
@@ -73,7 +62,6 @@ extension Input.Table {
 //            layout.minimumInteritemSpacing = 10
 //            layout.minimumLineSpacing = 10
 //            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 40)
         }
 
         private func registerCells() {
@@ -266,6 +254,18 @@ extension Input.Table.Controller: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollViewWillBeginDraggingBlock?(scrollView)
+    }
+}
+
+extension Input.Table.Controller: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        // Get the view for the first header
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+
+        // Use this view to calculate the optimal size based on the collection view's width
+        let headerFrameSize = CGSize(width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height)
+        return headerView.systemLayoutSizeFitting(headerFrameSize)
     }
 }
 
