@@ -305,8 +305,6 @@ extension Input.Table.Controller: InputCellDelegate {
                 }
             }) { _ in }
         }
-
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
     }
 
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
