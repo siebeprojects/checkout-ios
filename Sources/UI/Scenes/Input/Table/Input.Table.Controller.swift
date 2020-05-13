@@ -36,6 +36,8 @@ extension Input.Table {
             
             registerCells()
 
+            collectionView.bounces = true
+
             configure(layout: flowLayout)
             
             collectionView.dataSource = self
