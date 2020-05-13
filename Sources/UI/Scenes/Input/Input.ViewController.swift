@@ -9,16 +9,16 @@ extension Input {
 
         private let tableController: Table.Controller
         fileprivate let smartSwitch: SmartSwitch.Selector
-        fileprivate let headerModel: ViewRepresentable?
 
         private let collectionView: UICollectionView
+        weak var headerView: UIView?
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
             let transfomer = ModelTransformer()
             networks = paymentNetworks.map { transfomer.transform(paymentNetwork: $0) }
-            headerModel = Input.ImagesHeader(for: networks)
             smartSwitch = try .init(networks: self.networks)
             tableController = .init(for: smartSwitch.selected.network)
+            tableController.headerModel = Input.ImagesHeader(for: networks)
             collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
 
             super.init(nibName: nil, bundle: nil)
@@ -37,9 +37,9 @@ extension Input {
             let transfomer = ModelTransformer()
             let network = transfomer.transform(registeredAccount: registeredAccount)
             networks = [network]
-            headerModel = Input.TextHeader(from: registeredAccount)
             smartSwitch = .init(network: network)
             tableController = .init(for: smartSwitch.selected.network)
+            tableController.headerModel = Input.TextHeader(from: registeredAccount)
             collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
             
             super.init(nibName: nil, bundle: nil)
@@ -78,7 +78,30 @@ extension Input.ViewController {
         setPreferredContentSize()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
+        
+//        if let headerModel = self.headerModel {
+//            addHeaderView(from: headerModel)
+//        }
     }
+    
+//    func addHeaderView(from viewRepresentable: ViewRepresentable) {
+//        let headerView = viewRepresentable.configurableViewType.init(frame: .zero)
+//        headerView.backgroundColor = .red
+//
+//        self.view.addSubview(headerView)
+//
+//        headerView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            headerView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
+//            headerView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
+//            headerView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
+//            headerView.bottomAnchor.constraint(equalTo: collectionView.topAnchor)
+//        ])
+//
+//        try? viewRepresentable.configure(view: headerView)
+//
+//        self.headerView = headerView
+//    }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         guard let navigationController = self.navigationController else { return }
@@ -160,12 +183,15 @@ extension Input.ViewController {
 
         view.addSubview(collectionView)
 
+        let topConstraint = collectionView.topAnchor.constraint(equalTo: view.topAnchor)
+//        topConstraint.priority = .defaultLow
         NSLayoutConstraint.activate([
             collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor)
+            topConstraint
         ])
+        
     }
 }
 
@@ -194,15 +220,15 @@ extension Input.ViewController: InputValueChangesListener {
 
     private func replaceCurrentNetwork(with newSelection: Input.SmartSwitch.Selector.DetectedNetwork) {
         tableController.network = newSelection.network
-        // FIXME: No header in CollectionView
-//        if let imagesHeader = headerModel as? Input.ImagesHeader, let tableHeaderView = collectionView.tableHeaderView {
-//            switch newSelection {
-//            case .generic: imagesHeader.setNetworks(self.networks)
-//            case .specific(let specificNetwork): imagesHeader.setNetworks([specificNetwork])
-//            }
-//
-//            try? imagesHeader.configure(view: tableHeaderView)
-//        }
+
+        if let imagesHeaderModel = tableController.headerModel as? Input.ImagesHeader {
+            switch newSelection {
+            case .generic: imagesHeaderModel.setNetworks(self.networks)
+            case .specific(let specificNetwork): imagesHeaderModel.setNetworks([specificNetwork])
+            }
+            
+            tableController.configureHeader()
+        }
     }
 }
 

@@ -7,7 +7,7 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class LogoTextView: UIView {
+    class LogoTextView: UICollectionReusableView, DequeueableCell {
         private let label: UILabel
         private let logoView: UIImageView
 

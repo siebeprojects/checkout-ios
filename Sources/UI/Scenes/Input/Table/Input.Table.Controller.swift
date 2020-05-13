@@ -8,8 +8,6 @@ extension Input.Table {
     class Controller: NSObject {
         let flowLayout = FlowLayout()
         private var dataSource: [[CellRepresentable]]
-        
-        private let sectionHeaderIdentifier = "header"
 
         // MARK: Externally set
         var network: Input.Network {
@@ -17,10 +15,12 @@ extension Input.Table {
                 networkDidUpdate(new: network, old: oldValue)
             }
         }
-        
+
         weak var collectionView: UICollectionView!
         weak var inputChangesListener: InputValueChangesListener?
         var scrollViewWillBeginDraggingBlock: ((UIScrollView) -> Void)?
+
+        var headerModel: CollectionViewRepresentable?
 
         init(for network: Input.Network) {
             self.network = network
@@ -57,23 +57,35 @@ extension Input.Table {
 //            }
         }
         
+        func configureHeader() {
+            guard let model = self.headerModel else { return }
+            guard let visible = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: [0,0]) as? UICollectionReusableView & DequeueableCell else { return }
+            
+            try? model.configure(view: visible)
+        }
+        
         private func configure(layout: UICollectionViewFlowLayout) {
             if #available(iOS 11.0, *) {
                 layout.sectionInsetReference = .fromContentInset
             }
             
             layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-            layout.minimumInteritemSpacing = 10
-            layout.minimumLineSpacing = 10
-            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            layout.headerReferenceSize = CGSize(width: 0, height: 40)
+//            layout.minimumInteritemSpacing = 10
+//            layout.minimumLineSpacing = 10
+//            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 40)
         }
 
         private func registerCells() {
             collectionView.register(TextFieldViewCell.self)
             collectionView.register(CheckboxViewCell.self)
             collectionView.register(ButtonCell.self)
-            collectionView.register(Input.Table.SectionHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
+            
+            // Headers
+            collectionView.register(SectionHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+            collectionView.register(DetailedTextLogoView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+            collectionView.register(LogoTextView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+            collectionView.register(ImagesView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         }
 
         @discardableResult
@@ -206,7 +218,23 @@ extension Input.Table.Controller: UICollectionViewDataSource {
      }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: sectionHeaderIdentifier, for: indexPath)
+        switch indexPath {
+        case IndexPath(row: 0, section: 0):
+            guard let headerModel = self.headerModel else {
+                fallthrough
+            }
+            
+            let sectionView = headerModel.dequeueReusableSupplementaryView(for: collectionView, ofKind: kind, for: indexPath)
+            do {
+                try headerModel.configure(view: sectionView)
+            } catch {
+                fallthrough
+            }
+            
+            return sectionView
+        default:
+            return collectionView.dequeueReusableSupplementaryView(Input.Table.SectionHeaderCell.self, ofKind: kind, for: indexPath)
+        }
     }
     
     private func isLastTextField(at indexPath: IndexPath) -> Bool {

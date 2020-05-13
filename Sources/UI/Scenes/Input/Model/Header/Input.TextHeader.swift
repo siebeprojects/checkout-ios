@@ -39,16 +39,20 @@ extension Input {
     }
 }
 
-extension Input.TextHeader: ViewRepresentable {
-    func configure(view: UIView) throws {
+extension Input.TextHeader: CollectionViewRepresentable {
+    func dequeueReusableSupplementaryView(for collectionView: UICollectionView, ofKind kind: String, for indexPath: IndexPath) -> UICollectionReusableView {
+        if detailedLabel == nil {
+            return collectionView.dequeueReusableSupplementaryView(Input.Table.LogoTextView.self, ofKind: kind, for: indexPath)
+        } else {
+            return collectionView.dequeueReusableSupplementaryView(Input.Table.DetailedTextLogoView.self, ofKind: kind, for: indexPath)
+        }
+    }
+    
+    func configure(view: UICollectionReusableView) throws {
         switch view {
         case let view as Input.Table.LogoTextView: view.configure(with: self)
         case let view as Input.Table.DetailedTextLogoView: view.configure(with: self)
         default: throw errorForIncorrectView(view)
         }
-    }
-
-    var configurableViewType: UIView.Type {
-        return detailedLabel == nil ? Input.Table.LogoTextView.self : Input.Table.DetailedTextLogoView.self
     }
 }

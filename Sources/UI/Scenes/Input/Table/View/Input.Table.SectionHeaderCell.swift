@@ -1,7 +1,7 @@
 import UIKit
 
 extension Input.Table {
-    class SectionHeaderCell: UICollectionReusableView {
+    class SectionHeaderCell: UICollectionReusableView, DequeueableCell {
         struct Constant {
             static var height: CGFloat { return 4 }
         }

@@ -18,16 +18,16 @@ extension Input {
     }
 }
 
-extension Input.ImagesHeader: ViewRepresentable {
-    func configure(view: UIView) throws {
+extension Input.ImagesHeader: CollectionViewRepresentable {
+    func dequeueReusableSupplementaryView(for collectionView: UICollectionView, ofKind kind: String, for indexPath: IndexPath) -> UICollectionReusableView {
+        return collectionView.dequeueReusableSupplementaryView(Input.Table.ImagesView.self, ofKind: kind, for: indexPath)
+    }
+    
+    func configure(view: UICollectionReusableView) throws {
         guard let imagesView = view as? Input.Table.ImagesView else {
             throw errorForIncorrectView(view)
         }
 
         imagesView.configure(with: self)
-    }
-
-    var configurableViewType: UIView.Type {
-        return Input.Table.ImagesView.self
     }
 }
