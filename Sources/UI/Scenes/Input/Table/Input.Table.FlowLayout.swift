@@ -25,14 +25,9 @@ extension Input.Table {
 
             layoutAttributes.frame.origin.x = sectionInset.left
             
-            let safeAreaWidth: CGFloat
-            if #available(iOS 11.0, *) {
-                safeAreaWidth = collectionView.safeAreaLayoutGuide.layoutFrame.width
-            } else {
-                safeAreaWidth = 0
-            }
+            let safeAreaWidth: CGFloat = collectionView.frame.width
             
-            layoutAttributes.frame.size.width = safeAreaWidth - sectionInset.left - sectionInset.right
+            layoutAttributes.frame.size.width = safeAreaWidth - collectionView.contentInset.left - collectionView.contentInset.right
             
             return layoutAttributes
         }

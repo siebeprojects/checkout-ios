@@ -73,6 +73,12 @@ extension Input.ViewController {
         tableController.scrollViewWillBeginDraggingBlock = scrollViewWillBeginDragging
 
         configure(collectionView: collectionView)
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
+        if #available(iOS 13.0, *) {
+            collectionView.automaticallyAdjustsScrollIndicatorInsets = false
+        }
         
         collectionView.layoutIfNeeded()
         setPreferredContentSize()
@@ -83,25 +89,6 @@ extension Input.ViewController {
 //            addHeaderView(from: headerModel)
 //        }
     }
-    
-//    func addHeaderView(from viewRepresentable: ViewRepresentable) {
-//        let headerView = viewRepresentable.configurableViewType.init(frame: .zero)
-//        headerView.backgroundColor = .red
-//
-//        self.view.addSubview(headerView)
-//
-//        headerView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            headerView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
-//            headerView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor),
-//            headerView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
-//            headerView.bottomAnchor.constraint(equalTo: collectionView.topAnchor)
-//        ])
-//
-//        try? viewRepresentable.configure(view: headerView)
-//
-//        self.headerView = headerView
-//    }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         guard let navigationController = self.navigationController else { return }
@@ -145,9 +132,33 @@ extension Input.ViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        // FIXME: No header in collection view
-//        updateTableViewHeaderFrame()
+        
+        if #available(iOS 11.0, *) {
+            // In iOS11 insets are adjusted by `viewLayoutMarginsDidChange`, it's more CPU effective than adjusting it here
+        } else {
+            updateCollectionViewInsets()
+        }
+    }
+    
+    @available(iOS 11.0, *)
+    override func viewLayoutMarginsDidChange() {
+        super.viewLayoutMarginsDidChange()
+        updateCollectionViewInsets()
+    }
+    
+    fileprivate func updateCollectionViewInsets(adjustBottomInset: CGFloat = 0) {
+        var newInset = UIEdgeInsets(top: view.layoutMargins.top, left: view.layoutMargins.left, bottom: view.layoutMargins.bottom + adjustBottomInset, right: view.layoutMargins.right)
+        collectionView.contentInset = newInset
+        
+        if #available(iOS 11.0, *) {
+            newInset.left = view.safeAreaInsets.left
+            newInset.right = view.safeAreaInsets.right
+        } else {
+            newInset.left = 0
+            newInset.right = 0
+        }
+        
+        collectionView.scrollIndicatorInsets = newInset
     }
 }
 
@@ -160,15 +171,6 @@ extension Input.ViewController {
 // MARK: - View configurator
 
 extension Input.ViewController {
-    // FIXME: No header in UICollectionView
-//    fileprivate func updateTableViewHeaderFrame() {
-//        guard let headerView = collectionView.tableHeaderView else { return }
-//
-//        let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-//        let headerViewFrame = CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: headerViewSize.height))
-//        headerView.frame = headerViewFrame
-//    }
-
     fileprivate func configure(collectionView: UICollectionView) {
         tableController.configure()
         
@@ -183,15 +185,12 @@ extension Input.ViewController {
 
         view.addSubview(collectionView)
 
-        let topConstraint = collectionView.topAnchor.constraint(equalTo: view.topAnchor)
-//        topConstraint.priority = .defaultLow
         NSLayoutConstraint.activate([
             collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            topConstraint
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
-        
     }
 }
 
@@ -236,38 +235,32 @@ extension Input.ViewController: InputValueChangesListener {
 
 extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { collectionView }
-
+    
     func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
-         guard let scrollViewToModify = scrollViewToModify else { return }
-
-         if navigationController?.modalPresentationStyle == .custom {
-            scrollViewToModify.contentInset = .zero
-            scrollViewToModify.scrollIndicatorInsets = .zero
-
+        guard scrollViewToModify != nil else { return }
+        
+        if navigationController?.modalPresentationStyle == .custom {
             return
         }
-
-         var adjustedHeight = height
-
-         if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
-             adjustedHeight -= tabBarHeight
-         } else if let toolbarHeight = navigationController?.toolbar.frame.height, navigationController?.isToolbarHidden == false {
-             adjustedHeight -= toolbarHeight
-         }
-
-         if #available(iOS 11.0, *) {
-             adjustedHeight -= view.safeAreaInsets.bottom
-         }
-
-         if adjustedHeight < 0 { adjustedHeight = 0 }
-
-         UIView.animate(withDuration: animationDuration, animations: {
-             let newInsets = UIEdgeInsets(top: 0, left: 0, bottom: adjustedHeight, right: 0)
-
-             scrollViewToModify.contentInset = newInsets
-             scrollViewToModify.scrollIndicatorInsets = newInsets
-         })
-     }
+        
+        var adjustedHeight = height
+        
+        if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
+            adjustedHeight -= tabBarHeight
+        } else if let toolbarHeight = navigationController?.toolbar.frame.height, navigationController?.isToolbarHidden == false {
+            adjustedHeight -= toolbarHeight
+        }
+        
+        if #available(iOS 11.0, *) {
+            adjustedHeight -= view.safeAreaInsets.bottom
+        }
+        
+        if adjustedHeight < 0 { adjustedHeight = 0 }
+        
+        UIView.animate(withDuration: animationDuration, animations: { [self] in
+            self.updateCollectionViewInsets(adjustBottomInset: adjustedHeight)
+        })
+    }
 }
 
 // MARK: - VerificationCodeTranslationKeySuffixer

@@ -38,17 +38,17 @@ extension Input.Table {
             label.translatesAutoresizingMaskIntoConstraints = false
             checkbox.translatesAutoresizingMaskIntoConstraints = false
 
-            let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+            let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             bottomLabelConstraint.priority = .defaultHigh
             
             NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+                label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
                 bottomLabelConstraint,
-                label.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+                label.topAnchor.constraint(equalTo: contentView.topAnchor),
 
-                checkbox.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-                checkbox.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor)
+                checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
             ])
         }
 

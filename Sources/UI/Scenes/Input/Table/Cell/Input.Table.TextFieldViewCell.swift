@@ -42,8 +42,8 @@ extension Input.Table {
             textFieldBottomAnchor.priority = .defaultHigh
             
             NSLayoutConstraint.activate([
-                textField.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-                textField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+                textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .cellVerticalSpacing / 2),
                 textFieldBottomAnchor
             ])
