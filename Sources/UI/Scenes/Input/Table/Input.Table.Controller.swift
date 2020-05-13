@@ -289,8 +289,15 @@ extension Input.Table.Controller: InputCellDelegate {
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         guard let validatableRow = cellRepresentable as? Validatable else { return }
 
+        // Validate an input and update a model
         validatableRow.validateAndSaveResult(option: .preCheck)
-        collectionView.reloadItems(at: [indexPath])
+        
+        // Display validation result if cell is visible
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            collectionView.performBatchUpdates({
+                cellRepresentable.configure(cell: cell)
+            }, completion: nil)
+        }
     }
 
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
