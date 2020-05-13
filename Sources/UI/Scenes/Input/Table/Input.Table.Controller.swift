@@ -225,20 +225,19 @@ extension Input.Table.Controller: UICollectionViewDataSource {
     }
     
     private func isLastTextField(at indexPath: IndexPath) -> Bool {
-        return true
-        // FIXME
-//        var lastTextFieldRow: Int?
-//
-//        for row in indexPath.row...dataSource.count - 1 {
-//            let element = dataSource[row]
-//            guard case let .row(rowModel) = element, let _ = rowModel as? TextInputField else { continue }
-//            lastTextFieldRow = row
-//        }
-//
-//        if lastTextFieldRow == nil { return true }
-//        if lastTextFieldRow == indexPath.row { return true }
-//
-//        return false
+        var lastTextFieldRow: Int?
+
+        let rowsInSection = dataSource[indexPath.section]
+        for rowIndex in indexPath.row...rowsInSection.count - 1 {
+            let element = rowsInSection[rowIndex]
+            guard let _ = element as? TextInputField else { continue }
+            lastTextFieldRow = rowIndex
+        }
+
+        if lastTextFieldRow == nil { return true }
+        if lastTextFieldRow == indexPath.row { return true }
+
+        return false
     }
 }
 
