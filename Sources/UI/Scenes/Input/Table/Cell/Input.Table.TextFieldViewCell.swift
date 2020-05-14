@@ -2,10 +2,6 @@
 import UIKit
 import MaterialComponents.MaterialTextFields
 
-extension CGFloat {
-    static let cellVerticalSpacing: CGFloat = 8
-}
-
 extension Input.Table {
     /// Cell that represents all text inputs, contains label and text field.
     /// Upon some actions calls `delegate`, don't forget to set it.
@@ -38,13 +34,13 @@ extension Input.Table {
 
             textField.translatesAutoresizingMaskIntoConstraints = false
             
-            let textFieldBottomAnchor = contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: .cellVerticalSpacing / 2)
+            let textFieldBottomAnchor = contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor)
             textFieldBottomAnchor.priority = .defaultHigh
             
             NSLayoutConstraint.activate([
                 textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .cellVerticalSpacing / 2),
+                textField.topAnchor.constraint(equalTo: contentView.topAnchor),
                 textFieldBottomAnchor
             ])
         }

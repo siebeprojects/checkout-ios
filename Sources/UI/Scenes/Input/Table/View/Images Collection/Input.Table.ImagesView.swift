@@ -23,7 +23,7 @@ extension Input.Table {
             self.addSubview(collectionView)
             collectionView.translatesAutoresizingMaskIntoConstraints = false
 
-            let bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2)
+            let bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
             bottomConstraint.priority = .defaultHigh
             let trailingConstraint = collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
             trailingConstraint.priority = .defaultHigh

@@ -177,6 +177,11 @@ extension Input.Table {
 // MARK: - UITableViewDataSource
 
 extension Input.Table.Controller: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        // Spacing between sections
+        return .init(top: 12, left: 0, bottom: 12, right: 0)
+    }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dataSource.count
     }
