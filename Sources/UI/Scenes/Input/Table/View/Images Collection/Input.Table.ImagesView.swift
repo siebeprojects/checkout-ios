@@ -25,11 +25,11 @@ extension Input.Table {
 
             let bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2)
             bottomConstraint.priority = .defaultHigh
-            let trailingConstraint = collectionView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
+            let trailingConstraint = collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
             trailingConstraint.priority = .defaultHigh
             
             NSLayoutConstraint.activate([
-                collectionView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+                collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 collectionView.topAnchor.constraint(equalTo: topAnchor),
                 bottomConstraint,
                 trailingConstraint

@@ -12,6 +12,7 @@ extension Input {
 
         private let collectionView: UICollectionView
         weak var headerView: UIView?
+        var calculatePreferredContentSize = false
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
             let transformer = ModelTransformer()
@@ -80,8 +81,14 @@ extension Input.ViewController {
             collectionView.automaticallyAdjustsScrollIndicatorInsets = false
         }
         
-        collectionView.layoutIfNeeded()
-        setPreferredContentSize()
+        // Calling collection view's `layout()` method before presenting it on screen leads to visual glitches on embedded collection view (which acts as a header) inside `collectionView`.
+        // That's why I call `layout()` only when view is presented as slide-in sheet and collection view header is not used.
+        // That concern appears more often when `contentInset` is controlled manually.
+        // It is a bad behaviour to use collection view inside other collection view (that may cause such strange bugs) but that is required by visual design and it is not directly prohibited by guidelines.
+        if calculatePreferredContentSize {
+            collectionView.layoutIfNeeded()
+            setPreferredContentSize()
+        }
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
     }
@@ -99,7 +106,7 @@ extension Input.ViewController {
         let yOffset = scrollView.contentOffset.y + insets.top
 
         // If scroll view is on top
-        if yOffset == 0 {
+        if yOffset <= 0 {
             // Hide shadow line
             navigationController.navigationBar.shadowImage = UIImage()
             navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -116,8 +123,17 @@ extension Input.ViewController {
         super.viewWillAppear(animated)
 
         addKeyboardFrameChangesObserver()
-
         tableController.becomeFirstResponder()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if #available(iOS 11.0, *) {
+            // In iOS11 insets are adjusted by `viewLayoutMarginsDidChange`
+        } else {
+            updateCollectionViewInsets()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -125,20 +141,11 @@ extension Input.ViewController {
 
         removeKeyboardFrameChangesObserver()
     }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if #available(iOS 11.0, *) {
-            // In iOS11 insets are adjusted by `viewLayoutMarginsDidChange`, it's more CPU effective than adjusting it here
-        } else {
-            updateCollectionViewInsets()
-        }
-    }
     
     @available(iOS 11.0, *)
     override func viewLayoutMarginsDidChange() {
         super.viewLayoutMarginsDidChange()
+        
         updateCollectionViewInsets()
     }
     
