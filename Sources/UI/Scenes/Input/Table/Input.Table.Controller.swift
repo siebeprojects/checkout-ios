@@ -1,6 +1,11 @@
 #if canImport(UIKit)
 import UIKit
 
+private extension CGFloat {
+    /// Set to size of most used cell (`TextFieldViewCell`), if cell would be changed - don't forget to change that value.
+    static var estimatedCellHeight: CGFloat { return 87 }
+}
+
 extension Input.Table {
     /// Acts as a datasource and delegate for input table views and responds on delegate events from a table and cells.
     /// - Note: We use custom section approach (sections are presented as rows `SectionHeaderCell`) because we have to use `.plain` table type to get correct `tableView.contentSize` calculations and plain table type has floating sections that we don't want, so we switched to sections as rows.
@@ -60,7 +65,7 @@ extension Input.Table {
                 layout.sectionInsetReference = .fromContentInset
             }
             
-            layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+            layout.estimatedItemSize = CGSize(width: collectionView.frame.width, height: .estimatedCellHeight)
         }
 
         private func registerCells() {
