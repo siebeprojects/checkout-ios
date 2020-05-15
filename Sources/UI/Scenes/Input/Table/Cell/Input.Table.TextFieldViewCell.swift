@@ -216,9 +216,10 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
     }
 
     private func makeAccessoryView(for action: PrimaryAction) -> UIView {
-        let view = UIInputView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 44), inputViewStyle: .default)
+        let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44)
+        let view = UIInputView(frame: frame, inputViewStyle: .default)
 
-        let toolbar = UIToolbar()
+        let toolbar = UIToolbar(frame: frame)
         toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let primaryAction: UIBarButtonItem
