@@ -4,45 +4,39 @@ import UIKit
 private extension CGFloat {
     /// Set to size of most used cell (`TextFieldViewCell`), if cell would be changed - don't forget to change that value.
     static var estimatedCellHeight: CGFloat { return 87 }
+    
+    /// Spacing between rows in section
+    static var rowLineSpacing: CGFloat { return 4 }
+    
+    /// Spacing between sections
+    static var sectionSpacing: CGFloat { return 16 }
 }
 
 extension Input.Table {
-    /// Acts as a datasource and delegate for input table views and responds on delegate events from a table and cells.
-    /// - Note: We use custom section approach (sections are presented as rows `SectionHeaderCell`) because we have to use `.plain` table type to get correct `tableView.contentSize` calculations and plain table type has floating sections that we don't want, so we switched to sections as rows.
-    /// - See also: `DataSourceElement`
     class Controller: NSObject {
         let flowLayout = FlowLayout()
-        private var dataSource: [[CellRepresentable]]
-
-        // MARK: Externally set
-        var network: Input.Network {
-            didSet {
-                networkDidUpdate(new: network, old: oldValue)
-            }
+        fileprivate var dataSource: [[CellRepresentable]] {
+            didSet { dataSourceDidUpdate(new: dataSource, old: oldValue) }
         }
-
+        
+        // Externally set
+        
         weak var collectionView: UICollectionView!
         weak var inputChangesListener: InputValueChangesListener?
         var scrollViewWillBeginDraggingBlock: ((UIScrollView) -> Void)?
-
-        var headerModel: CollectionViewRepresentable?
-
-        init(for network: Input.Network) {
-            self.network = network
-            self.dataSource = Self.arrangeBySections(network: network)
-
+        
+        // MARK: - Init
+        
+        init(for network: Input.Network, header: CellRepresentable) {
+            self.dataSource = Self.arrangeBySections(network: network, header: header)
             super.init()
         }
         
         func configure() {
-            network.submitButton.buttonDidTap = { [weak self] _ in
-                self?.validateFields(option: .fullCheck)
-            }
-            
             registerCells()
-
+            
             collectionView.bounces = true
-
+            
             configure(layout: flowLayout)
             
             collectionView.dataSource = self
@@ -53,129 +47,132 @@ extension Input.Table {
             }
         }
         
-        func configureHeader() {
-            guard let model = self.headerModel else { return }
-            guard let visible = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: [0,0]) as? UICollectionReusableView & DequeueableCell else { return }
-            
-            try? model.configure(view: visible)
-        }
-        
         private func configure(layout: UICollectionViewFlowLayout) {
             if #available(iOS 11.0, *) {
                 layout.sectionInsetReference = .fromContentInset
             }
             
+            layout.minimumLineSpacing = .rowLineSpacing
             layout.estimatedItemSize = CGSize(width: collectionView.frame.width, height: .estimatedCellHeight)
         }
 
         private func registerCells() {
+            // Input field cells
             collectionView.register(TextFieldViewCell.self)
             collectionView.register(CheckboxViewCell.self)
             collectionView.register(ButtonCell.self)
             
-            // Headers
-            collectionView.register(SectionHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
-            collectionView.register(DetailedTextLogoView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
-            collectionView.register(LogoTextView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
-            collectionView.register(ImagesView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+            // Header cells
+            collectionView.register(DetailedTextLogoView.self)
+            collectionView.register(LogoTextView.self)
+            collectionView.register(ImagesView.self)
+            
+            // Reusable views
+            collectionView.register(EmptySectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         }
+    }
+}
 
-        @discardableResult
-        func becomeFirstResponder() -> Bool {
-            for cell in collectionView.visibleCells {
-                guard cell.canBecomeFirstResponder else { continue }
-
-                cell.becomeFirstResponder()
-                return true
-            }
-
-            return false
+extension Input.Table.Controller {
+    func setModel(network: Input.Network, header: CellRepresentable) {
+        network.submitButton.buttonDidTap = { [weak self] _ in
+            self?.validateFields(option: .fullCheck)
         }
-
-        func validateFields(option: Input.Field.Validation.Option) {
-            // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
-            collectionView.endEditing(true)
-
-            for section in dataSource {
-                for row in section {
-                    guard let validatable = row as? Validatable else { continue }
-                    validatable.validateAndSaveResult(option: option)
-                }
-            }
-
-            collectionView.reloadData()
-        }
-
-        private func networkDidUpdate(new: Input.Network, old: Input.Network) {
-            new.submitButton.buttonDidTap = { [weak self] _ in
-                self?.validateFields(option: .fullCheck)
-            }
-
-            guard !network.inputFields.isEmpty else {
-                collectionView.reloadData()
-                return
-            }
-
-            let oldDataSource = dataSource
-            self.dataSource = Self.arrangeBySections(network: new)
-
-            guard dataSource.count == oldDataSource.count else {
-                collectionView.endEditing(true)
-                collectionView.reloadData()
-                becomeFirstResponder()
-
-                return
+        
+        dataSource = Self.arrangeBySections(network: network, header: header)
+    }
+    
+    @discardableResult
+    func becomeFirstResponder() -> Bool {
+        var indexPathsForVisibleItems = collectionView.indexPathsForVisibleItems
+        indexPathsForVisibleItems.sort { $0.compare($1) == .orderedAscending }
+        
+        for indexPath in indexPathsForVisibleItems {
+            guard let cell = collectionView.cellForItem(at: indexPath), cell.canBecomeFirstResponder else {
+                continue
             }
             
-            let visibleIndexPaths = collectionView.indexPathsForVisibleItems
-            collectionView.performBatchUpdates({
-                for (newSectionIndex, newSection) in dataSource.enumerated() {
-                    guard newSection.count == oldDataSource[newSectionIndex].count else {
-                        collectionView.reloadSections([newSectionIndex])
+            cell.becomeFirstResponder()
+            return true
+        }
+        
+        return false
+    }
+    
+    func validateFields(option: Input.Field.Validation.Option) {
+        // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
+        collectionView.endEditing(true)
+        
+        for section in dataSource {
+            for row in section {
+                guard let validatable = row as? Validatable else { continue }
+                validatable.validateAndSaveResult(option: option)
+            }
+        }
+        
+        collectionView.reloadData()
+    }
+    
+    fileprivate func dataSourceDidUpdate(new: [[CellRepresentable]], old: [[CellRepresentable]]) {
+        guard new.count == old.count else {
+            collectionView.endEditing(true)
+            collectionView.reloadData()
+            becomeFirstResponder()
+            
+            return
+        }
+        
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
+        collectionView.performBatchUpdates({
+            for (newSectionIndex, newSection) in dataSource.enumerated() {
+                guard newSection.count == old[newSectionIndex].count else {
+                    collectionView.reloadSections([newSectionIndex])
+                    continue
+                }
+                
+                for (newRowIndex, _) in newSection.enumerated() {
+                    let currentIndexPath = IndexPath(row: newRowIndex, section: newSectionIndex)
+                    
+                    guard visibleIndexPaths.contains(currentIndexPath) else {
                         continue
                     }
                     
-                    for (newRowIndex, _) in newSection.enumerated() {
-                        let currentIndexPath = IndexPath(row: newRowIndex, section: newSectionIndex)
-                        
-                        guard visibleIndexPaths.contains(currentIndexPath) else {
-                            continue
-                        }
-                        
-                        guard let cell = collectionView.cellForItem(at: currentIndexPath) else { continue }
-                        let model = dataSource[newSectionIndex][newRowIndex]
-                        model.configure(cell: cell)
-                    }
+                    guard let cell = collectionView.cellForItem(at: currentIndexPath) else { continue }
+                    let model = dataSource[newSectionIndex][newRowIndex]
+                    model.configure(cell: cell)
                 }
-            })
-        }
-
-        /// Arrange models by sections
-        private static func arrangeBySections(network: Input.Network) -> [[CellRepresentable]] {
-            var sections = [[CellRepresentable]]()
-
-            // Input Fields
-            let inputFields = network.inputFields.filter {
-                if $0.isHidden { return false }
-                return true
             }
-            sections += [inputFields]
-
-            // Checkboxes
-            var checkboxes = [CellRepresentable]()
-            for field in network.separatedCheckboxes where !field.isHidden {
-                checkboxes.append(field)
-            }
-
-            sections += [checkboxes]
-
-            // Submit
-            sections += [[network.submitButton]]
-
-            let dataSource = sections.filter { !$0.isEmpty }
-            
-            return dataSource
+        })
+    }
+    
+    /// Arrange models by sections
+    private static func arrangeBySections(network: Input.Network, header: CellRepresentable) -> [[CellRepresentable]] {
+        var sections = [[CellRepresentable]]()
+        
+        // Header
+        sections += [[header]]
+        
+        // Input Fields
+        let inputFields = network.inputFields.filter {
+            if $0.isHidden { return false }
+            return true
         }
+        sections += [inputFields]
+        
+        // Checkboxes
+        var checkboxes = [CellRepresentable]()
+        for field in network.separatedCheckboxes where !field.isHidden {
+            checkboxes.append(field)
+        }
+        
+        sections += [checkboxes]
+        
+        // Submit
+        sections += [[network.submitButton]]
+        
+        let dataSource = sections.filter { !$0.isEmpty }
+        
+        return dataSource
     }
 }
 
@@ -183,8 +180,7 @@ extension Input.Table {
 
 extension Input.Table.Controller: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        // Spacing between sections
-        return .init(top: 12, left: 0, bottom: 12, right: 0)
+        return .init(top: .sectionSpacing / 2, left: 0, bottom: .sectionSpacing / 2, right: 0)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -194,59 +190,43 @@ extension Input.Table.Controller: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource[section].count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let model = dataSource[indexPath.section][indexPath.row]
         let cell = model.dequeueCell(for: collectionView, indexPath: indexPath)
         cell.tintColor = collectionView.tintColor
         model.configure(cell: cell)
-
+        
         if let cell = cell as? ContainsInputCellDelegate {
             cell.delegate = self
         }
-
+        
         if let cell = cell as? SupportsPrimaryAction {
             let isLastRow = isLastTextField(at: indexPath)
             let action: PrimaryAction = isLastRow ? .done : .next
             cell.setPrimaryAction(to: action)
         }
-
+        
         return cell
-     }
-
+    }
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch indexPath {
-        case IndexPath(row: 0, section: 0):
-            guard let headerModel = self.headerModel else {
-                fallthrough
-            }
-            
-            let sectionView = headerModel.dequeueReusableSupplementaryView(for: collectionView, ofKind: kind, for: indexPath)
-            do {
-                try headerModel.configure(view: sectionView)
-            } catch {
-                fallthrough
-            }
-            
-            return sectionView
-        default:
-            return collectionView.dequeueReusableSupplementaryView(Input.Table.SectionHeaderCell.self, ofKind: kind, for: indexPath)
-        }
+            return collectionView.dequeueReusableSupplementaryView(Input.Table.EmptySectionView.self, ofKind: kind, for: indexPath)
     }
     
     private func isLastTextField(at indexPath: IndexPath) -> Bool {
         var lastTextFieldRow: Int?
-
+        
         let rowsInSection = dataSource[indexPath.section]
         for rowIndex in indexPath.row...rowsInSection.count - 1 {
             let element = rowsInSection[rowIndex]
             guard let _ = element as? TextInputField else { continue }
             lastTextFieldRow = rowIndex
         }
-
+        
         if lastTextFieldRow == nil { return true }
         if lastTextFieldRow == indexPath.row { return true }
-
+        
         return false
     }
 }
@@ -262,7 +242,7 @@ extension Input.Table.Controller: UICollectionViewDelegateFlowLayout {
         // Get the view for the first header
         let indexPath = IndexPath(row: 0, section: section)
         let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
-
+        
         // Use this view to calculate the optimal size based on the collection view's width
         let headerFrameSize = CGSize(width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height)
         return headerView.systemLayoutSizeFitting(headerFrameSize)
@@ -278,35 +258,35 @@ extension Input.Table.Controller: InputCellDelegate {
             collectionView.endEditing(false)
             return
         }
-
+        
         let nextIndexPath = IndexPath(row: indexPath.row + 1, section: indexPath.section)
         guard let cell = collectionView.cellForItem(at: nextIndexPath) else { return }
         guard cell.canBecomeFirstResponder else { return }
         cell.becomeFirstResponder()
     }
-
+    
     func inputCellDidEndEditing(at indexPath: IndexPath) {
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         guard let validatableRow = cellRepresentable as? Validatable else { return }
-
+        
         let previousValidationErrorText = validatableRow.validationErrorText
         
         // Validate an input and update a model
         validatableRow.validateAndSaveResult(option: .preCheck)
-
+        
         // Display validation result if cell is visible
         if previousValidationErrorText != validatableRow.validationErrorText, let cell = collectionView.cellForItem(at: indexPath) {
             cellRepresentable.configure(cell: cell)
             cell.layoutIfNeeded()
         }
     }
-
+    
     func inputCellBecameFirstResponder(at indexPath: IndexPath) {
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
-
+        
         if let validatableModel = cellRepresentable as? Validatable, validatableModel.validationErrorText != nil {
             validatableModel.validationErrorText = nil
-
+            
             collectionView.performBatchUpdates({
                 switch collectionView.cellForItem(at: indexPath) {
                 case let textFieldViewCell as Input.Table.TextFieldViewCell:
@@ -316,11 +296,11 @@ extension Input.Table.Controller: InputCellDelegate {
             }) { _ in }
         }
     }
-
+    
     func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         guard let inputField = cellRepresentable as? InputField else { return }
-
+        
         inputField.value = newValue ?? ""
         inputChangesListener?.valueDidChange(for: inputField)
     }

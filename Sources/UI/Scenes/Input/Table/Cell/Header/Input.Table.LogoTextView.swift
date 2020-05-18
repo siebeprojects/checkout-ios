@@ -7,7 +7,7 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class LogoTextView: UICollectionReusableView, DequeueableCell {
+    class LogoTextView: FullWidthCollectionViewCell, DequeueableCell {
         private let label: UILabel
         private let logoView: UIImageView
 
@@ -19,9 +19,7 @@ extension Input.Table {
 
             // FIXME: Add a checkmark for a view
 //            self.accessoryType = .checkmark
-
-            self.preservesSuperviewLayoutMargins = true
-
+            
             label.font = .preferredFont(forTextStyle: .body)
 
             self.addSubview(label)
@@ -36,11 +34,11 @@ extension Input.Table {
             logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
 
             NSLayoutConstraint.activate([
-                label.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-                label.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2),
-                label.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+                label.topAnchor.constraint(equalTo: self.topAnchor),
+                label.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                label.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
-                logoView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+                logoView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
                 logoView.topAnchor.constraint(equalTo: label.topAnchor),
                 logoView.bottomAnchor.constraint(equalTo: label.bottomAnchor),
                 logoView.widthAnchor.constraint(equalToConstant: .logoWidth),

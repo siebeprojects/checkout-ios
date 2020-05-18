@@ -39,20 +39,25 @@ extension Input {
     }
 }
 
-extension Input.TextHeader: CollectionViewRepresentable {
-    func dequeueReusableSupplementaryView(for collectionView: UICollectionView, ofKind kind: String, for indexPath: IndexPath) -> UICollectionReusableView {
-        if detailedLabel == nil {
-            return collectionView.dequeueReusableSupplementaryView(Input.Table.LogoTextView.self, ofKind: kind, for: indexPath)
-        } else {
-            return collectionView.dequeueReusableSupplementaryView(Input.Table.DetailedTextLogoView.self, ofKind: kind, for: indexPath)
+extension Input.TextHeader: CellRepresentable {
+    func configure(cell: UICollectionViewCell) {
+        switch cell {
+        case let view as Input.Table.LogoTextView: view.configure(with: self)
+        case let view as Input.Table.DetailedTextLogoView: view.configure(with: self)
+        default: return
         }
     }
     
-    func configure(view: UICollectionReusableView) throws {
-        switch view {
-        case let view as Input.Table.LogoTextView: view.configure(with: self)
-        case let view as Input.Table.DetailedTextLogoView: view.configure(with: self)
-        default: throw errorForIncorrectView(view)
+    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        if detailedLabel == nil {
+            return view.dequeueReusableCell(Input.Table.LogoTextView.self, for: indexPath)
+        } else {
+            return view.dequeueReusableCell(Input.Table.DetailedTextLogoView.self, for: indexPath)
         }
+    }
+    
+    var estimatedHeightForRow: CGFloat {
+        // FIXME: Deprecated method
+        return 0
     }
 }

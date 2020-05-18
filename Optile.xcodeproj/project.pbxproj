@@ -595,6 +595,7 @@
 		D96FBE5F246D8AC0004640F2 /* Field */ = {
 			isa = PBXGroup;
 			children = (
+				D96FBE67246D8AC0004640F2 /* Input.Field.Button.swift */,
 				D96FBE60246D8AC0004640F2 /* Input.Field.Checkbox.swift */,
 				D96FBE61246D8AC0004640F2 /* Input.Field.AccountNumber.swift */,
 				D96FBE62246D8AC0004640F2 /* Input.Field.IBAN.swift */,
@@ -602,7 +603,6 @@
 				D96FBE64246D8AC0004640F2 /* Input.Field.Generic.swift */,
 				D96FBE65246D8AC0004640F2 /* Input.Field.BankCode.swift */,
 				D96FBE66246D8AC0004640F2 /* Input.Field.BIC.swift */,
-				D96FBE67246D8AC0004640F2 /* Input.Field.Button.swift */,
 				D96FBE68246D8AC0004640F2 /* Input.Field.ExpiryDate.swift */,
 				D96FBE69246D8AC0004640F2 /* Input.Field.VerificationCode.swift */,
 				D96FBE6A246D8AC0004640F2 /* Input.Field.swift */,

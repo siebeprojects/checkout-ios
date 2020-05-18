@@ -6,20 +6,19 @@ import UIKit
 extension Input {
     class ViewController: SlideInViewController {
         let networks: [Network]
-
+        let header: CellRepresentable
+        
         private let tableController: Table.Controller
         fileprivate let smartSwitch: SmartSwitch.Selector
 
         private let collectionView: UICollectionView
-        weak var headerView: UIView?
-        var calculatePreferredContentSize = false
         
         init(for paymentNetworks: [PaymentNetwork]) throws {
             let transformer = ModelTransformer()
             networks = paymentNetworks.map { transformer.transform(paymentNetwork: $0) }
             smartSwitch = try .init(networks: self.networks)
-            tableController = .init(for: smartSwitch.selected.network)
-            tableController.headerModel = Input.ImagesHeader(for: networks)
+            header = Input.ImagesHeader(for: networks)
+            tableController = .init(for: smartSwitch.selected.network, header: header)
             collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
 
             super.init(nibName: nil, bundle: nil)
@@ -39,8 +38,8 @@ extension Input {
             let network = transfomer.transform(registeredAccount: registeredAccount)
             networks = [network]
             smartSwitch = .init(network: network)
-            tableController = .init(for: smartSwitch.selected.network)
-            tableController.headerModel = Input.TextHeader(from: registeredAccount)
+            header = Input.TextHeader(from: registeredAccount)
+            tableController = .init(for: smartSwitch.selected.network, header: header)
             collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
             
             super.init(nibName: nil, bundle: nil)
@@ -72,6 +71,7 @@ extension Input.ViewController {
 
         tableController.collectionView = self.collectionView
         tableController.scrollViewWillBeginDraggingBlock = scrollViewWillBeginDragging
+        tableController.configure()
 
         configure(collectionView: collectionView)
         if #available(iOS 11.0, *) {
@@ -81,19 +81,14 @@ extension Input.ViewController {
             collectionView.automaticallyAdjustsScrollIndicatorInsets = false
         }
         
-        // Calling collection view's `layout()` method before presenting it on screen leads to visual glitches on embedded collection view (which acts as a header) inside `collectionView`.
-        // That's why I call `layout()` only when view is presented as slide-in sheet and collection view header is not used.
-        // That concern appears more often when `contentInset` is controlled manually.
-        // It is a bad behaviour to use collection view inside other collection view (that may cause such strange bugs) but that is required by visual design and it is not directly prohibited by guidelines.
-        if calculatePreferredContentSize {
-            collectionView.layoutIfNeeded()
-            setPreferredContentSize()
-        }
+        collectionView.layoutIfNeeded()
+        setPreferredContentSize()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
     }
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // Control behaviour of navigation bar's shadow line
         guard let navigationController = self.navigationController else { return }
 
         let insets: UIEdgeInsets
@@ -175,8 +170,6 @@ extension Input.ViewController {
 
 extension Input.ViewController {
     fileprivate func configure(collectionView: UICollectionView) {
-        tableController.configure()
-        
         collectionView.tintColor = view.tintColor
         if #available(iOS 13.0, *) {
             collectionView.backgroundColor = UIColor.systemBackground
@@ -221,16 +214,14 @@ extension Input.ViewController: InputValueChangesListener {
     }
 
     private func replaceCurrentNetwork(with newSelection: Input.SmartSwitch.Selector.DetectedNetwork) {
-        tableController.network = newSelection.network
-
-        if let imagesHeaderModel = tableController.headerModel as? Input.ImagesHeader {
+        if let imagesHeaderModel = header as? Input.ImagesHeader {
             switch newSelection {
-            case .generic: imagesHeaderModel.setNetworks(self.networks)
-            case .specific(let specificNetwork): imagesHeaderModel.setNetworks([specificNetwork])
+            case .generic: imagesHeaderModel.networks = self.networks
+            case .specific(let specificNetwork): imagesHeaderModel.networks = [specificNetwork]
             }
-            
-            tableController.configureHeader()
         }
+
+        tableController.setModel(network: newSelection.network, header: header)
     }
 }
 
