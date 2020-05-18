@@ -55,9 +55,4 @@ extension Input.TextHeader: CellRepresentable {
             return view.dequeueReusableCell(Input.Table.DetailedTextLogoView.self, for: indexPath)
         }
     }
-    
-    var estimatedHeightForRow: CGFloat {
-        // FIXME: Deprecated method
-        return 0
-    }
 }

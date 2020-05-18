@@ -23,9 +23,4 @@ extension Input.ImagesHeader: CellRepresentable {
         guard let imagesView = cell as? Input.Table.ImagesView else { return }
         imagesView.configure(with: self)
     }
-    
-    var estimatedHeightForRow: CGFloat {
-        // FIXME: Deprecated method
-        return 0
-    }
 }

@@ -25,6 +25,4 @@ extension Input.Field.Button: CellRepresentable {
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         return view.dequeueReusableCell(Input.Table.ButtonCell.self, for: indexPath)
     }
-
-    var estimatedHeightForRow: CGFloat { 66 }
 }
