@@ -15,7 +15,6 @@ extension Input.Table {
 
         private let label: UILabel
         let checkbox: UISwitch
-        var indexPath: IndexPath!
 
         override init(frame: CGRect) {
             label = .init(frame: .zero)
@@ -56,7 +55,7 @@ extension Input.Table {
         }
 
         @objc private func checkboxValueChanged(_ sender: UISwitch) {
-            delegate?.inputCellValueDidChange(to: checkbox.isOn.stringValue, at: indexPath)
+            delegate?.inputCellValueDidChange(to: checkbox.isOn.stringValue, cell: self)
         }
 
         required init?(coder: NSCoder) {

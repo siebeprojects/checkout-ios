@@ -6,7 +6,7 @@ private extension CGFloat {
     static var estimatedCellHeight: CGFloat { return 87 }
     
     /// Spacing between rows in section
-    static var rowLineSpacing: CGFloat { return 4 }
+    static var rowLineSpacing: CGFloat { return 8 }
     
     /// Spacing between sections
     static var sectionSpacing: CGFloat { return 16 }
@@ -239,7 +239,12 @@ extension Input.Table.Controller: UICollectionViewDelegateFlowLayout {
 // MARK: - InputCellDelegate
 
 extension Input.Table.Controller: InputCellDelegate {
-    func inputCellPrimaryActionTriggered(at indexPath: IndexPath) {
+    func inputCellPrimaryActionTriggered(cell: UICollectionViewCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else {
+            assertionFailure()
+            return
+        }
+        
         // If it is a last textfield just dismiss a keyboard
         if isLastTextField(at: indexPath) {
             collectionView.endEditing(false)
@@ -252,7 +257,12 @@ extension Input.Table.Controller: InputCellDelegate {
         cell.becomeFirstResponder()
     }
     
-    func inputCellDidEndEditing(at indexPath: IndexPath) {
+    func inputCellDidEndEditing(cell: UICollectionViewCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else {
+            assertionFailure()
+            return
+        }
+        
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         guard let validatableRow = cellRepresentable as? Validatable else { return }
         
@@ -268,7 +278,12 @@ extension Input.Table.Controller: InputCellDelegate {
         }
     }
     
-    func inputCellBecameFirstResponder(at indexPath: IndexPath) {
+    func inputCellBecameFirstResponder(cell: UICollectionViewCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else {
+            assertionFailure()
+            return
+        }
+        
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         
         if let validatableModel = cellRepresentable as? Validatable, validatableModel.validationErrorText != nil {
@@ -284,7 +299,12 @@ extension Input.Table.Controller: InputCellDelegate {
         }
     }
     
-    func inputCellValueDidChange(to newValue: String?, at indexPath: IndexPath) {
+    func inputCellValueDidChange(to newValue: String?, cell: UICollectionViewCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else {
+            assertionFailure()
+            return
+        }
+        
         let cellRepresentable = dataSource[indexPath.section][indexPath.row]
         guard let inputField = cellRepresentable as? InputField else { return }
         

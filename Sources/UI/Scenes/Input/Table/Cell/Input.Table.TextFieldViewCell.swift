@@ -15,8 +15,6 @@ extension Input.Table {
 
         private(set) var model: (TextInputField & DefinesKeyboardStyle)!
 
-        var indexPath: IndexPath!
-
         override init(frame: CGRect) {
             textField = .init()
             textFieldController = .init(textInput: textField)
@@ -96,14 +94,14 @@ extension Input.Table.TextFieldViewCell {
 
         if let maxLength = model.maxInputLength, value.count >= maxLength {
             // Press primary action instead of an user when all characters were entered
-            delegate?.inputCellPrimaryActionTriggered(at: indexPath)
+            delegate?.inputCellPrimaryActionTriggered(cell: self)
         }
 
-        delegate?.inputCellValueDidChange(to: value, at: indexPath)
+        delegate?.inputCellValueDidChange(to: value, cell: self)
     }
 
     @objc fileprivate func textFieldPrimaryActionTriggered() {
-        delegate?.inputCellPrimaryActionTriggered(at: indexPath)
+        delegate?.inputCellPrimaryActionTriggered(cell: self)
     }
 }
 
@@ -134,12 +132,12 @@ extension Input.Table.TextFieldViewCell {
 extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textFieldController.setHelperText(model.placeholder, helperAccessibilityLabel: model.placeholder)
-        delegate?.inputCellBecameFirstResponder(at: indexPath)
+        delegate?.inputCellBecameFirstResponder(cell: self)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         textFieldController.setHelperText(nil, helperAccessibilityLabel: nil)
-        delegate?.inputCellDidEndEditing(at: indexPath)
+        delegate?.inputCellDidEndEditing(cell: self)
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

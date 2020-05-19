@@ -11,7 +11,6 @@ protocol CellRepresentable {
 extension CellRepresentable where Self: DefinesKeyboardStyle {
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = view.dequeueReusableCell(Input.Table.TextFieldViewCell.self, for: indexPath)
-        cell.indexPath = indexPath
         return cell
     }
 
@@ -24,7 +23,6 @@ extension CellRepresentable where Self: DefinesKeyboardStyle {
 extension CellRepresentable where Self == Input.Field.Checkbox {
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = view.dequeueReusableCell(Input.Table.CheckboxViewCell.self, for: indexPath)
-        cell.indexPath = indexPath
         return cell
     }
 
