@@ -88,7 +88,6 @@
 		D9B4722B2472D23900E88600 /* Input.Table.TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B4718F2472D23900E88600 /* Input.Table.TextFieldViewCell.swift */; };
 		D9B4722C2472D23900E88600 /* Input.Table.ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471902472D23900E88600 /* Input.Table.ButtonCell.swift */; };
 		D9B4722D2472D23900E88600 /* Input.Table.DetailedTextLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471922472D23900E88600 /* Input.Table.DetailedTextLogoView.swift */; };
-		D9B4722E2472D23900E88600 /* Input.Table.SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471932472D23900E88600 /* Input.Table.SectionHeaderCell.swift */; };
 		D9B4722F2472D23900E88600 /* Input.Table.ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471952472D23900E88600 /* Input.Table.ImagesView.swift */; };
 		D9B472302472D23900E88600 /* Input.Table.ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471962472D23900E88600 /* Input.Table.ImageViewCell.swift */; };
 		D9B472312472D23900E88600 /* Input.Table.ImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471972472D23900E88600 /* Input.Table.ImagesCollectionViewController.swift */; };
@@ -264,7 +263,6 @@
 		D9B4718F2472D23900E88600 /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
 		D9B471902472D23900E88600 /* Input.Table.ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ButtonCell.swift; sourceTree = "<group>"; };
 		D9B471922472D23900E88600 /* Input.Table.DetailedTextLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DetailedTextLogoView.swift; sourceTree = "<group>"; };
-		D9B471932472D23900E88600 /* Input.Table.SectionHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.SectionHeaderCell.swift; sourceTree = "<group>"; };
 		D9B471952472D23900E88600 /* Input.Table.ImagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesView.swift; sourceTree = "<group>"; };
 		D9B471962472D23900E88600 /* Input.Table.ImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImageViewCell.swift; sourceTree = "<group>"; };
 		D9B471972472D23900E88600 /* Input.Table.ImagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionViewController.swift; sourceTree = "<group>"; };
@@ -735,7 +733,6 @@
 			isa = PBXGroup;
 			children = (
 				D9B471922472D23900E88600 /* Input.Table.DetailedTextLogoView.swift */,
-				D9B471932472D23900E88600 /* Input.Table.SectionHeaderCell.swift */,
 				D9B471942472D23900E88600 /* Images Collection */,
 				D9B471992472D23900E88600 /* Input.Table.LogoTextView.swift */,
 			);
@@ -1257,7 +1254,6 @@
 				D9B472792472D23900E88600 /* InternalError.swift in Sources */,
 				D9B4723E2472D23900E88600 /* Input.Field.Button.swift in Sources */,
 				D9B472632472D23900E88600 /* List.Table.SectionHeader.swift in Sources */,
-				D9B4722E2472D23900E88600 /* Input.Table.SectionHeaderCell.swift in Sources */,
 				D9B472502472D23900E88600 /* ViewRepresentable.swift in Sources */,
 				D9B472092472D23900E88600 /* AccountRegistration.swift in Sources */,
 				D9B472532472D23900E88600 /* Selectable.swift in Sources */,

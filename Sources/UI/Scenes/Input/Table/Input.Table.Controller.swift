@@ -66,9 +66,6 @@ extension Input.Table {
             collectionView.register(DetailedTextLogoView.self)
             collectionView.register(LogoTextView.self)
             collectionView.register(ImagesView.self)
-            
-            // Reusable views
-            collectionView.register(EmptySectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
         }
     }
 }
@@ -210,10 +207,6 @@ extension Input.Table.Controller: UICollectionViewDataSource {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-            return collectionView.dequeueReusableSupplementaryView(Input.Table.EmptySectionView.self, ofKind: kind, for: indexPath)
-    }
-    
     private func isLastTextField(at indexPath: IndexPath) -> Bool {
         var lastTextFieldRow: Int?
         
@@ -239,13 +232,7 @@ extension Input.Table.Controller: UICollectionViewDelegate {
 
 extension Input.Table.Controller: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        // Get the view for the first header
-        let indexPath = IndexPath(row: 0, section: section)
-        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
-        
-        // Use this view to calculate the optimal size based on the collection view's width
-        let headerFrameSize = CGSize(width: collectionView.frame.width, height: UIView.layoutFittingCompressedSize.height)
-        return headerView.systemLayoutSizeFitting(headerFrameSize)
+        return .zero
     }
 }
 
