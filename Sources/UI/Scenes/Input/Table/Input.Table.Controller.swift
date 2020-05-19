@@ -53,7 +53,7 @@ extension Input.Table {
             }
             
             layout.minimumLineSpacing = .rowLineSpacing
-            layout.estimatedItemSize = CGSize(width: collectionView.frame.width, height: .estimatedCellHeight)
+            layout.estimatedItemSize = CGSize(width: 0, height: .estimatedCellHeight)
         }
 
         private func registerCells() {
