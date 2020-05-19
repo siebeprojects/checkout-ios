@@ -25,7 +25,6 @@ extension Input.Table {
 
             textField.delegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
 
             contentView.addSubview(textField)
@@ -56,7 +55,7 @@ extension Input.Table.TextFieldViewCell {
 
     override func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
-            return textField.becomeFirstResponder()
+        return textField.becomeFirstResponder()
     }
 
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
@@ -92,12 +91,12 @@ extension Input.Table.TextFieldViewCell {
         let text = textField.text ?? String()
         let value = model.patternFormatter?.formatter.unformat(text) ?? text
 
+        delegate?.inputCellValueDidChange(to: value, cell: self)
+        
         if let maxLength = model.maxInputLength, value.count >= maxLength {
             // Press primary action instead of an user when all characters were entered
             delegate?.inputCellPrimaryActionTriggered(cell: self)
         }
-
-        delegate?.inputCellValueDidChange(to: value, cell: self)
     }
 
     @objc fileprivate func textFieldPrimaryActionTriggered() {
