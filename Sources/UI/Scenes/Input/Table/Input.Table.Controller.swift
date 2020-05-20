@@ -289,13 +289,11 @@ extension Input.Table.Controller: InputCellDelegate {
         if let validatableModel = cellRepresentable as? Validatable, validatableModel.validationErrorText != nil {
             validatableModel.validationErrorText = nil
             
-            collectionView.performBatchUpdates({
-                switch collectionView.cellForItem(at: indexPath) {
-                case let textFieldViewCell as Input.Table.TextFieldViewCell:
-                    textFieldViewCell.showValidationResult(for: validatableModel)
-                default: break
-                }
-            }) { _ in }
+            // Update cell's view if cell is on the screen
+            if let textFieldViewCell = collectionView.cellForItem(at: indexPath) as? Input.Table.TextFieldViewCell {
+                textFieldViewCell.showValidationResult(for: validatableModel)
+                textFieldViewCell.layoutIfNeeded()
+            }
         }
     }
     
