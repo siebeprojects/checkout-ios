@@ -251,7 +251,7 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
         
         if adjustedHeight < 0 { adjustedHeight = 0 }
         
-        UIView.animate(withDuration: animationDuration, animations: { [self] in
+        UIView.animate(withDuration: animationDuration, delay: 0, options: animationOptions, animations: { [self] in
             self.updateCollectionViewInsets(adjustBottomInset: adjustedHeight)
         })
     }
