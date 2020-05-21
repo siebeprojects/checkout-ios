@@ -74,12 +74,6 @@ extension Input.ViewController {
         tableController.configure()
 
         configure(collectionView: collectionView)
-        if #available(iOS 11.0, *) {
-            collectionView.contentInsetAdjustmentBehavior = .never
-        }
-        if #available(iOS 13.0, *) {
-            collectionView.automaticallyAdjustsScrollIndicatorInsets = false
-        }
         
         collectionView.layoutIfNeeded()
         setPreferredContentSize()

@@ -43,7 +43,10 @@ extension Input.Table {
             collectionView.delegate = self
             
             if #available(iOS 11.0, *) {
-                collectionView.contentInsetAdjustmentBehavior = .always
+                collectionView.contentInsetAdjustmentBehavior = .never
+            }
+            if #available(iOS 13.0, *) {
+                collectionView.automaticallyAdjustsScrollIndicatorInsets = false
             }
         }
         
