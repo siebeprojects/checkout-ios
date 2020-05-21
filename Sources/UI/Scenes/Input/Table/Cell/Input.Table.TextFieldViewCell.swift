@@ -135,6 +135,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.layoutIfNeeded()
         textFieldController.setHelperText(nil, helperAccessibilityLabel: nil)
         delegate?.inputCellDidEndEditing(cell: self)
     }
