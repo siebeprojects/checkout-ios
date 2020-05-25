@@ -10,11 +10,6 @@ private struct Constant {
 
     static var registrationCheckboxLocalizationKey: String { "autoRegistrationLabel" }
     static var recurrenceCheckboxLocalizationKey: String { "allowRecurrenceLabel" }
-
-    struct InputElementName {
-        static var expiryMonth: String = "expiryMonth"
-        static var expiryYear: String = "expiryYear"
-    }
 }
 
 // MARK: - Transformer
@@ -134,37 +129,8 @@ private class InputFieldFactory {
             validationProvider = nil
         }
 
-        var hasExpiryMonth = false
-        var hasExpiryYear = false
-
-        var transformingInputElements = [InputElement]()
-        /// Expiration month & year elements
-        var skippingInputElements = [InputElement]()
-
-        for inputElement in model.inputElements {
-            if inputElement.name == Constant.InputElementName.expiryMonth {
-                hasExpiryMonth = true
-                skippingInputElements.append(inputElement)
-            } else if inputElement.name == Constant.InputElementName.expiryYear {
-                hasExpiryYear = true
-                skippingInputElements.append(inputElement)
-            } else {
-                transformingInputElements.append(inputElement)
-            }
-        }
-
-        var transformedInputFields = [InputField & CellRepresentable]()
-
-        if hasExpiryMonth && hasExpiryYear {
-            // Custom transform for combined expiry date field
-            transformedInputFields += [Input.Field.ExpiryDate(translator: model.translator)]
-        } else {
-            // Add skipped input elements if only one field exists (expiry year / month)
-            transformingInputElements.append(contentsOf: skippingInputElements)
-        }
-
         // Transform input fields
-        transformedInputFields += transformingInputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
+        let inputFields = model.inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
             for ignored in Constant.ignoredFields {
                 if model.networkCode == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
@@ -172,8 +138,17 @@ private class InputFieldFactory {
             let validationRule = validationProvider?.getRule(forNetworkCode: model.networkCode, withInputElementName: inputElement.name)
             return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod)
         }
+        
+        let tuple = removeExpiryFields(in: inputFields)
+        var inputElements = tuple.sequence
 
-        return transformedInputFields
+        // If tuple contains indexes of removed expiration month & year, insert expiry date on that index
+        if let expiryDateElementIndex = tuple.removedIndexes.first {
+            let expiryDate = Input.Field.ExpiryDate(translator: model.translator)
+            inputElements.insert(expiryDate, at: expiryDateElementIndex)
+        }
+
+        return inputElements
     }
 
     /// Transform `InputElement` to `InputField`
@@ -202,4 +177,27 @@ private class InputFieldFactory {
 private struct IgnoredFields {
     let networkCode: String
     let inputElementName: String
+}
+
+private extension InputFieldFactory {
+    private var expiryMonthElementName: String { return "expiryMonth" }
+    private var expiryYearElementName: String { return "expiryYear" }
+    
+    /// - Returns: tuple containing sequence without expiry fields and positions of removed elements
+    func removeExpiryFields(in inputFields: [InputField & CellRepresentable]) -> (sequence: [InputField & CellRepresentable], removedIndexes: [Int]) {
+        var sequenceWithoutExpiryFields = [InputField & CellRepresentable]()
+        var removedIndexes = [Int]()
+        
+        for inputElement in inputFields.enumerated() {
+            let name = inputElement.element.name
+            if name == expiryMonthElementName || name == expiryYearElementName {
+                removedIndexes.append(inputElement.offset)
+                continue
+            }
+            
+            sequenceWithoutExpiryFields.append(inputElement.element)
+        }
+        
+        return (sequenceWithoutExpiryFields, removedIndexes)
+    }
 }
