@@ -121,7 +121,6 @@
 		D9B4724D2472D23900E88600 /* InputValueChangesListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471B82472D23900E88600 /* InputValueChangesListener.swift */; };
 		D9B4724E2472D23900E88600 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471B92472D23900E88600 /* InputField.swift */; };
 		D9B4724F2472D23900E88600 /* Validatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471BA2472D23900E88600 /* Validatable.swift */; };
-		D9B472502472D23900E88600 /* ViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471BB2472D23900E88600 /* ViewRepresentable.swift */; };
 		D9B472512472D23900E88600 /* CellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471BC2472D23900E88600 /* CellRepresentable.swift */; };
 		D9B472522472D23900E88600 /* InputCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471BD2472D23900E88600 /* InputCellDelegate.swift */; };
 		D9B472532472D23900E88600 /* Selectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471BE2472D23900E88600 /* Selectable.swift */; };
@@ -296,7 +295,6 @@
 		D9B471B82472D23900E88600 /* InputValueChangesListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValueChangesListener.swift; sourceTree = "<group>"; };
 		D9B471B92472D23900E88600 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		D9B471BA2472D23900E88600 /* Validatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validatable.swift; sourceTree = "<group>"; };
-		D9B471BB2472D23900E88600 /* ViewRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewRepresentable.swift; sourceTree = "<group>"; };
 		D9B471BC2472D23900E88600 /* CellRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellRepresentable.swift; sourceTree = "<group>"; };
 		D9B471BD2472D23900E88600 /* InputCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputCellDelegate.swift; sourceTree = "<group>"; };
 		D9B471BE2472D23900E88600 /* Selectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
@@ -810,7 +808,6 @@
 				D9B471B82472D23900E88600 /* InputValueChangesListener.swift */,
 				D9B471B92472D23900E88600 /* InputField.swift */,
 				D9B471BA2472D23900E88600 /* Validatable.swift */,
-				D9B471BB2472D23900E88600 /* ViewRepresentable.swift */,
 				D9B471BC2472D23900E88600 /* CellRepresentable.swift */,
 				D9B471BD2472D23900E88600 /* InputCellDelegate.swift */,
 				D9B471BE2472D23900E88600 /* Selectable.swift */,
@@ -1254,7 +1251,6 @@
 				D9B472792472D23900E88600 /* InternalError.swift in Sources */,
 				D9B4723E2472D23900E88600 /* Input.Field.Button.swift in Sources */,
 				D9B472632472D23900E88600 /* List.Table.SectionHeader.swift in Sources */,
-				D9B472502472D23900E88600 /* ViewRepresentable.swift in Sources */,
 				D9B472092472D23900E88600 /* AccountRegistration.swift in Sources */,
 				D9B472532472D23900E88600 /* Selectable.swift in Sources */,
 				D9B472722472D23900E88600 /* PaymentSessionProvider.swift in Sources */,
