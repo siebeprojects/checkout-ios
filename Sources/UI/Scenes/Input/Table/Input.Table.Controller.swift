@@ -149,8 +149,12 @@ extension Input.Table.Controller {
                     
                     guard let cell = collectionView.cellForItem(at: currentIndexPath) else { continue }
                     let model = dataSource[newSectionIndex][newRowIndex]
-                    model.configure(cell: cell)
-                    cell.layoutIfNeeded()
+                    do {
+                        try model.configure(cell: cell)
+                        cell.layoutIfNeeded()
+                    } catch {
+                        log(error)
+                    }
                 }
             }
         }, completion: { _ in
@@ -212,7 +216,12 @@ extension Input.Table.Controller: UICollectionViewDataSource {
         let model = dataSource[indexPath.section][indexPath.row]
         let cell = model.dequeueCell(for: collectionView, indexPath: indexPath)
         cell.tintColor = collectionView.tintColor
-        model.configure(cell: cell)
+
+        do {
+            try model.configure(cell: cell)
+        } catch {
+            log(error)
+        }
         
         if let cell = cell as? ContainsInputCellDelegate {
             cell.delegate = self
@@ -293,8 +302,12 @@ extension Input.Table.Controller: InputCellDelegate {
         
         // Display validation result if cell is visible
         if previousValidationErrorText != validatableRow.validationErrorText, let cell = collectionView.cellForItem(at: indexPath) {
-            cellRepresentable.configure(cell: cell)
-            cell.layoutIfNeeded()
+            do {
+                try cellRepresentable.configure(cell: cell)
+                cell.layoutIfNeeded()
+            } catch {
+                log(error)
+            }
         }
     }
     
