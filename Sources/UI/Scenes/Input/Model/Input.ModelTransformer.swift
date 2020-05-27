@@ -130,7 +130,7 @@ private class InputFieldFactory {
         }
 
         // Transform input fields
-        let inputFields = model.inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
+        var inputFields = model.inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
             for ignored in Constant.ignoredFields {
                 if model.networkCode == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
@@ -139,16 +139,16 @@ private class InputFieldFactory {
             return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod)
         }
         
-        let tuple = removeExpiryFields(in: inputFields)
-        var inputElements = tuple.sequence
+        let transformationResult = ExpirationDateManager().removeExpiryFields(in: inputFields)
 
-        // If tuple contains indexes of removed expiration month & year, insert expiry date on that index
-        if let expiryDateElementIndex = tuple.removedIndexes.first {
+        // If fields have expiry month and year, replace them with expiry date
+        if transformationResult.hadExpirationDate, let expiryDateElementIndex = transformationResult.removedIndexes.first {
+            inputFields = transformationResult.fieldsWithoutDateElements
             let expiryDate = Input.Field.ExpiryDate(translator: model.translator)
-            inputElements.insert(expiryDate, at: expiryDateElementIndex)
+            inputFields.insert(expiryDate, at: expiryDateElementIndex)
         }
 
-        return inputElements
+        return inputFields
     }
 
     /// Transform `InputElement` to `InputField`
@@ -179,25 +179,45 @@ private struct IgnoredFields {
     let inputElementName: String
 }
 
-private extension InputFieldFactory {
-    private var expiryMonthElementName: String { return "expiryMonth" }
-    private var expiryYearElementName: String { return "expiryYear" }
+// MARK: - Expiry date
+
+private class ExpirationDateManager {
+    private let expiryMonthElementName = "expiryMonth"
+    private let expiryYearElementName = "expiryYear"
     
-    /// - Returns: tuple containing sequence without expiry fields and positions of removed elements
-    func removeExpiryFields(in inputFields: [InputField & CellRepresentable]) -> (sequence: [InputField & CellRepresentable], removedIndexes: [Int]) {
-        var sequenceWithoutExpiryFields = [InputField & CellRepresentable]()
+    struct RemovalResult {
+        let fieldsWithoutDateElements: [InputField & CellRepresentable]
+        let removedIndexes: [Int]
+        
+        /// Both expiration year and month were present
+        let hadExpirationDate: Bool
+    }
+
+    func removeExpiryFields(in inputFields: [InputField & CellRepresentable]) -> RemovalResult {
+        var hasExpiryYear = false
+        var hasExpiryMonth = false
+        var fieldsWithoutDateElements = [InputField & CellRepresentable]()
         var removedIndexes = [Int]()
         
         for inputElement in inputFields.enumerated() {
-            let name = inputElement.element.name
-            if name == expiryMonthElementName || name == expiryYearElementName {
+            switch inputElement.element.name {
+            case expiryMonthElementName:
+                hasExpiryMonth = true
                 removedIndexes.append(inputElement.offset)
                 continue
+            case expiryYearElementName:
+                hasExpiryYear = true
+                removedIndexes.append(inputElement.offset)
+                continue
+            default:
+                fieldsWithoutDateElements.append(inputElement.element)
             }
-            
-            sequenceWithoutExpiryFields.append(inputElement.element)
         }
         
-        return (sequenceWithoutExpiryFields, removedIndexes)
+        return .init(
+            fieldsWithoutDateElements: fieldsWithoutDateElements,
+            removedIndexes: removedIndexes,
+            hadExpirationDate: hasExpiryMonth && hasExpiryYear
+        )
     }
 }
