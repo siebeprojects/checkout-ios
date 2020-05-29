@@ -15,21 +15,33 @@ private extension CGFloat {
 extension Input.Table {
     class Controller: NSObject {
         let flowLayout = FlowLayout()
-        fileprivate var dataSource: [[CellRepresentable]] {
-            didSet { dataSourceDidUpdate(new: dataSource, old: oldValue) }
-        }
+        let dataSource = DataSource()
+        let validator: Validator
         
         // Externally set
         
-        weak var collectionView: UICollectionView!
+        weak var collectionView: UICollectionView! {
+            didSet {
+                validator.collectionView = collectionView
+            }
+        }
         weak var inputChangesListener: InputValueChangesListener?
         var scrollViewWillBeginDraggingBlock: ((UIScrollView) -> Void)?
         
         // MARK: - Init
         
-        init(for network: Input.Network, header: CellRepresentable) {
-            self.dataSource = Self.arrangeBySections(network: network, header: header)
+        override init() {
+            self.validator = Validator(dataSource: dataSource)
             super.init()
+            dataSource.inputCellDelegate = self
+        }
+        
+        func setModel(network: Input.Network, header: CellRepresentable) {
+            network.submitButton.buttonDidTap = { [weak validator] _ in
+                validator?.validateAll(option: .fullCheck)
+            }
+            
+            dataSource.setModel(network: network, header: header)
         }
         
         func configure() {
@@ -39,7 +51,7 @@ extension Input.Table {
             
             configure(layout: flowLayout)
             
-            collectionView.dataSource = self
+            collectionView.dataSource = dataSource
             collectionView.delegate = self
             
             if #available(iOS 11.0, *) {
@@ -74,14 +86,6 @@ extension Input.Table {
 }
 
 extension Input.Table.Controller {
-    func setModel(network: Input.Network, header: CellRepresentable) {
-        network.submitButton.buttonDidTap = { [weak self] _ in
-            self?.validateFields(option: .fullCheck)
-        }
-        
-        dataSource = Self.arrangeBySections(network: network, header: header)
-    }
-    
     @discardableResult
     func becomeFirstResponder() -> Bool {
         var indexPathsForVisibleItems = collectionView.indexPathsForVisibleItems
@@ -98,159 +102,6 @@ extension Input.Table.Controller {
         
         return false
     }
-    
-    func validateFields(option: Input.Field.Validation.Option) {
-        // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
-        collectionView.endEditing(true)
-        
-        for section in dataSource {
-            for row in section {
-                guard let validatable = row as? Validatable else { continue }
-                validatable.validateAndSaveResult(option: option)
-            }
-        }
-        
-        collectionView.reloadData()
-    }
-    
-    fileprivate func dataSourceDidUpdate(new: [[CellRepresentable]], old: [[CellRepresentable]]) {
-        guard new.count == old.count else {
-            collectionView.endEditing(true)
-            collectionView.reloadData()
-            becomeFirstResponder()
-            
-            return
-        }
-        
-        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
-        
-        // I disable animation for iOS 12 and lower because it cause animation bugs (it's related to dynamic cell size calculations) and animation for that block is not important.
-        // Radar: http://www.openradar.me/23728611
-        // Article describing the same situation: https://jakubturek.com/uicollectionview-self-sizing-cells-animation/
-        if #available(iOS 13, *) {
-            // Everything is okay, nothing to disable
-        } else {
-            UIView.setAnimationsEnabled(false)
-        }
-        
-        collectionView.performBatchUpdates({
-            for (newSectionIndex, newSection) in dataSource.enumerated() {
-                guard newSection.count == old[newSectionIndex].count else {
-                    collectionView.reloadSections([newSectionIndex])
-                    continue
-                }
-                
-                for (newRowIndex, _) in newSection.enumerated() {
-                    let currentIndexPath = IndexPath(row: newRowIndex, section: newSectionIndex)
-                    
-                    guard visibleIndexPaths.contains(currentIndexPath) else {
-                        continue
-                    }
-                    
-                    guard let cell = collectionView.cellForItem(at: currentIndexPath) else { continue }
-                    let model = dataSource[newSectionIndex][newRowIndex]
-                    do {
-                        try model.configure(cell: cell)
-                        cell.layoutIfNeeded()
-                    } catch {
-                        log(error)
-                    }
-                }
-            }
-        }, completion: { _ in
-            if #available(iOS 13, *) {
-                // Animations weren't disabled, skip it
-            } else {
-                UIView.setAnimationsEnabled(true)
-            }
-        })
-    }
-    
-    /// Arrange models by sections
-    private static func arrangeBySections(network: Input.Network, header: CellRepresentable) -> [[CellRepresentable]] {
-        var sections = [[CellRepresentable]]()
-        
-        // Header
-        sections += [[header]]
-        
-        // Input Fields
-        let inputFields = network.inputFields.filter {
-            if $0.isHidden { return false }
-            return true
-        }
-        sections += [inputFields]
-        
-        // Checkboxes
-        var checkboxes = [CellRepresentable]()
-        for field in network.separatedCheckboxes where !field.isHidden {
-            checkboxes.append(field)
-        }
-        
-        sections += [checkboxes]
-        
-        // Submit
-        sections += [[network.submitButton]]
-        
-        let dataSource = sections.filter { !$0.isEmpty }
-        
-        return dataSource
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension Input.Table.Controller: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return .init(top: .sectionSpacing / 2, left: 0, bottom: .sectionSpacing / 2, right: 0)
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dataSource.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource[section].count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let model = dataSource[indexPath.section][indexPath.row]
-        let cell = model.dequeueCell(for: collectionView, indexPath: indexPath)
-        cell.tintColor = collectionView.tintColor
-
-        do {
-            try model.configure(cell: cell)
-        } catch {
-            log(error)
-        }
-        
-        if let cell = cell as? ContainsInputCellDelegate {
-            cell.delegate = self
-        }
-        
-        if let cell = cell as? SupportsPrimaryAction {
-            let isLastRow = isLastTextField(at: indexPath)
-            let action: PrimaryAction = isLastRow ? .done : .next
-            cell.setPrimaryAction(to: action)
-        }
-        
-        return cell
-    }
-    
-    private func isLastTextField(at indexPath: IndexPath) -> Bool {
-        var lastTextFieldRow: Int?
-        
-        let rowsInSection = dataSource[indexPath.section]
-        for rowIndex in indexPath.row...rowsInSection.count - 1 {
-            let element = rowsInSection[rowIndex]
-            guard let _ = element as? TextInputField else { continue }
-            lastTextFieldRow = rowIndex
-        }
-        
-        if lastTextFieldRow == nil { return true }
-        if lastTextFieldRow == indexPath.row { return true }
-        
-        return false
-    }
 }
 
 extension Input.Table.Controller: UICollectionViewDelegate {
@@ -262,6 +113,10 @@ extension Input.Table.Controller: UICollectionViewDelegate {
 extension Input.Table.Controller: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .init(top: .sectionSpacing / 2, left: 0, bottom: .sectionSpacing / 2, right: 0)
     }
 }
 
@@ -275,7 +130,7 @@ extension Input.Table.Controller: InputCellDelegate {
         }
         
         // If it is a last textfield just dismiss a keyboard
-        if isLastTextField(at: indexPath) {
+        if dataSource.isLastTextField(at: indexPath) {
             collectionView.endEditing(false)
             return
         }
@@ -287,47 +142,11 @@ extension Input.Table.Controller: InputCellDelegate {
     }
     
     func inputCellDidEndEditing(cell: UICollectionViewCell) {
-        guard let indexPath = collectionView.indexPath(for: cell) else {
-            assertionFailure()
-            return
-        }
-        
-        let cellRepresentable = dataSource[indexPath.section][indexPath.row]
-        guard let validatableRow = cellRepresentable as? Validatable else { return }
-        
-        let previousValidationErrorText = validatableRow.validationErrorText
-        
-        // Validate an input and update a model
-        validatableRow.validateAndSaveResult(option: .preCheck)
-        
-        // Display validation result if cell is visible
-        if previousValidationErrorText != validatableRow.validationErrorText, let cell = collectionView.cellForItem(at: indexPath) {
-            do {
-                try cellRepresentable.configure(cell: cell)
-                cell.layoutIfNeeded()
-            } catch {
-                log(error)
-            }
-        }
+        validator.validate(cell: cell)
     }
     
     func inputCellBecameFirstResponder(cell: UICollectionViewCell) {
-        guard let indexPath = collectionView.indexPath(for: cell) else {
-            assertionFailure()
-            return
-        }
-        
-        let cellRepresentable = dataSource[indexPath.section][indexPath.row]
-        
-        if let validatableModel = cellRepresentable as? Validatable, validatableModel.validationErrorText != nil {
-            validatableModel.validationErrorText = nil
-            
-            // Update cell's view if cell is on the screen
-            if let textFieldViewCell = collectionView.cellForItem(at: indexPath) as? Input.Table.TextFieldViewCell {
-                textFieldViewCell.showValidationResult(for: validatableModel)
-                textFieldViewCell.layoutIfNeeded()
-            }
-        }
+        validator.removeValidationError(for: cell)
     }
     
     func inputCellValueDidChange(to newValue: String?, cell: UICollectionViewCell) {
@@ -336,7 +155,7 @@ extension Input.Table.Controller: InputCellDelegate {
             return
         }
         
-        let cellRepresentable = dataSource[indexPath.section][indexPath.row]
+        let cellRepresentable = dataSource.model[indexPath.section][indexPath.row]
         guard let inputField = cellRepresentable as? InputField else { return }
         
         inputField.value = newValue ?? ""

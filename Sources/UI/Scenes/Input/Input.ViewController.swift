@@ -8,7 +8,7 @@ extension Input {
         let networks: [Network]
         let header: CellRepresentable
         
-        private let tableController: Table.Controller
+        private let tableController = Table.Controller()
         fileprivate let smartSwitch: SmartSwitch.Selector
 
         private let collectionView: UICollectionView
@@ -18,7 +18,7 @@ extension Input {
             networks = paymentNetworks.map { transformer.transform(paymentNetwork: $0) }
             smartSwitch = try .init(networks: self.networks)
             header = Input.ImagesHeader(for: networks)
-            tableController = .init(for: smartSwitch.selected.network, header: header)
+            tableController.setModel(network: smartSwitch.selected.network, header: header)
             collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
 
             super.init(nibName: nil, bundle: nil)
@@ -39,7 +39,7 @@ extension Input {
             networks = [network]
             smartSwitch = .init(network: network)
             header = Input.TextHeader(from: registeredAccount)
-            tableController = .init(for: smartSwitch.selected.network, header: header)
+            tableController.setModel(network: smartSwitch.selected.network, header: header)
             collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
             
             super.init(nibName: nil, bundle: nil)
