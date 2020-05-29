@@ -14,12 +14,11 @@ extension Input.Field {
 }
 
 extension Input.Field.Button: CellRepresentable {
-    func configure(cell: UICollectionViewCell) {
-        guard let cell = cell as? Input.Table.ButtonCell else {
-            assertionFailure("Called configure(cell:) from unexpected UITableViewCell")
-            return
+    func configure(cell: UICollectionViewCell) throws {
+        guard let buttonCell = cell as? Input.Table.ButtonCell else {
+            throw errorForIncorrectView(cell)
         }
-        cell.configure(with: self)
+        buttonCell.configure(with: self)
     }
 
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {

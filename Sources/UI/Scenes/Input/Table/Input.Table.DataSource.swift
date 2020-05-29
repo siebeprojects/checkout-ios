@@ -92,3 +92,57 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
         return cell
     }
 }
+
+// MARK: - Input.Table.DataSource.Diff
+
+extension Input.Table.DataSource {
+    struct Diff {
+        var old: [[CellRepresentable]]
+        var new: [[CellRepresentable]]
+    }
+}
+
+extension Input.Table.DataSource.Diff {
+    func applyChanges(for collectionView: UICollectionView) {
+        for oldSectionIndex in 0 ..< old.count {
+            // Ensure that old section is still will be present in a new model or delete old one
+            guard oldSectionIndex < new.count else {
+                collectionView.deleteSections([oldSectionIndex])
+                continue
+            }
+            
+            reload(section: oldSectionIndex, in: collectionView)
+        }
+        
+        // If a new model has more sections insert new ones
+        if new.count > old.count {
+            for index in old.count - 1 ..< new.count - 1 {
+                collectionView.insertSections([index])
+            }
+        }
+    }
+    
+    private func reload(section: Int, in collectionView: UICollectionView) {
+        // If number of cells in section are not equal reload a whole section
+        guard old[section].count == new[section].count else {
+            collectionView.reloadSections([section])
+            return
+        }
+        
+        for rowIndex in 0 ..< old.count {
+            let indexPath = IndexPath(row: rowIndex, section: section)
+            
+            guard let cell = collectionView.cellForItem(at: indexPath) else { continue }
+            
+            let model = new[section][rowIndex]
+            do {
+                // Configure old cell with a new model
+                try model.configure(cell: cell)
+                cell.layoutIfNeeded()
+            } catch {
+                // New model is not compatible with old cell type, reload that cell
+                collectionView.reloadItems(at: [indexPath])
+            }
+        }
+    }
+}

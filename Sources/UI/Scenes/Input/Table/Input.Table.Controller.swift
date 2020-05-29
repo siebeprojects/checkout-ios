@@ -41,7 +41,12 @@ extension Input.Table {
                 validator?.validateAll(option: .fullCheck)
             }
             
+            let oldModel = dataSource.model
             dataSource.setModel(network: network, header: header)
+            
+            if collectionView != nil {
+                reloadCollectionView(with: dataSource.model, oldModel: oldModel)
+            }
         }
         
         func configure() {
@@ -60,6 +65,34 @@ extension Input.Table {
             if #available(iOS 13.0, *) {
                 collectionView.automaticallyAdjustsScrollIndicatorInsets = false
             }
+        }
+        
+        private func reloadCollectionView(with newModel: [[CellRepresentable]], oldModel: [[CellRepresentable]]) {
+            // Ensure old model is not empty, if it is just reload
+            guard !oldModel.isEmpty else {
+                collectionView.reloadData()
+                return
+            }
+            
+            // I disable animation for iOS 12 and lower because it cause animation bugs (it's related to dynamic cell size calculations) and animation for that block is not important.
+            // Radar: http://www.openradar.me/23728611
+            // Article describing the same situation: https://jakubturek.com/uicollectionview-self-sizing-cells-animation/
+            if #available(iOS 13, *) {
+                // Everything is okay, nothing to disable
+            } else {
+                UIView.setAnimationsEnabled(false)
+            }
+            
+            collectionView.performBatchUpdates({
+                let diff = DataSource.Diff(old: oldModel, new: newModel)
+                diff.applyChanges(for: collectionView)
+            }, completion: { _ in
+                if #available(iOS 13, *) {
+                    // Animations weren't disabled, skip it
+                } else {
+                    UIView.setAnimationsEnabled(true)
+                }
+            })
         }
         
         private func configure(layout: UICollectionViewFlowLayout) {
