@@ -204,11 +204,9 @@ private class ExpirationDateManager {
             case expiryMonthElementName:
                 hasExpiryMonth = true
                 removedIndexes.append(inputElement.offset)
-                continue
             case expiryYearElementName:
                 hasExpiryYear = true
                 removedIndexes.append(inputElement.offset)
-                continue
             default:
                 fieldsWithoutDateElements.append(inputElement.element)
             }
