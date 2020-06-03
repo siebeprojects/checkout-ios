@@ -2,7 +2,7 @@
 import UIKit
 
 extension Input.Table {
-    class ImagesView: UIView {
+    class ImagesView: FullWidthCollectionViewCell, DequeueableCell {
         private let collectionView: ImagesCollectionView
         private let collectionViewFlow = UICollectionViewFlowLayout()
         fileprivate let collectionController = ImagesCollectionViewController()
@@ -23,14 +23,24 @@ extension Input.Table {
             self.addSubview(collectionView)
             collectionView.translatesAutoresizingMaskIntoConstraints = false
 
+            let bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            bottomConstraint.priority = .defaultHigh
+            let trailingConstraint = collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            trailingConstraint.priority = .defaultHigh
+            
             NSLayoutConstraint.activate([
-                collectionView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+                collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 collectionView.topAnchor.constraint(equalTo: topAnchor),
-                collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2),
-                collectionView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
+                bottomConstraint,
+                trailingConstraint
             ])
-         }
-
+        }
+        
+        override func systemLayoutSizeFitting(_ targetSize: CGSize) -> CGSize {
+            collectionView.frame = CGRect(origin: .zero, size: targetSize)
+            return collectionView.collectionViewLayout.collectionViewContentSize
+        }
+        
         override func layoutSubviews() {
             collectionView.layoutSubviews()
             super.layoutSubviews()

@@ -92,6 +92,7 @@ extension List.ViewController {
 
     fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
         let inputViewController = Input.ViewController(for: registeredAccount)
+        
         let navigationController = Input.NavigationController(rootViewController: inputViewController)
         navigationController.modalPresentationStyle = .custom
         navigationController.transitioningDelegate = slideInPresentationManager

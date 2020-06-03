@@ -5,7 +5,7 @@ import UIKit
 extension List.Table {
     /// Cell with one image and one label.
     /// - Note: set `cellIndex`
-    final class SingleLabelCell: List.Table.BorderedCell, DequeueableTableCell {
+    final class SingleLabelCell: List.Table.BorderedCell, DequeueableCell {
         weak var networkLabel: UILabel?
         weak var networkLogoView: UIImageView?
 

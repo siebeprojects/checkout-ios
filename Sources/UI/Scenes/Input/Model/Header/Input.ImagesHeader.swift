@@ -9,25 +9,18 @@ extension Input {
         
         convenience init(for networks: [Input.Network]) {
             self.init()
-            self.setNetworks(networks)
-        }
-        
-        func setNetworks(_ networks: [Input.Network]) {
             self.networks = networks
         }
     }
 }
 
-extension Input.ImagesHeader: ViewRepresentable {
-    func configure(view: UIView) throws {
-        guard let imagesView = view as? Input.Table.ImagesView else {
-            throw errorForIncorrectView(view)
-        }
-
-        imagesView.configure(with: self)
+extension Input.ImagesHeader: CellRepresentable {
+    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        return view.dequeueReusableCell(Input.Table.ImagesView.self, for: indexPath)
     }
-
-    var configurableViewType: UIView.Type {
-        return Input.Table.ImagesView.self
+    
+    func configure(cell: UICollectionViewCell) {
+        guard let imagesView = cell as? Input.Table.ImagesView else { return }
+        imagesView.configure(with: self)
     }
 }

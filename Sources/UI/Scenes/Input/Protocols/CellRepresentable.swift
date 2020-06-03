@@ -3,40 +3,38 @@ import UIKit
 
 /// Could be represented as a table cell
 protocol CellRepresentable {
-    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell
-    func configure(cell: UITableViewCell)
-
-    var estimatedHeightForRow: CGFloat { get }
+    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell
+    func configure(cell: UICollectionViewCell) throws
 }
 
 // If model is `TextInputField` & `DefinesKeyboardStyle`
 extension CellRepresentable where Self: DefinesKeyboardStyle {
-    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(Input.Table.TextFieldViewCell.self, for: indexPath)
-        cell.indexPath = indexPath
+    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = view.dequeueReusableCell(Input.Table.TextFieldViewCell.self, for: indexPath)
         return cell
     }
 
-    func configure(cell: UITableViewCell) {
-        guard let cell = cell as? Input.Table.TextFieldViewCell else { return }
-        cell.configure(with: self)
+    func configure(cell: UICollectionViewCell) throws {
+        guard let textFieldCell = cell as? Input.Table.TextFieldViewCell else { throw errorForIncorrectView(cell) }
+        textFieldCell.configure(with: self)
     }
-
-    var estimatedHeightForRow: CGFloat { 95.5 }
 }
 
 extension CellRepresentable where Self == Input.Field.Checkbox {
-    func dequeueCell(for tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(Input.Table.CheckboxViewCell.self, for: indexPath)
-        cell.indexPath = indexPath
+    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = view.dequeueReusableCell(Input.Table.CheckboxViewCell.self, for: indexPath)
         return cell
     }
 
-    func configure(cell: UITableViewCell) {
-        guard let cell = cell as? Input.Table.CheckboxViewCell else { return }
-        cell.configure(with: self)
+    func configure(cell: UICollectionViewCell) throws {
+        guard let checkboxViewCell = cell as? Input.Table.CheckboxViewCell else { throw errorForIncorrectView(cell) }
+        checkboxViewCell.configure(with: self)
     }
+}
 
-    var estimatedHeightForRow: CGFloat { 53 }
+extension CellRepresentable {
+    func errorForIncorrectView(_ view: UIView) -> InternalError {
+        return InternalError(description: "Unable to configure unexpected view: %@", objects: view)
+    }
 }
 #endif
