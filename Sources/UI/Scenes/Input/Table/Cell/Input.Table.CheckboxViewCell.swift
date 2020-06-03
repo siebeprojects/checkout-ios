@@ -10,23 +10,23 @@ extension Input.Table {
     /// Upon some actions calls `delegate`, don't forget to set it.
     ///
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
-    class CheckboxViewCell: UITableViewCell, DequeueableTableCell {
+    class CheckboxViewCell: FullWidthCollectionViewCell, DequeueableCell {
         weak var delegate: InputCellDelegate?
 
         private let label: UILabel
         let checkbox: UISwitch
-        var indexPath: IndexPath!
 
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        override init(frame: CGRect) {
             label = .init(frame: .zero)
             checkbox = .init(frame: .zero)
 
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            super.init(frame: frame)
 
             // Configure label
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 0
             label.textColor = .text
+            label.font = UIFont.preferredFont(forTextStyle: .body)
 
             // Configure checkbox
             checkbox.addTarget(self, action: #selector(checkboxValueChanged), for: .valueChanged)
@@ -37,20 +37,25 @@ extension Input.Table {
 
             label.translatesAutoresizingMaskIntoConstraints = false
             checkbox.translatesAutoresizingMaskIntoConstraints = false
+            
+            label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
+            let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            bottomLabelConstraint.priority = .defaultHigh
+            
             NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+                label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
-                label.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-                label.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+                bottomLabelConstraint,
+                label.topAnchor.constraint(equalTo: contentView.topAnchor),
 
-                checkbox.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-                checkbox.centerYAnchor.constraint(equalTo: contentView.layoutMarginsGuide.centerYAnchor)
+                checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
             ])
         }
 
         @objc private func checkboxValueChanged(_ sender: UISwitch) {
-            delegate?.inputCellValueDidChange(to: checkbox.isOn.stringValue, at: indexPath)
+            delegate?.inputCellValueDidChange(to: checkbox.isOn.stringValue, cell: self)
         }
 
         required init?(coder: NSCoder) {

@@ -10,11 +10,6 @@ private struct Constant {
 
     static var registrationCheckboxLocalizationKey: String { "autoRegistrationLabel" }
     static var recurrenceCheckboxLocalizationKey: String { "allowRecurrenceLabel" }
-
-    struct InputElementName {
-        static var expiryMonth: String = "expiryMonth"
-        static var expiryYear: String = "expiryYear"
-    }
 }
 
 // MARK: - Transformer
@@ -134,37 +129,8 @@ private class InputFieldFactory {
             validationProvider = nil
         }
 
-        var hasExpiryMonth = false
-        var hasExpiryYear = false
-
-        var transformingInputElements = [InputElement]()
-        /// Expiration month & year elements
-        var skippingInputElements = [InputElement]()
-
-        for inputElement in model.inputElements {
-            if inputElement.name == Constant.InputElementName.expiryMonth {
-                hasExpiryMonth = true
-                skippingInputElements.append(inputElement)
-            } else if inputElement.name == Constant.InputElementName.expiryYear {
-                hasExpiryYear = true
-                skippingInputElements.append(inputElement)
-            } else {
-                transformingInputElements.append(inputElement)
-            }
-        }
-
-        var transformedInputFields = [InputField & CellRepresentable]()
-
-        if hasExpiryMonth && hasExpiryYear {
-            // Custom transform for combined expiry date field
-            transformedInputFields += [Input.Field.ExpiryDate(translator: model.translator)]
-        } else {
-            // Add skipped input elements if only one field exists (expiry year / month)
-            transformingInputElements.append(contentsOf: skippingInputElements)
-        }
-
         // Transform input fields
-        transformedInputFields += transformingInputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
+        var inputFields = model.inputElements.compactMap { inputElement -> (InputField & CellRepresentable)? in
             for ignored in Constant.ignoredFields {
                 if model.networkCode == ignored.networkCode && inputElement.name == ignored.inputElementName { return nil }
             }
@@ -172,8 +138,17 @@ private class InputFieldFactory {
             let validationRule = validationProvider?.getRule(forNetworkCode: model.networkCode, withInputElementName: inputElement.name)
             return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod)
         }
+        
+        let transformationResult = ExpirationDateManager().removeExpiryFields(in: inputFields)
 
-        return transformedInputFields
+        // If fields have expiry month and year, replace them with expiry date
+        if transformationResult.hadExpirationDate, let expiryDateElementIndex = transformationResult.removedIndexes.first {
+            inputFields = transformationResult.fieldsWithoutDateElements
+            let expiryDate = Input.Field.ExpiryDate(translator: model.translator)
+            inputFields.insert(expiryDate, at: expiryDateElementIndex)
+        }
+
+        return inputFields
     }
 
     /// Transform `InputElement` to `InputField`
@@ -202,4 +177,45 @@ private class InputFieldFactory {
 private struct IgnoredFields {
     let networkCode: String
     let inputElementName: String
+}
+
+// MARK: - Expiry date
+
+private class ExpirationDateManager {
+    private let expiryMonthElementName = "expiryMonth"
+    private let expiryYearElementName = "expiryYear"
+    
+    struct RemovalResult {
+        let fieldsWithoutDateElements: [InputField & CellRepresentable]
+        let removedIndexes: [Int]
+        
+        /// Both expiration year and month were present
+        let hadExpirationDate: Bool
+    }
+
+    func removeExpiryFields(in inputFields: [InputField & CellRepresentable]) -> RemovalResult {
+        var hasExpiryYear = false
+        var hasExpiryMonth = false
+        var fieldsWithoutDateElements = [InputField & CellRepresentable]()
+        var removedIndexes = [Int]()
+        
+        for inputElement in inputFields.enumerated() {
+            switch inputElement.element.name {
+            case expiryMonthElementName:
+                hasExpiryMonth = true
+                removedIndexes.append(inputElement.offset)
+            case expiryYearElementName:
+                hasExpiryYear = true
+                removedIndexes.append(inputElement.offset)
+            default:
+                fieldsWithoutDateElements.append(inputElement.element)
+            }
+        }
+        
+        return .init(
+            fieldsWithoutDateElements: fieldsWithoutDateElements,
+            removedIndexes: removedIndexes,
+            hadExpirationDate: hasExpiryMonth && hasExpiryYear
+        )
+    }
 }

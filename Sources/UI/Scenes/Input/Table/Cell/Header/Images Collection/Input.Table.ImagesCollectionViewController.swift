@@ -3,6 +3,8 @@ import UIKit
 // MARK: - Constants
 
 private extension CGSize {
+    /// Size of a cell with network's logo, image would be automatically scaled.
+    /// - TODO: Change to dynamic size to support accessibility better
     static var cellSize: CGSize { return .init(width: 39, height: 24) }
 }
 
