@@ -42,8 +42,9 @@ extension Input.Field.ExpiryDate: Validatable {
         let prefixCharacters = currentYear.count - 2
         let currentYearWithoutSuffix = currentYear.prefix(prefixCharacters)
 
-        let month = String(value.prefix(2))
-        let year = String(currentYearWithoutSuffix + value.suffix(2))
+        guard let month = Int(String(value.prefix(2))) else { return false }
+        guard let year = Int(String(currentYearWithoutSuffix + value.suffix(2))) else { return false }
+        guard month >= 1, month <= 12 else { return false }
 
         let validationResult = Input.Field.Validation.ExpiryDate.isInFuture(expiryMonth: month, expiryYear: year) ?? false
         return validationResult
