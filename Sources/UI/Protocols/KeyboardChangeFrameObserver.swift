@@ -12,7 +12,7 @@ public extension KeyboardFrameChangesObserver {
     func addKeyboardFrameChangesObserver() {
         let center = NotificationCenter.default
 
-        center.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification, object: nil, queue: .main) { [weak self] (notification) in
+        center.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { [weak self] (notification) in
             self?.sendDelegate(notification: notification, willHide: false)
         }
 

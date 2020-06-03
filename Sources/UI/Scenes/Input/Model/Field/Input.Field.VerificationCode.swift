@@ -59,5 +59,7 @@ extension Input.Field.VerificationCode: Validatable {
 #if canImport(UIKit)
 import UIKit
 
-extension Input.Field.VerificationCode: CellRepresentable, DefinesKeyboardStyle {}
+extension Input.Field.VerificationCode: CellRepresentable, DefinesKeyboardStyle {
+    var keyboardType: UIKeyboardType { .numberPad }
+}
 #endif

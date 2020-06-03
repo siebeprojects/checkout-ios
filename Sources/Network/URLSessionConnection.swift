@@ -4,8 +4,6 @@ import os
 class URLSessionConnection: Connection {
     let session = URLSession(configuration: URLSessionConfiguration.default)
 
-    private var task: URLSessionDataTask?
-
     typealias RequestCompletionHandler = (Result<Data?, Error>) -> Void
 
     func send(request: URLRequest, completionHandler: @escaping ((Result<Data?, Error>) -> Void)) {
@@ -14,7 +12,6 @@ class URLSessionConnection: Connection {
             handleDataTaskResponse(data, response, error, completionHandler)
         }
 
-        self.task = task
         task.resume()
 
         if #available(OSX 10.14, iOS 12, *) {
@@ -62,11 +59,5 @@ class URLSessionConnection: Connection {
         }
 
         completionHandler(.success(data))
-        task = nil
-    }
-
-    func cancel() {
-        task?.cancel()
-        task = nil
     }
 }

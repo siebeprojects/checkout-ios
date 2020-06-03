@@ -2,16 +2,12 @@
 import UIKit
 import MaterialComponents.MaterialTextFields
 
-extension CGFloat {
-    static let cellVerticalSpacing: CGFloat = 8
-}
-
 extension Input.Table {
     /// Cell that represents all text inputs, contains label and text field.
     /// Upon some actions calls `delegate`, don't forget to set it.
     ///
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
-    class TextFieldViewCell: UITableViewCell, DequeueableTableCell, ContainsInputCellDelegate {
+    class TextFieldViewCell: FullWidthCollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
 
         private let textField: MDCTextField
@@ -19,30 +15,30 @@ extension Input.Table {
 
         private(set) var model: (TextInputField & DefinesKeyboardStyle)!
 
-        var indexPath: IndexPath!
-
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        override init(frame: CGRect) {
             textField = .init()
             textFieldController = .init(textInput: textField)
             textField.leadingUnderlineLabel.numberOfLines = 0
             textField.leadingUnderlineLabel.lineBreakMode = .byWordWrapping
 
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            super.init(frame: frame)
 
             textField.delegate = self
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingDidEnd)
             textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
 
             contentView.addSubview(textField)
 
             textField.translatesAutoresizingMaskIntoConstraints = false
-
+            
+            let textFieldBottomAnchor = contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor)
+            textFieldBottomAnchor.priority = .defaultHigh
+            
             NSLayoutConstraint.activate([
-                textField.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-                textField.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-                textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: .cellVerticalSpacing / 2),
-                contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: .cellVerticalSpacing / 2)
+                textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                textField.topAnchor.constraint(equalTo: contentView.topAnchor),
+                textFieldBottomAnchor
             ])
         }
 
@@ -59,7 +55,7 @@ extension Input.Table.TextFieldViewCell {
 
     override func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
-            return textField.becomeFirstResponder()
+        return textField.becomeFirstResponder()
     }
 
     func configure(with model: TextInputField & DefinesKeyboardStyle) {
@@ -95,16 +91,16 @@ extension Input.Table.TextFieldViewCell {
         let text = textField.text ?? String()
         let value = model.patternFormatter?.formatter.unformat(text) ?? text
 
+        delegate?.inputCellValueDidChange(to: value, cell: self)
+        
         if let maxLength = model.maxInputLength, value.count >= maxLength {
             // Press primary action instead of an user when all characters were entered
-            delegate?.inputCellPrimaryActionTriggered(at: indexPath)
+            delegate?.inputCellPrimaryActionTriggered(cell: self)
         }
-
-        delegate?.inputCellValueDidChange(to: value, at: indexPath)
     }
 
     @objc fileprivate func textFieldPrimaryActionTriggered() {
-        delegate?.inputCellPrimaryActionTriggered(at: indexPath)
+        delegate?.inputCellPrimaryActionTriggered(cell: self)
     }
 }
 
@@ -135,12 +131,13 @@ extension Input.Table.TextFieldViewCell {
 extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textFieldController.setHelperText(model.placeholder, helperAccessibilityLabel: model.placeholder)
-        delegate?.inputCellBecameFirstResponder(at: indexPath)
+        delegate?.inputCellBecameFirstResponder(cell: self)
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.layoutIfNeeded()
         textFieldController.setHelperText(nil, helperAccessibilityLabel: nil)
-        delegate?.inputCellDidEndEditing(at: indexPath)
+        delegate?.inputCellDidEndEditing(cell: self)
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -217,9 +214,10 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
     }
 
     private func makeAccessoryView(for action: PrimaryAction) -> UIView {
-        let view = UIInputView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 44), inputViewStyle: .default)
+        let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44)
+        let view = UIInputView(frame: frame, inputViewStyle: .default)
 
-        let toolbar = UIToolbar()
+        let toolbar = UIToolbar(frame: frame)
         toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let primaryAction: UIBarButtonItem

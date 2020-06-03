@@ -10,27 +10,30 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class ButtonCell: UITableViewCell, DequeueableTableCell {
+    class ButtonCell: FullWidthCollectionViewCell, DequeueableCell {
         private let button: UIButton
         var model: Input.Field.Button?
 
-        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        override init(frame: CGRect) {
             button = .init(frame: .zero)
             button.setTitleColor(.titleColor, for: .normal)
             button.layer.cornerRadius = .cornerRadius
             button.clipsToBounds = true
 
-            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            super.init(frame: frame)
 
             contentView.addSubview(button)
 
             button.translatesAutoresizingMaskIntoConstraints = false
-
+            
+            let buttonBottomConstraint = button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            buttonBottomConstraint.priority = .defaultHigh
+            
             NSLayoutConstraint.activate([
-                button.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-                button.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-                button.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-                button.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+                button.topAnchor.constraint(equalTo: contentView.topAnchor),
+                buttonBottomConstraint,
+                button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 button.heightAnchor.constraint(equalToConstant: .buttonHeight)
             ])
 

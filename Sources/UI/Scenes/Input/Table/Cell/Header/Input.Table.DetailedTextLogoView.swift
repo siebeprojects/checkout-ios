@@ -6,7 +6,7 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class DetailedTextLogoView: UIView {
+    class DetailedTextLogoView: FullWidthCollectionViewCell, DequeueableCell {
         private let label: UILabel
         private let detailedLabel: UILabel
         private let logoView: UIImageView
@@ -20,9 +20,7 @@ extension Input.Table {
 
             // FIXME: Return checkmark
 //            self.accessoryType = .checkmark
-
-            self.preservesSuperviewLayoutMargins = true
-
+            
             label.font = .preferredFont(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
             detailedLabel.font = .preferredFont(forTextStyle: .footnote)
@@ -42,15 +40,15 @@ extension Input.Table {
 
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: .imageLabelSpacing),
-                label.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
-                label.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+                label.topAnchor.constraint(equalTo: self.topAnchor),
+                label.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
                 detailedLabel.topAnchor.constraint(equalTo: label.bottomAnchor),
-                detailedLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor, constant: -Input.Table.SectionHeaderCell.Constant.height * 2),
+                detailedLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
                 detailedLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-                detailedLabel.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+                detailedLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
-                logoView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
+                logoView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
                 logoView.topAnchor.constraint(equalTo: label.topAnchor),
                 logoView.bottomAnchor.constraint(equalTo: detailedLabel.bottomAnchor),
                 logoView.widthAnchor.constraint(equalToConstant: .logoWidth)

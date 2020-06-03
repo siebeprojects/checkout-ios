@@ -73,7 +73,9 @@ extension List.Table.DataSource.GroupedNetworkRow {
         // Set model
         cell.primaryLabel?.text = primaryLabel
         cell.secondaryLabel?.text = secondaryLabel
-        cell.setImages(logoImages)
+        
+        // TODO: We agreed to remove multiple images support so that's why we use the first image (it's card's icon). Better to updated model later to fully remove multiple logos support.
+        cell.logoView?.image = logoImages.first
 
         // Set cell position
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)

@@ -42,9 +42,4 @@ public class SendRequestOperation<T>: AsynchronousOperation where T: Request {
         downloadCompletionBlock?(result)
         finish()
     }
-
-    public override func cancel() {
-        connection.cancel()
-        super.cancel()
-    }
 }
