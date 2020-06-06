@@ -1,6 +1,8 @@
 #if canImport(UIKit)
 import UIKit
 
+// MARK: Constants
+
 private extension CGFloat {
     /// Set to size of most used cell (`TextFieldViewCell`), if cell would be changed - don't forget to change that value.
     static var estimatedCellHeight: CGFloat { return 87 }
@@ -11,6 +13,16 @@ private extension CGFloat {
     /// Spacing between sections
     static var sectionSpacing: CGFloat { return 16 }
 }
+
+// MARK: - InputTableControllerDelegate
+
+protocol InputTableControllerDelegate: class {
+    func submitPayment()
+    func valueDidChange(for field: InputField)
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView)
+}
+
+// MARK: - Input.Table.Controller
 
 extension Input.Table {
     class Controller: NSObject {
@@ -25,11 +37,8 @@ extension Input.Table {
                 validator.collectionView = collectionView
             }
         }
-        weak var inputChangesListener: InputValueChangesListener?
-        var scrollViewWillBeginDraggingBlock: ((UIScrollView) -> Void)?
-        
-        // MARK: - Init
-        
+        weak var delegate: InputTableControllerDelegate?
+
         override init() {
             self.validator = Validator(dataSource: dataSource)
             super.init()
@@ -37,8 +46,10 @@ extension Input.Table {
         }
         
         func setModel(network: Input.Network, header: CellRepresentable) {
-            network.submitButton.buttonDidTap = { [weak validator] _ in
-                validator?.validateAll(option: .fullCheck)
+            network.submitButton.buttonDidTap = { [weak self] _ in
+                if self?.validator.validateAll(option: .fullCheck) == true {
+                    self?.delegate?.submitPayment()
+                }
             }
             
             let oldModel = dataSource.model
@@ -139,7 +150,7 @@ extension Input.Table.Controller {
 
 extension Input.Table.Controller: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollViewWillBeginDraggingBlock?(scrollView)
+        delegate?.scrollViewWillBeginDragging(scrollView)
     }
 }
 
@@ -192,7 +203,7 @@ extension Input.Table.Controller: InputCellDelegate {
         guard let inputField = cellRepresentable as? InputField else { return }
         
         inputField.value = newValue ?? ""
-        inputChangesListener?.valueDidChange(for: inputField)
+        delegate?.valueDidChange(for: inputField)
     }
 }
 #endif

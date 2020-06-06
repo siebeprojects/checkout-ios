@@ -30,18 +30,29 @@ extension Input.Table.Validator {
         }
     }
     
-    func validateAll(option: Input.Field.Validation.Option) {
+    
+    /// Validate all models and display validation results in cells
+    /// - Returns: is all fields are valid
+    @discardableResult func validateAll(option: Input.Field.Validation.Option) -> Bool {
         // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
         collectionView.endEditing(true)
+        
+        var isValid = true
         
         for section in dataSource.model {
             for row in section {
                 guard let validatable = row as? Validatable else { continue }
                 validatable.validateAndSaveResult(option: option)
+                
+                if validatable.validationErrorText != nil {
+                    isValid = false
+                }
             }
         }
         
         collectionView.reloadData()
+        
+        return isValid
     }
     
     func validate(cell: UICollectionViewCell) {

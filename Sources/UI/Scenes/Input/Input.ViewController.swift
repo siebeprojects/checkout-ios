@@ -25,7 +25,7 @@ extension Input {
 
             self.scrollView = collectionView
 
-            tableController.inputChangesListener = self
+            tableController.delegate = self
 
             // Placeholder translation suffixer
             for field in transformer.verificationCodeFields {
@@ -46,7 +46,7 @@ extension Input {
 
             self.scrollView = collectionView
 
-            tableController.inputChangesListener = self
+            tableController.delegate = self
 
             // Placeholder translation suffixer
             for field in transfomer.verificationCodeFields {
@@ -70,7 +70,6 @@ extension Input.ViewController {
         view.tintColor = .tintColor
 
         tableController.collectionView = self.collectionView
-        tableController.scrollViewWillBeginDraggingBlock = scrollViewWillBeginDragging
         tableController.configure()
 
         configure(collectionView: collectionView)
@@ -79,33 +78,6 @@ extension Input.ViewController {
         setPreferredContentSize()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
-    }
-
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        // Control behaviour of navigation bar's shadow line
-        guard let navigationController = self.navigationController else { return }
-
-        let insets: UIEdgeInsets
-        if #available(iOS 11.0, *) {
-            insets = scrollView.safeAreaInsets
-        } else {
-            insets = scrollView.contentInset
-        }
-
-        let yOffset = scrollView.contentOffset.y + insets.top
-
-        // If scroll view is on top
-        if yOffset <= 0 {
-            // Hide shadow line
-            navigationController.navigationBar.shadowImage = UIImage()
-            navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        } else {
-            if navigationController.navigationBar.shadowImage != nil {
-                // Show shadow line
-                navigationController.navigationBar.setBackgroundImage(nil, for: .default)
-                navigationController.navigationBar.shadowImage = nil
-            }
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -186,7 +158,42 @@ extension Input.ViewController {
 
 // MARK: - InputValueChangesListener
 
-extension Input.ViewController: InputValueChangesListener {
+extension Input.ViewController: InputTableControllerDelegate {
+    func submitPayment() {
+        print("Hello")
+    }
+    
+    // MARK: Navigation bar shadow
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // Control behaviour of navigation bar's shadow line
+        guard let navigationController = self.navigationController else { return }
+
+        let insets: UIEdgeInsets
+        if #available(iOS 11.0, *) {
+            insets = scrollView.safeAreaInsets
+        } else {
+            insets = scrollView.contentInset
+        }
+
+        let yOffset = scrollView.contentOffset.y + insets.top
+
+        // If scroll view is on top
+        if yOffset <= 0 {
+            // Hide shadow line
+            navigationController.navigationBar.shadowImage = UIImage()
+            navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        } else {
+            if navigationController.navigationBar.shadowImage != nil {
+                // Show shadow line
+                navigationController.navigationBar.setBackgroundImage(nil, for: .default)
+                navigationController.navigationBar.shadowImage = nil
+            }
+        }
+    }
+    
+    // MARK: InputFields changes
+    
     /// Switch to a new network if needed (based on input field's type and value).
     /// - Note: called by `TableController`
     func valueDidChange(for field: InputField) {
