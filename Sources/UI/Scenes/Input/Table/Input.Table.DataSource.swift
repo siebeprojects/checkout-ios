@@ -25,6 +25,12 @@ extension Input.Table {
             return false
         }
         
+        var inputFields: [InputField] {
+            model.flatMap {
+                $0.compactMap { $0 as? InputField }
+            }
+        }
+        
         /// Arrange models by sections
         private static func arrangeBySections(network: Input.Network, header: CellRepresentable) -> [[CellRepresentable]] {
             var sections = [[CellRepresentable]]()

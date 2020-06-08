@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		53826028AA641BA4113DFC2D /* Pods_Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
+		D94BAF08248CE5DD0080FB68 /* PaymentServicesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94BAF07248CE5DD0080FB68 /* PaymentServicesFactory.swift */; };
+		D97B5CBB248A4A74002A930B /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B5CBA248A4A74002A930B /* PaymentService.swift */; };
+		D97B5CBD248A4A99002A930B /* PaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B5CBC248A4A99002A930B /* PaymentRequest.swift */; };
+		D97B5CBF248A4AE2002A930B /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B5CBE248A4AE2002A930B /* Payment.swift */; };
+		D97B5CC1248A4B0E002A930B /* BackendPaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B5CC0248A4B0E002A930B /* BackendPaymentService.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
@@ -120,7 +125,6 @@
 		D9B4724A2472D23900E88600 /* SelectInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471B52472D23900E88600 /* SelectInputField.swift */; };
 		D9B4724B2472D23900E88600 /* DefinesKeyboardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471B62472D23900E88600 /* DefinesKeyboardStyle.swift */; };
 		D9B4724C2472D23900E88600 /* SupportsPrimaryAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471B72472D23900E88600 /* SupportsPrimaryAction.swift */; };
-		D9B4724D2472D23900E88600 /* InputValueChangesListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471B82472D23900E88600 /* InputValueChangesListener.swift */; };
 		D9B4724E2472D23900E88600 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471B92472D23900E88600 /* InputField.swift */; };
 		D9B4724F2472D23900E88600 /* Validatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471BA2472D23900E88600 /* Validatable.swift */; };
 		D9B472512472D23900E88600 /* CellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471BC2472D23900E88600 /* CellRepresentable.swift */; };
@@ -165,6 +169,8 @@
 		D9B472782472D23900E88600 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471F02472D23900E88600 /* log.swift */; };
 		D9B472792472D23900E88600 /* InternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471F12472D23900E88600 /* InternalError.swift */; };
 		D9B4727A2472D23900E88600 /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471F22472D23900E88600 /* AssetProvider.swift */; };
+		D9C3F7CE248A89E6004982A3 /* OperationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C3F7CD248A89E6004982A3 /* OperationResult.swift */; };
+		D9C3F7D0248A8B72004982A3 /* ProviderParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C3F7CF248A8B72004982A3 /* ProviderParameters.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
 /* End PBXBuildFile section */
 
@@ -184,6 +190,11 @@
 		95E5DEA2906240D51D3804B0 /* Pods-Optile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.debug.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.debug.xcconfig"; sourceTree = "<group>"; };
 		AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1464685FF385FE59D6C10F5 /* Pods-Optile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.release.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.release.xcconfig"; sourceTree = "<group>"; };
+		D94BAF07248CE5DD0080FB68 /* PaymentServicesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentServicesFactory.swift; sourceTree = "<group>"; };
+		D97B5CBA248A4A74002A930B /* PaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
+		D97B5CBC248A4A99002A930B /* PaymentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequest.swift; sourceTree = "<group>"; };
+		D97B5CBE248A4AE2002A930B /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		D97B5CC0248A4B0E002A930B /* BackendPaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendPaymentService.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A88D92241C55040043F535 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
@@ -296,7 +307,6 @@
 		D9B471B52472D23900E88600 /* SelectInputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectInputField.swift; sourceTree = "<group>"; };
 		D9B471B62472D23900E88600 /* DefinesKeyboardStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinesKeyboardStyle.swift; sourceTree = "<group>"; };
 		D9B471B72472D23900E88600 /* SupportsPrimaryAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportsPrimaryAction.swift; sourceTree = "<group>"; };
-		D9B471B82472D23900E88600 /* InputValueChangesListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputValueChangesListener.swift; sourceTree = "<group>"; };
 		D9B471B92472D23900E88600 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		D9B471BA2472D23900E88600 /* Validatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validatable.swift; sourceTree = "<group>"; };
 		D9B471BC2472D23900E88600 /* CellRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellRepresentable.swift; sourceTree = "<group>"; };
@@ -341,6 +351,8 @@
 		D9B471F02472D23900E88600 /* log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		D9B471F12472D23900E88600 /* InternalError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalError.swift; sourceTree = "<group>"; };
 		D9B471F22472D23900E88600 /* AssetProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
+		D9C3F7CD248A89E6004982A3 /* OperationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationResult.swift; sourceTree = "<group>"; };
+		D9C3F7CF248A8B72004982A3 /* ProviderParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderParameters.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -374,6 +386,18 @@
 				E918DF5930A18AE9887BB63A /* Pods_Tests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D97B5CB9248A49BB002A930B /* PaymentService */ = {
+			isa = PBXGroup;
+			children = (
+				D97B5CBA248A4A74002A930B /* PaymentService.swift */,
+				D97B5CBC248A4A99002A930B /* PaymentRequest.swift */,
+				D97B5CBE248A4AE2002A930B /* Payment.swift */,
+				D97B5CC0248A4B0E002A930B /* BackendPaymentService.swift */,
+				D94BAF07248CE5DD0080FB68 /* PaymentServicesFactory.swift */,
+			);
+			path = PaymentService;
 			sourceTree = "<group>";
 		};
 		D9A88D04241C55040043F535 /* Sources */ = {
@@ -547,6 +571,8 @@
 				D9B4715B2472D23900E88600 /* SelectOption.swift */,
 				D9B4715C2472D23900E88600 /* AccountRegistration.swift */,
 				D9B4715D2472D23900E88600 /* AccountFormData.swift */,
+				D9C3F7CD248A89E6004982A3 /* OperationResult.swift */,
+				D9C3F7CF248A8B72004982A3 /* ProviderParameters.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -811,7 +837,6 @@
 				D9B471B52472D23900E88600 /* SelectInputField.swift */,
 				D9B471B62472D23900E88600 /* DefinesKeyboardStyle.swift */,
 				D9B471B72472D23900E88600 /* SupportsPrimaryAction.swift */,
-				D9B471B82472D23900E88600 /* InputValueChangesListener.swift */,
 				D9B471B92472D23900E88600 /* InputField.swift */,
 				D9B471BA2472D23900E88600 /* Validatable.swift */,
 				D9B471BC2472D23900E88600 /* CellRepresentable.swift */,
@@ -928,6 +953,7 @@
 		D9B471E72472D23900E88600 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				D97B5CB9248A49BB002A930B /* PaymentService */,
 				D9B471E82472D23900E88600 /* PaymentSessionProvider.swift */,
 				D9B471E92472D23900E88600 /* DownloadTranslationService.swift */,
 				D9B471EA2472D23900E88600 /* PaymentSessionService.swift */,
@@ -1180,10 +1206,12 @@
 				D9B472202472D23900E88600 /* PatternFormatter.swift in Sources */,
 				D9B471FD2472D23900E88600 /* Installments.swift in Sources */,
 				D9B4724C2472D23900E88600 /* SupportsPrimaryAction.swift in Sources */,
+				D9C3F7D0248A8B72004982A3 /* ProviderParameters.swift in Sources */,
 				D9B472152472D23900E88600 /* DownloadData.swift in Sources */,
 				D9B4720C2472D23900E88600 /* LocalTranslation.swift in Sources */,
 				D9B472432472D23900E88600 /* Input.Field.Validation.ExpiryDate.swift in Sources */,
 				D9B472572472D23900E88600 /* List.swift in Sources */,
+				D9C3F7CE248A89E6004982A3 /* OperationResult.swift in Sources */,
 				D9B472162472D23900E88600 /* URLSessionConnection.swift in Sources */,
 				D9B4723F2472D23900E88600 /* Input.Field.ExpiryDate.swift in Sources */,
 				D9B4720D2472D23900E88600 /* TranslationProvider.swift in Sources */,
@@ -1220,10 +1248,13 @@
 				D9B4722C2472D23900E88600 /* Input.Table.ButtonCell.swift in Sources */,
 				D9B4721F2472D23900E88600 /* TextFormatPattern.swift in Sources */,
 				D9B472022472D23900E88600 /* FormData.swift in Sources */,
+				D97B5CC1248A4B0E002A930B /* BackendPaymentService.swift in Sources */,
 				D9B4726B2472D23900E88600 /* PaymentNetwork.swift in Sources */,
+				D97B5CBB248A4A74002A930B /* PaymentService.swift in Sources */,
 				D9B472582472D23900E88600 /* List.Table.DataSource.SingleNetworkRow.swift in Sources */,
 				D9B472692472D23900E88600 /* UIColor+.swift in Sources */,
 				D9B472712472D23900E88600 /* SlideInPresentationController.swift in Sources */,
+				D94BAF08248CE5DD0080FB68 /* PaymentServicesFactory.swift in Sources */,
 				D9B472362472D23900E88600 /* Input.Network.swift in Sources */,
 				D9B472682472D23900E88600 /* Error+isNetworkError.swift in Sources */,
 				D9B472332472D23900E88600 /* Input.Table.LogoTextView.swift in Sources */,
@@ -1232,6 +1263,7 @@
 				D9B471F72472D23900E88600 /* ListResult.swift in Sources */,
 				D9B472352472D23900E88600 /* Input.Table.swift in Sources */,
 				D9B472462472D23900E88600 /* Input.ModelTransformer.swift in Sources */,
+				D97B5CBD248A4A99002A930B /* PaymentRequest.swift in Sources */,
 				D9B4722A2472D23900E88600 /* Input.Table.CheckboxViewCell.swift in Sources */,
 				D9B472292472D23900E88600 /* Input.Table.FullWidthCollectionViewCell.swift in Sources */,
 				D9B472322472D23900E88600 /* Input.Table.ImagesCollectionView.swift in Sources */,
@@ -1269,13 +1301,13 @@
 				D9B4721A2472D23900E88600 /* Input.NavigationController.swift in Sources */,
 				D9B472242472D23900E88600 /* ExpirationDateInputModifier.swift in Sources */,
 				D9B4721E2472D23900E88600 /* ReplaceableString.swift in Sources */,
-				D9B4724D2472D23900E88600 /* InputValueChangesListener.swift in Sources */,
 				D9B471F92472D23900E88600 /* Parameter.swift in Sources */,
 				D9B4720B2472D23900E88600 /* TranslatedModel.swift in Sources */,
 				D9B472112472D23900E88600 /* SendRequestOperation.swift in Sources */,
 				D9B472472472D23900E88600 /* Input.TextHeader.swift in Sources */,
 				D9B4723B2472D23900E88600 /* Input.Field.Generic.swift in Sources */,
 				D9B472422472D23900E88600 /* Input.Field.Validation.IBAN.swift in Sources */,
+				D97B5CBF248A4AE2002A930B /* Payment.swift in Sources */,
 				D9B472702472D23900E88600 /* SlideInPresentationManager.swift in Sources */,
 				D9B472772472D23900E88600 /* KeyboardChangeFrameObserver.swift in Sources */,
 				D9B4725F2472D23900E88600 /* List.Table.swift in Sources */,

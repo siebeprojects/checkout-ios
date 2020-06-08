@@ -13,9 +13,12 @@ extension Input {
 
         private let collectionView: UICollectionView
         
-        init(for paymentNetworks: [PaymentNetwork]) throws {
+        let paymentServiceFactory: PaymentServicesFactory
+        
+        init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory) throws {
+            self.paymentServiceFactory = paymentServiceFactory
             let transformer = ModelTransformer()
-            networks = paymentNetworks.map { transformer.transform(paymentNetwork: $0) }
+            networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
             smartSwitch = try .init(networks: self.networks)
             header = Input.ImagesHeader(for: networks)
             tableController.setModel(network: smartSwitch.selected.network, header: header)
@@ -33,9 +36,10 @@ extension Input {
             }
         }
 
-        init(for registeredAccount: RegisteredAccount) {
+        init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory) throws {
+            self.paymentServiceFactory = paymentServiceFactory
             let transfomer = ModelTransformer()
-            let network = transfomer.transform(registeredAccount: registeredAccount)
+            let network = try transfomer.transform(registeredAccount: registeredAccount)
             networks = [network]
             smartSwitch = .init(network: network)
             header = Input.TextHeader(from: registeredAccount)
@@ -160,7 +164,18 @@ extension Input.ViewController {
 
 extension Input.ViewController: InputTableControllerDelegate {
     func submitPayment() {
-        print("Hello")
+        let service = paymentServiceFactory.createPaymentService(forNetworkCode: smartSwitch.selected.network.networkCode, paymentMethod: "DEBIT_CARD")
+        service?.delegate = self
+        
+        let network = smartSwitch.selected.network
+        
+        var inputFieldsDictionary = [String: String]()
+        for element in tableController.dataSource.inputFields {
+            inputFieldsDictionary[element.name] = element.value
+        }
+        
+        let request = PaymentRequest(networkCode: smartSwitch.selected.network.networkCode, operationType: nil, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
+        try! service?.send(paymentRequest: request)
     }
     
     // MARK: Navigation bar shadow
@@ -265,6 +280,27 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
         case .generic: return "generic"
         case .specific: return "specific"
         }
+    }
+}
+
+extension Sequence where Element: InputField {
+    var asDictionary: [String: Decodable] {
+        var dictionary = [String: Decodable]()
+        for element in self {
+            dictionary[element.name] = element.value
+        }
+        
+        return dictionary
+    }
+}
+
+extension Input.ViewController: PaymentServiceDelegate {
+    func paymentService(_ paymentService: PaymentService, didAuthorizePayment: Payment) {
+        print("OK")
+    }
+    
+    func paymentService(_ paymentService: PaymentService, didFailedWithError: Error) {
+        debugPrint(didFailedWithError)
     }
 }
 #endif

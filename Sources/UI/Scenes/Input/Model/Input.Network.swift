@@ -2,6 +2,11 @@ import Foundation
 
 extension Input {
     class Network {
+        let operationURL: URL
+        
+        /// Indicates payment method this network belongs to.
+        let paymentMethod: String?
+        
         let translation: TranslationProvider
 
         let label: String
@@ -16,7 +21,10 @@ extension Input {
         let switchRule: SmartSwitch.Rule?
         let networkCode: String
 
-        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], separatedCheckboxes: [Field.Checkbox], submitButton: Field.Button, switchRule: SmartSwitch.Rule?) {
+        init(operationURL: URL, paymentMethod: String?, networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [InputField & CellRepresentable], separatedCheckboxes: [Field.Checkbox], submitButton: Field.Button, switchRule: SmartSwitch.Rule?) {
+            self.operationURL = operationURL
+            self.paymentMethod = paymentMethod
+            
             self.networkCode = networkCode
             self.translation = translator
 

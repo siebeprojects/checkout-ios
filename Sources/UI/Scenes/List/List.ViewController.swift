@@ -82,7 +82,7 @@ extension List.ViewController {
 
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
         do {
-            let inputViewController = try Input.ViewController(for: paymentNetworks)
+            let inputViewController = try Input.ViewController(for: paymentNetworks, paymentServiceFactory: sessionService.paymentServicesFactory)
             let navigationController = Input.NavigationController(rootViewController: inputViewController)
             present(navigationController, animated: animated, completion: nil)
         } catch {
@@ -91,7 +91,14 @@ extension List.ViewController {
     }
 
     fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
-        let inputViewController = Input.ViewController(for: registeredAccount)
+        let inputViewController: Input.ViewController
+        
+        do {
+            inputViewController = try Input.ViewController(for: registeredAccount, paymentServiceFactory: sessionService.paymentServicesFactory)
+        } catch {
+            changeState(to: .failure(error))
+            return
+        }
         
         let navigationController = Input.NavigationController(rootViewController: inputViewController)
         navigationController.modalPresentationStyle = .custom

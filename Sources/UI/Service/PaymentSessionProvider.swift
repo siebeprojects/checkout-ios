@@ -3,13 +3,15 @@ import Foundation
 class PaymentSessionProvider {
     private let paymentSessionURL: URL
     private let sharedTranslationProvider: SharedTranslationProvider
+    private let paymentServicesFactory: PaymentServicesFactory
 
     let connection: Connection
 
-    init(paymentSessionURL: URL, connection: Connection, localizationsProvider: SharedTranslationProvider) {
+    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
         self.sharedTranslationProvider = localizationsProvider
+        self.paymentServicesFactory = paymentServicesFactory
     }
 
     func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
@@ -109,15 +111,15 @@ class PaymentSessionProvider {
     private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])
 
     private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworksTuple) -> Void)) {
-        // swiftlint:disable:next line_length
-        let supportedCodes = ["AMEX", "CASTORAMA", "DINERS", "DISCOVER", "MASTERCARD", "UNIONPAY", "VISA", "VISA_DANKORT", "VISAELECTRON", "CARTEBANCAIRE", "MAESTRO", "MAESTROUK", "POSTEPAY", "SEPADD", "JCB"]
-
-        let filteredPaymentNetworks = listResult.networks.applicable
-            .filter { supportedCodes.contains($0.code) }
+        let filteredPaymentNetworks = listResult.networks.applicable.filter { (network) -> Bool in
+            paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
+        }
 
         let filteredRegisteredNetworks: [AccountRegistration]
         if let accounts = listResult.accounts {
-            filteredRegisteredNetworks = accounts.filter { supportedCodes.contains($0.code) }
+            filteredRegisteredNetworks = accounts.filter {
+                paymentServicesFactory.isSupported(networkCode: $0.code, paymentMethod: $0.method)
+            }
         } else {
             filteredRegisteredNetworks = .init()
         }
