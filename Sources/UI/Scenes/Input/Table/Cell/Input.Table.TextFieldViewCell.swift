@@ -58,7 +58,7 @@ extension Input.Table.TextFieldViewCell {
         return textField.becomeFirstResponder()
     }
 
-    func configure(with model: TextInputField & DefinesKeyboardStyle) {
+    func configure(with model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
         self.model = model
 
         if let inputFormatter = model.patternFormatter {
@@ -67,6 +67,7 @@ extension Input.Table.TextFieldViewCell {
             textField.text = model.value
         }
 
+        textField.isEnabled = model.isEnabled
         textField.tintColor = self.tintColor
         textFieldController.activeColor = textField.tintColor
         textFieldController.floatingPlaceholderActiveColor = textField.tintColor

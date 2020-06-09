@@ -6,6 +6,7 @@ extension Input {
         let logoData: Data?
         let label: String
         var detailedLabel: String?
+        var isEnabled: Bool = true
 
         private init(logoData: Data?, label: String) {
             self.logoData = logoData

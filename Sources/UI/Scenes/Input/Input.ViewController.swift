@@ -8,10 +8,10 @@ extension Input {
         let networks: [Network]
         let header: CellRepresentable
         
-        private let tableController = Table.Controller()
+        let tableController = Table.Controller()
         fileprivate let smartSwitch: SmartSwitch.Selector
 
-        private let collectionView: UICollectionView
+        let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
         
         let paymentServiceFactory: PaymentServicesFactory
@@ -189,7 +189,9 @@ extension Input.ViewController: InputTableControllerDelegate {
         }
         
         let request = PaymentRequest(networkCode: smartSwitch.selected.network.networkCode, operationType: nil, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
-        try! service?.send(paymentRequest: request)
+
+        stateManager.state = .paymentSubmission
+        service?.send(paymentRequest: request)
     }
     
     // MARK: Navigation bar shadow
@@ -315,7 +317,7 @@ extension Input.ViewController: PaymentServiceDelegate {
     }
     
     func paymentService(_ paymentService: PaymentService, didFailedWithError error: Error) {
-        debugPrint(error)
+        stateManager.state = .error(error)
     }
 }
 #endif

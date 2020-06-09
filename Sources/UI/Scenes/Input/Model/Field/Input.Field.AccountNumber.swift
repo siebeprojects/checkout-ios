@@ -8,7 +8,8 @@ extension Input.Field {
         let networkMethod: String?
         var validationErrorText: String?
         let patternFormatter: InputPatternFormatter?
-
+        
+        var isEnabled: Bool = true
         var value: String = ""
 
         /// - Parameters:

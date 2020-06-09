@@ -100,7 +100,6 @@ extension Input.ModelTransformer {
 
     private func checkbox(name: String, translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox? {
         let isOn: Bool
-        let isEnabled: Bool = true
         var isHidden: Bool = false
 
         switch requirement {
@@ -113,7 +112,7 @@ extension Input.ModelTransformer {
             return nil
         }
 
-        return Input.Field.Checkbox(name: name, isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
+        return Input.Field.Checkbox(name: name, isOn: isOn, isHidden: isHidden, translationKey: translationKey, translator: translator)
     }
 }
 

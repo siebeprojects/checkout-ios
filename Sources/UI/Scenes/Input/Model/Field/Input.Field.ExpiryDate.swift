@@ -12,6 +12,7 @@ extension Input.Field {
             return formatter
         }()
 
+        var isEnabled: Bool = true
         var value: String = ""
 
         init(translator: TranslationProvider) {

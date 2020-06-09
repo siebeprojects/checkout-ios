@@ -4,6 +4,7 @@ import Foundation
 extension Input {
     final class ImagesHeader {
         var networks: [Network] = .init()
+        var isEnabled: Bool = true
 
         init() {}
         

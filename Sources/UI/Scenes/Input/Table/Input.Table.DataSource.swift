@@ -25,6 +25,15 @@ extension Input.Table {
             return false
         }
         
+        /// Set enabled state for all datasource items
+        func setEnabled(_ enabled: Bool, collectionView: UICollectionView) {
+            for cellRepresentable in model.flatMap({ $0 }) {
+                cellRepresentable.isEnabled = enabled
+            }
+            
+            collectionView.reloadData()
+        }
+        
         var inputFields: [InputField] {
             model.flatMap {
                 $0.compactMap { $0 as? InputField }

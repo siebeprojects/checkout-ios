@@ -22,21 +22,21 @@ extension Input.ViewController.StateManager {
     fileprivate func changeState(to newState: UIState, from oldState: UIState) {
         switch oldState {
         case .paymentSubmission:
-            // enable input-fields from read-only mode
-            // stop progress bar
-            break
+            setPaymentSubmission(isActive: false)
         default: break
         }
         
         switch newState {
         case .paymentSubmission:
-            // read-only for fields
-            // show progress bar
-            break
+            setPaymentSubmission(isActive: true)
         case .paymentResultPresentation(let paymentResult):
             present(paymentResult: paymentResult)
         default: break
         }
+    }
+    
+    private func setPaymentSubmission(isActive: Bool) {
+        vc.tableController.dataSource.setEnabled(!isActive, collectionView: vc.collectionView)
     }
     
     private func present(paymentResult: PaymentResult) {
@@ -55,5 +55,6 @@ extension Input.ViewController.StateManager {
         case inputFieldsPresentation
         case paymentSubmission
         case paymentResultPresentation(PaymentResult)
+        case error(Error)
     }
 }

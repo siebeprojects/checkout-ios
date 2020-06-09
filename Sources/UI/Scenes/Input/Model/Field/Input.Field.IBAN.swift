@@ -8,6 +8,7 @@ extension Input.Field {
         var validationErrorText: String?
         let patternFormatter: InputPatternFormatter?
 
+        var isEnabled: Bool = true
         var value: String = ""
 
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {

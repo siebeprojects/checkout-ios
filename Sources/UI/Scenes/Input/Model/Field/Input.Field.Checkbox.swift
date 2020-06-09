@@ -6,18 +6,17 @@ extension Input.Field {
         let translator: TranslationProvider
 
         let name: String
-        let isEnabled: Bool
+        var isEnabled: Bool = true
         var isOn: Bool
         var isHidden: Bool
         
         var text: String { translator.translation(forKey: translationKey) }
 
-        init(name: String, isOn: Bool, isEnabled: Bool, isHidden: Bool, translationKey: String, translator: TranslationProvider) {
+        init(name: String, isOn: Bool, isHidden: Bool, translationKey: String, translator: TranslationProvider) {
             self.name = name
             self.translationKey = translationKey
             self.translator = translator
             self.isOn = isOn
-            self.isEnabled = isEnabled
             self.isHidden = isHidden
         }
     }
