@@ -12,23 +12,34 @@ extension Input {
         fileprivate let smartSwitch: SmartSwitch.Selector
 
         private let collectionView: UICollectionView
+        fileprivate private(set) var stateManager: StateManager!
         
         let paymentServiceFactory: PaymentServicesFactory
         
-        init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory) throws {
+        private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentServiceFactory = paymentServiceFactory
-            let transformer = ModelTransformer()
-            networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
-            smartSwitch = try .init(networks: self.networks)
-            header = Input.ImagesHeader(for: networks)
-            tableController.setModel(network: smartSwitch.selected.network, header: header)
-            collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
-
+            self.networks = smartSwitch.networks
+            self.header = header
+            self.smartSwitch = smartSwitch
+            self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
+            
             super.init(nibName: nil, bundle: nil)
 
+            tableController.setModel(network: smartSwitch.selected.network, header: header)
+            
+            stateManager = .init(viewController: self)
+            
             self.scrollView = collectionView
-
             tableController.delegate = self
+        }
+        
+        convenience init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory) throws {
+            let transformer = ModelTransformer()
+            let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
+            let smartSwitch = try SmartSwitch.Selector(networks: networks)
+            let header = Input.ImagesHeader(for: networks)
+
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)
 
             // Placeholder translation suffixer
             for field in transformer.verificationCodeFields {
@@ -36,24 +47,16 @@ extension Input {
             }
         }
 
-        init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory) throws {
-            self.paymentServiceFactory = paymentServiceFactory
-            let transfomer = ModelTransformer()
-            let network = try transfomer.transform(registeredAccount: registeredAccount)
-            networks = [network]
-            smartSwitch = .init(network: network)
-            header = Input.TextHeader(from: registeredAccount)
-            tableController.setModel(network: smartSwitch.selected.network, header: header)
-            collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
+        convenience init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory) throws {
+            let transformer = ModelTransformer()
+            let network = try transformer.transform(registeredAccount: registeredAccount)
+            let smartSwitch = SmartSwitch.Selector(network: network)
+            let header = Input.TextHeader(from: registeredAccount)
             
-            super.init(nibName: nil, bundle: nil)
-
-            self.scrollView = collectionView
-
-            tableController.delegate = self
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)
 
             // Placeholder translation suffixer
-            for field in transfomer.verificationCodeFields {
+            for field in transformer.verificationCodeFields {
                 field.keySuffixer = self
             }
         }
@@ -307,6 +310,7 @@ extension Sequence where Element: InputField {
 
 extension Input.ViewController: PaymentServiceDelegate {
     func paymentService(_ paymentService: PaymentService, didAuthorizePayment paymentResult: PaymentResult) {
+        stateManager.state = .paymentResultPresentation(paymentResult)
         debugPrint(paymentResult.operationResult)
     }
     

@@ -10,6 +10,7 @@
 		53826028AA641BA4113DFC2D /* Pods_Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
 		D94BAF08248CE5DD0080FB68 /* PaymentServicesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94BAF07248CE5DD0080FB68 /* PaymentServicesFactory.swift */; };
+		D964A0A9248F9AEC00442031 /* Input.ViewController.StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D964A0A8248F9AEC00442031 /* Input.ViewController.StateManager.swift */; };
 		D97B5CBB248A4A74002A930B /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B5CBA248A4A74002A930B /* PaymentService.swift */; };
 		D97B5CBD248A4A99002A930B /* PaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B5CBC248A4A99002A930B /* PaymentRequest.swift */; };
 		D97B5CC1248A4B0E002A930B /* BackendPaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B5CC0248A4B0E002A930B /* BackendPaymentService.swift */; };
@@ -191,6 +192,7 @@
 		AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1464685FF385FE59D6C10F5 /* Pods-Optile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.release.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.release.xcconfig"; sourceTree = "<group>"; };
 		D94BAF07248CE5DD0080FB68 /* PaymentServicesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentServicesFactory.swift; sourceTree = "<group>"; };
+		D964A0A8248F9AEC00442031 /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
 		D97B5CBA248A4A74002A930B /* PaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		D97B5CBC248A4A99002A930B /* PaymentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequest.swift; sourceTree = "<group>"; };
 		D97B5CC0248A4B0E002A930B /* BackendPaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendPaymentService.swift; sourceTree = "<group>"; };
@@ -680,6 +682,7 @@
 				D9B4719C2472D23900E88600 /* Model */,
 				D9B471B32472D23900E88600 /* Protocols */,
 				D9B471C02472D23900E88600 /* Input.ViewController.swift */,
+				D964A0A8248F9AEC00442031 /* Input.ViewController.StateManager.swift */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -1197,6 +1200,7 @@
 				D9B4722F2472D23900E88600 /* Input.Table.ImagesView.swift in Sources */,
 				D9B472032472D23900E88600 /* ErrorInfo.swift in Sources */,
 				D9B4726A2472D23900E88600 /* PaymentListParameters.swift in Sources */,
+				D964A0A9248F9AEC00442031 /* Input.ViewController.StateManager.swift in Sources */,
 				D9B471FB2472D23900E88600 /* AccountMask.swift in Sources */,
 				D9B472072472D23900E88600 /* Networks.swift in Sources */,
 				D9B472052472D23900E88600 /* Checkbox.swift in Sources */,
