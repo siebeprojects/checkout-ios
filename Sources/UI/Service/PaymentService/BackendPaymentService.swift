@@ -28,12 +28,20 @@ class BackendPaymentService: PaymentService {
             case .failure(let error):
                 self.delegate?.paymentService(self, didFailedWithError: error)
             case .success(let data):
-                print(data)
-                break
-//                weakSelf.delegate?.paymentService(weakSelf, didAuthorizePayment: Payment())
+                guard let data = data else {
+                    let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
+                    self.delegate?.paymentService(self, didFailedWithError: emptyResponseError)
+                    return
+                }
+                
+                do {
+                    let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
+                    let paymentResult = PaymentResult(operationResult: operationResult)
+                    self.delegate?.paymentService(self, didAuthorizePayment: paymentResult)
+                } catch {
+                    self.delegate?.paymentService(self, didFailedWithError: error)
+                }
             }
-            
-            return
         }
     }
     
@@ -47,7 +55,7 @@ class BackendPaymentService: PaymentService {
         request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
         
         // Body
-        let chargeRequest = try ChargeRequest(account: paymentRequest.inputFields)
+        let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields)
         let jsonData = try JSONEncoder().encode(chargeRequest)
         request.httpBody = jsonData
         
@@ -56,29 +64,19 @@ class BackendPaymentService: PaymentService {
 }
 
 private extension BackendPaymentService {
-    struct AnyEncodable: Encodable {
-        let value: Encodable
-        init(value: Encodable) {
-            self.value = value
-        }
-
-        func encode(to encoder: Encoder) throws {
-            try value.encode(to: encoder)
-        }
-    }
-    
     struct ChargeRequest: Encodable {
-        let account: [String: AnyEncodable]
+        var account: [String: String] = .init()
         var autoRegistration: Bool?
+        var allowRecurrence: Bool?
         
         /// - Throws: `InternalError` if dictionary's value doesn't conform to `Encodable`
-        init(account: [String: Any]) throws {
-            self.account = try account.mapValues {
-                guard let encodableValue = $0 as? Encodable else {
-                    throw InternalError(description: "Unable to make JSON for charge request from dictionary: %@. Failed to encode a value: %@", objects: account, $0)
+        init(inputFields: [String: String]) {
+            for (name, value) in inputFields {
+                switch name {
+                case "autoRegistration": autoRegistration = Bool(stringValue: value)
+                case "allowRecurrence": allowRecurrence = Bool(stringValue: value)
+                default: account[name] = value
                 }
-                
-                return AnyEncodable(value: encodableValue)
             }
         }
     }

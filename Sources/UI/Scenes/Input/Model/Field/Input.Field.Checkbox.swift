@@ -5,11 +5,15 @@ extension Input.Field {
         let translationKey: String
         let translator: TranslationProvider
 
+        let name: String
         let isEnabled: Bool
         var isOn: Bool
         var isHidden: Bool
+        
+        var text: String { translator.translation(forKey: translationKey) }
 
-        init(isOn: Bool, isEnabled: Bool, isHidden: Bool, translationKey: String, translator: TranslationProvider) {
+        init(name: String, isOn: Bool, isEnabled: Bool, isHidden: Bool, translationKey: String, translator: TranslationProvider) {
+            self.name = name
             self.translationKey = translationKey
             self.translator = translator
             self.isOn = isOn
@@ -30,10 +34,6 @@ extension Input.Field.Checkbox: InputField {
 
             isOn = newBoolean
         }
-    }
-
-    var name: String {
-        translator.translation(forKey: translationKey)
     }
 }
 

@@ -170,8 +170,19 @@ extension Input.ViewController: InputTableControllerDelegate {
         let network = smartSwitch.selected.network
         
         var inputFieldsDictionary = [String: String]()
+        var expiryDate: String?
         for element in tableController.dataSource.inputFields {
+            if element.name == "expiryDate" {
+                expiryDate = element.value
+                continue
+            }
+            
             inputFieldsDictionary[element.name] = element.value
+        }
+        
+        if let expiryDate = expiryDate {
+            inputFieldsDictionary["expiryMonth"] = String(expiryDate.prefix(2))
+            inputFieldsDictionary["expiryYear"] = String(expiryDate.suffix(2))
         }
         
         let request = PaymentRequest(networkCode: smartSwitch.selected.network.networkCode, operationType: nil, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
@@ -295,12 +306,12 @@ extension Sequence where Element: InputField {
 }
 
 extension Input.ViewController: PaymentServiceDelegate {
-    func paymentService(_ paymentService: PaymentService, didAuthorizePayment: Payment) {
-        print("OK")
+    func paymentService(_ paymentService: PaymentService, didAuthorizePayment paymentResult: PaymentResult) {
+        debugPrint(paymentResult.operationResult)
     }
     
-    func paymentService(_ paymentService: PaymentService, didFailedWithError: Error) {
-        debugPrint(didFailedWithError)
+    func paymentService(_ paymentService: PaymentService, didFailedWithError error: Error) {
+        debugPrint(error)
     }
 }
 #endif

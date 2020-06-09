@@ -12,9 +12,9 @@ import Foundation
     public let operationURL: URL
     
     /// Textual dictionary with input fields.
-    public let inputFields: [String: Any]
+    public let inputFields: [String: String]
     
-    internal init(networkCode: String, operationType: String?, operationURL: URL, inputFields: [String : Any]) {
+    internal init(networkCode: String, operationType: String?, operationURL: URL, inputFields: [String: String]) {
         self.networkCode = networkCode
         self.operationType = operationType
         self.operationURL = operationURL

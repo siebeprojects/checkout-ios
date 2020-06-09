@@ -11,6 +11,6 @@ public protocol PaymentService: class {
 }
 
 public protocol PaymentServiceDelegate {
-    func paymentService(_ paymentService: PaymentService, didAuthorizePayment: Payment)
-    func paymentService(_ paymentService: PaymentService, didFailedWithError: Error)
+    func paymentService(_ paymentService: PaymentService, didAuthorizePayment paymentResult: PaymentResult)
+    func paymentService(_ paymentService: PaymentService, didFailedWithError error: Error)
 }

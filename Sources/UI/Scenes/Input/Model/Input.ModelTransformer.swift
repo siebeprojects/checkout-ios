@@ -8,8 +8,15 @@ private struct Constant {
         .init(networkCode: "SEPADD", inputElementName: "bic")
     ] }
 
-    static var registrationCheckboxLocalizationKey: String { "autoRegistrationLabel" }
-    static var recurrenceCheckboxLocalizationKey: String { "allowRecurrenceLabel" }
+    struct Registration {
+        static var localizationKey: String { "autoRegistrationLabel" }
+        static var name: String { "autoRegistration" }
+    }
+    
+    struct Recurrence {
+        static var localizationKey: String { "allowRecurrenceLabel" }
+        static var name: String { "allowRecurrence" }
+    }
 }
 
 // MARK: - Transformer
@@ -60,8 +67,8 @@ extension Input.ModelTransformer {
 
         // Checkboxes
         let checkboxes = [
-            checkbox(translationKey: Constant.registrationCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.registrationRequirement, translator: paymentNetwork.translation),
-            checkbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation)
+            checkbox(name: Constant.Registration.name, translationKey: Constant.Registration.localizationKey, requirement: paymentNetwork.applicableNetwork.registrationRequirement, translator: paymentNetwork.translation),
+            checkbox(name: Constant.Recurrence.name, translationKey: Constant.Recurrence.localizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation)
             ].compactMap { $0 }
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
@@ -91,7 +98,7 @@ extension Input.ModelTransformer {
 
     // MARK: Checkboxes
 
-    private func checkbox(translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox? {
+    private func checkbox(name: String, translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox? {
         let isOn: Bool
         let isEnabled: Bool = true
         var isHidden: Bool = false
@@ -106,7 +113,7 @@ extension Input.ModelTransformer {
             return nil
         }
 
-        return Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
+        return Input.Field.Checkbox(name: name, isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
     }
 }
 
