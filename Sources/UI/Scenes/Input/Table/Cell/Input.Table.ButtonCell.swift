@@ -19,7 +19,7 @@ extension Input.Table {
         private func setActivityIndicator(isAnimating: Bool) {
             if isAnimating {
                 button.setAttributedTitle(nil, for: .normal)
-                button.backgroundColor = button.tintColor.withAlphaComponent(0.7)
+                button.backgroundColor = button.tintColor.withAlphaComponent(0.6)
                 
                 let activityIndicator = UIActivityIndicatorView(style: .white)
                 activityIndicator.translatesAutoresizingMaskIntoConstraints = false
