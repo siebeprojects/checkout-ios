@@ -35,7 +35,7 @@ extension Input.Table {
         func setPaymentButtonState(isLoading: Bool) {
             for cellRepresentable in model.flatMap({ $0 }) {
                 guard let buttonModel = cellRepresentable as? Input.Field.Button else { continue }
-                buttonModel.isActivityIndicatorAnimating = true
+                buttonModel.isActivityIndicatorAnimating = isLoading
                 return
             }
         }

@@ -5,9 +5,9 @@ extension Input.ViewController {
         unowned let vc: Input.ViewController
         
         var state: UIState = .inputFieldsPresentation {
-            willSet {
+            didSet {
                 DispatchQueue.main.async {
-                    self.changeState(to: newValue, from: self.state)
+                    self.changeState(to: self.state, from: oldValue)
                 }
             }
         }
@@ -45,11 +45,12 @@ extension Input.ViewController.StateManager {
     private func present(paymentResult: PaymentResult) {
         let message = "\(paymentResult.operationResult.resultInfo)\nInteraction code: \(paymentResult.operationResult.interaction.code)"
         let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
-            self.state = .inputFieldsPresentation
-        }
+        let okAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(okAction)
-        vc.present(alert, animated: true, completion: nil)
+        
+        vc.present(alert, animated: true, completion: {
+            self.state = .inputFieldsPresentation
+        })
     }
 }
 
