@@ -41,8 +41,12 @@ class ValidationTests: XCTestCase {
             let networkCode = validatableNetwork.code ?? ""
             let method = validatableNetwork.method ?? ""
 
+            var linksDictionary = [String: URL]()
+            linksDictionary["operation"] = URL(string: "https://example.com")!
+            
             let inputElement = InputElement(name: inputElementWithRules.name, type: "", label: "")
-            let applicableNetwork = ApplicableNetwork(code: networkCode, label: "", method: method, grouping: "", registration: "", recurrence: "", redirect: false, localizedInputElements: [inputElement])
+            let applicableNetwork = ApplicableNetwork(code: networkCode, label: "", method: method, grouping: "", registration: "", recurrence: "", redirect: false, localizedInputElements: [inputElement], links: linksDictionary)
+                
             let paymentNetwork = PaymentNetwork(from: applicableNetwork, localizeUsing: translationProvider)
             let testableInputElement = TestableInputElement(name: inputElementWithRules.name, network: paymentNetwork, testCases: inputElementWithRules.tests)
             networks.append(testableInputElement)
@@ -58,7 +62,7 @@ class ValidationTests: XCTestCase {
 
         func test(within activity: XCTActivity) {
             let transformer = Input.ModelTransformer()
-            let inputNetwork = transformer.transform(paymentNetwork: network)
+            let inputNetwork = try! transformer.transform(paymentNetwork: network)
 
             guard let inputElement = inputNetwork.inputFields.first else {
                 fatalError("Input element is not present applicable network, programmatic error")
