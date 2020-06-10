@@ -312,6 +312,7 @@ extension Sequence where Element: InputField {
 
 extension Input.ViewController: PaymentServiceDelegate {
     func paymentService(_ paymentService: PaymentService, didAuthorizePayment paymentResult: PaymentResult) {
+        navigationItem.setHidesBackButton(true, animated: true)
         stateManager.state = .paymentResultPresentation(paymentResult)
         debugPrint(paymentResult.operationResult)
     }

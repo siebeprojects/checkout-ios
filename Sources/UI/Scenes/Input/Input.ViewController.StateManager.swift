@@ -36,6 +36,11 @@ extension Input.ViewController.StateManager {
     }
     
     private func setPaymentSubmission(isActive: Bool) {
+        if #available(iOS 13.0, *) {
+            vc.isModalInPresentation = isActive
+        }
+        vc.navigationItem.leftBarButtonItem?.isEnabled = !isActive
+
         vc.tableController.dataSource.setEnabled(!isActive)
         vc.tableController.dataSource.setPaymentButtonState(isLoading: isActive)
         
