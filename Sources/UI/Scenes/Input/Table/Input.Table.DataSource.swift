@@ -26,12 +26,18 @@ extension Input.Table {
         }
         
         /// Set enabled state for all datasource items
-        func setEnabled(_ enabled: Bool, collectionView: UICollectionView) {
+        func setEnabled(_ enabled: Bool) {
             for cellRepresentable in model.flatMap({ $0 }) {
                 cellRepresentable.isEnabled = enabled
             }
-            
-            collectionView.reloadData()
+        }
+        
+        func setPaymentButtonState(isLoading: Bool) {
+            for cellRepresentable in model.flatMap({ $0 }) {
+                guard let buttonModel = cellRepresentable as? Input.Field.Button else { continue }
+                buttonModel.isActivityIndicatorAnimating = true
+                return
+            }
         }
         
         var inputFields: [InputField] {

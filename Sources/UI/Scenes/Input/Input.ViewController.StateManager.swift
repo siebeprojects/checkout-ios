@@ -36,7 +36,10 @@ extension Input.ViewController.StateManager {
     }
     
     private func setPaymentSubmission(isActive: Bool) {
-        vc.tableController.dataSource.setEnabled(!isActive, collectionView: vc.collectionView)
+        vc.tableController.dataSource.setEnabled(!isActive)
+        vc.tableController.dataSource.setPaymentButtonState(isLoading: isActive)
+        
+        vc.collectionView.reloadData()
     }
     
     private func present(paymentResult: PaymentResult) {
