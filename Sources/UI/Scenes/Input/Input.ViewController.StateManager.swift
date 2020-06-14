@@ -31,6 +31,8 @@ extension Input.ViewController.StateManager {
             setPaymentSubmission(isActive: true)
         case .paymentResultPresentation(let paymentResult):
             present(paymentResult: paymentResult)
+        case .error(let error):
+            present(error: error)
         default: break
         }
     }
@@ -50,6 +52,17 @@ extension Input.ViewController.StateManager {
     private func present(paymentResult: PaymentResult) {
         let message = "\(paymentResult.operationResult.resultInfo)\nInteraction code: \(paymentResult.operationResult.interaction.code)"
         let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        alert.addAction(okAction)
+        
+        vc.present(alert, animated: true, completion: {
+            self.state = .inputFieldsPresentation
+        })
+    }
+    
+    private func present(error: Error) {
+        let message = error.localizedDescription
+        let alert = UIAlertController(title: "Payment error", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(okAction)
         
