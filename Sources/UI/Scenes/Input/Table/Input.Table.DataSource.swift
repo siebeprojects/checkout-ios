@@ -33,11 +33,7 @@ extension Input.Table {
             sections += [[header]]
             
             // Input Fields
-            let inputFields = network.inputFields.filter {
-                if $0.isHidden { return false }
-                return true
-            }
-            sections += [inputFields]
+            sections += [network.inputFields]
             
             // Checkboxes
             var checkboxes = [CellRepresentable]()
