@@ -50,7 +50,9 @@ extension Input.Table {
                 label.topAnchor.constraint(equalTo: contentView.topAnchor),
 
                 checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+                checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+                checkbox.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+                checkbox.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
             ])
         }
 
