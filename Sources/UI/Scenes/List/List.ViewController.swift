@@ -12,6 +12,11 @@ extension List {
         let sessionService: PaymentSessionService
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
+        
+        /// TODO: Migrate to separate State manager
+        fileprivate var viewState: Load<PaymentSession, Error> = .loading {
+            didSet { changeState(to: viewState) }
+        }
 
         lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
@@ -66,10 +71,10 @@ extension List.ViewController {
 
     private func load() {
         sessionService.loadPaymentSession(
-            loadDidComplete: { [weak self]  session in
+            loadDidComplete: { [weak self] session in
                 DispatchQueue.main.async {
                     self?.title = self?.sharedTranslationProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
-                    self?.changeState(to: session)
+                    self?.viewState = session
                 }
             },
             shouldSelect: { [weak self] network in
@@ -86,7 +91,7 @@ extension List.ViewController {
             let navigationController = Input.NavigationController(rootViewController: inputViewController)
             present(navigationController, animated: animated, completion: nil)
         } catch {
-            changeState(to: .failure(error))
+            viewState = .failure(error)
         }
     }
 
@@ -111,7 +116,7 @@ extension List.ViewController {
                 try showPaymentMethods(for: session)
                 presentError(nil)
             } catch {
-                changeState(to: .failure(error))
+                viewState = .failure(error)
             }
         case .loading:
             do {
@@ -119,16 +124,12 @@ extension List.ViewController {
                 try showPaymentMethods(for: nil)
                 presentError(nil)
             } catch {
-               changeState(to: .failure(error))
+                viewState = .failure(error)
            }
         case .failure(let error):
-            do {
-                activityIndicator(isActive: true)
-                try showPaymentMethods(for: nil)
-                presentError(error)
-            } catch {
-                changeState(to: .failure(error))
-            }
+            activityIndicator(isActive: true)
+            try? showPaymentMethods(for: nil)
+            presentError(error)
         }
     }
 
