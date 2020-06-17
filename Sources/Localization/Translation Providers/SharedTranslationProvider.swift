@@ -44,7 +44,7 @@ private extension URL {
     ///
     /// Example:
     /// - From: `https://resources.sandbox.oscato.com/resource/lang/VASILY_DEMO/en_US/VISAELECTRON.properties`
-    /// - To: `https://resources.sandbox.oscato.com/resource/lang/VASILY_DEMO/en_US/paymentpage.properties`
+    /// - To: `https://resources.sandbox.oscato.com/resource/lang/VASILY_DEMO/en_US/checkout.properties`
     func transformToPaymentPageLocalizationURL() throws -> URL {
         guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
             let error = InternalError(description: "Incorrect shared translation URL: %@", self.absoluteString)
@@ -57,7 +57,7 @@ private extension URL {
         }
 
         var updatedComponents = components
-        updatedComponents.path = components.path.replacingOccurrences(of: lastPathComponent, with: "paymentpage.properties")
+        updatedComponents.path = components.path.replacingOccurrences(of: lastPathComponent, with: "checkout.properties")
 
         guard let paymentPageURL = updatedComponents.url else {
             let error = InternalError(description: "Unable for form a url from URLComponents: %@", "\(updatedComponents)")
