@@ -39,7 +39,8 @@ extension Input.Table {
             checkbox.translatesAutoresizingMaskIntoConstraints = false
             
             label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
+            checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
+            
             let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             bottomLabelConstraint.priority = .defaultHigh
             
