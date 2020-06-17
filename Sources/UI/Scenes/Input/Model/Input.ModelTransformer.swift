@@ -54,9 +54,14 @@ extension Input.ModelTransformer {
         let smartSwitchRule = switchRule(forNetworkCode: paymentNetwork.applicableNetwork.code)
 
         // Checkboxes
+        let checkboxFactory = CheckboxFactory(translator: paymentNetwork.translation)
+        
+        let registrationCheckbox = ApplicableNetworkCheckbox(type: .registration, requirement: paymentNetwork.applicableNetwork.registrationRequirement)
+        let recurrenceCheckbox = ApplicableNetworkCheckbox(type: .recurrence, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement)
+        
         let checkboxes = [
-            checkbox(translationKey: Constant.registrationCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.registrationRequirement, translator: paymentNetwork.translation),
-            checkbox(translationKey: Constant.recurrenceCheckboxLocalizationKey, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement, translator: paymentNetwork.translation)
+            checkboxFactory.makeInternalModel(from: registrationCheckbox),
+            checkboxFactory.makeInternalModel(from: recurrenceCheckbox)
             ].compactMap { $0 }
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
@@ -77,26 +82,6 @@ extension Input.ModelTransformer {
 
             return nil
         }
-    }
-
-    // MARK: Checkboxes
-
-    private func checkbox(translationKey: String, requirement: ApplicableNetwork.Requirement?, translator: TranslationProvider) -> Input.Field.Checkbox? {
-        let isOn: Bool
-        let isEnabled: Bool = true
-        var isHidden: Bool = false
-
-        switch requirement {
-        case .OPTIONAL: isOn = false
-        case .OPTIONAL_PRESELECTED: isOn = true
-        case .FORCED, .FORCED_DISPLAYED:
-            isOn = true
-            isHidden = true
-        default:
-            return nil
-        }
-
-        return Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
     }
 }
 
@@ -217,5 +202,71 @@ private class ExpirationDateManager {
             removedIndexes: removedIndexes,
             hadExpirationDate: hasExpiryMonth && hasExpiryYear
         )
+    }
+}
+
+// MARK: - Checkboxes
+
+/// Factory responsible for making internal model checkboxes from backend (network) models
+private class CheckboxFactory {
+    let translator: TranslationProvider
+    
+    init(translator: TranslationProvider) {
+        self.translator = translator
+    }
+    
+    func makeInternalModel(from backendCheckbox: ApplicableNetworkCheckbox) -> Input.Field.Checkbox? {
+        let isOn: Bool
+        let isEnabled: Bool = true
+        var isHidden: Bool = false
+
+        switch backendCheckbox.requirement {
+        case .OPTIONAL: isOn = false
+        case .OPTIONAL_PRESELECTED: isOn = true
+        case .FORCED, .FORCED_DISPLAYED:
+            isOn = true
+            isHidden = true
+        default:
+            return nil
+        }
+
+        guard let translationKey = localizationKey(for: backendCheckbox) else { return nil }
+
+        return Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
+    }
+    
+    /// Localization key rules are declared in [PCX-728](https://optile.atlassian.net/browse/PCX-728).
+    /// - Returns: localization key, `nil` if requirement is `NONE`
+    private func localizationKey(for backendCheckbox: ApplicableNetworkCheckbox) -> String? {
+        var localizationKey = "networks."
+        
+        switch backendCheckbox.type {
+        case .registration: localizationKey += "registration."
+        case .recurrence: localizationKey += "recurrence."
+        }
+        
+        switch backendCheckbox.requirement {
+        case .OPTIONAL, .OPTIONAL_PRESELECTED: localizationKey += "optional."
+        case .FORCED, .FORCED_DISPLAYED: localizationKey += "forced."
+        case .NONE: return nil
+        }
+
+        localizationKey += "label"
+        
+        return localizationKey
+    }
+}
+
+private struct ApplicableNetworkCheckbox {
+    enum CheckboxType {
+        case recurrence, registration
+    }
+
+    let type: CheckboxType
+    let requirement: ApplicableNetwork.Requirement
+
+    init(type: ApplicableNetworkCheckbox.CheckboxType, requirement: ApplicableNetwork.Requirement?) {
+        self.type = type
+        self.requirement = requirement ?? .NONE
     }
 }
