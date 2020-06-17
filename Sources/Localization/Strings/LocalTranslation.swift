@@ -22,11 +22,6 @@ enum LocalTranslation: String, CaseIterable {
     case buttonRetry = "pmlocal_button_retry"
     case buttonUpdate = "pmlocal_button_update"
 
-    // iOS only
-    case creditCard = "pmlocal_ios_credit_card"
-    case next = "pmlocal_ios_next"
-    case inputViewTitle = "pmlocal_input_view_title"
-
     var localizedString: String {
         switch self {
         case .errorEmpty: return "There are no payment methods available."
@@ -49,11 +44,6 @@ enum LocalTranslation: String, CaseIterable {
         case .buttonCancel: return "Cancel"
         case .buttonRetry: return "Retry"
         case .buttonUpdate: return "Update"
-
-        // iOS only
-        case .creditCard: return "Credit card"
-        case .next: return "Next"
-        case .inputViewTitle: return "Payment details"
         }
     }
 }
