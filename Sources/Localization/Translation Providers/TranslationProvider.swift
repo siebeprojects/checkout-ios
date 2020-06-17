@@ -15,7 +15,9 @@ extension TranslationProvider {
             return translation
         } else {
             log(.error, "Localization for key %@ is not found", key)
-            return String()
+            // FIXME: Show a key while localization files doesn't contain all keys
+            return key
+//            return String()
         }
     }
 
