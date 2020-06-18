@@ -215,29 +215,28 @@ private class CheckboxFactory {
         self.translator = translator
     }
     
-    func makeInternalModel(from backendCheckbox: ApplicableNetworkCheckbox) -> Input.Field.Checkbox? {
+    func makeInternalModel(from backendCheckbox: ApplicableNetworkCheckbox) -> InputField {
         let isOn: Bool
-        let isEnabled: Bool = true
-        var isHidden: Bool = false
-
+        
         switch backendCheckbox.requirement {
         case .OPTIONAL: isOn = false
         case .OPTIONAL_PRESELECTED: isOn = true
-        case .FORCED, .FORCED_DISPLAYED:
-            isOn = true
-            isHidden = true
-        default:
-            return nil
+        case .FORCED_DISPLAYED:
+            let translationKey = localizationKey(for: backendCheckbox)
+            return Input.Field.Label(label: translator.translation(forKey: translationKey), name: backendCheckbox.type.name, value: true.stringValue)
+        case .FORCED:
+            return Input.Field.Hidden(name: backendCheckbox.type.name, value: true.stringValue)
+        case .NONE:
+            return Input.Field.Hidden(name: backendCheckbox.type.name, value: false.stringValue)
         }
 
-        guard let translationKey = localizationKey(for: backendCheckbox) else { return nil }
-
-        return Input.Field.Checkbox(isOn: isOn, isEnabled: isEnabled, isHidden: isHidden, translationKey: translationKey, translator: translator)
+        let translationKey = localizationKey(for: backendCheckbox)
+        return Input.Field.Checkbox(name: backendCheckbox.type.name, isOn: isOn, translationKey: translationKey, translator: translator)
     }
     
     /// Localization key rules are declared in [PCX-728](https://optile.atlassian.net/browse/PCX-728).
     /// - Returns: localization key, `nil` if requirement is `NONE`
-    private func localizationKey(for backendCheckbox: ApplicableNetworkCheckbox) -> String? {
+    private func localizationKey(for backendCheckbox: ApplicableNetworkCheckbox) -> String {
         var localizationKey = "networks."
         
         switch backendCheckbox.type {
@@ -248,7 +247,9 @@ private class CheckboxFactory {
         switch backendCheckbox.requirement {
         case .OPTIONAL, .OPTIONAL_PRESELECTED: localizationKey += "optional."
         case .FORCED, .FORCED_DISPLAYED: localizationKey += "forced."
-        case .NONE: return nil
+        case .NONE:
+            assertionFailure("Programmatic error, shouldn't call that function with NONE requirement type")
+            return String()
         }
 
         localizationKey += "label"
@@ -259,7 +260,15 @@ private class CheckboxFactory {
 
 private struct ApplicableNetworkCheckbox {
     enum CheckboxType {
-        case recurrence, registration
+        case recurrence
+        case registration
+        
+        var name: String {
+            switch self {
+            case .recurrence: return Input.Field.Checkbox.Constant.allowRecurrence
+            case .registration: return Input.Field.Checkbox.Constant.allowRegistration
+            }
+        }
     }
 
     let type: CheckboxType

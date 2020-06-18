@@ -33,15 +33,34 @@ extension Input.Table {
             sections += [[header]]
             
             // Input Fields
-            sections += [network.inputFields]
+            sections += [
+                network.inputFields.compactMap {
+                    // Don't add to view non representable input fields
+                    guard let cell = $0 as? CellRepresentable else { return nil }
+                    return cell
+                }
+            ]
             
-            // Checkboxes
+            // Checkboxes, each checkbox in a separate section
             var checkboxes = [CellRepresentable]()
-            for field in network.separatedCheckboxes where !field.isHidden {
-                checkboxes.append(field)
+            for field in network.separatedCheckboxes {
+                guard let cellRepresentable = field as? CellRepresentable else { continue }
+                checkboxes += [cellRepresentable]
             }
             
-            sections += [checkboxes]
+            checkboxes.sort {
+                // Labels is always on the bottom
+                func order(for field: Any) -> Int {
+                    switch field {
+                    case is Input.Field.Label: return 1
+                    default: return 0
+                    }
+                }
+                
+                return order(for: $0) < order(for: $1)
+            }
+            
+            sections += checkboxes.map { [$0] }
             
             // Submit
             sections += [[network.submitButton]]

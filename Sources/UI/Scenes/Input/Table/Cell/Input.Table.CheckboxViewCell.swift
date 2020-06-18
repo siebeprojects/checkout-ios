@@ -71,10 +71,8 @@ extension Input.Table {
 
 extension Input.Table.CheckboxViewCell {
     func configure(with model: Input.Field.Checkbox) {
-        label.text = model.name
+        label.text = model.label
         checkbox.isOn = model.isOn
-        checkbox.isHidden = model.isHidden
-        checkbox.isEnabled = model.isEnabled
         checkbox.onTintColor = self.tintColor
     }
 }
