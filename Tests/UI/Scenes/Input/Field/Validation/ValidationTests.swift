@@ -43,7 +43,7 @@ class ValidationTests: XCTestCase {
 
             let inputElement = InputElement(name: inputElementWithRules.name, type: "", label: "")
             let applicableNetwork = ApplicableNetwork(code: networkCode, label: "", method: method, grouping: "", registration: "", recurrence: "", redirect: false, localizedInputElements: [inputElement])
-            let paymentNetwork = PaymentNetwork(from: applicableNetwork, localizeUsing: translationProvider)
+            let paymentNetwork = PaymentNetwork(from: applicableNetwork, submitButtonLocalizationKey: "", localizeUsing: translationProvider)
             let testableInputElement = TestableInputElement(name: inputElementWithRules.name, network: paymentNetwork, testCases: inputElementWithRules.tests)
             networks.append(testableInputElement)
         }

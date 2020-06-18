@@ -91,7 +91,7 @@ private class PaymentPageFailureDataSource: MockDataSource {
         switch path {
         case "":
             return MockFactory.ListResult.listResult.fakeData(for: request)
-        case let s where s.contains("paymentpage.properties"):
+        case let s where s.contains("checkout.properties"):
             let error = TestError(description: "No payment page localization")
             return .failure(error)
         default:
@@ -113,7 +113,7 @@ private class PaymentSessionDataSource: MockDataSource {
         switch path {
         case "":
             return MockFactory.ListResult.listResult.fakeData(for: request)
-        case let s where s.contains("paymentpage.properties"):
+        case let s where s.contains("checkout.properties"):
             return MockFactory.Localization.paymentPage.fakeData(for: request)
         case let s where s.contains(".properties"):
             return MockFactory.Localization.paymentNetwork.fakeData(for: request)
