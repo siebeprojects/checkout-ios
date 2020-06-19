@@ -73,7 +73,7 @@ extension List.ViewController {
         sessionService.loadPaymentSession(
             loadDidComplete: { [weak self] session in
                 DispatchQueue.main.async {
-                    self?.title = self?.sharedTranslationProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
+                    self?.title = self?.sharedTranslationProvider.translation(forKey: "paymentpage.title")
                     self?.viewState = session
                 }
             },
@@ -197,15 +197,18 @@ extension List.ViewController {
         if let error = error as? LocalizedError {
             localizedError = error
         } else {
-            localizedError = PaymentError(localizedDescription: LocalTranslation.errorDefault.localizedString, underlyingError: nil)
+            let text: String = sharedTranslationProvider.translation(forKey: TranslationKey.errorText.rawValue)
+            localizedError = PaymentError(localizedDescription: text, underlyingError: nil)
         }
 
-        let controller = UIAlertController(title: localizedError.localizedDescription, message: nil, preferredStyle: .alert)
+        let title: String = sharedTranslationProvider.translation(forKey: TranslationKey.errorTitle.rawValue)
+        let controller = UIAlertController(title: title, message: localizedError.localizedDescription, preferredStyle: .alert)
 
         // Add retry button if needed
         if let networkError = error.asNetworkError {
-            controller.title = networkError.localizedDescription
-            let retryAction = UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
+            controller.message = networkError.localizedDescription
+            let retryLabel: String = sharedTranslationProvider.translation(forKey: TranslationKey.retryLabel.rawValue)
+            let retryAction = UIAlertAction(title: retryLabel, style: .default) { [weak self] _ in
                 self?.load()
             }
             controller.addAction(retryAction)

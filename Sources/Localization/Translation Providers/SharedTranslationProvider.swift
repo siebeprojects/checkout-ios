@@ -9,7 +9,7 @@ class SharedTranslationProvider: TranslationProvider {
         return [remoteSharedTranslations, localTranslations]
     }
 
-    init(localTranslations: [String: String] = LocalTranslation.allCasesAsDictionary) {
+    init(localTranslations: [String: String] = TranslationKey.allCasesAsDictionary) {
         self.localTranslations = localTranslations
     }
 
@@ -68,11 +68,11 @@ private extension URL {
     }
 }
 
-private extension LocalTranslation {
+private extension TranslationKey {
     static var allCasesAsDictionary: [String: String] {
         var dictionary = [String: String]()
 
-        for translation in LocalTranslation.allCases {
+        for translation in TranslationKey.allCases {
             dictionary[translation.rawValue] = translation.localizedString
         }
 

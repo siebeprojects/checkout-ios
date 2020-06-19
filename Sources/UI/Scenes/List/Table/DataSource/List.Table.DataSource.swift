@@ -85,7 +85,7 @@ extension List.Table.DataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch sections[section] {
         case .accounts: return translationProvider.translation(forKey: "accounts.title")
-        case .networks: return translationProvider.translation(forKey: LocalTranslation.listHeaderNetworks.rawValue)
+        case .networks: return translationProvider.translation(forKey: "networks.title")
         }
     }
 

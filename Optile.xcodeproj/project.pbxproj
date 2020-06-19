@@ -57,7 +57,7 @@
 		D9B472092472D23900E88600 /* AccountRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B4715C2472D23900E88600 /* AccountRegistration.swift */; };
 		D9B4720A2472D23900E88600 /* AccountFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B4715D2472D23900E88600 /* AccountFormData.swift */; };
 		D9B4720B2472D23900E88600 /* TranslatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B4715F2472D23900E88600 /* TranslatedModel.swift */; };
-		D9B4720C2472D23900E88600 /* LocalTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471612472D23900E88600 /* LocalTranslation.swift */; };
+		D9B4720C2472D23900E88600 /* TranslationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471612472D23900E88600 /* TranslationKey.swift */; };
 		D9B4720D2472D23900E88600 /* TranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471632472D23900E88600 /* TranslationProvider.swift */; };
 		D9B4720E2472D23900E88600 /* CombinedTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471642472D23900E88600 /* CombinedTranslationProvider.swift */; };
 		D9B4720F2472D23900E88600 /* SharedTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B471652472D23900E88600 /* SharedTranslationProvider.swift */; };
@@ -236,7 +236,7 @@
 		D9B4715C2472D23900E88600 /* AccountRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRegistration.swift; sourceTree = "<group>"; };
 		D9B4715D2472D23900E88600 /* AccountFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountFormData.swift; sourceTree = "<group>"; };
 		D9B4715F2472D23900E88600 /* TranslatedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslatedModel.swift; sourceTree = "<group>"; };
-		D9B471612472D23900E88600 /* LocalTranslation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalTranslation.swift; sourceTree = "<group>"; };
+		D9B471612472D23900E88600 /* TranslationKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationKey.swift; sourceTree = "<group>"; };
 		D9B471632472D23900E88600 /* TranslationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationProvider.swift; sourceTree = "<group>"; };
 		D9B471642472D23900E88600 /* CombinedTranslationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedTranslationProvider.swift; sourceTree = "<group>"; };
 		D9B471652472D23900E88600 /* SharedTranslationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTranslationProvider.swift; sourceTree = "<group>"; };
@@ -570,7 +570,7 @@
 		D9B471602472D23900E88600 /* Strings */ = {
 			isa = PBXGroup;
 			children = (
-				D9B471612472D23900E88600 /* LocalTranslation.swift */,
+				D9B471612472D23900E88600 /* TranslationKey.swift */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -1191,7 +1191,7 @@
 				D9B471FD2472D23900E88600 /* Installments.swift in Sources */,
 				D9B4724C2472D23900E88600 /* SupportsPrimaryAction.swift in Sources */,
 				D9B472152472D23900E88600 /* DownloadData.swift in Sources */,
-				D9B4720C2472D23900E88600 /* LocalTranslation.swift in Sources */,
+				D9B4720C2472D23900E88600 /* TranslationKey.swift in Sources */,
 				D9B472432472D23900E88600 /* Input.Field.Validation.ExpiryDate.swift in Sources */,
 				D9B472572472D23900E88600 /* List.swift in Sources */,
 				D9B472162472D23900E88600 /* URLSessionConnection.swift in Sources */,
