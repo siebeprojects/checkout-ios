@@ -31,7 +31,7 @@ class SharedTranslationProviderTests: XCTestCase {
 
         XCTAssertEqual(
             connection.requestedURL,
-            URL(string: "https://resources.sandbox.oscato.com/resource/lang/VASILY_DEMO/en_US/checkout  .properties")!
+            URL(string: "https://resources.sandbox.oscato.com/resource/lang/VASILY_DEMO/en_US/checkout.properties")!
         )
     }
 

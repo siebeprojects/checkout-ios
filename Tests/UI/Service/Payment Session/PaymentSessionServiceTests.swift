@@ -19,7 +19,7 @@ class PaymentSessionServiceTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual(localized.localizedDescription, LocalTranslation.errorDefault.localizedString)
+        XCTAssertEqual(localized.localizedDescription, TranslationKey.errorText.localizedString)
     }
 
     // TODO:
