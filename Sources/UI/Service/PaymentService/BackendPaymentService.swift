@@ -65,7 +65,7 @@ class BackendPaymentService: PaymentService {
 
 private extension BackendPaymentService {
     struct ChargeRequest: Encodable {
-        var account: [String: String] = .init()
+        var account = [String: String]()
         var autoRegistration: Bool?
         var allowRecurrence: Bool?
         
@@ -73,8 +73,8 @@ private extension BackendPaymentService {
         init(inputFields: [String: String]) {
             for (name, value) in inputFields {
                 switch name {
-                case "autoRegistration": autoRegistration = Bool(stringValue: value)
-                case "allowRecurrence": allowRecurrence = Bool(stringValue: value)
+                case Input.Field.Checkbox.Constant.allowRegistration: autoRegistration = Bool(stringValue: value)
+                case Input.Field.Checkbox.Constant.allowRecurrence: allowRecurrence = Bool(stringValue: value)
                 default: account[name] = value
                 }
             }

@@ -22,7 +22,7 @@ extension CellRepresentable where Self: DefinesKeyboardStyle {
     }
 }
 
-extension CellRepresentable where Self == Input.Field.Checkbox {
+extension CellRepresentable where Self: Input.Field.Checkbox {
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = view.dequeueReusableCell(Input.Table.CheckboxViewCell.self, for: indexPath)
         return cell
@@ -31,6 +31,18 @@ extension CellRepresentable where Self == Input.Field.Checkbox {
     func configure(cell: UICollectionViewCell) throws {
         guard let checkboxViewCell = cell as? Input.Table.CheckboxViewCell else { throw errorForIncorrectView(cell) }
         checkboxViewCell.configure(with: self)
+    }
+}
+
+extension CellRepresentable where Self: Input.Field.Label {
+    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = view.dequeueReusableCell(Input.Table.LabelViewCell.self, for: indexPath)
+        return cell
+    }
+
+    func configure(cell: UICollectionViewCell) throws {
+        guard let labelCell = cell as? Input.Table.LabelViewCell else { throw errorForIncorrectView(cell) }
+        labelCell.configure(with: self)
     }
 }
 

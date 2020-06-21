@@ -224,7 +224,7 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
         let primaryAction: UIBarButtonItem
 
         switch action {
-        case .next: primaryAction = UIBarButtonItem(title: model.translator.translation(forKey: LocalTranslation.next.rawValue), style: .plain, target: self, action: #selector(textFieldPrimaryActionTriggered))
+        case .next: primaryAction = UIBarButtonItem(title: model.translator.translation(forKey: "button.next.label"), style: .plain, target: self, action: #selector(textFieldPrimaryActionTriggered))
         case .done: primaryAction = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(textFieldPrimaryActionTriggered))
         }
 

@@ -45,6 +45,8 @@ extension Input {
             for field in transformer.verificationCodeFields {
                 field.keySuffixer = self
             }
+            
+            self.title = smartSwitch.selected.network.translation.translation(forKey: "networks.form.default.title")
         }
 
         convenience init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory) throws {
@@ -59,6 +61,8 @@ extension Input {
             for field in transformer.verificationCodeFields {
                 field.keySuffixer = self
             }
+            
+            self.title = registeredAccount.translation.translation(forKey: "accounts.form.default.title")
         }
 
         required init?(coder: NSCoder) {
@@ -73,7 +77,6 @@ extension Input.ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = networks.first?.translation.translation(forKey: LocalTranslation.inputViewTitle.rawValue)
         view.tintColor = .tintColor
 
         tableController.collectionView = self.collectionView

@@ -39,7 +39,8 @@ extension Input.Table {
             checkbox.translatesAutoresizingMaskIntoConstraints = false
             
             label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
+            checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
+            
             let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             bottomLabelConstraint.priority = .defaultHigh
             
@@ -50,7 +51,9 @@ extension Input.Table {
                 label.topAnchor.constraint(equalTo: contentView.topAnchor),
 
                 checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+                checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+                checkbox.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+                checkbox.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
             ])
         }
 
@@ -68,11 +71,10 @@ extension Input.Table {
 
 extension Input.Table.CheckboxViewCell {
     func configure(with model: Input.Field.Checkbox) {
-        label.text = model.text
+        label.text = model.label
         checkbox.isOn = model.isOn
-        checkbox.isHidden = model.isHidden
-        checkbox.isEnabled = model.isEnabled
         checkbox.onTintColor = self.tintColor
+        checkbox.isEnabled = model.isEnabled
     }
 }
 

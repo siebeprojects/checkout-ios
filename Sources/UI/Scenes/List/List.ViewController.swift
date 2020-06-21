@@ -12,6 +12,11 @@ extension List {
         let sessionService: PaymentSessionService
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
+        
+        /// TODO: Migrate to separate State manager
+        fileprivate var viewState: Load<PaymentSession, Error> = .loading {
+            didSet { changeState(to: viewState) }
+        }
 
         lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
@@ -66,10 +71,10 @@ extension List.ViewController {
 
     private func load() {
         sessionService.loadPaymentSession(
-            loadDidComplete: { [weak self]  session in
+            loadDidComplete: { [weak self] session in
                 DispatchQueue.main.async {
-                    self?.title = self?.sharedTranslationProvider.translation(forKey: LocalTranslation.listTitle.rawValue)
-                    self?.changeState(to: session)
+                    self?.title = self?.sharedTranslationProvider.translation(forKey: "paymentpage.title")
+                    self?.viewState = session
                 }
             },
             shouldSelect: { [weak self] network in
@@ -86,7 +91,7 @@ extension List.ViewController {
             let navigationController = Input.NavigationController(rootViewController: inputViewController)
             present(navigationController, animated: animated, completion: nil)
         } catch {
-            changeState(to: .failure(error))
+            viewState = .failure(error)
         }
     }
 
@@ -118,7 +123,7 @@ extension List.ViewController {
                 try showPaymentMethods(for: session)
                 presentError(nil)
             } catch {
-                changeState(to: .failure(error))
+                viewState = .failure(error)
             }
         case .loading:
             do {
@@ -126,16 +131,12 @@ extension List.ViewController {
                 try showPaymentMethods(for: nil)
                 presentError(nil)
             } catch {
-               changeState(to: .failure(error))
+                viewState = .failure(error)
            }
         case .failure(let error):
-            do {
-                activityIndicator(isActive: true)
-                try showPaymentMethods(for: nil)
-                presentError(error)
-            } catch {
-                changeState(to: .failure(error))
-            }
+            activityIndicator(isActive: true)
+            try? showPaymentMethods(for: nil)
+            presentError(error)
         }
     }
 
@@ -203,15 +204,18 @@ extension List.ViewController {
         if let error = error as? LocalizedError {
             localizedError = error
         } else {
-            localizedError = PaymentError(localizedDescription: LocalTranslation.errorDefault.localizedString, underlyingError: nil)
+            let text: String = sharedTranslationProvider.translation(forKey: TranslationKey.errorText.rawValue)
+            localizedError = PaymentError(localizedDescription: text, underlyingError: nil)
         }
 
-        let controller = UIAlertController(title: localizedError.localizedDescription, message: nil, preferredStyle: .alert)
+        let title: String = sharedTranslationProvider.translation(forKey: TranslationKey.errorTitle.rawValue)
+        let controller = UIAlertController(title: title, message: localizedError.localizedDescription, preferredStyle: .alert)
 
         // Add retry button if needed
         if let networkError = error.asNetworkError {
-            controller.title = networkError.localizedDescription
-            let retryAction = UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
+            controller.message = networkError.localizedDescription
+            let retryLabel: String = sharedTranslationProvider.translation(forKey: TranslationKey.retryLabel.rawValue)
+            let retryAction = UIAlertAction(title: retryLabel, style: .default) { [weak self] _ in
                 self?.load()
             }
             controller.addAction(retryAction)

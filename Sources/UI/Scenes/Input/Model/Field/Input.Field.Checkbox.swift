@@ -2,22 +2,27 @@ import Foundation
 
 extension Input.Field {
     final class Checkbox {
+        struct Constant {
+            static var allowRegistration: String { "allowRegistration" }
+            static var allowRecurrence: String { "allowRecurrence" }
+        }
+        
         let translationKey: String
         let translator: TranslationProvider
 
         let name: String
-        var isEnabled: Bool = true
         var isOn: Bool
-        var isHidden: Bool
-        
-        var text: String { translator.translation(forKey: translationKey) }
+        var isEnabled: Bool = true
 
-        init(name: String, isOn: Bool, isHidden: Bool, translationKey: String, translator: TranslationProvider) {
-            self.name = name
+        var label: String {
+            translator.translation(forKey: translationKey)
+        }
+        
+        init(name: String, isOn: Bool, translationKey: String, translator: TranslationProvider) {
             self.translationKey = translationKey
             self.translator = translator
+            self.name = name
             self.isOn = isOn
-            self.isHidden = isHidden
         }
     }
 }

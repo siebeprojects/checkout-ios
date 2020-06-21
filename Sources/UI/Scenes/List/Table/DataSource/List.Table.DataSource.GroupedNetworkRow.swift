@@ -23,7 +23,7 @@ extension List.Table.DataSource.GroupedNetworkRow {
             return String()
         }
 
-        return firstNetwork.translation.translation(forKey: LocalTranslation.creditCard.rawValue)
+        return firstNetwork.translation.translation(forKey: "groups.cards.title")
     }
 
     private var secondaryLabel: String {
