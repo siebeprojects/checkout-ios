@@ -315,13 +315,18 @@ extension Sequence where Element: InputField {
 
 extension Input.ViewController: PaymentServiceDelegate {
     func paymentService(_ paymentService: PaymentService, didAuthorizePayment paymentResult: PaymentResult) {
-        navigationItem.setHidesBackButton(true, animated: true)
-        stateManager.state = .paymentResultPresentation(paymentResult)
+        DispatchQueue.main.async {
+            self.navigationItem.setHidesBackButton(true, animated: true)
+            self.stateManager.state = .paymentResultPresentation(paymentResult)
+        }
+
         debugPrint(paymentResult.operationResult)
     }
     
     func paymentService(_ paymentService: PaymentService, didFailedWithError error: Error) {
-        stateManager.state = .error(error)
+        DispatchQueue.main.async {
+            self.stateManager.state = .error(error)
+        }
     }
 }
 #endif

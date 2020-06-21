@@ -5,11 +5,7 @@ extension Input.ViewController {
         unowned let vc: Input.ViewController
         
         var state: UIState = .inputFieldsPresentation {
-            didSet {
-                DispatchQueue.main.async {
-                    self.changeState(to: self.state, from: oldValue)
-                }
-            }
+            didSet { self.changeState(to: self.state, from: oldValue) }
         }
         
         init(viewController: Input.ViewController) {
