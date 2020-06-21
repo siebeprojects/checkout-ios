@@ -8,13 +8,12 @@ final class RegisteredAccount {
     let submitButtonLabel: String
     var logo: Loadable<Data>?
 
-    init(from apiModel: AccountRegistration, localizeUsing localizer: TranslationProvider) {
+    init(from apiModel: AccountRegistration, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
         self.apiModel = apiModel
         self.translation = localizer
 
         self.networkLabel = localizer.translation(forKey: "network.label")
-
-        self.submitButtonLabel = LocalTranslation.pay.localizedString
+        self.submitButtonLabel = localizer.translation(forKey: submitButtonLocalizationKey)
 
         if let logoURL = apiModel.links["logo"] {
             logo = .notLoaded(logoURL)

@@ -40,8 +40,8 @@ class PaymentSessionService {
             // Network errors has built-in localizations
             return error
         default:
-            let description: String = localizationProvider.translation(forKey: LocalTranslation.errorDefault.rawValue)
-            return PaymentError(localizedDescription: description, underlyingError: error)
+            let text: String = localizationProvider.translation(forKey: TranslationKey.errorText.rawValue)
+            return PaymentError(localizedDescription: text, underlyingError: error)
         }
     }
 

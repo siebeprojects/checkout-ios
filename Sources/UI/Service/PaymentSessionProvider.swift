@@ -5,6 +5,8 @@ class PaymentSessionProvider {
     private let sharedTranslationProvider: SharedTranslationProvider
 
     let connection: Connection
+    
+    var listResult: ListResult?
 
     init(paymentSessionURL: URL, connection: Connection, localizationsProvider: SharedTranslationProvider) {
         self.paymentSessionURL = paymentSessionURL
@@ -22,8 +24,12 @@ class PaymentSessionProvider {
 
             switch result {
             case .success(let paymentNetworks):
-                let paymentSession = weakSelf.createPaymentSession(from: paymentNetworks)
-                completion(.success(paymentSession))
+                do {
+                    let paymentSession = try weakSelf.createPaymentSession(from: paymentNetworks)
+                    completion(.success(paymentSession))
+                } catch {
+                    completion(.failure(error))
+                }
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -37,7 +43,9 @@ class PaymentSessionProvider {
         let getListResultOperation = SendRequestOperation(connection: connection, request: getListResult)
         getListResultOperation.downloadCompletionBlock = { result in
             switch result {
-            case .success(let listResult): completion(.success(listResult))
+            case .success(let listResult):
+                self.listResult = listResult
+                completion(.success(listResult))
             case .failure(let error): completion(.failure(error))
             }
         }
@@ -132,8 +140,12 @@ class PaymentSessionProvider {
 
     // MARK: - Synchronous methods
 
-    private func createPaymentSession(from translations: DownloadTranslationService.Translations) -> PaymentSession {
-        return .init(networks: translations.networks, accounts: translations.accounts)
+    private func createPaymentSession(from translations: DownloadTranslationService.Translations) throws -> PaymentSession {
+        guard let operationType = listResult?.operationType else {
+            throw InternalError(description: "Operation type or ListResult is not defined")
+        }
+        
+        return .init(operationType: operationType, networks: translations.networks, accounts: translations.accounts)
     }
 }
 

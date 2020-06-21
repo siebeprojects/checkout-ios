@@ -109,6 +109,7 @@ extension Input.Table {
             collectionView.register(TextFieldViewCell.self)
             collectionView.register(CheckboxViewCell.self)
             collectionView.register(ButtonCell.self)
+            collectionView.register(LabelViewCell.self)
             
             // Header cells
             collectionView.register(DetailedTextLogoView.self)
