@@ -7,7 +7,6 @@ extension Input {
     class ViewController: SlideInViewController {
         let networks: [Network]
         let header: CellRepresentable
-        
         let tableController = Table.Controller()
         fileprivate let smartSwitch: SmartSwitch.Selector
 
@@ -170,15 +169,16 @@ extension Input.ViewController {
 
 extension Input.ViewController: InputTableControllerDelegate {
     func submitPayment() {
-        let service = paymentServiceFactory.createPaymentService(forNetworkCode: smartSwitch.selected.network.networkCode, paymentMethod: "DEBIT_CARD")
-        service?.delegate = self
-        
         let network = smartSwitch.selected.network
+        
+        let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        service?.delegate = self
         
         var inputFieldsDictionary = [String: String]()
         var expiryDate: String?
-        for element in tableController.dataSource.inputFields {
+        for element in network.inputFields + network.separatedCheckboxes {
             if element.name == "expiryDate" {
+                // Expiry date is processed below
                 expiryDate = element.value
                 continue
             }
@@ -186,12 +186,13 @@ extension Input.ViewController: InputTableControllerDelegate {
             inputFieldsDictionary[element.name] = element.value
         }
         
+        // Split expiry date
         if let expiryDate = expiryDate {
             inputFieldsDictionary["expiryMonth"] = String(expiryDate.prefix(2))
             inputFieldsDictionary["expiryYear"] = String(expiryDate.suffix(2))
         }
         
-        let request = PaymentRequest(networkCode: smartSwitch.selected.network.networkCode, operationType: nil, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
+        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
 
         stateManager.state = .paymentSubmission
         service?.send(paymentRequest: request)
@@ -302,7 +303,7 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
     }
 }
 
-extension Sequence where Element: InputField {
+private extension Sequence where Element: InputField {
     var asDictionary: [String: Decodable] {
         var dictionary = [String: Decodable]()
         for element in self {

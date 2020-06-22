@@ -16,7 +16,7 @@ final class PaymentSession {
         }
         
         self.registeredAccounts = accounts?.map {
-            .init(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey , localizeUsing: $0.translator)
+            RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator)
         }
     }
 }
