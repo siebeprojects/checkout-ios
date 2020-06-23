@@ -13,19 +13,11 @@ class DataDownloadProvider {
         let completionOperation = BlockOperation {
             completion()
         }
-        
-        let bundle = Bundle(for: DataDownloadProvider.self)
 
         // Add download operations
         for model in models {
             // Check if data has been already downloaded
             guard case let .notLoaded(url) = model.loadable else {
-                continue
-            }
-            
-            // Check if we have a locally saved asset
-            if let image = UIImage(named: model.identifier, in: bundle, compatibleWith: nil) {
-                model.loadable = .loaded(.success(image))
                 continue
             }
             
@@ -60,17 +52,12 @@ class DataDownloadProvider {
 
 protocol ContainsLoadableImage: class {
     var loadable: Loadable<UIImage>? { get set }
-    var identifier: String { get }
 }
 
 extension PaymentNetwork: ContainsLoadableImage {
     var loadable: Loadable<UIImage>? {
         get { logo }
         set { logo = newValue }
-    }
-    
-    var identifier: String {
-        applicableNetwork.code.lowercased()
     }
 }
 
@@ -79,6 +66,4 @@ extension RegisteredAccount: ContainsLoadableImage {
         get { logo }
         set { logo = newValue }
     }
-    
-    var identifier: String { apiModel.code.lowercased() }
 }
