@@ -1,6 +1,6 @@
-import Foundation
+import UIKit
 
 /// Model that contains loadable logo
 protocol LoadableLogo: class {
-    var logo: Loadable<Data>? { get set }
+    var logo: Loadable<UIImage>? { get set }
 }

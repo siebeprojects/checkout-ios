@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 class DataDownloadProvider {
     let operationQueue = OperationQueue()
@@ -8,7 +8,7 @@ class DataDownloadProvider {
         self.connection = connection
     }
 
-    func downloadData(for models: [ContainsLoadableData], completion: @escaping () -> Void) {
+    func downloadImages(for models: [ContainsLoadableImage], completion: @escaping () -> Void) {
         // Final operation that would call completion block
         let completionOperation = BlockOperation {
             completion()
@@ -23,7 +23,7 @@ class DataDownloadProvider {
             let downloadRequest = DownloadData(from: url)
             let sendRequestOperation = SendRequestOperation(connection: connection, request: downloadRequest)
             sendRequestOperation.downloadCompletionBlock = {
-                model.loadable = .loaded($0)
+                model.loadable = self.makeResponse(for: $0)
             }
             completionOperation.addDependency(sendRequestOperation)
             operationQueue.addOperation(sendRequestOperation)
@@ -31,21 +31,36 @@ class DataDownloadProvider {
 
         operationQueue.addOperation(completionOperation)
     }
+    
+    /// Convert download result to loadable image model
+    private func makeResponse(for downloadResult: Result<Data, Error>) -> Loadable<UIImage>? {
+        switch downloadResult {
+        case .success(let data):
+            if let image = UIImage(data: data) {
+                return .loaded(.success(image))
+            } else {
+                let error = InternalError(description: "Unable to convert data to image")
+                return .loaded(.failure(error))
+            }
+        case .failure(let error):
+            return .loaded(.failure(error))
+        }
+    }
 }
 
-protocol ContainsLoadableData: class {
-    var loadable: Loadable<Data>? { get set }
+protocol ContainsLoadableImage: class {
+    var loadable: Loadable<UIImage>? { get set }
 }
 
-extension PaymentNetwork: ContainsLoadableData {
-    var loadable: Loadable<Data>? {
+extension PaymentNetwork: ContainsLoadableImage {
+    var loadable: Loadable<UIImage>? {
         get { logo }
         set { logo = newValue }
     }
 }
 
-extension RegisteredAccount: ContainsLoadableData {
-    var loadable: Loadable<Data>? {
+extension RegisteredAccount: ContainsLoadableImage {
+    var loadable: Loadable<UIImage>? {
         get { logo }
         set { logo = newValue }
     }

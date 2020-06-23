@@ -23,11 +23,11 @@ extension List.Table.DataSource.AccountRow {
         return network + " •••• " + number
     }
 
-    var image: UIImage? { account.logo?.image }
+    var image: UIImage? { account.logo?.value }
 }
 
 extension List.Table.DataSource.AccountRow: LoadableLogo {
-    var logo: Loadable<Data>? {
+    var logo: Loadable<UIImage>? {
         get { account.logo }
         set { account.logo = newValue }
     }

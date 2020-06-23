@@ -52,11 +52,7 @@ extension List.Table.DataSource.GroupedNetworkRow {
                 case .failure: return [genericLogo]
 
                 // Checks were passed, add logo to a stack
-                case .success(let imageData):
-                    guard let image = UIImage(data: imageData) else {
-                        return [genericLogo]
-                    }
-
+                case .success(let image):
                     allLogos.append(image)
                 }
             }

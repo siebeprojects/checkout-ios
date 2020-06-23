@@ -6,7 +6,7 @@ final class PaymentNetwork {
 
     let label: String
     let submitButtonLabel: String
-    var logo: Loadable<Data>?
+    var logo: Loadable<UIImage>?
 
     init(from applicableNetwork: ApplicableNetwork, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
         self.applicableNetwork = applicableNetwork

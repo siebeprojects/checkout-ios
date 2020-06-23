@@ -27,7 +27,7 @@ extension Input {
 
 extension Input.ModelTransformer {
     func transform(registeredAccount: RegisteredAccount) -> Input.Network {
-        let logoData = registeredAccount.logo?.value
+        let logo = registeredAccount.logo?.value
         let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
 
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
@@ -37,11 +37,11 @@ extension Input.ModelTransformer {
 
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 
-        return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
+        return .init(networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
     }
 
     func transform(paymentNetwork: PaymentNetwork) -> Input.Network {
-        let logoData = paymentNetwork.logo?.value
+        let logo = paymentNetwork.logo?.value
 
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
 
@@ -66,7 +66,7 @@ extension Input.ModelTransformer {
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
-        return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
+        return .init(networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logo: logo, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
     }
 
     // MARK: Smart Switch
