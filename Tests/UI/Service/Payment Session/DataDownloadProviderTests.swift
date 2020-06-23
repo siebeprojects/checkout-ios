@@ -2,13 +2,18 @@ import XCTest
 @testable import Optile
 
 class DataDownloadProviderTests: XCTestCase {
+    @available(iOS 13.0, *)
     func testDownloadProvider() {
-        let connection = MockConnection(dataSource: "test42")
+        let bundle = Bundle(for: DataDownloadProvider.self)
+        let image = UIImage(named: "visa", in: bundle, compatibleWith: nil)!
+        let imageData = image.pngData()!
+        
+        let connection = MockConnection(dataSource: imageData)
         let provider = DataDownloadProvider(connection: connection)
 
         let model = MockModel()
         let promise = expectation(description: "NetworkDownloadProvider completion")
-        provider.downloadData(for: [model]) {
+        provider.downloadImages(for: [model]) {
             guard case let .loaded(result) = model.loadable else {
                 XCTFail("Unexpected result for mock model")
                 promise.fulfill()
@@ -16,8 +21,9 @@ class DataDownloadProviderTests: XCTestCase {
             }
 
             switch result {
-            case .success(let data):
-                XCTAssertEqual(data, "test42".data(using: .isoLatin1))
+            case .success:
+                // Image has been downloaded
+                break
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -28,6 +34,6 @@ class DataDownloadProviderTests: XCTestCase {
     }
 }
 
-private class MockModel: ContainsLoadableData {
-    var loadable: Loadable<Data>? = .notLoaded(URL.example)
+private class MockModel: ContainsLoadableImage {
+    var loadable: Loadable<UIImage>? = .notLoaded(URL.example)
 }
