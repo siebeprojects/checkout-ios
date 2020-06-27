@@ -73,4 +73,10 @@ public class ApplicableNetwork: NSObject, Decodable {
     public var recurrenceRequirement: Requirement? {
         Requirement(rawValue: recurrence)
     }
+    
+    
+    /// Current list of payment methods, could be used to initialize enum from `method`. That list could be changed in future or `method` could contain the new value that are not present in enum.
+    public enum PaymentMethod: String {
+        case BANK_TRANSFER, BILLING_PROVIDER, CASH_ON_DELIVERY, CHECK_PAYMENT, CREDIT_CARD, DEBIT_CARD, DIRECT_DEBIT, ELECTRONIC_INVOICE, GIFT_CARD, MOBILE_PAYMENT, ONLINE_BANK_TRANSFER, OPEN_INVOICE, PREPAID_CARD, TERMINAL, WALLET
+    }
 }

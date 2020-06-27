@@ -1,10 +1,32 @@
 import Foundation
 
 class BasicPaymentService: PaymentService {
+    // MARK: - Static methods
     static func canMakePayments(forNetworkCode networkCode: String, paymentMethod: String?) -> Bool {
-        let supportedCodes = ["AMEX", "CASTORAMA", "DINERS", "DISCOVER", "MASTERCARD", "UNIONPAY", "VISA", "VISA_DANKORT", "VISAELECTRON", "CARTEBANCAIRE", "MAESTRO", "MAESTROUK", "POSTEPAY", "SEPADD", "JCB"]
-        return supportedCodes.contains(networkCode)
+        if let paymentMethod = paymentMethod {
+            if isSupported(method: paymentMethod) { return true }
+        }
+        
+        if isSupported(code: networkCode) { return true }
+        
+        return false
     }
+    
+    private static func isSupported(method: String) -> Bool {
+        let supportedMethods: [ApplicableNetwork.PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
+        guard let paymentMethod = ApplicableNetwork.PaymentMethod(rawValue: method) else {
+            return false
+        }
+        
+        return supportedMethods.contains(paymentMethod)
+    }
+    
+    private static func isSupported(code: String) -> Bool {
+        let supportedCodes = ["SEPADD", "PAYPAL"]
+        return supportedCodes.contains(code)
+    }
+    
+    // MARK: -
     
     var delegate: PaymentServiceDelegate?
     
