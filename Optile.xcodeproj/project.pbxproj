@@ -103,7 +103,7 @@
 		D96BB866249FEB7300C2AD73 /* PaymentSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7C9249FEB7300C2AD73 /* PaymentSessionProvider.swift */; };
 		D96BB867249FEB7300C2AD73 /* DownloadTranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7CA249FEB7300C2AD73 /* DownloadTranslationService.swift */; };
 		D96BB868249FEB7300C2AD73 /* PaymentSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7CB249FEB7300C2AD73 /* PaymentSessionService.swift */; };
-		D96BB869249FEB7300C2AD73 /* BackendPaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7CD249FEB7300C2AD73 /* BackendPaymentService.swift */; };
+		D96BB869249FEB7300C2AD73 /* BasicPaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7CD249FEB7300C2AD73 /* BasicPaymentService.swift */; };
 		D96BB86A249FEB7300C2AD73 /* PaymentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7CE249FEB7300C2AD73 /* PaymentResult.swift */; };
 		D96BB86B249FEB7300C2AD73 /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7CF249FEB7300C2AD73 /* PaymentService.swift */; };
 		D96BB86C249FEB7300C2AD73 /* PaymentServicesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7D0249FEB7300C2AD73 /* PaymentServicesFactory.swift */; };
@@ -289,7 +289,7 @@
 		D96BB7C9249FEB7300C2AD73 /* PaymentSessionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSessionProvider.swift; sourceTree = "<group>"; };
 		D96BB7CA249FEB7300C2AD73 /* DownloadTranslationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadTranslationService.swift; sourceTree = "<group>"; };
 		D96BB7CB249FEB7300C2AD73 /* PaymentSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSessionService.swift; sourceTree = "<group>"; };
-		D96BB7CD249FEB7300C2AD73 /* BackendPaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendPaymentService.swift; sourceTree = "<group>"; };
+		D96BB7CD249FEB7300C2AD73 /* BasicPaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicPaymentService.swift; sourceTree = "<group>"; };
 		D96BB7CE249FEB7300C2AD73 /* PaymentResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResult.swift; sourceTree = "<group>"; };
 		D96BB7CF249FEB7300C2AD73 /* PaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		D96BB7D0249FEB7300C2AD73 /* PaymentServicesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentServicesFactory.swift; sourceTree = "<group>"; };
@@ -722,7 +722,7 @@
 		D96BB7CC249FEB7300C2AD73 /* PaymentService */ = {
 			isa = PBXGroup;
 			children = (
-				D96BB7CD249FEB7300C2AD73 /* BackendPaymentService.swift */,
+				D96BB7CD249FEB7300C2AD73 /* BasicPaymentService.swift */,
 				D96BB7CE249FEB7300C2AD73 /* PaymentResult.swift */,
 				D96BB7CF249FEB7300C2AD73 /* PaymentService.swift */,
 				D96BB7D0249FEB7300C2AD73 /* PaymentServicesFactory.swift */,
@@ -1316,7 +1316,7 @@
 				D96BB814249FEB7300C2AD73 /* CaretPositionCorrector.swift in Sources */,
 				D96BB87A249FEB7300C2AD73 /* Request.swift in Sources */,
 				D96BB86B249FEB7300C2AD73 /* PaymentService.swift in Sources */,
-				D96BB869249FEB7300C2AD73 /* BackendPaymentService.swift in Sources */,
+				D96BB869249FEB7300C2AD73 /* BasicPaymentService.swift in Sources */,
 				D96BB86F249FEB7300C2AD73 /* DequeueableCell.swift in Sources */,
 				D96BB875249FEB7300C2AD73 /* DownloadLocalization.swift in Sources */,
 				D96BB87C249FEB7300C2AD73 /* TranslationKey.swift in Sources */,

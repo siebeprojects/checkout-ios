@@ -10,7 +10,7 @@ class PaymentServicesFactory {
     
     /// Register all known services
     func registerServices() {
-        register(paymentService: BackendPaymentService.self)
+        register(paymentService: BasicPaymentService.self)
     }
 
     private func register(paymentService: PaymentService.Type) {

@@ -1,6 +1,6 @@
 import Foundation
 
-class BackendPaymentService: PaymentService {
+class BasicPaymentService: PaymentService {
     static func canMakePayments(forNetworkCode networkCode: String, paymentMethod: String?) -> Bool {
         let supportedCodes = ["AMEX", "CASTORAMA", "DINERS", "DISCOVER", "MASTERCARD", "UNIONPAY", "VISA", "VISA_DANKORT", "VISAELECTRON", "CARTEBANCAIRE", "MAESTRO", "MAESTROUK", "POSTEPAY", "SEPADD", "JCB"]
         return supportedCodes.contains(networkCode)
@@ -63,7 +63,7 @@ class BackendPaymentService: PaymentService {
     }
 }
 
-private extension BackendPaymentService {
+private extension BasicPaymentService {
     struct ChargeRequest: Encodable {
         var account = [String: String]()
         var autoRegistration: Bool?
