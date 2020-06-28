@@ -1,21 +1,7 @@
 import Foundation
 
 extension Input.Field {
-    final class BankCode: InputElementModel {
-        let inputElement: InputElement
-        let translator: TranslationProvider
-        let validationRule: Validation.Rule?
-        var validationErrorText: String?
-
-        var isEnabled: Bool = true
-        var value: String = ""
-
-        init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
-            self.inputElement = inputElement
-            self.translator = translator
-            self.validationRule = validationRule
-        }
-    }
+    final class BankCode: BasicText {}
 }
 
 extension Input.Field.BankCode: TextInputField {}

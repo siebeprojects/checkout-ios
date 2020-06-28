@@ -1,21 +1,7 @@
 import Foundation
 
 extension Input.Field {
-    final class HolderName: InputElementModel {
-        let inputElement: InputElement
-        let translator: TranslationProvider
-        let validationRule: Validation.Rule?
-        var validationErrorText: String?
-
-        var isEnabled: Bool = true
-        var value: String = ""
-
-        init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
-            self.inputElement = inputElement
-            self.translator = translator
-            self.validationRule = validationRule
-        }
-    }
+    final class HolderName: BasicText {}
 }
 
 extension Input.Field.HolderName: TextInputField {}
