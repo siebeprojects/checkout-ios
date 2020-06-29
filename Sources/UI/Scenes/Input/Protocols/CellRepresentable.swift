@@ -48,7 +48,7 @@ extension CellRepresentable where Self: Input.Field.Label {
 
 extension CellRepresentable {
     func errorForIncorrectView(_ view: UIView) -> InternalError {
-        return InternalError(description: "Unable to configure unexpected view: %@", objects: view)
+        return InternalError(description: "Unable to configure unexpected view")
     }
 }
 #endif
