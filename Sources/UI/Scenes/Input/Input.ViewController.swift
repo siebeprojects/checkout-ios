@@ -303,17 +303,6 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
     }
 }
 
-private extension Sequence where Element: InputField {
-    var asDictionary: [String: Decodable] {
-        var dictionary = [String: Decodable]()
-        for element in self {
-            dictionary[element.name] = element.value
-        }
-        
-        return dictionary
-    }
-}
-
 extension Input.ViewController: PaymentServiceDelegate {
     func paymentService(_ paymentService: PaymentService, didAuthorizePayment paymentResult: PaymentResult) {
         DispatchQueue.main.async {
