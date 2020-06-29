@@ -28,29 +28,31 @@ extension Input {
 extension Input.ModelTransformer {
     func transform(registeredAccount: RegisteredAccount) throws -> Input.Network {
         let logoData = registeredAccount.logo?.value
+        
+        // Input fields
         let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
-
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
-
         let inputFields = inputFieldFactory.makeInputFields(for: modelToTransform)
         self.verificationCodeFields = inputFieldFactory.verificationCodeFields
 
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
+
+        let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
         
         // Operation URL
         guard let operationURL = registeredAccount.apiModel.links["operation"] else {
             throw InternalError(description: "Incorrect registered account model, operation URL is not present. Links: %@", objects: registeredAccount.apiModel.links)
         }
 
-        return .init(operationURL: operationURL, paymentMethod: registeredAccount.apiModel.method, networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton, switchRule: nil)
+        return .init(operationURL: operationURL, paymentMethod: registeredAccount.apiModel.method, networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, switchRule: nil, uiModel: uiModel)
     }
 
     func transform(paymentNetwork: PaymentNetwork) throws -> Input.Network {
         let logoData = paymentNetwork.logo?.value
 
+        // Input fields
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
 
-        // Input fields
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, translator: paymentNetwork.translation)
         let inputFields = inputFieldFactory.makeInputFields(for: modelToTransform)
         self.verificationCodeFields = inputFieldFactory.verificationCodeFields
@@ -71,12 +73,14 @@ extension Input.ModelTransformer {
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
+        let uiModel = Input.Network.UIModel(label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton)
+        
         // Operation URL
         guard let operationURL = paymentNetwork.applicableNetwork.links?["operation"] else {
             throw InternalError(description: "Incorrect applicable network model, operation URL is not present. Links: %@", objects: paymentNetwork.applicableNetwork.links)
         }
         
-        return .init(operationURL: operationURL, paymentMethod: paymentNetwork.applicableNetwork.method, networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton, switchRule: smartSwitchRule)
+        return .init(operationURL: operationURL, paymentMethod: paymentNetwork.applicableNetwork.method, networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, switchRule: smartSwitchRule, uiModel: uiModel)
     }
 
     // MARK: Smart Switch

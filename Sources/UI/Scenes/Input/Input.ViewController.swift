@@ -176,7 +176,7 @@ extension Input.ViewController: InputTableControllerDelegate {
         
         var inputFieldsDictionary = [String: String]()
         var expiryDate: String?
-        for element in network.inputFields + network.separatedCheckboxes {
+        for element in network.uiModel.inputFields + network.uiModel.separatedCheckboxes {
             if element.name == "expiryDate" {
                 // Expiry date is processed below
                 expiryDate = element.value

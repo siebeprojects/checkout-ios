@@ -6,7 +6,7 @@ extension Input.Table {
         fileprivate(set) var model: [[CellRepresentable]] = .init()
         
         func setModel(network: Input.Network, header: CellRepresentable) {
-            model = Self.arrangeBySections(network: network, header: header)
+            model = Self.arrangeBySections(networkUIModel: network.uiModel, header: header)
         }
         
         func isLastTextField(at indexPath: IndexPath) -> Bool {
@@ -47,7 +47,7 @@ extension Input.Table {
         }
         
         /// Arrange models by sections
-        private static func arrangeBySections(network: Input.Network, header: CellRepresentable) -> [[CellRepresentable]] {
+        private static func arrangeBySections(networkUIModel: Input.Network.UIModel, header: CellRepresentable) -> [[CellRepresentable]] {
             var sections = [[CellRepresentable]]()
             
             // Header
@@ -55,7 +55,7 @@ extension Input.Table {
             
             // Input Fields
             sections += [
-                network.inputFields.compactMap {
+                networkUIModel.inputFields.compactMap {
                     // Don't add to view non representable input fields
                     guard let cell = $0 as? CellRepresentable else { return nil }
                     return cell
@@ -64,7 +64,7 @@ extension Input.Table {
             
             // Checkboxes, each checkbox in a separate section
             var checkboxes = [CellRepresentable]()
-            for field in network.separatedCheckboxes {
+            for field in networkUIModel.separatedCheckboxes {
                 guard let cellRepresentable = field as? CellRepresentable else { continue }
                 checkboxes += [cellRepresentable]
             }
@@ -84,7 +84,7 @@ extension Input.Table {
             sections += checkboxes.map { [$0] }
             
             // Submit
-            sections += [[network.submitButton]]
+            sections += [[networkUIModel.submitButton]]
             
             let dataSource = sections.filter { !$0.isEmpty }
             
