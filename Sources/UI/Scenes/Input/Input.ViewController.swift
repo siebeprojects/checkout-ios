@@ -12,17 +12,18 @@ extension Input {
 
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
-        
-        let paymentServiceFactory: PaymentServicesFactory
+        fileprivate let paymentController: PaymentController!
         
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
-            self.paymentServiceFactory = paymentServiceFactory
+            self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
             self.networks = smartSwitch.networks
             self.header = header
             self.smartSwitch = smartSwitch
             self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
             
             super.init(nibName: nil, bundle: nil)
+            
+            paymentController.delegate = self
 
             tableController.setModel(network: smartSwitch.selected.network, header: header)
             
@@ -169,33 +170,8 @@ extension Input.ViewController {
 
 extension Input.ViewController: InputTableControllerDelegate {
     func submitPayment() {
-        let network = smartSwitch.selected.network
-        
-        let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
-        service?.delegate = self
-        
-        var inputFieldsDictionary = [String: String]()
-        var expiryDate: String?
-        for element in network.uiModel.inputFields + network.uiModel.separatedCheckboxes {
-            if element.name == "expiryDate" {
-                // Expiry date is processed below
-                expiryDate = element.value
-                continue
-            }
-            
-            inputFieldsDictionary[element.name] = element.value
-        }
-        
-        // Split expiry date
-        if let expiryDate = expiryDate {
-            inputFieldsDictionary["expiryMonth"] = String(expiryDate.prefix(2))
-            inputFieldsDictionary["expiryYear"] = String(expiryDate.suffix(2))
-        }
-        
-        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
-
         stateManager.state = .paymentSubmission
-        service?.send(paymentRequest: request)
+        paymentController.submitPayment(for: smartSwitch.selected.network)
     }
     
     // MARK: Navigation bar shadow
@@ -303,21 +279,17 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
     }
 }
 
-extension Input.ViewController: PaymentServiceDelegate {
-    func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult) {
-        DispatchQueue.main.async {
-            let code = Interaction.Code(rawValue: paymentResult.interaction.code)
-            switch code {
-            case .proceed:
-                self.navigationItem.setHidesBackButton(true, animated: true)
-                self.stateManager.state = .paymentResultPresentation(paymentResult.operationResult)
-            default:
-                let error = paymentResult.error ?? InternalError(description: "Error interaction code: %@", paymentResult.interaction.code)
-                self.stateManager.state = .error(error)
-            }
+extension Input.ViewController: PaymentControllerDelegate {
+    func paymentController(paymentFailedWith error: Error) {
+        DispatchQueue.main.async { [weak stateManager] in
+            stateManager?.state = .error(error)
         }
-
-        debugPrint(paymentResult.operationResult)
+    }
+    
+    func paymentController(paymentSucceedWith result: OperationResult?) {
+        DispatchQueue.main.async { [weak stateManager] in
+            stateManager?.state = .paymentResultPresentation(result)
+        }
     }
 }
 #endif

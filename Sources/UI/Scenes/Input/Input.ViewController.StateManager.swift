@@ -46,6 +46,8 @@ extension Input.ViewController.StateManager {
     }
     
     private func present(paymentResult: OperationResult?) {
+        vc.navigationItem.setHidesBackButton(true, animated: true)
+        
         let message: String
         
         if let paymentResult = paymentResult {
