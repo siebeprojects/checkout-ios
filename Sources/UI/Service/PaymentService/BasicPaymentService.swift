@@ -41,27 +41,36 @@ class BasicPaymentService: PaymentService {
         do {
             urlRequest = try makeRequest(for: paymentRequest)
         } catch {
-            delegate?.paymentService(self, didFailedWithError: error)
+            let interaction = Interaction(code: .abort, reason: .clientsideError)
+            let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
+            delegate?.paymentService(self, paymentResult: result)
             return
         }
         
         connection.send(request: urlRequest) { result in
             switch result {
             case .failure(let error):
-                self.delegate?.paymentService(self, didFailedWithError: error)
+                let interaction = Interaction(code: .verify, reason: .communicationFailure)
+                let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
+                self.delegate?.paymentService(self, paymentResult: result)
             case .success(let data):
                 guard let data = data else {
                     let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
-                    self.delegate?.paymentService(self, didFailedWithError: emptyResponseError)
+                    let interaction = Interaction(code: .verify, reason: .clientsideError)
+                    let result = PaymentResult(operationResult: nil, interaction: interaction, error: emptyResponseError)
+                    
+                    self.delegate?.paymentService(self, paymentResult: result)
                     return
                 }
                 
                 do {
                     let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
-                    let paymentResult = PaymentResult(operationResult: operationResult)
-                    self.delegate?.paymentService(self, didAuthorizePayment: paymentResult)
+                    let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
+                    self.delegate?.paymentService(self, paymentResult: paymentResult)
                 } catch {
-                    self.delegate?.paymentService(self, didFailedWithError: error)
+                    let interaction = Interaction(code: .verify, reason: .clientsideError)
+                    let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
+                    self.delegate?.paymentService(self, paymentResult: result)
                 }
             }
         }

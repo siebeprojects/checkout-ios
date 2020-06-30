@@ -8,6 +8,11 @@ import Foundation
     /// Reason of this interaction, complements interaction code and has more detailed granularity.
     /// See list of [Interaction Codes](https://www.optile.io/opg#292619).
     public let reason: String
+    
+    internal init(code: Code, reason: Reason) {
+        self.code = code.rawValue
+        self.reason = reason.rawValue
+    }
 }
 
 internal extension Interaction {

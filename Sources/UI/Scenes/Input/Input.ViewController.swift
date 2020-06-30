@@ -304,19 +304,20 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
 }
 
 extension Input.ViewController: PaymentServiceDelegate {
-    func paymentService(_ paymentService: PaymentService, didAuthorizePayment paymentResult: PaymentResult) {
+    func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult) {
         DispatchQueue.main.async {
-            self.navigationItem.setHidesBackButton(true, animated: true)
-            self.stateManager.state = .paymentResultPresentation(paymentResult)
+            let code = Interaction.Code(rawValue: paymentResult.interaction.code)
+            switch code {
+            case .proceed:
+                self.navigationItem.setHidesBackButton(true, animated: true)
+                self.stateManager.state = .paymentResultPresentation(paymentResult.operationResult)
+            default:
+                let error = paymentResult.error ?? InternalError(description: "Error interaction code: %@", paymentResult.interaction.code)
+                self.stateManager.state = .error(error)
+            }
         }
 
         debugPrint(paymentResult.operationResult)
-    }
-    
-    func paymentService(_ paymentService: PaymentService, didFailedWithError error: Error) {
-        DispatchQueue.main.async {
-            self.stateManager.state = .error(error)
-        }
     }
 }
 #endif

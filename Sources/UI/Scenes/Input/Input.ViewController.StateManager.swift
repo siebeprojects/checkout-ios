@@ -45,8 +45,15 @@ extension Input.ViewController.StateManager {
         vc.collectionView.reloadData()
     }
     
-    private func present(paymentResult: PaymentResult) {
-        let message = "\(paymentResult.operationResult.resultInfo)\nInteraction code: \(paymentResult.operationResult.interaction.code)"
+    private func present(paymentResult: OperationResult?) {
+        let message: String
+        
+        if let paymentResult = paymentResult {
+            message = "\(paymentResult.resultInfo)\nInteraction code: \(paymentResult.interaction.code)"
+        } else {
+            message = "Payment is okay, operation result is null"
+        }
+        
         let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(okAction)
@@ -72,7 +79,7 @@ extension Input.ViewController.StateManager {
     enum UIState {
         case inputFieldsPresentation
         case paymentSubmission
-        case paymentResultPresentation(PaymentResult)
+        case paymentResultPresentation(OperationResult?)
         case error(Error)
     }
 }
