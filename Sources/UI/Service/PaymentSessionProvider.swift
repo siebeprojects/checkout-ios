@@ -96,7 +96,7 @@ class PaymentSessionProvider {
     }
 
     private func checkInteractionCode(listResult: ListResult, completion: ((Result<ListResult, Error>) -> Void)) {
-        if listResult.interaction.interactionCode == .some(.PROCEED) {
+        if Interaction.Code(rawValue: listResult.interaction.code) == .some(.proceed) {
             completion(.success(listResult))
             return
         }
