@@ -2,7 +2,7 @@ import Foundation
 
 class BasicPaymentService: PaymentService {
     // MARK: - Static methods
-    static func canMakePayments(forNetworkCode networkCode: String, paymentMethod: String?) -> Bool {
+    static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
         if let paymentMethod = paymentMethod {
             if isSupported(method: paymentMethod) { return true }
         }
