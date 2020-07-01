@@ -40,7 +40,7 @@ internal extension Interaction {
         case blacklisted
         case blocked
         case systemFailure
-        case invalidAccCOMMUNICATION_FAILUREount
+        case invalidAccount
         case fraud
         case additionalNetworks
         case invalidRequest
