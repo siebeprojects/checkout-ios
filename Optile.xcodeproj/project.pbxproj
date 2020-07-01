@@ -174,6 +174,7 @@
 		D96BB8C8249FEBB400C2AD73 /* MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B7249FEBB400C2AD73 /* MockFactory.swift */; };
 		D96BB8C9249FEBB400C2AD73 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */; };
 		D96BB8CA249FEBB400C2AD73 /* MockFactory.ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */; };
+		D993F78F24AD2B9E00D09D89 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D993F78E24AD2B9E00D09D89 /* PaymentMethod.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
@@ -364,6 +365,7 @@
 		D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFactory.ListResult.swift; sourceTree = "<group>"; };
 		D96BB8CB249FEBC500C2AD73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D993F78E24AD2B9E00D09D89 /* PaymentMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentMethod.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A88D92241C55040043F535 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
@@ -831,6 +833,7 @@
 				D96BB7F5249FEB7300C2AD73 /* AccountMask.swift */,
 				D96BB7F6249FEB7300C2AD73 /* .swiftlint.yml */,
 				D96BB7F7249FEB7300C2AD73 /* Installments.swift */,
+				D993F78E24AD2B9E00D09D89 /* PaymentMethod.swift */,
 				D96BB7F8249FEB7300C2AD73 /* ProviderParameters.swift */,
 				D96BB7F9249FEB7300C2AD73 /* CustomerFormData.swift */,
 				D96BB7FA249FEB7300C2AD73 /* OperationResult.swift */,
@@ -1334,6 +1337,7 @@
 				D96BB820249FEB7300C2AD73 /* Input.Table.ButtonCell.swift in Sources */,
 				D96BB83A249FEB7300C2AD73 /* Input.Field.Validation.Luhn.swift in Sources */,
 				D96BB836249FEB7300C2AD73 /* Input.Field.Label.swift in Sources */,
+				D993F78F24AD2B9E00D09D89 /* PaymentMethod.swift in Sources */,
 				D96BB85D249FEB7300C2AD73 /* UIColor+.swift in Sources */,
 				D96BB85F249FEB7300C2AD73 /* PaymentNetwork.swift in Sources */,
 				D945384D24A95C9800452015 /* Input.Field.BasicText.swift in Sources */,

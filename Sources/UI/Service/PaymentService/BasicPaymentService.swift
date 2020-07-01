@@ -13,8 +13,8 @@ class BasicPaymentService: PaymentService {
     }
     
     private static func isSupported(method: String) -> Bool {
-        let supportedMethods: [ApplicableNetwork.PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
-        guard let paymentMethod = ApplicableNetwork.PaymentMethod(rawValue: method) else {
+        let supportedMethods: [PaymentMethod] = [.debitCard, .creditCard]
+        guard let paymentMethod = PaymentMethod(rawValue: method) else {
             return false
         }
         
