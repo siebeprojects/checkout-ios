@@ -31,7 +31,7 @@ extension Input.Table {
                 label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 bottomLabelConstraint,
-                label.topAnchor.constraint(equalTo: contentView.topAnchor),
+                label.topAnchor.constraint(equalTo: contentView.topAnchor)
             ])
         }
 

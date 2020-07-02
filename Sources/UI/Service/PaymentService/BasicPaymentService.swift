@@ -28,7 +28,7 @@ class BasicPaymentService: PaymentService {
     
     // MARK: -
     
-    var delegate: PaymentServiceDelegate?
+    weak var delegate: PaymentServiceDelegate?
     
     let connection: Connection
     

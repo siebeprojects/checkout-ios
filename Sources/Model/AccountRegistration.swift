@@ -21,7 +21,7 @@ public class AccountRegistration: NSObject, Decodable {
 
     /// Timestamp when this account was successfully used last time for payment request.
     public let lastSuccessfulChargeAt: Date?
-    
+
     /// Indicates that this account registration is initially selected.
     public let selected: Bool?
     

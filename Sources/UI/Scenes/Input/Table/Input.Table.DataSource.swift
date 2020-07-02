@@ -95,7 +95,7 @@ extension Input.Table {
 
 // MARK: - UICollectionViewDataSource
 
-extension Input.Table.DataSource: UICollectionViewDataSource {    
+extension Input.Table.DataSource: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return model.count
     }

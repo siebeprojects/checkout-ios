@@ -30,7 +30,6 @@ extension Input.Table.Validator {
         }
     }
     
-    
     /// Validate all models and display validation results in cells
     /// - Returns: is all fields are valid
     @discardableResult func validateAll(option: Input.Field.Validation.Option) -> Bool {
