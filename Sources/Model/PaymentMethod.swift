@@ -1,20 +1,20 @@
 import Foundation
 
 /// Current list of payment methods. That list could be changed in future or `method` could contain the new value that are not present in enum.
-enum PaymentMethod: String, SnakeCaseRepresentable {
-    case bankTransfer
-    case billingProvider
-    case cashOnDelivery
-    case checkPayment
-    case creditCard
-    case debitCard
-    case directDebit
-    case electronicInvoice
-    case giftCard
-    case mobilePayment
-    case onlineBankTransfer
-    case openInvoice
-    case prepaidCard
-    case terminal
-    case wallet
+enum PaymentMethod: String, RawRepresentable {
+    case BANK_TRANSFER
+    case BILLING_PROVIDER
+    case CASH_ON_DELIVERY
+    case CHECK_PAYMENT
+    case CREDIT_CARD
+    case DEBIT_CARD
+    case DIRECT_DEBIT
+    case ELECTRONIC_INVOICE
+    case GIFT_CARD
+    case MOBILE_PAYMENT
+    case ONLINE_BANK_TRANSFER
+    case OPEN_INVOICE
+    case PREPAID_CARD
+    case TERMINAL
+    case WALLET
 }

@@ -50,7 +50,7 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
     func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult) {
         let code = Interaction.Code(rawValue: paymentResult.interaction.code)
         switch code {
-        case .proceed:
+        case .PROCEED:
             delegate?.paymentController(paymentSucceedWith: paymentResult.operationResult)
         default:
             let error = paymentResult.error ?? InternalError(description: "Error interaction code: %@", paymentResult.interaction.code)

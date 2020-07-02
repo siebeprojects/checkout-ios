@@ -13,7 +13,7 @@ class BasicPaymentService: PaymentService {
     }
     
     private static func isSupported(method: String) -> Bool {
-        let supportedMethods: [PaymentMethod] = [.debitCard, .creditCard]
+        let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
         guard let paymentMethod = PaymentMethod(rawValue: method) else {
             return false
         }
@@ -41,7 +41,7 @@ class BasicPaymentService: PaymentService {
         do {
             urlRequest = try makeRequest(for: paymentRequest)
         } catch {
-            let interaction = Interaction(code: .abort, reason: .clientsideError)
+            let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
             let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
             delegate?.paymentService(self, paymentResult: result)
             return
@@ -50,13 +50,13 @@ class BasicPaymentService: PaymentService {
         connection.send(request: urlRequest) { result in
             switch result {
             case .failure(let error):
-                let interaction = Interaction(code: .verify, reason: .communicationFailure)
+                let interaction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
                 let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
                 self.delegate?.paymentService(self, paymentResult: result)
             case .success(let data):
                 guard let data = data else {
                     let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
-                    let interaction = Interaction(code: .verify, reason: .clientsideError)
+                    let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: emptyResponseError)
                     
                     self.delegate?.paymentService(self, paymentResult: result)
@@ -68,7 +68,7 @@ class BasicPaymentService: PaymentService {
                     let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
                     self.delegate?.paymentService(self, paymentResult: paymentResult)
                 } catch {
-                    let interaction = Interaction(code: .verify, reason: .clientsideError)
+                    let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
                     self.delegate?.paymentService(self, paymentResult: result)
                 }

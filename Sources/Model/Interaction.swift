@@ -15,51 +15,14 @@ import Foundation
     }
 }
 
-internal extension Interaction {
-    enum Code: String, Decodable, SnakeCaseRepresentable, CaseIterable {
-        case proceed
-        case abort
-        case tryOtherNetwork
-        case tryOtherAccount
-        case retry
-        case reload
-        case verify
+public extension Interaction {
+    enum Code: String, Decodable {
+        case PROCEED, ABORT, TRY_OTHER_NETWORK, TRY_OTHER_ACCOUNT, RETRY, RELOAD, VERIFY
     }
 
-    enum Reason: String, Decodable, SnakeCaseRepresentable, CaseIterable {
-        case ok
-        case pending
-        case trusted
-        case strongAuthentication
-        case declined
-        case expired
-        case exceedsLimit
-        case temporaryFailure
-        case unknown
-        case networkFailure
-        case blacklisted
-        case blocked
-        case systemFailure
-        case invalidAccount
-        case fraud
-        case additionalNetworks
-        case invalidRequest
-        case scheduled
-        case noNetworks
-        case duplicateOperation
-        case chargeback
-        case riskDetected
-        case customerAbort
-        case expiredSession
-        case expiredAccount
-        case accountNotActivated
-        case trustedCustomer
-        case unknownCustomer
-        case activated
-        case updated
-        case takeAction
-        
-        case communicationFailure
-        case clientsideError
+    enum Reason: String, Decodable {
+        // swiftlint:disable:next line_length
+        case OK, PENDING, TRUSTED, STRONG_AUTHENTICATION, DECLINED, EXPIRED, EXCEEDS_LIMIT, TEMPORARY_FAILURE, UNKNOWN, NETWORK_FAILURE, BLACKLISTED, BLOCKED, SYSTEM_FAILURE, INVALID_ACCOUNT, FRAUD, ADDITIONAL_NETWORKS, INVALID_REQUEST, SCHEDULED, NO_NETWORKS, DUPLICATE_OPERATION, CHARGEBACK, RISK_DETECTED, CUSTOMER_ABORT, EXPIRED_SESSION, EXPIRED_ACCOUNT, ACCOUNT_NOT_ACTIVATED, TRUSTED_CUSTOMER, UNKNOWN_CUSTOMER, ACTIVATED, UPDATED, TAKE_ACTION
+        case COMMUNICATION_FAILURE, CLIENTSIDE_ERROR
     }
 }
