@@ -10,6 +10,6 @@ public protocol PaymentService: class {
     init(using connection: Connection)
 }
 
-public protocol PaymentServiceDelegate {
+public protocol PaymentServiceDelegate: class {
     func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult)
 }
