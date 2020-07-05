@@ -63,14 +63,7 @@ extension Input.Table {
 
 extension Input.Table.DetailedTextLogoView {
     func configure(with model: Input.TextHeader) {
-        let image: UIImage?
-        if let imageData = model.logoData {
-            image = UIImage(data: imageData)
-        } else {
-            image = nil
-        }
-
-        logoView.image = image
+        logoView.image = model.logo
         label.text = model.label
         detailedLabel.text = model.detailedLabel
     }

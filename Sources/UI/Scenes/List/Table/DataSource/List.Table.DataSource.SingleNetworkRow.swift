@@ -13,7 +13,7 @@ extension List.Table.DataSource {
 
 extension List.Table.DataSource.SingleNetworkRow {
     var label: String { network.label }
-    var image: UIImage? { network.logo?.image }
+    var image: UIImage? { network.logo?.value }
 }
 
 extension List.Table.DataSource.SingleNetworkRow {
@@ -21,7 +21,7 @@ extension List.Table.DataSource.SingleNetworkRow {
 }
 
 extension List.Table.DataSource.SingleNetworkRow: LoadableLogo {
-    var logo: Loadable<Data>? {
+    var logo: Loadable<UIImage>? {
         get { network.logo }
         set { network.logo = newValue }
     }

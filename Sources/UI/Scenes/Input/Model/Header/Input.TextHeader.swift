@@ -3,12 +3,12 @@ import Foundation
 
 extension Input {
     final class TextHeader {
-        let logoData: Data?
+        let logo: UIImage?
         let label: String
         var detailedLabel: String?
 
-        private init(logoData: Data?, label: String) {
-            self.logoData = logoData
+        private init(logo: UIImage?, label: String) {
+            self.logo = logo
             self.label = label
         }
 
@@ -30,7 +30,7 @@ extension Input {
                 label = registeredAccount.apiModel.maskedAccount.displayLabel ?? ""
             }
 
-            self.init(logoData: registeredAccount.logo?.value, label: label)
+            self.init(logo: registeredAccount.logo?.value, label: label)
 
             if let expiryMonth = registeredAccount.apiModel.maskedAccount.expiryMonth, let expiryYear = registeredAccount.apiModel.maskedAccount.expiryYear {
                 detailedLabel = String(format: "%02d", expiryMonth) + " / " + String(expiryYear).suffix(2)

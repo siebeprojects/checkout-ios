@@ -1,11 +1,11 @@
-import Foundation
+import UIKit
 
 extension Input {
     class Network {
         let translation: TranslationProvider
 
         let label: String
-        let logoData: Data?
+        let logo: UIImage?
         let inputFields: [InputField]
 
         /// Checkboxes that must be arranged in another section (used for recurrence and registration)
@@ -16,12 +16,12 @@ extension Input {
         let switchRule: SmartSwitch.Rule?
         let networkCode: String
 
-        init(networkCode: String, translator: TranslationProvider, label: String, logoData: Data?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Field.Button, switchRule: SmartSwitch.Rule?) {
+        init(networkCode: String, translator: TranslationProvider, label: String, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Field.Button, switchRule: SmartSwitch.Rule?) {
             self.networkCode = networkCode
             self.translation = translator
 
             self.label = label
-            self.logoData = logoData
+            self.logo = logo
             self.inputFields = inputFields
             self.separatedCheckboxes = separatedCheckboxes
             self.submitButton = submitButton
@@ -35,14 +35,3 @@ extension Input.Network: Equatable {
         return (lhs.networkCode == rhs.networkCode) && (lhs.label == rhs.label)
     }
 }
-
-#if canImport(UIKit)
-import UIKit
-
-extension Input.Network {
-    var logo: UIImage? {
-        guard let data = self.logoData else { return nil }
-        return UIImage(data: data)
-    }
-}
-#endif
