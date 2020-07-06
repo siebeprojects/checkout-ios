@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 extension Input {
     class Network {
@@ -33,31 +33,19 @@ extension Input.Network: Equatable {
 extension Input.Network {
     class UIModel {
         let label: String
-        let logoData: Data?
+        let logo: UIImage?
         let inputFields: [InputField]
 
         /// Checkboxes that must be arranged in another section (used for recurrence and registration)
         let separatedCheckboxes: [InputField]
 
         let submitButton: Input.Field.Button
-        
-        init(label: String, logoData: Data?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button) {
+        init(label: String, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button) {
             self.label = label
-            self.logoData = logoData
+            self.logo = logo
             self.inputFields = inputFields
             self.separatedCheckboxes = separatedCheckboxes
             self.submitButton = submitButton
         }
     }
 }
-
-#if canImport(UIKit)
-import UIKit
-
-extension Input.Network.UIModel {
-    var logo: UIImage? {
-        guard let data = self.logoData else { return nil }
-        return UIImage(data: data)
-    }
-}
-#endif

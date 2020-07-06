@@ -6,7 +6,7 @@ final class PaymentNetwork {
 
     let label: String
     let submitButtonLabel: String
-    var logo: Loadable<Data>?
+    var logo: Loadable<UIImage>?
 
     init(from applicableNetwork: ApplicableNetwork, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
         self.applicableNetwork = applicableNetwork
@@ -15,22 +15,7 @@ final class PaymentNetwork {
         self.label = localizer.translation(forKey: "network.label")
         self.submitButtonLabel = translation.translation(forKey: submitButtonLocalizationKey)
 
-        if let logoURL = applicableNetwork.links?["logo"] {
-            logo = .notLoaded(logoURL)
-        } else {
-            logo = nil
-        }
-    }
-}
-
-enum Loadable<T> {
-    case loaded(Result<T, Error>)
-    case notLoaded(URL)
-
-    var value: T? {
-        guard case let .loaded(loadedResult) = self else { return nil }
-
-        return try? loadedResult.get()
+        logo = Loadable<UIImage>(identifier: applicableNetwork.code.lowercased(), url: applicableNetwork.links?["logo"])
     }
 }
 

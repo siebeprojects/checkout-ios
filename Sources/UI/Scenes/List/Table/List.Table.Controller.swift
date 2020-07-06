@@ -34,7 +34,7 @@ extension List.Table {
         }
 
         fileprivate func loadLogo(for indexPath: IndexPath) {
-            let models: [ContainsLoadableData]
+            let models: [ContainsLoadableImage]
             switch dataSource.model(for: indexPath) {
             case .account(let account): models = [account]
             case .network(let networks): models = networks
@@ -43,7 +43,7 @@ extension List.Table {
             // Require array to have some not loaded logos, do nothing if everything is loaded
             guard !models.isFullyLoaded else { return }
 
-            delegate?.downloadProvider.downloadData(for: models, completion: { [weak tableView] in
+            delegate?.downloadProvider.downloadImages(for: models, completion: { [weak tableView] in
                 DispatchQueue.main.async {
                     tableView?.reloadRows(at: [indexPath], with: .fade)
                 }
@@ -84,9 +84,9 @@ extension List.Table.Controller: UITableViewDelegate {
 
 // MARK: - Loadable extension
 
-private extension Sequence where Element == ContainsLoadableData {
+private extension Sequence where Element == ContainsLoadableImage {
     /// Is all elements in array loaded.
-    /// - Note: if some elements were loaded but proccess was finished with error they count as _loaded_ element
+    /// - Note: if some elements were loaded but process was finished with error they count as _loaded_ element
     var isFullyLoaded: Bool {
         for element in self {
             if case .notLoaded = element.loadable { return false }

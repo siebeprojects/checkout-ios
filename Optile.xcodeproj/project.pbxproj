@@ -180,6 +180,7 @@
 		D9A88E48241C56490043F535 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D92241C55040043F535 /* Media.xcassets */; };
 		D9C315DC24AC042D001DE891 /* Input.ViewController.PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C315DB24AC042D001DE891 /* Input.ViewController.PaymentController.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
+		D9F154D324B31ABF00C91681 /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F154D224B31ABF00C91681 /* Loadable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -372,6 +373,7 @@
 		D9C315DB24AC042D001DE891 /* Input.ViewController.PaymentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.PaymentController.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9F154D224B31ABF00C91681 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -701,6 +703,7 @@
 				D96BB7C1249FEB7300C2AD73 /* RegisteredAccount.swift */,
 				D96BB7C2249FEB7300C2AD73 /* PaymentError.swift */,
 				D96BB7C3249FEB7300C2AD73 /* PaymentSession.swift */,
+				D9F154D224B31ABF00C91681 /* Loadable.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1271,6 +1274,7 @@
 				D96BB87F249FEB7300C2AD73 /* SharedTranslationProvider.swift in Sources */,
 				D96BB86E249FEB7300C2AD73 /* DataDownloadProvider.swift in Sources */,
 				D96BB832249FEB7300C2AD73 /* Input.Field.BIC.swift in Sources */,
+				D9F154D324B31ABF00C91681 /* Loadable.swift in Sources */,
 				D96BB83E249FEB7300C2AD73 /* Input.ImagesHeader.swift in Sources */,
 				D96BB81B249FEB7300C2AD73 /* Input.Table.Validator.swift in Sources */,
 				D96BB834249FEB7300C2AD73 /* Input.Field.ExpiryDate.swift in Sources */,

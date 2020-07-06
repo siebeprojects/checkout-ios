@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 final class RegisteredAccount {
     let apiModel: AccountRegistration
@@ -6,7 +6,7 @@ final class RegisteredAccount {
 
     let networkLabel: String
     let submitButtonLabel: String
-    var logo: Loadable<Data>?
+    var logo: Loadable<UIImage>?
 
     init(from apiModel: AccountRegistration, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
         self.apiModel = apiModel
@@ -15,11 +15,7 @@ final class RegisteredAccount {
         self.networkLabel = localizer.translation(forKey: "network.label")
         self.submitButtonLabel = localizer.translation(forKey: submitButtonLocalizationKey)
 
-        if let logoURL = apiModel.links["logo"] {
-            logo = .notLoaded(logoURL)
-        } else {
-            logo = nil
-        }
+        logo = Loadable<UIImage>(identifier: apiModel.code.lowercased(), url: apiModel.links["logo"])
     }
 
 }

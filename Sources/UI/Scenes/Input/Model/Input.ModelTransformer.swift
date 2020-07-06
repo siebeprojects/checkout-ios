@@ -27,7 +27,7 @@ extension Input {
 
 extension Input.ModelTransformer {
     func transform(registeredAccount: RegisteredAccount) throws -> Input.Network {
-        let logoData = registeredAccount.logo?.value
+        let logo = registeredAccount.logo?.value
         
         // Input fields
         let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
@@ -37,7 +37,7 @@ extension Input.ModelTransformer {
 
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 
-        let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, logoData: logoData, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
+        let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
         
         // Operation URL
         guard let operationURL = registeredAccount.apiModel.links["operation"] else {
@@ -48,7 +48,7 @@ extension Input.ModelTransformer {
     }
 
     func transform(paymentNetwork: PaymentNetwork) throws -> Input.Network {
-        let logoData = paymentNetwork.logo?.value
+        let logo = paymentNetwork.logo?.value
 
         // Input fields
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
@@ -73,7 +73,7 @@ extension Input.ModelTransformer {
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
-        let uiModel = Input.Network.UIModel(label: paymentNetwork.label, logoData: logoData, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton)
+        let uiModel = Input.Network.UIModel(label: paymentNetwork.label, logo: logo, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton)
         
         // Operation URL
         guard let operationURL = paymentNetwork.applicableNetwork.links?["operation"] else {
