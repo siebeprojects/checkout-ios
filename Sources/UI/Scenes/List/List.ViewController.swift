@@ -12,7 +12,7 @@ extension List {
         let sessionService: PaymentSessionService
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
-        
+
         /// TODO: Migrate to separate State manager
         fileprivate var viewState: Load<PaymentSession, Error> = .loading {
             didSet { changeState(to: viewState) }
@@ -97,14 +97,14 @@ extension List.ViewController {
 
     fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
         let inputViewController: Input.ViewController
-        
+
         do {
             inputViewController = try Input.ViewController(for: registeredAccount, paymentServiceFactory: sessionService.paymentServicesFactory)
         } catch {
             changeState(to: .failure(error))
             return
         }
-        
+
         let navigationController = Input.NavigationController(rootViewController: inputViewController)
         navigationController.modalPresentationStyle = .custom
         navigationController.transitioningDelegate = slideInPresentationManager

@@ -4,34 +4,34 @@ extension Input.Table {
     class DataSource: NSObject {
         weak var inputCellDelegate: InputCellDelegate?
         fileprivate(set) var model: [[CellRepresentable]] = .init()
-        
+
         func setModel(network: Input.Network, header: CellRepresentable) {
             model = Self.arrangeBySections(networkUIModel: network.uiModel, header: header)
         }
-        
+
         func isLastTextField(at indexPath: IndexPath) -> Bool {
             var lastTextFieldRow: Int?
-            
+
             let rowsInSection = model[indexPath.section]
             for rowIndex in indexPath.row...rowsInSection.count - 1 {
                 let element = rowsInSection[rowIndex]
                 guard let _ = element as? TextInputField else { continue }
                 lastTextFieldRow = rowIndex
             }
-            
+
             if lastTextFieldRow == nil { return true }
             if lastTextFieldRow == indexPath.row { return true }
-            
+
             return false
         }
-        
+
         /// Set enabled state for all datasource items
         func setEnabled(_ enabled: Bool) {
             for cellRepresentable in model.flatMap({ $0 }) {
                 cellRepresentable.isEnabled = enabled
             }
         }
-        
+
         func setPaymentButtonState(isLoading: Bool) {
             for cellRepresentable in model.flatMap({ $0 }) {
                 guard let buttonModel = cellRepresentable as? Input.Field.Button else { continue }
@@ -39,20 +39,20 @@ extension Input.Table {
                 return
             }
         }
-        
+
         var inputFields: [InputField] {
             model.flatMap {
                 $0.compactMap { $0 as? InputField }
             }
         }
-        
+
         /// Arrange models by sections
         private static func arrangeBySections(networkUIModel: Input.Network.UIModel, header: CellRepresentable) -> [[CellRepresentable]] {
             var sections = [[CellRepresentable]]()
-            
+
             // Header
             sections += [[header]]
-            
+
             // Input Fields
             sections += [
                 networkUIModel.inputFields.compactMap {
@@ -61,14 +61,14 @@ extension Input.Table {
                     return cell
                 }
             ]
-            
+
             // Checkboxes, each checkbox in a separate section
             var checkboxes = [CellRepresentable]()
             for field in networkUIModel.separatedCheckboxes {
                 guard let cellRepresentable = field as? CellRepresentable else { continue }
                 checkboxes += [cellRepresentable]
             }
-            
+
             checkboxes.sort {
                 // Labels is always on the bottom
                 func order(for field: Any) -> Int {
@@ -77,17 +77,17 @@ extension Input.Table {
                     default: return 0
                     }
                 }
-                
+
                 return order(for: $0) < order(for: $1)
             }
-            
+
             sections += checkboxes.map { [$0] }
-            
+
             // Submit
             sections += [[networkUIModel.submitButton]]
-            
+
             let dataSource = sections.filter { !$0.isEmpty }
-            
+
             return dataSource
         }
     }
@@ -99,11 +99,11 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return model.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return model[section].count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellModel = model[indexPath.section][indexPath.row]
         let cell = cellModel.dequeueCell(for: collectionView, indexPath: indexPath)
@@ -114,17 +114,17 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
         } catch {
             log(error)
         }
-        
+
         if let cell = cell as? ContainsInputCellDelegate {
             cell.delegate = inputCellDelegate
         }
-        
+
         if let cell = cell as? SupportsPrimaryAction {
             let isLastRow = isLastTextField(at: indexPath)
             let action: PrimaryAction = isLastRow ? .done : .next
             cell.setPrimaryAction(to: action)
         }
-        
+
         return cell
     }
 }
@@ -146,10 +146,10 @@ extension Input.Table.DataSource.Diff {
                 collectionView.deleteSections([oldSectionIndex])
                 continue
             }
-            
+
             reload(section: oldSectionIndex, in: collectionView)
         }
-        
+
         // If a new model has more sections insert new ones
         if new.count > old.count {
             for index in old.count - 1 ..< new.count - 1 {
@@ -157,19 +157,19 @@ extension Input.Table.DataSource.Diff {
             }
         }
     }
-    
+
     private func reload(section: Int, in collectionView: UICollectionView) {
         // If number of cells in section are not equal reload a whole section
         guard old[section].count == new[section].count else {
             collectionView.reloadSections([section])
             return
         }
-        
+
         for rowIndex in 0 ..< old.count {
             let indexPath = IndexPath(row: rowIndex, section: section)
-            
+
             guard let cell = collectionView.cellForItem(at: indexPath) else { continue }
-            
+
             let model = new[section][rowIndex]
             do {
                 // Configure old cell with a new model

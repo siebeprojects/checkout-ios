@@ -10,7 +10,7 @@ extension Input.Field {
             let patternFormatter = InputPatternFormatter(maxStringLength: maxLength, separator: " ", every: 4)
             patternFormatter.inputModifiers = [UppercaseInputModifier()]
                 self.patternFormatter = patternFormatter
-            
+
             super.init(from: inputElement, translator: translator, validationRule: validationRule)
         }
     }

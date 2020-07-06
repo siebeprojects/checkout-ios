@@ -18,17 +18,17 @@ extension Input.Table {
             guard let collectionView = collectionView else {
                 return nil
             }
-            
+
             guard let layoutAttributes = super.layoutAttributesForItem(at: indexPath)?.copy() as? UICollectionViewLayoutAttributes else {
                 return nil
             }
 
             layoutAttributes.frame.origin.x = sectionInset.left
-            
+
             let safeAreaWidth: CGFloat = collectionView.frame.width
-            
+
             layoutAttributes.frame.size.width = safeAreaWidth - collectionView.contentInset.left - collectionView.contentInset.right
-            
+
             return layoutAttributes
         }
     }

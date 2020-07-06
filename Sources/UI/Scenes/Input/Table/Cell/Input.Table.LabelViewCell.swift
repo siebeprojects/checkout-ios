@@ -21,12 +21,12 @@ extension Input.Table {
             contentView.addSubview(label)
 
             label.translatesAutoresizingMaskIntoConstraints = false
-            
+
             label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-            
+
             let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             bottomLabelConstraint.priority = .defaultHigh
-            
+
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

@@ -3,11 +3,11 @@ import UIKit
 extension Input.ViewController {
     class StateManager {
         unowned let vc: Input.ViewController
-        
+
         var state: UIState = .inputFieldsPresentation {
             didSet { self.changeState(to: self.state, from: oldValue) }
         }
-        
+
         init(viewController: Input.ViewController) {
             self.vc = viewController
         }
@@ -21,7 +21,7 @@ extension Input.ViewController.StateManager {
             setPaymentSubmission(isActive: false)
         default: break
         }
-        
+
         switch newState {
         case .paymentSubmission:
             setPaymentSubmission(isActive: true)
@@ -32,7 +32,7 @@ extension Input.ViewController.StateManager {
         default: break
         }
     }
-    
+
     private func setPaymentSubmission(isActive: Bool) {
         if #available(iOS 13.0, *) {
             vc.isModalInPresentation = isActive
@@ -41,36 +41,36 @@ extension Input.ViewController.StateManager {
 
         vc.tableController.dataSource.setEnabled(!isActive)
         vc.tableController.dataSource.setPaymentButtonState(isLoading: isActive)
-        
+
         vc.collectionView.reloadData()
     }
-    
+
     private func present(paymentResult: OperationResult?) {
         vc.navigationItem.setHidesBackButton(true, animated: true)
-        
+
         let message: String
-        
+
         if let paymentResult = paymentResult {
             message = "\(paymentResult.resultInfo)\nInteraction code: \(paymentResult.interaction.code)"
         } else {
             message = "Payment is okay, operation result is null"
         }
-        
+
         let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(okAction)
-        
+
         vc.present(alert, animated: true, completion: {
             self.state = .inputFieldsPresentation
         })
     }
-    
+
     private func present(error: Error) {
         let message = error.localizedDescription
         let alert = UIAlertController(title: "Payment error", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(okAction)
-        
+
         vc.present(alert, animated: true, completion: {
             self.state = .inputFieldsPresentation
         })

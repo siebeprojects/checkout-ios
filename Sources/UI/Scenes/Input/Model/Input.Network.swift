@@ -3,14 +3,14 @@ import UIKit
 extension Input {
     class Network {
         let operationURL: URL
-        
+
         /// Indicates payment method this network belongs to.
         let paymentMethod: String?
-        
+
         let translation: TranslationProvider
         let switchRule: SmartSwitch.Rule?
         let networkCode: String
-        
+
         let uiModel: UIModel
 
         init(operationURL: URL, paymentMethod: String?, networkCode: String, translator: TranslationProvider, switchRule: SmartSwitch.Rule?, uiModel: UIModel) {

@@ -48,7 +48,7 @@ extension Input.TextHeader: CellRepresentable {
         default: return
         }
     }
-    
+
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         if detailedLabel == nil {
             return view.dequeueReusableCell(Input.Table.LogoTextView.self, for: indexPath)

@@ -28,7 +28,7 @@ extension Input {
 extension Input.ModelTransformer {
     func transform(registeredAccount: RegisteredAccount) throws -> Input.Network {
         let logo = registeredAccount.logo?.value
-        
+
         // Input fields
         let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
@@ -38,7 +38,7 @@ extension Input.ModelTransformer {
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 
         let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
-        
+
         // Operation URL
         guard let operationURL = registeredAccount.apiModel.links["operation"] else {
             throw InternalError(description: "Incorrect registered account model, operation URL is not present. Links: %@", objects: registeredAccount.apiModel.links)
@@ -62,10 +62,10 @@ extension Input.ModelTransformer {
 
         // Checkboxes
         let checkboxFactory = CheckboxFactory(translator: paymentNetwork.translation)
-        
+
         let registrationCheckbox = ApplicableNetworkCheckbox(type: .registration, requirement: paymentNetwork.applicableNetwork.registrationRequirement)
         let recurrenceCheckbox = ApplicableNetworkCheckbox(type: .recurrence, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement)
-        
+
         let checkboxes = [
             checkboxFactory.makeInternalModel(from: registrationCheckbox),
             checkboxFactory.makeInternalModel(from: recurrenceCheckbox)
@@ -74,12 +74,12 @@ extension Input.ModelTransformer {
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
         let uiModel = Input.Network.UIModel(label: paymentNetwork.label, logo: logo, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton)
-        
+
         // Operation URL
         guard let operationURL = paymentNetwork.applicableNetwork.links?["operation"] else {
             throw InternalError(description: "Incorrect applicable network model, operation URL is not present. Links: %@", objects: paymentNetwork.applicableNetwork.links)
         }
-        
+
         return .init(operationURL: operationURL, paymentMethod: paymentNetwork.applicableNetwork.method, networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, switchRule: smartSwitchRule, uiModel: uiModel)
     }
 
@@ -137,7 +137,7 @@ private class InputFieldFactory {
             let validationRule = validationProvider?.getRule(forNetworkCode: model.networkCode, withInputElementName: inputElement.name)
             return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod)
         }
-        
+
         let transformationResult = ExpirationDateManager().removeExpiryFields(in: inputFields)
 
         // If fields have expiry month and year, replace them with expiry date
@@ -183,11 +183,11 @@ private struct IgnoredFields {
 private class ExpirationDateManager {
     private let expiryMonthElementName = "expiryMonth"
     private let expiryYearElementName = "expiryYear"
-    
+
     struct RemovalResult {
         let fieldsWithoutDateElements: [InputField & CellRepresentable]
         let removedIndexes: [Int]
-        
+
         /// Both expiration year and month were present
         let hadExpirationDate: Bool
     }
@@ -197,7 +197,7 @@ private class ExpirationDateManager {
         var hasExpiryMonth = false
         var fieldsWithoutDateElements = [InputField & CellRepresentable]()
         var removedIndexes = [Int]()
-        
+
         for inputElement in inputFields.enumerated() {
             switch inputElement.element.name {
             case expiryMonthElementName:
@@ -210,7 +210,7 @@ private class ExpirationDateManager {
                 fieldsWithoutDateElements.append(inputElement.element)
             }
         }
-        
+
         return .init(
             fieldsWithoutDateElements: fieldsWithoutDateElements,
             removedIndexes: removedIndexes,
@@ -224,14 +224,14 @@ private class ExpirationDateManager {
 /// Factory responsible for making internal model checkboxes from backend (network) models
 private class CheckboxFactory {
     let translator: TranslationProvider
-    
+
     init(translator: TranslationProvider) {
         self.translator = translator
     }
-    
+
     func makeInternalModel(from backendCheckbox: ApplicableNetworkCheckbox) -> InputField {
         let isOn: Bool
-        
+
         switch backendCheckbox.requirement {
         case .OPTIONAL: isOn = false
         case .OPTIONAL_PRESELECTED: isOn = true
@@ -247,17 +247,17 @@ private class CheckboxFactory {
         let translationKey = localizationKey(for: backendCheckbox)
         return Input.Field.Checkbox(name: backendCheckbox.type.name, isOn: isOn, translationKey: translationKey, translator: translator)
     }
-    
+
     /// Localization key rules are declared in [PCX-728](https://optile.atlassian.net/browse/PCX-728).
     /// - Returns: localization key, `nil` if requirement is `NONE`
     private func localizationKey(for backendCheckbox: ApplicableNetworkCheckbox) -> String {
         var localizationKey = "networks."
-        
+
         switch backendCheckbox.type {
         case .registration: localizationKey += "registration."
         case .recurrence: localizationKey += "recurrence."
         }
-        
+
         switch backendCheckbox.requirement {
         case .OPTIONAL, .OPTIONAL_PRESELECTED: localizationKey += "optional."
         case .FORCED, .FORCED_DISPLAYED: localizationKey += "forced."
@@ -267,7 +267,7 @@ private class CheckboxFactory {
         }
 
         localizationKey += "label"
-        
+
         return localizationKey
     }
 }
@@ -276,7 +276,7 @@ private struct ApplicableNetworkCheckbox {
     enum CheckboxType {
         case recurrence
         case registration
-        
+
         var name: String {
             switch self {
             case .recurrence: return Input.Field.Checkbox.Constant.allowRecurrence

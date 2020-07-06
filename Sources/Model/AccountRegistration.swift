@@ -9,10 +9,10 @@ public class AccountRegistration: NSObject, Decodable {
 
     /// Display label of the payment network for this registration.
     public let label: String
-    
+
     /// Indicates payment method this registered account network belongs to.
     public let method: String?
-    
+
     /// Code of button-label when this registered account is selected.
     public let button: String?
 
@@ -24,16 +24,16 @@ public class AccountRegistration: NSObject, Decodable {
 
     /// Indicates that this account registration is initially selected.
     public let selected: Bool?
-    
+
     /// IFrame height for selective native, only supplied if "iFrame" link is present.
     public let iFrameHeight: Int?
-    
+
     /// Timestamp when this account was marked as preferred.
     public let preferredAt: Date?
-    
+
     /// Timestamp when this account was created.
     public let createdAt: Date?
-    
+
     /// Indicates that form for this account is empty, without any text and input elements.
     public let emptyForm: Bool?
 

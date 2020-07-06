@@ -116,7 +116,7 @@ private extension SlideInPresentationController {
             // Dismissal is blocked by iOS13's flag
             if presentingViewController.isModalInPresentation { return }
         }
-        
+
         // For iOS12 and lower we assume that left button is close/cancel button (it's default UX pattern). If it is disabled, outside tap dismissal is blocked as well.
         if presentingViewController.navigationItem.leftBarButtonItem?.isEnabled == false { return }
 

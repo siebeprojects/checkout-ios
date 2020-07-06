@@ -19,7 +19,7 @@ extension Input.Table {
 
             // FIXME: Add a checkmark for a view
 //            self.accessoryType = .checkmark
-            
+
             label.font = .preferredFont(forTextStyle: .body)
 
             self.addSubview(label)

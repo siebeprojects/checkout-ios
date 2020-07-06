@@ -19,7 +19,7 @@ extension Loadable where T == UIImage {
             self = .loaded(.success(image))
             return
         }
-        
+
         if let url = url {
             self = .notLoaded(url)
         } else {

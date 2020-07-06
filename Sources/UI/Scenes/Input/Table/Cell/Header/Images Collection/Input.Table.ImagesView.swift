@@ -27,7 +27,7 @@ extension Input.Table {
             bottomConstraint.priority = .defaultHigh
             let trailingConstraint = collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
             trailingConstraint.priority = .defaultHigh
-            
+
             NSLayoutConstraint.activate([
                 collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 collectionView.topAnchor.constraint(equalTo: topAnchor),
@@ -35,12 +35,12 @@ extension Input.Table {
                 trailingConstraint
             ])
         }
-        
+
         override func systemLayoutSizeFitting(_ targetSize: CGSize) -> CGSize {
             collectionView.frame = CGRect(origin: .zero, size: targetSize)
             return collectionView.collectionViewLayout.collectionViewContentSize
         }
-        
+
         override func layoutSubviews() {
             collectionView.layoutSubviews()
             super.layoutSubviews()
@@ -56,40 +56,40 @@ extension Input.Table.ImagesView {
     func configure(with model: Input.ImagesHeader) {
         let oldNetworks = collectionController.dataSource
         let newNetworks = model.networks
-        
+
         collectionView.performBatchUpdates({
             collectionController.dataSource = newNetworks
-            
+
             // Delete unused logos
             for (index, oldNetwork) in oldNetworks.enumerated() {
                 var keepOld = false
-                
+
                 for newNetwork in newNetworks where newNetwork == oldNetwork {
                     keepOld = true
                     break
                 }
-                
+
                 if !keepOld {
                     collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
                 }
             }
-            
+
             // Insert new ones
             for (index, newNetwork) in newNetworks.enumerated() {
                 var insertNew = true
-                
+
                 for oldNetwork in oldNetworks where oldNetwork == newNetwork {
                     insertNew = false
                     break
                 }
-                
+
                 if insertNew {
                     collectionView.insertItems(at: [IndexPath(row: index, section: 0)])
                 }
             }
-            
+
         }) { _ in
-            
+
         }
     }
 }

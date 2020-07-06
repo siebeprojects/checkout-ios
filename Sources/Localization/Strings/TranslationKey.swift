@@ -3,7 +3,7 @@ import Foundation
 enum TranslationKey: String, CaseIterable {
     case errorTitle = "messages.error.default.title"
     case errorText = "messages.error.default.text"
-    
+
     case cancelLabel = "button.cancel.label"
     case retryLabel = "button.retry.label"
 

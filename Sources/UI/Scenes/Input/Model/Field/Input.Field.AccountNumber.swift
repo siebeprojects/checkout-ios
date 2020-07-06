@@ -4,7 +4,7 @@ extension Input.Field {
     final class AccountNumber: BasicText {
         let networkMethod: String?
         let patternFormatter: InputPatternFormatter?
-        
+
         /// - Parameters:
         ///   - networkMethod: Indicates payment method this network belongs (from `ApplicableNetwork`)
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?, networkMethod: String?) {
@@ -13,7 +13,7 @@ extension Input.Field {
             // Pattern formatter
             let maxLength = validationRule?.maxLength ?? 34
             patternFormatter = .init(maxStringLength: maxLength, separator: " ", every: 4)
-            
+
             super.init(from: inputElement, translator: translator, validationRule: validationRule)
         }
     }

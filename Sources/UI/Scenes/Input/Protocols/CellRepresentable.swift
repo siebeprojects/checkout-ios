@@ -4,7 +4,7 @@ import UIKit
 /// Could be represented as a table cell
 protocol CellRepresentable: class {
     var isEnabled: Bool { get set }
-    
+
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell
     func configure(cell: UICollectionViewCell) throws
 }

@@ -6,36 +6,36 @@ class BasicPaymentService: PaymentService {
         if let paymentMethod = paymentMethod {
             if isSupported(method: paymentMethod) { return true }
         }
-        
+
         if isSupported(code: networkCode) { return true }
-        
+
         return false
     }
-    
+
     private static func isSupported(method: String) -> Bool {
         let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
         guard let paymentMethod = PaymentMethod(rawValue: method) else {
             return false
         }
-        
+
         return supportedMethods.contains(paymentMethod)
     }
-    
+
     private static func isSupported(code: String) -> Bool {
         let supportedCodes = ["SEPADD", "PAYPAL"]
         return supportedCodes.contains(code)
     }
-    
+
     // MARK: -
-    
+
     weak var delegate: PaymentServiceDelegate?
-    
+
     let connection: Connection
-    
+
     required init(using connection: Connection) {
         self.connection = connection
     }
-    
+
     func send(paymentRequest: PaymentRequest) {
         let urlRequest: URLRequest
         do {
@@ -46,7 +46,7 @@ class BasicPaymentService: PaymentService {
             delegate?.paymentService(self, paymentResult: result)
             return
         }
-        
+
         connection.send(request: urlRequest) { result in
             switch result {
             case .failure(let error):
@@ -58,11 +58,11 @@ class BasicPaymentService: PaymentService {
                     let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
                     let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: emptyResponseError)
-                    
+
                     self.delegate?.paymentService(self, paymentResult: result)
                     return
                 }
-                
+
                 do {
                     let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
                     let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
@@ -75,21 +75,21 @@ class BasicPaymentService: PaymentService {
             }
         }
     }
-    
+
     /// Make `URLRequest` from `PaymentRequest`
     private func makeRequest(for paymentRequest: PaymentRequest) throws -> URLRequest {
         var request = URLRequest(url: paymentRequest.operationURL)
         request.httpMethod = "POST"
-        
+
         // Headers
         request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
-        
+
         // Body
         let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields)
         let jsonData = try JSONEncoder().encode(chargeRequest)
         request.httpBody = jsonData
-        
+
         return request
     }
 }
@@ -99,7 +99,7 @@ private extension BasicPaymentService {
         var account = [String: String]()
         var autoRegistration: Bool?
         var allowRecurrence: Bool?
-        
+
         /// - Throws: `InternalError` if dictionary's value doesn't conform to `Encodable`
         init(inputFields: [String: String]) {
             for (name, value) in inputFields {

@@ -6,7 +6,7 @@ class PaymentSessionProvider {
     private let paymentServicesFactory: PaymentServicesFactory
 
     let connection: Connection
-    
+
     var listResult: ListResult?
 
     init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider) {
@@ -146,7 +146,7 @@ class PaymentSessionProvider {
         guard let operationType = listResult?.operationType else {
             throw InternalError(description: "Operation type or ListResult is not defined")
         }
-        
+
         return .init(operationType: operationType, networks: translations.networks, accounts: translations.accounts)
     }
 }

@@ -30,10 +30,10 @@ extension Input.Table {
             contentView.addSubview(textField)
 
             textField.translatesAutoresizingMaskIntoConstraints = false
-            
+
             let textFieldBottomAnchor = contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor)
             textFieldBottomAnchor.priority = .defaultHigh
-            
+
             NSLayoutConstraint.activate([
                 textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -84,7 +84,7 @@ extension Input.Table.TextFieldViewCell {
 
         textField.keyboardType = model.keyboardType
         textField.autocapitalizationType = model.autocapitalizationType
-        
+
         showValidationResult(for: model)
     }
 
@@ -93,7 +93,7 @@ extension Input.Table.TextFieldViewCell {
         let value = model.patternFormatter?.formatter.unformat(text) ?? text
 
         delegate?.inputCellValueDidChange(to: value, cell: self)
-        
+
         if let maxLength = model.maxInputLength, value.count >= maxLength {
             // Press primary action instead of an user when all characters were entered
             delegate?.inputCellPrimaryActionTriggered(cell: self)
@@ -191,7 +191,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
         guard let allowedCharacters = model.allowedCharacters else {
             return true
         }
-        
+
         return CharacterSet(charactersIn: string).isSubset(of: allowedCharacters)
     }
 }

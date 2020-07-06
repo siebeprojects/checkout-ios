@@ -15,29 +15,29 @@ extension Input.Table {
         var model: Input.Field.Button?
 
         weak var activityIndicator: UIActivityIndicatorView?
-        
+
         private func setActivityIndicator(isAnimating: Bool) {
             if isAnimating {
                 button.setAttributedTitle(nil, for: .normal)
                 button.backgroundColor = button.tintColor.withAlphaComponent(0.6)
-                
+
                 let activityIndicator = UIActivityIndicatorView(style: .white)
                 activityIndicator.translatesAutoresizingMaskIntoConstraints = false
                 contentView.addSubview(activityIndicator)
-                
+
                 NSLayoutConstraint.activate([
                     activityIndicator.centerXAnchor.constraint(equalTo: button.centerXAnchor),
                     activityIndicator.centerYAnchor.constraint(equalTo: button.centerYAnchor)
                 ])
-                
+
                 activityIndicator.startAnimating()
             } else {
                 button.backgroundColor = button.tintColor
-                
+
                 activityIndicator?.stopAnimating()
                 activityIndicator?.removeFromSuperview()
                 activityIndicator = nil
-                
+
                 if let model = self.model {
                     updateButtonTitle(model: model)
                 }
@@ -55,10 +55,10 @@ extension Input.Table {
             contentView.addSubview(button)
 
             button.translatesAutoresizingMaskIntoConstraints = false
-            
+
             let buttonBottomConstraint = button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             buttonBottomConstraint.priority = .defaultHigh
-            
+
             NSLayoutConstraint.activate([
                 button.topAnchor.constraint(equalTo: contentView.topAnchor),
                 buttonBottomConstraint,
@@ -88,7 +88,7 @@ extension Input.Table.ButtonCell {
         updateButtonTitle(model: model)
         setActivityIndicator(isAnimating: model.isActivityIndicatorAnimating)
     }
-    
+
     fileprivate func updateButtonTitle(model: Input.Field.Button) {
         let attributedString = NSAttributedString(
             string: model.label,
