@@ -6,5 +6,3 @@ excluded:
   - .build
 disabled_rules:
   - todo
-trailing_whitespace:
-  ignores_empty_lines: true
