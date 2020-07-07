@@ -8,7 +8,7 @@ public class Redirect: NSObject, Decodable {
     public let method: Method
 
     /// Collection of additional parameters to pass with this redirection.
-    public let parameters: Parameter?
+    public let parameters: [Parameter]?
 
     /// If `true` redirect logic should ensure that IFrame is suppressed during redirection, if payment page or web-site resides inside one.
     public let suppressIFrame: Bool?

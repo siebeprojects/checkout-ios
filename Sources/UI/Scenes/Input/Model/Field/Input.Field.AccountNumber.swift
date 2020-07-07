@@ -1,27 +1,20 @@
 import Foundation
 
 extension Input.Field {
-    final class AccountNumber: InputElementModel {
-        let inputElement: InputElement
-        let translator: TranslationProvider
-        let validationRule: Validation.Rule?
+    final class AccountNumber: BasicText {
         let networkMethod: String?
-        var validationErrorText: String?
         let patternFormatter: InputPatternFormatter?
-
-        var value: String = ""
 
         /// - Parameters:
         ///   - networkMethod: Indicates payment method this network belongs (from `ApplicableNetwork`)
         init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?, networkMethod: String?) {
-            self.inputElement = inputElement
-            self.translator = translator
-            self.validationRule = validationRule
             self.networkMethod = networkMethod
 
             // Pattern formatter
             let maxLength = validationRule?.maxLength ?? 34
             patternFormatter = .init(maxStringLength: maxLength, separator: " ", every: 4)
+
+            super.init(from: inputElement, translator: translator, validationRule: validationRule)
         }
     }
 }

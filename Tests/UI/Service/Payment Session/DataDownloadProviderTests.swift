@@ -7,7 +7,7 @@ class DataDownloadProviderTests: XCTestCase {
         let bundle = Bundle(for: DataDownloadProvider.self)
         let image = UIImage(named: "visa", in: bundle, compatibleWith: nil)!
         let imageData = image.pngData()!
-        
+
         let connection = MockConnection(dataSource: imageData)
         let provider = DataDownloadProvider(connection: connection)
 

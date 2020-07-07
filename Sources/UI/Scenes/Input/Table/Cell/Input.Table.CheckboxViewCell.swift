@@ -37,13 +37,13 @@ extension Input.Table {
 
             label.translatesAutoresizingMaskIntoConstraints = false
             checkbox.translatesAutoresizingMaskIntoConstraints = false
-            
+
             label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
-            
+
             let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             bottomLabelConstraint.priority = .defaultHigh
-            
+
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
@@ -74,6 +74,7 @@ extension Input.Table.CheckboxViewCell {
         label.text = model.label
         checkbox.isOn = model.isOn
         checkbox.onTintColor = self.tintColor
+        checkbox.isEnabled = model.isEnabled
     }
 }
 

@@ -6,17 +6,18 @@ extension Input.Field {
             static var allowRegistration: String { "allowRegistration" }
             static var allowRecurrence: String { "allowRecurrence" }
         }
-        
+
         let translationKey: String
         let translator: TranslationProvider
 
         let name: String
         var isOn: Bool
+        var isEnabled: Bool = true
 
         var label: String {
             translator.translation(forKey: translationKey)
         }
-        
+
         init(name: String, isOn: Bool, translationKey: String, translator: TranslationProvider) {
             self.translationKey = translationKey
             self.translator = translator

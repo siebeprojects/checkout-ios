@@ -16,6 +16,7 @@ extension Input.Field {
         let validationRule: Validation.Rule?
         var validationErrorText: String?
 
+        var isEnabled: Bool = true
         var value: String = ""
 
         weak var keySuffixer: VerificationCodeTranslationKeySuffixer?
@@ -43,7 +44,7 @@ extension Input.Field.VerificationCode: TextInputField {
 
         return translator.translation(forKey: key)
     }
-    
+
     var allowedCharacters: CharacterSet? { return .decimalDigits }
 }
 

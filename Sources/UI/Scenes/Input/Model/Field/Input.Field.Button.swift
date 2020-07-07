@@ -6,6 +6,8 @@ extension Input.Field {
         let label: String
 
         var buttonDidTap: ((Button) -> Void)?
+        var isEnabled: Bool = true
+        var isActivityIndicatorAnimating: Bool = false
 
         init(label: String) {
             self.label = label

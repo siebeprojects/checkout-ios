@@ -47,3 +47,5 @@ struct InternalError: Error, CustomStringConvertible, CustomDebugStringConvertib
         }
     }
 }
+
+extension String: Error {}

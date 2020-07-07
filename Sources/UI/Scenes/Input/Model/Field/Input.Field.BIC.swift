@@ -1,20 +1,7 @@
 import Foundation
 
 extension Input.Field {
-    final class BIC: InputElementModel {
-        let inputElement: InputElement
-        let translator: TranslationProvider
-        let validationRule: Validation.Rule?
-        var validationErrorText: String?
-
-        var value: String = ""
-
-        init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
-            self.inputElement = inputElement
-            self.translator = translator
-            self.validationRule = validationRule
-        }
-    }
+    final class BIC: BasicText {}
 }
 
 extension Input.Field.BIC: TextInputField {}

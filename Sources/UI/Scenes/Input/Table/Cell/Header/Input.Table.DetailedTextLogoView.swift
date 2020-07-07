@@ -20,7 +20,7 @@ extension Input.Table {
 
             // FIXME: Return checkmark
 //            self.accessoryType = .checkmark
-            
+
             label.font = .preferredFont(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
             detailedLabel.font = .preferredFont(forTextStyle: .footnote)

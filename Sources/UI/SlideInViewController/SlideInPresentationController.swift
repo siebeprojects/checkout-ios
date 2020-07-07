@@ -112,6 +112,14 @@ private extension SlideInPresentationController {
     }
 
     @objc func handleTap(recognizer: UITapGestureRecognizer) {
+        if #available(iOS 13.0, *) {
+            // Dismissal is blocked by iOS13's flag
+            if presentingViewController.isModalInPresentation { return }
+        }
+
+        // For iOS12 and lower we assume that left button is close/cancel button (it's default UX pattern). If it is disabled, outside tap dismissal is blocked as well.
+        if presentingViewController.navigationItem.leftBarButtonItem?.isEnabled == false { return }
+
         presentingViewController.dismiss(animated: true)
     }
 }

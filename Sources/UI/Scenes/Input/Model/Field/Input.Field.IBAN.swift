@@ -1,25 +1,17 @@
 import Foundation
 
 extension Input.Field {
-    final class IBAN: InputElementModel {
-        let inputElement: InputElement
-        let translator: TranslationProvider
-        let validationRule: Validation.Rule?
-        var validationErrorText: String?
+    final class IBAN: BasicText {
         let patternFormatter: InputPatternFormatter?
 
-        var value: String = ""
-
-        init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
-            self.inputElement = inputElement
-            self.translator = translator
-            self.validationRule = validationRule
-
+        override init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
             // Pattern formatter
             let maxLength = validationRule?.maxLength ?? 34
             let patternFormatter = InputPatternFormatter(maxStringLength: maxLength, separator: " ", every: 4)
             patternFormatter.inputModifiers = [UppercaseInputModifier()]
-            self.patternFormatter = patternFormatter
+                self.patternFormatter = patternFormatter
+
+            super.init(from: inputElement, translator: translator, validationRule: validationRule)
         }
     }
 }

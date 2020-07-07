@@ -105,7 +105,7 @@ extension Input.SmartSwitch.Selector {
         }
 
         if previouslySelected.network != selected.network {
-            moveInputValues(from: previouslySelected.network.inputFields, to: selected.network.inputFields)
+            moveInputValues(from: previouslySelected.network.uiModel.inputFields, to: selected.network.uiModel.inputFields)
         }
 
         return selected

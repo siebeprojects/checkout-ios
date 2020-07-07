@@ -6,6 +6,7 @@ extension Input {
         let logo: UIImage?
         let label: String
         var detailedLabel: String?
+        var isEnabled: Bool = true
 
         private init(logo: UIImage?, label: String) {
             self.logo = logo
@@ -47,7 +48,7 @@ extension Input.TextHeader: CellRepresentable {
         default: return
         }
     }
-    
+
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         if detailedLabel == nil {
             return view.dequeueReusableCell(Input.Table.LogoTextView.self, for: indexPath)

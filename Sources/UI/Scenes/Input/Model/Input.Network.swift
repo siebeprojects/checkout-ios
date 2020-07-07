@@ -2,8 +2,36 @@ import UIKit
 
 extension Input {
     class Network {
-        let translation: TranslationProvider
+        let operationURL: URL
 
+        /// Indicates payment method this network belongs to.
+        let paymentMethod: String?
+
+        let translation: TranslationProvider
+        let switchRule: SmartSwitch.Rule?
+        let networkCode: String
+
+        let uiModel: UIModel
+
+        init(operationURL: URL, paymentMethod: String?, networkCode: String, translator: TranslationProvider, switchRule: SmartSwitch.Rule?, uiModel: UIModel) {
+            self.operationURL = operationURL
+            self.paymentMethod = paymentMethod
+            self.networkCode = networkCode
+            self.translation = translator
+            self.switchRule = switchRule
+            self.uiModel = uiModel
+        }
+    }
+}
+
+extension Input.Network: Equatable {
+    static func == (lhs: Input.Network, rhs: Input.Network) -> Bool {
+        return lhs.networkCode == rhs.networkCode
+    }
+}
+
+extension Input.Network {
+    class UIModel {
         let label: String
         let logo: UIImage?
         let inputFields: [InputField]
@@ -12,26 +40,12 @@ extension Input {
         let separatedCheckboxes: [InputField]
 
         let submitButton: Input.Field.Button
-
-        let switchRule: SmartSwitch.Rule?
-        let networkCode: String
-
-        init(networkCode: String, translator: TranslationProvider, label: String, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Field.Button, switchRule: SmartSwitch.Rule?) {
-            self.networkCode = networkCode
-            self.translation = translator
-
+        init(label: String, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button) {
             self.label = label
             self.logo = logo
             self.inputFields = inputFields
             self.separatedCheckboxes = separatedCheckboxes
             self.submitButton = submitButton
-            self.switchRule = switchRule
         }
-    }
-}
-
-extension Input.Network: Equatable {
-    static func == (lhs: Input.Network, rhs: Input.Network) -> Bool {
-        return (lhs.networkCode == rhs.networkCode) && (lhs.label == rhs.label)
     }
 }

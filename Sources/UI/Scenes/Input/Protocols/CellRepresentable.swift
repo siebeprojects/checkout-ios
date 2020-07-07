@@ -2,7 +2,9 @@
 import UIKit
 
 /// Could be represented as a table cell
-protocol CellRepresentable {
+protocol CellRepresentable: class {
+    var isEnabled: Bool { get set }
+
     func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell
     func configure(cell: UICollectionViewCell) throws
 }
@@ -46,7 +48,7 @@ extension CellRepresentable where Self: Input.Field.Label {
 
 extension CellRepresentable {
     func errorForIncorrectView(_ view: UIView) -> InternalError {
-        return InternalError(description: "Unable to configure unexpected view: %@", objects: view)
+        return InternalError(description: "Unable to configure unexpected view")
     }
 }
 #endif

@@ -15,11 +15,7 @@ final class RegisteredAccount {
         self.networkLabel = localizer.translation(forKey: "network.label")
         self.submitButtonLabel = localizer.translation(forKey: submitButtonLocalizationKey)
 
-        if let logoURL = apiModel.links["logo"] {
-            logo = .notLoaded(logoURL)
-        } else {
-            logo = nil
-        }
+        logo = Loadable<UIImage>(identifier: apiModel.code.lowercased(), url: apiModel.links["logo"])
     }
 
 }

@@ -31,7 +31,7 @@ extension Input.Table.ImagesCollectionViewController: UICollectionViewDataSource
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .cellIdentifier, for: indexPath) as! Input.Table.ImageViewCell
-        cell.imageView.image = dataSource[indexPath.row].logo
+        cell.imageView.image = dataSource[indexPath.row].uiModel.logo
         return cell
     }
 }

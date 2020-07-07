@@ -7,10 +7,15 @@ class PaymentSessionService {
     private let paymentSessionProvider: PaymentSessionProvider
     private let localizationProvider: TranslationProvider
 
+    let paymentServicesFactory: PaymentServicesFactory
+
     init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider) {
+        paymentServicesFactory = PaymentServicesFactory(connection: connection)
         downloadProvider = DataDownloadProvider(connection: connection)
-        paymentSessionProvider = PaymentSessionProvider(paymentSessionURL: paymentSessionURL, connection: connection, localizationsProvider: localizationProvider)
+        paymentSessionProvider = PaymentSessionProvider(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider)
         self.localizationProvider = localizationProvider
+
+        paymentServicesFactory.registerServices()
     }
 
     /// - Parameter completion: `LocalizedError` or `NSError` with localized description is always returned if `Load` produced an error.

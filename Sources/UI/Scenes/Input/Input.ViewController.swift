@@ -7,54 +7,61 @@ extension Input {
     class ViewController: SlideInViewController {
         let networks: [Network]
         let header: CellRepresentable
-        
-        private let tableController = Table.Controller()
+        let tableController = Table.Controller()
         fileprivate let smartSwitch: SmartSwitch.Selector
 
-        private let collectionView: UICollectionView
-        
-        init(for paymentNetworks: [PaymentNetwork]) throws {
-            let transformer = ModelTransformer()
-            networks = paymentNetworks.map { transformer.transform(paymentNetwork: $0) }
-            smartSwitch = try .init(networks: self.networks)
-            header = Input.ImagesHeader(for: networks)
-            tableController.setModel(network: smartSwitch.selected.network, header: header)
-            collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
+        let collectionView: UICollectionView
+        fileprivate private(set) var stateManager: StateManager!
+        fileprivate let paymentController: PaymentController!
+
+        private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
+            self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
+            self.networks = smartSwitch.networks
+            self.header = header
+            self.smartSwitch = smartSwitch
+            self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
 
             super.init(nibName: nil, bundle: nil)
 
-            self.scrollView = collectionView
+            paymentController.delegate = self
 
-            tableController.inputChangesListener = self
+            tableController.setModel(network: smartSwitch.selected.network, header: header)
+
+            stateManager = .init(viewController: self)
+
+            self.scrollView = collectionView
+            tableController.delegate = self
+        }
+
+        convenience init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory) throws {
+            let transformer = ModelTransformer()
+            let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
+            let smartSwitch = try SmartSwitch.Selector(networks: networks)
+            let header = Input.ImagesHeader(for: networks)
+
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)
 
             // Placeholder translation suffixer
             for field in transformer.verificationCodeFields {
                 field.keySuffixer = self
             }
-            
+
             self.title = smartSwitch.selected.network.translation.translation(forKey: "networks.form.default.title")
         }
 
-        init(for registeredAccount: RegisteredAccount) {
-            let transfomer = ModelTransformer()
-            let network = transfomer.transform(registeredAccount: registeredAccount)
-            networks = [network]
-            smartSwitch = .init(network: network)
-            header = Input.TextHeader(from: registeredAccount)
-            tableController.setModel(network: smartSwitch.selected.network, header: header)
-            collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
-            
-            super.init(nibName: nil, bundle: nil)
+        convenience init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory) throws {
+            let transformer = ModelTransformer()
+            let network = try transformer.transform(registeredAccount: registeredAccount)
+            let smartSwitch = SmartSwitch.Selector(network: network)
+            let header = Input.TextHeader(from: registeredAccount)
 
-            self.scrollView = collectionView
-
-            tableController.inputChangesListener = self
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)
 
             // Placeholder translation suffixer
-            for field in transfomer.verificationCodeFields {
+            for field in transformer.verificationCodeFields {
                 field.keySuffixer = self
             }
-            
+
             self.title = registeredAccount.translation.translation(forKey: "accounts.form.default.title")
         }
 
@@ -73,42 +80,14 @@ extension Input.ViewController {
         view.tintColor = .tintColor
 
         tableController.collectionView = self.collectionView
-        tableController.scrollViewWillBeginDraggingBlock = scrollViewWillBeginDragging
         tableController.configure()
 
         configure(collectionView: collectionView)
-        
+
         collectionView.layoutIfNeeded()
         setPreferredContentSize()
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
-    }
-
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        // Control behaviour of navigation bar's shadow line
-        guard let navigationController = self.navigationController else { return }
-
-        let insets: UIEdgeInsets
-        if #available(iOS 11.0, *) {
-            insets = scrollView.safeAreaInsets
-        } else {
-            insets = scrollView.contentInset
-        }
-
-        let yOffset = scrollView.contentOffset.y + insets.top
-
-        // If scroll view is on top
-        if yOffset <= 0 {
-            // Hide shadow line
-            navigationController.navigationBar.shadowImage = UIImage()
-            navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        } else {
-            if navigationController.navigationBar.shadowImage != nil {
-                // Show shadow line
-                navigationController.navigationBar.setBackgroundImage(nil, for: .default)
-                navigationController.navigationBar.shadowImage = nil
-            }
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -117,7 +96,7 @@ extension Input.ViewController {
         addKeyboardFrameChangesObserver()
         tableController.becomeFirstResponder()
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
@@ -133,18 +112,18 @@ extension Input.ViewController {
 
         removeKeyboardFrameChangesObserver()
     }
-    
+
     @available(iOS 11.0, *)
     override func viewLayoutMarginsDidChange() {
         super.viewLayoutMarginsDidChange()
-        
+
         updateCollectionViewInsets()
     }
-    
+
     fileprivate func updateCollectionViewInsets(adjustBottomInset: CGFloat = 0) {
         var newInset = UIEdgeInsets(top: view.layoutMargins.top, left: view.layoutMargins.left, bottom: view.layoutMargins.bottom + adjustBottomInset, right: view.layoutMargins.right)
         collectionView.contentInset = newInset
-        
+
         if #available(iOS 11.0, *) {
             newInset.left = view.safeAreaInsets.left
             newInset.right = view.safeAreaInsets.right
@@ -152,7 +131,7 @@ extension Input.ViewController {
             newInset.left = 0
             newInset.right = 0
         }
-        
+
         collectionView.scrollIndicatorInsets = newInset
     }
 }
@@ -189,7 +168,43 @@ extension Input.ViewController {
 
 // MARK: - InputValueChangesListener
 
-extension Input.ViewController: InputValueChangesListener {
+extension Input.ViewController: InputTableControllerDelegate {
+    func submitPayment() {
+        stateManager.state = .paymentSubmission
+        paymentController.submitPayment(for: smartSwitch.selected.network)
+    }
+
+    // MARK: Navigation bar shadow
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // Control behaviour of navigation bar's shadow line
+        guard let navigationController = self.navigationController else { return }
+
+        let insets: UIEdgeInsets
+        if #available(iOS 11.0, *) {
+            insets = scrollView.safeAreaInsets
+        } else {
+            insets = scrollView.contentInset
+        }
+
+        let yOffset = scrollView.contentOffset.y + insets.top
+
+        // If scroll view is on top
+        if yOffset <= 0 {
+            // Hide shadow line
+            navigationController.navigationBar.shadowImage = UIImage()
+            navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        } else {
+            if navigationController.navigationBar.shadowImage != nil {
+                // Show shadow line
+                navigationController.navigationBar.setBackgroundImage(nil, for: .default)
+                navigationController.navigationBar.shadowImage = nil
+            }
+        }
+    }
+
+    // MARK: InputFields changes
+
     /// Switch to a new network if needed (based on input field's type and value).
     /// - Note: called by `TableController`
     func valueDidChange(for field: InputField) {
@@ -226,28 +241,28 @@ extension Input.ViewController: InputValueChangesListener {
 
 extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { collectionView }
-    
+
     func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
         guard scrollViewToModify != nil else { return }
-        
+
         if navigationController?.modalPresentationStyle == .custom {
             return
         }
-        
+
         var adjustedHeight = height
-        
+
         if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
             adjustedHeight -= tabBarHeight
         } else if let toolbarHeight = navigationController?.toolbar.frame.height, navigationController?.isToolbarHidden == false {
             adjustedHeight -= toolbarHeight
         }
-        
+
         if #available(iOS 11.0, *) {
             adjustedHeight -= view.safeAreaInsets.bottom
         }
-        
+
         if adjustedHeight < 0 { adjustedHeight = 0 }
-        
+
         UIView.animate(withDuration: animationDuration, delay: 0, options: animationOptions, animations: { [self] in
             self.updateCollectionViewInsets(adjustBottomInset: adjustedHeight)
         })
@@ -260,6 +275,20 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
         switch smartSwitch.selected {
         case .generic: return "generic"
         case .specific: return "specific"
+        }
+    }
+}
+
+extension Input.ViewController: PaymentControllerDelegate {
+    func paymentController(paymentFailedWith error: Error) {
+        DispatchQueue.main.async { [weak stateManager] in
+            stateManager?.state = .error(error)
+        }
+    }
+
+    func paymentController(paymentSucceedWith result: OperationResult?) {
+        DispatchQueue.main.async { [weak stateManager] in
+            stateManager?.state = .paymentResultPresentation(result)
         }
     }
 }

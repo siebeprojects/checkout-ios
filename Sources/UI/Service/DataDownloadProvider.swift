@@ -20,7 +20,7 @@ class DataDownloadProvider {
             guard case let .notLoaded(url) = model.loadable else {
                 continue
             }
-            
+
             // Download image
             let downloadRequest = DownloadData(from: url)
             let sendRequestOperation = SendRequestOperation(connection: connection, request: downloadRequest)
@@ -33,7 +33,7 @@ class DataDownloadProvider {
 
         operationQueue.addOperation(completionOperation)
     }
-    
+
     /// Convert download result to loadable image model
     private func makeResponse(for downloadResult: Result<Data, Error>) -> Loadable<UIImage>? {
         switch downloadResult {
