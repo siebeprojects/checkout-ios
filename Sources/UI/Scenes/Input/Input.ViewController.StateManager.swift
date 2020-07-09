@@ -66,9 +66,19 @@ extension Input.ViewController.StateManager {
     }
 
     private func present(error: Error) {
-        let message = error.localizedDescription
-        let alert = UIAlertController(title: "Payment error", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default)
+        let translator = vc.smartSwitch.selected.network.translation
+
+        var title: String = translator.translation(forKey: "messages.error.default.title")
+        var message: String? = translator.translation(forKey: "messages.error.default.text")
+
+        if let localizableError = error as? Input.LocalizableError, let customTitle = translator.translation(forKey: localizableError.titleKey), let customMessage = translator.translation(forKey: localizableError.messageKey) {
+            // If localizable error was thrown and we have all translations display that error
+            title = customTitle
+            message = customMessage
+        }
+
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: translator.translation(forKey: "button.ok.label"), style: .default)
         alert.addAction(okAction)
 
         vc.present(alert, animated: true, completion: {

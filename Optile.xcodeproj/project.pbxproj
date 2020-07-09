@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		53826028AA641BA4113DFC2D /* Pods_Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
+		D905411124B7113B00C001E3 /* Input.LocalizableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D905411024B7113B00C001E3 /* Input.LocalizableError.swift */; };
 		D945384D24A95C9800452015 /* Input.Field.BasicText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D945384C24A95C9800452015 /* Input.Field.BasicText.swift */; };
 		D96BB80B249FEB7300C2AD73 /* Input.ViewController.StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB755249FEB7300C2AD73 /* Input.ViewController.StateManager.swift */; };
 		D96BB80C249FEB7300C2AD73 /* Input.NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB756249FEB7300C2AD73 /* Input.NavigationController.swift */; };
@@ -199,6 +200,7 @@
 		95E5DEA2906240D51D3804B0 /* Pods-Optile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.debug.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.debug.xcconfig"; sourceTree = "<group>"; };
 		AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1464685FF385FE59D6C10F5 /* Pods-Optile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.release.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.release.xcconfig"; sourceTree = "<group>"; };
+		D905411024B7113B00C001E3 /* Input.LocalizableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.LocalizableError.swift; sourceTree = "<group>"; };
 		D945384C24A95C9800452015 /* Input.Field.BasicText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.BasicText.swift; sourceTree = "<group>"; };
 		D96BB755249FEB7300C2AD73 /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
 		D96BB756249FEB7300C2AD73 /* Input.NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.NavigationController.swift; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 				D96BB77F249FEB7300C2AD73 /* Field */,
 				D96BB792249FEB7300C2AD73 /* Input.ModelTransformer.swift */,
 				D96BB793249FEB7300C2AD73 /* Header */,
+				D905411024B7113B00C001E3 /* Input.LocalizableError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1311,6 +1314,7 @@
 				D96BB830249FEB7300C2AD73 /* Input.Field.Generic.swift in Sources */,
 				D96BB83B249FEB7300C2AD73 /* Input.Field.Validation.swift in Sources */,
 				D96BB88A249FEB7300C2AD73 /* Installments.swift in Sources */,
+				D905411124B7113B00C001E3 /* Input.LocalizableError.swift in Sources */,
 				D96BB822249FEB7300C2AD73 /* Input.Table.ImagesView.swift in Sources */,
 				D96BB878249FEB7300C2AD73 /* Connection.swift in Sources */,
 				D96BB823249FEB7300C2AD73 /* Input.Table.ImageViewCell.swift in Sources */,

@@ -8,7 +8,7 @@ extension Input {
         let networks: [Network]
         let header: CellRepresentable
         let tableController = Table.Controller()
-        fileprivate let smartSwitch: SmartSwitch.Selector
+        let smartSwitch: SmartSwitch.Selector
 
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!

@@ -52,11 +52,21 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
         switch code {
         case .PROCEED:
             delegate?.paymentController(paymentSucceedWith: paymentResult.operationResult)
+        case .RETRY, .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+            let error = Input.LocalizableError(interaction: paymentResult.interaction)
+            delegate?.paymentController(paymentFailedWith: error)
         default:
             let error = paymentResult.error ?? InternalError(description: "Error interaction code: %@", paymentResult.interaction.code)
             delegate?.paymentController(paymentFailedWith: error)
         }
+    }
+}
 
-        debugPrint(paymentResult.operationResult)
+private extension Input.LocalizableError {
+    init(interaction: Interaction) {
+        let localizationKeyPrefix = "interaction." + interaction.code + "." + interaction.reason + "."
+
+        titleKey = localizationKeyPrefix + "title"
+        messageKey = localizationKeyPrefix + "reason"
     }
 }
