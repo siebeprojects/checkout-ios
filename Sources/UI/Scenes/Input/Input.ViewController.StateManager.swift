@@ -27,8 +27,8 @@ extension Input.ViewController.StateManager {
             setPaymentSubmission(isActive: true)
         case .paymentResultPresentation(let paymentResult):
             present(paymentResult: paymentResult)
-        case .error(let error):
-            present(error: error)
+        case .error(let error, let unwindAction):
+            present(error: error, onDismiss: unwindAction)
         default: break
         }
     }
@@ -57,15 +57,16 @@ extension Input.ViewController.StateManager {
         }
 
         let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { [vc] _ in
+            vc.navigationController?.dismiss(animated: true, completion: nil)
+            vc.delegate?.paymentController(paymentSucceedWith: paymentResult)
+        })
         alert.addAction(okAction)
 
-        vc.present(alert, animated: true, completion: {
-            self.state = .inputFieldsPresentation
-        })
+        vc.present(alert, animated: true, completion: nil)
     }
 
-    private func present(error: Error) {
+    private func present(error: Error, onDismiss: Input.ViewController.UnwindAction?) {
         let translator = vc.smartSwitch.selected.network.translation
 
         var title: String = translator.translation(forKey: "messages.error.default.title")
@@ -78,7 +79,16 @@ extension Input.ViewController.StateManager {
         }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: translator.translation(forKey: "button.ok.label"), style: .default)
+        let okAction = UIAlertAction(title: translator.translation(forKey: "button.ok.label"), style: .default, handler: { [vc] _ in
+            guard let unwindAction = onDismiss else {
+                // No unwind action was defined, don't dismiss view
+                self.state = .inputFieldsPresentation
+                return
+            }
+            
+            vc.navigationController?.dismiss(animated: true, completion: nil)
+            vc.delegate?.paymentController(paymentFailedWith: error, unwindAction: unwindAction)
+        })
         alert.addAction(okAction)
 
         vc.present(alert, animated: true, completion: {
@@ -92,6 +102,6 @@ extension Input.ViewController.StateManager {
         case inputFieldsPresentation
         case paymentSubmission
         case paymentResultPresentation(OperationResult?)
-        case error(Error)
+        case error(Error, onDismiss: Input.ViewController.UnwindAction?)
     }
 }

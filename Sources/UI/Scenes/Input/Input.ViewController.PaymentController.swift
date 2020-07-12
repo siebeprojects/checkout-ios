@@ -2,7 +2,7 @@ import Foundation
 
 protocol PaymentControllerDelegate: class {
     func paymentController(paymentSucceedWith result: OperationResult?)
-    func paymentController(paymentFailedWith error: Error)
+    func paymentController(paymentFailedWith error: Error, unwindAction: Input.ViewController.UnwindAction?)
 }
 
 extension Input.ViewController {
@@ -48,16 +48,27 @@ extension Input.ViewController.PaymentController {
 
 extension Input.ViewController.PaymentController: PaymentServiceDelegate {
     func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult) {
+        debugPrint(paymentResult.interaction.code)
+        debugPrint(paymentResult.interaction.reason)
         let code = Interaction.Code(rawValue: paymentResult.interaction.code)
         switch code {
         case .PROCEED:
             delegate?.paymentController(paymentSucceedWith: paymentResult.operationResult)
-        case .RETRY, .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+        case .RETRY:
             let error = Input.LocalizableError(interaction: paymentResult.interaction)
-            delegate?.paymentController(paymentFailedWith: error)
+            delegate?.paymentController(paymentFailedWith: error, unwindAction: nil)
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+            let unwindAction: Input.ViewController.UnwindAction
+            switch code {
+            case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK: unwindAction = .reloadList
+            default: unwindAction = .dismiss
+            }
+
+            let error = Input.LocalizableError(interaction: paymentResult.interaction)
+            delegate?.paymentController(paymentFailedWith: error, unwindAction: unwindAction)
         default:
             let error = paymentResult.error ?? InternalError(description: "Error interaction code: %@", paymentResult.interaction.code)
-            delegate?.paymentController(paymentFailedWith: error)
+            delegate?.paymentController(paymentFailedWith: error, unwindAction: .dismiss)
         }
     }
 }

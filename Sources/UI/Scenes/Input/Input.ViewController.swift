@@ -14,6 +14,8 @@ extension Input {
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
 
+        weak var delegate: PaymentControllerDelegate?
+
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
             self.networks = smartSwitch.networks
@@ -280,9 +282,9 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
 }
 
 extension Input.ViewController: PaymentControllerDelegate {
-    func paymentController(paymentFailedWith error: Error) {
+    func paymentController(paymentFailedWith error: Error, unwindAction: UnwindAction?) {
         DispatchQueue.main.async { [weak stateManager] in
-            stateManager?.state = .error(error)
+            stateManager?.state = .error(error, onDismiss: unwindAction)
         }
     }
 
@@ -290,6 +292,12 @@ extension Input.ViewController: PaymentControllerDelegate {
         DispatchQueue.main.async { [weak stateManager] in
             stateManager?.state = .paymentResultPresentation(result)
         }
+    }
+}
+
+extension Input.ViewController {
+    enum UnwindAction {
+        case reloadList, dismiss
     }
 }
 #endif
