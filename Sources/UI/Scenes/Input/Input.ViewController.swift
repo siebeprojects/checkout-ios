@@ -14,7 +14,7 @@ extension Input {
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
 
-        weak var delegate: PaymentControllerDelegate?
+        weak var delegate: PaymentServiceDelegate?
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
@@ -282,22 +282,31 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
 }
 
 extension Input.ViewController: PaymentControllerDelegate {
-    func paymentController(paymentFailedWith error: Error, unwindAction: UnwindAction?) {
+    func paymentController(paymentFailedWith error: Error, withResult result: PaymentResult, isRetryable: Bool) {
+        let onErrorAlertDismissBlock = { [weak self] in
+            if isRetryable {
+                self?.stateManager?.state = .inputFieldsPresentation
+                return
+            }
+            
+            self?.navigationController?.dismiss(animated: true, completion: nil)
+            self?.delegate?.paymentService(receivedPaymentResult: result)
+        }
+        
         DispatchQueue.main.async { [weak stateManager] in
-            stateManager?.state = .error(error, onDismiss: unwindAction)
+            stateManager?.state = .error(error, isRetryable: isRetryable, onDismissBlock: onErrorAlertDismissBlock)
         }
     }
 
-    func paymentController(paymentSucceedWith result: OperationResult?) {
-        DispatchQueue.main.async { [weak stateManager] in
-            stateManager?.state = .paymentResultPresentation(result)
+    func paymentController(paymentCompleteWith result: PaymentResult) {
+        let onDismissBlock = { [weak self] in
+            self?.navigationController?.dismiss(animated: true, completion: nil)
+            self?.delegate?.paymentService(receivedPaymentResult: result)
         }
-    }
-}
-
-extension Input.ViewController {
-    enum UnwindAction {
-        case reloadList, dismiss
+        
+        DispatchQueue.main.async { [weak stateManager] in
+            stateManager?.state = .paymentResultPresentation(result, onDismissBlock: onDismissBlock)
+        }
     }
 }
 #endif

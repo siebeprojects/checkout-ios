@@ -25,10 +25,10 @@ extension Input.ViewController.StateManager {
         switch newState {
         case .paymentSubmission:
             setPaymentSubmission(isActive: true)
-        case .paymentResultPresentation(let paymentResult):
-            present(paymentResult: paymentResult)
-        case .error(let error, let unwindAction):
-            present(error: error, onDismiss: unwindAction)
+        case .paymentResultPresentation(let paymentResult, let onDismissBlock):
+            present(paymentResult: paymentResult, onDismissBlock: onDismissBlock)
+        case .error(let error, let isRetryable, let onDismissBlock):
+            present(error: error, isRetryable: isRetryable, onDismissBlock: onDismissBlock)
         default: break
         }
     }
@@ -45,28 +45,23 @@ extension Input.ViewController.StateManager {
         vc.collectionView.reloadData()
     }
 
-    private func present(paymentResult: OperationResult?) {
+    private func present(paymentResult: PaymentResult, onDismissBlock: @escaping () -> Void) {
         vc.navigationItem.setHidesBackButton(true, animated: true)
 
-        let message: String
-
-        if let paymentResult = paymentResult {
-            message = "\(paymentResult.resultInfo)\nInteraction code: \(paymentResult.interaction.code)"
-        } else {
-            message = "Payment is okay, operation result is null"
-        }
+        // FIXME: That report should be removed in release
+        let resultInfo = paymentResult.operationResult?.resultInfo ?? "No operation result"
+        let message = "\(resultInfo)\nInteraction code: \(paymentResult.interaction.code)"
 
         let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { [vc] _ in
-            vc.navigationController?.dismiss(animated: true, completion: nil)
-            vc.delegate?.paymentController(paymentSucceedWith: paymentResult)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            onDismissBlock()
         })
         alert.addAction(okAction)
 
         vc.present(alert, animated: true, completion: nil)
     }
 
-    private func present(error: Error, onDismiss: Input.ViewController.UnwindAction?) {
+    private func present(error: Error, isRetryable: Bool, onDismissBlock: @escaping () -> Void) {
         let translator = vc.smartSwitch.selected.network.translation
 
         var title: String = translator.translation(forKey: "messages.error.default.title")
@@ -79,15 +74,8 @@ extension Input.ViewController.StateManager {
         }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: translator.translation(forKey: "button.ok.label"), style: .default, handler: { [vc] _ in
-            guard let unwindAction = onDismiss else {
-                // No unwind action was defined, don't dismiss view
-                self.state = .inputFieldsPresentation
-                return
-            }
-            
-            vc.navigationController?.dismiss(animated: true, completion: nil)
-            vc.delegate?.paymentController(paymentFailedWith: error, unwindAction: unwindAction)
+        let okAction = UIAlertAction(title: translator.translation(forKey: "button.ok.label"), style: .default, handler: { _ in
+            onDismissBlock()
         })
         alert.addAction(okAction)
 
@@ -101,7 +89,7 @@ extension Input.ViewController.StateManager {
     enum UIState {
         case inputFieldsPresentation
         case paymentSubmission
-        case paymentResultPresentation(OperationResult?)
-        case error(Error, onDismiss: Input.ViewController.UnwindAction?)
+        case paymentResultPresentation(PaymentResult, onDismissBlock: () -> Void)
+        case error(Error, isRetryable: Bool, onDismissBlock: () -> Void)
     }
 }

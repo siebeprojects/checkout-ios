@@ -316,17 +316,18 @@ extension List.ViewController: ListTableControllerDelegate {
     }
 }
 
-extension List.ViewController: PaymentControllerDelegate {
+extension List.ViewController: PaymentServiceDelegate {
+    public func paymentService(receivedPaymentResult paymentResult: PaymentResult) {
+        switch Interaction.Code(rawValue: paymentResult.interaction.code) {
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+            loadPaymentSession()
+        default:
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func paymentController(paymentSucceedWith result: OperationResult?) {
         navigationController?.popViewController(animated: true)
-    }
-
-    func paymentController(paymentFailedWith error: Error, unwindAction: Input.ViewController.UnwindAction?) {
-        switch unwindAction {
-        case .dismiss: navigationController?.popViewController(animated: true)
-        case .reloadList: loadPaymentSession()
-        default: return
-        }
     }
 }
 

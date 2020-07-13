@@ -1,8 +1,12 @@
 import Foundation
 
 protocol PaymentControllerDelegate: class {
-    func paymentController(paymentSucceedWith result: OperationResult?)
-    func paymentController(paymentFailedWith error: Error, unwindAction: Input.ViewController.UnwindAction?)
+    func paymentController(paymentCompleteWith result: PaymentResult)
+    
+    /// Payment has been failed and an error should be displayed
+    /// - Parameters:
+    ///   - isRetryable: user may correct an input, view shouldn't be dismissed
+    func paymentController(paymentFailedWith error: Error, withResult result: PaymentResult, isRetryable: Bool)
 }
 
 extension Input.ViewController {
@@ -47,28 +51,16 @@ extension Input.ViewController.PaymentController {
 }
 
 extension Input.ViewController.PaymentController: PaymentServiceDelegate {
-    func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult) {
-        debugPrint(paymentResult.interaction.code)
-        debugPrint(paymentResult.interaction.reason)
-        let code = Interaction.Code(rawValue: paymentResult.interaction.code)
-        switch code {
+    func paymentService(receivedPaymentResult paymentResult: PaymentResult) {
+        switch Interaction.Code(rawValue: paymentResult.interaction.code) {
         case .PROCEED:
-            delegate?.paymentController(paymentSucceedWith: paymentResult.operationResult)
+            delegate?.paymentController(paymentCompleteWith: paymentResult)
         case .RETRY:
             let error = Input.LocalizableError(interaction: paymentResult.interaction)
-            delegate?.paymentController(paymentFailedWith: error, unwindAction: nil)
-        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
-            let unwindAction: Input.ViewController.UnwindAction
-            switch code {
-            case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK: unwindAction = .reloadList
-            default: unwindAction = .dismiss
-            }
-
-            let error = Input.LocalizableError(interaction: paymentResult.interaction)
-            delegate?.paymentController(paymentFailedWith: error, unwindAction: unwindAction)
+            delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: true)
         default:
-            let error = paymentResult.error ?? InternalError(description: "Error interaction code: %@", paymentResult.interaction.code)
-            delegate?.paymentController(paymentFailedWith: error, unwindAction: .dismiss)
+            let error = Input.LocalizableError(interaction: paymentResult.interaction)
+            delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: false)
         }
     }
 }
