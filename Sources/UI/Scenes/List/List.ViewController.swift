@@ -319,9 +319,10 @@ extension List.ViewController: ListTableControllerDelegate {
 extension List.ViewController: PaymentServiceDelegate {
     public func paymentService(receivedPaymentResult paymentResult: PaymentResult) {
         switch Interaction.Code(rawValue: paymentResult.interaction.code) {
-        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK, .RELOAD:
             loadPaymentSession()
         default:
+            // RETRY was handled by `Input.ViewController`
             navigationController?.popViewController(animated: true)
         }
     }

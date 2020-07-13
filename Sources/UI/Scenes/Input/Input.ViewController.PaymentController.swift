@@ -53,12 +53,13 @@ extension Input.ViewController.PaymentController {
 extension Input.ViewController.PaymentController: PaymentServiceDelegate {
     func paymentService(receivedPaymentResult paymentResult: PaymentResult) {
         switch Interaction.Code(rawValue: paymentResult.interaction.code) {
-        case .PROCEED:
+        case .PROCEED, .ABORT, .VERIFY, .RELOAD:
             delegate?.paymentController(paymentCompleteWith: paymentResult)
-        case .RETRY:
+        case .RETRY, .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
             let error = Input.LocalizableError(interaction: paymentResult.interaction)
             delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: true)
-        default:
+        case .none:
+            // Unknown interaction code was met
             let error = Input.LocalizableError(interaction: paymentResult.interaction)
             delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: false)
         }
