@@ -44,7 +44,13 @@ extension List.Table {
             let networkSection = Section.networks(rows: detailedRows + singleRows)
             sections.append(networkSection)
 
-            self.sections = sections
+            // Don't display empty sections
+            self.sections = sections.filter {
+                switch $0 {
+                case .accounts(let rows): return !rows.isEmpty
+                case .networks(let rows): return !rows.isEmpty
+                }
+            }
         }
 
         func logo(for indexPath: IndexPath) -> LoadableLogo? {

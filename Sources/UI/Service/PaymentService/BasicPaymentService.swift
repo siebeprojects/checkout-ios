@@ -22,7 +22,7 @@ class BasicPaymentService: PaymentService {
     }
 
     private static func isSupported(code: String) -> Bool {
-        let supportedCodes = ["SEPADD", "PAYPAL"]
+        let supportedCodes = ["SEPADD"]
         return supportedCodes.contains(code)
     }
 
