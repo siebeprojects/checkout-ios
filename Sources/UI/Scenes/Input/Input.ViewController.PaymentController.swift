@@ -3,6 +3,7 @@ import Foundation
 protocol PaymentControllerDelegate: class {
     func paymentController(paymentSucceedWith result: OperationResult?)
     func paymentController(paymentFailedWith error: Error)
+    func paymentController(presentURL url: URL)
 }
 
 extension Input.ViewController {
@@ -47,6 +48,10 @@ extension Input.ViewController.PaymentController {
 }
 
 extension Input.ViewController.PaymentController: PaymentServiceDelegate {
+    func paymentService(presentURL url: URL) {
+        delegate?.paymentController(presentURL: url)
+    }
+    
     func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult) {
         let code = Interaction.Code(rawValue: paymentResult.interaction.code)
         switch code {

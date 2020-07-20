@@ -1,4 +1,5 @@
 import Foundation
+import SafariServices
 
 class BasicPaymentService: PaymentService {
     // MARK: - Static methods
@@ -22,7 +23,7 @@ class BasicPaymentService: PaymentService {
     }
 
     private static func isSupported(code: String) -> Bool {
-        let supportedCodes = ["SEPADD"]
+        let supportedCodes = ["SEPADD", "PAYPAL"]
         return supportedCodes.contains(code)
     }
 
@@ -65,6 +66,12 @@ class BasicPaymentService: PaymentService {
 
                 do {
                     let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
+                    
+                    if let redirect = operationResult.redirect {
+                        try self.handle(redirect: redirect)
+                        return
+                    }
+                    
                     let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
                     self.delegate?.paymentService(self, paymentResult: paymentResult)
                 } catch {
@@ -74,6 +81,31 @@ class BasicPaymentService: PaymentService {
                 }
             }
         }
+    }
+    
+    private func handle(redirect: Redirect) throws {
+        guard var components = URLComponents(url: redirect.url, resolvingAgainstBaseURL: false) else {
+            throw InternalError(description: "Incorrect redirect url provided: %@", redirect.url.absoluteString)
+        }
+        
+        // Add or replace query items with parameters from `Redirect` object
+        if let redirectParameters = redirect.parameters, !redirectParameters.isEmpty {
+            var queryItems = components.queryItems ?? [URLQueryItem]()
+
+            queryItems += redirectParameters.map {
+                URLQueryItem(name: $0.name, value: $0.value)
+            }
+            
+            components.queryItems = queryItems
+        }
+        
+        guard let url = components.url else {
+            throw InternalError(description: "Unable to build URL from components")
+        }
+        
+        log(.debug, "Redirecting user to an external url: %@", url.absoluteString)
+        
+        delegate?.paymentService(presentURL: url)
     }
 
     /// Make `URLRequest` from `PaymentRequest`

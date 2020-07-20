@@ -1,5 +1,6 @@
 #if canImport(UIKit)
 import UIKit
+import SafariServices
 
 // MARK: Initializers
 
@@ -280,6 +281,13 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
 }
 
 extension Input.ViewController: PaymentControllerDelegate {
+    func paymentController(presentURL url: URL) {
+        DispatchQueue.main.async {
+            let safariVC = SFSafariViewController(url: url)
+            self.navigationController?.present(safariVC, animated: true, completion: nil)
+        }
+    }
+    
     func paymentController(paymentFailedWith error: Error) {
         DispatchQueue.main.async { [weak stateManager] in
             stateManager?.state = .error(error)
