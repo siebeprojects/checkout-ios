@@ -50,7 +50,7 @@ extension Input.ViewController.StateManager {
 
         // FIXME: That report should be removed in release
         let resultInfo = paymentResult.operationResult?.resultInfo ?? "No operation result"
-        let message = "\(resultInfo)\nInteraction code: \(paymentResult.interaction.code)"
+        let message = "Result info: \(resultInfo)\nCode: \(paymentResult.interaction.code)\nReason: \(paymentResult.interaction.reason)"
 
         let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
