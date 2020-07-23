@@ -12,6 +12,6 @@ public protocol PaymentService: class {
 }
 
 public protocol PaymentServiceDelegate: class {
-    func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult)
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult)
     func paymentService(presentURL url: URL)
 }

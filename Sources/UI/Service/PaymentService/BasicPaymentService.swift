@@ -32,6 +32,7 @@ class BasicPaymentService: PaymentService {
     weak var delegate: PaymentServiceDelegate?
 
     let connection: Connection
+    private lazy var redirectCallbackHandler: RedirectCallbackHandler = .init()
 
     required init(using connection: Connection) {
         self.connection = connection
@@ -44,7 +45,7 @@ class BasicPaymentService: PaymentService {
         } catch {
             let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
             let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
-            delegate?.paymentService(self, paymentResult: result)
+            delegate?.paymentService(didReceivePaymentResult: result)
             return
         }
 
@@ -53,14 +54,14 @@ class BasicPaymentService: PaymentService {
             case .failure(let error):
                 let interaction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
                 let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
-                self.delegate?.paymentService(self, paymentResult: result)
+                self.delegate?.paymentService(didReceivePaymentResult: result)
             case .success(let data):
                 guard let data = data else {
                     let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
                     let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: emptyResponseError)
 
-                    self.delegate?.paymentService(self, paymentResult: result)
+                    self.delegate?.paymentService(didReceivePaymentResult: result)
                     return
                 }
 
@@ -68,16 +69,18 @@ class BasicPaymentService: PaymentService {
                     let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
                     
                     if let redirect = operationResult.redirect {
+                        self.redirectCallbackHandler.delegate = self.delegate
+                        self.redirectCallbackHandler.subscribeForNotification()
                         try self.handle(redirect: redirect)
                         return
                     }
                     
                     let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
-                    self.delegate?.paymentService(self, paymentResult: paymentResult)
+                    self.delegate?.paymentService(didReceivePaymentResult: paymentResult)
                 } catch {
                     let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
-                    self.delegate?.paymentService(self, paymentResult: result)
+                    self.delegate?.paymentService(didReceivePaymentResult: result)
                 }
             }
         }
@@ -144,3 +147,4 @@ private extension BasicPaymentService {
         }
     }
 }
+

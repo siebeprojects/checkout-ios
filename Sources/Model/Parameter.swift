@@ -6,4 +6,9 @@ public class Parameter: NSObject, Decodable {
 
     /// Parameter value.
     public let value: String?
+    
+    internal init(name: String, value: String?) {
+        self.name = name
+        self.value = value
+    }
 }

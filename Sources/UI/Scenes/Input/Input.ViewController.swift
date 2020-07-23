@@ -14,6 +14,8 @@ extension Input {
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
+        
+        var safariViewController: SFSafariViewController?
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
@@ -284,19 +286,26 @@ extension Input.ViewController: PaymentControllerDelegate {
     func paymentController(presentURL url: URL) {
         DispatchQueue.main.async {
             let safariVC = SFSafariViewController(url: url)
+            self.safariViewController = safariVC
             self.navigationController?.present(safariVC, animated: true, completion: nil)
         }
     }
     
     func paymentController(paymentFailedWith error: Error) {
-        DispatchQueue.main.async { [weak stateManager] in
-            stateManager?.state = .error(error)
+        DispatchQueue.main.async { [weak self] in
+            self?.safariViewController?.dismiss(animated: true, completion: {
+                self?.safariViewController = nil
+                self?.stateManager?.state = .error(error)
+            })
         }
     }
 
     func paymentController(paymentSucceedWith result: OperationResult?) {
-        DispatchQueue.main.async { [weak stateManager] in
-            stateManager?.state = .paymentResultPresentation(result)
+        DispatchQueue.main.async { [weak self] in
+            self?.safariViewController?.dismiss(animated: true, completion: {
+                self?.safariViewController = nil
+                self?.stateManager?.state = .paymentResultPresentation(result)
+            })
         }
     }
 }

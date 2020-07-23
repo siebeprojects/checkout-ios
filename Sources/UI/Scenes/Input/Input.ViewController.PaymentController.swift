@@ -52,7 +52,7 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
         delegate?.paymentController(presentURL: url)
     }
     
-    func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult) {
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
         let code = Interaction.Code(rawValue: paymentResult.interaction.code)
         switch code {
         case .PROCEED:

@@ -13,4 +13,11 @@ public class OperationResult: NSObject, Decodable {
 
     /// Provider response data given back by the target provider as a result of transaction action; this data should contain all needed information to continue customer's journey on the payment page in the scope of used network
     let providerResponse: ProviderParameters?
+    
+    internal init(resultInfo: String, interaction: Interaction, redirect: Redirect?, providerResponse: ProviderParameters? = nil) {
+        self.resultInfo = resultInfo
+        self.interaction = interaction
+        self.redirect = redirect
+        self.providerResponse = providerResponse
+    }
 }
