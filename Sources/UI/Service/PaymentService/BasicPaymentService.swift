@@ -71,14 +71,14 @@ class BasicPaymentService: PaymentService {
                     if let redirect = operationResult.redirect {
                         self.redirectCallbackHandler.delegate = self.delegate
                         self.redirectCallbackHandler.subscribeForNotification()
-                        try self.handle(redirect: redirect)
+                        try self.sendRedirect(using: redirect)
                         return
                     }
                     
                     let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
                     self.delegate?.paymentService(didReceivePaymentResult: paymentResult)
                 } catch {
-                    let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
+                    let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
                     self.delegate?.paymentService(didReceivePaymentResult: result)
                 }
@@ -86,9 +86,13 @@ class BasicPaymentService: PaymentService {
         }
     }
     
-    private func handle(redirect: Redirect) throws {
+    private func sendRedirect(using redirect: Redirect) throws {
         guard var components = URLComponents(url: redirect.url, resolvingAgainstBaseURL: false) else {
             throw InternalError(description: "Incorrect redirect url provided: %@", redirect.url.absoluteString)
+        }
+        
+        guard case .GET = redirect.method else {
+            throw InternalError(description: "Redirect method is not GET. Requested method was: %@", redirect.method.rawValue)
         }
         
         // Add or replace query items with parameters from `Redirect` object
