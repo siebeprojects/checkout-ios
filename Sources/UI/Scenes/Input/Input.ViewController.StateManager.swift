@@ -25,8 +25,6 @@ extension Input.ViewController.StateManager {
         switch newState {
         case .paymentSubmission:
             setPaymentSubmission(isActive: true)
-        case .paymentResultPresentation(let paymentResult, let onDismissBlock):
-            present(paymentResult: paymentResult, onDismissBlock: onDismissBlock)
         case .error(let error, let isRetryable, let onDismissBlock):
             present(error: error, isRetryable: isRetryable, onDismissBlock: onDismissBlock)
         default: break
@@ -43,22 +41,6 @@ extension Input.ViewController.StateManager {
         vc.tableController.dataSource.setPaymentButtonState(isLoading: isActive)
 
         vc.collectionView.reloadData()
-    }
-
-    private func present(paymentResult: PaymentResult, onDismissBlock: @escaping () -> Void) {
-        vc.navigationItem.setHidesBackButton(true, animated: true)
-
-        // FIXME: That report should be removed in release
-        let resultInfo = paymentResult.operationResult?.resultInfo ?? "No operation result"
-        let message = "Result info: \(resultInfo)\nCode: \(paymentResult.interaction.code)\nReason: \(paymentResult.interaction.reason)"
-
-        let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: { _ in
-            onDismissBlock()
-        })
-        alert.addAction(okAction)
-
-        vc.present(alert, animated: true, completion: nil)
     }
 
     private func present(error: Error, isRetryable: Bool, onDismissBlock: @escaping () -> Void) {
@@ -89,7 +71,6 @@ extension Input.ViewController.StateManager {
     enum UIState {
         case inputFieldsPresentation
         case paymentSubmission
-        case paymentResultPresentation(PaymentResult, onDismissBlock: () -> Void)
         case error(Error, isRetryable: Bool, onDismissBlock: () -> Void)
     }
 }

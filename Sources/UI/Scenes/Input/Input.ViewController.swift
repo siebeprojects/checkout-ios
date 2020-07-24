@@ -299,13 +299,9 @@ extension Input.ViewController: PaymentControllerDelegate {
     }
 
     func paymentController(paymentCompleteWith result: PaymentResult) {
-        let onDismissBlock = { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.navigationController?.dismiss(animated: true, completion: nil)
             self?.delegate?.paymentService(receivedPaymentResult: result)
-        }
-        
-        DispatchQueue.main.async { [weak stateManager] in
-            stateManager?.state = .paymentResultPresentation(result, onDismissBlock: onDismissBlock)
         }
     }
 }
