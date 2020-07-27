@@ -55,9 +55,12 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
         switch Interaction.Code(rawValue: paymentResult.interaction.code) {
         case .PROCEED, .ABORT, .VERIFY, .RELOAD:
             delegate?.paymentController(paymentCompleteWith: paymentResult)
-        case .RETRY, .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+        case .RETRY:
             let error = Input.LocalizableError(interaction: paymentResult.interaction)
             delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: true)
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+            let error = Input.LocalizableError(interaction: paymentResult.interaction)
+            delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: false)
         case .none:
             // Unknown interaction code was met
             delegate?.paymentController(paymentCompleteWith: paymentResult)
