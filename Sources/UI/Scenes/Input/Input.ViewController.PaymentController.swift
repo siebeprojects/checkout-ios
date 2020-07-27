@@ -60,8 +60,7 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
             delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: true)
         case .none:
             // Unknown interaction code was met
-            let error = Input.LocalizableError(interaction: paymentResult.interaction)
-            delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: false)
+            delegate?.paymentController(paymentCompleteWith: paymentResult)
         }
     }
 }
