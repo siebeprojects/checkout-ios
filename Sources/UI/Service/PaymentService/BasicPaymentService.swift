@@ -95,6 +95,10 @@ class BasicPaymentService: PaymentService {
             throw InternalError(description: "Redirect method is not GET. Requested method was: %@", redirect.method.rawValue)
         }
         
+        guard let redirectType = redirect.type, ["PROVIDER", "3DS2-HANDLER"].contains(redirectType) else {
+            throw InternalError(description: "Unsupported or undefined redirect type")
+        }
+        
         // Add or replace query items with parameters from `Redirect` object
         if let redirectParameters = redirect.parameters, !redirectParameters.isEmpty {
             var queryItems = components.queryItems ?? [URLQueryItem]()
