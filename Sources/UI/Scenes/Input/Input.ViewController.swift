@@ -288,11 +288,11 @@ extension Input.ViewController: PaymentControllerDelegate {
                 self?.stateManager?.state = .inputFieldsPresentation
                 return
             }
-            
+
             self?.navigationController?.dismiss(animated: true, completion: nil)
             self?.delegate?.paymentService(receivedPaymentResult: result)
         }
-        
+
         DispatchQueue.main.async { [weak stateManager] in
             stateManager?.state = .error(error, isRetryable: isRetryable, onDismissBlock: onErrorAlertDismissBlock)
         }

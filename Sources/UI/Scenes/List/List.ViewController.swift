@@ -326,7 +326,7 @@ extension List.ViewController: PaymentServiceDelegate {
             navigationController?.popViewController(animated: true)
         }
     }
-    
+
     func paymentController(paymentSucceedWith result: OperationResult?) {
         navigationController?.popViewController(animated: true)
     }

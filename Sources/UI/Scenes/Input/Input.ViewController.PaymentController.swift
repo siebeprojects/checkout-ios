@@ -2,7 +2,7 @@ import Foundation
 
 protocol PaymentControllerDelegate: class {
     func paymentController(paymentCompleteWith result: PaymentResult)
-    
+
     /// Payment has been failed and an error should be displayed
     /// - Parameters:
     ///   - isRetryable: user may correct an input, view shouldn't be dismissed
