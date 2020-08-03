@@ -46,13 +46,15 @@ extension Input.ViewController.StateManager {
     private func present(error: Error, isRetryable: Bool, onDismissBlock: @escaping () -> Void) {
         let translator = vc.smartSwitch.selected.network.translation
 
-        var title: String = translator.translation(forKey: "messages.error.default.title")
-        var message: String? = translator.translation(forKey: "messages.error.default.text")
+        let title, message: String
 
         if let localizableError = error as? Input.LocalizableError, let customTitle = translator.translation(forKey: localizableError.titleKey), let customMessage = translator.translation(forKey: localizableError.messageKey) {
             // If localizable error was thrown and we have all translations display that error
             title = customTitle
             message = customMessage
+        } else {
+            title = translator.translation(forKey: "messages.error.default.title")
+            message = translator.translation(forKey: "messages.error.default.text")
         }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
