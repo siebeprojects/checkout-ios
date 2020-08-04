@@ -8,11 +8,13 @@ extension Input {
         let networks: [Network]
         let header: CellRepresentable
         let tableController = Table.Controller()
-        fileprivate let smartSwitch: SmartSwitch.Selector
+        let smartSwitch: SmartSwitch.Selector
 
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
+
+        weak var delegate: PaymentServiceDelegate?
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
@@ -280,15 +282,26 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
 }
 
 extension Input.ViewController: PaymentControllerDelegate {
-    func paymentController(paymentFailedWith error: Error) {
+    func paymentController(paymentFailedWith error: Error, withResult result: PaymentResult, isRetryable: Bool) {
+        let onErrorAlertDismissBlock = { [weak self] in
+            if isRetryable {
+                self?.stateManager?.state = .inputFieldsPresentation
+                return
+            }
+
+            self?.navigationController?.dismiss(animated: true, completion: nil)
+            self?.delegate?.paymentService(receivedPaymentResult: result)
+        }
+
         DispatchQueue.main.async { [weak stateManager] in
-            stateManager?.state = .error(error)
+            stateManager?.state = .error(error, isRetryable: isRetryable, onDismissBlock: onErrorAlertDismissBlock)
         }
     }
 
-    func paymentController(paymentSucceedWith result: OperationResult?) {
-        DispatchQueue.main.async { [weak stateManager] in
-            stateManager?.state = .paymentResultPresentation(result)
+    func paymentController(paymentCompleteWith result: PaymentResult) {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.dismiss(animated: true, completion: nil)
+            self?.delegate?.paymentService(receivedPaymentResult: result)
         }
     }
 }

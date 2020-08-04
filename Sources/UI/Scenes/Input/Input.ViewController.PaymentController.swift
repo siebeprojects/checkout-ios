@@ -1,8 +1,12 @@
 import Foundation
 
 protocol PaymentControllerDelegate: class {
-    func paymentController(paymentSucceedWith result: OperationResult?)
-    func paymentController(paymentFailedWith error: Error)
+    func paymentController(paymentCompleteWith result: PaymentResult)
+
+    /// Payment has been failed and an error should be displayed
+    /// - Parameters:
+    ///   - isRetryable: user may correct an input, view shouldn't be dismissed
+    func paymentController(paymentFailedWith error: Error, withResult result: PaymentResult, isRetryable: Bool)
 }
 
 extension Input.ViewController {
@@ -47,16 +51,28 @@ extension Input.ViewController.PaymentController {
 }
 
 extension Input.ViewController.PaymentController: PaymentServiceDelegate {
-    func paymentService(_ paymentService: PaymentService, paymentResult: PaymentResult) {
-        let code = Interaction.Code(rawValue: paymentResult.interaction.code)
-        switch code {
-        case .PROCEED:
-            delegate?.paymentController(paymentSucceedWith: paymentResult.operationResult)
-        default:
-            let error = paymentResult.error ?? InternalError(description: "Error interaction code: %@", paymentResult.interaction.code)
-            delegate?.paymentController(paymentFailedWith: error)
+    func paymentService(receivedPaymentResult paymentResult: PaymentResult) {
+        switch Interaction.Code(rawValue: paymentResult.interaction.code) {
+        case .PROCEED, .ABORT, .VERIFY, .RELOAD:
+            delegate?.paymentController(paymentCompleteWith: paymentResult)
+        case .RETRY:
+            let error = Input.LocalizableError(interaction: paymentResult.interaction)
+            delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: true)
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+            let error = Input.LocalizableError(interaction: paymentResult.interaction)
+            delegate?.paymentController(paymentFailedWith: error, withResult: paymentResult, isRetryable: false)
+        case .none:
+            // Unknown interaction code was met
+            delegate?.paymentController(paymentCompleteWith: paymentResult)
         }
+    }
+}
 
-        debugPrint(paymentResult.operationResult)
+private extension Input.LocalizableError {
+    init(interaction: Interaction) {
+        let localizationKeyPrefix = "interaction." + interaction.code + "." + interaction.reason + "."
+
+        titleKey = localizationKeyPrefix + "title"
+        messageKey = localizationKeyPrefix + "reason"
     }
 }
