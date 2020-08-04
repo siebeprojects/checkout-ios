@@ -53,7 +53,7 @@ extension List.ViewController {
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
         }
 
-        load()
+        loadPaymentSession()
     }
 
     public override func viewDidLayoutSubviews() {
@@ -69,7 +69,9 @@ extension List.ViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    private func load() {
+    func loadPaymentSession() {
+        viewState = .loading
+
         sessionService.loadPaymentSession(
             loadDidComplete: { [weak self] session in
                 DispatchQueue.main.async {
@@ -88,6 +90,7 @@ extension List.ViewController {
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
         do {
             let inputViewController = try Input.ViewController(for: paymentNetworks, paymentServiceFactory: sessionService.paymentServicesFactory)
+            inputViewController.delegate = self
             let navigationController = Input.NavigationController(rootViewController: inputViewController)
             present(navigationController, animated: animated, completion: nil)
         } catch {
@@ -100,6 +103,7 @@ extension List.ViewController {
 
         do {
             inputViewController = try Input.ViewController(for: registeredAccount, paymentServiceFactory: sessionService.paymentServicesFactory)
+            inputViewController.delegate = self
         } catch {
             changeState(to: .failure(error))
             return
@@ -181,6 +185,8 @@ extension List.ViewController {
             return
         }
 
+        if self.activityIndicator != nil { return }
+
         // Show activity indicator
         let activityIndicator = UIActivityIndicatorView(style: .gray)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -216,7 +222,7 @@ extension List.ViewController {
             controller.message = networkError.localizedDescription
             let retryLabel: String = sharedTranslationProvider.translation(forKey: TranslationKey.retryLabel.rawValue)
             let retryAction = UIAlertAction(title: retryLabel, style: .default) { [weak self] _ in
-                self?.load()
+                self?.loadPaymentSession()
             }
             controller.addAction(retryAction)
         }
@@ -307,6 +313,22 @@ extension List.ViewController: ListTableControllerDelegate {
 
     func didSelect(registeredAccount: RegisteredAccount) {
         show(registeredAccount: registeredAccount, animated: true)
+    }
+}
+
+extension List.ViewController: PaymentServiceDelegate {
+    public func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
+        switch Interaction.Code(rawValue: paymentResult.interaction.code) {
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK, .RELOAD:
+            loadPaymentSession()
+        default:
+            // RETRY was handled by `Input.ViewController`
+            navigationController?.popViewController(animated: true)
+        }
+    }
+
+    func paymentController(paymentSucceedWith result: OperationResult?) {
+        navigationController?.popViewController(animated: true)
     }
 }
 

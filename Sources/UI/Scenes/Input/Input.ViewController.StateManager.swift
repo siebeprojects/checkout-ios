@@ -25,10 +25,8 @@ extension Input.ViewController.StateManager {
         switch newState {
         case .paymentSubmission:
             setPaymentSubmission(isActive: true)
-        case .paymentResultPresentation(let paymentResult):
-            present(paymentResult: paymentResult)
-        case .error(let error):
-            present(error: error)
+        case .error(let error, let isRetryable, let onDismissBlock):
+            present(error: error, isRetryable: isRetryable, onDismissBlock: onDismissBlock)
         default: break
         }
     }
@@ -45,30 +43,24 @@ extension Input.ViewController.StateManager {
         vc.collectionView.reloadData()
     }
 
-    private func present(paymentResult: OperationResult?) {
-        vc.navigationItem.setHidesBackButton(true, animated: true)
+    private func present(error: Error, isRetryable: Bool, onDismissBlock: @escaping () -> Void) {
+        let translator = vc.smartSwitch.selected.network.translation
 
-        let message: String
+        let title, message: String
 
-        if let paymentResult = paymentResult {
-            message = "\(paymentResult.resultInfo)\nInteraction code: \(paymentResult.interaction.code)"
+        if let localizableError = error as? Input.LocalizableError, let customTitle = translator.translation(forKey: localizableError.titleKey), let customMessage = translator.translation(forKey: localizableError.messageKey) {
+            // If localizable error was thrown and we have all translations display that error
+            title = customTitle
+            message = customMessage
         } else {
-            message = "Payment is okay, operation result is null"
+            title = translator.translation(forKey: "messages.error.default.title")
+            message = translator.translation(forKey: "messages.error.default.text")
         }
 
-        let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default)
-        alert.addAction(okAction)
-
-        vc.present(alert, animated: true, completion: {
-            self.state = .inputFieldsPresentation
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: translator.translation(forKey: "button.ok.label"), style: .default, handler: { _ in
+            onDismissBlock()
         })
-    }
-
-    private func present(error: Error) {
-        let message = error.localizedDescription
-        let alert = UIAlertController(title: "Payment error", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default)
         alert.addAction(okAction)
 
         vc.present(alert, animated: true, completion: {
@@ -81,7 +73,6 @@ extension Input.ViewController.StateManager {
     enum UIState {
         case inputFieldsPresentation
         case paymentSubmission
-        case paymentResultPresentation(OperationResult?)
-        case error(Error)
+        case error(Error, isRetryable: Bool, onDismissBlock: () -> Void)
     }
 }

@@ -55,6 +55,7 @@ class BasicPaymentService: PaymentService {
                 let interaction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
                 let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
                 self.delegate?.paymentService(didReceivePaymentResult: result)
+                log(.debug, "Payment failed with error %@", error as CVarArg)
             case .success(let data):
                 guard let data = data else {
                     let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
@@ -62,6 +63,7 @@ class BasicPaymentService: PaymentService {
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: emptyResponseError)
 
                     self.delegate?.paymentService(didReceivePaymentResult: result)
+                    log(.debug, "Payment failed with error %@", emptyResponseError as CVarArg)
                     return
                 }
 
@@ -77,10 +79,12 @@ class BasicPaymentService: PaymentService {
                     
                     let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
                     self.delegate?.paymentService(didReceivePaymentResult: paymentResult)
+                    log(.debug, "Payment result received. Interaction: %@", operationResult.interaction.code, operationResult.interaction.reason)
                 } catch {
                     let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
                     self.delegate?.paymentService(didReceivePaymentResult: result)
+                    log(.debug, "Payment failed with error %@", error as CVarArg)
                 }
             }
         }

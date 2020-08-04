@@ -9,13 +9,15 @@ extension Input {
         let networks: [Network]
         let header: CellRepresentable
         let tableController = Table.Controller()
-        fileprivate let smartSwitch: SmartSwitch.Selector
+        let smartSwitch: SmartSwitch.Selector
 
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
         
         var safariViewController: SFSafariViewController?
+
+        weak var delegate: PaymentServiceDelegate?
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
@@ -283,29 +285,47 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
 }
 
 extension Input.ViewController: PaymentControllerDelegate {
+    func paymentController(paymentCompleteWith result: PaymentResult) {
+        DispatchQueue.main.async { [weak self] in
+            self?.safariViewController?.dismiss(animated: true, completion: {
+                self?.safariViewController = nil
+            })
+            
+            self?.navigationController?.dismiss(animated: true, completion: nil)
+            self?.delegate?.paymentService(didReceivePaymentResult: result)
+        }
+    }
+    
+    func paymentController(paymentFailedWith error: Error, withResult result: PaymentResult, isRetryable: Bool) {
+        let onErrorAlertDismissBlock = { [weak self] in
+            if isRetryable {
+                self?.stateManager.state = .inputFieldsPresentation
+                return
+            }
+
+            self?.navigationController?.dismiss(animated: true, completion: nil)
+            self?.delegate?.paymentService(didReceivePaymentResult: result)
+        }
+
+        DispatchQueue.main.async { [weak self] in
+            let changeStateBlock = {
+                self?.safariViewController = nil
+                self?.stateManager.state = .error(error, isRetryable: isRetryable, onDismissBlock: onErrorAlertDismissBlock)
+            }
+            
+            if let svc = self?.safariViewController {
+                svc.dismiss(animated: true, completion: changeStateBlock)
+            } else {
+                changeStateBlock()
+            }
+        }
+    }
+            
     func paymentController(presentURL url: URL) {
         DispatchQueue.main.async {
             let safariVC = SFSafariViewController(url: url)
             self.safariViewController = safariVC
             self.navigationController?.present(safariVC, animated: true, completion: nil)
-        }
-    }
-    
-    func paymentController(paymentFailedWith error: Error) {
-        DispatchQueue.main.async { [weak self] in
-            self?.safariViewController?.dismiss(animated: true, completion: {
-                self?.safariViewController = nil
-                self?.stateManager?.state = .error(error)
-            })
-        }
-    }
-
-    func paymentController(paymentSucceedWith result: OperationResult?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.safariViewController?.dismiss(animated: true, completion: {
-                self?.safariViewController = nil
-                self?.stateManager?.state = .paymentResultPresentation(result)
-            })
         }
     }
 }
