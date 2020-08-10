@@ -1,4 +1,5 @@
-import Foundation
+import UIKit
+import SafariServices
 
 public protocol PaymentService: class {
     /// Returns whether the service can make payments
@@ -11,5 +12,11 @@ public protocol PaymentService: class {
 }
 
 public protocol PaymentServiceDelegate: class {
-    func paymentService(receivedPaymentResult paymentResult: PaymentResult)
+    func paymentService(presentURL url: URL)
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult)
+}
+
+extension PaymentServiceDelegate {
+    // Optional method
+    public func paymentService(presentURL url: URL) {}
 }

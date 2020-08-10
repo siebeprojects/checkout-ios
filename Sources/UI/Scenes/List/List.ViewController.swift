@@ -317,7 +317,7 @@ extension List.ViewController: ListTableControllerDelegate {
 }
 
 extension List.ViewController: PaymentServiceDelegate {
-    public func paymentService(receivedPaymentResult paymentResult: PaymentResult) {
+    public func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
         switch Interaction.Code(rawValue: paymentResult.interaction.code) {
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK, .RELOAD:
             loadPaymentSession()

@@ -1,4 +1,5 @@
 import Foundation
+import SafariServices
 
 class BasicPaymentService: PaymentService {
     // MARK: - Static methods
@@ -22,7 +23,7 @@ class BasicPaymentService: PaymentService {
     }
 
     private static func isSupported(code: String) -> Bool {
-        let supportedCodes = ["SEPADD"]
+        let supportedCodes = ["SEPADD", "PAYPAL"]
         return supportedCodes.contains(code)
     }
 
@@ -31,6 +32,7 @@ class BasicPaymentService: PaymentService {
     weak var delegate: PaymentServiceDelegate?
 
     let connection: Connection
+    private lazy var redirectCallbackHandler: RedirectCallbackHandler = .init()
 
     required init(using connection: Connection) {
         self.connection = connection
@@ -43,7 +45,7 @@ class BasicPaymentService: PaymentService {
         } catch {
             let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
             let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
-            delegate?.paymentService(receivedPaymentResult: result)
+            delegate?.paymentService(didReceivePaymentResult: result)
             return
         }
 
@@ -52,32 +54,73 @@ class BasicPaymentService: PaymentService {
             case .failure(let error):
                 let interaction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
                 let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
+                self.delegate?.paymentService(didReceivePaymentResult: result)
                 log(.debug, "Payment failed with error %@", error as CVarArg)
-                self.delegate?.paymentService(receivedPaymentResult: result)
             case .success(let data):
                 guard let data = data else {
                     let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
                     let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: emptyResponseError)
 
+                    self.delegate?.paymentService(didReceivePaymentResult: result)
                     log(.debug, "Payment failed with error %@", emptyResponseError as CVarArg)
-                    self.delegate?.paymentService(receivedPaymentResult: result)
                     return
                 }
 
                 do {
                     let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
+                    
+                    if let redirect = operationResult.redirect {
+                        self.redirectCallbackHandler.delegate = self.delegate
+                        self.redirectCallbackHandler.subscribeForNotification()
+                        try self.sendRedirect(using: redirect)
+                        return
+                    }
+                    
                     let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
+                    self.delegate?.paymentService(didReceivePaymentResult: paymentResult)
                     log(.debug, "Payment result received. Interaction: %@", operationResult.interaction.code, operationResult.interaction.reason)
-                    self.delegate?.paymentService(receivedPaymentResult: paymentResult)
                 } catch {
-                    let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
+                    let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
                     let result = PaymentResult(operationResult: nil, interaction: interaction, error: error)
+                    self.delegate?.paymentService(didReceivePaymentResult: result)
                     log(.debug, "Payment failed with error %@", error as CVarArg)
-                    self.delegate?.paymentService(receivedPaymentResult: result)
                 }
             }
         }
+    }
+    
+    private func sendRedirect(using redirect: Redirect) throws {
+        guard var components = URLComponents(url: redirect.url, resolvingAgainstBaseURL: false) else {
+            throw InternalError(description: "Incorrect redirect url provided: %@", redirect.url.absoluteString)
+        }
+        
+        guard case .GET = redirect.method else {
+            throw InternalError(description: "Redirect method is not GET. Requested method was: %@", redirect.method.rawValue)
+        }
+        
+        guard let redirectType = redirect.type, ["PROVIDER", "3DS2-HANDLER"].contains(redirectType) else {
+            throw InternalError(description: "Unsupported or undefined redirect type")
+        }
+        
+        // Add or replace query items with parameters from `Redirect` object
+        if let redirectParameters = redirect.parameters, !redirectParameters.isEmpty {
+            var queryItems = components.queryItems ?? [URLQueryItem]()
+
+            queryItems += redirectParameters.map {
+                URLQueryItem(name: $0.name, value: $0.value)
+            }
+            
+            components.queryItems = queryItems
+        }
+        
+        guard let url = components.url else {
+            throw InternalError(description: "Unable to build URL from components")
+        }
+        
+        log(.debug, "Redirecting user to an external url: %@", url.absoluteString)
+        
+        delegate?.paymentService(presentURL: url)
     }
 
     /// Make `URLRequest` from `PaymentRequest`
@@ -116,3 +159,4 @@ private extension BasicPaymentService {
         }
     }
 }
+
