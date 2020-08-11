@@ -79,6 +79,8 @@ extension Input {
 // MARK: - Overrides
 
 extension Input.ViewController {
+    var hasInputFields: Bool { !tableController.dataSource.inputFields.isEmpty }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -10,6 +10,7 @@
 		53826028AA641BA4113DFC2D /* Pods_Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
 		D905411124B7113B00C001E3 /* Input.LocalizableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D905411024B7113B00C001E3 /* Input.LocalizableError.swift */; };
+		D910101924E19012009FAFFE /* List.Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = D910101824E19012009FAFFE /* List.Router.swift */; };
 		D945384D24A95C9800452015 /* Input.Field.BasicText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D945384C24A95C9800452015 /* Input.Field.BasicText.swift */; };
 		D952E0AF24C9A96900F78FA2 /* RedirectCallbackHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D952E0AE24C9A96900F78FA2 /* RedirectCallbackHandler.swift */; };
 		D96BB80B249FEB7300C2AD73 /* Input.ViewController.StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB755249FEB7300C2AD73 /* Input.ViewController.StateManager.swift */; };
@@ -202,6 +203,7 @@
 		AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1464685FF385FE59D6C10F5 /* Pods-Optile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.release.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.release.xcconfig"; sourceTree = "<group>"; };
 		D905411024B7113B00C001E3 /* Input.LocalizableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.LocalizableError.swift; sourceTree = "<group>"; };
+		D910101824E19012009FAFFE /* List.Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Router.swift; sourceTree = "<group>"; };
 		D945384C24A95C9800452015 /* Input.Field.BasicText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.BasicText.swift; sourceTree = "<group>"; };
 		D952E0AE24C9A96900F78FA2 /* RedirectCallbackHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectCallbackHandler.swift; sourceTree = "<group>"; };
 		D96BB755249FEB7300C2AD73 /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 			isa = PBXGroup;
 			children = (
 				D96BB7A3249FEB7300C2AD73 /* List.ViewController.swift */,
+				D910101824E19012009FAFFE /* List.Router.swift */,
 				D96BB7A4249FEB7300C2AD73 /* List.swift */,
 				D96BB7A5249FEB7300C2AD73 /* Table */,
 			);
@@ -1349,6 +1352,7 @@
 				D96BB85F249FEB7300C2AD73 /* PaymentNetwork.swift in Sources */,
 				D945384D24A95C9800452015 /* Input.Field.BasicText.swift in Sources */,
 				D96BB848249FEB7300C2AD73 /* TextInputField.swift in Sources */,
+				D910101924E19012009FAFFE /* List.Router.swift in Sources */,
 				D96BB898249FEB7400C2AD73 /* AccountRegistration.swift in Sources */,
 				D96BB81D249FEB7300C2AD73 /* Input.Table.LabelViewCell.swift in Sources */,
 				D96BB83D249FEB7300C2AD73 /* Input.TextHeader.swift in Sources */,
