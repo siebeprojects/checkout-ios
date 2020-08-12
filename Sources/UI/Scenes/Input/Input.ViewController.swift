@@ -79,7 +79,7 @@ extension Input {
 // MARK: - Overrides
 
 extension Input.ViewController {
-    var hasInputFields: Bool { !tableController.dataSource.inputFields.isEmpty }
+    var hasInputFields: Bool { !smartSwitch.selected.network.uiModel.inputFields.isEmpty }
     
     override func viewDidLoad() {
         super.viewDidLoad()
