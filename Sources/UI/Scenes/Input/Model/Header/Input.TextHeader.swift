@@ -8,7 +8,7 @@ extension Input {
         var detailedLabel: String?
         var isEnabled: Bool = true
 
-        private init(logo: UIImage?, label: String) {
+        init(logo: UIImage?, label: String) {
             self.logo = logo
             self.label = label
         }
