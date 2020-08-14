@@ -93,8 +93,8 @@ extension List.ViewController {
 
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
         do {
-            let inputVC = try router.present(paymentNetworks: paymentNetworks, animated: animated)
-            inputVC.delegate = self
+            let inputViewController = try router.present(paymentNetworks: paymentNetworks, animated: animated)
+            inputViewController.delegate = self
         } catch {
             viewState = .failure(error)
         }
