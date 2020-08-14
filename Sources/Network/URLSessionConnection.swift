@@ -17,7 +17,7 @@ class URLSessionConnection: Connection {
         if #available(OSX 10.14, iOS 12, *) {
             #if DEBUG
             let method = request.httpMethod?.uppercased() ?? ""
-            os_log(.debug, "[API] >> %s %s", method, request.url!.absoluteString)
+            os_log(.debug, "[API] >> %@ %@", method, request.url!.absoluteString)
             #endif
         } else {
             // don't log anything
