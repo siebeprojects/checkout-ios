@@ -62,13 +62,13 @@ class PaymentSessionProvider {
         }
 
         guard let operation = Operation(rawValue: operationType) else {
-            let error = InternalError(description: "Operation type is not known: %s", operationType)
+            let error = InternalError(description: "Operation type is not known: %@", operationType)
             completion(.failure(error))
             return
         }
 
         guard case .CHARGE = operation else {
-            let error = InternalError(description: "Operation type is not supported: %s", operationType)
+            let error = InternalError(description: "Operation type is not supported: %@", operationType)
             completion(.failure(error))
             return
         }

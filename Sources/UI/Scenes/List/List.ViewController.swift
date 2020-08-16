@@ -12,6 +12,7 @@ extension List {
         let sessionService: PaymentSessionService
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
+        fileprivate let router: List.Router
 
         /// TODO: Migrate to separate State manager
         fileprivate var viewState: Load<PaymentSession, Error> = .loading {
@@ -33,8 +34,11 @@ extension List {
             sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
             configuration = tableConfiguration
             self.sharedTranslationProvider = sharedTranslationProvider
+            router = List.Router(paymentServicesFactory: sessionService.paymentServicesFactory)
 
             super.init(nibName: nil, bundle: nil)
+            
+            router.rootViewController = self
         }
 
         required init?(coder: NSCoder) {
@@ -89,30 +93,20 @@ extension List.ViewController {
 
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
         do {
-            let inputViewController = try Input.ViewController(for: paymentNetworks, paymentServiceFactory: sessionService.paymentServicesFactory)
+            let inputViewController = try router.present(paymentNetworks: paymentNetworks, animated: animated)
             inputViewController.delegate = self
-            let navigationController = Input.NavigationController(rootViewController: inputViewController)
-            present(navigationController, animated: animated, completion: nil)
         } catch {
             viewState = .failure(error)
         }
     }
 
     fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
-        let inputViewController: Input.ViewController
-
         do {
-            inputViewController = try Input.ViewController(for: registeredAccount, paymentServiceFactory: sessionService.paymentServicesFactory)
+            let inputViewController = try router.present(registeredAccount: registeredAccount, animated: animated)
             inputViewController.delegate = self
         } catch {
-            changeState(to: .failure(error))
-            return
+            viewState = .failure(error)
         }
-
-        let navigationController = Input.NavigationController(rootViewController: inputViewController)
-        navigationController.modalPresentationStyle = .custom
-        navigationController.transitioningDelegate = slideInPresentationManager
-        present(navigationController, animated: animated, completion: nil)
     }
 }
 

@@ -11,7 +11,7 @@ private extension CGFloat {
     static var rowLineSpacing: CGFloat { return 8 }
 
     /// Spacing between sections
-    static var sectionSpacing: CGFloat { return 16 }
+    static var sectionSpacing: CGFloat { return 24 }
 }
 
 // MARK: - InputTableControllerDelegate

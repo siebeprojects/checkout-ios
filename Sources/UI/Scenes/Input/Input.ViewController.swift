@@ -42,7 +42,13 @@ extension Input {
             let transformer = ModelTransformer()
             let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
             let smartSwitch = try SmartSwitch.Selector(networks: networks)
-            let header = Input.ImagesHeader(for: networks)
+            
+            let header: CellRepresentable
+            if paymentNetworks.count == 1, let network = paymentNetworks.first {
+                header = Input.TextHeader(logo: network.logo?.value, label: network.label)
+            } else {
+                header = Input.ImagesHeader(for: networks)
+            }
 
             self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)
 
@@ -79,6 +85,8 @@ extension Input {
 // MARK: - Overrides
 
 extension Input.ViewController {
+    var hasInputFields: Bool { !smartSwitch.selected.network.uiModel.inputFields.isEmpty }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
