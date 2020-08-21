@@ -90,10 +90,22 @@ extension List.ViewController {
             }
         )
     }
+    
+    private func requireOperationType() throws -> ListResult.OperationType {
+        guard case let .success(session) = self.viewState else {
+            throw InternalError(description: "Incorrect state, unable to present")
+        }
+        
+        guard let operationType = ListResult.OperationType(rawValue: session.operationType) else {
+            throw InternalError(description: "Unknown operation type: %@", session.operationType)
+        }
+        
+        return operationType
+    }
 
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
         do {
-            let inputViewController = try router.present(paymentNetworks: paymentNetworks, animated: animated)
+            let inputViewController = try router.present(paymentNetworks: paymentNetworks, operationType: requireOperationType(), animated: animated)
             inputViewController.delegate = self
         } catch {
             viewState = .failure(error)
@@ -102,7 +114,7 @@ extension List.ViewController {
 
     fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
         do {
-            let inputViewController = try router.present(registeredAccount: registeredAccount, animated: animated)
+            let inputViewController = try router.present(registeredAccount: registeredAccount, operationType: requireOperationType(), animated: animated)
             inputViewController.delegate = self
         } catch {
             viewState = .failure(error)

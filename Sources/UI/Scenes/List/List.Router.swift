@@ -13,8 +13,8 @@ extension List {
 }
 
 extension List.Router {
-    func present(paymentNetworks: [PaymentNetwork], animated: Bool) throws -> Input.ViewController {
-        let inputViewController = try Input.ViewController(for: paymentNetworks, paymentServiceFactory: paymentServicesFactory)
+    func present(paymentNetworks: [PaymentNetwork], operationType: ListResult.OperationType, animated: Bool) throws -> Input.ViewController {
+        let inputViewController = try Input.ViewController(for: paymentNetworks, paymentServiceFactory: paymentServicesFactory, operationType: operationType)
         
         let style: PresentationStyle
         if paymentNetworks.count == 1 && !inputViewController.hasInputFields {
@@ -23,19 +23,19 @@ extension List.Router {
             style = .modal
         }
         
-        present(inputViewController: inputViewController, animated: animated, usingStyle: style)
+        present(inputViewController: inputViewController, operationType: operationType, animated: animated, usingStyle: style)
         return inputViewController
     }
 
-    func present(registeredAccount: RegisteredAccount, animated: Bool) throws -> Input.ViewController {
-        let inputViewController = try Input.ViewController(for: registeredAccount, paymentServiceFactory: paymentServicesFactory)
-        present(inputViewController: inputViewController, animated: animated, usingStyle: .bottomSlideIn)
+    func present(registeredAccount: RegisteredAccount, operationType: ListResult.OperationType, animated: Bool) throws -> Input.ViewController {
+        let inputViewController = try Input.ViewController(for: registeredAccount, paymentServiceFactory: paymentServicesFactory, operationType: operationType)
+        present(inputViewController: inputViewController, operationType: operationType, animated: animated, usingStyle: .bottomSlideIn)
         return inputViewController
     }
 }
 
 private extension List.Router {
-    func present(inputViewController: Input.ViewController, animated: Bool, usingStyle style: PresentationStyle) {
+    func present(inputViewController: Input.ViewController, operationType: ListResult.OperationType, animated: Bool, usingStyle style: PresentationStyle) {
         let navigationController = Input.NavigationController(rootViewController: inputViewController)
         
         if !inputViewController.hasInputFields {

@@ -39,3 +39,9 @@ public class ListResult: NSObject, Decodable {
     /// - Note: `_Style` used for Objective-C compatibility
     public let style: _Style?
 }
+
+internal extension ListResult {
+    enum OperationType: String {
+        case CHARGE, PRESET, PAYOUT, UPDATE
+    }
+}
