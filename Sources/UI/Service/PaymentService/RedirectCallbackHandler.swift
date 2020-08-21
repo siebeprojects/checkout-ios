@@ -9,6 +9,7 @@ class RedirectCallbackHandler {
     weak var delegate: PaymentServiceDelegate?
     
     func subscribeForNotification() {
+        // Received payment result notification
         var receivePaymentNotificationToken: NSObjectProtocol?
         receivePaymentNotificationToken = NotificationCenter.default.addObserver(forName: .didReceivePaymentResultURL, object: nil, queue: .main) { notification in
             guard let url = notification.object as? URL else { return }
@@ -16,19 +17,23 @@ class RedirectCallbackHandler {
             NotificationCenter.default.removeObserver(receivePaymentNotificationToken!)
         }
         
+        // Failed to receive payment result notification (e.g. browser window was closed)
         var failedPaymentNotificationToken: NSObjectProtocol?
-        failedPaymentNotificationToken = NotificationCenter.default.addObserver(forName: .didFailReceivingPaymentResultURL, object: nil, queue: .main, using: { notification in
-            guard let operationType = notification.object as? ListResult.OperationType else { return }
-            self.didReceiveFailureNotification(operationType: operationType)
+        failedPaymentNotificationToken = NotificationCenter.default.addObserver(forName: Self.didFailReceivingPaymentResultURLNotification, object: nil, queue: .main, using: { notification in
+            guard let userInfo = notification.userInfo as? [String: String] else { return }
+            self.didReceiveFailureNotification(userInfo: userInfo)
             NotificationCenter.default.removeObserver(failedPaymentNotificationToken!)
         })
     }
     
-    private func didReceiveFailureNotification(operationType: ListResult.OperationType) {
+    private func didReceiveFailureNotification(userInfo: [String: String]) {
+        // TODO: Use enum instead of strings after switching to MOBILE_NATIVE integration type
         let code: Interaction.Code
-        switch operationType {
-        case .PRESET, .UPDATE: code = .ABORT
-        case .CHARGE, .PAYOUT: code = .VERIFY
+        switch userInfo[Self.operationTypeUserInfoKey] {
+        case "PRESET", "UPDATE", "ACTIVATION": code = .ABORT
+        default:
+            // "CHARGE", "PAYOUT" and other operation types
+            code = .VERIFY
         }
         
         let interaction = Interaction(code: code, reason: .COMMUNICATION_FAILURE)
@@ -78,7 +83,11 @@ private extension Sequence where Element == URLQueryItem {
     }
 }
 
+extension RedirectCallbackHandler {
+    static let didFailReceivingPaymentResultURLNotification: NSNotification.Name = .init("RedirectCallbackHandlerDidFailReceivingPaymentResultURLNotification")
+    static let operationTypeUserInfoKey: String = "operationType"
+}
+
 public extension NSNotification.Name {
     static let didReceivePaymentResultURL = NSNotification.Name(rawValue: "BasicPaymentServiceDidReceivePaymentResultURL")
-    internal static let didFailReceivingPaymentResultURL = NSNotification.Name(rawValue: "BasicPaymentServiceDidFailReceivingPaymentResultURL")
 }

@@ -341,7 +341,13 @@ extension Input.ViewController: PaymentControllerDelegate {
 
 extension Input.ViewController: SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.default.post(name: .didFailReceivingPaymentResultURL, object: operationType)
+        // Get operation type for the last path component
+        let operationType = smartSwitch.selected.network.operationURL.lastPathComponent
+        NotificationCenter.default.post(
+            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
+            object: nil,
+            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: operationType]
+        )
     }
 }
 #endif
