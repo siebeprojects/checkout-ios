@@ -10,7 +10,6 @@ extension Input {
         let header: CellRepresentable
         let tableController = Table.Controller()
         let smartSwitch: SmartSwitch.Selector
-        private let operationType: ListResult.OperationType
 
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
@@ -20,13 +19,12 @@ extension Input {
 
         weak var delegate: PaymentServiceDelegate?
 
-        private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, operationType: ListResult.OperationType) {
+        private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
             self.networks = smartSwitch.networks
             self.header = header
             self.smartSwitch = smartSwitch
             self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.flowLayout)
-            self.operationType = operationType
 
             super.init(nibName: nil, bundle: nil)
 
@@ -40,7 +38,7 @@ extension Input {
             tableController.delegate = self
         }
 
-        convenience init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory, operationType: ListResult.OperationType) throws {
+        convenience init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory) throws {
             let transformer = ModelTransformer()
             let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
             let smartSwitch = try SmartSwitch.Selector(networks: networks)
@@ -52,7 +50,7 @@ extension Input {
                 header = Input.ImagesHeader(for: networks)
             }
 
-            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, operationType: operationType)
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)
 
             // Placeholder translation suffixer
             for field in transformer.verificationCodeFields {
@@ -62,13 +60,13 @@ extension Input {
             self.title = smartSwitch.selected.network.translation.translation(forKey: "networks.form.default.title")
         }
 
-        convenience init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory, operationType: ListResult.OperationType) throws {
+        convenience init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory) throws {
             let transformer = ModelTransformer()
             let network = try transformer.transform(registeredAccount: registeredAccount)
             let smartSwitch = SmartSwitch.Selector(network: network)
             let header = Input.TextHeader(from: registeredAccount)
 
-            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, operationType: operationType)
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)
 
             // Placeholder translation suffixer
             for field in transformer.verificationCodeFields {
