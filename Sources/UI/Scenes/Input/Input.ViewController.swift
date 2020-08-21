@@ -334,9 +334,16 @@ extension Input.ViewController: PaymentControllerDelegate {
     func paymentController(presentURL url: URL) {
         DispatchQueue.main.async {
             let safariVC = SFSafariViewController(url: url)
+            safariVC.delegate = self
             self.safariViewController = safariVC
             self.navigationController?.present(safariVC, animated: true, completion: nil)
         }
+    }
+}
+
+extension Input.ViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        NotificationCenter.default.post(name: .didFailReceivingPaymentResultURL, object: operationType)
     }
 }
 #endif
