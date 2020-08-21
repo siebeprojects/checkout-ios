@@ -61,7 +61,7 @@ class PaymentSessionProvider {
             return
         }
 
-        guard let operation = Operation(rawValue: operationType) else {
+        guard let operation = ListResult.OperationType(rawValue: operationType) else {
             let error = InternalError(description: "Operation type is not known: %@", operationType)
             completion(.failure(error))
             return
@@ -148,11 +148,5 @@ class PaymentSessionProvider {
         }
 
         return .init(operationType: operationType, networks: translations.networks, accounts: translations.accounts)
-    }
-}
-
-private extension PaymentSessionProvider {
-    enum Operation: String {
-        case CHARGE
     }
 }
