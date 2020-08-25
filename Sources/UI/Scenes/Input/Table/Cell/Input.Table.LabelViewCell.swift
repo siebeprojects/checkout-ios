@@ -15,7 +15,7 @@ extension Input.Table {
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 0
             label.textColor = .themedText
-            label.font = UIFont.preferredFont(forTextStyle: .body)
+            label.font = UIFont.theme.withSize(forTextStyle: .body)
 
             // Layout
             contentView.addSubview(label)

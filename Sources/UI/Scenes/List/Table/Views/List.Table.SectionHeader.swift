@@ -11,7 +11,7 @@ extension List.Table {
             let textLabel = UILabel(frame: frame)
             textLabel.translatesAutoresizingMaskIntoConstraints = false
             textLabel.textColor = Theme.shared.textColor
-            textLabel.font = .preferredFont(forTextStyle: .footnote)
+            textLabel.font = UIFont.theme.withSize(forTextStyle: .footnote)
 
             addSubview(textLabel)
             self.textLabel = textLabel

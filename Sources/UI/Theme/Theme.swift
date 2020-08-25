@@ -42,7 +42,7 @@ public extension Theme {
             backgroundColor = .white
         }
         
-        return Theme(font: UIFont.preferredFont(forTextStyle: .body),
+        return Theme(font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize),
               backgroundColor: backgroundColor,
               textColor: textColor,
               subtitleTextColor: textColor,
@@ -73,5 +73,16 @@ internal extension UIColor {
     
     static var themedError: UIColor {
         return Theme.shared.errorTextColor
+    }
+}
+
+internal extension UIFont {
+    static var theme: UIFont {
+        return Theme.standart.font
+    }
+    
+    func withSize(forTextStyle textStyle: TextStyle) -> UIFont {
+        let size = UIFont.preferredFont(forTextStyle: textStyle).pointSize
+        return self.withSize(size)
     }
 }
