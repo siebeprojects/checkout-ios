@@ -72,6 +72,7 @@ extension Input.Table.TextFieldViewCell {
         textFieldController.activeColor = textField.tintColor
         textFieldController.floatingPlaceholderActiveColor = textField.tintColor
         textFieldController.leadingUnderlineLabelTextColor = textField.tintColor
+        textFieldController.errorColor = .themedError
 
         textFieldController.textInputFont = .preferredFont(forTextStyle: .body)
         textFieldController.inlinePlaceholderFont = textFieldController.textInputFont

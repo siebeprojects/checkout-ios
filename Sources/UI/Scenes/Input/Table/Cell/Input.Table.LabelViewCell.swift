@@ -14,7 +14,7 @@ extension Input.Table {
             // Configure label
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 0
-            label.textColor = .text
+            label.textColor = .themedText
             label.font = UIFont.preferredFont(forTextStyle: .body)
 
             // Layout

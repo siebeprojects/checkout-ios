@@ -50,7 +50,7 @@ extension List {
 extension List.ViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = .themedBackground
 
         // If view was presented modally show Cancel button
         if navigationController == nil {

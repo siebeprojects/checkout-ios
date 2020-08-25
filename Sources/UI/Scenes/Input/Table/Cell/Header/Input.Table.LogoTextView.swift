@@ -26,7 +26,7 @@ extension Input.Table {
             self.addSubview(logoView)
 
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.textColor = .text
+            label.textColor = .themedText
             label.lineBreakMode = .byTruncatingMiddle
             logoView.translatesAutoresizingMaskIntoConstraints = false
             logoView.contentMode = .scaleAspectFit

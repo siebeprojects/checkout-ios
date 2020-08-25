@@ -24,8 +24,8 @@ extension Input.Table {
             label.font = .preferredFont(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
             detailedLabel.font = .preferredFont(forTextStyle: .footnote)
-            label.textColor = .text
-            detailedLabel.textColor = .text
+            label.textColor = .themedText
+            detailedLabel.textColor = .themedText
 
             self.addSubview(label)
             self.addSubview(detailedLabel)

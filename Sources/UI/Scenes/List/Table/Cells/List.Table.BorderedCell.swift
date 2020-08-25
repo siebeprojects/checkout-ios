@@ -86,7 +86,7 @@ extension List.Table.BorderedCell {
 
         let innerView = UIView(frame: .zero)
         innerView.translatesAutoresizingMaskIntoConstraints = false
-        innerView.backgroundColor = .background
+        innerView.backgroundColor = .themedBackground
         outerView.addSubview(innerView)
         self.innerView = innerView
 
@@ -145,14 +145,6 @@ private extension UIColor {
 
     class var separator: UIColor {
         return UIColor(white: 242.0 / 255.0, alpha: 1.0)
-    }
-
-    class var background: UIColor {
-        if #available(iOS 13.0, *) {
-            return .systemBackground
-        } else {
-            return .white
-        }
     }
 
     class var selected: UIColor {

@@ -29,19 +29,19 @@ extension List.Table.DetailedLabelCell {
         let primaryLabel = UILabel(frame: .zero)
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
         primaryLabel.font = .preferredFont(forTextStyle: .body)
-        primaryLabel.textColor = .text
+        primaryLabel.textColor = .themedText
         contentView.addSubview(primaryLabel)
         self.primaryLabel = primaryLabel
 
         let secondaryLabel = UILabel(frame: .zero)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         secondaryLabel.font = .preferredFont(forTextStyle: .footnote)
-        secondaryLabel.textColor = .detailedText
+        secondaryLabel.textColor = .themedDetailedText
         contentView.addSubview(secondaryLabel)
         self.secondaryLabel = secondaryLabel
 
         let logoView = UIImageView(frame: .zero)
-        logoView.tintColor = .detailedText
+        logoView.tintColor = .themedDetailedText
         logoView.contentMode = .scaleAspectFill
         logoView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(logoView)

@@ -90,7 +90,7 @@ extension Input.ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.tintColor = .tintColor
+        view.tintColor = .themedTint
 
         tableController.collectionView = self.collectionView
         tableController.configure()
@@ -160,11 +160,7 @@ extension Input.ViewController {
 extension Input.ViewController {
     fileprivate func configure(collectionView: UICollectionView) {
         collectionView.tintColor = view.tintColor
-        if #available(iOS 13.0, *) {
-            collectionView.backgroundColor = UIColor.systemBackground
-        } else {
-            collectionView.backgroundColor = UIColor.white
-        }
+        collectionView.backgroundColor = .themedBackground
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
