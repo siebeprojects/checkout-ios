@@ -47,7 +47,7 @@ public extension Theme {
               textColor: textColor,
               subtitleTextColor: textColor,
               detailTextColor: detailedTextColor,
-              buttonTextColor: textColor,
+              buttonTextColor: .white,
               tintColor: tintColor,
               navigationBarBackgroundColor: textColor,
               errorTextColor: textColor)
@@ -63,6 +63,10 @@ internal extension UIColor {
         return Theme.shared.detailTextColor
     }
     
+    static var buttonTextColor: UIColor {
+        return Theme.shared.buttonTextColor
+    }
+
     static var themedTint: UIColor {
         return Theme.shared.tintColor
     }

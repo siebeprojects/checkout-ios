@@ -1,9 +1,5 @@
 import UIKit
 
-private extension UIColor {
-    static var titleColor: UIColor { .white }
-}
-
 private extension CGFloat {
     static var cornerRadius: CGFloat { return 4 }
     static var buttonHeight: CGFloat { 44 }
@@ -46,7 +42,7 @@ extension Input.Table {
 
         override init(frame: CGRect) {
             button = .init(frame: .zero)
-            button.setTitleColor(.titleColor, for: .normal)
+            button.setTitleColor(.buttonTextColor, for: .normal)
             button.layer.cornerRadius = .cornerRadius
             button.clipsToBounds = true
 
@@ -94,7 +90,7 @@ extension Input.Table.ButtonCell {
             string: model.label,
             attributes: [
                 .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize, weight: .semibold),
-                .foregroundColor: UIColor.titleColor
+                .foregroundColor: UIColor.buttonTextColor
             ]
         )
 
