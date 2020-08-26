@@ -96,7 +96,6 @@
 		D96BB85A249FEB7300C2AD73 /* Bool+stringValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7B8249FEB7300C2AD73 /* Bool+stringValue.swift */; };
 		D96BB85B249FEB7300C2AD73 /* mergeClosures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7BA249FEB7300C2AD73 /* mergeClosures.swift */; };
 		D96BB85C249FEB7300C2AD73 /* Error+isNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7BB249FEB7300C2AD73 /* Error+isNetworkError.swift */; };
-		D96BB85E249FEB7300C2AD73 /* PaymentListParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7BE249FEB7300C2AD73 /* PaymentListParameters.swift */; };
 		D96BB85F249FEB7300C2AD73 /* PaymentNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7C0249FEB7300C2AD73 /* PaymentNetwork.swift */; };
 		D96BB860249FEB7300C2AD73 /* RegisteredAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7C1249FEB7300C2AD73 /* RegisteredAccount.swift */; };
 		D96BB861249FEB7300C2AD73 /* PaymentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB7C2249FEB7300C2AD73 /* PaymentError.swift */; };
@@ -289,7 +288,6 @@
 		D96BB7B8249FEB7300C2AD73 /* Bool+stringValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+stringValue.swift"; sourceTree = "<group>"; };
 		D96BB7BA249FEB7300C2AD73 /* mergeClosures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mergeClosures.swift; sourceTree = "<group>"; };
 		D96BB7BB249FEB7300C2AD73 /* Error+isNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Error+isNetworkError.swift"; sourceTree = "<group>"; };
-		D96BB7BE249FEB7300C2AD73 /* PaymentListParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentListParameters.swift; sourceTree = "<group>"; };
 		D96BB7C0249FEB7300C2AD73 /* PaymentNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentNetwork.swift; sourceTree = "<group>"; };
 		D96BB7C1249FEB7300C2AD73 /* RegisteredAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisteredAccount.swift; sourceTree = "<group>"; };
 		D96BB7C2249FEB7300C2AD73 /* PaymentError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentError.swift; sourceTree = "<group>"; };
@@ -698,7 +696,6 @@
 		D96BB7BC249FEB7300C2AD73 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
-				D96BB7BE249FEB7300C2AD73 /* PaymentListParameters.swift */,
 				D91C9E6224F50E570057247A /* Theme.swift */,
 			);
 			path = Theme;
@@ -1370,7 +1367,6 @@
 				D91C9E6324F50E570057247A /* Theme.swift in Sources */,
 				D952E0AF24C9A96900F78FA2 /* RedirectCallbackHandler.swift in Sources */,
 				D96BB892249FEB7400C2AD73 /* ErrorInfo.swift in Sources */,
-				D96BB85E249FEB7300C2AD73 /* PaymentListParameters.swift in Sources */,
 				D96BB895249FEB7400C2AD73 /* InputElement.swift in Sources */,
 				D96BB88F249FEB7400C2AD73 /* Interaction.swift in Sources */,
 				D96BB829249FEB7300C2AD73 /* Input.Table.swift in Sources */,
