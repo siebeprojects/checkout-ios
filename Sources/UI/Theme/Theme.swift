@@ -3,26 +3,22 @@ import UIKit
 @objc public class Theme: NSObject {
     public var font: UIFont
     
-    internal var backgroundColor: UIColor
+    public var backgroundColor: UIColor
     
     public var textColor: UIColor
-    public var subtitleTextColor: UIColor
     public var detailTextColor: UIColor
     public var buttonTextColor: UIColor
     
     public var tintColor: UIColor
-    public var navigationBarBackgroundColor: UIColor
     public var errorTextColor: UIColor
     
-    public init(font: UIFont, backgroundColor: UIColor, textColor: UIColor, subtitleTextColor: UIColor, detailTextColor: UIColor, buttonTextColor: UIColor, tintColor: UIColor, navigationBarBackgroundColor: UIColor, errorTextColor: UIColor) {
+    public init(font: UIFont, backgroundColor: UIColor, textColor: UIColor, detailTextColor: UIColor, buttonTextColor: UIColor, tintColor: UIColor, errorTextColor: UIColor) {
         self.font = font
         self.backgroundColor = backgroundColor
         self.textColor = textColor
-        self.subtitleTextColor = subtitleTextColor
         self.detailTextColor = detailTextColor
         self.buttonTextColor = buttonTextColor
         self.tintColor = tintColor
-        self.navigationBarBackgroundColor = navigationBarBackgroundColor
         self.errorTextColor = errorTextColor
     }
 }
@@ -45,11 +41,9 @@ public extension Theme {
         return Theme(font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize),
               backgroundColor: backgroundColor,
               textColor: textColor,
-              subtitleTextColor: textColor,
               detailTextColor: detailedTextColor,
               buttonTextColor: .white,
               tintColor: tintColor,
-              navigationBarBackgroundColor: textColor,
               errorTextColor: textColor)
     }
 }
