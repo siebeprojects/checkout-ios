@@ -21,3 +21,23 @@ pod install
 ```
 
 2. Open `Example/Example.xcworkspace` file in XCode.
+
+## Customizing the UI
+
+You may customize the appearance of payment screens by using `Theme.shared` singleton:
+
+```swift
+Theme.shared.errorTextColor = .orange
+```
+
+Default values are stored in `Theme.standart` object.
+
+|Property|Description|
+|-|-|
+|`font`|Global font that will be used in all views, size will changed automatically|
+|`textColor`|Primary text color|
+|`detailTextColor`|Secondary text color, used for detailed description in list's cell|
+|`buttonTextColor`|Buttons text color|
+|`errorTextColor`|Text color for error messages|
+|`backgroundColor`|Background color of view controllers|
+|`tintColor`|Tint color used for interactive elements, it used also as a background color for buttons|
