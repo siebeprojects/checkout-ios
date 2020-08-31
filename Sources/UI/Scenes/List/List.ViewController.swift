@@ -310,7 +310,7 @@ extension List.ViewController: ListTableControllerDelegate {
     }
 }
 
-extension List.ViewController: PaymentServiceDelegate {
+extension List.ViewController: PaymentDelegate {
     public func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
         switch Interaction.Code(rawValue: paymentResult.interaction.code) {
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK, .RELOAD:
@@ -319,10 +319,6 @@ extension List.ViewController: PaymentServiceDelegate {
             // RETRY was handled by `Input.ViewController`
             navigationController?.popViewController(animated: true)
         }
-    }
-
-    func paymentController(paymentSucceedWith result: OperationResult?) {
-        navigationController?.popViewController(animated: true)
     }
 }
 
