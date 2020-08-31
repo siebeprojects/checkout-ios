@@ -40,4 +40,6 @@ Default values are stored in `Theme.standart` object.
 |`buttonTextColor`|Buttons text color|
 |`errorTextColor`|Text color for error messages|
 |`backgroundColor`|Background color of view controllers|
+|`tableBorder`|Table border's line color|
+|`tableCellSeparator`|Table line separators color|
 |`tintColor`|Tint color used for interactive elements, it used also as a background color for buttons|
