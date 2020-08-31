@@ -67,7 +67,7 @@ internal extension UIColor {
         return Theme.shared.detailTextColor
     }
     
-    static var buttonTextColor: UIColor {
+    static var themedButtonTextColor: UIColor {
         return Theme.shared.buttonTextColor
     }
 
