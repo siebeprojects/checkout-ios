@@ -7,7 +7,7 @@ private extension String {
 
 class RedirectCallbackHandler {
     weak var delegate: PaymentServiceDelegate?
-    
+
     func subscribeForNotification() {
         var token: NSObjectProtocol?
         token = NotificationCenter.default.addObserver(forName: .didReceivePaymentResultURL, object: nil, queue: .main) { notification in
@@ -16,7 +16,7 @@ class RedirectCallbackHandler {
             NotificationCenter.default.removeObserver(token!)
         }
     }
-    
+
     private func handle(receivedURL: URL) {
         guard let components = URLComponents(url: receivedURL, resolvingAgainstBaseURL: false),
             var queryItems = components.queryItems?.asDictionary,
@@ -29,17 +29,17 @@ class RedirectCallbackHandler {
                 delegate?.paymentService(didReceivePaymentResult: result)
                 return
         }
-        
+
         queryItems.removeValue(forKey: .interactionCodeKey)
         queryItems.removeValue(forKey: .interactionReasonKey)
-        
+
         let interaction = Interaction(code: interactionCode, reason: interactionReason)
         let parameters: [Parameter] = queryItems.map { .init(name: $0.key, value: $0.value) }
         let redirect = Redirect(url: receivedURL, method: .GET, parameters: parameters)
 
         let operationResult = OperationResult(resultInfo: "OperationResult received from the mobile-redirect webapp", interaction: interaction, redirect: redirect)
         let result = PaymentResult(operationResult: operationResult, interaction: interaction, error: nil)
-        
+
         delegate?.paymentService(didReceivePaymentResult: result)
     }
 }
@@ -51,7 +51,7 @@ private extension Sequence where Element == URLQueryItem {
             guard let value = queryItem.value else { continue }
             dict[queryItem.name] = value
         }
-        
+
         return dict
     }
 }

@@ -13,7 +13,7 @@ import Foundation
         self.code = code.rawValue
         self.reason = reason.rawValue
     }
-    
+
     internal init(code: String, reason: String) {
         self.code = code
         self.reason = reason

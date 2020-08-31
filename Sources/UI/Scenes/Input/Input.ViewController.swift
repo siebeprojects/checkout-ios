@@ -14,7 +14,7 @@ extension Input {
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
-        
+
         var safariViewController: SFSafariViewController?
 
         weak var delegate: PaymentServiceDelegate?
@@ -42,7 +42,7 @@ extension Input {
             let transformer = ModelTransformer()
             let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
             let smartSwitch = try SmartSwitch.Selector(networks: networks)
-            
+
             let header: CellRepresentable
             if paymentNetworks.count == 1, let network = paymentNetworks.first {
                 header = Input.TextHeader(logo: network.logo?.value, label: network.label)
@@ -86,7 +86,7 @@ extension Input {
 
 extension Input.ViewController {
     var hasInputFields: Bool { !smartSwitch.selected.network.uiModel.inputFields.isEmpty }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -294,12 +294,12 @@ extension Input.ViewController: PaymentControllerDelegate {
             self?.safariViewController?.dismiss(animated: true, completion: {
                 self?.safariViewController = nil
             })
-            
+
             self?.navigationController?.dismiss(animated: true, completion: nil)
             self?.delegate?.paymentService(didReceivePaymentResult: result)
         }
     }
-    
+
     func paymentController(paymentFailedWith error: Error, withResult result: PaymentResult, isRetryable: Bool) {
         let onErrorAlertDismissBlock = { [weak self] in
             if isRetryable {
@@ -316,7 +316,7 @@ extension Input.ViewController: PaymentControllerDelegate {
                 self?.safariViewController = nil
                 self?.stateManager.state = .error(error, isRetryable: isRetryable, onDismissBlock: onErrorAlertDismissBlock)
             }
-            
+
             if let svc = self?.safariViewController {
                 svc.dismiss(animated: true, completion: changeStateBlock)
             } else {
@@ -324,7 +324,7 @@ extension Input.ViewController: PaymentControllerDelegate {
             }
         }
     }
-            
+
     func paymentController(presentURL url: URL) {
         DispatchQueue.main.async {
             let safariVC = SFSafariViewController(url: url)

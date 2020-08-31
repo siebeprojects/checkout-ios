@@ -35,7 +35,7 @@ extension List {
             router = List.Router(paymentServicesFactory: sessionService.paymentServicesFactory)
 
             super.init(nibName: nil, bundle: nil)
-            
+
             router.rootViewController = self
         }
 
