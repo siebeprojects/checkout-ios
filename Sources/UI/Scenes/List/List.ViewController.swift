@@ -13,6 +13,8 @@ extension List {
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
         fileprivate let router: List.Router
+        
+        public weak var delegate: PaymentDelegate?
 
         /// TODO: Migrate to separate State manager
         fileprivate var viewState: Load<PaymentSession, Error> = .loading {
@@ -317,6 +319,7 @@ extension List.ViewController: PaymentDelegate {
             loadPaymentSession()
         default:
             // RETRY was handled by `Input.ViewController`
+            delegate?.paymentService(didReceivePaymentResult: paymentResult)
             navigationController?.popViewController(animated: true)
         }
     }

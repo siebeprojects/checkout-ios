@@ -29,12 +29,61 @@ class ViewController: UIViewController {
         }
 
         let viewController = List.ViewController(listResultURL: url)
-        navigationController?.pushViewController(viewController, animated: true)
+        viewController.delegate = self
+        navigationController?.pushViewController(viewController, animated: true)    }
+}
+
+extension ViewController: PaymentDelegate {
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
+        navigationController?.popViewController(animated: true, completion: {
+            self.presentAlert(with: paymentResult)
+        })
     }
+    
+    private func presentAlert(with paymentResult: PaymentResult) {
+        let paymentErrorText: String
+            
+        if let error = paymentResult.error {
+            paymentErrorText = "\(error)"
+        } else {
+            paymentErrorText = "n/a"
+        }
+        
+        let messageDictionary = [
+            TextLine(key: "ResultInfo", description: paymentResult.operationResult?.resultInfo ?? "n/a"),
+            TextLine(key: "Interaction code", description: paymentResult.interaction.code),
+            TextLine(key: "Interaction reason", description: paymentResult.interaction.reason),
+            TextLine(key: "Error", description: paymentErrorText)
+        ]
+
+        let message = messageDictionary.map { "\($0.key): \($0.description)" }.joined(separator: "\n")
+        let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+private struct TextLine {
+    let key, description: String
 }
 
 private extension UIColor {
     static var navigationBarTintColor: UIColor {
         return UIColor(red: 0.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
+    }
+}
+
+private extension UINavigationController {
+    func popViewController(animated: Bool, completion: @escaping () -> ()) {
+        popViewController(animated: animated)
+
+        if let coordinator = transitionCoordinator, animated {
+            coordinator.animate(alongsideTransition: nil) { _ in
+                completion()
+            }
+        } else {
+            completion()
+        }
     }
 }
