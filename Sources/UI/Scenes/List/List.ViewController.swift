@@ -49,6 +49,8 @@ extension List {
     }
 }
 
+// MARK: - Overrides
+
 extension List.ViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -71,10 +73,18 @@ extension List.ViewController {
         methodsTableView?.reloadData()
     }
 
-    @objc private func cancelButtonDidPress() {
-        dismiss(animated: true, completion: nil)
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.paymentViewControllerWillDismiss()
     }
 
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.paymentViewControllerDidDismiss()
+    }
+}
+
+extension List.ViewController {
     func loadPaymentSession() {
         viewState = .loading
 
@@ -109,6 +119,10 @@ extension List.ViewController {
         } catch {
             viewState = .failure(error)
         }
+    }
+
+    @objc fileprivate func cancelButtonDidPress() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

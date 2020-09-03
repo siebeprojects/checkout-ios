@@ -4,6 +4,8 @@ import Optile
 class ViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
+    
+    var paymentResult: PaymentResult?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +37,22 @@ class ViewController: UIViewController {
 
 extension ViewController: PaymentDelegate {
     func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
-        navigationController?.popViewController(animated: true, completion: {
-            self.presentAlert(with: paymentResult)
-        })
+        self.paymentResult = paymentResult
+    }
+
+    func paymentViewControllerDidDismiss() {
+        if let result = paymentResult {
+            // Payment result was received
+            self.presentAlert(with: result)
+        } else {
+            // No payment result was received but view was dismissed, that means that user navigated back
+            let alertController = UIAlertController(title: "Payment result", message: "User dismissed the view controller", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
+        paymentResult = nil
     }
     
     private func presentAlert(with paymentResult: PaymentResult) {
