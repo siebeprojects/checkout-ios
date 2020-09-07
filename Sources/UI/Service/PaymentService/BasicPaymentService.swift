@@ -2,6 +2,9 @@ import Foundation
 import SafariServices
 
 class BasicPaymentService: PaymentService {
+    // MARK: - Constants
+    private let supportedRedirectTypes = ["PROVIDER", "3DS2-HANDLER"]
+    
     // MARK: - Static methods
     static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
         if let paymentMethod = paymentMethod {
@@ -70,7 +73,7 @@ class BasicPaymentService: PaymentService {
                 do {
                     let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
 
-                    if let redirect = operationResult.redirect {
+                    if let redirect = operationResult.redirect, let redirectType = redirect.type, self.supportedRedirectTypes.contains(redirectType) {
                         self.redirectCallbackHandler.delegate = self.delegate
                         self.redirectCallbackHandler.subscribeForNotification()
                         try self.sendRedirect(using: redirect)
@@ -97,10 +100,6 @@ class BasicPaymentService: PaymentService {
 
         guard case .GET = redirect.method else {
             throw InternalError(description: "Redirect method is not GET. Requested method was: %@", redirect.method.rawValue)
-        }
-
-        guard let redirectType = redirect.type, ["PROVIDER", "3DS2-HANDLER"].contains(redirectType) else {
-            throw InternalError(description: "Unsupported or undefined redirect type")
         }
 
         // Add or replace query items with parameters from `Redirect` object
