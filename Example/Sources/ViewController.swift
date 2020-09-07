@@ -32,6 +32,10 @@ class ViewController: UITableViewController {
         }
     }
 
+    @IBAction func switchValueDidChange(_ sender: UISwitch) {
+        Theme.shared = sender.isOn ? .custom : .standart
+    }
+
     @IBAction func sendRequest(_ sender: Any) {
         guard let text = textField.text, let url = URL(string: text) else {
             print("Invalid URL")

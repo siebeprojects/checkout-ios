@@ -11,7 +11,7 @@
         <scene sceneID="P7f-Ho-yTJ">
             <objects>
                 <tableViewController id="cZc-Vk-m61" customClass="ViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="qvd-OY-eTt">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="qvd-OY-eTt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -40,10 +40,43 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="UI customization" footerTitle="You may customize the appearance of payment screens" id="BbT-TA-3EZ">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="qUq-Su-zqa">
+                                        <rect key="frame" x="0.0" y="190.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qUq-Su-zqa" id="iqn-gP-287">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use a custom theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWh-lG-Xg0">
+                                                    <rect key="frame" x="20" y="11.5" width="309" height="21"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Nag-du-UoB">
+                                                    <rect key="frame" x="345" y="6.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="switchValueDidChange:" destination="cZc-Vk-m61" eventType="valueChanged" id="gCI-rY-aqe"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hWh-lG-Xg0" firstAttribute="leading" secondItem="iqn-gP-287" secondAttribute="leadingMargin" id="7J4-PR-dSi"/>
+                                                <constraint firstItem="Nag-du-UoB" firstAttribute="trailing" secondItem="iqn-gP-287" secondAttribute="trailingMargin" id="GM2-Li-1fO"/>
+                                                <constraint firstItem="Nag-du-UoB" firstAttribute="leading" secondItem="hWh-lG-Xg0" secondAttribute="trailing" constant="16" id="ZUU-VY-abt"/>
+                                                <constraint firstItem="Nag-du-UoB" firstAttribute="centerY" secondItem="iqn-gP-287" secondAttribute="centerY" id="fxz-Qg-czM"/>
+                                                <constraint firstItem="hWh-lG-Xg0" firstAttribute="centerY" secondItem="iqn-gP-287" secondAttribute="centerY" id="oa0-R4-86I"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection id="EIb-Wf-Jy1">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="iv0-F5-erz">
-                                        <rect key="frame" x="0.0" y="163" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="282" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iv0-F5-erz" id="boK-8V-eDv">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
