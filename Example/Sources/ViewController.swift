@@ -1,13 +1,24 @@
 import UIKit
 import Optile
 
-class ViewController: UIViewController {
+class ViewController: UITableViewController {
 
     @IBOutlet weak var textField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.barTintColor = .navigationBarTintColor
+
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.backgroundColor = .navigationBarTintColor
+            navigationController?.navigationBar.standardAppearance = navBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        } else {
+            navigationController?.navigationBar.barTintColor = .navigationBarTintColor
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

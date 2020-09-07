@@ -49,6 +49,9 @@ extension List.ViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .themedBackground
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
 
         // If view was presented modally show Cancel button
         if navigationController == nil {
