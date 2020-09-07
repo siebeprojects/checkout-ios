@@ -94,7 +94,7 @@ internal extension UIColor {
 
 internal extension UIFont {
     static var theme: UIFont {
-        return Theme.standard.font
+        return Theme.shared.font
     }
 
     func withSize(forTextStyle textStyle: TextStyle) -> UIFont {
