@@ -33,7 +33,7 @@ class ViewController: UITableViewController {
     }
 
     @IBAction func switchValueDidChange(_ sender: UISwitch) {
-        Theme.shared = sender.isOn ? .custom : .standart
+        Theme.shared = sender.isOn ? .custom : .standard
     }
 
     @IBAction func sendRequest(_ sender: Any) {

@@ -28,9 +28,9 @@ import UIKit
 }
 
 public extension Theme {
-    static var shared: Theme = .standart
+    static var shared: Theme = .standard
 
-    static var standart: Theme {
+    static var standard: Theme {
         let textColor = UIColor(white: 66.0 / 255.0, alpha: 1.0)
         let detailedTextColor = UIColor(white: 143.0 / 255.0, alpha: 1.0)
         let tintColor = UIColor(red: 0.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
@@ -94,7 +94,7 @@ internal extension UIColor {
 
 internal extension UIFont {
     static var theme: UIFont {
-        return Theme.standart.font
+        return Theme.standard.font
     }
 
     func withSize(forTextStyle textStyle: TextStyle) -> UIFont {
