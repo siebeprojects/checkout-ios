@@ -37,9 +37,7 @@ class RedirectCallbackHandler {
         }
         
         let interaction = Interaction(code: code, reason: .COMMUNICATION_FAILURE)
-        let operationResult = OperationResult(resultInfo: "Missing OperationResult after client-side redirect", interaction: interaction, redirect: nil)
-
-        let result = PaymentResult(operationResult: operationResult, interaction: interaction, error: nil)
+        let result = PaymentResult(operationResult: nil, interaction: interaction, error: nil)
         
         delegate?.paymentService(didReceivePaymentResult: result)
     }
