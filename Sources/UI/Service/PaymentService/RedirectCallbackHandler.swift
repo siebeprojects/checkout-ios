@@ -9,12 +9,37 @@ class RedirectCallbackHandler {
     weak var delegate: PaymentServiceDelegate?
 
     func subscribeForNotification() {
-        var token: NSObjectProtocol?
-        token = NotificationCenter.default.addObserver(forName: .didReceivePaymentResultURL, object: nil, queue: .main) { notification in
+        // Received payment result notification
+        var receivePaymentNotificationToken: NSObjectProtocol?
+        receivePaymentNotificationToken = NotificationCenter.default.addObserver(forName: .didReceivePaymentResultURL, object: nil, queue: .main) { notification in
             guard let url = notification.object as? URL else { return }
             self.handle(receivedURL: url)
-            NotificationCenter.default.removeObserver(token!)
+            NotificationCenter.default.removeObserver(receivePaymentNotificationToken!)
         }
+        
+        // Failed to receive payment result notification (e.g. browser window was closed)
+        var failedPaymentNotificationToken: NSObjectProtocol?
+        failedPaymentNotificationToken = NotificationCenter.default.addObserver(forName: Self.didFailReceivingPaymentResultURLNotification, object: nil, queue: .main, using: { notification in
+            guard let userInfo = notification.userInfo as? [String: String] else { return }
+            self.didReceiveFailureNotification(userInfo: userInfo)
+            NotificationCenter.default.removeObserver(failedPaymentNotificationToken!)
+        })
+    }
+    
+    private func didReceiveFailureNotification(userInfo: [String: String]) {
+        // TODO: Use enum instead of strings after switching to MOBILE_NATIVE integration type
+        let code: Interaction.Code
+        switch userInfo[Self.operationTypeUserInfoKey] {
+        case "PRESET", "UPDATE", "ACTIVATION": code = .ABORT
+        default:
+            // "CHARGE", "PAYOUT" and other operation types
+            code = .VERIFY
+        }
+        
+        let interaction = Interaction(code: code, reason: .COMMUNICATION_FAILURE)
+        let result = PaymentResult(operationResult: nil, interaction: interaction, error: nil)
+        
+        delegate?.paymentService(didReceivePaymentResult: result)
     }
 
     private func handle(receivedURL: URL) {
@@ -54,6 +79,11 @@ private extension Sequence where Element == URLQueryItem {
 
         return dict
     }
+}
+
+extension RedirectCallbackHandler {
+    static let didFailReceivingPaymentResultURLNotification: NSNotification.Name = .init("RedirectCallbackHandlerDidFailReceivingPaymentResultURLNotification")
+    static let operationTypeUserInfoKey: String = "operationType"
 }
 
 public extension NSNotification.Name {

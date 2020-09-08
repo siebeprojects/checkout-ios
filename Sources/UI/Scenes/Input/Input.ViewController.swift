@@ -328,9 +328,22 @@ extension Input.ViewController: PaymentControllerDelegate {
     func paymentController(presentURL url: URL) {
         DispatchQueue.main.async {
             let safariVC = SFSafariViewController(url: url)
+            safariVC.delegate = self
             self.safariViewController = safariVC
             self.navigationController?.present(safariVC, animated: true, completion: nil)
         }
+    }
+}
+
+extension Input.ViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        // Get operation type for the last path component
+        let operationType = smartSwitch.selected.network.operationURL.lastPathComponent
+        NotificationCenter.default.post(
+            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
+            object: nil,
+            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: operationType]
+        )
     }
 }
 #endif

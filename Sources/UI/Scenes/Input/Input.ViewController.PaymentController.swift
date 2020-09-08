@@ -78,6 +78,6 @@ private extension Input.LocalizableError {
         let localizationKeyPrefix = "interaction." + interaction.code + "." + interaction.reason + "."
 
         titleKey = localizationKeyPrefix + "title"
-        messageKey = localizationKeyPrefix + "reason"
+        messageKey = localizationKeyPrefix + "text"
     }
 }
