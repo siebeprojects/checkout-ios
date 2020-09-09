@@ -7,18 +7,8 @@ class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if #available(iOS 13.0, *) {
-            let navBarAppearance = UINavigationBarAppearance()
-            navBarAppearance.configureWithOpaqueBackground()
-            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-            navBarAppearance.backgroundColor = .navigationBarTintColor
-            navigationController?.navigationBar.standardAppearance = navBarAppearance
-            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        } else {
-            navigationController?.navigationBar.barTintColor = .navigationBarTintColor
-        }
+        
+        setNavigationBarTintColor(to: .navigationBarTintColor)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -33,7 +23,14 @@ class ViewController: UITableViewController {
     }
 
     @IBAction func switchValueDidChange(_ sender: UISwitch) {
-        Theme.shared = sender.isOn ? .custom : .standard
+        if sender.isOn {
+            Theme.shared = .custom
+            setNavigationBarTintColor(to: .blue)
+        } else {
+            Theme.shared = .standard
+            setNavigationBarTintColor(to: .navigationBarTintColor)
+            navigationController?.navigationBar.barTintColor = .blue
+        }
     }
 
     @IBAction func sendRequest(_ sender: Any) {
@@ -45,6 +42,24 @@ class ViewController: UITableViewController {
 
         let viewController = List.ViewController(listResultURL: url)
         navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+private extension ViewController {
+    func setNavigationBarTintColor(to color: UIColor) {
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.backgroundColor = color
+            navigationController?.navigationBar.standardAppearance = navBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+            navigationController?.navigationBar.setNeedsLayout()
+            navigationController?.navigationBar.layoutIfNeeded()
+        } else {
+            navigationController?.navigationBar.barTintColor = color
+        }
     }
 }
 
