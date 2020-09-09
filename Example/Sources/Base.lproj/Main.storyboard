@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <sections>
-                            <tableViewSection headerTitle="URL" footerTitle="Put a link from payment session here and press &quot;Send request&quot;" id="Il2-qv-3CH">
+                            <tableViewSection headerTitle="List URL" id="Il2-qv-3CH">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ZgR-Tr-B0Q">
                                         <rect key="frame" x="0.0" y="55.5" width="414" height="43.5"/>
@@ -40,10 +40,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="UI customization" footerTitle="You may customize the appearance of payment screens" id="BbT-TA-3EZ">
+                            <tableViewSection id="BbT-TA-3EZ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="qUq-Su-zqa">
-                                        <rect key="frame" x="0.0" y="190.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="135" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qUq-Su-zqa" id="iqn-gP-287">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -76,7 +76,7 @@
                             <tableViewSection id="EIb-Wf-Jy1">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="iv0-F5-erz">
-                                        <rect key="frame" x="0.0" y="282" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="214.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iv0-F5-erz" id="boK-8V-eDv">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
