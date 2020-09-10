@@ -29,7 +29,6 @@ class ViewController: UITableViewController {
         } else {
             Theme.shared = .standard
             setNavigationBarTintColor(to: .navigationBarTintColor)
-            navigationController?.navigationBar.barTintColor = .blue
         }
     }
 
