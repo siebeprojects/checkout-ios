@@ -41,16 +41,9 @@ extension ViewController: PaymentDelegate {
     }
 
     func paymentViewControllerDidDismiss() {
-        if let result = paymentResult {
-            // Payment result was received
-            self.presentAlert(with: result)
-        } else {
-            // No payment result was received but view was dismissed, that means that user navigated back
-            let alertController = UIAlertController(title: "Payment result", message: "User dismissed the view controller", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true, completion: nil)
-        }
+        guard let result = paymentResult else { return }
+        // Payment result was received
+        self.presentAlert(with: result)
         
         paymentResult = nil
     }
