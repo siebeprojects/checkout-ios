@@ -30,7 +30,7 @@ You may customize the appearance of payment screens by using `Theme.shared` sing
 Theme.shared.errorTextColor = .orange
 ```
 
-Default values are stored in `Theme.standart` object.
+Default values are stored in `Theme.standard` object.
 
 |Property|Description|
 |-|-|
