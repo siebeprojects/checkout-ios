@@ -8,7 +8,7 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarTintColor(to: .navigationBarTintColor)
+        setNavigationBarTintColor(to: Theme.shared.tintColor)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -23,13 +23,8 @@ class ViewController: UITableViewController {
     }
 
     @IBAction func switchValueDidChange(_ sender: UISwitch) {
-        if sender.isOn {
-            Theme.shared = .custom
-            setNavigationBarTintColor(to: .blue)
-        } else {
-            Theme.shared = .standard
-            setNavigationBarTintColor(to: .navigationBarTintColor)
-        }
+        Theme.shared = sender.isOn ? .custom : .standard
+        setNavigationBarTintColor(to: Theme.shared.tintColor)
     }
 
     @IBAction func sendRequest(_ sender: Any) {
@@ -59,11 +54,5 @@ private extension ViewController {
         } else {
             navigationController?.navigationBar.barTintColor = color
         }
-    }
-}
-
-private extension UIColor {
-    static var navigationBarTintColor: UIColor {
-        return UIColor(red: 0.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
     }
 }
