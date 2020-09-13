@@ -12,6 +12,8 @@ extension List {
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
         fileprivate let router: List.Router
+        
+        public weak var delegate: PaymentDelegate?
 
         /// TODO: Migrate to separate State manager
         fileprivate var viewState: Load<PaymentSession, Error> = .loading {
@@ -45,6 +47,8 @@ extension List {
     }
 }
 
+// MARK: - Overrides
+
 extension List.ViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -70,10 +74,18 @@ extension List.ViewController {
         methodsTableView?.reloadData()
     }
 
-    @objc private func cancelButtonDidPress() {
-        dismiss(animated: true, completion: nil)
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.paymentViewControllerWillDismiss()
     }
 
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.paymentViewControllerDidDismiss()
+    }
+}
+
+extension List.ViewController {
     func loadPaymentSession() {
         viewState = .loading
 
@@ -108,6 +120,10 @@ extension List.ViewController {
         } catch {
             viewState = .failure(error)
         }
+    }
+
+    @objc fileprivate func cancelButtonDidPress() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -309,19 +325,16 @@ extension List.ViewController: ListTableControllerDelegate {
     }
 }
 
-extension List.ViewController: PaymentServiceDelegate {
+extension List.ViewController: PaymentDelegate {
     public func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
         switch Interaction.Code(rawValue: paymentResult.interaction.code) {
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK, .RELOAD:
             loadPaymentSession()
         default:
             // RETRY was handled by `Input.ViewController`
+            delegate?.paymentService(didReceivePaymentResult: paymentResult)
             navigationController?.popViewController(animated: true)
         }
-    }
-
-    func paymentController(paymentSucceedWith result: OperationResult?) {
-        navigationController?.popViewController(animated: true)
     }
 }
 

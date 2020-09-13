@@ -17,7 +17,7 @@ extension Input {
 
         var safariViewController: SFSafariViewController?
 
-        weak var delegate: PaymentServiceDelegate?
+        weak var delegate: PaymentDelegate?
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
