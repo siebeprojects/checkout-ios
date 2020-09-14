@@ -107,7 +107,7 @@ class PaymentSessionProvider {
         let error: Error
         if let localizedReason = localizedReason {
             // If we have a localization for that interaction throw it as an error
-            error = PaymentError(localizedDescription: localizedReason)
+            error = TranslatedError(localizedDescription: localizedReason)
         } else {
             // If we don't have such localization throw an internal error, later it would be converted to a generic error
             error = InternalError(description: "%@", listResult.interaction.reason)

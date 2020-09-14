@@ -221,7 +221,7 @@ extension List.ViewController {
             localizedError = error
         } else {
             let text: String = sharedTranslationProvider.translation(forKey: TranslationKey.errorText.rawValue)
-            localizedError = PaymentError(localizedDescription: text, underlyingError: nil)
+            localizedError = TranslatedError(localizedDescription: text, underlyingError: nil)
         }
 
         let title: String = sharedTranslationProvider.translation(forKey: TranslationKey.errorTitle.rawValue)
