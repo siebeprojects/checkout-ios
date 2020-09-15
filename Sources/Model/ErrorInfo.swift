@@ -4,12 +4,9 @@ import Foundation
 @objc public class ErrorInfo: NSObject, Decodable {
     let resultInfo: String
     let interaction: Interaction
-
-    struct Interaction: Decodable {
-        let code, reason: String
-    }
     
-    internal init(resultInfo: String, interaction: ErrorInfo.Interaction) {
+    /// - Note: Use `PaymentError` instead of that class when creating custom error info
+    internal init(resultInfo: String, interaction: Interaction) {
         self.resultInfo = resultInfo
         self.interaction = interaction
     }

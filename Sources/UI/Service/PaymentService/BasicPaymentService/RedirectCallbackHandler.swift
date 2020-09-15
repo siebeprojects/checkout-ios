@@ -37,9 +37,9 @@ class RedirectCallbackHandler {
         }
         
         let interaction = Interaction(code: code, reason: .COMMUNICATION_FAILURE)
-        let result = PaymentResult(operationResult: nil, interaction: interaction, error: nil)
+        let errorInfo = ErrorInfo(resultInfo: "", interaction: interaction)
         
-        delegate?.paymentService(didReceivePaymentResult: result)
+        delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))
     }
     
     private func handle(receivedURL: URL) {
@@ -50,8 +50,8 @@ class RedirectCallbackHandler {
                 // Couldn't form payment result, send an error
                 let errorInteraction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
                 let error = InternalError(description: "Callback URL doesn't contain interaction code or reason. URL: %@", receivedURL.absoluteString)
-                let result = PaymentResult(operationResult: nil, interaction: errorInteraction, error: error)
-                delegate?.paymentService(didReceivePaymentResult: result)
+                let paymentError = PaymentError(resultInfo: "", interaction: errorInteraction, underlyingError: error)
+                delegate?.paymentService(didReceiveResponse: .result(.failure(paymentError)))
                 return
         }
         
@@ -63,9 +63,8 @@ class RedirectCallbackHandler {
         let redirect = Redirect(url: receivedURL, method: .GET, parameters: parameters)
 
         let operationResult = OperationResult(resultInfo: "OperationResult received from the mobile-redirect webapp", interaction: interaction, redirect: redirect)
-        let result = PaymentResult(operationResult: operationResult, interaction: interaction, error: nil)
         
-        delegate?.paymentService(didReceivePaymentResult: result)
+        delegate?.paymentService(didReceiveResponse: .result(.success(operationResult)))
     }
 }
 

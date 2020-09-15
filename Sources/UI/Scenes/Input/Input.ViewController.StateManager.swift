@@ -25,8 +25,8 @@ extension Input.ViewController.StateManager {
         switch newState {
         case .paymentSubmission:
             setPaymentSubmission(isActive: true)
-        case .error(let error, let isRetryable, let onDismissBlock):
-            present(error: error, isRetryable: isRetryable, onDismissBlock: onDismissBlock)
+        case .error(let error):
+            present(error: error)
         default: break
         }
     }
@@ -43,27 +43,19 @@ extension Input.ViewController.StateManager {
         vc.collectionView.reloadData()
     }
 
-    private func present(error: Error, isRetryable: Bool, onDismissBlock: @escaping () -> Void) {
+    private func present(error: Error) {
         let translator = vc.smartSwitch.selected.network.translation
 
-        let title, message: String
-
-        if let localizableError = error as? Input.LocalizableError, let customTitle = translator.translation(forKey: localizableError.titleKey), let customMessage = translator.translation(forKey: localizableError.messageKey) {
-            // If localizable error was thrown and we have all translations display that error
-            title = customTitle
-            message = customMessage
+        let alertController: UIAlertController
+        
+        if let prebuiltError = error as? AlertControllerError {
+            alertController = prebuiltError.makeAlertController(translator: translator)
         } else {
-            title = translator.translation(forKey: "messages.error.default.title")
-            message = translator.translation(forKey: "messages.error.default.text")
+            let error = AlertControllerError(for: error, translator: translator)
+            alertController = error.makeAlertController(translator: translator)
         }
 
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: translator.translation(forKey: "button.ok.label"), style: .default, handler: { _ in
-            onDismissBlock()
-        })
-        alert.addAction(okAction)
-
-        vc.present(alert, animated: true, completion: {
+        vc.present(alertController, animated: true, completion: {
             self.state = .inputFieldsPresentation
         })
     }
@@ -73,6 +65,6 @@ extension Input.ViewController.StateManager {
     enum UIState {
         case inputFieldsPresentation
         case paymentSubmission
-        case error(Error, isRetryable: Bool, onDismissBlock: () -> Void)
+        case error(Error)
     }
 }
