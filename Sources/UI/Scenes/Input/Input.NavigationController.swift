@@ -5,12 +5,8 @@ extension Input {
         override func viewDidLoad() {
             super.viewDidLoad()
 
-            view.tintColor = .tintColor
-            if #available(iOS 13.0, *) {
-                navigationBar.barTintColor = .systemBackground
-            } else {
-                navigationBar.barTintColor = .white
-            }
+            view.tintColor = .themedTint
+            navigationBar.barTintColor = .themedBackground
         }
 
         override func viewDidLayoutSubviews() {

@@ -27,8 +27,8 @@ extension List.Table.SingleLabelCell {
     fileprivate func addContentViews() {
         let networkLabel = UILabel(frame: .zero)
         networkLabel.translatesAutoresizingMaskIntoConstraints = false
-        networkLabel.font = .preferredFont(forTextStyle: .body)
-        networkLabel.textColor = .text
+        networkLabel.font = UIFont.theme.withSize(forTextStyle: .body)
+        networkLabel.textColor = .themedText
         contentView.addSubview(networkLabel)
         self.networkLabel = networkLabel
 

@@ -72,14 +72,14 @@ class BasicPaymentService: PaymentService {
 
                 do {
                     let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
- 
+
                     if let redirect = operationResult.redirect, let redirectType = redirect.type, self.supportedRedirectTypes.contains(redirectType) {
                         self.redirectCallbackHandler.delegate = self.delegate
                         self.redirectCallbackHandler.subscribeForNotification()
                         try self.sendRedirect(using: redirect)
                         return
                     }
-                    
+
                     let paymentResult = PaymentResult(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
                     self.delegate?.paymentService(didReceivePaymentResult: paymentResult)
                     log(.debug, "Payment result received. Interaction: %@", operationResult.interaction.code, operationResult.interaction.reason)
@@ -92,16 +92,16 @@ class BasicPaymentService: PaymentService {
             }
         }
     }
-    
+
     private func sendRedirect(using redirect: Redirect) throws {
         guard var components = URLComponents(url: redirect.url, resolvingAgainstBaseURL: false) else {
             throw InternalError(description: "Incorrect redirect url provided: %@", redirect.url.absoluteString)
         }
-        
+
         guard case .GET = redirect.method else {
             throw InternalError(description: "Redirect method is not GET. Requested method was: %@", redirect.method.rawValue)
         }
-        
+
         // Add or replace query items with parameters from `Redirect` object
         if let redirectParameters = redirect.parameters, !redirectParameters.isEmpty {
             var queryItems = components.queryItems ?? [URLQueryItem]()
@@ -109,16 +109,16 @@ class BasicPaymentService: PaymentService {
             queryItems += redirectParameters.map {
                 URLQueryItem(name: $0.name, value: $0.value)
             }
-            
+
             components.queryItems = queryItems
         }
-        
+
         guard let url = components.url else {
             throw InternalError(description: "Unable to build URL from components")
         }
-        
+
         log(.debug, "Redirecting user to an external url: %@", url.absoluteString)
-        
+
         delegate?.paymentService(presentURL: url)
     }
 
@@ -158,4 +158,3 @@ private extension BasicPaymentService {
         }
     }
 }
-
