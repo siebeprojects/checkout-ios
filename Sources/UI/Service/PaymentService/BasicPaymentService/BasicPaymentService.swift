@@ -45,7 +45,7 @@ class BasicPaymentService: PaymentService {
             urlRequest = try makeRequest(for: paymentRequest)
         } catch {
             let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
-            let paymentError = PaymentError(resultInfo: "", interaction: interaction, underlyingError: error)
+            let paymentError = CustomErrorInfo(resultInfo: "", interaction: interaction, underlyingError: error)
             delegate?.paymentService(didReceiveResponse: .result(.failure(paymentError)))
             return
         }

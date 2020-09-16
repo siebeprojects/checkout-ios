@@ -50,7 +50,7 @@ class RedirectCallbackHandler {
                 // Couldn't form payment result, send an error
                 let errorInteraction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
                 let error = InternalError(description: "Callback URL doesn't contain interaction code or reason. URL: %@", receivedURL.absoluteString)
-                let paymentError = PaymentError(resultInfo: "", interaction: errorInteraction, underlyingError: error)
+                let paymentError = CustomErrorInfo(resultInfo: "", interaction: errorInteraction, underlyingError: error)
                 delegate?.paymentService(didReceiveResponse: .result(.failure(paymentError)))
                 return
         }

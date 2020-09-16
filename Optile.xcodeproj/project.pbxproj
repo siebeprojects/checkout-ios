@@ -176,7 +176,7 @@
 		D96BB8C8249FEBB400C2AD73 /* MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B7249FEBB400C2AD73 /* MockFactory.swift */; };
 		D96BB8C9249FEBB400C2AD73 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */; };
 		D96BB8CA249FEBB400C2AD73 /* MockFactory.ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */; };
-		D973FB1F250F4BD7003893E9 /* PaymentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D973FB1E250F4BD7003893E9 /* PaymentError.swift */; };
+		D973FB1F250F4BD7003893E9 /* CustomErrorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D973FB1E250F4BD7003893E9 /* CustomErrorInfo.swift */; };
 		D973FB22250F52A1003893E9 /* BasicPaymentService.ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D973FB21250F52A1003893E9 /* BasicPaymentService.ResponseParser.swift */; };
 		D993F78F24AD2B9E00D09D89 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D993F78E24AD2B9E00D09D89 /* PaymentMethod.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
@@ -375,7 +375,7 @@
 		D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFactory.ListResult.swift; sourceTree = "<group>"; };
 		D96BB8CB249FEBC500C2AD73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D973FB1E250F4BD7003893E9 /* PaymentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentError.swift; sourceTree = "<group>"; };
+		D973FB1E250F4BD7003893E9 /* CustomErrorInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorInfo.swift; sourceTree = "<group>"; };
 		D973FB21250F52A1003893E9 /* BasicPaymentService.ResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicPaymentService.ResponseParser.swift; sourceTree = "<group>"; };
 		D993F78E24AD2B9E00D09D89 /* PaymentMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentMethod.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -755,7 +755,7 @@
 				D973FB20250F527F003893E9 /* BasicPaymentService */,
 				D96BB7CE249FEB7300C2AD73 /* PaymentResult.swift */,
 				D96BB7CF249FEB7300C2AD73 /* PaymentService.swift */,
-				D973FB1E250F4BD7003893E9 /* PaymentError.swift */,
+				D973FB1E250F4BD7003893E9 /* CustomErrorInfo.swift */,
 				D9F17490250F9068007D1141 /* PaymentServiceParsedResponse.swift */,
 				D96BB7D0249FEB7300C2AD73 /* PaymentServicesFactory.swift */,
 				D96BB7D1249FEB7300C2AD73 /* PaymentRequest.swift */,
@@ -1320,7 +1320,7 @@
 				D96BB818249FEB7300C2AD73 /* Input.SmartSwitch.swift in Sources */,
 				D96BB865249FEB7300C2AD73 /* SlideInPresentationController.swift in Sources */,
 				D96BB80B249FEB7300C2AD73 /* Input.ViewController.StateManager.swift in Sources */,
-				D973FB1F250F4BD7003893E9 /* PaymentError.swift in Sources */,
+				D973FB1F250F4BD7003893E9 /* CustomErrorInfo.swift in Sources */,
 				D9F96B9C25103CE700E5A638 /* AlertControllerError.swift in Sources */,
 				D96BB80E249FEB7300C2AD73 /* TextFormatter.swift in Sources */,
 				D96BB86A249FEB7300C2AD73 /* PaymentResult.swift in Sources */,

@@ -1,7 +1,7 @@
 import Foundation
 
 /// Class is used when you need to create a custom `ErrorInfo` to keep track what error cause creation of local error info
-final class PaymentError: ErrorInfo {
+final class CustomErrorInfo: ErrorInfo {
     /// Underlying error that caused payment error
     let underlyingError: Error
     
