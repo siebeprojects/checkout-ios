@@ -1,22 +1,33 @@
 import Foundation
 
+/// Class contains payment result, `operationResult` or `errorInfo` is always present (on of them).
 @objc public class PaymentResult: NSObject {
-    public let operationResult: OperationResult?
-    public let interaction: Interaction
-    public let error: Error?
-
-    init(operationResult: OperationResult?, interaction: Interaction, error: Error?) {
-        self.operationResult = operationResult
-        self.interaction = interaction
-        self.error = error
+    public var operationResult: OperationResult? {
+        guard case let .success(unwrappedOperationResult) = result else {
+            return nil
+        }
+        
+        return unwrappedOperationResult
     }
     
-    convenience init(operationResult: Result<OperationResult, ErrorInfo>) {
-        switch operationResult {
-        case .success(let operationResult):
-            self.init(operationResult: operationResult, interaction: operationResult.interaction, error: nil)
-        case .failure(let errorInfo):
-            self.init(operationResult: nil, interaction: errorInfo.interaction, error: errorInfo)
+    public var errorInfo: ErrorInfo? {
+        guard case let .failure(error) = result else {
+            return nil
         }
+        
+        return error
+    }
+    
+    /// Contains value if something went wrong inside framework. In the most cases it would contain `InternalError` type.
+    public var internalError: Error? {
+        return errorInfo as? CustomErrorInfo
+    }
+
+    // MARK: Internal
+    
+    private let result: Result<OperationResult, ErrorInfo>
+
+    internal init(operationResult: Result<OperationResult, ErrorInfo>) {
+        self.result = operationResult
     }
 }
