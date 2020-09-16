@@ -226,7 +226,7 @@ extension List.ViewController {
         
         // Present a custom error for network failures
         if let networkError = error.asNetworkError {
-            let builtError = AlertControllerError(title: nil, message: networkError.localizedDescription, dismissBlock: errorDismissBlock)
+            let builtError = UIAlertController.PreparedError(title: nil, message: networkError.localizedDescription, dismissBlock: errorDismissBlock)
             
             let alertController = builtError.makeAlertController(translator: sharedTranslationProvider)
             let retryLabel: String = sharedTranslationProvider.translation(forKey: TranslationKey.retryLabel.rawValue)
@@ -240,14 +240,14 @@ extension List.ViewController {
         }
         
         
-        var localizedError: AlertControllerError
+        var localizedError: UIAlertController.PreparedError
         
-        if let prebuiltError = error as? AlertControllerError {
+        if let uiPreparedError = error as? UIAlertController.PreparedError {
             // For prebuilt errors don't do any transformations
-            localizedError = prebuiltError
+            localizedError = uiPreparedError
         } else {
             // Some unknown error, just show a generic error
-            localizedError = AlertControllerError(for: error, translator: sharedTranslationProvider)
+            localizedError = UIAlertController.PreparedError(for: error, translator: sharedTranslationProvider)
         }
         
         localizedError.dismissBlock = errorDismissBlock
@@ -338,18 +338,18 @@ extension List.ViewController: ListViewControllerPaymentDelegate {
         switch Interaction.Code(rawValue: result.interaction.code)  {
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
             // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
-            var prebuiltError: AlertControllerError
+            var uiPreparedError: UIAlertController.PreparedError
             do {
-                prebuiltError = try AlertControllerError(for: result.interaction, translator: network.translation)
+                uiPreparedError = try UIAlertController.PreparedError(for: result.interaction, translator: network.translation)
             } catch {
-                prebuiltError = AlertControllerError(for: error, translator: network.translation)
+                uiPreparedError = UIAlertController.PreparedError(for: error, translator: network.translation)
             }
             
-            prebuiltError.dismissBlock = {
+            uiPreparedError.dismissBlock = {
                 self.loadPaymentSession()
             }
 
-            viewState = .failure(prebuiltError)
+            viewState = .failure(uiPreparedError)
         case .RELOAD:
             // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
             loadPaymentSession()

@@ -48,10 +48,10 @@ extension Input.ViewController.StateManager {
 
         let alertController: UIAlertController
         
-        if let prebuiltError = error as? AlertControllerError {
-            alertController = prebuiltError.makeAlertController(translator: translator)
+        if let uiPreparedError = error as? UIAlertController.PreparedError {
+            alertController = uiPreparedError.makeAlertController(translator: translator)
         } else {
-            let error = AlertControllerError(for: error, translator: translator)
+            let error = UIAlertController.PreparedError(for: error, translator: translator)
             alertController = error.makeAlertController(translator: translator)
         }
 

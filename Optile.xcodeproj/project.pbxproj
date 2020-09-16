@@ -183,12 +183,12 @@
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
 		D9A88E48241C56490043F535 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D92241C55040043F535 /* Media.xcassets */; };
+		D9B737702512608D00A62A79 /* UIAlertController.PreparedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B7376F2512608C00A62A79 /* UIAlertController.PreparedError.swift */; };
 		D9C315DC24AC042D001DE891 /* Input.ViewController.PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C315DB24AC042D001DE891 /* Input.ViewController.PaymentController.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
 		D9F154D324B31ABF00C91681 /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F154D224B31ABF00C91681 /* Loadable.swift */; };
 		D9F17491250F9068007D1141 /* PaymentServiceParsedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F17490250F9068007D1141 /* PaymentServiceParsedResponse.swift */; };
 		D9F96B9A250FDE2E00E5A638 /* ListViewControllerPaymentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F96B99250FDE2E00E5A638 /* ListViewControllerPaymentDelegate.swift */; };
-		D9F96B9C25103CE700E5A638 /* AlertControllerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F96B9B25103CE700E5A638 /* AlertControllerError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,13 +383,13 @@
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
 		D9A88D94241C55040043F535 /* groups.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = groups.json; sourceTree = "<group>"; };
 		D9A88D95241C55040043F535 /* validations-default.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "validations-default.json"; sourceTree = "<group>"; };
+		D9B7376F2512608C00A62A79 /* UIAlertController.PreparedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController.PreparedError.swift; sourceTree = "<group>"; };
 		D9C315DB24AC042D001DE891 /* Input.ViewController.PaymentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.PaymentController.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9F154D224B31ABF00C91681 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		D9F17490250F9068007D1141 /* PaymentServiceParsedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentServiceParsedResponse.swift; sourceTree = "<group>"; };
 		D9F96B99250FDE2E00E5A638 /* ListViewControllerPaymentDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewControllerPaymentDelegate.swift; sourceTree = "<group>"; };
-		D9F96B9B25103CE700E5A638 /* AlertControllerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerError.swift; sourceTree = "<group>"; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -719,8 +719,8 @@
 			children = (
 				D96BB7C0249FEB7300C2AD73 /* PaymentNetwork.swift */,
 				D96BB7C1249FEB7300C2AD73 /* RegisteredAccount.swift */,
+				D9B7376F2512608C00A62A79 /* UIAlertController.PreparedError.swift */,
 				D96BB7C2249FEB7300C2AD73 /* TranslatedError.swift */,
-				D9F96B9B25103CE700E5A638 /* AlertControllerError.swift */,
 				D96BB7C3249FEB7300C2AD73 /* PaymentSession.swift */,
 				D9F154D224B31ABF00C91681 /* Loadable.swift */,
 			);
@@ -1277,6 +1277,7 @@
 				D96BB82F249FEB7300C2AD73 /* Input.Field.HolderName.swift in Sources */,
 				D96BB868249FEB7300C2AD73 /* PaymentSessionService.swift in Sources */,
 				D96BB845249FEB7300C2AD73 /* CellRepresentable.swift in Sources */,
+				D9B737702512608D00A62A79 /* UIAlertController.PreparedError.swift in Sources */,
 				D9F17491250F9068007D1141 /* PaymentServiceParsedResponse.swift in Sources */,
 				D96BB88E249FEB7400C2AD73 /* ExtraElements.swift in Sources */,
 				D96BB821249FEB7300C2AD73 /* Input.Table.DetailedTextLogoView.swift in Sources */,
@@ -1321,7 +1322,6 @@
 				D96BB865249FEB7300C2AD73 /* SlideInPresentationController.swift in Sources */,
 				D96BB80B249FEB7300C2AD73 /* Input.ViewController.StateManager.swift in Sources */,
 				D973FB1F250F4BD7003893E9 /* CustomErrorInfo.swift in Sources */,
-				D9F96B9C25103CE700E5A638 /* AlertControllerError.swift in Sources */,
 				D96BB80E249FEB7300C2AD73 /* TextFormatter.swift in Sources */,
 				D96BB86A249FEB7300C2AD73 /* PaymentResult.swift in Sources */,
 				D9C315DC24AC042D001DE891 /* Input.ViewController.PaymentController.swift in Sources */,

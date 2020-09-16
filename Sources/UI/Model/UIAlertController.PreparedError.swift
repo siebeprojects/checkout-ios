@@ -1,17 +1,19 @@
 import UIKit
 
-/// Error with title and message, prefer using it in `UIAlertViewController`
-struct AlertControllerError: LocalizedError {
-    let title: String?
-    let message: String
-    
-    var underlyingError: Error? = nil
-    
-    /// Block that should be called after alert dismissal
-    var dismissBlock: (() -> Void)? = nil
+extension UIAlertController {
+    /// Error with title and message, prefer using it in `UIAlertViewController`
+    struct PreparedError: LocalizedError {
+        let title: String?
+        let message: String
+        
+        var underlyingError: Error? = nil
+        
+        /// Block that should be called after alert dismissal
+        var dismissBlock: (() -> Void)? = nil
+    }
 }
 
-extension AlertControllerError {
+extension UIAlertController.PreparedError {
     func makeAlertController(translator: TranslationProvider) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -27,7 +29,7 @@ extension AlertControllerError {
 
 // MARK: - Init from Error
 
-extension AlertControllerError {
+extension UIAlertController.PreparedError {
     /// Show a default text for Error, error will be packed in `underlyingError`
     init(for error: Error, translator: TranslationProvider) {
         let title: String = translator.translation(forKey: "messages.error.default.title")
@@ -40,7 +42,7 @@ extension AlertControllerError {
 
 // MARK: - Init from Interaction
 
-extension AlertControllerError {
+extension UIAlertController.PreparedError {
     /// Initialize localized error if translator could translate both title and message
     /// - Throws: `InternalError` with no localization description
     init(for interaction: Interaction, translator: TranslationProvider) throws {

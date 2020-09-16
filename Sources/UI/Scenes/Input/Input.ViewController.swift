@@ -308,20 +308,20 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         
         // Construct error
         let translator = smartSwitch.selected.network.translation
-        var prebuiltError: AlertControllerError
+        var uiPreparedError: UIAlertController.PreparedError
         do {
-            prebuiltError = try AlertControllerError(for: interaction, translator: translator)
+            uiPreparedError = try UIAlertController.PreparedError(for: interaction, translator: translator)
         } catch {
-            prebuiltError = AlertControllerError(for: error, translator: translator)
+            uiPreparedError = UIAlertController.PreparedError(for: error, translator: translator)
         }
 
         // Unlock input fields after error alert dismissal
-        prebuiltError.dismissBlock = {
+        uiPreparedError.dismissBlock = {
             self.stateManager.state = .inputFieldsPresentation
         }
         
         // Show an error
-        stateManager.state = .error(prebuiltError)
+        stateManager.state = .error(uiPreparedError)
     }
     
     /// Present Safari View Controller with redirect URL
