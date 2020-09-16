@@ -1,6 +1,6 @@
 import Foundation
 
-/// Class contains payment result, `operationResult` or `errorInfo` is always present (on of them).
+/// Class contains payment result, `operationResult` or `errorInfo` is always present (one of them).
 @objc public class PaymentResult: NSObject {
     public var operationResult: OperationResult? {
         guard case let .success(unwrappedOperationResult) = result else {
