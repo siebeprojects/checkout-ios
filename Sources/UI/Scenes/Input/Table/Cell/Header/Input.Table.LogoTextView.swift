@@ -20,13 +20,13 @@ extension Input.Table {
             // FIXME: Add a checkmark for a view
 //            self.accessoryType = .checkmark
 
-            label.font = .preferredFont(forTextStyle: .body)
+            label.font = UIFont.theme.withSize(forTextStyle: .body)
 
             self.addSubview(label)
             self.addSubview(logoView)
 
             label.translatesAutoresizingMaskIntoConstraints = false
-            label.textColor = .text
+            label.textColor = .themedText
             label.lineBreakMode = .byTruncatingMiddle
             logoView.translatesAutoresizingMaskIntoConstraints = false
             logoView.contentMode = .scaleAspectFit

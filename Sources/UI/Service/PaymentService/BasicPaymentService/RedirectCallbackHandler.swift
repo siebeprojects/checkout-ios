@@ -7,7 +7,7 @@ private extension String {
 
 class RedirectCallbackHandler {
     weak var delegate: PaymentServiceDelegate?
-    
+
     func subscribeForNotification() {
         // Received payment result notification
         var receivePaymentNotificationToken: NSObjectProtocol?
@@ -41,7 +41,7 @@ class RedirectCallbackHandler {
         
         delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))
     }
-    
+
     private func handle(receivedURL: URL) {
         guard let components = URLComponents(url: receivedURL, resolvingAgainstBaseURL: false),
             var queryItems = components.queryItems?.asDictionary,
@@ -54,10 +54,10 @@ class RedirectCallbackHandler {
                 delegate?.paymentService(didReceiveResponse: .result(.failure(paymentError)))
                 return
         }
-        
+
         queryItems.removeValue(forKey: .interactionCodeKey)
         queryItems.removeValue(forKey: .interactionReasonKey)
-        
+
         let interaction = Interaction(code: interactionCode, reason: interactionReason)
         let parameters: [Parameter] = queryItems.map { .init(name: $0.key, value: $0.value) }
         let redirect = Redirect(url: receivedURL, method: .GET, parameters: parameters)
@@ -75,7 +75,7 @@ private extension Sequence where Element == URLQueryItem {
             guard let value = queryItem.value else { continue }
             dict[queryItem.name] = value
         }
-        
+
         return dict
     }
 }

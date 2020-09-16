@@ -14,7 +14,7 @@ extension Input {
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
-        
+
         var safariViewController: SFSafariViewController?
 
         weak var delegate: ListViewControllerPaymentDelegate?
@@ -42,7 +42,7 @@ extension Input {
             let transformer = ModelTransformer()
             let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
             let smartSwitch = try SmartSwitch.Selector(networks: networks)
-            
+
             let header: CellRepresentable
             if paymentNetworks.count == 1, let network = paymentNetworks.first {
                 header = Input.TextHeader(logo: network.logo?.value, label: network.label)
@@ -86,11 +86,11 @@ extension Input {
 
 extension Input.ViewController {
     var hasInputFields: Bool { !smartSwitch.selected.network.uiModel.inputFields.isEmpty }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.tintColor = .tintColor
+        view.tintColor = .themedTint
 
         tableController.collectionView = self.collectionView
         tableController.configure()
@@ -160,11 +160,7 @@ extension Input.ViewController {
 extension Input.ViewController {
     fileprivate func configure(collectionView: UICollectionView) {
         collectionView.tintColor = view.tintColor
-        if #available(iOS 13.0, *) {
-            collectionView.backgroundColor = UIColor.systemBackground
-        } else {
-            collectionView.backgroundColor = UIColor.white
-        }
+        collectionView.backgroundColor = .themedBackground
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 

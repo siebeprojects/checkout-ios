@@ -79,20 +79,20 @@ extension List.Table.BorderedCell {
         let outerView = UIView(frame: .zero)
         self.backgroundView = outerView
         outerView.translatesAutoresizingMaskIntoConstraints = false
-        outerView.backgroundColor = .border
+        outerView.backgroundColor = .themedTableBorder
         addSubview(outerView)
         sendSubviewToBack(outerView)
         self.outerView = outerView
 
         let innerView = UIView(frame: .zero)
         innerView.translatesAutoresizingMaskIntoConstraints = false
-        innerView.backgroundColor = .background
+        innerView.backgroundColor = .themedBackground
         outerView.addSubview(innerView)
         self.innerView = innerView
 
         let separatorView = UIView(frame: .zero)
         separatorView.translatesAutoresizingMaskIntoConstraints = false
-        separatorView.backgroundColor = .separator
+        separatorView.backgroundColor = .themedTableCellSeparator
         outerView.addSubview(separatorView)
         self.separatorView = separatorView
 
@@ -121,7 +121,7 @@ extension List.Table.BorderedCell {
         self.selectedBackgroundView = selectedBackgroundView
 
         let viewWithPaddings = UIView(frame: .zero)
-        viewWithPaddings.backgroundColor = UIColor.separator.withAlphaComponent(0.5)
+        viewWithPaddings.backgroundColor = .themedTableCellSeparator
         selectedBackgroundView.addSubview(viewWithPaddings)
 
         viewWithPaddings.translatesAutoresizingMaskIntoConstraints = false
@@ -137,28 +137,6 @@ extension List.Table.BorderedCell {
 }
 
 // MARK: - Constants
-
-private extension UIColor {
-    class var border: UIColor {
-        return UIColor(white: 224.0 / 255.0, alpha: 1.0)
-    }
-
-    class var separator: UIColor {
-        return UIColor(white: 242.0 / 255.0, alpha: 1.0)
-    }
-
-    class var background: UIColor {
-        if #available(iOS 13.0, *) {
-            return .systemBackground
-        } else {
-            return .white
-        }
-    }
-
-    class var selected: UIColor {
-        return UIColor(red: 242, green: 242, blue: 242, alpha: 1)
-    }
-}
 
 private extension CGFloat {
     static var separatorWidth: CGFloat { return 1 }

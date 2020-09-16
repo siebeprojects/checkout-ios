@@ -8,7 +8,6 @@ extension List {
         weak var activityIndicator: UIActivityIndicatorView?
         weak var errorAlertController: UIAlertController?
 
-        let configuration: PaymentListParameters
         let sessionService: PaymentSessionService
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
@@ -25,21 +24,20 @@ extension List {
 
         /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
         /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
-        @objc public convenience init(tableConfiguration: PaymentListParameters = DefaultPaymentListParameters(), listResultURL: URL) {
+        @objc public convenience init(listResultURL: URL) {
             let sharedTranslationProvider = SharedTranslationProvider()
             let connection = URLSessionConnection()
 
-            self.init(tableConfiguration: tableConfiguration, listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider)
+            self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider)
         }
 
-        init(tableConfiguration: PaymentListParameters, listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
+        init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
             sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
-            configuration = tableConfiguration
             self.sharedTranslationProvider = sharedTranslationProvider
             router = List.Router(paymentServicesFactory: sessionService.paymentServicesFactory)
 
             super.init(nibName: nil, bundle: nil)
-            
+
             router.rootViewController = self
         }
 
@@ -54,7 +52,10 @@ extension List {
 extension List.ViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = .themedBackground
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
 
         // If view was presented modally show Cancel button
         if navigationController == nil {
@@ -296,8 +297,6 @@ extension List.ViewController {
         methodsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
 
         methodsTableView.isScrollEnabled = false
-
-        configuration.customize?(tableView: methodsTableView)
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
         methodsTableView.register(List.Table.SingleLabelCell.self)

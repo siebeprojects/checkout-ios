@@ -1,7 +1,7 @@
 import UIKit
 import Optile
 
-class ViewController: UIViewController {
+class ViewController: UITableViewController {
 
     @IBOutlet weak var textField: UITextField!
     
@@ -9,7 +9,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.barTintColor = .navigationBarTintColor
+        
+        setNavigationBarTintColor(to: Theme.shared.tintColor)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -21,6 +22,11 @@ class ViewController: UIViewController {
         } else {
             textField.becomeFirstResponder()
         }
+    }
+
+    @IBAction func switchValueDidChange(_ sender: UISwitch) {
+        Theme.shared = sender.isOn ? .custom : .standard
+        setNavigationBarTintColor(to: Theme.shared.tintColor)
     }
 
     @IBAction func sendRequest(_ sender: Any) {
@@ -83,14 +89,26 @@ extension ViewController: PaymentDelegate {
     }
 }
 
-private struct TextLine {
-    let key, description: String
+private extension ViewController {
+    func setNavigationBarTintColor(to color: UIColor) {
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.backgroundColor = color
+            navigationController?.navigationBar.standardAppearance = navBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+            navigationController?.navigationBar.setNeedsLayout()
+            navigationController?.navigationBar.layoutIfNeeded()
+        } else {
+            navigationController?.navigationBar.barTintColor = color
+        }
+    }
 }
 
-private extension UIColor {
-    static var navigationBarTintColor: UIColor {
-        return UIColor(red: 0.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
-    }
+private struct TextLine {
+    let key, description: String
 }
 
 private extension UINavigationController {

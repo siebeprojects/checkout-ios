@@ -40,7 +40,7 @@ public class Redirect: NSObject, Decodable {
         self.сontainsAccountPlaceholders = сontainsAccountPlaceholders
         self.type = type
     }
-    
+
     // MARK: - Enumerations
 
     public enum Method: String, Decodable {
