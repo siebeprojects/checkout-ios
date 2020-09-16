@@ -36,7 +36,7 @@ class RedirectCallbackHandler {
             code = .VERIFY
         }
         
-        let interaction = Interaction(code: code, reason: .COMMUNICATION_FAILURE)
+        let interaction = Interaction(code: code, reason: .CLIENTSIDE_ERROR)
         let errorInfo = ErrorInfo(resultInfo: "", interaction: interaction)
         
         delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))
