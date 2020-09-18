@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		53826028AA641BA4113DFC2D /* Pods_Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
+		D941FB132514BE9900AF856A /* Result+interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D941FB122514BE9900AF856A /* Result+interaction.swift */; };
 		D95BB72B25126580007E10C6 /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95BB6662512657F007E10C6 /* log.swift */; };
 		D95BB72C25126580007E10C6 /* InternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95BB6672512657F007E10C6 /* InternalError.swift */; };
 		D95BB72D25126580007E10C6 /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95BB6682512657F007E10C6 /* AssetProvider.swift */; };
@@ -205,6 +206,7 @@
 		95E5DEA2906240D51D3804B0 /* Pods-Optile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.debug.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.debug.xcconfig"; sourceTree = "<group>"; };
 		AF59EB9CC8706E57BB87D15D /* Pods_Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1464685FF385FE59D6C10F5 /* Pods-Optile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.release.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.release.xcconfig"; sourceTree = "<group>"; };
+		D941FB122514BE9900AF856A /* Result+interaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+interaction.swift"; sourceTree = "<group>"; };
 		D95BB6662512657F007E10C6 /* log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
 		D95BB6672512657F007E10C6 /* InternalError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalError.swift; sourceTree = "<group>"; };
 		D95BB6682512657F007E10C6 /* AssetProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
@@ -796,6 +798,7 @@
 				D95BB70C25126580007E10C6 /* PaymentServicesFactory.swift */,
 				D95BB70D25126580007E10C6 /* CustomErrorInfo.swift */,
 				D95BB70E25126580007E10C6 /* PaymentServiceParsedResponse.swift */,
+				D941FB122514BE9900AF856A /* Result+interaction.swift */,
 				D95BB70F25126580007E10C6 /* PaymentRequest.swift */,
 			);
 			path = PaymentService;
@@ -1295,6 +1298,7 @@
 				D95BB76B25126580007E10C6 /* Input.Field.Hidden.swift in Sources */,
 				D95BB7BB25126580007E10C6 /* SendRequestOperation.swift in Sources */,
 				D95BB75625126580007E10C6 /* Input.SmartSwitch.swift in Sources */,
+				D941FB132514BE9900AF856A /* Result+interaction.swift in Sources */,
 				D95BB78325126580007E10C6 /* InputField.swift in Sources */,
 				D95BB74025126580007E10C6 /* FormData.swift in Sources */,
 				D95BB72B25126580007E10C6 /* log.swift in Sources */,
