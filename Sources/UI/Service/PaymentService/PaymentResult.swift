@@ -19,7 +19,7 @@ import Foundation
     }
     
     /// Contains value if something went wrong inside framework. In the most cases it would contain `InternalError` type.
-    public var internalError: Error? {
+    public var cause: Error? {
         return (errorInfo as? CustomErrorInfo)?.underlyingError
     }
 

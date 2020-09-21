@@ -68,7 +68,7 @@ extension ViewController: PaymentDelegate {
             return
         }
 
-        if let error = paymentResult.internalError {
+        if let error = paymentResult.cause {
             paymentErrorText = "\(error)"
         } else {
             paymentErrorText = "n/a"
