@@ -56,17 +56,6 @@ extension ViewController: PaymentDelegate {
     
     private func presentAlert(with paymentResult: PaymentResult) {
         let paymentErrorText: String
-        
-        let interaction: Interaction
-        if let operationResult = paymentResult.operationResult {
-            interaction = operationResult.interaction
-        } else if let errorInfo = paymentResult.errorInfo {
-            interaction = errorInfo.interaction
-        } else {
-            // That never should happen but we need to it to fill `interaction`
-            present(UIAlertController.unexpectedError(), animated: true, completion: nil)
-            return
-        }
 
         if let error = paymentResult.cause {
             paymentErrorText = "\(error)"
@@ -76,8 +65,8 @@ extension ViewController: PaymentDelegate {
         
         let messageDictionary = [
             TextLine(key: "ResultInfo", description: paymentResult.operationResult?.resultInfo ?? "n/a"),
-            TextLine(key: "Interaction code", description: interaction.code),
-            TextLine(key: "Interaction reason", description: interaction.reason),
+            TextLine(key: "Interaction code", description: paymentResult.interaction.code),
+            TextLine(key: "Interaction reason", description: paymentResult.interaction.reason),
             TextLine(key: "Error", description: paymentErrorText)
         ]
 

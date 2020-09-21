@@ -22,6 +22,9 @@ import Foundation
     public var cause: Error? {
         return (errorInfo as? CustomErrorInfo)?.underlyingError
     }
+    
+    /// A reference to `Interaction` object inside `operationResult` or `errorInfo`.
+    public var interaction: Interaction { result.interaction }
 
     // MARK: Internal
     
