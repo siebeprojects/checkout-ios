@@ -38,7 +38,8 @@ class ViewController: UITableViewController {
 
         let viewController = List.ViewController(listResultURL: url)
         viewController.delegate = self
-        navigationController?.pushViewController(viewController, animated: true)    }
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 extension ViewController: PaymentDelegate {
