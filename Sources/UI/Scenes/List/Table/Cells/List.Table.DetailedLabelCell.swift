@@ -28,14 +28,14 @@ extension List.Table.DetailedLabelCell {
     fileprivate func addContentViews() {
         let primaryLabel = UILabel(frame: .zero)
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        primaryLabel.font = UIFont.theme.withSize(forTextStyle: .body)
+        primaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
         primaryLabel.textColor = .themedText
         contentView.addSubview(primaryLabel)
         self.primaryLabel = primaryLabel
 
         let secondaryLabel = UILabel(frame: .zero)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondaryLabel.font = UIFont.theme.withSize(forTextStyle: .footnote)
+        secondaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
         secondaryLabel.textColor = .themedDetailedText
         contentView.addSubview(secondaryLabel)
         self.secondaryLabel = secondaryLabel
