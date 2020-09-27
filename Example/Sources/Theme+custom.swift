@@ -3,7 +3,7 @@ import Optile
 extension Theme {
     static var custom: Theme {
         return Theme(
-            font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize),
+            font: UIFont(name: "Georgia", size: UIFont.preferredFont(forTextStyle: .body).pointSize)!,
             backgroundColor: .white,
             tableBorder: .init(red: 0.56, green: 0.58, blue: 0.60, alpha: 1),
             tableCellSeparator: .init(red: 0.94, green: 0.95, blue: 0.95, alpha: 1),
