@@ -37,7 +37,7 @@ class RedirectCallbackHandler {
         }
         
         let interaction = Interaction(code: code, reason: .CLIENTSIDE_ERROR)
-        let errorInfo = ErrorInfo(resultInfo: "", interaction: interaction)
+        let errorInfo = ErrorInfo(resultInfo: "Missing OperationResult after client-side redirect", interaction: interaction)
         
         delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))
     }
