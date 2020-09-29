@@ -43,8 +43,8 @@ extension BasicPaymentService.ResponseParser {
             
             return .result(.success(operationResult))
         } catch {
-            let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
-            let paymentError = CustomErrorInfo(resultInfo: "", interaction: interaction, underlyingError: error)
+            let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
+            let paymentError = CustomErrorInfo(resultInfo: "\(error)", interaction: interaction, underlyingError: error)
             return .result(.failure(paymentError))
         }
     }
