@@ -20,13 +20,13 @@ extension BasicPaymentService.ResponseParser {
             
             // Unknown error (possible network error)
             let interaction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
-            let paymentError = CustomErrorInfo(resultInfo: "", interaction: interaction, underlyingError: error)
+            let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
             return .result(.failure(paymentError))
         case .success(let responseData):
             guard let responseData = responseData else {
                 let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
                 let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
-                let paymentError = CustomErrorInfo(resultInfo: "", interaction: interaction, underlyingError: emptyResponseError)
+                let paymentError = CustomErrorInfo(resultInfo: emptyResponseError.localizedDescription, interaction: interaction, underlyingError: emptyResponseError)
                 return .result(.failure(paymentError))
             }
             
@@ -44,7 +44,7 @@ extension BasicPaymentService.ResponseParser {
             return .result(.success(operationResult))
         } catch {
             let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
-            let paymentError = CustomErrorInfo(resultInfo: "\(error)", interaction: interaction, underlyingError: error)
+            let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
             return .result(.failure(paymentError))
         }
     }
