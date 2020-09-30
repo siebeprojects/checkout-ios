@@ -32,7 +32,7 @@ Theme.shared.errorTextColor = .orange
 
 Default values are stored in `Theme.standard` object.
 
-![Color description](https://user-images.githubusercontent.com/5610904/94371361-aa130b00-00fe-11eb-9583-c92b4d32cf0f.png)
+![Color description](docs/ui_customization.png)
 
 |Property|Description|
 |-|-|
