@@ -171,12 +171,20 @@ extension Input.Table.DataSource.Diff {
             guard let cell = collectionView.cellForItem(at: indexPath) else { continue }
 
             let model = new[section][rowIndex]
-            do {
-                // Configure old cell with a new model
-                try model.configure(cell: cell)
-                cell.layoutIfNeeded()
-            } catch {
-                // New model is not compatible with old cell type, reload that cell
+
+            if type(of: cell) == model.cellType {
+                do {
+                    // Configure old cell with a new model
+                    try model.configure(cell: cell)
+                    cell.layoutIfNeeded()
+                } catch {
+                    // Programmatic error in `configure()` method of model because it should accept that type because of `type(of:)` check above
+                    let internalError = InternalError(description: "Unable to configure cell: %@", error.localizedDescription)
+                    internalError.log()
+                    
+                    collectionView.reloadItems(at: [indexPath])
+                }
+            } else {
                 collectionView.reloadItems(at: [indexPath])
             }
         }
