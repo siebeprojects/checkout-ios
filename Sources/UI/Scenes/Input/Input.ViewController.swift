@@ -108,10 +108,12 @@ extension Input.ViewController {
 
         addKeyboardFrameChangesObserver()
         tableController.becomeFirstResponder()
+        
+        updateCollectionViewInsets()
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
 
         if #available(iOS 11.0, *) {
             // In iOS11 insets are adjusted by `viewLayoutMarginsDidChange`
@@ -119,13 +121,7 @@ extension Input.ViewController {
             updateCollectionViewInsets()
         }
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        removeKeyboardFrameChangesObserver()
-    }
-
+    
     @available(iOS 11.0, *)
     override func viewLayoutMarginsDidChange() {
         super.viewLayoutMarginsDidChange()
@@ -133,19 +129,58 @@ extension Input.ViewController {
         updateCollectionViewInsets()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        removeKeyboardFrameChangesObserver()
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        coordinator.animate(
+            alongsideTransition: { _ in self.collectionView.collectionViewLayout.invalidateLayout() },
+            completion: { _ in }
+        )
+    }
+
     fileprivate func updateCollectionViewInsets(adjustBottomInset: CGFloat = 0) {
-        var newInset = UIEdgeInsets(top: view.layoutMargins.top, left: view.layoutMargins.left, bottom: view.layoutMargins.bottom + adjustBottomInset, right: view.layoutMargins.right)
-        collectionView.contentInset = newInset
-
+        // Content insets
+        var newInset: UIEdgeInsets
         if #available(iOS 11.0, *) {
-            newInset.left = view.safeAreaInsets.left
-            newInset.right = view.safeAreaInsets.right
+            newInset = UIEdgeInsets(
+                top: view.directionalLayoutMargins.top,
+                left: view.directionalLayoutMargins.leading,
+                bottom: view.directionalLayoutMargins.bottom + adjustBottomInset,
+                right: view.directionalLayoutMargins.trailing
+            )
         } else {
-            newInset.left = 0
-            newInset.right = 0
+            newInset = UIEdgeInsets(
+                top: view.layoutMargins.top,
+                left: view.layoutMargins.left,
+                bottom: view.layoutMargins.bottom + adjustBottomInset,
+                right: view.layoutMargins.right
+            )
         }
-
-        collectionView.scrollIndicatorInsets = newInset
+        
+        // Scroll indicator insets
+        var newScrollIndicatorInset = newInset
+        if #available(iOS 11.0, *) {
+            newScrollIndicatorInset.left = view.safeAreaInsets.left
+            newScrollIndicatorInset.right = view.safeAreaInsets.right
+        } else {
+            newScrollIndicatorInset.left = .zero
+            newScrollIndicatorInset.right = .zero
+        }
+        
+        if collectionView.contentInset == newInset && collectionView.scrollIndicatorInsets == newScrollIndicatorInset {
+            return
+        }
+        
+        // Update insets
+        collectionView.contentInset = newInset
+        collectionView.scrollIndicatorInsets = newScrollIndicatorInset
+        collectionView.collectionViewLayout.invalidateLayout()
     }
 }
 

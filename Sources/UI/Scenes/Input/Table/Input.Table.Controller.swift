@@ -112,7 +112,6 @@ extension Input.Table {
             }
 
             layout.minimumLineSpacing = .rowLineSpacing
-            layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         }
 
         private func registerCells() {
@@ -162,6 +161,20 @@ extension Input.Table.Controller: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return .init(top: .sectionSpacing / 2, left: 0, bottom: .sectionSpacing / 2, right: 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let model = dataSource.model[indexPath.section][indexPath.row]
+        
+        let availableWidth = collectionView.bounds.inset(by: collectionView.contentInset).width
+        
+        let frame = CGRect(origin: .zero, size: CGSize(width: availableWidth, height: UIView.layoutFittingCompressedSize.height))
+        let cell = model.cellType.init(frame: frame)
+        try? model.configure(cell: cell)
+
+        let autoLayoutSize = cell.systemLayoutSizeFitting(frame.size, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultLow)
+        
+        return autoLayoutSize
     }
 }
 
