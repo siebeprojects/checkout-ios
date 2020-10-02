@@ -7,7 +7,7 @@ extension Input.Table {
     /// Upon some actions calls `delegate`, don't forget to set it.
     ///
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
-    class TextFieldViewCell: FullWidthCollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
+    class TextFieldViewCell: UICollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
 
         private let textField: MDCTextField
