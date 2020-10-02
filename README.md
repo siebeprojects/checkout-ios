@@ -32,6 +32,8 @@ Theme.shared.errorTextColor = .orange
 
 Default values are stored in `Theme.standard` object.
 
+![Color description](docs/ui_customization.png)
+
 |Property|Description|
 |-|-|
 |`font`|Global font that will be used in all views, size will changed automatically. `nil` value is used for default system font.|
