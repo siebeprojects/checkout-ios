@@ -1,7 +1,7 @@
 import UIKit
 
 @objc public class Theme: NSObject {
-    public var font: UIFont
+    public var font: UIFont?
 
     public var backgroundColor: UIColor
     public var tableBorder: UIColor
@@ -14,7 +14,9 @@ import UIKit
     public var tintColor: UIColor
     public var errorTextColor: UIColor
 
-    public init(font: UIFont, backgroundColor: UIColor, tableBorder: UIColor, tableCellSeparator: UIColor, textColor: UIColor, detailTextColor: UIColor, buttonTextColor: UIColor, tintColor: UIColor, errorTextColor: UIColor) {
+    /// - Parameters:
+    ///   - font: `nil` is used for default system font
+    public init(font: UIFont? = nil, backgroundColor: UIColor, tableBorder: UIColor, tableCellSeparator: UIColor, textColor: UIColor, detailTextColor: UIColor, buttonTextColor: UIColor, tintColor: UIColor, errorTextColor: UIColor) {
         self.font = font
         self.backgroundColor = backgroundColor
         self.tableBorder = tableBorder
@@ -45,7 +47,7 @@ public extension Theme {
         }
 
         return Theme(
-            font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize),
+            font: nil,
             backgroundColor: backgroundColor,
             tableBorder: border,
             tableCellSeparator: separator,
@@ -93,11 +95,15 @@ internal extension UIColor {
 }
 
 internal extension UIFont {
-    static var theme: UIFont {
-        return Theme.shared.font
+    static func preferredThemeFont(forTextStyle textStyle: TextStyle) -> UIFont {
+        if let customFont = Theme.shared.font {
+            return customFont.withSize(forTextStyle: textStyle)
+        } else {
+            return UIFont.preferredFont(forTextStyle: textStyle)
+        }
     }
 
-    func withSize(forTextStyle textStyle: TextStyle) -> UIFont {
+    private func withSize(forTextStyle textStyle: TextStyle) -> UIFont {
         let size = UIFont.preferredFont(forTextStyle: textStyle).pointSize
         return self.withSize(size)
     }

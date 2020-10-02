@@ -36,7 +36,7 @@ Default values are stored in `Theme.standard` object.
 
 |Property|Description|
 |-|-|
-|`font`|Global font that will be used in all views, size will changed automatically|
+|`font`|Global font that will be used in all views, size will changed automatically. `nil` value is used for default system font.|
 |`textColor`|Primary text color|
 |`detailTextColor`|Secondary text color, used for detailed description in list's cell|
 |`buttonTextColor`|Buttons text color|
