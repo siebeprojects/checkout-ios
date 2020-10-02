@@ -26,7 +26,7 @@ protocol InputTableControllerDelegate: class {
 
 extension Input.Table {
     class Controller: NSObject {
-        let flowLayout = FlowLayout()
+        let flowLayout = UICollectionViewFlowLayout()
         let dataSource = DataSource()
         let validator: Validator
 
