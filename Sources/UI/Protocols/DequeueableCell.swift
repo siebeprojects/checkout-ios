@@ -28,6 +28,10 @@ extension UICollectionView {
         // swiftlint:disable:next force_cast
         return self.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath) as! Cell
     }
+    
+    func dequeueReusableCell(_ cellClass: (DequeueableCell & UICollectionViewCell).Type, for indexPath: IndexPath) -> UICollectionViewCell {
+        return self.dequeueReusableCell(withReuseIdentifier: cellClass.identifier, for: indexPath)
+    }
 
     func dequeueReusableSupplementaryView<Cell>(_ cellClass: Cell.Type, ofKind kind: String, for indexPath: IndexPath) -> Cell where Cell: DequeueableCell & UICollectionReusableView {
         // swiftlint:disable:next force_cast

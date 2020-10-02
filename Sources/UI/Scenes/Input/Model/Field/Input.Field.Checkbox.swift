@@ -44,5 +44,12 @@ extension Input.Field.Checkbox: InputField {
 #if canImport(UIKit)
 import UIKit
 
-extension Input.Field.Checkbox: CellRepresentable {}
+extension Input.Field.Checkbox: CellRepresentable {
+    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.CheckboxViewCell.self }
+
+    func configure(cell: UICollectionViewCell) throws {
+        guard let checkboxViewCell = cell as? Input.Table.CheckboxViewCell else { throw errorForIncorrectView(cell) }
+        checkboxViewCell.configure(with: self)
+    }
+}
 #endif

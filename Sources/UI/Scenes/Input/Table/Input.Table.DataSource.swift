@@ -106,7 +106,7 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellModel = model[indexPath.section][indexPath.row]
-        let cell = cellModel.dequeueCell(for: collectionView, indexPath: indexPath)
+        let cell = collectionView.dequeueReusableCell(cellModel.cellType, for: indexPath)
         cell.tintColor = collectionView.tintColor
 
         do {
