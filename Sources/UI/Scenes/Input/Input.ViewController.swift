@@ -156,7 +156,7 @@ extension Input.ViewController {
             )
         } else {
             newInset = UIEdgeInsets(
-                top: view.layoutMargins.top,
+                top: view.layoutMargins.top + topLayoutGuide.length,
                 left: view.layoutMargins.left,
                 bottom: view.layoutMargins.bottom + adjustBottomInset,
                 right: view.layoutMargins.right
