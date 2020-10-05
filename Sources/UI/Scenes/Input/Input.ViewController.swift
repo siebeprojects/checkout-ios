@@ -108,8 +108,6 @@ extension Input.ViewController {
 
         addKeyboardFrameChangesObserver()
         tableController.becomeFirstResponder()
-        
-        updateCollectionViewInsets()
     }
 
     override func viewDidLayoutSubviews() {
