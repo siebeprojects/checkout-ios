@@ -70,9 +70,8 @@ extension Input.Table {
             collectionView.dataSource = dataSource
             collectionView.delegate = self
 
-            if #available(iOS 11.0, *) {
-                collectionView.contentInsetAdjustmentBehavior = .never
-            }
+            collectionView.contentInsetAdjustmentBehavior = .never
+
             if #available(iOS 13.0, *) {
                 collectionView.automaticallyAdjustsScrollIndicatorInsets = false
             }
@@ -107,10 +106,7 @@ extension Input.Table {
         }
 
         private func configure(layout: UICollectionViewFlowLayout) {
-            if #available(iOS 11.0, *) {
-                layout.sectionInsetReference = .fromContentInset
-            }
-
+            layout.sectionInsetReference = .fromContentInset
             layout.minimumLineSpacing = .rowLineSpacing
             layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         }

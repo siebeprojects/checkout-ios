@@ -68,12 +68,10 @@ class SlideInPresentationController: UIPresentationController {
         var frameSize = size(forChildContentContainer: presentedViewController, withParentContainerSize: containerView.bounds.size)
         var frameY = (containerView.frame.height - presentedViewController.preferredContentSize.height) - currentKeyboardHeight
 
-        if #available(iOS 11.0, *) {
-            // Add extra space for safe areas on borderless devices when keyboard is hidden
-            if currentKeyboardHeight == 0 {
-                frameSize.height += containerView.safeAreaInsets.bottom
-                frameY -= containerView.safeAreaInsets.bottom
-            }
+        // Add extra space for safe areas on borderless devices when keyboard is hidden
+        if currentKeyboardHeight == 0 {
+            frameSize.height += containerView.safeAreaInsets.bottom
+            frameY -= containerView.safeAreaInsets.bottom
         }
 
         let origin = CGPoint(x: 0, y: frameY)

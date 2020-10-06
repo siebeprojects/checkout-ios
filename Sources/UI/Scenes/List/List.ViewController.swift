@@ -53,9 +53,7 @@ extension List.ViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .themedBackground
-        if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .never
-        }
+        navigationItem.largeTitleDisplayMode = .never
 
         // If view was presented modally show Cancel button
         if navigationController == nil {
@@ -279,12 +277,7 @@ extension List.ViewController {
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
         methodsTableView.rowHeight = .rowHeight
-
-        if #available(iOS 11.0, *) {
-            methodsTableView.contentInsetAdjustmentBehavior = .never
-        } else {
-            automaticallyAdjustsScrollViewInsets = false
-        }
+        methodsTableView.contentInsetAdjustmentBehavior = .never
 
         // Use that to remove extra spacing at top
         methodsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
