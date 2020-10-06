@@ -70,10 +70,10 @@ extension Input.Table {
             collectionView.dataSource = dataSource
             collectionView.delegate = self
 
-            collectionView.contentInsetAdjustmentBehavior = .never
+            collectionView.contentInsetAdjustmentBehavior = .always
 
             if #available(iOS 13.0, *) {
-                collectionView.automaticallyAdjustsScrollIndicatorInsets = false
+                collectionView.automaticallyAdjustsScrollIndicatorInsets = true
             }
         }
 
@@ -106,7 +106,6 @@ extension Input.Table {
         }
 
         private func configure(layout: UICollectionViewFlowLayout) {
-            layout.sectionInsetReference = .fromContentInset
             layout.minimumLineSpacing = .rowLineSpacing
         }
 
@@ -157,12 +156,13 @@ extension Input.Table.Controller: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return .init(top: .sectionSpacing / 2, left: 0, bottom: .sectionSpacing / 2, right: 0)
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = dataSource.model[indexPath.section][indexPath.row]
         
-        let availableWidth = collectionView.bounds.inset(by: collectionView.contentInset).width
+        let availableWidth = collectionView.bounds.inset(by: collectionView.adjustedContentInset).width - collectionView.layoutMargins.left - collectionView.layoutMargins.right
         
         let frame = CGRect(origin: .zero, size: CGSize(width: availableWidth, height: UIView.layoutFittingCompressedSize.height))
         let cell = model.cellType.init(frame: frame)
