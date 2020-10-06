@@ -74,8 +74,8 @@ extension Input.Table.TextFieldViewCell {
         textFieldController.leadingUnderlineLabelTextColor = textField.tintColor
         textFieldController.errorColor = .themedError
 
-        textFieldController.textInputFont = UIFont.theme.withSize(forTextStyle: .body)
-        textFieldController.inlinePlaceholderFont = UIFont.theme.withSize(forTextStyle: .body)
+        textFieldController.textInputFont = UIFont.preferredThemeFont(forTextStyle: .body)
+        textFieldController.inlinePlaceholderFont = UIFont.preferredThemeFont(forTextStyle: .body)
 
         textFieldController.placeholderText = model.label
 

@@ -122,7 +122,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Payment" id="WQk-pI-LCg"/>
                     <connections>
+                        <outlet property="sendButton" destination="jS4-Be-x2c" id="UOQ-pt-fIq"/>
                         <outlet property="textField" destination="aV7-RS-uKQ" id="cwJ-N5-0rO"/>
+                        <outlet property="themeSwitch" destination="Nag-du-UoB" id="Dwh-mE-5DS"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wsj-G2-baI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

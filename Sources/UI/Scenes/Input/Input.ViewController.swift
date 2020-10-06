@@ -109,16 +109,6 @@ extension Input.ViewController {
         addKeyboardFrameChangesObserver()
         tableController.becomeFirstResponder()
     }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if #available(iOS 11.0, *) {
-            // In iOS11 insets are adjusted by `viewLayoutMarginsDidChange`
-        } else {
-            updateCollectionViewInsets()
-        }
-    }
     
     @available(iOS 11.0, *)
     override func viewLayoutMarginsDidChange() {
@@ -143,42 +133,11 @@ extension Input.ViewController {
     }
 
     fileprivate func updateCollectionViewInsets(adjustBottomInset: CGFloat = 0) {
-        // Content insets
-        var newInset: UIEdgeInsets
-        if #available(iOS 11.0, *) {
-            newInset = UIEdgeInsets(
-                top: view.directionalLayoutMargins.top,
-                left: view.directionalLayoutMargins.leading,
-                bottom: view.directionalLayoutMargins.bottom + adjustBottomInset,
-                right: view.directionalLayoutMargins.trailing
-            )
-        } else {
-            newInset = UIEdgeInsets(
-                top: view.layoutMargins.top + topLayoutGuide.length,
-                left: view.layoutMargins.left,
-                bottom: view.layoutMargins.bottom + adjustBottomInset,
-                right: view.layoutMargins.right
-            )
-        }
-        
-        // Scroll indicator insets
-        var newScrollIndicatorInset = newInset
-        if #available(iOS 11.0, *) {
-            newScrollIndicatorInset.left = view.safeAreaInsets.left
-            newScrollIndicatorInset.right = view.safeAreaInsets.right
-        } else {
-            newScrollIndicatorInset.left = .zero
-            newScrollIndicatorInset.right = .zero
-        }
-        
-        if collectionView.contentInset == newInset && collectionView.scrollIndicatorInsets == newScrollIndicatorInset {
-            return
-        }
-        
-        // Update insets
+        let newInset = UIEdgeInsets(top: view.directionalLayoutMargins.top, left: view.directionalLayoutMargins.leading, bottom: view.directionalLayoutMargins.bottom + adjustBottomInset, right: view.directionalLayoutMargins.trailing)
         collectionView.contentInset = newInset
-        collectionView.scrollIndicatorInsets = newScrollIndicatorInset
-        collectionView.collectionViewLayout.invalidateLayout()
+        
+        let scrollInset = UIEdgeInsets(top: view.directionalLayoutMargins.top, left: view.safeAreaInsets.left, bottom: view.directionalLayoutMargins.bottom + adjustBottomInset, right: view.safeAreaInsets.right)
+        collectionView.scrollIndicatorInsets = scrollInset
     }
 }
 
@@ -222,14 +181,7 @@ extension Input.ViewController: InputTableControllerDelegate {
         // Control behaviour of navigation bar's shadow line
         guard let navigationController = self.navigationController else { return }
 
-        let insets: UIEdgeInsets
-        if #available(iOS 11.0, *) {
-            insets = scrollView.safeAreaInsets
-        } else {
-            insets = scrollView.contentInset
-        }
-
-        let yOffset = scrollView.contentOffset.y + insets.top
+        let yOffset = scrollView.contentOffset.y + scrollView.safeAreaInsets.top
 
         // If scroll view is on top
         if yOffset <= 0 {
@@ -299,9 +251,7 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
             adjustedHeight -= toolbarHeight
         }
 
-        if #available(iOS 11.0, *) {
-            adjustedHeight -= view.safeAreaInsets.bottom
-        }
+        adjustedHeight -= view.safeAreaInsets.bottom
 
         if adjustedHeight < 0 { adjustedHeight = 0 }
 

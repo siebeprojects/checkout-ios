@@ -26,7 +26,7 @@ extension Input.Table {
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 0
             label.textColor = .themedText
-            label.font = UIFont.theme.withSize(forTextStyle: .body)
+            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
 
             // Configure checkbox
             checkbox.addTarget(self, action: #selector(checkboxValueChanged), for: .valueChanged)
