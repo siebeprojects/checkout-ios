@@ -40,11 +40,7 @@ struct InternalError: Error, CustomStringConvertible, CustomDebugStringConvertib
     }
 
     func log() {
-        if #available(iOS 12.0, OSX 10.14, *) {
-            os_log(type.osLogType, staticDescription, arguments)
-        } else {
-            print("\(description). Arguments has been <redacted>")
-        }
+        os_log(type.osLogType, staticDescription, arguments)
     }
 }
 

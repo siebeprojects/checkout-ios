@@ -62,9 +62,7 @@ extension ModifableInsetsOnKeyboardFrameChanges where Self: UIViewController {
             adjustedHeight -= toolbarHeight
         }
 
-        if #available(iOS 11.0, *) {
-            adjustedHeight -= view.safeAreaInsets.bottom
-        }
+        adjustedHeight -= view.safeAreaInsets.bottom
 
         if adjustedHeight < 0 { adjustedHeight = 0 }
 

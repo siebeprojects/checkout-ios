@@ -2,11 +2,7 @@ import Foundation
 import os
 
 func log(_ type: LogType, _ message: StaticString, _ args: CVarArg...) {
-    if #available(iOS 12.0, OSX 10.14, *) {
-        os_log(type.osLogType, message, args)
-    } else {
-        print("\(message). Arguments has been <redacted>")
-    }
+    os_log(type.osLogType, message, args)
 }
 
 func log(_ error: Error) {
