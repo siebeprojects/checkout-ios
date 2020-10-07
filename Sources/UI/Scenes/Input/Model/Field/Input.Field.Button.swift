@@ -16,14 +16,10 @@ extension Input.Field {
 }
 
 extension Input.Field.Button: CellRepresentable {
+    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.ButtonCell.self }
+    
     func configure(cell: UICollectionViewCell) throws {
-        guard let buttonCell = cell as? Input.Table.ButtonCell else {
-            throw errorForIncorrectView(cell)
-        }
+        guard let buttonCell = cell as? Input.Table.ButtonCell else { throw errorForIncorrectView(cell) }
         buttonCell.configure(with: self)
-    }
-
-    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        return view.dequeueReusableCell(Input.Table.ButtonCell.self, for: indexPath)
     }
 }

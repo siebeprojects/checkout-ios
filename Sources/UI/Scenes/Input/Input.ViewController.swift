@@ -115,20 +115,14 @@ extension Input.ViewController {
 
         removeKeyboardFrameChangesObserver()
     }
-
-    @available(iOS 11.0, *)
-    override func viewLayoutMarginsDidChange() {
-        super.viewLayoutMarginsDidChange()
-
-        updateCollectionViewInsets()
-    }
-
-    fileprivate func updateCollectionViewInsets(adjustBottomInset: CGFloat = 0) {
-        let newInset = UIEdgeInsets(top: view.directionalLayoutMargins.top, left: view.directionalLayoutMargins.leading, bottom: view.directionalLayoutMargins.bottom + adjustBottomInset, right: view.directionalLayoutMargins.trailing)
-        collectionView.contentInset = newInset
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
         
-        let scrollInset = UIEdgeInsets(top: view.directionalLayoutMargins.top, left: view.safeAreaInsets.left, bottom: view.directionalLayoutMargins.bottom + adjustBottomInset, right: view.safeAreaInsets.right)
-        collectionView.scrollIndicatorInsets = scrollInset
+        coordinator.animate(
+            alongsideTransition: { _ in self.collectionView.collectionViewLayout.invalidateLayout() },
+            completion: { _ in }
+        )
     }
 }
 
@@ -144,6 +138,8 @@ extension Input.ViewController {
     fileprivate func configure(collectionView: UICollectionView) {
         collectionView.tintColor = view.tintColor
         collectionView.backgroundColor = .themedBackground
+        collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
+        collectionView.preservesSuperviewLayoutMargins = true
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -226,30 +222,6 @@ extension Input.ViewController: InputTableControllerDelegate {
 
 extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { collectionView }
-
-    func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
-        guard scrollViewToModify != nil else { return }
-
-        if navigationController?.modalPresentationStyle == .custom {
-            return
-        }
-
-        var adjustedHeight = height
-
-        if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
-            adjustedHeight -= tabBarHeight
-        } else if let toolbarHeight = navigationController?.toolbar.frame.height, navigationController?.isToolbarHidden == false {
-            adjustedHeight -= toolbarHeight
-        }
-
-        adjustedHeight -= view.safeAreaInsets.bottom
-
-        if adjustedHeight < 0 { adjustedHeight = 0 }
-
-        UIView.animate(withDuration: animationDuration, delay: 0, options: animationOptions, animations: { [self] in
-            self.updateCollectionViewInsets(adjustBottomInset: adjustedHeight)
-        })
-    }
 }
 
 // MARK: - VerificationCodeTranslationKeySuffixer

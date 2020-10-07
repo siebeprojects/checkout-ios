@@ -123,8 +123,8 @@ private extension SlideInPresentationController {
 }
 
 extension SlideInPresentationController: KeyboardFrameChangesObserver {
-    func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
-        currentKeyboardHeight = height
+    func willChangeKeyboardFrame(_ frame: CGRect, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
+        currentKeyboardHeight = frame.height
 
         if adaptivePresentationStyle(for: traitCollection) == .formSheet { return }
 

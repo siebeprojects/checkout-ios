@@ -4,6 +4,11 @@ extension Input.Table {
     class Validator {
         let dataSource: DataSource
         weak var collectionView: UICollectionView!
+        
+        /// If disabled single cell validation will be skipped.
+        /// - Note: goal of that property is to avoid double validation animation bug when a text field looses a focus after user presses a pay button, so `validate(cell:)` and `validateAll` could be called at one time.
+        /// Property is modified by `validateAll` method.
+        fileprivate var isSingleCellValidationEnabled: Bool = true
 
         init(dataSource: DataSource) {
             self.dataSource = dataSource
@@ -25,7 +30,7 @@ extension Input.Table.Validator {
             // Update cell's view if cell is on the screen
             if let textFieldViewCell = collectionView.cellForItem(at: indexPath) as? Input.Table.TextFieldViewCell {
                 textFieldViewCell.showValidationResult(for: validatableModel)
-                textFieldViewCell.layoutIfNeeded()
+                invalidateLayout(at: [indexPath])
             }
         }
     }
@@ -34,6 +39,7 @@ extension Input.Table.Validator {
     /// - Returns: is all fields are valid
     @discardableResult func validateAll(option: Input.Field.Validation.Option) -> Bool {
         // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
+        isSingleCellValidationEnabled = false
         collectionView.endEditing(true)
 
         var isValid = true
@@ -50,11 +56,13 @@ extension Input.Table.Validator {
         }
 
         collectionView.reloadData()
+        isSingleCellValidationEnabled = true
 
         return isValid
     }
 
     func validate(cell: UICollectionViewCell) {
+        guard isSingleCellValidationEnabled else { return }
         guard let indexPath = collectionView.indexPath(for: cell) else {
             return
         }
@@ -71,10 +79,21 @@ extension Input.Table.Validator {
         if previousValidationErrorText != validatableRow.validationErrorText, let cell = collectionView.cellForItem(at: indexPath) {
             do {
                 try cellRepresentable.configure(cell: cell)
-                cell.layoutIfNeeded()
+                invalidateLayout(at: [indexPath])
             } catch {
                 log(error)
             }
         }
+    }
+
+    /// Invalidates layout at specified index paths with animation.
+    /// Used to update cell's height for displaying multiline error messages.
+    private func invalidateLayout(at indexPaths: [IndexPath]) {
+        let context = UICollectionViewFlowLayoutInvalidationContext()
+        context.invalidateItems(at: indexPaths)
+        
+        collectionView.performBatchUpdates({
+            self.collectionView.collectionViewLayout.invalidateLayout(with: context)
+        }, completion: nil)
     }
 }

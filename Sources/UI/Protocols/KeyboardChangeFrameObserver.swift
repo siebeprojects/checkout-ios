@@ -5,7 +5,7 @@ import UIKit
 /// - Note: Call `addKeyboardFrameChangesObserver()` on init, e.g. on `viewWillAppear`
 ///            and `removeKeyboardFrameChangesObserver()` on deinit, e.g. on `viewDidDisappear`
 public protocol KeyboardFrameChangesObserver: class {
-    func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions)
+    func willChangeKeyboardFrame(_ frame: CGRect, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions)
 }
 
 public extension KeyboardFrameChangesObserver {
@@ -35,9 +35,7 @@ public extension KeyboardFrameChangesObserver {
         let rawAnimationCurve = rawAnimationCurveNumber.uint32Value << 16
         let animationCurve = UIView.AnimationOptions(rawValue: UInt(rawAnimationCurve))
 
-        let keyboardHeight = willHide ? 0 : keyboardEndFrame.height
-
-        willChangeKeyboardFrame(height: keyboardHeight,
+        willChangeKeyboardFrame(keyboardEndFrame,
                                 animationDuration: animationDuration,
                                 animationOptions: [.beginFromCurrentState, animationCurve])
     }
@@ -45,31 +43,22 @@ public extension KeyboardFrameChangesObserver {
 
 /// Insets of a scroll view will be changed when keyboard will appear
 protocol ModifableInsetsOnKeyboardFrameChanges: KeyboardFrameChangesObserver {
-    /// Insets of that scroll view will be modified on keyboard appearance
-    var scrollViewToModify: UIScrollView? { get }
 }
 
 /// Default implementation for `UIViewController`
 extension ModifableInsetsOnKeyboardFrameChanges where Self: UIViewController {
-    func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
-        guard let scrollViewToModify = scrollViewToModify else { return }
-
-        var adjustedHeight = height
-
-        if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
-            adjustedHeight -= tabBarHeight
-        } else if let toolbarHeight = navigationController?.toolbar.frame.height, navigationController?.isToolbarHidden == false {
-            adjustedHeight -= toolbarHeight
-        }
-
-        adjustedHeight -= view.safeAreaInsets.bottom
-
-        if adjustedHeight < 0 { adjustedHeight = 0 }
-
+    func willChangeKeyboardFrame(_ frame: CGRect, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
         UIView.animate(withDuration: animationDuration, animations: {
-            let newInsets = UIEdgeInsets(top: 0, left: 0, bottom: adjustedHeight, right: 0)
-            scrollViewToModify.contentInset = newInsets
-            scrollViewToModify.scrollIndicatorInsets = newInsets
+            let keyboardFrameInView = self.view.convert(frame, from: nil)
+            let safeAreaFrame = self.view.safeAreaLayoutGuide.layoutFrame.insetBy(dx: 0, dy: -self.additionalSafeAreaInsets.bottom)
+            let intersection = safeAreaFrame.intersection(keyboardFrameInView)
+
+            UIView.animate(withDuration: animationDuration,
+                           delay: 0,
+                           options: animationOptions,
+                           animations: {
+                self.additionalSafeAreaInsets.bottom = intersection.height
+            }, completion: nil)
         })
     }
 }

@@ -17,4 +17,11 @@ extension Input.Field {
     }
 }
 
-extension Input.Field.Label: InputField, CellRepresentable {}
+extension Input.Field.Label: InputField, CellRepresentable {
+    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.LabelViewCell.self }
+
+    func configure(cell: UICollectionViewCell) throws {
+        guard let labelCell = cell as? Input.Table.LabelViewCell else { throw errorForIncorrectView(cell) }
+        labelCell.configure(with: self)
+    }
+}

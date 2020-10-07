@@ -32,7 +32,6 @@
 		D96BB819249FEB7300C2AD73 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB768249FEB7300C2AD73 /* Input.swift */; };
 		D96BB81A249FEB7300C2AD73 /* Input.Table.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB76A249FEB7300C2AD73 /* Input.Table.Controller.swift */; };
 		D96BB81B249FEB7300C2AD73 /* Input.Table.Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB76B249FEB7300C2AD73 /* Input.Table.Validator.swift */; };
-		D96BB81C249FEB7300C2AD73 /* Input.Table.FullWidthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB76D249FEB7300C2AD73 /* Input.Table.FullWidthCollectionViewCell.swift */; };
 		D96BB81D249FEB7300C2AD73 /* Input.Table.LabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB76E249FEB7300C2AD73 /* Input.Table.LabelViewCell.swift */; };
 		D96BB81E249FEB7300C2AD73 /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB76F249FEB7300C2AD73 /* Input.Table.CheckboxViewCell.swift */; };
 		D96BB81F249FEB7300C2AD73 /* Input.Table.TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB770249FEB7300C2AD73 /* Input.Table.TextFieldViewCell.swift */; };
@@ -44,7 +43,6 @@
 		D96BB825249FEB7300C2AD73 /* Input.Table.ImagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB778249FEB7300C2AD73 /* Input.Table.ImagesCollectionView.swift */; };
 		D96BB826249FEB7300C2AD73 /* Input.Table.LogoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB779249FEB7300C2AD73 /* Input.Table.LogoTextView.swift */; };
 		D96BB827249FEB7300C2AD73 /* Input.Table.DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB77A249FEB7300C2AD73 /* Input.Table.DataSource.swift */; };
-		D96BB828249FEB7300C2AD73 /* Input.Table.FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB77B249FEB7300C2AD73 /* Input.Table.FlowLayout.swift */; };
 		D96BB829249FEB7300C2AD73 /* Input.Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB77C249FEB7300C2AD73 /* Input.Table.swift */; };
 		D96BB82A249FEB7300C2AD73 /* Input.Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB77E249FEB7300C2AD73 /* Input.Network.swift */; };
 		D96BB82B249FEB7300C2AD73 /* Input.Field.Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB780249FEB7300C2AD73 /* Input.Field.Checkbox.swift */; };
@@ -225,7 +223,6 @@
 		D96BB768249FEB7300C2AD73 /* Input.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		D96BB76A249FEB7300C2AD73 /* Input.Table.Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.Controller.swift; sourceTree = "<group>"; };
 		D96BB76B249FEB7300C2AD73 /* Input.Table.Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.Validator.swift; sourceTree = "<group>"; };
-		D96BB76D249FEB7300C2AD73 /* Input.Table.FullWidthCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.FullWidthCollectionViewCell.swift; sourceTree = "<group>"; };
 		D96BB76E249FEB7300C2AD73 /* Input.Table.LabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LabelViewCell.swift; sourceTree = "<group>"; };
 		D96BB76F249FEB7300C2AD73 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
 		D96BB770249FEB7300C2AD73 /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
@@ -237,7 +234,6 @@
 		D96BB778249FEB7300C2AD73 /* Input.Table.ImagesCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionView.swift; sourceTree = "<group>"; };
 		D96BB779249FEB7300C2AD73 /* Input.Table.LogoTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LogoTextView.swift; sourceTree = "<group>"; };
 		D96BB77A249FEB7300C2AD73 /* Input.Table.DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DataSource.swift; sourceTree = "<group>"; };
-		D96BB77B249FEB7300C2AD73 /* Input.Table.FlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.FlowLayout.swift; sourceTree = "<group>"; };
 		D96BB77C249FEB7300C2AD73 /* Input.Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.swift; sourceTree = "<group>"; };
 		D96BB77E249FEB7300C2AD73 /* Input.Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Network.swift; sourceTree = "<group>"; };
 		D96BB780249FEB7300C2AD73 /* Input.Field.Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Checkbox.swift; sourceTree = "<group>"; };
@@ -510,7 +506,6 @@
 				D96BB76B249FEB7300C2AD73 /* Input.Table.Validator.swift */,
 				D96BB76C249FEB7300C2AD73 /* Cell */,
 				D96BB77A249FEB7300C2AD73 /* Input.Table.DataSource.swift */,
-				D96BB77B249FEB7300C2AD73 /* Input.Table.FlowLayout.swift */,
 				D96BB77C249FEB7300C2AD73 /* Input.Table.swift */,
 			);
 			path = Table;
@@ -519,7 +514,6 @@
 		D96BB76C249FEB7300C2AD73 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				D96BB76D249FEB7300C2AD73 /* Input.Table.FullWidthCollectionViewCell.swift */,
 				D96BB76E249FEB7300C2AD73 /* Input.Table.LabelViewCell.swift */,
 				D96BB76F249FEB7300C2AD73 /* Input.Table.CheckboxViewCell.swift */,
 				D96BB770249FEB7300C2AD73 /* Input.Table.TextFieldViewCell.swift */,
@@ -1317,7 +1311,6 @@
 				D96BB872249FEB7300C2AD73 /* SendRequestOperation.swift in Sources */,
 				D96BB83C249FEB7300C2AD73 /* Input.ModelTransformer.swift in Sources */,
 				D96BB870249FEB7300C2AD73 /* KeyboardChangeFrameObserver.swift in Sources */,
-				D96BB828249FEB7300C2AD73 /* Input.Table.FlowLayout.swift in Sources */,
 				D96BB830249FEB7300C2AD73 /* Input.Field.Generic.swift in Sources */,
 				D96BB83B249FEB7300C2AD73 /* Input.Field.Validation.swift in Sources */,
 				D96BB88A249FEB7300C2AD73 /* Installments.swift in Sources */,
@@ -1325,7 +1318,6 @@
 				D96BB822249FEB7300C2AD73 /* Input.Table.ImagesView.swift in Sources */,
 				D96BB878249FEB7300C2AD73 /* Connection.swift in Sources */,
 				D96BB823249FEB7300C2AD73 /* Input.Table.ImageViewCell.swift in Sources */,
-				D96BB81C249FEB7300C2AD73 /* Input.Table.FullWidthCollectionViewCell.swift in Sources */,
 				D96BB894249FEB7400C2AD73 /* Checkbox.swift in Sources */,
 				D96BB811249FEB7300C2AD73 /* TextFormatPattern.swift in Sources */,
 				D96BB858249FEB7300C2AD73 /* List.Table.TableView.swift in Sources */,
