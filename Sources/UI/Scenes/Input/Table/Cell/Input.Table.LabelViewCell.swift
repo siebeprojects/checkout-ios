@@ -3,7 +3,7 @@ import UIKit
 
 extension Input.Table {
     /// Cell that represents a label.
-    class LabelViewCell: FullWidthCollectionViewCell, DequeueableCell {
+    class LabelViewCell: UICollectionViewCell, DequeueableCell {
         fileprivate let label: UILabel
 
         override init(frame: CGRect) {
@@ -15,7 +15,7 @@ extension Input.Table {
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 0
             label.textColor = .themedText
-            label.font = UIFont.theme.withSize(forTextStyle: .body)
+            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
 
             // Layout
             contentView.addSubview(label)

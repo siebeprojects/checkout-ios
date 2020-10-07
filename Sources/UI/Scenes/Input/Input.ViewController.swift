@@ -110,42 +110,19 @@ extension Input.ViewController {
         tableController.becomeFirstResponder()
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        if #available(iOS 11.0, *) {
-            // In iOS11 insets are adjusted by `viewLayoutMarginsDidChange`
-        } else {
-            updateCollectionViewInsets()
-        }
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         removeKeyboardFrameChangesObserver()
     }
-
-    @available(iOS 11.0, *)
-    override func viewLayoutMarginsDidChange() {
-        super.viewLayoutMarginsDidChange()
-
-        updateCollectionViewInsets()
-    }
-
-    fileprivate func updateCollectionViewInsets(adjustBottomInset: CGFloat = 0) {
-        var newInset = UIEdgeInsets(top: view.layoutMargins.top, left: view.layoutMargins.left, bottom: view.layoutMargins.bottom + adjustBottomInset, right: view.layoutMargins.right)
-        collectionView.contentInset = newInset
-
-        if #available(iOS 11.0, *) {
-            newInset.left = view.safeAreaInsets.left
-            newInset.right = view.safeAreaInsets.right
-        } else {
-            newInset.left = 0
-            newInset.right = 0
-        }
-
-        collectionView.scrollIndicatorInsets = newInset
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        coordinator.animate(
+            alongsideTransition: { _ in self.collectionView.collectionViewLayout.invalidateLayout() },
+            completion: { _ in }
+        )
     }
 }
 
@@ -161,6 +138,8 @@ extension Input.ViewController {
     fileprivate func configure(collectionView: UICollectionView) {
         collectionView.tintColor = view.tintColor
         collectionView.backgroundColor = .themedBackground
+        collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
+        collectionView.preservesSuperviewLayoutMargins = true
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -189,14 +168,7 @@ extension Input.ViewController: InputTableControllerDelegate {
         // Control behaviour of navigation bar's shadow line
         guard let navigationController = self.navigationController else { return }
 
-        let insets: UIEdgeInsets
-        if #available(iOS 11.0, *) {
-            insets = scrollView.safeAreaInsets
-        } else {
-            insets = scrollView.contentInset
-        }
-
-        let yOffset = scrollView.contentOffset.y + insets.top
+        let yOffset = scrollView.contentOffset.y + scrollView.safeAreaInsets.top
 
         // If scroll view is on top
         if yOffset <= 0 {
@@ -250,32 +222,6 @@ extension Input.ViewController: InputTableControllerDelegate {
 
 extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { collectionView }
-
-    func willChangeKeyboardFrame(height: CGFloat, animationDuration: TimeInterval, animationOptions: UIView.AnimationOptions) {
-        guard scrollViewToModify != nil else { return }
-
-        if navigationController?.modalPresentationStyle == .custom {
-            return
-        }
-
-        var adjustedHeight = height
-
-        if let tabBarHeight = self.tabBarController?.tabBar.frame.height {
-            adjustedHeight -= tabBarHeight
-        } else if let toolbarHeight = navigationController?.toolbar.frame.height, navigationController?.isToolbarHidden == false {
-            adjustedHeight -= toolbarHeight
-        }
-
-        if #available(iOS 11.0, *) {
-            adjustedHeight -= view.safeAreaInsets.bottom
-        }
-
-        if adjustedHeight < 0 { adjustedHeight = 0 }
-
-        UIView.animate(withDuration: animationDuration, delay: 0, options: animationOptions, animations: { [self] in
-            self.updateCollectionViewInsets(adjustBottomInset: adjustedHeight)
-        })
-    }
 }
 
 // MARK: - VerificationCodeTranslationKeySuffixer

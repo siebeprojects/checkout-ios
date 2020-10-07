@@ -1,38 +1,47 @@
 PODS:
-  - MaterialComponents/AnimationTiming (103.1.0)
-  - MaterialComponents/Buttons (103.1.0):
+  - MaterialComponents/AnimationTiming (117.0.0)
+  - MaterialComponents/Availability (117.0.0)
+  - MaterialComponents/Buttons (117.0.0):
     - MaterialComponents/Elevation
     - MaterialComponents/Ink
     - MaterialComponents/private/Math
     - MaterialComponents/Ripple
     - MaterialComponents/ShadowElevations
     - MaterialComponents/ShadowLayer
+    - MaterialComponents/ShapeLibrary
     - MaterialComponents/Shapes
     - MaterialComponents/Typography
     - MDFInternationalization
     - MDFTextAccessibility
-  - MaterialComponents/Elevation (103.1.0):
+  - MaterialComponents/Elevation (117.0.0):
+    - MaterialComponents/Availability
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/Ink (103.1.0):
+  - MaterialComponents/Ink (117.0.0):
+    - MaterialComponents/Availability
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/Palettes (103.1.0)
-  - MaterialComponents/private/Application (103.1.0)
-  - MaterialComponents/private/Color (103.1.0)
-  - MaterialComponents/private/Math (103.1.0)
-  - MaterialComponents/Ripple (103.1.0):
+  - MaterialComponents/Palettes (117.0.0)
+  - MaterialComponents/private/Application (117.0.0)
+  - MaterialComponents/private/Color (117.0.0):
+    - MaterialComponents/Availability
+  - MaterialComponents/private/Math (117.0.0)
+  - MaterialComponents/Ripple (117.0.0):
     - MaterialComponents/AnimationTiming
+    - MaterialComponents/Availability
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
-  - MaterialComponents/ShadowElevations (103.1.0)
-  - MaterialComponents/ShadowLayer (103.1.0):
+  - MaterialComponents/ShadowElevations (117.0.0)
+  - MaterialComponents/ShadowLayer (117.0.0):
     - MaterialComponents/ShadowElevations
-  - MaterialComponents/Shapes (103.1.0):
+  - MaterialComponents/ShapeLibrary (117.0.0):
+    - MaterialComponents/private/Math
+    - MaterialComponents/Shapes
+  - MaterialComponents/Shapes (117.0.0):
     - MaterialComponents/private/Color
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
-  - MaterialComponents/TextFields (103.1.0):
+  - MaterialComponents/TextFields (117.0.0):
     - MaterialComponents/AnimationTiming
     - MaterialComponents/Buttons
     - MaterialComponents/Elevation
@@ -40,13 +49,14 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/Typography
     - MDFInternationalization
-  - MaterialComponents/Typography (103.1.0):
+  - MaterialComponents/Typography (117.0.0):
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
+    - MDFTextAccessibility
   - MDFInternationalization (2.0.0)
   - MDFTextAccessibility (2.0.0)
   - Optile (0.1.0):
-    - MaterialComponents/TextFields (= 103.1.0)
+    - MaterialComponents/TextFields (= 117.0.0)
 
 DEPENDENCIES:
   - Optile (from `../`)
@@ -62,11 +72,11 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MaterialComponents: 0312a643d1aed5e5f10cba4be06a6aa62bd07c14
+  MaterialComponents: 29320b6a89c4c90e41c7a41fc70e91127ac34161
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MDFTextAccessibility: 85c09a1bd9c321f494348e632a25063bcda35a53
-  Optile: 97d58a040a3e43ebaebac066c2f2e2529e401cbd
+  Optile: 3e4cab129c1088c32672706a442888b32594d1fa
 
-PODFILE CHECKSUM: 4722f291984ab686f7d607a20f75e51ab7040a61
+PODFILE CHECKSUM: 678137db63b867e7e9f4433309be5c0fddc423ed
 
 COCOAPODS: 1.9.1

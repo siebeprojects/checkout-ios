@@ -4,13 +4,15 @@ import Optile
 class ViewController: UITableViewController {
 
     @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var themeSwitch: UISwitch!
+    @IBOutlet weak var sendButton: UIButton!
     
     var paymentResult: PaymentResult?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationBarTintColor(to: Theme.shared.tintColor)
+        setTintColor(to: Theme.shared.tintColor)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -26,7 +28,7 @@ class ViewController: UITableViewController {
 
     @IBAction func switchValueDidChange(_ sender: UISwitch) {
         Theme.shared = sender.isOn ? .custom : .standard
-        setNavigationBarTintColor(to: Theme.shared.tintColor)
+        setTintColor(to: Theme.shared.tintColor)
     }
 
     @IBAction func sendRequest(_ sender: Any) {
@@ -80,8 +82,13 @@ extension ViewController: PaymentDelegate {
 }
 
 private extension ViewController {
-    func setNavigationBarTintColor(to color: UIColor) {
+    func setTintColor(to color: UIColor) {
+        themeSwitch.onTintColor = color
+        textField.tintColor = color
+        sendButton.backgroundColor = color
+        
         if #available(iOS 13.0, *) {
+            // Change large title's background color
             let navBarAppearance = UINavigationBarAppearance()
             navBarAppearance.configureWithOpaqueBackground()
             navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]

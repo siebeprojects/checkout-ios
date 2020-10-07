@@ -41,19 +41,19 @@ extension Input {
 }
 
 extension Input.TextHeader: CellRepresentable {
-    func configure(cell: UICollectionViewCell) {
-        switch cell {
-        case let view as Input.Table.LogoTextView: view.configure(with: self)
-        case let view as Input.Table.DetailedTextLogoView: view.configure(with: self)
-        default: return
+    var cellType: (UICollectionViewCell & DequeueableCell).Type {
+        if detailedLabel == nil {
+            return Input.Table.LogoTextView.self
+        } else {
+            return Input.Table.DetailedTextLogoView.self
         }
     }
 
-    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        if detailedLabel == nil {
-            return view.dequeueReusableCell(Input.Table.LogoTextView.self, for: indexPath)
-        } else {
-            return view.dequeueReusableCell(Input.Table.DetailedTextLogoView.self, for: indexPath)
+    func configure(cell: UICollectionViewCell) throws {
+        switch cell {
+        case let view as Input.Table.LogoTextView: view.configure(with: self)
+        case let view as Input.Table.DetailedTextLogoView: view.configure(with: self)
+        default: throw errorForIncorrectView(cell)
         }
     }
 }

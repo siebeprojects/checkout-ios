@@ -7,7 +7,7 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class LogoTextView: FullWidthCollectionViewCell, DequeueableCell {
+    class LogoTextView: UICollectionViewCell, DequeueableCell {
         private let label: UILabel
         private let logoView: UIImageView
 
@@ -20,7 +20,7 @@ extension Input.Table {
             // FIXME: Add a checkmark for a view
 //            self.accessoryType = .checkmark
 
-            label.font = UIFont.theme.withSize(forTextStyle: .body)
+            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
 
             self.addSubview(label)
             self.addSubview(logoView)

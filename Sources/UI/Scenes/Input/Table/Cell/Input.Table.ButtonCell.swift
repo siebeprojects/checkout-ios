@@ -6,7 +6,7 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class ButtonCell: FullWidthCollectionViewCell, DequeueableCell {
+    class ButtonCell: UICollectionViewCell, DequeueableCell {
         private let button: UIButton
         var model: Input.Field.Button?
 

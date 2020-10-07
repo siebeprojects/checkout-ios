@@ -7,7 +7,7 @@ extension Input.Table {
     /// Upon some actions calls `delegate`, don't forget to set it.
     ///
     /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
-    class TextFieldViewCell: FullWidthCollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
+    class TextFieldViewCell: UICollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
 
         private let textField: MDCTextField
@@ -74,8 +74,8 @@ extension Input.Table.TextFieldViewCell {
         textFieldController.leadingUnderlineLabelTextColor = textField.tintColor
         textFieldController.errorColor = .themedError
 
-        textFieldController.textInputFont = UIFont.theme.withSize(forTextStyle: .body)
-        textFieldController.inlinePlaceholderFont = UIFont.theme.withSize(forTextStyle: .body)
+        textFieldController.textInputFont = UIFont.preferredThemeFont(forTextStyle: .body)
+        textFieldController.inlinePlaceholderFont = UIFont.preferredThemeFont(forTextStyle: .body)
 
         textFieldController.placeholderText = model.label
 
@@ -137,7 +137,6 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.layoutIfNeeded()
         textFieldController.setHelperText(nil, helperAccessibilityLabel: nil)
         delegate?.inputCellDidEndEditing(cell: self)
     }

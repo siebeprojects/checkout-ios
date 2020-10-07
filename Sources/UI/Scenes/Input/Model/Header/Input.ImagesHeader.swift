@@ -16,9 +16,7 @@ extension Input {
 }
 
 extension Input.ImagesHeader: CellRepresentable {
-    func dequeueCell(for view: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        return view.dequeueReusableCell(Input.Table.ImagesView.self, for: indexPath)
-    }
+    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.ImagesView.self }
 
     func configure(cell: UICollectionViewCell) {
         guard let imagesView = cell as? Input.Table.ImagesView else { return }

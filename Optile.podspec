@@ -12,7 +12,7 @@ TODO: Add long description of the pod here.
   s.author           = { 'optile GmbH' => '' }
   s.source           = { :git => 'https://github.com/optile/ios-sdk.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '12.4'
 
   s.source_files = 'Sources/**/*.swift'
   
@@ -20,6 +20,6 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
-  s.dependency 'MaterialComponents/TextFields', '103.1.0'
+  s.dependency 'MaterialComponents/TextFields', '117.0.0'
 
 end
