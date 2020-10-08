@@ -12,6 +12,18 @@ class BasicPaymentService: PaymentService {
 
         return false
     }
+    
+    static func makeFailureInteraction(forOperationType operationType: String?) -> Interaction {
+        let code: Interaction.Code
+        switch operationType {
+        case "PRESET", "UPDATE", "ACTIVATION": code = .ABORT
+        default:
+            // "CHARGE", "PAYOUT" and other operation types
+            code = .VERIFY
+        }
+        
+        return Interaction(code: code, reason: .CLIENTSIDE_ERROR)
+    }
 
     private static func isSupported(method: String) -> Bool {
         let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
@@ -33,7 +45,7 @@ class BasicPaymentService: PaymentService {
 
     let connection: Connection
     private lazy var redirectCallbackHandler: RedirectCallbackHandler = .init()
-    private let responseParser = ResponseParser()
+    private var responseParser: ResponseParser?
 
     required init(using connection: Connection) {
         self.connection = connection
@@ -51,8 +63,9 @@ class BasicPaymentService: PaymentService {
         }
 
         connection.send(request: urlRequest) { result in
-            let response = self.responseParser.parse(paymentRequestResponse: result)
-            
+            let parser = ResponseParser(operationType: paymentRequest.operationURL.lastPathComponent)
+            let response = parser.parse(paymentRequestResponse: result)
+
             switch response {
             case .result(let result):
                 log(.debug, "Payment result received. Interaction code: %@, reason: %@", result.interaction.code, result.interaction.reason)

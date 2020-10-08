@@ -3,6 +3,7 @@ import Foundation
 extension BasicPaymentService {
     struct ResponseParser {
         private let supportedRedirectTypes = ["PROVIDER", "3DS2-HANDLER"]
+        let operationType: String
     }
 }
 
@@ -25,7 +26,7 @@ extension BasicPaymentService.ResponseParser {
         case .success(let responseData):
             guard let responseData = responseData else {
                 let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
-                let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
+                let interaction = BasicPaymentService.makeFailureInteraction(forOperationType: operationType)
                 let paymentError = CustomErrorInfo(resultInfo: emptyResponseError.localizedDescription, interaction: interaction, underlyingError: emptyResponseError)
                 return .result(.failure(paymentError))
             }

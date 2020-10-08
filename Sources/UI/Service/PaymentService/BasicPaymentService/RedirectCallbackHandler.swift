@@ -27,16 +27,8 @@ class RedirectCallbackHandler {
     }
     
     private func didReceiveFailureNotification(userInfo: [String: String]) {
-        // TODO: Use enum instead of strings after switching to MOBILE_NATIVE integration type
-        let code: Interaction.Code
-        switch userInfo[Self.operationTypeUserInfoKey] {
-        case "PRESET", "UPDATE", "ACTIVATION": code = .ABORT
-        default:
-            // "CHARGE", "PAYOUT" and other operation types
-            code = .VERIFY
-        }
-        
-        let interaction = Interaction(code: code, reason: .CLIENTSIDE_ERROR)
+        let operationType = userInfo[Self.operationTypeUserInfoKey]
+        let interaction = BasicPaymentService.makeFailureInteraction(forOperationType: operationType)
         let errorInfo = ErrorInfo(resultInfo: "Missing OperationResult after client-side redirect", interaction: interaction)
         
         delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))
