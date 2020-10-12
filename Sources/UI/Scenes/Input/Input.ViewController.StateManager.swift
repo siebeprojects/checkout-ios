@@ -47,7 +47,7 @@ extension Input.ViewController.StateManager {
         let translator = vc.smartSwitch.selected.network.translation
 
         let alertController: UIAlertController
-        
+
         if let uiPreparedError = error as? UIAlertController.PreparedError {
             alertController = uiPreparedError.createAlertController(translator: translator)
         } else {

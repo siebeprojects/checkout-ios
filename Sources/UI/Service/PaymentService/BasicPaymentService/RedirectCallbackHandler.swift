@@ -16,7 +16,7 @@ class RedirectCallbackHandler {
             self.handle(receivedURL: url)
             NotificationCenter.default.removeObserver(receivePaymentNotificationToken!)
         }
-        
+
         // Failed to receive payment result notification (e.g. browser window was closed)
         var failedPaymentNotificationToken: NSObjectProtocol?
         failedPaymentNotificationToken = NotificationCenter.default.addObserver(forName: Self.didFailReceivingPaymentResultURLNotification, object: nil, queue: .main, using: { notification in
@@ -25,12 +25,12 @@ class RedirectCallbackHandler {
             NotificationCenter.default.removeObserver(failedPaymentNotificationToken!)
         })
     }
-    
+
     private func didReceiveFailureNotification(userInfo: [String: String]) {
         let operationType = userInfo[Self.operationTypeUserInfoKey]
         let interaction = BasicPaymentService.createFailureInteraction(forOperationType: operationType)
         let errorInfo = ErrorInfo(resultInfo: "Missing OperationResult after client-side redirect", interaction: interaction)
-        
+
         delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))
     }
 
@@ -55,7 +55,7 @@ class RedirectCallbackHandler {
         let redirect = Redirect(url: receivedURL, method: .GET, parameters: parameters)
 
         let operationResult = OperationResult(resultInfo: "OperationResult received from the mobile-redirect webapp", interaction: interaction, redirect: redirect)
-        
+
         delegate?.paymentService(didReceiveResponse: .result(.success(operationResult)))
     }
 }

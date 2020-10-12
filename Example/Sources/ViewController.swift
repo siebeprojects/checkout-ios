@@ -6,12 +6,12 @@ class ViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var sendButton: UIButton!
-    
+
     var paymentResult: PaymentResult?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setTintColor(to: Theme.shared.tintColor)
     }
 
@@ -53,10 +53,10 @@ extension ViewController: PaymentDelegate {
         guard let result = paymentResult else { return }
         // Payment result was received
         self.presentAlert(with: result)
-        
+
         paymentResult = nil
     }
-    
+
     private func presentAlert(with paymentResult: PaymentResult) {
         let paymentErrorText: String
 
@@ -65,7 +65,7 @@ extension ViewController: PaymentDelegate {
         } else {
             paymentErrorText = "n/a"
         }
-        
+
         let messageDictionary = [
             TextLine(key: "ResultInfo", description: paymentResult.operationResult?.resultInfo ?? "n/a"),
             TextLine(key: "Interaction code", description: paymentResult.interaction.code),
@@ -86,7 +86,7 @@ private extension ViewController {
         themeSwitch.onTintColor = color
         textField.tintColor = color
         sendButton.backgroundColor = color
-        
+
         if #available(iOS 13.0, *) {
             // Change large title's background color
             let navBarAppearance = UINavigationBarAppearance()
@@ -109,7 +109,7 @@ private struct TextLine {
 }
 
 private extension UINavigationController {
-    func popViewController(animated: Bool, completion: @escaping () -> ()) {
+    func popViewController(animated: Bool, completion: @escaping () -> Void) {
         popViewController(animated: animated)
 
         if let coordinator = transitionCoordinator, animated {

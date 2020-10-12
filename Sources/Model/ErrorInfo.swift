@@ -4,7 +4,7 @@ import Foundation
 @objc public class ErrorInfo: NSObject, Decodable {
     public let resultInfo: String
     public let interaction: Interaction
-    
+
     /// - Note: Use `CustomErrorInfo` instead of that class when creating custom error info
     internal init(resultInfo: String, interaction: Interaction) {
         self.resultInfo = resultInfo

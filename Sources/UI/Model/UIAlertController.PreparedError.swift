@@ -5,24 +5,24 @@ extension UIAlertController {
     struct PreparedError: LocalizedError {
         let title: String?
         let message: String
-        
-        var underlyingError: Error? = nil
-        
+
+        var underlyingError: Error?
+
         /// Block that should be called after alert dismissal
-        var dismissBlock: (() -> Void)? = nil
+        var dismissBlock: (() -> Void)?
     }
 }
 
 extension UIAlertController.PreparedError {
     func createAlertController(translator: TranslationProvider) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
+
         let dismissLocalizedText: String = translator.translation(forKey: "button.ok.label")
         let dismissAction = UIAlertAction(title: dismissLocalizedText, style: .cancel) { [dismissBlock] _ in
             dismissBlock?()
         }
         alertController.addAction(dismissAction)
-        
+
         return alertController
     }
 }
@@ -34,7 +34,7 @@ extension UIAlertController.PreparedError {
     init(for error: Error, translator: TranslationProvider) {
         let title: String = translator.translation(forKey: "messages.error.default.title")
         let message: String = translator.translation(forKey: "messages.error.default.text")
-    
+
         self.init(title: title, message: message)
         self.underlyingError = error
     }
@@ -49,7 +49,7 @@ extension UIAlertController.PreparedError {
         guard let title = translator.translation(forKey: interaction.localizableError.titleKey), let message = translator.translation(forKey: interaction.localizableError.messageKey) else {
             throw InternalError(description: "No translation for interaction with code and reason: %@", interaction)
         }
-        
+
         self.init(title: title, message: message)
     }
 }
@@ -60,13 +60,13 @@ private extension Interaction {
         let titleKey: String
         let messageKey: String
     }
-    
+
     var localizableError: LocalizableError {
         let localizationKeyPrefix = "interaction." + self.code + "." + self.reason + "."
 
         let titleKey = localizationKeyPrefix + "title"
         let messageKey = localizationKeyPrefix + "text"
-        
+
         return LocalizableError(titleKey: titleKey, messageKey: messageKey)
     }
 }

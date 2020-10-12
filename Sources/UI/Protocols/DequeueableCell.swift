@@ -28,7 +28,7 @@ extension UICollectionView {
         // swiftlint:disable:next force_cast
         return self.dequeueReusableCell(withReuseIdentifier: Cell.identifier, for: indexPath) as! Cell
     }
-    
+
     func dequeueReusableCell(_ cellClass: (DequeueableCell & UICollectionViewCell).Type, for indexPath: IndexPath) -> UICollectionViewCell {
         return self.dequeueReusableCell(withReuseIdentifier: cellClass.identifier, for: indexPath)
     }

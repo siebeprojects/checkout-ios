@@ -1,7 +1,7 @@
 import Foundation
 import SafariServices
 
-class BasicPaymentService: PaymentService {    
+class BasicPaymentService: PaymentService {
     // MARK: - Static methods
     static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
         if let paymentMethod = paymentMethod {
@@ -12,7 +12,7 @@ class BasicPaymentService: PaymentService {
 
         return false
     }
-    
+
     static func createFailureInteraction(forOperationType operationType: String?) -> Interaction {
         let code: Interaction.Code
         switch operationType {
@@ -21,7 +21,7 @@ class BasicPaymentService: PaymentService {
             // "CHARGE", "PAYOUT" and other operation types
             code = .VERIFY
         }
-        
+
         return Interaction(code: code, reason: .CLIENTSIDE_ERROR)
     }
 
@@ -74,11 +74,11 @@ class BasicPaymentService: PaymentService {
                 self.redirectCallbackHandler.delegate = self.delegate
                 self.redirectCallbackHandler.subscribeForNotification()
             }
-            
+
             self.delegate?.paymentService(didReceiveResponse: response)
         }
     }
-    
+
     /// Create `URLRequest` from `PaymentRequest`
     private func createRequest(for paymentRequest: PaymentRequest) throws -> URLRequest {
         var request = URLRequest(url: paymentRequest.operationURL)
@@ -115,4 +115,3 @@ private extension BasicPaymentService {
         }
     }
 }
-

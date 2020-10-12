@@ -12,7 +12,7 @@ extension List {
         fileprivate(set) var tableController: List.Table.Controller?
         let sharedTranslationProvider: SharedTranslationProvider
         fileprivate let router: List.Router
-        
+
         public weak var delegate: PaymentDelegate?
 
         /// TODO: Migrate to separate State manager
@@ -214,7 +214,7 @@ extension List.ViewController {
             errorAlertController?.dismiss(animated: true, completion: nil)
             return
         }
-        
+
         let errorDismissBlock = {
             if self.navigationController == nil {
                 self.dismiss(animated: true, completion: nil)
@@ -222,25 +222,24 @@ extension List.ViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }
-        
+
         // Present a custom error for network failures
         if let networkError = error.asNetworkError {
             let builtError = UIAlertController.PreparedError(title: nil, message: networkError.localizedDescription, dismissBlock: errorDismissBlock)
-            
+
             let alertController = builtError.createAlertController(translator: sharedTranslationProvider)
             let retryLabel: String = sharedTranslationProvider.translation(forKey: TranslationKey.retryLabel.rawValue)
             let retryAction = UIAlertAction(title: retryLabel, style: .default) { [weak self] _ in
                 self?.loadPaymentSession()
             }
             alertController.addAction(retryAction)
-            
+
             self.errorAlertController = alertController
             present(alertController, animated: true, completion: nil)
         }
-        
-        
+
         var localizedError: UIAlertController.PreparedError
-        
+
         if let uiPreparedError = error as? UIAlertController.PreparedError {
             // For prebuilt errors don't do any transformations
             localizedError = uiPreparedError
@@ -248,7 +247,7 @@ extension List.ViewController {
             // Some unknown error, just show a generic error
             localizedError = UIAlertController.PreparedError(for: error, translator: sharedTranslationProvider)
         }
-        
+
         localizedError.dismissBlock = errorDismissBlock
 
         // Create and show error controller
@@ -327,7 +326,7 @@ extension List.ViewController: ListTableControllerDelegate {
 
 extension List.ViewController: ListViewControllerPaymentDelegate {
     func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for network: Input.Network) {
-        switch Interaction.Code(rawValue: result.interaction.code)  {
+        switch Interaction.Code(rawValue: result.interaction.code) {
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
             // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
             var uiPreparedError: UIAlertController.PreparedError
@@ -336,7 +335,7 @@ extension List.ViewController: ListViewControllerPaymentDelegate {
             } catch {
                 uiPreparedError = UIAlertController.PreparedError(for: error, translator: network.translation)
             }
-            
+
             uiPreparedError.dismissBlock = {
                 self.loadPaymentSession()
             }
@@ -349,7 +348,7 @@ extension List.ViewController: ListViewControllerPaymentDelegate {
             dismiss(withOperationResult: result)
         }
     }
-    
+
     /// Dismiss view controller and send result to a merchant
     private func dismiss(withOperationResult result: Result<OperationResult, ErrorInfo>) {
         let paymentResult = PaymentResult(operationResult: result)

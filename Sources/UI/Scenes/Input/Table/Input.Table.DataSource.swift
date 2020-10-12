@@ -181,7 +181,7 @@ extension Input.Table.DataSource.Diff {
                     // Programmatic error in `configure()` method of model because it should accept that type because of `type(of:)` check above
                     let internalError = InternalError(description: "Unable to configure cell: %@", error.localizedDescription)
                     internalError.log()
-                    
+
                     collectionView.reloadItems(at: [indexPath])
                 }
             } else {

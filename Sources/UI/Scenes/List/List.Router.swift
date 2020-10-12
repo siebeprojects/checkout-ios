@@ -37,7 +37,7 @@ extension List.Router {
 private extension List.Router {
     func present(inputViewController: Input.ViewController, animated: Bool, usingStyle style: PresentationStyle) {
         let navigationController = Input.NavigationController(rootViewController: inputViewController)
-        
+
         if let customFont = Theme.shared.font {
             navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: customFont]
         }

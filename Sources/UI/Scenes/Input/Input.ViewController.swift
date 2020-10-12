@@ -115,10 +115,10 @@ extension Input.ViewController {
 
         removeKeyboardFrameChangesObserver()
     }
-    
+
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        
+
         coordinator.animate(
             alongsideTransition: { _ in self.collectionView.collectionViewLayout.invalidateLayout() },
             completion: { _ in }
@@ -242,12 +242,12 @@ extension Input.ViewController: InputPaymentControllerDelegate {
             self.delegate?.paymentController(didReceiveOperationResult: result, for: self.smartSwitch.selected.network)
         })
     }
-    
+
     /// Show an error and return to input fields editing state
     func paymentController(presentAlertFor interaction: Interaction) {
         // Try to dismiss safari VC (if exists)
         safariViewController?.dismiss(animated: true, completion: nil)
-        
+
         // Construct error
         let translator = smartSwitch.selected.network.translation
         var uiPreparedError: UIAlertController.PreparedError
@@ -261,11 +261,11 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         uiPreparedError.dismissBlock = {
             self.stateManager.state = .inputFieldsPresentation
         }
-        
+
         // Show an error
         stateManager.state = .error(uiPreparedError)
     }
-    
+
     /// Present Safari View Controller with redirect URL
     func paymentController(presentURL url: URL) {
         safariViewController?.dismiss(animated: true, completion: nil)
