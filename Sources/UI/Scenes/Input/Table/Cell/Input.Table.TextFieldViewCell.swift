@@ -148,7 +148,7 @@ extension Input.Table.TextFieldViewCell: UITextFieldDelegate {
             return true
         }
 
-        // Make new full text string (replaced)
+        // Create new full text string (replaced)
         let originText = textField.text ?? String()
         let newFullString: String
         if let textRange = Range(range, in: originText) {
@@ -208,13 +208,13 @@ extension Input.Table.TextFieldViewCell: SupportsPrimaryAction {
         // Show input accessory view for number pads with "Next" button
         // We need that because number pads doesn't support display of a return key
         if textField.keyboardType == .numberPad && UIDevice.current.userInterfaceIdiom != .pad {
-            textField.inputAccessoryView = makeAccessoryView(for: action)
+            textField.inputAccessoryView = createAccessoryView(for: action)
         } else {
             textField.inputAccessoryView = nil
         }
     }
 
-    private func makeAccessoryView(for action: PrimaryAction) -> UIView {
+    private func createAccessoryView(for action: PrimaryAction) -> UIView {
         let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44)
         let view = UIInputView(frame: frame, inputViewStyle: .default)
 

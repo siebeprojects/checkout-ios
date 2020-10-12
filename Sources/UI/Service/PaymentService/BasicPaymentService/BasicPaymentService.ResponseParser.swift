@@ -26,7 +26,7 @@ extension BasicPaymentService.ResponseParser {
         case .success(let responseData):
             guard let responseData = responseData else {
                 let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
-                let interaction = BasicPaymentService.makeFailureInteraction(forOperationType: operationType)
+                let interaction = BasicPaymentService.createFailureInteraction(forOperationType: operationType)
                 let paymentError = CustomErrorInfo(resultInfo: emptyResponseError.localizedDescription, interaction: interaction, underlyingError: emptyResponseError)
                 return .result(.failure(paymentError))
             }

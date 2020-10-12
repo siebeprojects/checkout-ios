@@ -14,7 +14,7 @@ extension UIAlertController {
 }
 
 extension UIAlertController.PreparedError {
-    func makeAlertController(translator: TranslationProvider) -> UIAlertController {
+    func createAlertController(translator: TranslationProvider) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let dismissLocalizedText: String = translator.translation(forKey: "button.ok.label")

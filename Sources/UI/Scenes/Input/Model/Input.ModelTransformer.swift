@@ -32,7 +32,7 @@ extension Input.ModelTransformer {
         // Input fields
         let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
-        let inputFields = inputFieldFactory.makeInputFields(for: modelToTransform)
+        let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
         self.verificationCodeFields = inputFieldFactory.verificationCodeFields
 
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
@@ -54,7 +54,7 @@ extension Input.ModelTransformer {
         let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
 
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, translator: paymentNetwork.translation)
-        let inputFields = inputFieldFactory.makeInputFields(for: modelToTransform)
+        let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
         self.verificationCodeFields = inputFieldFactory.verificationCodeFields
 
         // Switch rule
@@ -67,8 +67,8 @@ extension Input.ModelTransformer {
         let recurrenceCheckbox = ApplicableNetworkCheckbox(type: .recurrence, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement)
 
         let checkboxes = [
-            checkboxFactory.makeInternalModel(from: registrationCheckbox),
-            checkboxFactory.makeInternalModel(from: recurrenceCheckbox)
+            checkboxFactory.createInternalModel(from: registrationCheckbox),
+            checkboxFactory.createInternalModel(from: recurrenceCheckbox)
             ].compactMap { $0 }
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
@@ -104,7 +104,7 @@ private class InputFieldFactory {
     /// - Note: we need it to set a placeholder suffix delegate after transformation
     fileprivate(set) var verificationCodeFields = [Input.Field.VerificationCode]()
 
-    /// Used as input for `makeInputFields(for:)` method
+    /// Used as input for `createInputFields(for:)` method
     fileprivate struct TransformableModel {
         var inputElements: [InputElement]
         var networkCode: String
@@ -112,7 +112,7 @@ private class InputFieldFactory {
         var translator: TranslationProvider
     }
 
-    fileprivate func makeInputFields(for model: TransformableModel) -> [CellRepresentable & InputField] {
+    fileprivate func createInputFields(for model: TransformableModel) -> [CellRepresentable & InputField] {
         // Get validation rules
         let validationProvider: Input.Field.Validation.Provider?
 
@@ -229,7 +229,7 @@ private class CheckboxFactory {
         self.translator = translator
     }
 
-    func makeInternalModel(from backendCheckbox: ApplicableNetworkCheckbox) -> InputField {
+    func createInternalModel(from backendCheckbox: ApplicableNetworkCheckbox) -> InputField {
         let isOn: Bool
 
         switch backendCheckbox.requirement {

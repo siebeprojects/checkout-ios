@@ -13,7 +13,7 @@ class BasicPaymentService: PaymentService {
         return false
     }
     
-    static func makeFailureInteraction(forOperationType operationType: String?) -> Interaction {
+    static func createFailureInteraction(forOperationType operationType: String?) -> Interaction {
         let code: Interaction.Code
         switch operationType {
         case "PRESET", "UPDATE", "ACTIVATION": code = .ABORT
@@ -54,7 +54,7 @@ class BasicPaymentService: PaymentService {
     func send(paymentRequest: PaymentRequest) {
         let urlRequest: URLRequest
         do {
-            urlRequest = try makeRequest(for: paymentRequest)
+            urlRequest = try createRequest(for: paymentRequest)
         } catch {
             let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
             let paymentError = CustomErrorInfo(resultInfo: "", interaction: interaction, underlyingError: error)
@@ -79,8 +79,8 @@ class BasicPaymentService: PaymentService {
         }
     }
     
-    /// Make `URLRequest` from `PaymentRequest`
-    private func makeRequest(for paymentRequest: PaymentRequest) throws -> URLRequest {
+    /// Create `URLRequest` from `PaymentRequest`
+    private func createRequest(for paymentRequest: PaymentRequest) throws -> URLRequest {
         var request = URLRequest(url: paymentRequest.operationURL)
         request.httpMethod = "POST"
 

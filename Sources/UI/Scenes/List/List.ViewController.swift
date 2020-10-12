@@ -227,7 +227,7 @@ extension List.ViewController {
         if let networkError = error.asNetworkError {
             let builtError = UIAlertController.PreparedError(title: nil, message: networkError.localizedDescription, dismissBlock: errorDismissBlock)
             
-            let alertController = builtError.makeAlertController(translator: sharedTranslationProvider)
+            let alertController = builtError.createAlertController(translator: sharedTranslationProvider)
             let retryLabel: String = sharedTranslationProvider.translation(forKey: TranslationKey.retryLabel.rawValue)
             let retryAction = UIAlertAction(title: retryLabel, style: .default) { [weak self] _ in
                 self?.loadPaymentSession()
@@ -251,8 +251,8 @@ extension List.ViewController {
         
         localizedError.dismissBlock = errorDismissBlock
 
-        // Make and show error controller
-        let alertController = localizedError.makeAlertController(translator: sharedTranslationProvider)
+        // Create and show error controller
+        let alertController = localizedError.createAlertController(translator: sharedTranslationProvider)
         self.errorAlertController = alertController
         present(alertController, animated: true, completion: nil)
     }

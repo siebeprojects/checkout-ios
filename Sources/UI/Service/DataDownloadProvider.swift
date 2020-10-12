@@ -25,7 +25,7 @@ class DataDownloadProvider {
             let downloadRequest = DownloadData(from: url)
             let sendRequestOperation = SendRequestOperation(connection: connection, request: downloadRequest)
             sendRequestOperation.downloadCompletionBlock = {
-                model.loadable = self.makeResponse(for: $0)
+                model.loadable = self.createResponse(for: $0)
             }
             completionOperation.addDependency(sendRequestOperation)
             operationQueue.addOperation(sendRequestOperation)
@@ -35,7 +35,7 @@ class DataDownloadProvider {
     }
 
     /// Convert download result to loadable image model
-    private func makeResponse(for downloadResult: Result<Data, Error>) -> Loadable<UIImage>? {
+    private func createResponse(for downloadResult: Result<Data, Error>) -> Loadable<UIImage>? {
         switch downloadResult {
         case .success(let data):
             if let image = UIImage(data: data) {

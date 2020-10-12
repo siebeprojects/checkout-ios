@@ -18,7 +18,7 @@ extension GetRequest {
         }
 
         guard let url = components.url else {
-            throw InternalError(description: "Internal error, unable to make API request URL")
+            throw InternalError(description: "Internal error, unable to create API request URL")
         }
 
         var urlRequest = URLRequest(url: url)
