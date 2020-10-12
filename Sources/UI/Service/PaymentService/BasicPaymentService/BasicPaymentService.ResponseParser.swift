@@ -38,7 +38,7 @@ extension BasicPaymentService.ResponseParser {
             let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
 
             if let redirect = operationResult.redirect, let redirectType = redirect.type, self.supportedRedirectTypes.contains(redirectType) {
-                let url = try constructURL(from: redirect)
+                let url = try createURL(from: redirect)
                 return .redirect(url)
             }
 
@@ -50,7 +50,7 @@ extension BasicPaymentService.ResponseParser {
         }
     }
 
-    private func constructURL(from redirect: Redirect) throws -> URL {
+    private func createURL(from redirect: Redirect) throws -> URL {
         guard var components = URLComponents(url: redirect.url, resolvingAgainstBaseURL: false) else {
             throw InternalError(description: "Incorrect redirect url provided: %@", redirect.url.absoluteString)
         }
