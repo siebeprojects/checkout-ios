@@ -20,7 +20,7 @@ extension BasicPaymentService.ResponseParser {
             }
 
             // Unknown error (possible network error)
-            let interaction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
+            let interaction = BasicPaymentService.createFailureInteraction(forOperationType: operationType)
             let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
             return .result(.failure(paymentError))
         case .success(let responseData):
@@ -44,7 +44,7 @@ extension BasicPaymentService.ResponseParser {
 
             return .result(.success(operationResult))
         } catch {
-            let interaction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
+            let interaction = BasicPaymentService.createFailureInteraction(forOperationType: operationType)
             let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
             return .result(.failure(paymentError))
         }
