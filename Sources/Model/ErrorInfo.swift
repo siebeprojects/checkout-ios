@@ -1,13 +1,14 @@
 import Foundation
 
 /// Error returned from a server
-/// - TODO: check if all errors from the backend is returned as this type
-struct ErrorInfo: Decodable {
-    let resultInfo: String
-    let interaction: Interaction
+@objc public class ErrorInfo: NSObject, Decodable {
+    public let resultInfo: String
+    public let interaction: Interaction
 
-    struct Interaction: Decodable {
-        let code, reason: String
+    /// - Note: Use `CustomErrorInfo` instead of that class when creating custom error info
+    internal init(resultInfo: String, interaction: Interaction) {
+        self.resultInfo = resultInfo
+        self.interaction = interaction
     }
 }
 

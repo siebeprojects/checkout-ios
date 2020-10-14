@@ -17,7 +17,7 @@ extension Input {
 
         var safariViewController: SFSafariViewController?
 
-        weak var delegate: PaymentDelegate?
+        weak var delegate: ListViewControllerPaymentDelegate?
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
@@ -115,10 +115,10 @@ extension Input.ViewController {
 
         removeKeyboardFrameChangesObserver()
     }
-    
+
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
-        
+
         coordinator.animate(
             alongsideTransition: { _ in self.collectionView.collectionViewLayout.invalidateLayout() },
             completion: { _ in }
@@ -234,56 +234,54 @@ extension Input.ViewController: VerificationCodeTranslationKeySuffixer {
     }
 }
 
-extension Input.ViewController: PaymentControllerDelegate {
-    func paymentController(paymentCompleteWith result: PaymentResult) {
-        DispatchQueue.main.async { [weak self] in
-            self?.safariViewController?.dismiss(animated: true, completion: {
-                self?.safariViewController = nil
-            })
-
-            self?.navigationController?.dismiss(animated: true, completion: nil)
-            self?.delegate?.paymentService(didReceivePaymentResult: result)
-        }
+extension Input.ViewController: InputPaymentControllerDelegate {
+    /// Route result to the next view controller
+    func paymentController(route result: Result<OperationResult, ErrorInfo>) {
+        safariViewController?.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: {
+            self.delegate?.paymentController(didReceiveOperationResult: result, for: self.smartSwitch.selected.network)
+        })
     }
 
-    func paymentController(paymentFailedWith error: Error, withResult result: PaymentResult, isRetryable: Bool) {
-        let onErrorAlertDismissBlock = { [weak self] in
-            if isRetryable {
-                self?.stateManager.state = .inputFieldsPresentation
-                return
-            }
+    /// Show an error and return to input fields editing state
+    func paymentController(presentAlertFor interaction: Interaction) {
+        // Try to dismiss safari VC (if exists)
+        safariViewController?.dismiss(animated: true, completion: nil)
 
-            self?.navigationController?.dismiss(animated: true, completion: nil)
-            self?.delegate?.paymentService(didReceivePaymentResult: result)
+        // Construct error
+        let translator = smartSwitch.selected.network.translation
+        var uiPreparedError: UIAlertController.PreparedError
+        do {
+            uiPreparedError = try UIAlertController.PreparedError(for: interaction, translator: translator)
+        } catch {
+            uiPreparedError = UIAlertController.PreparedError(for: error, translator: translator)
         }
 
-        DispatchQueue.main.async { [weak self] in
-            let changeStateBlock = {
-                self?.safariViewController = nil
-                self?.stateManager.state = .error(error, isRetryable: isRetryable, onDismissBlock: onErrorAlertDismissBlock)
-            }
-
-            if let svc = self?.safariViewController {
-                svc.dismiss(animated: true, completion: changeStateBlock)
-            } else {
-                changeStateBlock()
-            }
+        // Unlock input fields after error alert dismissal
+        uiPreparedError.dismissBlock = {
+            self.stateManager.state = .inputFieldsPresentation
         }
+
+        // Show an error
+        stateManager.state = .error(uiPreparedError)
     }
 
+    /// Present Safari View Controller with redirect URL
     func paymentController(presentURL url: URL) {
-        DispatchQueue.main.async {
-            let safariVC = SFSafariViewController(url: url)
-            safariVC.delegate = self
-            self.safariViewController = safariVC
-            self.navigationController?.present(safariVC, animated: true, completion: nil)
-        }
+        safariViewController?.dismiss(animated: true, completion: nil)
+
+        // Preset SafariViewController
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.delegate = self
+        self.safariViewController = safariVC
+        self.present(safariVC, animated: true, completion: nil)
     }
 }
 
 extension Input.ViewController: SFSafariViewControllerDelegate {
+    /// SafariViewController was closed by Done button
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        // Get operation type for the last path component
+        // Get operation type from the last path component
         let operationType = smartSwitch.selected.network.operationURL.lastPathComponent
         NotificationCenter.default.post(
             name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,

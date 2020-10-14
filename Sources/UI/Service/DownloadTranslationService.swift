@@ -31,9 +31,9 @@ final class DownloadTranslationService {
         downloadAccountsOperations = .init()
 
         // That operation is called after all localizations were downloaded
-        let completionOperation = BlockOperation { [makeTranslatedModels] in
+        let completionOperation = BlockOperation { [createTranslatedModels] in
             do {
-                let translations = try makeTranslatedModels()
+                let translations = try createTranslatedModels()
                 completion(.success(translations))
             } catch {
                 completion(.failure(error))
@@ -68,7 +68,7 @@ final class DownloadTranslationService {
     }
 
     /// Create `Translations` object with models and translators to return it as class' outupt
-    private func makeTranslatedModels() throws -> Translations {
+    private func createTranslatedModels() throws -> Translations {
         let translations = Translations()
 
         for operation in downloadNetworkOperations {

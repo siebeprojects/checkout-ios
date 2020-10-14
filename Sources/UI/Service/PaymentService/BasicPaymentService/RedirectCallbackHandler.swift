@@ -16,7 +16,7 @@ class RedirectCallbackHandler {
             self.handle(receivedURL: url)
             NotificationCenter.default.removeObserver(receivePaymentNotificationToken!)
         }
-        
+
         // Failed to receive payment result notification (e.g. browser window was closed)
         var failedPaymentNotificationToken: NSObjectProtocol?
         failedPaymentNotificationToken = NotificationCenter.default.addObserver(forName: Self.didFailReceivingPaymentResultURLNotification, object: nil, queue: .main, using: { notification in
@@ -25,21 +25,14 @@ class RedirectCallbackHandler {
             NotificationCenter.default.removeObserver(failedPaymentNotificationToken!)
         })
     }
-    
+
     private func didReceiveFailureNotification(userInfo: [String: String]) {
-        // TODO: Use enum instead of strings after switching to MOBILE_NATIVE integration type
-        let code: Interaction.Code
-        switch userInfo[Self.operationTypeUserInfoKey] {
-        case "PRESET", "UPDATE", "ACTIVATION": code = .ABORT
-        default:
-            // "CHARGE", "PAYOUT" and other operation types
-            code = .VERIFY
-        }
-        
-        let interaction = Interaction(code: code, reason: .COMMUNICATION_FAILURE)
-        let result = PaymentResult(operationResult: nil, interaction: interaction, error: nil)
-        
-        delegate?.paymentService(didReceivePaymentResult: result)
+        let operationType = userInfo[Self.operationTypeUserInfoKey]
+        let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
+        let interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
+        let errorInfo = ErrorInfo(resultInfo: "Missing OperationResult after client-side redirect", interaction: interaction)
+
+        delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))
     }
 
     private func handle(receivedURL: URL) {
@@ -48,10 +41,10 @@ class RedirectCallbackHandler {
             let interactionCode = queryItems[.interactionCodeKey],
             let interactionReason = queryItems[.interactionReasonKey] else {
                 // Couldn't form payment result, send an error
-                let errorInteraction = Interaction(code: .VERIFY, reason: .COMMUNICATION_FAILURE)
+                let errorInteraction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
                 let error = InternalError(description: "Callback URL doesn't contain interaction code or reason. URL: %@", receivedURL.absoluteString)
-                let result = PaymentResult(operationResult: nil, interaction: errorInteraction, error: error)
-                delegate?.paymentService(didReceivePaymentResult: result)
+                let paymentError = CustomErrorInfo(resultInfo: "Missing OperationResult after client-side redirect", interaction: errorInteraction, underlyingError: error)
+                delegate?.paymentService(didReceiveResponse: .result(.failure(paymentError)))
                 return
         }
 
@@ -63,9 +56,8 @@ class RedirectCallbackHandler {
         let redirect = Redirect(url: receivedURL, method: .GET, parameters: parameters)
 
         let operationResult = OperationResult(resultInfo: "OperationResult received from the mobile-redirect webapp", interaction: interaction, redirect: redirect)
-        let result = PaymentResult(operationResult: operationResult, interaction: interaction, error: nil)
 
-        delegate?.paymentService(didReceivePaymentResult: result)
+        delegate?.paymentService(didReceiveResponse: .result(.success(operationResult)))
     }
 }
 

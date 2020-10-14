@@ -17,7 +17,7 @@ extension Input.Field {
 
 extension Input.Field.Button: CellRepresentable {
     var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.ButtonCell.self }
-    
+
     func configure(cell: UICollectionViewCell) throws {
         guard let buttonCell = cell as? Input.Table.ButtonCell else { throw errorForIncorrectView(cell) }
         buttonCell.configure(with: self)

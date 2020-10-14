@@ -1,6 +1,6 @@
 import Foundation
 
-struct PaymentError: LocalizedError {
+struct TranslatedError: LocalizedError {
     var localizedDescription: String
     var underlyingError: Error?
     var errorDescription: String? { return localizedDescription}

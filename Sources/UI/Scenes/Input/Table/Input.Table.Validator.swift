@@ -4,7 +4,7 @@ extension Input.Table {
     class Validator {
         let dataSource: DataSource
         weak var collectionView: UICollectionView!
-        
+
         /// If disabled single cell validation will be skipped.
         /// - Note: goal of that property is to avoid double validation animation bug when a text field looses a focus after user presses a pay button, so `validate(cell:)` and `validateAll` could be called at one time.
         /// Property is modified by `validateAll` method.
@@ -91,7 +91,7 @@ extension Input.Table.Validator {
     private func invalidateLayout(at indexPaths: [IndexPath]) {
         let context = UICollectionViewFlowLayoutInvalidationContext()
         context.invalidateItems(at: indexPaths)
-        
+
         collectionView.performBatchUpdates({
             self.collectionView.collectionViewLayout.invalidateLayout(with: context)
         }, completion: nil)

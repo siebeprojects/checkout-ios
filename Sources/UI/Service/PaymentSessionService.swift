@@ -46,7 +46,7 @@ class PaymentSessionService {
             return error
         default:
             let text: String = localizationProvider.translation(forKey: TranslationKey.errorText.rawValue)
-            return PaymentError(localizedDescription: text, underlyingError: error)
+            return TranslatedError(localizedDescription: text, underlyingError: error)
         }
     }
 

@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		61352681302C575824379526 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B8008EEAF7624320906F94 /* Pods_Example.framework */; };
-		D9A0CBD02506E5C500A26172 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0CBCF2506E5C500A26172 /* Theme+custom.swift */; };
+		D9D5F36C251265EF00540F62 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D5F36B251265EF00540F62 /* Theme+custom.swift */; };
+		D9D829B825122A73002DE51C /* UIAlertController+unexpectedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D829B725122A73002DE51C /* UIAlertController+unexpectedError.swift */; };
 		D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB0234143BD0021184C /* AppDelegate.swift */; };
 		D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB4234143BD0021184C /* ViewController.swift */; };
 		D9E0AEB8234143BD0021184C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB6234143BD0021184C /* Main.storyboard */; };
@@ -33,7 +34,8 @@
 		533C3E6C1F1308E919D9F666 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		6E2BBE9B4A36CD0CFCCFA5F5 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D967F71723C7C6450001B778 /* Optile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9A0CBCF2506E5C500A26172 /* Theme+custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
+		D9D5F36B251265EF00540F62 /* Theme+custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
+		D9D829B725122A73002DE51C /* UIAlertController+unexpectedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+unexpectedError.swift"; sourceTree = "<group>"; };
 		D9E0AEAD234143BD0021184C /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E0AEB0234143BD0021184C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9E0AEB4234143BD0021184C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,7 +99,8 @@
 			children = (
 				D9E0AEB0234143BD0021184C /* AppDelegate.swift */,
 				D9E0AEB4234143BD0021184C /* ViewController.swift */,
-				D9A0CBCF2506E5C500A26172 /* Theme+custom.swift */,
+				D9D5F36B251265EF00540F62 /* Theme+custom.swift */,
+				D9D829B725122A73002DE51C /* UIAlertController+unexpectedError.swift */,
 				D9E0AEB6234143BD0021184C /* Main.storyboard */,
 				D9E0AEB9234143BF0021184C /* Assets.xcassets */,
 				D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */,
@@ -223,7 +226,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */,
-				D9A0CBD02506E5C500A26172 /* Theme+custom.swift in Sources */,
+				D9D829B825122A73002DE51C /* UIAlertController+unexpectedError.swift in Sources */,
+				D9D5F36C251265EF00540F62 /* Theme+custom.swift in Sources */,
 				D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

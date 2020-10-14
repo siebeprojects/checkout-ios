@@ -12,7 +12,7 @@ extension List.Table {
             textLabel.translatesAutoresizingMaskIntoConstraints = false
             textLabel.textColor = Theme.shared.textColor
             textLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-            
+
             addSubview(textLabel)
             self.textLabel = textLabel
 
