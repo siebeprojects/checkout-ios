@@ -19,14 +19,16 @@ extension BasicPaymentService.ResponseParser {
                 return .result(.failure(errorInfo))
             }
 
-            // Unknown error (possible network error)
-            let interaction = BasicPaymentService.createFailureInteraction(forOperationType: operationType)
+            // Some network module's error
+            let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
+            let interaction = Interaction(code: interactionCode, reason: .COMMUNICATION_FAILURE)
             let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
             return .result(.failure(paymentError))
         case .success(let responseData):
             guard let responseData = responseData else {
                 let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
-                let interaction = BasicPaymentService.createFailureInteraction(forOperationType: operationType)
+                let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
+                let interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
                 let paymentError = CustomErrorInfo(resultInfo: emptyResponseError.localizedDescription, interaction: interaction, underlyingError: emptyResponseError)
                 return .result(.failure(paymentError))
             }
@@ -44,7 +46,8 @@ extension BasicPaymentService.ResponseParser {
 
             return .result(.success(operationResult))
         } catch {
-            let interaction = BasicPaymentService.createFailureInteraction(forOperationType: operationType)
+            let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
+            let interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
             let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
             return .result(.failure(paymentError))
         }

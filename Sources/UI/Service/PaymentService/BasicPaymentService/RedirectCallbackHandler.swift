@@ -28,7 +28,8 @@ class RedirectCallbackHandler {
 
     private func didReceiveFailureNotification(userInfo: [String: String]) {
         let operationType = userInfo[Self.operationTypeUserInfoKey]
-        let interaction = BasicPaymentService.createFailureInteraction(forOperationType: operationType)
+        let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
+        let interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
         let errorInfo = ErrorInfo(resultInfo: "Missing OperationResult after client-side redirect", interaction: interaction)
 
         delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))

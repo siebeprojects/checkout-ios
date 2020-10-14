@@ -12,17 +12,15 @@ class BasicPaymentService: PaymentService {
 
         return false
     }
-
-    static func createFailureInteraction(forOperationType operationType: String?) -> Interaction {
-        let code: Interaction.Code
+    
+    /// Find appropriate interaction code for specified operation type.
+    static func getFailureInteractionCode(forOperationType operationType: String?) -> Interaction.Code {
         switch operationType {
-        case "PRESET", "UPDATE", "ACTIVATION": code = .ABORT
+        case "PRESET", "UPDATE", "ACTIVATION": return .ABORT
         default:
             // "CHARGE", "PAYOUT" and other operation types
-            code = .VERIFY
+            return .VERIFY
         }
-
-        return Interaction(code: code, reason: .CLIENTSIDE_ERROR)
     }
 
     private static func isSupported(method: String) -> Bool {
