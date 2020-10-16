@@ -24,7 +24,6 @@
 		D96BB8C6249FEBB400C2AD73 /* MockDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B4249FEBB400C2AD73 /* MockDataSource.swift */; };
 		D96BB8C7249FEBB400C2AD73 /* MockFactory.Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B6249FEBB400C2AD73 /* MockFactory.Localization.swift */; };
 		D96BB8C8249FEBB400C2AD73 /* MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B7249FEBB400C2AD73 /* MockFactory.swift */; };
-		D96BB8C9249FEBB400C2AD73 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */; };
 		D96BB8CA249FEBB400C2AD73 /* MockFactory.ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
@@ -419,6 +418,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D90CEEBA2539C6E200CF9A93 /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				D96BB8CB249FEBC500C2AD73 /* Info.plist */,
+				D96BB8AB249FEBB400C2AD73 /* Helpers */,
+				D96BB8AF249FEBB400C2AD73 /* Localization */,
+				D96BB8B1249FEBB400C2AD73 /* Mock */,
+				D96BB89D249FEBB400C2AD73 /* Network */,
+				D96BB8A0249FEBB400C2AD73 /* UI */,
+			);
+			path = Unit;
+			sourceTree = "<group>";
+		};
 		D96BB89D249FEBB400C2AD73 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -555,12 +567,7 @@
 		D9A88E17241C56340043F535 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				D96BB8CB249FEBC500C2AD73 /* Info.plist */,
-				D96BB8AB249FEBB400C2AD73 /* Helpers */,
-				D96BB8AF249FEBB400C2AD73 /* Localization */,
-				D96BB8B1249FEBB400C2AD73 /* Mock */,
-				D96BB89D249FEBB400C2AD73 /* Network */,
-				D96BB8A0249FEBB400C2AD73 /* UI */,
+				D90CEEBA2539C6E200CF9A93 /* Unit */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1175,7 +1182,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D96BB8C9249FEBB400C2AD73 /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1626,7 +1632,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7X2PJ6H6YM;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/Unit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1647,7 +1653,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7X2PJ6H6YM;
-				INFOPLIST_FILE = Tests/Info.plist;
+				INFOPLIST_FILE = Tests/Unit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
