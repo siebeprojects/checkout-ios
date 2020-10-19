@@ -11,19 +11,21 @@ class UITests: XCTestCase {
         // Create payment session
         let sessionExpectation = expectation(description: "Create payment session")
         let transaction = Transaction.loadFromTemplate()
-        paymentSessionService.create(using: transaction, completion: { (result) in
-            switch result {
-            case .success(let url):
-                self.sessionURL = url
-            case .failure(let error):
-                XCTFail(error)
-                fatalError()
-            }
 
+        var createSessionResult: Result<URL, Error>?
+
+        paymentSessionService.create(using: transaction, completion: { (result) in
+            createSessionResult = result
             sessionExpectation.fulfill()
         })
 
         wait(for: [sessionExpectation], timeout: 5)
+
+        switch createSessionResult {
+        case .success(let url): self.sessionURL = url
+        case .failure(let error): throw error
+        case .none: throw "Create session result wasn't set"
+        }
     }
 
     override func tearDownWithError() throws {
