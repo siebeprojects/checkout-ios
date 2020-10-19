@@ -385,6 +385,12 @@
 		D9ED4116252E8274009F14DA /* DequeueableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DequeueableCell.swift; sourceTree = "<group>"; };
 		D9ED4117252E8274009F14DA /* PaymentDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentDelegate.swift; sourceTree = "<group>"; };
 		D9ED4118252E8274009F14DA /* KeyboardChangeFrameObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardChangeFrameObserver.swift; sourceTree = "<group>"; };
+		D9EE608B253CA01700037968 /* test_ui.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_ui.swift; sourceTree = "<group>"; };
+		D9EE608D253CA01700037968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9EE6097253CA04C00037968 /* UITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITest.swift; sourceTree = "<group>"; };
+		D9EE6099253CA04C00037968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9EE60A3253CA06800037968 /* UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITests.swift; sourceTree = "<group>"; };
+		D9EE60A5253CA06800037968 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -567,6 +573,7 @@
 		D9A88E17241C56340043F535 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				D9EE6084253C6E5400037968 /* UI */,
 				D90CEEBA2539C6E200CF9A93 /* Unit */,
 			);
 			path = Tests;
@@ -577,6 +584,9 @@
 			children = (
 				D9A88D04241C55040043F535 /* Sources */,
 				D9A88E17241C56340043F535 /* Tests */,
+				D9EE608A253CA01700037968 /* test.ui */,
+				D9EE6096253CA04C00037968 /* UITest */,
+				D9EE60A2253CA06800037968 /* UITests */,
 				D9C95736241C54CA00049AFE /* Products */,
 				E1466AD75BB5BAE0DAF66218 /* Pods */,
 				686D71EBAB51C7A0DC05494C /* Frameworks */,
@@ -1063,6 +1073,40 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		D9EE6084253C6E5400037968 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D9EE608A253CA01700037968 /* test.ui */ = {
+			isa = PBXGroup;
+			children = (
+				D9EE608B253CA01700037968 /* test_ui.swift */,
+				D9EE608D253CA01700037968 /* Info.plist */,
+			);
+			path = test.ui;
+			sourceTree = "<group>";
+		};
+		D9EE6096253CA04C00037968 /* UITest */ = {
+			isa = PBXGroup;
+			children = (
+				D9EE6097253CA04C00037968 /* UITest.swift */,
+				D9EE6099253CA04C00037968 /* Info.plist */,
+			);
+			path = UITest;
+			sourceTree = "<group>";
+		};
+		D9EE60A2253CA06800037968 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				D9EE60A3253CA06800037968 /* UITests.swift */,
+				D9EE60A5253CA06800037968 /* Info.plist */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
 		E1466AD75BB5BAE0DAF66218 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1132,7 +1176,8 @@
 		D9C9572C241C54CA00049AFE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "optile GmbH";
 				TargetAttributes = {
