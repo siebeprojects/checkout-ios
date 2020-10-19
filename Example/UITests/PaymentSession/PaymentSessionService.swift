@@ -1,5 +1,4 @@
-import XCTest
-@testable import Example
+import Foundation
 
 class PaymentSessionService {
     let url = URL(string: "https://api.sandbox.oscato.com/api/lists")!
@@ -18,7 +17,7 @@ class PaymentSessionService {
         self.merchantPaymentToken = merchantPaymentToken
     }
 
-    func create(using transaction: Transaction, completion: @escaping ((URL?) -> Void)) {
+    func create(using transaction: Transaction, completion: @escaping ((Result<URL, Error>) -> Void)) {
         var httpRequest = URLRequest(url: url)
 
         // Body
@@ -33,21 +32,18 @@ class PaymentSessionService {
             switch result {
             case .success(let data):
                 guard let data = data else {
-                    XCTFail("Data is empty")
-                    completion(nil)
+                    completion(.failure("Server's reply doesn't contain data"))
                     return
                 }
 
                 do {
                     let paymentSession = try JSONDecoder().decode(PaymentSession.self, from: data)
-                    completion(paymentSession.links.`self`)
+                    completion(.success(paymentSession.links.`self`))
                 } catch {
-                    XCTFail("\(error)")
-                    completion(nil)
+                    completion(.failure(error))
                 }
             case .failure(let error):
-                XCTFail("\(error)")
-                completion(nil)
+                completion(.failure(error))
             }
         }
     }

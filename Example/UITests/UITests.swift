@@ -3,13 +3,26 @@ import XCTest
 class UITests: XCTestCase {
     let paymentSessionService = PaymentSessionService()!
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var sessionURL: URL!
 
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+    override func setUpWithError() throws {
         continueAfterFailure = false
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        let sessionExpectation = expectation(description: "Create payment session")
+        let transaction = Transaction.loadFromTemplate()
+        paymentSessionService.create(using: transaction, completion: { (result) in
+            switch result {
+            case .success(let url):
+                self.sessionURL = url
+            case .failure(let error):
+                XCTFail(error)
+                fatalError()
+            }
+
+            sessionExpectation.fulfill()
+        })
+
+        wait(for: [sessionExpectation], timeout: 5)
     }
 
     override func tearDownWithError() throws {
@@ -18,19 +31,10 @@ class UITests: XCTestCase {
 
     func testExample() throws {
         // UI tests must launch the application that they test.
-//        let app = XCUIApplication()
-//        app.launch()
+        let app = XCUIApplication()
+        app.launch()
 
-        let sessionExpectation = expectation(description: "Create payment session")
-        let transaction = Transaction.loadFromTemplate()
-        paymentSessionService.create(using: transaction, completion: { (url) in
-            // Print url to log
-            print(url)
-            sessionExpectation.fulfill()
-        })
-
-        wait(for: [sessionExpectation], timeout: 5)
-
+        print(sessionURL.absoluteString)
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
