@@ -26,6 +26,8 @@ struct Transaction: Codable {
 }
 
 extension Transaction {
+    /// Load template transaction from JSON.
+    /// - Parameter amount: you could specify a custom amount (used as "magic number" for testing).
     static func loadFromTemplate(amount: Double = 1.99) -> Transaction {
         let bundle = Bundle(for: PaymentSessionService.self)
         let url = bundle.url(forResource: "Transaction", withExtension: "json")!
