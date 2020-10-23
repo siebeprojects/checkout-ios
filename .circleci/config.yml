@@ -8,11 +8,41 @@ jobs:
     steps:
       - checkout
       - run: bundle install
+      - restore_cache:
+          key: framework-cocoapods-{{ checksum "Podfile.lock" }}
       - run:
           name: Fastlane
           command: bundle exec fastlane $FASTLANE_LANE
       - store_test_results:
           path: output/scan
+      - save_cache:
+          key: framework-cocoapods-{{ checksum "Podfile.lock" }}
+          paths:
+            - Pods
+
+  build_example:
+    macos:
+      xcode: 12.1.0
+    environment:
+      FASTLANE_LANE: build_example
+    steps:
+      - checkout
+      - run: bundle install
+      - restore_cache:
+          key: example-cocoapods-{{ checksum "Example/Podfile.lock" }}
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - store_test_results:
+          path: output/scan
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - derived_data
+      - save_cache:
+          key: example-cocoapods-{{ checksum "Example/Podfile.lock" }}
+          paths:
+            - Example/Pods
 
   ui_test:
     macos:
@@ -20,6 +50,8 @@ jobs:
     environment:
       FASTLANE_LANE: ui_test
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - checkout
       - restore_cache:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
@@ -28,11 +60,15 @@ jobs:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+      - restore_cache:
+          key: example-cocoapods-{{ checksum "Example/Podfile.lock" }}
       - run:
           name: Fastlane
           command: bundle exec fastlane $FASTLANE_LANE
-      - store_artifacts:
-          path: output
+      - save_cache:
+          key: example-cocoapods-{{ checksum "Example/Podfile.lock" }}
+          paths:
+            - Example/Pods
       - store_test_results:
           path: output/scan
 
@@ -54,7 +90,10 @@ jobs:
       - run: bundle exec fastlane browserstack
 
 workflows:
-  test:
+  default:
     jobs:
       - unit_test
-      - ui_test
+      - build_example
+      - ui_test:
+          requires:
+            - build_example

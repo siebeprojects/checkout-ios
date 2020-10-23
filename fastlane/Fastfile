@@ -17,7 +17,7 @@ platform :ios do
   end
 
   desc "Build example app"
-  lane :adhoc do
+  lane :build_example do
     filename = "Example-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     cocoapods(podfile: "./Example/Podfile")
     disable_automatic_code_signing(
@@ -36,7 +36,8 @@ platform :ios do
       workspace: "./Example/Example.xcworkspace",
       export_method: "ad-hoc",
       output_directory: "./output",
-      output_name: filename
+      output_name: filename,
+      derived_data_path: "/tmp/workspace/derived_data"
     )
   end
 
@@ -52,6 +53,7 @@ platform :ios do
   lane :ui_test do
     cocoapods(podfile: "./Example/Podfile")
     run_tests(
+      derived_data_path: "/tmp/workspace/derived_data",
       workspace: "Example/Example.xcworkspace",
       devices: ["iPhone 12"],
       output_directory: "./output/scan",

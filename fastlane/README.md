@@ -21,9 +21,9 @@ or alternatively using `brew install fastlane`
 fastlane ios test
 ```
 Build framework and run tests
-### ios adhoc
+### ios build_example
 ```
-fastlane ios adhoc
+fastlane ios build_example
 ```
 Build example app
 ### ios browserstack
