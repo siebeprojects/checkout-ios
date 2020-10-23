@@ -32,15 +32,25 @@ platform :ios do
       configuration: "Release",
       workspace: "./Example/Example.xcworkspace",
       export_method: "ad-hoc",
-      output_directory: "./build",
+      output_directory: "./output",
       output_name: filename
     )
-    # Restore default settings
-    enable_automatic_code_signing(path: "./Example/Example.xcodeproj")
-    update_project_team(path: "./Example/Example.xcodeproj", teamid: "")
+  end
+
+  desc "Upload binary to Browserstack"
+  lane :browserstack do
     upload_to_browserstack_app_live(
       browserstack_username: ENV["BROWSERSTACK_USERNAME"],
       browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"]
+    )
+  end
+
+  desc "Run UI tests"
+  lane :ui_test do
+    cocoapods(podfile: "./Example/Podfile")
+    run_tests(
+      workspace: "Example/Example.xcworkspace",
+      devices: ["iPhone 12"]
     )
   end
 
