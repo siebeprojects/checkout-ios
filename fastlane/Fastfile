@@ -10,7 +10,10 @@ platform :ios do
   desc "Build framework and run tests"
   lane :test do
     cocoapods
-    scan
+    scan(
+      output_directory: "./output/scan",
+      output_types: "junit"
+    )
   end
 
   desc "Build example app"
@@ -50,7 +53,9 @@ platform :ios do
     cocoapods(podfile: "./Example/Podfile")
     run_tests(
       workspace: "Example/Example.xcworkspace",
-      devices: ["iPhone 12"]
+      devices: ["iPhone 12"],
+      output_directory: "./output/scan",
+      output_types: "junit"
     )
   end
 
