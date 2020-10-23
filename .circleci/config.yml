@@ -35,14 +35,15 @@ jobs:
           command: bundle exec fastlane $FASTLANE_LANE
       - store_test_results:
           path: output/scan
-      - persist_to_workspace:
-          root: /tmp/workspace
-          paths:
-            - derived_data
       - save_cache:
           key: example-cocoapods-{{ checksum "Example/Podfile.lock" }}
           paths:
             - Example/Pods
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - derived_data
+            - output
 
   ui_test:
     macos:
@@ -87,6 +88,8 @@ jobs:
           key: 1-gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+      - attach_workspace:
+          at: /tmp/workspace
       - run: bundle exec fastlane browserstack
 
 workflows:
@@ -95,5 +98,8 @@ workflows:
       - unit_test
       - build_example
       - ui_test:
+          requires:
+            - build_example
+      - browserstack:
           requires:
             - build_example

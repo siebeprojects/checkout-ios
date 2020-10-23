@@ -35,7 +35,7 @@ platform :ios do
       configuration: "Release",
       workspace: "./Example/Example.xcworkspace",
       export_method: "ad-hoc",
-      output_directory: "./output",
+      output_directory: "/tmp/workspace/output",
       output_name: filename,
       derived_data_path: "/tmp/workspace/derived_data"
     )
@@ -43,9 +43,11 @@ platform :ios do
 
   desc "Upload binary to Browserstack"
   lane :browserstack do
+    path = "/tmp/workspace/output/Example-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     upload_to_browserstack_app_live(
       browserstack_username: ENV["BROWSERSTACK_USERNAME"],
-      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"]
+      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
+      file_path: path
     )
   end
 
