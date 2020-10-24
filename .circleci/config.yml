@@ -100,11 +100,6 @@ workflows:
       - ui_test:
           requires:
             - build_example
-      - upload_to_browserstack_approval:
-            type: approval
-            requires:
-              - build_example
       - browserstack:
           requires:
             - build_example
-            - upload_to_browserstack_approval
