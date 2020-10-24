@@ -93,7 +93,7 @@ jobs:
       - run: bundle exec fastlane browserstack
 
 workflows:
-  default:
+  build:
     jobs:
       - unit_test
       - build_example
