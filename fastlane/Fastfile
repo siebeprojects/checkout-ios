@@ -59,7 +59,8 @@ platform :ios do
       workspace: "Example/Example.xcworkspace",
       devices: ["iPhone 12"],
       output_directory: "./output/scan",
-      output_types: "junit"
+      output_types: "junit",
+      xcargs: "MERCHANT_CODE=" + ENV["MERCHANT_CODE"] + " MERCHANT_PAYMENT_TOKEN=" + ENV["MERCHANT_PAYMENT_TOKEN"]
     )
   end
 
