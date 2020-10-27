@@ -1,5 +1,10 @@
 import Foundation
 
+fileprivate func infoPlistValue(forKey key: String) -> String? {
+    let value = Bundle(for: PaymentSessionService.self).infoDictionary?[key]
+    return value as? String
+}
+
 class PaymentSessionService {
     let url = URL(string: "https://api.sandbox.oscato.com/api/lists")!
     let merchantCode: String
@@ -8,8 +13,8 @@ class PaymentSessionService {
     private let networkService = NetworkService()
 
     init?() {
-        guard let merchantCode = ProcessInfo.processInfo.environment["MERCHANT_CODE"],
-              let merchantPaymentToken = ProcessInfo.processInfo.environment["MERCHANT_PAYMENT_TOKEN"] else {
+        guard let merchantCode = infoPlistValue(forKey: "MERCHANT_CODE"),
+              let merchantPaymentToken = infoPlistValue(forKey: "MERCHANT_PAYMENT_TOKEN") else {
             return nil
         }
 
