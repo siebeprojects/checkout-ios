@@ -7,7 +7,13 @@ jobs:
       FASTLANE_LANE: test
     steps:
       - checkout
-      - run: bundle install
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - restore_cache:
           key: framework-cocoapods-{{ checksum "Podfile.lock" }}
       - run:
@@ -27,7 +33,13 @@ jobs:
       FASTLANE_LANE: build_example
     steps:
       - checkout
-      - run: bundle install
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - restore_cache:
           key: example-cocoapods-{{ checksum "Example/Podfile.lock" }}
       - run:
@@ -55,10 +67,10 @@ jobs:
           at: /tmp/workspace
       - checkout
       - restore_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          key: gems-{{ checksum "Gemfile.lock" }}
       - run: bundle check || bundle install --path vendor/bundle
       - save_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          key: gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
       - restore_cache:
@@ -87,10 +99,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          key: gems-{{ checksum "Gemfile.lock" }}
       - run: bundle check || bundle install --path vendor/bundle
       - save_cache:
-          key: 1-gems-{{ checksum "Gemfile.lock" }}
+          key: gems-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
       - attach_workspace:
