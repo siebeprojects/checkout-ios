@@ -53,6 +53,7 @@
 /* Begin PBXFileReference section */
 		533C3E6C1F1308E919D9F666 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		6E2BBE9B4A36CD0CFCCFA5F5 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		D967A55C25481D29001BBCCA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		D967F71723C7C6450001B778 /* Optile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D99E9E09253DAA2700DFF8BD /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D9A5FA56253CA701001C71B7 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				D9A5FA7F253D8B09001C71B7 /* Transaction.json */,
+				D967A55C25481D29001BBCCA /* Config.xcconfig */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -394,6 +396,7 @@
 /* Begin XCBuildConfiguration section */
 		D9A5FA5E253CA701001C71B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -414,6 +417,7 @@
 		};
 		D9A5FA5F253CA701001C71B7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
