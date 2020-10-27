@@ -64,6 +64,11 @@ jobs:
       - restore_cache:
           key: example-cocoapods-{{ checksum "Example/Podfile.lock" }}
       - run:
+          name: Inject env variables
+          command: |
+            echo "MERCHANT_PAYMENT_TOKEN=$MERCHANT_PAYMENT_TOKEN" > Example/UITests/Assets/Config.xcconfig
+            echo "MERCHANT_CODE=$MERCHANT_CODE" >> Example/UITests/Assets/Config.xcconfig
+      - run:
           name: Fastlane
           command: bundle exec fastlane $FASTLANE_LANE
       - save_cache:
