@@ -17,7 +17,7 @@ public class Redirect: NSObject, Decodable {
     public let displayInPopup: Bool?
 
     /// `true` indicates that this redirect object contains parameters with placeholders that should be replaced by values from the customer payment account.
-    public let сontainsAccountPlaceholders: Bool?
+    public let containsAccountPlaceholders: Bool?
 
     /// Describes the type of this redirect.
     ///
@@ -31,13 +31,13 @@ public class Redirect: NSObject, Decodable {
     ///	- Note: new types of redirect may appear in the future for new payment use cases.
     public let type: String?
 
-    internal init(url: URL, method: Redirect.Method, parameters: [Parameter]?, suppressIFrame: Bool? = nil, displayInPopup: Bool? = nil, сontainsAccountPlaceholders: Bool? = nil, type: String? = nil) {
+    internal init(url: URL, method: Redirect.Method, parameters: [Parameter]?, suppressIFrame: Bool? = nil, displayInPopup: Bool? = nil, containsAccountPlaceholders: Bool? = nil, type: String? = nil) {
         self.url = url
         self.method = method
         self.parameters = parameters
         self.suppressIFrame = suppressIFrame
         self.displayInPopup = displayInPopup
-        self.сontainsAccountPlaceholders = сontainsAccountPlaceholders
+        self.containsAccountPlaceholders = containsAccountPlaceholders
         self.type = type
     }
 
