@@ -7,7 +7,7 @@ fileprivate func infoPlistValue(forKey key: String) -> String? {
 }
 
 class PaymentSessionService {
-    let url = URL(string: "https://api.sandbox.oscato.com/api/lists")!
+    let url: URL
     let merchantCode: String
     let merchantPaymentToken: String
 
@@ -19,6 +19,8 @@ class PaymentSessionService {
             return nil
         }
 
+        let stringURL = infoPlistValue(forKey: "PAYMENT_API_LISTURL")
+        self.url = URL(string: stringURL!)!
         self.merchantCode = merchantCode
         self.merchantPaymentToken = merchantPaymentToken
     }
