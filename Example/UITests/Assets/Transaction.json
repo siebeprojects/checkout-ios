@@ -1,0 +1,24 @@
+{
+    "transactionId": "tr200",
+    "integration": "DISPLAY_NATIVE",
+    "presetFirst": false,
+    "country": "DE",
+    "customer": {
+        "number": "42",
+        "email": "john.doe@example.com"
+    },
+    "payment": {
+        "amount": 1.99,
+        "currency": "EUR",
+        "reference": "Shop optile/03-12-2018"
+    },
+    "style": {
+        "language": "en_US"
+    },
+    "callback": {
+        "returnUrl": "https://resources.sandbox.oscato.com/mobile-redirect/?appId=",
+        "summaryUrl": "https://resources.sandbox.oscato.com/mobile-redirect/?appId=",
+        "cancelUrl": "https://resources.sandbox.oscato.com/mobile-redirect/?appId=",
+        "notificationUrl": "https://dev.oscato.com/shop/notify.html"
+    }
+}
