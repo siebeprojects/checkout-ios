@@ -3,35 +3,70 @@ import XCTest
 class UITests: XCTestCase {
     let paymentSessionService = PaymentSessionService()!
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var sessionURL: URL!
 
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+    override func setUpWithError() throws {
         continueAfterFailure = false
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        // Create payment session
+        let sessionExpectation = expectation(description: "Create payment session")
+        let transaction = Transaction.loadFromTemplate()
+
+        var createSessionResult: Result<URL, Error>?
+
+        paymentSessionService.create(using: transaction, completion: { (result) in
+            createSessionResult = result
+            sessionExpectation.fulfill()
+        })
+
+        wait(for: [sessionExpectation], timeout: 5)
+
+        switch createSessionResult {
+        case .success(let url): self.sessionURL = url
+        case .failure(let error): throw error
+        case .none: throw "Create session result wasn't set"
+        }
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testVISAProceed() throws {
         // UI tests must launch the application that they test.
-//        let app = XCUIApplication()
-//        app.launch()
+        let app = XCUIApplication()
+        app.launch()
 
-        let sessionExpectation = expectation(description: "Create payment session")
-        let transaction = Transaction.loadFromTemplate()
-        paymentSessionService.create(using: transaction, completion: { (url) in
-            // Print url to log
-            print(url)
-            sessionExpectation.fulfill()
-        })
+        // Initial screen
+        let tablesQuery = app.tables
+        if tablesQuery.buttons["Clear text"].exists {
+            tablesQuery.buttons["Clear text"].tap()
+        }
+        tablesQuery.textFields.firstMatch.typeText(sessionURL.absoluteString)
+        tablesQuery.staticTexts["Send request"].tap()
 
-        wait(for: [sessionExpectation], timeout: 5)
+        // List
+        app.tables.staticTexts["Cards"].tap()
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        // Input
+        let collectionViewsQuery = app.collectionViews
+        collectionViewsQuery.textFields["Card Number"].tap()
+        collectionViewsQuery.textFields["Card Number"].typeText("4111111111111111")
+
+        collectionViewsQuery.textFields["MM / YY"].tap()
+        collectionViewsQuery.textFields["MM / YY"].typeText("1030")
+
+        collectionViewsQuery.textFields["Security Code"].tap()
+        collectionViewsQuery.textFields["Security Code"].typeText("111")
+
+        collectionViewsQuery.textFields["Name on card"].tap()
+        collectionViewsQuery.textFields["Name on card"].typeText("Test Test")
+
+        collectionViewsQuery.buttons["Pay"].tap()
+
+        // Check result
+        let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        let expectedResult = "ResultInfo: Approved Interaction code: PROCEED Interaction reason: OK Error: n/a"
+        XCTAssertEqual(expectedResult, interactionResult)
     }
 }

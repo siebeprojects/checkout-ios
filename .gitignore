@@ -30,5 +30,6 @@ DerivedData/
 # CocoaPods
 Pods/
 
-# Fastlane env variables
+# Fastlane
 .env.*
+output/

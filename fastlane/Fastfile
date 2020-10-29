@@ -10,11 +10,14 @@ platform :ios do
   desc "Build framework and run tests"
   lane :test do
     cocoapods
-    scan
+    scan(
+      output_directory: "./output/scan",
+      output_types: "junit"
+    )
   end
 
   desc "Build example app"
-  lane :adhoc do
+  lane :build_example do
     filename = "Example-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     cocoapods(podfile: "./Example/Podfile")
     disable_automatic_code_signing(
@@ -32,15 +35,32 @@ platform :ios do
       configuration: "Release",
       workspace: "./Example/Example.xcworkspace",
       export_method: "ad-hoc",
-      output_directory: "./build",
-      output_name: filename
+      output_directory: "/tmp/workspace/output",
+      output_name: filename,
+      derived_data_path: "/tmp/workspace/derived_data"
     )
-    # Restore default settings
-    enable_automatic_code_signing(path: "./Example/Example.xcodeproj")
-    update_project_team(path: "./Example/Example.xcodeproj", teamid: "")
+  end
+
+  desc "Upload binary to Browserstack"
+  lane :browserstack do
+    path = "/tmp/workspace/output/Example-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     upload_to_browserstack_app_live(
       browserstack_username: ENV["BROWSERSTACK_USERNAME"],
-      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"]
+      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
+      file_path: path
+    )
+  end
+
+  desc "Run UI tests"
+  lane :ui_test do
+    cocoapods(podfile: "./Example/Podfile")
+    run_tests(
+      derived_data_path: "/tmp/workspace/derived_data",
+      workspace: "Example/Example.xcworkspace",
+      devices: ["iPhone 12"],
+      output_directory: "./output/scan",
+      output_types: "junit",
+      xcargs: "MERCHANT_CODE=" + ENV["MERCHANT_CODE"] + " MERCHANT_PAYMENT_TOKEN=" + ENV["MERCHANT_PAYMENT_TOKEN"]
     )
   end
 
