@@ -60,7 +60,7 @@ private extension Sequence where Element == PaymentNetwork {
             if isGroupingAllowed {
                 // Check if input elements are equal
                 if let firstNetwork = groupedNetworks.first {
-                    guard firstNetwork.applicableNetwork.localizedInputElements == network.applicableNetwork.localizedInputElements else {
+                    guard firstNetwork.applicableNetwork.inputElements == network.applicableNetwork.inputElements else {
                         // Input elements are not equal, don't group that network
                         ungroupedNetworks.append(network)
                         continue

@@ -38,7 +38,7 @@ public class AccountRegistration: NSObject, Decodable {
     public let emptyForm: Bool?
 
     /// Collection of form input elements. This information is only exposed if merchant indicated `jsonForms` option in the `view` query parameter.
-    public let localizedInputElements: [InputElement]?
+    public let inputElements: [InputElement]?
 
     // FIXME: `contractData` is not present
 }
