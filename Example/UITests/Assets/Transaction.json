@@ -1,24 +1,23 @@
 {
-    "transactionId": "tr200",
-    "integration": "DISPLAY_NATIVE",
-    "presetFirst": false,
-    "country": "DE",
-    "customer": {
-        "number": "42",
-        "email": "john.doe@example.com"
-    },
-    "payment": {
-        "amount": 1.99,
-        "currency": "EUR",
-        "reference": "Shop optile/03-12-2018"
-    },
-    "style": {
-        "language": "en_US"
-    },
-    "callback": {
-        "returnUrl": "https://resources.sandbox.oscato.com/mobile-redirect/?appId=",
-        "summaryUrl": "https://resources.sandbox.oscato.com/mobile-redirect/?appId=",
-        "cancelUrl": "https://resources.sandbox.oscato.com/mobile-redirect/?appId=",
-        "notificationUrl": "https://dev.oscato.com/shop/notify.html"
-    }
+  "transactionId": "tr1",
+  "integration": "MOBILE_NATIVE",
+  "presetFirst": false,
+  "country": "DE",
+  "customer": {
+    "number": "1",
+    "email": "john.doe@example.com"
+  },
+  "payment": {
+    "amount": 120,
+    "currency": "EUR",
+    "reference": "Shop optile/03-12-2018"
+  },
+  "style": {
+    "language": "en_US",
+    "resolution": "2x"
+  },
+  "callback": {
+    "appId": "net.optile.payment.example",
+    "notificationUrl": "https://example.com/shop/notify.html"
+  }
 }
