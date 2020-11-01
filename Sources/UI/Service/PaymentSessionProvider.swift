@@ -19,7 +19,7 @@ class PaymentSessionProvider {
     func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
         completion(.loading)
 
-        let job = getListResult ->> checkOperationType ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
+        let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
 
         job(paymentSessionURL) { [weak self] result in
             guard let weakSelf = self else { return }
@@ -52,6 +52,18 @@ class PaymentSessionProvider {
             }
         }
         getListResultOperation.start()
+    }
+    
+    private func checkIntegrationType(for listResult: ListResult, completion: ((Result<ListResult, Error>) -> Void)) {
+        guard listResult.integrationType == "MOBILE_NATIVE" else {
+            let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
+            let resultInfo = "Integration type is not supported: " + listResult.integrationType
+            let paymentError = CustomErrorInfo(resultInfo: resultInfo, interaction: interaction, underlyingError: nil)
+            completion(.failure(paymentError))
+            return
+        }
+
+        completion(.success(listResult))
     }
 
     private func checkOperationType(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
