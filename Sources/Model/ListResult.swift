@@ -38,4 +38,7 @@ public class ListResult: NSObject, Decodable {
     ///
     /// - Note: `_Style` used for Objective-C compatibility
     public let style: _Style?
+
+    /// Defines what integration scenario this payment session is initialized for, default is `DISPLAY_NATIVE`.
+    let integrationType: String
 }
