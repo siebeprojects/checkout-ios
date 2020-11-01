@@ -4,7 +4,7 @@ import XCTest
 final class NetworkTests: XCTestCase {
     func testGetListResult() {
         let getListResultRequest = GetListResult(url: URL.example)
-        let connection = MockConnection(dataSource: MockFactory.ListResult.listResult)
+        let connection = MockConnection(dataSource: MockFactory.ListResult.listResultData)
 
         let promise = expectation(description: "SendRequestOperation completed")
 
@@ -12,7 +12,7 @@ final class NetworkTests: XCTestCase {
         sendOperation.downloadCompletionBlock = { result in
             switch result {
             case .success(let listResult):
-                XCTAssertEqual(listResult.networks.applicable.first?.code, "VISAELECTRON")
+                XCTAssertEqual(listResult.networks.applicable.first?.code, "DINERS")
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
