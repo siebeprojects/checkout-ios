@@ -99,7 +99,6 @@ extension InputElement {
         return (
             name == rhs.name &&
             type == rhs.type &&
-            label == rhs.label &&
             options == rhs.options
         )
     }
