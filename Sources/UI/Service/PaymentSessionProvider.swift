@@ -89,9 +89,8 @@ class PaymentSessionProvider {
     }
 
     private func downloadSharedLocalization(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
-        guard let localeURL = listResult.networks.applicable.first?.links?[
-            "lang"] else {
-                let error = InternalError(description: "Applicable network language URL wasn't provided to a localization provider")
+        guard let localeURL = listResult.links["lang"] else {
+                let error = InternalError(description: "ListResult doesn't contain localization url")
                 completion(.failure(error))
                 return
         }
