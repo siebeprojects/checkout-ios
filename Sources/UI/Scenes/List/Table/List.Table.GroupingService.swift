@@ -110,7 +110,6 @@ extension SelectOption {
 
         return (
             value == rhs.value &&
-            label == rhs.label &&
             selected == rhs.selected
         )
     }
