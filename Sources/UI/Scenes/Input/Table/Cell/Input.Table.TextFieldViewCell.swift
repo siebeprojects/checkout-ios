@@ -10,7 +10,7 @@ extension Input.Table {
     class TextFieldViewCell: UICollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
 
-        private let textField: MDCTextField
+        let textField: MDCTextField
         fileprivate let textFieldController: MDCTextInputControllerFilled
 
         private(set) var model: (TextInputField & DefinesKeyboardStyle)!

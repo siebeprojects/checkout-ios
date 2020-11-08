@@ -62,5 +62,7 @@ import UIKit
 
 extension Input.Field.VerificationCode: CellRepresentable, DefinesKeyboardStyle {
     var keyboardType: UIKeyboardType { .numberPad }
+    
+    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.CVVTextFieldViewCell.self }
 }
 #endif
