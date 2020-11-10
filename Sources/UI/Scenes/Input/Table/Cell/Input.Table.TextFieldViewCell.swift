@@ -45,6 +45,12 @@ extension Input.Table {
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+        
+        func configure(with model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
+            self.model = model
+            configureTextField(with: model)
+            showValidationResult(for: model)
+        }
     }
 }
 
@@ -58,9 +64,7 @@ extension Input.Table.TextFieldViewCell {
         return textField.becomeFirstResponder()
     }
 
-    func configure(with model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
-        self.model = model
-
+    fileprivate func configureTextField(with model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
         if let inputFormatter = model.patternFormatter {
             textField.text = inputFormatter.formatter.format(model.value, addTrailingPattern: false)
         } else {
@@ -85,8 +89,6 @@ extension Input.Table.TextFieldViewCell {
 
         textField.keyboardType = model.keyboardType
         textField.autocapitalizationType = model.autocapitalizationType
-
-        showValidationResult(for: model)
     }
 
     @objc func textFieldDidChange(_ textField: UITextField) {
