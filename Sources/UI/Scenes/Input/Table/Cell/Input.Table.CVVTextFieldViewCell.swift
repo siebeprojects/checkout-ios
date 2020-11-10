@@ -21,12 +21,23 @@ extension Input.Table {
         }
 
         @objc private func hintButtonDidTap() {
+            // Get texts
             let title: String = model.translator.translation(forKey: "account.verificationCode.hint.where.title")
             let text: String = model.translator.translation(forKey: "account.verificationCode.hint.where.text")
-            let alertController = AlertController(title: title, message: text, preferredStyle: .alert)
-            alertController.setTitleImage(AssetProvider.cvvCard)
-
             let okLabel: String = model.translator.translation(forKey: TranslationKey.okLabel.rawValue)
+
+            // Get image
+            let hintImage: UIImage?
+            if let cvvModel = model as? Input.Field.VerificationCode {
+                hintImage = cvvModel.hintImage
+            } else {
+                hintImage = AssetProvider.cvvCard
+            }
+            
+            // Alert controller
+            let alertController = AlertController(title: title, message: text, preferredStyle: .alert)
+            alertController.setTitleImage(hintImage)
+            
             let okAction = UIAlertAction(title: okLabel, style: .default, handler: nil)
             alertController.addAction(okAction)
 
@@ -115,5 +126,11 @@ private class AlertController: UIAlertController {
         static func padding(for style: UIAlertController.Style) -> CGFloat {
             return style == .alert ? Constants.paddingAlert : Constants.paddingSheet
         }
+    }
+}
+
+private extension Input.Field.VerificationCode {
+    var hintImage: UIImage? {
+        return networkCode == "AMEX" ? AssetProvider.cvvAMEX : AssetProvider.cvvCard
     }
 }

@@ -135,7 +135,7 @@ private class InputFieldFactory {
             }
 
             let validationRule = validationProvider?.getRule(forNetworkCode: model.networkCode, withInputElementName: inputElement.name)
-            return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod)
+            return transform(inputElement: inputElement, translateUsing: model.translator, validationRule: validationRule, networkMethod: model.networkMethod, networkCode: model.networkCode)
         }
 
         let transformationResult = ExpirationDateManager().removeExpiryFields(in: inputFields)
@@ -151,7 +151,7 @@ private class InputFieldFactory {
     }
 
     /// Transform `InputElement` to `InputField`
-    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?, networkMethod: String?) -> InputField & CellRepresentable {
+    private func transform(inputElement: InputElement, translateUsing translator: TranslationProvider, validationRule: Input.Field.Validation.Rule?, networkMethod: String?, networkCode: String) -> InputField & CellRepresentable {
         switch inputElement.name {
         case "number":
             return Input.Field.AccountNumber(from: inputElement, translator: translator, validationRule: validationRule, networkMethod: networkMethod)
@@ -160,7 +160,7 @@ private class InputFieldFactory {
         case "holderName":
             return Input.Field.HolderName(from: inputElement, translator: translator, validationRule: validationRule)
         case "verificationCode":
-            let field = Input.Field.VerificationCode(from: inputElement, translator: translator, validationRule: validationRule)
+            let field = Input.Field.VerificationCode(from: inputElement, networkCode: networkCode, translator: translator, validationRule: validationRule)
             verificationCodeFields.append(field)
             return field
         case "bankCode":

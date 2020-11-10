@@ -11,6 +11,9 @@ protocol VerificationCodeTranslationKeySuffixer: class {
 
 extension Input.Field {
     final class VerificationCode: InputElementModel {
+        /// Network that contains that field
+        let networkCode: String
+        
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
@@ -21,8 +24,9 @@ extension Input.Field {
 
         weak var keySuffixer: VerificationCodeTranslationKeySuffixer?
 
-        init(from inputElement: InputElement, translator: TranslationProvider, validationRule: Validation.Rule?) {
+        init(from inputElement: InputElement, networkCode: String, translator: TranslationProvider, validationRule: Validation.Rule?) {
             self.inputElement = inputElement
+            self.networkCode = networkCode
             self.translator = translator
             self.validationRule = validationRule
         }
