@@ -38,6 +38,11 @@ extension Input.Table {
             }
         }
         weak var delegate: InputTableControllerDelegate?
+        weak var cvvHintDelegate: CVVTextFieldViewCellDelegate? {
+            didSet {
+                dataSource.cvvHintDelegate = cvvHintDelegate
+            }
+        }
 
         override init() {
             self.validator = Validator(dataSource: dataSource)

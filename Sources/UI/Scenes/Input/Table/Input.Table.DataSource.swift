@@ -3,6 +3,8 @@ import UIKit
 extension Input.Table {
     class DataSource: NSObject {
         weak var inputCellDelegate: InputCellDelegate?
+        weak var cvvHintDelegate: CVVTextFieldViewCellDelegate?
+
         fileprivate(set) var model: [[CellRepresentable]] = .init()
 
         func setModel(network: Input.Network, header: CellRepresentable) {
@@ -123,6 +125,10 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
             let isLastRow = isLastTextField(at: indexPath)
             let action: PrimaryAction = isLastRow ? .done : .next
             cell.setPrimaryAction(to: action)
+        }
+        
+        if let cvvCell = cell as? Input.Table.CVVTextFieldViewCell {
+            cvvCell.cvvDelegate = cvvHintDelegate
         }
 
         return cell

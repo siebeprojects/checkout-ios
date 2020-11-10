@@ -36,6 +36,7 @@ extension Input {
 
             self.scrollView = collectionView
             tableController.delegate = self
+            tableController.cvvHintDelegate = self
         }
 
         convenience init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory) throws {
@@ -288,6 +289,12 @@ extension Input.ViewController: SFSafariViewControllerDelegate {
             object: nil,
             userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: operationType]
         )
+    }
+}
+
+extension Input.ViewController: CVVTextFieldViewCellDelegate {
+    func presentHint(viewController: UIViewController) {
+        self.present(viewController, animated: true, completion: nil)
     }
 }
 #endif
