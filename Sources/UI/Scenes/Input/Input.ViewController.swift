@@ -64,7 +64,7 @@ extension Input {
         convenience init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory) throws {
             let transformer = ModelTransformer()
             let network = try transformer.transform(registeredAccount: registeredAccount)
-            let smartSwitch = SmartSwitch.Selector(network: network)
+            let smartSwitch = try SmartSwitch.Selector(networks: [network])
             let header = Input.TextHeader(from: registeredAccount)
 
             self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)

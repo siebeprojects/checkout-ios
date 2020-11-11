@@ -52,26 +52,26 @@ extension Input.SmartSwitch {
     class Selector {
         let networks: [Input.Network]
         private(set) var selected: DetectedNetwork
+        
+        /// The first network is in `networks` array
+        private let defaultNetwork: DetectedNetwork
 
         init(networks: [Input.Network]) throws {
             self.networks = networks
-
+            
             guard let firstNetwork = networks.first else {
                 throw InternalError(description: "Tried to initialize with empty networks array")
             }
-
+            
             if networks.count == 1 {
                 // If only 1 network is present - it is always specific
-                selected = .specific(firstNetwork)
+                defaultNetwork = .specific(firstNetwork)
             } else {
                 // We don't know the account number for now, we will show the first network from an array
-                selected = .generic(firstNetwork)
+                defaultNetwork = .generic(firstNetwork)
             }
-        }
 
-        init(network: Input.Network) {
-            self.networks = [network]
-            selected = .specific(network)
+            selected = defaultNetwork
         }
     }
 }
