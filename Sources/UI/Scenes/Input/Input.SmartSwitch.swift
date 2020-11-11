@@ -53,9 +53,6 @@ extension Input.SmartSwitch {
         let networks: [Input.Network]
         private(set) var selected: DetectedNetwork
         
-        /// The first network is in `networks` array
-        private let defaultNetwork: DetectedNetwork
-
         init(networks: [Input.Network]) throws {
             self.networks = networks
             
@@ -65,13 +62,11 @@ extension Input.SmartSwitch {
             
             if networks.count == 1 {
                 // If only 1 network is present - it is always specific
-                defaultNetwork = .specific(firstNetwork)
+                selected = .specific(firstNetwork)
             } else {
                 // We don't know the account number for now, we will show the first network from an array
-                defaultNetwork = .generic(firstNetwork)
+                selected = .generic(firstNetwork)
             }
-
-            selected = defaultNetwork
         }
     }
 }
@@ -101,7 +96,7 @@ extension Input.SmartSwitch.Selector {
             selected = newSelection
         } else {
             // Unable to find, return previously selected network as a generic one
-            selected = defaultNetwork
+            selected = .generic(previouslySelected.network)
         }
 
         if previouslySelected.network != selected.network {
