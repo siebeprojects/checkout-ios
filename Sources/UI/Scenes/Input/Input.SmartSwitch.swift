@@ -101,7 +101,7 @@ extension Input.SmartSwitch.Selector {
             selected = newSelection
         } else {
             // Unable to find, return previously selected network as a generic one
-            selected = .generic(previouslySelected.network)
+            selected = defaultNetwork
         }
 
         if previouslySelected.network != selected.network {
