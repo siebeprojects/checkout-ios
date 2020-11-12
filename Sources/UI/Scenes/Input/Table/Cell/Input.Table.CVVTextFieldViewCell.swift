@@ -36,6 +36,7 @@ extension Input.Table {
             
             // Alert controller
             let alertController = AlertController(title: title, message: text, preferredStyle: .alert)
+            alertController.view.tintColor = tintColor
             alertController.setTitleImage(hintImage)
             
             let okAction = UIAlertAction(title: okLabel, style: .default, handler: nil)
