@@ -1,3 +1,9 @@
+// Copyright (c) 2020 optile GmbH
+// https://www.optile.net
+//
+// This file is open source and available under the MIT license.
+// See the LICENSE file for more information.
+
 import Foundation
 
 /// Allows to change default appearance of payment page. It applies to either hosted payment page (for `HOSTED` integration type), or to the page rendered by `op-payment-widget` (see AJAX integration topic).
