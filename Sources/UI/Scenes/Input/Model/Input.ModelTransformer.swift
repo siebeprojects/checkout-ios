@@ -36,7 +36,7 @@ extension Input.ModelTransformer {
         let logo = registeredAccount.logo?.value
 
         // Input fields
-        let inputElements = registeredAccount.apiModel.localizedInputElements ?? [InputElement]()
+        let inputElements = registeredAccount.apiModel.inputElements ?? [InputElement]()
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
         let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
         self.verificationCodeFields = inputFieldFactory.verificationCodeFields
@@ -57,7 +57,7 @@ extension Input.ModelTransformer {
         let logo = paymentNetwork.logo?.value
 
         // Input fields
-        let inputElements = paymentNetwork.applicableNetwork.localizedInputElements ?? [InputElement]()
+        let inputElements = paymentNetwork.applicableNetwork.inputElements ?? [InputElement]()
 
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: paymentNetwork.applicableNetwork.code, networkMethod: paymentNetwork.applicableNetwork.method, translator: paymentNetwork.translation)
         let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)

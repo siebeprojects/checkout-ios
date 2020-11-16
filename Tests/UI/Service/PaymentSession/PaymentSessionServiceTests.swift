@@ -34,13 +34,13 @@ class PaymentSessionServiceTests: XCTestCase {
     func testValid() {
         let result = syncLoadPaymentSession(using: PaymentSessionDataSource())
 
-        guard case let .success(session) = result else {
-            XCTFail("Expected success")
-            return
+        switch result {
+        case .success(let session):
+            XCTAssertEqual(session.networks.count, 5)
+            XCTAssertEqual(session.networks[1].label, "Diners Club Localized")
+        case .failure(let error): XCTFail(error)
+        case .loading: XCTFail("Shouldn't be loading")
         }
-
-        XCTAssertEqual(session.networks.count, 4)
-        XCTAssertEqual(session.networks[1].label, "Visa Electron Localized")
     }
 
     // May detect async crash because we running concurrently a lot of tasks
@@ -96,8 +96,8 @@ private class PaymentPageFailureDataSource: MockDataSource {
 
         switch path {
         case "":
-            return MockFactory.ListResult.listResult.fakeData(for: request)
-        case let s where s.contains("checkout.properties"):
+            return MockFactory.ListResult.listResultData.fakeData(for: request)
+        case let s where s.contains("checkout.json"):
             let error = TestError(description: "No payment page localization")
             return .failure(error)
         default:
@@ -118,10 +118,10 @@ private class PaymentSessionDataSource: MockDataSource {
 
         switch path {
         case "":
-            return MockFactory.ListResult.listResult.fakeData(for: request)
-        case let s where s.contains("checkout.properties"):
+            return MockFactory.ListResult.listResultData.fakeData(for: request)
+        case let s where s.contains("checkout.json"):
             return MockFactory.Localization.paymentPage.fakeData(for: request)
-        case let s where s.contains(".properties"):
+        case let s where s.contains(".json"):
             return MockFactory.Localization.paymentNetwork.fakeData(for: request)
         default:
             let error = TestError(description: "Unexpected URL was requested")

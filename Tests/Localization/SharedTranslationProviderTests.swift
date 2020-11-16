@@ -31,14 +31,9 @@ class SharedTranslationProviderTests: XCTestCase {
 
         // Perform checks
         XCTAssertEqual(provider.translations.count, 2)
-        XCTAssertEqual(provider.translations[0]["deleteRegistrationTooltip"], "Delete payment account")
-        XCTAssertEqual(provider.translations[0].count, 54)
+        XCTAssertEqual(provider.translations[0]["button.operation.CHARGE.label"], "Pay")
+        XCTAssertEqual(provider.translations[0].count, 83)
         XCTAssertEqual(provider.translations[1], localTranslation)
-
-        XCTAssertEqual(
-            connection.requestedURL,
-            URL(string: "https://resources.sandbox.oscato.com/resource/lang/VASILY_DEMO/en_US/checkout.properties")!
-        )
     }
 
     func testFailedDownload() {

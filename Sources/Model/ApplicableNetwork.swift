@@ -47,12 +47,12 @@ public class ApplicableNetwork: NSObject, Decodable {
     public let emptyForm: Bool?
 
     ///  Collection of form input elements. This information is only exposed if merchant indicated `jsonForms` option in the `view` query parameter.
-    public let localizedInputElements: [InputElement]?
+    public let inputElements: [InputElement]?
 
     /// Collection of links related to this payment network in scope of the `LIST` session
     public let links: [String: URL]?
 
-    internal init(code: String, label: String, method: String, grouping: String, registration: String, recurrence: String, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, localizedInputElements: [InputElement]?, links: [String: URL]? = nil) {
+    internal init(code: String, label: String, method: String, grouping: String, registration: String, recurrence: String, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, inputElements: [InputElement]?, links: [String: URL]? = nil) {
         self.code = code
         self.label = label
         self.method = method
@@ -65,7 +65,7 @@ public class ApplicableNetwork: NSObject, Decodable {
         self.formData = formData
         self.iFrameHeight = iFrameHeight
         self.emptyForm = emptyForm
-        self.localizedInputElements = localizedInputElements
+        self.inputElements = inputElements
         self.links = links
     }
 

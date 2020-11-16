@@ -25,7 +25,7 @@ class PaymentSessionProvider {
     func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
         completion(.loading)
 
-        let job = getListResult ->> checkOperationType ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
+        let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
 
         job(paymentSessionURL) { [weak self] result in
             guard let weakSelf = self else { return }
@@ -59,6 +59,18 @@ class PaymentSessionProvider {
         }
         getListResultOperation.start()
     }
+    
+    private func checkIntegrationType(for listResult: ListResult, completion: ((Result<ListResult, Error>) -> Void)) {
+        guard listResult.integrationType == "MOBILE_NATIVE" else {
+            let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
+            let resultInfo = "Integration type is not supported: " + listResult.integrationType
+            let paymentError = CustomErrorInfo(resultInfo: resultInfo, interaction: interaction, underlyingError: nil)
+            completion(.failure(paymentError))
+            return
+        }
+
+        completion(.success(listResult))
+    }
 
     private func checkOperationType(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
         guard let operationType = listResult.operationType else {
@@ -83,9 +95,8 @@ class PaymentSessionProvider {
     }
 
     private func downloadSharedLocalization(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
-        guard let localeURL = listResult.networks.applicable.first?.links?[
-            "lang"] else {
-                let error = InternalError(description: "Applicable network language URL wasn't provided to a localization provider")
+        guard let localeURL = listResult.links["lang"] else {
+                let error = InternalError(description: "ListResult doesn't contain localization url")
                 completion(.failure(error))
                 return
         }

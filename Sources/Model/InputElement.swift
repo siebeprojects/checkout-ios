@@ -15,9 +15,6 @@ public class InputElement: NSObject, Decodable {
     /// Possible values: `string`, `numeric`, `integer`, `select`, `checkbox`
     public let type: String
 
-    /// Localized, human readable label that should be displayed for this input field.
-    public let label: String
-
     /// Array of possible options for element of the `select` type.
     public let options: [SelectOption]?
 
@@ -29,10 +26,9 @@ public class InputElement: NSObject, Decodable {
         case string, numeric, integer, select, checkbox
     }
 
-    internal init(name: String, type: String, label: String, options: [SelectOption]? = nil) {
+    internal init(name: String, type: String, options: [SelectOption]? = nil) {
         self.name = name
         self.type = type
-        self.label = label
         self.options = options
     }
 }
