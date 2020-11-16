@@ -8,9 +8,7 @@ import Foundation
 /// Response model is `
 public struct GetListResult: GetRequest {
     public var url: URL
-    let queryItems = [
-        URLQueryItem(name: "view", value: "jsonForms,-htmlForms")
-    ]
+    let queryItems = [URLQueryItem]()
     public typealias Response = ListResult
 
     /// - Parameter url: `self` link from payment session
