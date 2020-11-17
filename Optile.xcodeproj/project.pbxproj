@@ -497,18 +497,18 @@
 		D96BB8A7249FEBB400C2AD73 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				D96BB8A8249FEBB400C2AD73 /* Payment Session */,
+				D96BB8A8249FEBB400C2AD73 /* PaymentSession */,
 			);
 			path = Service;
 			sourceTree = "<group>";
 		};
-		D96BB8A8249FEBB400C2AD73 /* Payment Session */ = {
+		D96BB8A8249FEBB400C2AD73 /* PaymentSession */ = {
 			isa = PBXGroup;
 			children = (
 				D96BB8A9249FEBB400C2AD73 /* DataDownloadProviderTests.swift */,
 				D96BB8AA249FEBB400C2AD73 /* PaymentSessionServiceTests.swift */,
 			);
-			path = "Payment Session";
+			path = PaymentSession;
 			sourceTree = "<group>";
 		};
 		D96BB8AB249FEBB400C2AD73 /* Helpers */ = {
@@ -586,7 +586,6 @@
 				D96BB8B1249FEBB400C2AD73 /* Mock */,
 				D96BB89D249FEBB400C2AD73 /* Network */,
 				D96BB8A0249FEBB400C2AD73 /* UI */,
-				D90CEEBA2539C6E200CF9A93 /* Unit */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -691,7 +690,7 @@
 			children = (
 				D9ED4080252E8274009F14DA /* TranslatedModel.swift */,
 				D9ED4081252E8274009F14DA /* Strings */,
-				D9ED4083252E8274009F14DA /* Translation Providers */,
+				D9ED4083252E8274009F14DA /* TranslationProviders */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -704,14 +703,14 @@
 			path = Strings;
 			sourceTree = "<group>";
 		};
-		D9ED4083252E8274009F14DA /* Translation Providers */ = {
+		D9ED4083252E8274009F14DA /* TranslationProviders */ = {
 			isa = PBXGroup;
 			children = (
 				D9ED4084252E8274009F14DA /* TranslationProvider.swift */,
 				D9ED4085252E8274009F14DA /* CombinedTranslationProvider.swift */,
 				D9ED4086252E8274009F14DA /* SharedTranslationProvider.swift */,
 			);
-			path = "Translation Providers";
+			path = TranslationProviders;
 			sourceTree = "<group>";
 		};
 		D9ED4087252E8274009F14DA /* Core */ = {
@@ -843,13 +842,13 @@
 			isa = PBXGroup;
 			children = (
 				D9ED40AC252E8274009F14DA /* Input.Table.DetailedTextLogoView.swift */,
-				D9ED40AD252E8274009F14DA /* Images Collection */,
+				D9ED40AD252E8274009F14DA /* ImagesCollection */,
 				D9ED40B2252E8274009F14DA /* Input.Table.LogoTextView.swift */,
 			);
 			path = Header;
 			sourceTree = "<group>";
 		};
-		D9ED40AD252E8274009F14DA /* Images Collection */ = {
+		D9ED40AD252E8274009F14DA /* ImagesCollection */ = {
 			isa = PBXGroup;
 			children = (
 				D9ED40AE252E8274009F14DA /* Input.Table.ImagesView.swift */,
@@ -857,7 +856,7 @@
 				D9ED40B0252E8274009F14DA /* Input.Table.ImagesCollectionViewController.swift */,
 				D9ED40B1252E8274009F14DA /* Input.Table.ImagesCollectionView.swift */,
 			);
-			path = "Images Collection";
+			path = ImagesCollection;
 			sourceTree = "<group>";
 		};
 		D9ED40B5252E8274009F14DA /* Model */ = {

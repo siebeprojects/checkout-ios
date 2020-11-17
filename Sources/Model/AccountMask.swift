@@ -1,3 +1,9 @@
+// Copyright (c) 2020 optile GmbH
+// https://www.optile.net
+//
+// This file is open source and available under the MIT license.
+// See the LICENSE file for more information.
+
 import Foundation
 
 /// Masked account data of this payment operation or involved account. Sensitive fields of the account are removed, truncated, or replaced with mask characters.
