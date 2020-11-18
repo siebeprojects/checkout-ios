@@ -11,16 +11,16 @@ extension Input.Table {
         weak var delegate: InputCellDelegate?
 
         private(set) var model: (TextInputField & DefinesKeyboardStyle)!
-        
+
         let textField = MDCTextField()
 
         fileprivate let textFieldController: TextFieldController
 
         override init(frame: CGRect) {
             textFieldController = .init(textField: textField)
-            
+
             super.init(frame: frame)
-            
+
             textFieldController.delegate = self
 
             contentView.addSubview(textField)
@@ -41,13 +41,13 @@ extension Input.Table {
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        
+
         override func tintColorDidChange() {
             super.tintColorDidChange()
             textField.tintColor = self.tintColor
             textFieldController.setTintColor(to: tintColor)
         }
-        
+
         func configure(with model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
             self.model = model
             textFieldController.model = model
@@ -72,19 +72,19 @@ extension Input.Table.TextFieldViewCell: TextFieldControllerDelegate {
     func textFieldDidBeginEditing() {
         delegate?.inputCellBecameFirstResponder(cell: self)
     }
-    
+
     func textFieldDidEndEditing() {
         delegate?.inputCellDidEndEditing(cell: self)
     }
-    
+
     func textFieldPrimaryActionTriggered() {
         delegate?.inputCellPrimaryActionTriggered(cell: self)
     }
-    
+
     func textFieldDidBecomeFirstResponder() {
         delegate?.inputCellBecameFirstResponder(cell: self)
     }
-    
+
     func textField(didChangeValueTo value: String) {
         delegate?.inputCellValueDidChange(to: value, cell: self)
     }

@@ -23,7 +23,7 @@ final class AssetProvider {
     static var iconClose: UIImage? {
         return UIImage(named: "iconClose", in: bundle, compatibleWith: nil)
     }
-    
+
     static var iconClear: UIImage? {
         return UIImage(named: "iconClear", in: bundle, compatibleWith: nil)
     }

@@ -18,18 +18,18 @@ protocol TextFieldControllerDelegate: class {
 extension Input.Table {
     class TextFieldController: NSObject {
         weak var delegate: TextFieldControllerDelegate?
-        
+
         var model: (CellRepresentable & TextInputField & DefinesKeyboardStyle)? {
             didSet {
                 guard let model = self.model else {
                     InternalError(description: "Model shouldn't be set to nil, programming error").log()
                     return
                 }
-                
+
                 setModel(to: model)
             }
         }
-        
+
         unowned let textField: MDCTextField
         fileprivate let materialInputController: MDCTextInputControllerFilled
         fileprivate let clearButtonController: ClearButtonController
@@ -40,7 +40,7 @@ extension Input.Table {
             clearButtonController = .init(textField: textField)
 
             super.init()
-            
+
             textField.delegate = self
 
             textField.leadingUnderlineLabel.numberOfLines = 0
@@ -48,18 +48,18 @@ extension Input.Table {
 
             textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
-            
+
             // Theming
             materialInputController.errorColor = .themedError
             materialInputController.textInputFont = UIFont.preferredThemeFont(forTextStyle: .body)
             materialInputController.inlinePlaceholderFont = UIFont.preferredThemeFont(forTextStyle: .body)
         }
-        
+
         @objc private func textFieldDidChange(_ textField: UITextField) {
             clearButtonController.textFieldDidChange()
 
             guard let model = self.model else { return }
-            
+
             let text = textField.text ?? String()
             let value = model.patternFormatter?.formatter.unformat(text) ?? text
 
@@ -83,7 +83,7 @@ extension Input.Table.TextFieldController {
         materialInputController.floatingPlaceholderActiveColor = textField.tintColor
         materialInputController.leadingUnderlineLabelTextColor = textField.tintColor
     }
-    
+
     fileprivate func setModel(to model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
         if let inputFormatter = model.patternFormatter {
             textField.text = inputFormatter.formatter.format(model.value, addTrailingPattern: false)
@@ -100,10 +100,10 @@ extension Input.Table.TextFieldController {
 
         textField.keyboardType = model.keyboardType
         textField.autocapitalizationType = model.autocapitalizationType
-        
+
         clearButtonController.configure()
     }
-    
+
     func setErrorText(to errorText: String?) {
         materialInputController.setErrorText(errorText, errorAccessibilityValue: nil)
     }
@@ -125,7 +125,7 @@ extension Input.Table.TextFieldController: UITextFieldDelegate {
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let model = self.model else { return false }
-        
+
         // Check if primary action was triggered.
         // Manual check required because we could return false in future steps and that will fail `primaryActionTriggered` UIKit call
         if string == "\n" {

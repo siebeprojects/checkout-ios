@@ -26,23 +26,23 @@ extension Input.Table.TextFieldController.ClearButtonController {
     /// - Note: method could be called multiple times (e.g. when cell is being reconfigured)
     func configure() {
         if textField.clearButtonMode == .never { return }
-        
+
         // Assign custom clear button as a trailing view
         textField.rightView = button
         textField.rightViewMode = .whileEditing
-        
+
         // Hide default clear button
         textField.clearButton.isHidden = true
-        
+
         updateCustomClearButtonVisibility()
     }
-    
+
     /// Update clear button state
     func textFieldDidChange() {
         if textField.clearButtonMode == .never { return }
         updateCustomClearButtonVisibility()
     }
-    
+
     private func updateCustomClearButtonVisibility() {
         let text = textField.text ?? String()
         textField.rightView?.isHidden = text.isEmpty
