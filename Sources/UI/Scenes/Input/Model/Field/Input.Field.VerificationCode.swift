@@ -19,7 +19,7 @@ extension Input.Field {
     final class VerificationCode: InputElementModel {
         /// Network that contains that field
         let networkCode: String
-        
+
         let inputElement: InputElement
         let translator: TranslationProvider
         let validationRule: Validation.Rule?
@@ -72,7 +72,7 @@ import UIKit
 
 extension Input.Field.VerificationCode: CellRepresentable, DefinesKeyboardStyle {
     var keyboardType: UIKeyboardType { .numberPad }
-    
+
     var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.CVVTextFieldViewCell.self }
 }
 #endif

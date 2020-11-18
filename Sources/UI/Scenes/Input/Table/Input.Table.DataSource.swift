@@ -132,7 +132,7 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
             let action: PrimaryAction = isLastRow ? .done : .next
             cell.setPrimaryAction(to: action)
         }
-        
+
         if let cvvCell = cell as? Input.Table.CVVTextFieldViewCell {
             cvvCell.cvvDelegate = cvvHintDelegate
         }

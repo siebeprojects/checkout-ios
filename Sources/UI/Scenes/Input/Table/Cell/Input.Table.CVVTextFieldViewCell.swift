@@ -14,7 +14,7 @@ protocol CVVTextFieldViewCellDelegate: class {
 extension Input.Table {
     class CVVTextFieldViewCell: TextFieldViewCell {
         weak var cvvDelegate: CVVTextFieldViewCellDelegate?
-        
+
         override init(frame: CGRect) {
             super.init(frame: frame)
 
@@ -39,12 +39,12 @@ extension Input.Table {
             } else {
                 hintImage = AssetProvider.cvvCard
             }
-            
+
             // Alert controller
             let alertController = AlertController(title: title, message: text, preferredStyle: .alert)
             alertController.view.tintColor = tintColor
             alertController.setTitleImage(hintImage)
-            
+
             let okAction = UIAlertAction(title: okLabel, style: .default, handler: nil)
             alertController.addAction(okAction)
 
@@ -65,9 +65,9 @@ private class AlertController: UIAlertController {
     /// - Return: value that was set on `title`
     private(set) var originalTitle: String?
     private var spaceAdjustedTitle: String = ""
-    private weak var imageView: UIImageView? = nil
+    private weak var imageView: UIImageView?
     private var previousImgViewSize: CGSize = .zero
-    
+
     override var title: String? {
         didSet {
             // Keep track of original title
@@ -76,7 +76,7 @@ private class AlertController: UIAlertController {
             }
         }
     }
-    
+
     /// - parameter image: `UIImage` to be displayed about title label
     func setTitleImage(_ image: UIImage?) {
         guard let imageView = self.imageView else {
@@ -87,9 +87,9 @@ private class AlertController: UIAlertController {
         }
         imageView.image = image
     }
-    
-    // MARK: -  Layout code
-    
+
+    // MARK: - Layout code
+
     override func viewDidLayoutSubviews() {
         guard let imageView = imageView else {
             super.viewDidLayoutSubviews()
@@ -107,7 +107,7 @@ private class AlertController: UIAlertController {
         imageView.center.y = padding + linesCount * lineHeight / 2.0
         super.viewDidLayoutSubviews()
     }
-    
+
     /// Adds appropriate number of "\n" to `title` text to make space for `imageView`
     private func adjustTitle(for imageView: UIImageView) {
         let linesCount = Int(newLinesCount(for: imageView))
@@ -115,18 +115,18 @@ private class AlertController: UIAlertController {
         spaceAdjustedTitle = lines + (originalTitle ?? "")
         title = spaceAdjustedTitle
     }
-    
+
     /// - Return: Number new line chars needed to make enough space for `imageView`
     private func newLinesCount(for imageView: UIImageView) -> CGFloat {
         return ceil(imageView.bounds.height / lineHeight)
     }
-    
+
     /// Calculated based on system font line height
     private lazy var lineHeight: CGFloat = {
         let style: UIFont.TextStyle = self.preferredStyle == .alert ? .headline : .callout
         return UIFont.preferredFont(forTextStyle: style).pointSize
     }()
-    
+
     struct Constants {
         static var paddingAlert: CGFloat = 22
         static var paddingSheet: CGFloat = 11

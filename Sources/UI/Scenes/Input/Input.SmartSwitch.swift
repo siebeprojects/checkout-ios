@@ -58,14 +58,14 @@ extension Input.SmartSwitch {
     class Selector {
         let networks: [Input.Network]
         private(set) var selected: DetectedNetwork
-        
+
         init(networks: [Input.Network]) throws {
             self.networks = networks
-            
+
             guard let firstNetwork = networks.first else {
                 throw InternalError(description: "Tried to initialize with empty networks array")
             }
-            
+
             if networks.count == 1 {
                 // If only 1 network is present - it is always specific
                 selected = .specific(firstNetwork)
