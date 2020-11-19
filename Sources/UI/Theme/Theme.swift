@@ -44,6 +44,7 @@ public extension Theme {
         let tintColor = UIColor(red: 0.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
         let border = UIColor(white: 224.0 / 255.0, alpha: 1.0)
         let separator = UIColor(white: 242.0 / 255.0, alpha: 1.0)
+        let errorColor = UIColor(red: 205, green: 0, blue: 0, alpha: 1.0)
 
         let backgroundColor: UIColor
         if #available(iOS 13.0, *) {
@@ -61,7 +62,7 @@ public extension Theme {
             detailTextColor: detailedTextColor,
             buttonTextColor: .white,
             tintColor: tintColor,
-            errorTextColor: textColor
+            errorTextColor: errorColor
         )
     }
 }
