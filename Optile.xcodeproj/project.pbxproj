@@ -12,6 +12,7 @@
 		D918A3F2254F205C005BBA8B /* ListResult.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F1254F205C005BBA8B /* ListResult.json */; };
 		D918A3F5254F2450005BBA8B /* NetworkLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F4254F2450005BBA8B /* NetworkLocalization.json */; };
 		D918A3F7254F2483005BBA8B /* CheckoutLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */; };
+		D94B1D9F25645A540041B851 /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94B1D9E25645A540041B851 /* Input.Table.TextFieldController.ClearButtonController.swift */; };
 		D96BB8BA249FEBB400C2AD73 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB89E249FEBB400C2AD73 /* NetworkTests.swift */; };
 		D96BB8BB249FEBB400C2AD73 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB89F249FEBB400C2AD73 /* XCTestManifests.swift */; };
 		D96BB8BC249FEBB400C2AD73 /* MockFactory.InputElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8A5249FEBB400C2AD73 /* MockFactory.InputElements.swift */; };
@@ -32,6 +33,7 @@
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
 		D9A88E48241C56490043F535 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D92241C55040043F535 /* Media.xcassets */; };
+		D9AD5F7A256321AD00DE65C4 /* Input.Table.TextFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9AD5F79256321AD00DE65C4 /* Input.Table.TextFieldController.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
 		D9ED4119252E8274009F14DA /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4057252E8274009F14DA /* AsynchronousOperation.swift */; };
 		D9ED411A252E8274009F14DA /* SendRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4058252E8274009F14DA /* SendRequestOperation.swift */; };
@@ -210,6 +212,7 @@
 		D918A3F1254F205C005BBA8B /* ListResult.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ListResult.json; sourceTree = "<group>"; };
 		D918A3F4254F2450005BBA8B /* NetworkLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkLocalization.json; sourceTree = "<group>"; };
 		D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CheckoutLocalization.json; sourceTree = "<group>"; };
+		D94B1D9E25645A540041B851 /* Input.Table.TextFieldController.ClearButtonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.ClearButtonController.swift; sourceTree = "<group>"; };
 		D96BB89E249FEBB400C2AD73 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		D96BB89F249FEBB400C2AD73 /* XCTestManifests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		D96BB8A5249FEBB400C2AD73 /* MockFactory.InputElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFactory.InputElements.swift; sourceTree = "<group>"; };
@@ -233,6 +236,7 @@
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
 		D9A88D94241C55040043F535 /* groups.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = groups.json; sourceTree = "<group>"; };
 		D9A88D95241C55040043F535 /* validations-default.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "validations-default.json"; sourceTree = "<group>"; };
+		D9AD5F79256321AD00DE65C4 /* Input.Table.TextFieldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9ED4057252E8274009F14DA /* AsynchronousOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
@@ -422,13 +426,6 @@
 				E918DF5930A18AE9887BB63A /* Pods_Tests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D90CEEBA2539C6E200CF9A93 /* Unit */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Unit;
 			sourceTree = "<group>";
 		};
 		D918A3F3254F2074005BBA8B /* Assets */ = {
@@ -829,6 +826,8 @@
 				D9ED40A7252E8274009F14DA /* Input.Table.LabelViewCell.swift */,
 				D9ED40A8252E8274009F14DA /* Input.Table.CheckboxViewCell.swift */,
 				D9ED40A9252E8274009F14DA /* Input.Table.TextFieldViewCell.swift */,
+				D9AD5F79256321AD00DE65C4 /* Input.Table.TextFieldController.swift */,
+				D94B1D9E25645A540041B851 /* Input.Table.TextFieldController.ClearButtonController.swift */,
 				D9ED40AA252E8274009F14DA /* Input.Table.ButtonCell.swift */,
 				D9ED40AB252E8274009F14DA /* Header */,
 			);
@@ -1341,6 +1340,7 @@
 				D9ED417E252E8275009F14DA /* InputField.swift in Sources */,
 				D9ED4129252E8274009F14DA /* Parameter.swift in Sources */,
 				D9ED419F252E8275009F14DA /* UIAlertController.PreparedError.swift in Sources */,
+				D9AD5F7A256321AD00DE65C4 /* Input.Table.TextFieldController.swift in Sources */,
 				D9ED4188252E8275009F14DA /* List.Table.DataSource.SingleNetworkRow.swift in Sources */,
 				D9ED41AC252E8275009F14DA /* PaymentService.swift in Sources */,
 				D9ED41A4252E8275009F14DA /* PaymentSessionProvider.swift in Sources */,
@@ -1382,6 +1382,7 @@
 				D9ED4124252E8274009F14DA /* PaymentAmount.swift in Sources */,
 				D9ED4132252E8274009F14DA /* PaymentMethod.swift in Sources */,
 				D9ED4154252E8274009F14DA /* Input.ViewController.PaymentController.swift in Sources */,
+				D94B1D9F25645A540041B851 /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */,
 				D9ED4180252E8275009F14DA /* CellRepresentable.swift in Sources */,
 				D9ED4126252E8274009F14DA /* PresetAccount.swift in Sources */,
 				D9ED419B252E8275009F14DA /* TranslatedError.swift in Sources */,
