@@ -14,18 +14,21 @@ protocol CVVTextFieldViewCellDelegate: class {
 extension Input.Table {
     class CVVTextFieldViewCell: TextFieldViewCell, UIAdaptivePresentationControllerDelegate {
         weak var cvvDelegate: CVVTextFieldViewCellDelegate?
+        private let hintButton = UIButton(frame: .zero)
 
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            let button = UIButton()
-            button.setImage(AssetProvider.iconCVVQuestionMark, for: .normal)
-            button.addTarget(self, action: #selector(hintButtonDidTap(button:)), for: .touchUpInside)
+            hintButton.setImage(AssetProvider.iconCVVQuestionMark, for: .normal)
+            hintButton.addTarget(self, action: #selector(hintButtonDidTap(button:)), for: .touchUpInside)
 
-            textField.rightView = button
-            textField.rightViewMode = .always
+
         }
-
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
         @objc private func hintButtonDidTap(button: UIButton) {
             let tooltipVC = TooltipViewController()
 
@@ -55,8 +58,14 @@ extension Input.Table {
             cvvDelegate?.presentHint(viewController: tooltipVC)
         }
 
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
+        override func configure(with model: CellRepresentable & DefinesKeyboardStyle) {
+            textField.rightView = hintButton
+            textField.rightViewMode = .always
+            textField.clearButtonMode = .never
+
+            self.model = model
+            textFieldController.model = model
+            showValidationResult(for: model)
         }
     }
 }

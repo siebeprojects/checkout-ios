@@ -35,6 +35,10 @@ final class AssetProvider {
     static var cvvAMEX: UIImage? {
         return UIImage(named: "cvvAMEX", in: bundle, compatibleWith: nil)
     }
+
+    static var iconClear: UIImage? {
+        return UIImage(named: "iconClear", in: bundle, compatibleWith: nil)
+    }
     #endif
 
     static func getGroupingRulesData() throws -> Data {
