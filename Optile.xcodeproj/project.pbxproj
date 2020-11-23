@@ -28,7 +28,19 @@
 		D96BB8C7249FEBB400C2AD73 /* MockFactory.Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B6249FEBB400C2AD73 /* MockFactory.Localization.swift */; };
 		D96BB8C8249FEBB400C2AD73 /* MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B7249FEBB400C2AD73 /* MockFactory.swift */; };
 		D96BB8CA249FEBB400C2AD73 /* MockFactory.ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */; };
-		D994CE20256400EE00E528FC /* Input.Table.CVVTextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D994CE1F256400EE00E528FC /* Input.Table.CVVTextFieldViewCell.swift */; };
+		D9A0DA2B256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA1C256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift */; };
+		D9A0DA2C256BE842009CE983 /* Input.Table.LabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA1D256BE842009CE983 /* Input.Table.LabelViewCell.swift */; };
+		D9A0DA2D256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA1E256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift */; };
+		D9A0DA2E256BE842009CE983 /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA1F256BE842009CE983 /* Input.Table.CheckboxViewCell.swift */; };
+		D9A0DA2F256BE842009CE983 /* Input.Table.TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA20256BE842009CE983 /* Input.Table.TextFieldViewCell.swift */; };
+		D9A0DA30256BE842009CE983 /* Input.Table.TextFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA21256BE842009CE983 /* Input.Table.TextFieldController.swift */; };
+		D9A0DA31256BE842009CE983 /* Input.Table.ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA22256BE842009CE983 /* Input.Table.ButtonCell.swift */; };
+		D9A0DA32256BE842009CE983 /* Input.Table.ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA25256BE842009CE983 /* Input.Table.ImagesView.swift */; };
+		D9A0DA33256BE842009CE983 /* Input.Table.ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA26256BE842009CE983 /* Input.Table.ImageViewCell.swift */; };
+		D9A0DA34256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA27256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift */; };
+		D9A0DA35256BE842009CE983 /* Input.Table.ImagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA28256BE842009CE983 /* Input.Table.ImagesCollectionView.swift */; };
+		D9A0DA36256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA29256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift */; };
+		D9A0DA37256BE842009CE983 /* Input.Table.LogoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA2A256BE842009CE983 /* Input.Table.LogoTextView.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
@@ -98,16 +110,6 @@
 		D9ED4155252E8274009F14DA /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A2252E8274009F14DA /* Input.swift */; };
 		D9ED4156252E8274009F14DA /* Input.Table.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A4252E8274009F14DA /* Input.Table.Controller.swift */; };
 		D9ED4157252E8274009F14DA /* Input.Table.Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A5252E8274009F14DA /* Input.Table.Validator.swift */; };
-		D9ED4158252E8274009F14DA /* Input.Table.LabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A7252E8274009F14DA /* Input.Table.LabelViewCell.swift */; };
-		D9ED4159252E8274009F14DA /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A8252E8274009F14DA /* Input.Table.CheckboxViewCell.swift */; };
-		D9ED415A252E8274009F14DA /* Input.Table.TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A9252E8274009F14DA /* Input.Table.TextFieldViewCell.swift */; };
-		D9ED415B252E8274009F14DA /* Input.Table.ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40AA252E8274009F14DA /* Input.Table.ButtonCell.swift */; };
-		D9ED415C252E8274009F14DA /* Input.Table.DetailedTextLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40AC252E8274009F14DA /* Input.Table.DetailedTextLogoView.swift */; };
-		D9ED415D252E8274009F14DA /* Input.Table.ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40AE252E8274009F14DA /* Input.Table.ImagesView.swift */; };
-		D9ED415E252E8274009F14DA /* Input.Table.ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40AF252E8274009F14DA /* Input.Table.ImageViewCell.swift */; };
-		D9ED415F252E8274009F14DA /* Input.Table.ImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B0252E8274009F14DA /* Input.Table.ImagesCollectionViewController.swift */; };
-		D9ED4160252E8274009F14DA /* Input.Table.ImagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B1252E8274009F14DA /* Input.Table.ImagesCollectionView.swift */; };
-		D9ED4161252E8274009F14DA /* Input.Table.LogoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B2252E8274009F14DA /* Input.Table.LogoTextView.swift */; };
 		D9ED4162252E8274009F14DA /* Input.Table.DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B3252E8274009F14DA /* Input.Table.DataSource.swift */; };
 		D9ED4163252E8274009F14DA /* Input.Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B4252E8274009F14DA /* Input.Table.swift */; };
 		D9ED4164252E8274009F14DA /* Input.Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B6252E8274009F14DA /* Input.Network.swift */; };
@@ -230,7 +232,19 @@
 		D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFactory.ListResult.swift; sourceTree = "<group>"; };
 		D96BB8CB249FEBC500C2AD73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D994CE1F256400EE00E528FC /* Input.Table.CVVTextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CVVTextFieldViewCell.swift; sourceTree = "<group>"; };
+		D9A0DA1C256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CVVTextFieldViewCell.swift; sourceTree = "<group>"; };
+		D9A0DA1D256BE842009CE983 /* Input.Table.LabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LabelViewCell.swift; sourceTree = "<group>"; };
+		D9A0DA1E256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.ClearButtonController.swift; sourceTree = "<group>"; };
+		D9A0DA1F256BE842009CE983 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
+		D9A0DA20256BE842009CE983 /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
+		D9A0DA21256BE842009CE983 /* Input.Table.TextFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.swift; sourceTree = "<group>"; };
+		D9A0DA22256BE842009CE983 /* Input.Table.ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ButtonCell.swift; sourceTree = "<group>"; };
+		D9A0DA25256BE842009CE983 /* Input.Table.ImagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesView.swift; sourceTree = "<group>"; };
+		D9A0DA26256BE842009CE983 /* Input.Table.ImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImageViewCell.swift; sourceTree = "<group>"; };
+		D9A0DA27256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionViewController.swift; sourceTree = "<group>"; };
+		D9A0DA28256BE842009CE983 /* Input.Table.ImagesCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionView.swift; sourceTree = "<group>"; };
+		D9A0DA29256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DetailedTextLogoView.swift; sourceTree = "<group>"; };
+		D9A0DA2A256BE842009CE983 /* Input.Table.LogoTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LogoTextView.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A88D92241C55040043F535 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
@@ -302,16 +316,6 @@
 		D9ED40A2252E8274009F14DA /* Input.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		D9ED40A4252E8274009F14DA /* Input.Table.Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.Controller.swift; sourceTree = "<group>"; };
 		D9ED40A5252E8274009F14DA /* Input.Table.Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.Validator.swift; sourceTree = "<group>"; };
-		D9ED40A7252E8274009F14DA /* Input.Table.LabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LabelViewCell.swift; sourceTree = "<group>"; };
-		D9ED40A8252E8274009F14DA /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
-		D9ED40A9252E8274009F14DA /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
-		D9ED40AA252E8274009F14DA /* Input.Table.ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ButtonCell.swift; sourceTree = "<group>"; };
-		D9ED40AC252E8274009F14DA /* Input.Table.DetailedTextLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DetailedTextLogoView.swift; sourceTree = "<group>"; };
-		D9ED40AE252E8274009F14DA /* Input.Table.ImagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesView.swift; sourceTree = "<group>"; };
-		D9ED40AF252E8274009F14DA /* Input.Table.ImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImageViewCell.swift; sourceTree = "<group>"; };
-		D9ED40B0252E8274009F14DA /* Input.Table.ImagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionViewController.swift; sourceTree = "<group>"; };
-		D9ED40B1252E8274009F14DA /* Input.Table.ImagesCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionView.swift; sourceTree = "<group>"; };
-		D9ED40B2252E8274009F14DA /* Input.Table.LogoTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LogoTextView.swift; sourceTree = "<group>"; };
 		D9ED40B3252E8274009F14DA /* Input.Table.DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DataSource.swift; sourceTree = "<group>"; };
 		D9ED40B4252E8274009F14DA /* Input.Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.swift; sourceTree = "<group>"; };
 		D9ED40B6252E8274009F14DA /* Input.Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Network.swift; sourceTree = "<group>"; };
@@ -544,6 +548,42 @@
 				D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */,
 			);
 			path = Factory;
+			sourceTree = "<group>";
+		};
+		D9A0DA1B256BE842009CE983 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D9A0DA1C256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift */,
+				D9A0DA1D256BE842009CE983 /* Input.Table.LabelViewCell.swift */,
+				D9A0DA1E256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift */,
+				D9A0DA1F256BE842009CE983 /* Input.Table.CheckboxViewCell.swift */,
+				D9A0DA20256BE842009CE983 /* Input.Table.TextFieldViewCell.swift */,
+				D9A0DA21256BE842009CE983 /* Input.Table.TextFieldController.swift */,
+				D9A0DA22256BE842009CE983 /* Input.Table.ButtonCell.swift */,
+				D9A0DA23256BE842009CE983 /* Header */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		D9A0DA23256BE842009CE983 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				D9A0DA24256BE842009CE983 /* ImagesCollection */,
+				D9A0DA29256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift */,
+				D9A0DA2A256BE842009CE983 /* Input.Table.LogoTextView.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
+		D9A0DA24256BE842009CE983 /* ImagesCollection */ = {
+			isa = PBXGroup;
+			children = (
+				D9A0DA25256BE842009CE983 /* Input.Table.ImagesView.swift */,
+				D9A0DA26256BE842009CE983 /* Input.Table.ImageViewCell.swift */,
+				D9A0DA27256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift */,
+				D9A0DA28256BE842009CE983 /* Input.Table.ImagesCollectionView.swift */,
+			);
+			path = ImagesCollection;
 			sourceTree = "<group>";
 		};
 		D9A88D04241C55040043F535 /* Sources */ = {
@@ -820,47 +860,13 @@
 		D9ED40A3252E8274009F14DA /* Table */ = {
 			isa = PBXGroup;
 			children = (
+				D9A0DA1B256BE842009CE983 /* Cell */,
 				D9ED40A4252E8274009F14DA /* Input.Table.Controller.swift */,
 				D9ED40A5252E8274009F14DA /* Input.Table.Validator.swift */,
-				D9ED40A6252E8274009F14DA /* Cell */,
 				D9ED40B3252E8274009F14DA /* Input.Table.DataSource.swift */,
 				D9ED40B4252E8274009F14DA /* Input.Table.swift */,
 			);
 			path = Table;
-			sourceTree = "<group>";
-		};
-		D9ED40A6252E8274009F14DA /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40A7252E8274009F14DA /* Input.Table.LabelViewCell.swift */,
-				D9ED40A8252E8274009F14DA /* Input.Table.CheckboxViewCell.swift */,
-				D9ED40A9252E8274009F14DA /* Input.Table.TextFieldViewCell.swift */,
-				D9ED40AA252E8274009F14DA /* Input.Table.ButtonCell.swift */,
-				D994CE1F256400EE00E528FC /* Input.Table.CVVTextFieldViewCell.swift */,
-				D9ED40AB252E8274009F14DA /* Header */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
-		D9ED40AB252E8274009F14DA /* Header */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40AC252E8274009F14DA /* Input.Table.DetailedTextLogoView.swift */,
-				D9ED40AD252E8274009F14DA /* ImagesCollection */,
-				D9ED40B2252E8274009F14DA /* Input.Table.LogoTextView.swift */,
-			);
-			path = Header;
-			sourceTree = "<group>";
-		};
-		D9ED40AD252E8274009F14DA /* ImagesCollection */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40AE252E8274009F14DA /* Input.Table.ImagesView.swift */,
-				D9ED40AF252E8274009F14DA /* Input.Table.ImageViewCell.swift */,
-				D9ED40B0252E8274009F14DA /* Input.Table.ImagesCollectionViewController.swift */,
-				D9ED40B1252E8274009F14DA /* Input.Table.ImagesCollectionView.swift */,
-			);
-			path = ImagesCollection;
 			sourceTree = "<group>";
 		};
 		D9ED40B5252E8274009F14DA /* Model */ = {
@@ -1299,8 +1305,7 @@
 				D9ED4148252E8274009F14DA /* InputModifier.swift in Sources */,
 				D9ED4142252E8274009F14DA /* SharedTranslationProvider.swift in Sources */,
 				D9ED4194252E8275009F14DA /* List.Table.TableView.swift in Sources */,
-				D9ED415D252E8274009F14DA /* Input.Table.ImagesView.swift in Sources */,
-				D9ED415C252E8274009F14DA /* Input.Table.DetailedTextLogoView.swift in Sources */,
+				D9A0DA34256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift in Sources */,
 				D9ED4120252E8274009F14DA /* Connection.swift in Sources */,
 				D9ED4177252E8275009F14DA /* Input.ModelTransformer.swift in Sources */,
 				D9ED414C252E8274009F14DA /* TextFormatPattern.swift in Sources */,
@@ -1308,13 +1313,11 @@
 				D9ED4179252E8275009F14DA /* Input.ImagesHeader.swift in Sources */,
 				D9ED412F252E8274009F14DA /* CustomerFormData.swift in Sources */,
 				D9ED413D252E8274009F14DA /* AccountFormData.swift in Sources */,
-				D9ED4161252E8274009F14DA /* Input.Table.LogoTextView.swift in Sources */,
 				D9ED4139252E8274009F14DA /* InputElement.swift in Sources */,
 				D9ED4168252E8274009F14DA /* Input.Field.IBAN.swift in Sources */,
 				D9ED4133252E8274009F14DA /* Interaction.swift in Sources */,
 				D9ED4138252E8274009F14DA /* Checkbox.swift in Sources */,
 				D9ED41A7252E8275009F14DA /* Result+interaction.swift in Sources */,
-				D9ED415A252E8274009F14DA /* Input.Table.TextFieldViewCell.swift in Sources */,
 				D9ED41A5252E8275009F14DA /* DownloadTranslationService.swift in Sources */,
 				D9ED4185252E8275009F14DA /* List.Router.swift in Sources */,
 				D9ED419A252E8275009F14DA /* Theme.swift in Sources */,
@@ -1324,7 +1327,9 @@
 				D9ED411D252E8274009F14DA /* DownloadLocalization.swift in Sources */,
 				D9ED41AB252E8275009F14DA /* PaymentResult.swift in Sources */,
 				D9ED413C252E8274009F14DA /* AccountRegistration.swift in Sources */,
+				D9A0DA2B256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift in Sources */,
 				D9ED413B252E8274009F14DA /* SelectOption.swift in Sources */,
+				D9A0DA2F256BE842009CE983 /* Input.Table.TextFieldViewCell.swift in Sources */,
 				D9ED4156252E8274009F14DA /* Input.Table.Controller.swift in Sources */,
 				D9ED41B2252E8275009F14DA /* DequeueableCell.swift in Sources */,
 				D9ED418C252E8275009F14DA /* List.Table.SingleLabelCell.swift in Sources */,
@@ -1335,11 +1340,11 @@
 				D9ED4171252E8275009F14DA /* Input.Field.BasicText.swift in Sources */,
 				D9ED4172252E8275009F14DA /* Input.Field.swift in Sources */,
 				D9ED4167252E8274009F14DA /* Input.Field.AccountNumber.swift in Sources */,
-				D994CE20256400EE00E528FC /* Input.Table.CVVTextFieldViewCell.swift in Sources */,
 				D9ED4130252E8274009F14DA /* OperationResult.swift in Sources */,
 				D9ED418B252E8275009F14DA /* List.Table.DataSource.AccountRow.swift in Sources */,
 				D9ED417C252E8275009F14DA /* DefinesKeyboardStyle.swift in Sources */,
 				D9ED4173252E8275009F14DA /* Input.Field.Validation.IBAN.swift in Sources */,
+				D9A0DA2E256BE842009CE983 /* Input.Table.CheckboxViewCell.swift in Sources */,
 				D9ED4195252E8275009F14DA /* ListViewControllerPaymentDelegate.swift in Sources */,
 				D9ED41AD252E8275009F14DA /* PaymentServicesFactory.swift in Sources */,
 				D9ED4163252E8274009F14DA /* Input.Table.swift in Sources */,
@@ -1352,8 +1357,9 @@
 				D9ED4188252E8275009F14DA /* List.Table.DataSource.SingleNetworkRow.swift in Sources */,
 				D9ED41AC252E8275009F14DA /* PaymentService.swift in Sources */,
 				D9ED41A4252E8275009F14DA /* PaymentSessionProvider.swift in Sources */,
-				D9ED415F252E8274009F14DA /* Input.Table.ImagesCollectionViewController.swift in Sources */,
+				D9A0DA31256BE842009CE983 /* Input.Table.ButtonCell.swift in Sources */,
 				D9ED4127252E8274009F14DA /* ListResult.swift in Sources */,
+				D9A0DA36256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift in Sources */,
 				D9ED4121252E8274009F14DA /* GetRequest.swift in Sources */,
 				D9ED416F252E8275009F14DA /* Input.Field.VerificationCode.swift in Sources */,
 				D9ED41A1252E8275009F14DA /* SlideInViewController.swift in Sources */,
@@ -1361,24 +1367,24 @@
 				D9ED414F252E8274009F14DA /* CaretPositionCorrector.swift in Sources */,
 				D9ED4184252E8275009F14DA /* Input.ViewController.swift in Sources */,
 				D9ED4141252E8274009F14DA /* CombinedTranslationProvider.swift in Sources */,
+				D9A0DA2D256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */,
 				D9ED4169252E8274009F14DA /* Input.Field.HolderName.swift in Sources */,
 				D9ED4151252E8274009F14DA /* ExpirationDateInputModifier.swift in Sources */,
 				D9ED414B252E8274009F14DA /* ReplaceableString.swift in Sources */,
+				D9A0DA32256BE842009CE983 /* Input.Table.ImagesView.swift in Sources */,
 				D9ED4174252E8275009F14DA /* Input.Field.Validation.ExpiryDate.swift in Sources */,
-				D9ED4159252E8274009F14DA /* Input.Table.CheckboxViewCell.swift in Sources */,
 				D9ED4155252E8274009F14DA /* Input.swift in Sources */,
+				D9A0DA33256BE842009CE983 /* Input.Table.ImageViewCell.swift in Sources */,
 				D9ED41AE252E8275009F14DA /* CustomErrorInfo.swift in Sources */,
 				D9ED4176252E8275009F14DA /* Input.Field.Validation.swift in Sources */,
 				D9ED412B252E8274009F14DA /* AccountMask.swift in Sources */,
 				D9ED4166252E8274009F14DA /* Input.Field.Hidden.swift in Sources */,
 				D9ED41A0252E8275009F14DA /* Loadable.swift in Sources */,
-				D9ED4160252E8274009F14DA /* Input.Table.ImagesCollectionView.swift in Sources */,
 				D9ED412D252E8274009F14DA /* Installments.swift in Sources */,
-				D9ED415E252E8274009F14DA /* Input.Table.ImageViewCell.swift in Sources */,
 				D9ED4146252E8274009F14DA /* Input.ViewController.StateManager.swift in Sources */,
-				D9ED415B252E8274009F14DA /* Input.Table.ButtonCell.swift in Sources */,
 				D9ED416D252E8275009F14DA /* Input.Field.Button.swift in Sources */,
 				D9ED411A252E8274009F14DA /* SendRequestOperation.swift in Sources */,
+				D9A0DA37256BE842009CE983 /* Input.Table.LogoTextView.swift in Sources */,
 				D9ED4128252E8274009F14DA /* InstallmentsPlan.swift in Sources */,
 				D9ED4144252E8274009F14DA /* InternalError.swift in Sources */,
 				D9ED4137252E8274009F14DA /* Style.swift in Sources */,
@@ -1399,15 +1405,16 @@
 				D9ED4187252E8275009F14DA /* List.swift in Sources */,
 				D9ED418A252E8275009F14DA /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */,
 				D9ED416C252E8274009F14DA /* Input.Field.BIC.swift in Sources */,
-				D9ED4158252E8274009F14DA /* Input.Table.LabelViewCell.swift in Sources */,
 				D9ED41A6252E8275009F14DA /* PaymentSessionService.swift in Sources */,
 				D9ED4164252E8274009F14DA /* Input.Network.swift in Sources */,
+				D9A0DA2C256BE842009CE983 /* Input.Table.LabelViewCell.swift in Sources */,
 				D9ED41A3252E8275009F14DA /* SlideInPresentationController.swift in Sources */,
 				D9ED419E252E8275009F14DA /* PaymentSession.swift in Sources */,
 				D9ED4149252E8274009F14DA /* TextFormatter.swift in Sources */,
 				D9ED416E252E8275009F14DA /* Input.Field.ExpiryDate.swift in Sources */,
 				D9ED4152252E8274009F14DA /* UppercaseInputModifier.swift in Sources */,
 				D9ED41B4252E8275009F14DA /* KeyboardChangeFrameObserver.swift in Sources */,
+				D9A0DA35256BE842009CE983 /* Input.Table.ImagesCollectionView.swift in Sources */,
 				D9ED416A252E8274009F14DA /* Input.Field.Generic.swift in Sources */,
 				D9ED4162252E8274009F14DA /* Input.Table.DataSource.swift in Sources */,
 				D9BDD9D42567131900EF17E5 /* TooltipViewController.swift in Sources */,
@@ -1426,6 +1433,7 @@
 				D9ED4181252E8275009F14DA /* InputCellDelegate.swift in Sources */,
 				D9ED414A252E8274009F14DA /* FormattedTextValue.swift in Sources */,
 				D9ED419C252E8275009F14DA /* PaymentNetwork.swift in Sources */,
+				D9A0DA30256BE842009CE983 /* Input.Table.TextFieldController.swift in Sources */,
 				D9ED4157252E8274009F14DA /* Input.Table.Validator.swift in Sources */,
 				D9ED413E252E8274009F14DA /* TranslatedModel.swift in Sources */,
 				D9ED41A9252E8275009F14DA /* RedirectCallbackHandler.swift in Sources */,
