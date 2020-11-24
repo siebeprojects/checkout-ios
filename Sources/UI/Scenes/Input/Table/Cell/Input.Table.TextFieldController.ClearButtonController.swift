@@ -25,11 +25,10 @@ extension Input.Table.TextFieldController.ClearButtonController {
     /// Assign custom clear button if needed
     /// - Note: method could be called multiple times (e.g. when cell is being reconfigured)
     func configure() {
-        if textField.clearButtonMode == .never { return }
+        guard textField.clearButtonMode == .whileEditing else { return }
 
         // Assign custom clear button as a trailing view
         textField.rightView = button
-        textField.rightViewMode = .whileEditing
 
         // Hide default clear button
         textField.clearButton.isHidden = true

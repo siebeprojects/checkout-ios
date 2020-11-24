@@ -44,6 +44,11 @@ extension Input.Table {
             }
         }
         weak var delegate: InputTableControllerDelegate?
+        weak var cvvHintDelegate: CVVTextFieldViewCellDelegate? {
+            didSet {
+                dataSource.cvvHintDelegate = cvvHintDelegate
+            }
+        }
 
         override init() {
             self.validator = Validator(dataSource: dataSource)
@@ -121,6 +126,7 @@ extension Input.Table {
             collectionView.register(CheckboxViewCell.self)
             collectionView.register(ButtonCell.self)
             collectionView.register(LabelViewCell.self)
+            collectionView.register(Input.Table.CVVTextFieldViewCell.self)
 
             // Header cells
             collectionView.register(DetailedTextLogoView.self)

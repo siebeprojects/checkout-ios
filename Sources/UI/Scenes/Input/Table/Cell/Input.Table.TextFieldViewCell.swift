@@ -16,11 +16,9 @@ extension Input.Table {
     class TextFieldViewCell: UICollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
 
-        private(set) var model: (TextInputField & DefinesKeyboardStyle)!
-
+        var model: (TextInputField & DefinesKeyboardStyle)!
         let textField = MDCTextField()
-
-        fileprivate let textFieldController: TextFieldController
+        let textFieldController: TextFieldController
 
         override init(frame: CGRect) {
             textFieldController = .init(textField: textField)
@@ -29,6 +27,7 @@ extension Input.Table {
 
             textFieldController.delegate = self
 
+            // Add the text field to a view
             contentView.addSubview(textField)
 
             textField.translatesAutoresizingMaskIntoConstraints = false
@@ -54,11 +53,17 @@ extension Input.Table {
             textFieldController.setTintColor(to: tintColor)
         }
 
+        func configureTextField() {
+            textField.rightViewMode = .whileEditing
+        }
+
         func configure(with model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
+            textField.rightViewMode = .whileEditing
+            textField.clearButtonMode = .whileEditing
+
             self.model = model
             textFieldController.model = model
             showValidationResult(for: model)
-
         }
     }
 }

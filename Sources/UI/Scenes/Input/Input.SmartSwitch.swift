@@ -74,11 +74,6 @@ extension Input.SmartSwitch {
                 selected = .generic(firstNetwork)
             }
         }
-
-        init(network: Input.Network) {
-            self.networks = [network]
-            selected = .specific(network)
-        }
     }
 }
 
