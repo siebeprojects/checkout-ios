@@ -1,4 +1,4 @@
-app_identifier("net.optile.payment.example")
+app_identifier("net.optile.example.sdk")
 
 # Apple email address for signing
 apple_id ENV['FASTLANE_IOS_USERNAME'] 
