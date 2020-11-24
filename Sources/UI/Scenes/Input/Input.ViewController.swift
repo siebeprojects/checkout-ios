@@ -42,6 +42,7 @@ extension Input {
 
             self.scrollView = collectionView
             tableController.delegate = self
+            tableController.cvvHintDelegate = self
         }
 
         convenience init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory) throws {
@@ -69,7 +70,7 @@ extension Input {
         convenience init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory) throws {
             let transformer = ModelTransformer()
             let network = try transformer.transform(registeredAccount: registeredAccount)
-            let smartSwitch = SmartSwitch.Selector(network: network)
+            let smartSwitch = try SmartSwitch.Selector(networks: [network])
             let header = Input.TextHeader(from: registeredAccount)
 
             self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory)
@@ -294,6 +295,12 @@ extension Input.ViewController: SFSafariViewControllerDelegate {
             object: nil,
             userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: operationType]
         )
+    }
+}
+
+extension Input.ViewController: CVVTextFieldViewCellDelegate {
+    func presentHint(viewController: UIViewController) {
+        self.present(viewController, animated: true, completion: nil)
     }
 }
 #endif
