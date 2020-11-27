@@ -39,7 +39,7 @@ class BasicPaymentService: PaymentService {
     }
 
     private static func isSupported(code: String) -> Bool {
-        let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
+        let supportedCodes = ["SEPADD", "PAYPAL"]
         return supportedCodes.contains(code)
     }
 

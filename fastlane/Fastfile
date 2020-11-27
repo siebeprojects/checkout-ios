@@ -24,10 +24,10 @@ platform :ios do
       path: "./Example-sdk/Example-sdk.xcodeproj",
       code_sign_identity: "iPhone Distribution"
     )
-    match(type: "adhoc", readonly: is_ci)
+    match(type: "adhoc", readonly: false)
     update_project_team(path: "./Example-sdk/Example-sdk.xcodeproj")
     update_project_provisioning(
-      profile: ENV["sigh_net.optile.example.sdk_adhoc_profile-path"],
+      profile: ENV["sigh_net.optile.payment.example_adhoc_profile-path"],
       xcodeproj: "./Example-sdk/Example-sdk.xcodeproj"
     )
     build_ios_app(
@@ -55,7 +55,6 @@ platform :ios do
   lane :ui_test do
     cocoapods(podfile: "./Example-sdk/Podfile")
     run_tests(
-      scheme: "Example",
       derived_data_path: "/tmp/workspace/derived_data",
       workspace: "Example-sdk/Example-sdk.xcworkspace",
       devices: ["iPhone 12"],

@@ -61,7 +61,7 @@ class RedirectCallbackHandler {
         let parameters: [Parameter] = queryItems.map { .init(name: $0.key, value: $0.value) }
         let redirect = Redirect(url: receivedURL, method: .GET, parameters: parameters)
 
-        let operationResult = OperationResult(resultInfo: "OperationResult received from the mobile-redirect webapp", links: nil, interaction: interaction, redirect: redirect)
+        let operationResult = OperationResult(resultInfo: "OperationResult received from the mobile-redirect webapp", interaction: interaction, redirect: redirect)
 
         delegate?.paymentService(didReceiveResponse: .result(.success(operationResult)))
     }
