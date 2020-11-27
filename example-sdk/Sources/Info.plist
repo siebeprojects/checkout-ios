@@ -27,7 +27,7 @@
 			<string>test.app</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>net.optile.example.mobileredirect</string>
+				<string>net.optile.payment.example.mobileredirect</string>
 			</array>
 		</dict>
 	</array>

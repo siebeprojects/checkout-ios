@@ -9,6 +9,10 @@ import Foundation
 public class OperationResult: NSObject, Decodable {
     /// Descriptive information that complements the interaction advice
     public let resultInfo: String
+    
+    /// - TODO: Document it
+    /// - TODO: Is it optional?
+    public let links: [String: URL]?
 
     /// Interaction advice for the operation result
     public let interaction: Interaction
@@ -20,8 +24,9 @@ public class OperationResult: NSObject, Decodable {
     /// Provider response data given back by the target provider as a result of transaction action; this data should contain all needed information to continue customer's journey on the payment page in the scope of used network
     public let providerResponse: ProviderParameters?
 
-    internal init(resultInfo: String, interaction: Interaction, redirect: Redirect?, providerResponse: ProviderParameters? = nil) {
+    internal init(resultInfo: String, links: [String: URL]?, interaction: Interaction, redirect: Redirect?, providerResponse: ProviderParameters? = nil) {
         self.resultInfo = resultInfo
+        self.links = links
         self.interaction = interaction
         self.redirect = redirect
         self.providerResponse = providerResponse
