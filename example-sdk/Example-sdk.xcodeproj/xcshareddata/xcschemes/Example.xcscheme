@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D9E0AEAC234143BD0021184C"
-               BuildableName = "Example.app"
-               BlueprintName = "Example"
-               ReferencedContainer = "container:Example.xcodeproj">
+               BuildableName = "Example-sdk.app"
+               BlueprintName = "Example-sdk"
+               ReferencedContainer = "container:Example-sdk.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "D9A5FA46253CA5FD001C71B7"
                BuildableName = "UITest.xctest"
                BlueprintName = "UITest"
-               ReferencedContainer = "container:Example.xcodeproj">
+               ReferencedContainer = "container:Example-sdk.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "D9A5FA55253CA701001C71B7"
                BuildableName = "UITests.xctest"
                BlueprintName = "UITests"
-               ReferencedContainer = "container:Example.xcodeproj">
+               ReferencedContainer = "container:Example-sdk.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D9E0AEAC234143BD0021184C"
-            BuildableName = "Example.app"
-            BlueprintName = "Example"
-            ReferencedContainer = "container:Example.xcodeproj">
+            BuildableName = "Example-sdk.app"
+            BlueprintName = "Example-sdk"
+            ReferencedContainer = "container:Example-sdk.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -82,9 +82,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D9E0AEAC234143BD0021184C"
-            BuildableName = "Example.app"
-            BlueprintName = "Example"
-            ReferencedContainer = "container:Example.xcodeproj">
+            BuildableName = "Example-sdk.app"
+            BlueprintName = "Example-sdk"
+            ReferencedContainer = "container:Example-sdk.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

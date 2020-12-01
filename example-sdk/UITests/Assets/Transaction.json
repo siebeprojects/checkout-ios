@@ -17,7 +17,7 @@
     "resolution": "2x"
   },
   "callback": {
-    "appId": "net.optile.payment.example",
+    "appId": "net.optile.example.sdk",
     "notificationUrl": "https://example.com/shop/notify.html"
   }
 }
