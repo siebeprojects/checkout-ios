@@ -161,7 +161,7 @@
 		D9ED4192252E8275009F14DA /* List.Table.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40EC252E8274009F14DA /* List.Table.Controller.swift */; };
 		D9ED4193252E8275009F14DA /* List.Table.SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40EE252E8274009F14DA /* List.Table.SectionHeader.swift */; };
 		D9ED4194252E8275009F14DA /* List.Table.TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40EF252E8274009F14DA /* List.Table.TableView.swift */; };
-		D9ED4195252E8275009F14DA /* ListViewControllerPaymentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F0252E8274009F14DA /* ListViewControllerPaymentDelegate.swift */; };
+		D9ED4195252E8275009F14DA /* NetworkOperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F0252E8274009F14DA /* NetworkOperationResultHandler.swift */; };
 		D9ED4196252E8275009F14DA /* String+removeCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F2252E8274009F14DA /* String+removeCharacters.swift */; };
 		D9ED4197252E8275009F14DA /* Bool+stringValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F3252E8274009F14DA /* Bool+stringValue.swift */; };
 		D9ED4198252E8275009F14DA /* mergeClosures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F5252E8274009F14DA /* mergeClosures.swift */; };
@@ -367,7 +367,7 @@
 		D9ED40EC252E8274009F14DA /* List.Table.Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.Controller.swift; sourceTree = "<group>"; };
 		D9ED40EE252E8274009F14DA /* List.Table.SectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.SectionHeader.swift; sourceTree = "<group>"; };
 		D9ED40EF252E8274009F14DA /* List.Table.TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.TableView.swift; sourceTree = "<group>"; };
-		D9ED40F0252E8274009F14DA /* ListViewControllerPaymentDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewControllerPaymentDelegate.swift; sourceTree = "<group>"; };
+		D9ED40F0252E8274009F14DA /* NetworkOperationResultHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkOperationResultHandler.swift; sourceTree = "<group>"; };
 		D9ED40F2252E8274009F14DA /* String+removeCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+removeCharacters.swift"; sourceTree = "<group>"; };
 		D9ED40F3252E8274009F14DA /* Bool+stringValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+stringValue.swift"; sourceTree = "<group>"; };
 		D9ED40F5252E8274009F14DA /* mergeClosures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mergeClosures.swift; sourceTree = "<group>"; };
@@ -946,7 +946,7 @@
 				D9ED40DD252E8274009F14DA /* List.ViewController.swift */,
 				D9ED40DE252E8274009F14DA /* List.swift */,
 				D9ED40DF252E8274009F14DA /* Table */,
-				D9ED40F0252E8274009F14DA /* ListViewControllerPaymentDelegate.swift */,
+				D9ED40F0252E8274009F14DA /* NetworkOperationResultHandler.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1345,7 +1345,7 @@
 				D9ED417C252E8275009F14DA /* DefinesKeyboardStyle.swift in Sources */,
 				D9ED4173252E8275009F14DA /* Input.Field.Validation.IBAN.swift in Sources */,
 				D9A0DA2E256BE842009CE983 /* Input.Table.CheckboxViewCell.swift in Sources */,
-				D9ED4195252E8275009F14DA /* ListViewControllerPaymentDelegate.swift in Sources */,
+				D9ED4195252E8275009F14DA /* NetworkOperationResultHandler.swift in Sources */,
 				D9ED41AD252E8275009F14DA /* PaymentServicesFactory.swift in Sources */,
 				D9ED4163252E8274009F14DA /* Input.Table.swift in Sources */,
 				D9ED41A2252E8275009F14DA /* SlideInPresentationManager.swift in Sources */,
