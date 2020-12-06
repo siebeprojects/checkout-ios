@@ -44,6 +44,7 @@ extension List {
 
             super.init(nibName: nil, bundle: nil)
 
+            sessionService.delegate = self
             router.rootViewController = self
         }
 
@@ -92,20 +93,7 @@ extension List.ViewController {
 extension List.ViewController {
     func loadPaymentSession() {
         viewState = .loading
-
-        sessionService.loadPaymentSession(
-            loadDidComplete: { [weak self] session in
-                DispatchQueue.main.async {
-                    self?.title = self?.sharedTranslationProvider.translation(forKey: "paymentpage.title")
-                    self?.viewState = session
-                }
-            },
-            shouldSelect: { [weak self] network in
-                DispatchQueue.main.async {
-                    self?.show(paymentNetworks: [network], animated: false)
-                }
-            }
-        )
+        sessionService.loadPaymentSession()
     }
 
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
@@ -318,6 +306,35 @@ extension List.ViewController {
     }
 }
 
+// MARK: - PaymentSessionServiceDelegate
+
+extension List.ViewController: PaymentSessionServiceDelegate {
+    func paymentSessionService(loadingDidCompleteWith result: Load<PaymentSession, Error>) {
+        self.title = self.sharedTranslationProvider.translation(forKey: "paymentpage.title")
+
+        switch result {
+        case .failure(let error):
+            if let errorInfo = error as? ErrorInfo {
+                dismiss(withOperationResult: .failure(errorInfo))
+            } else {
+                let abortInteraction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
+                let customErrorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: abortInteraction, underlyingError: error)
+                dismiss(withOperationResult: .failure(customErrorInfo))
+            }
+        default:
+            self.viewState = result
+        }
+    }
+
+    func paymentSessionService(shouldSelect network: PaymentNetwork) {
+        DispatchQueue.main.async {
+            self.show(paymentNetworks: [network], animated: false)
+        }
+    }
+}
+
+// MARK: - ListTableControllerDelegate
+
 extension List.ViewController: ListTableControllerDelegate {
     var downloadProvider: DataDownloadProvider { sessionService.downloadProvider }
 
@@ -329,6 +346,8 @@ extension List.ViewController: ListTableControllerDelegate {
         show(registeredAccount: registeredAccount, animated: true)
     }
 }
+
+// MARK: - NetworkOperationResultHandler
 
 extension List.ViewController: NetworkOperationResultHandler {
     func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for network: Input.Network) {

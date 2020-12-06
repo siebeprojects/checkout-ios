@@ -113,24 +113,15 @@ class PaymentSessionProvider {
     }
 
     private func checkInteractionCode(listResult: ListResult, completion: ((Result<ListResult, Error>) -> Void)) {
-        if Interaction.Code(rawValue: listResult.interaction.code) == .some(.PROCEED) {
-            completion(.success(listResult))
+        guard Interaction.Code(rawValue: listResult.interaction.code) == .some(.PROCEED) else {
+            // If result is not PROCEED, route interaction and resultInfo to a merchant
+            let errorInfo = CustomErrorInfo(resultInfo: listResult.resultInfo, interaction: listResult.interaction, underlyingError: nil)
+            completion(.failure(errorInfo))
             return
         }
 
-        let localizedReason: String? =
-            sharedTranslationProvider.translation(forKey: listResult.interaction.code + "." + listResult.interaction.reason)
-
-        let error: Error
-        if let localizedReason = localizedReason {
-            // If we have a localization for that interaction throw it as an error
-            error = TranslatedError(localizedDescription: localizedReason)
-        } else {
-            // If we don't have such localization throw an internal error, later it would be converted to a generic error
-            error = InternalError(description: "%@", listResult.interaction.reason)
-        }
-
-        completion(.failure(error))
+        // Interaction code is PROCEED, route result
+        completion(.success(listResult))
     }
 
     private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])

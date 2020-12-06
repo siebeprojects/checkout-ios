@@ -28,171 +28,11 @@
 		D96BB8C7249FEBB400C2AD73 /* MockFactory.Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B6249FEBB400C2AD73 /* MockFactory.Localization.swift */; };
 		D96BB8C8249FEBB400C2AD73 /* MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B7249FEBB400C2AD73 /* MockFactory.swift */; };
 		D96BB8CA249FEBB400C2AD73 /* MockFactory.ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */; };
-		D9A0DA2B256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA1C256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift */; };
-		D9A0DA2C256BE842009CE983 /* Input.Table.LabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA1D256BE842009CE983 /* Input.Table.LabelViewCell.swift */; };
-		D9A0DA2D256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA1E256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift */; };
-		D9A0DA2E256BE842009CE983 /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA1F256BE842009CE983 /* Input.Table.CheckboxViewCell.swift */; };
-		D9A0DA2F256BE842009CE983 /* Input.Table.TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA20256BE842009CE983 /* Input.Table.TextFieldViewCell.swift */; };
-		D9A0DA30256BE842009CE983 /* Input.Table.TextFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA21256BE842009CE983 /* Input.Table.TextFieldController.swift */; };
-		D9A0DA31256BE842009CE983 /* Input.Table.ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA22256BE842009CE983 /* Input.Table.ButtonCell.swift */; };
-		D9A0DA32256BE842009CE983 /* Input.Table.ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA25256BE842009CE983 /* Input.Table.ImagesView.swift */; };
-		D9A0DA33256BE842009CE983 /* Input.Table.ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA26256BE842009CE983 /* Input.Table.ImageViewCell.swift */; };
-		D9A0DA34256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA27256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift */; };
-		D9A0DA35256BE842009CE983 /* Input.Table.ImagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA28256BE842009CE983 /* Input.Table.ImagesCollectionView.swift */; };
-		D9A0DA36256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA29256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift */; };
-		D9A0DA37256BE842009CE983 /* Input.Table.LogoTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A0DA2A256BE842009CE983 /* Input.Table.LogoTextView.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
 		D9A88E48241C56490043F535 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D92241C55040043F535 /* Media.xcassets */; };
-		D9BDD9D42567131900EF17E5 /* TooltipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BDD9D32567131900EF17E5 /* TooltipViewController.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
-		D9ED4119252E8274009F14DA /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4057252E8274009F14DA /* AsynchronousOperation.swift */; };
-		D9ED411A252E8274009F14DA /* SendRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4058252E8274009F14DA /* SendRequestOperation.swift */; };
-		D9ED411B252E8274009F14DA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4059252E8274009F14DA /* HTTPMethod.swift */; };
-		D9ED411C252E8274009F14DA /* GetListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED405B252E8274009F14DA /* GetListResult.swift */; };
-		D9ED411D252E8274009F14DA /* DownloadLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED405C252E8274009F14DA /* DownloadLocalization.swift */; };
-		D9ED411E252E8274009F14DA /* DownloadData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED405D252E8274009F14DA /* DownloadData.swift */; };
-		D9ED411F252E8274009F14DA /* URLSessionConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED405E252E8274009F14DA /* URLSessionConnection.swift */; };
-		D9ED4120252E8274009F14DA /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4060252E8274009F14DA /* Connection.swift */; };
-		D9ED4121252E8274009F14DA /* GetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4061252E8274009F14DA /* GetRequest.swift */; };
-		D9ED4122252E8274009F14DA /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4062252E8274009F14DA /* Request.swift */; };
-		D9ED4123252E8274009F14DA /* Redirect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4064252E8274009F14DA /* Redirect.swift */; };
-		D9ED4124252E8274009F14DA /* PaymentAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4065252E8274009F14DA /* PaymentAmount.swift */; };
-		D9ED4125252E8274009F14DA /* ApplicableNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4066252E8274009F14DA /* ApplicableNetwork.swift */; };
-		D9ED4126252E8274009F14DA /* PresetAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4067252E8274009F14DA /* PresetAccount.swift */; };
-		D9ED4127252E8274009F14DA /* ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4068252E8274009F14DA /* ListResult.swift */; };
-		D9ED4128252E8274009F14DA /* InstallmentsPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4069252E8274009F14DA /* InstallmentsPlan.swift */; };
-		D9ED4129252E8274009F14DA /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED406A252E8274009F14DA /* Parameter.swift */; };
-		D9ED412A252E8274009F14DA /* InstallmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED406B252E8274009F14DA /* InstallmentItem.swift */; };
-		D9ED412B252E8274009F14DA /* AccountMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED406C252E8274009F14DA /* AccountMask.swift */; };
-		D9ED412C252E8274009F14DA /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D9ED406D252E8274009F14DA /* .swiftlint.yml */; };
-		D9ED412D252E8274009F14DA /* Installments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED406E252E8274009F14DA /* Installments.swift */; };
-		D9ED412E252E8274009F14DA /* ProviderParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED406F252E8274009F14DA /* ProviderParameters.swift */; };
-		D9ED412F252E8274009F14DA /* CustomerFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4070252E8274009F14DA /* CustomerFormData.swift */; };
-		D9ED4130252E8274009F14DA /* OperationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4071252E8274009F14DA /* OperationResult.swift */; };
-		D9ED4131252E8274009F14DA /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4072252E8274009F14DA /* ExtraElements.swift */; };
-		D9ED4132252E8274009F14DA /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4073252E8274009F14DA /* PaymentMethod.swift */; };
-		D9ED4133252E8274009F14DA /* Interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4074252E8274009F14DA /* Interaction.swift */; };
-		D9ED4134252E8274009F14DA /* ExtraElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4075252E8274009F14DA /* ExtraElement.swift */; };
-		D9ED4135252E8274009F14DA /* FormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4076252E8274009F14DA /* FormData.swift */; };
-		D9ED4136252E8274009F14DA /* ErrorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4077252E8274009F14DA /* ErrorInfo.swift */; };
-		D9ED4137252E8274009F14DA /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4078252E8274009F14DA /* Style.swift */; };
-		D9ED4138252E8274009F14DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4079252E8274009F14DA /* Checkbox.swift */; };
-		D9ED4139252E8274009F14DA /* InputElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED407A252E8274009F14DA /* InputElement.swift */; };
-		D9ED413A252E8274009F14DA /* Networks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED407B252E8274009F14DA /* Networks.swift */; };
-		D9ED413B252E8274009F14DA /* SelectOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED407C252E8274009F14DA /* SelectOption.swift */; };
-		D9ED413C252E8274009F14DA /* AccountRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED407D252E8274009F14DA /* AccountRegistration.swift */; };
-		D9ED413D252E8274009F14DA /* AccountFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED407E252E8274009F14DA /* AccountFormData.swift */; };
-		D9ED413E252E8274009F14DA /* TranslatedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4080252E8274009F14DA /* TranslatedModel.swift */; };
-		D9ED413F252E8274009F14DA /* TranslationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4082252E8274009F14DA /* TranslationKey.swift */; };
-		D9ED4140252E8274009F14DA /* TranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4084252E8274009F14DA /* TranslationProvider.swift */; };
-		D9ED4141252E8274009F14DA /* CombinedTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4085252E8274009F14DA /* CombinedTranslationProvider.swift */; };
-		D9ED4142252E8274009F14DA /* SharedTranslationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4086252E8274009F14DA /* SharedTranslationProvider.swift */; };
-		D9ED4143252E8274009F14DA /* log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4088252E8274009F14DA /* log.swift */; };
-		D9ED4144252E8274009F14DA /* InternalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4089252E8274009F14DA /* InternalError.swift */; };
-		D9ED4145252E8274009F14DA /* AssetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED408A252E8274009F14DA /* AssetProvider.swift */; };
-		D9ED4146252E8274009F14DA /* Input.ViewController.StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED408E252E8274009F14DA /* Input.ViewController.StateManager.swift */; };
-		D9ED4147252E8274009F14DA /* Input.NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED408F252E8274009F14DA /* Input.NavigationController.swift */; };
-		D9ED4148252E8274009F14DA /* InputModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4092252E8274009F14DA /* InputModifier.swift */; };
-		D9ED4149252E8274009F14DA /* TextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4093252E8274009F14DA /* TextFormatter.swift */; };
-		D9ED414A252E8274009F14DA /* FormattedTextValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4095252E8274009F14DA /* FormattedTextValue.swift */; };
-		D9ED414B252E8274009F14DA /* ReplaceableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4096252E8274009F14DA /* ReplaceableString.swift */; };
-		D9ED414C252E8274009F14DA /* TextFormatPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4097252E8274009F14DA /* TextFormatPattern.swift */; };
-		D9ED414D252E8274009F14DA /* PatternFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4099252E8274009F14DA /* PatternFormatter.swift */; };
-		D9ED414E252E8274009F14DA /* InputPatternFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED409A252E8274009F14DA /* InputPatternFormatter.swift */; };
-		D9ED414F252E8274009F14DA /* CaretPositionCorrector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED409B252E8274009F14DA /* CaretPositionCorrector.swift */; };
-		D9ED4150252E8274009F14DA /* String+characterAt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED409C252E8274009F14DA /* String+characterAt.swift */; };
-		D9ED4151252E8274009F14DA /* ExpirationDateInputModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED409E252E8274009F14DA /* ExpirationDateInputModifier.swift */; };
-		D9ED4152252E8274009F14DA /* UppercaseInputModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED409F252E8274009F14DA /* UppercaseInputModifier.swift */; };
-		D9ED4153252E8274009F14DA /* Input.SmartSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A0252E8274009F14DA /* Input.SmartSwitch.swift */; };
-		D9ED4154252E8274009F14DA /* Input.ViewController.PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A1252E8274009F14DA /* Input.ViewController.PaymentController.swift */; };
-		D9ED4155252E8274009F14DA /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A2252E8274009F14DA /* Input.swift */; };
-		D9ED4156252E8274009F14DA /* Input.Table.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A4252E8274009F14DA /* Input.Table.Controller.swift */; };
-		D9ED4157252E8274009F14DA /* Input.Table.Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40A5252E8274009F14DA /* Input.Table.Validator.swift */; };
-		D9ED4162252E8274009F14DA /* Input.Table.DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B3252E8274009F14DA /* Input.Table.DataSource.swift */; };
-		D9ED4163252E8274009F14DA /* Input.Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B4252E8274009F14DA /* Input.Table.swift */; };
-		D9ED4164252E8274009F14DA /* Input.Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B6252E8274009F14DA /* Input.Network.swift */; };
-		D9ED4165252E8274009F14DA /* Input.Field.Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B8252E8274009F14DA /* Input.Field.Checkbox.swift */; };
-		D9ED4166252E8274009F14DA /* Input.Field.Hidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40B9252E8274009F14DA /* Input.Field.Hidden.swift */; };
-		D9ED4167252E8274009F14DA /* Input.Field.AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40BA252E8274009F14DA /* Input.Field.AccountNumber.swift */; };
-		D9ED4168252E8274009F14DA /* Input.Field.IBAN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40BB252E8274009F14DA /* Input.Field.IBAN.swift */; };
-		D9ED4169252E8274009F14DA /* Input.Field.HolderName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40BC252E8274009F14DA /* Input.Field.HolderName.swift */; };
-		D9ED416A252E8274009F14DA /* Input.Field.Generic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40BD252E8274009F14DA /* Input.Field.Generic.swift */; };
-		D9ED416B252E8274009F14DA /* Input.Field.BankCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40BE252E8274009F14DA /* Input.Field.BankCode.swift */; };
-		D9ED416C252E8274009F14DA /* Input.Field.BIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40BF252E8274009F14DA /* Input.Field.BIC.swift */; };
-		D9ED416D252E8275009F14DA /* Input.Field.Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C0252E8274009F14DA /* Input.Field.Button.swift */; };
-		D9ED416E252E8275009F14DA /* Input.Field.ExpiryDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C1252E8274009F14DA /* Input.Field.ExpiryDate.swift */; };
-		D9ED416F252E8275009F14DA /* Input.Field.VerificationCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C2252E8274009F14DA /* Input.Field.VerificationCode.swift */; };
-		D9ED4170252E8275009F14DA /* Input.Field.Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C3252E8274009F14DA /* Input.Field.Label.swift */; };
-		D9ED4171252E8275009F14DA /* Input.Field.BasicText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C4252E8274009F14DA /* Input.Field.BasicText.swift */; };
-		D9ED4172252E8275009F14DA /* Input.Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C5252E8274009F14DA /* Input.Field.swift */; };
-		D9ED4173252E8275009F14DA /* Input.Field.Validation.IBAN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C7252E8274009F14DA /* Input.Field.Validation.IBAN.swift */; };
-		D9ED4174252E8275009F14DA /* Input.Field.Validation.ExpiryDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C8252E8274009F14DA /* Input.Field.Validation.ExpiryDate.swift */; };
-		D9ED4175252E8275009F14DA /* Input.Field.Validation.Luhn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40C9252E8274009F14DA /* Input.Field.Validation.Luhn.swift */; };
-		D9ED4176252E8275009F14DA /* Input.Field.Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40CA252E8274009F14DA /* Input.Field.Validation.swift */; };
-		D9ED4177252E8275009F14DA /* Input.ModelTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40CB252E8274009F14DA /* Input.ModelTransformer.swift */; };
-		D9ED4178252E8275009F14DA /* Input.TextHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40CD252E8274009F14DA /* Input.TextHeader.swift */; };
-		D9ED4179252E8275009F14DA /* Input.ImagesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40CE252E8274009F14DA /* Input.ImagesHeader.swift */; };
-		D9ED417A252E8275009F14DA /* InputElementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D0252E8274009F14DA /* InputElementModel.swift */; };
-		D9ED417B252E8275009F14DA /* SelectInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D1252E8274009F14DA /* SelectInputField.swift */; };
-		D9ED417C252E8275009F14DA /* DefinesKeyboardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D2252E8274009F14DA /* DefinesKeyboardStyle.swift */; };
-		D9ED417D252E8275009F14DA /* SupportsPrimaryAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D3252E8274009F14DA /* SupportsPrimaryAction.swift */; };
-		D9ED417E252E8275009F14DA /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D4252E8274009F14DA /* InputField.swift */; };
-		D9ED417F252E8275009F14DA /* Validatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D5252E8274009F14DA /* Validatable.swift */; };
-		D9ED4180252E8275009F14DA /* CellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D6252E8274009F14DA /* CellRepresentable.swift */; };
-		D9ED4181252E8275009F14DA /* InputCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D7252E8274009F14DA /* InputCellDelegate.swift */; };
-		D9ED4182252E8275009F14DA /* Selectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D8252E8274009F14DA /* Selectable.swift */; };
-		D9ED4183252E8275009F14DA /* TextInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40D9252E8274009F14DA /* TextInputField.swift */; };
-		D9ED4184252E8275009F14DA /* Input.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40DA252E8274009F14DA /* Input.ViewController.swift */; };
-		D9ED4185252E8275009F14DA /* List.Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40DC252E8274009F14DA /* List.Router.swift */; };
-		D9ED4186252E8275009F14DA /* List.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40DD252E8274009F14DA /* List.ViewController.swift */; };
-		D9ED4187252E8275009F14DA /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40DE252E8274009F14DA /* List.swift */; };
-		D9ED4188252E8275009F14DA /* List.Table.DataSource.SingleNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40E1252E8274009F14DA /* List.Table.DataSource.SingleNetworkRow.swift */; };
-		D9ED4189252E8275009F14DA /* List.Table.DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40E2252E8274009F14DA /* List.Table.DataSource.swift */; };
-		D9ED418A252E8275009F14DA /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40E3252E8274009F14DA /* List.Table.DataSource.GroupedNetworkRow.swift */; };
-		D9ED418B252E8275009F14DA /* List.Table.DataSource.AccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40E4252E8274009F14DA /* List.Table.DataSource.AccountRow.swift */; };
-		D9ED418C252E8275009F14DA /* List.Table.SingleLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40E6252E8274009F14DA /* List.Table.SingleLabelCell.swift */; };
-		D9ED418D252E8275009F14DA /* List.Table.BorderedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40E7252E8274009F14DA /* List.Table.BorderedCell.swift */; };
-		D9ED418E252E8275009F14DA /* List.Table.DetailedLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40E8252E8274009F14DA /* List.Table.DetailedLabelCell.swift */; };
-		D9ED418F252E8275009F14DA /* List.Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40E9252E8274009F14DA /* List.Table.swift */; };
-		D9ED4190252E8275009F14DA /* LoadableLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40EA252E8274009F14DA /* LoadableLogo.swift */; };
-		D9ED4191252E8275009F14DA /* List.Table.GroupingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40EB252E8274009F14DA /* List.Table.GroupingService.swift */; };
-		D9ED4192252E8275009F14DA /* List.Table.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40EC252E8274009F14DA /* List.Table.Controller.swift */; };
-		D9ED4193252E8275009F14DA /* List.Table.SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40EE252E8274009F14DA /* List.Table.SectionHeader.swift */; };
-		D9ED4194252E8275009F14DA /* List.Table.TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40EF252E8274009F14DA /* List.Table.TableView.swift */; };
-		D9ED4195252E8275009F14DA /* NetworkOperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F0252E8274009F14DA /* NetworkOperationResultHandler.swift */; };
-		D9ED4196252E8275009F14DA /* String+removeCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F2252E8274009F14DA /* String+removeCharacters.swift */; };
-		D9ED4197252E8275009F14DA /* Bool+stringValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F3252E8274009F14DA /* Bool+stringValue.swift */; };
-		D9ED4198252E8275009F14DA /* mergeClosures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F5252E8274009F14DA /* mergeClosures.swift */; };
-		D9ED4199252E8275009F14DA /* Error+isNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F6252E8274009F14DA /* Error+isNetworkError.swift */; };
-		D9ED419A252E8275009F14DA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40F8252E8274009F14DA /* Theme.swift */; };
-		D9ED419B252E8275009F14DA /* TranslatedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40FA252E8274009F14DA /* TranslatedError.swift */; };
-		D9ED419C252E8275009F14DA /* PaymentNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40FB252E8274009F14DA /* PaymentNetwork.swift */; };
-		D9ED419D252E8275009F14DA /* RegisteredAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40FC252E8274009F14DA /* RegisteredAccount.swift */; };
-		D9ED419E252E8275009F14DA /* PaymentSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40FD252E8274009F14DA /* PaymentSession.swift */; };
-		D9ED419F252E8275009F14DA /* UIAlertController.PreparedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40FE252E8274009F14DA /* UIAlertController.PreparedError.swift */; };
-		D9ED41A0252E8275009F14DA /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED40FF252E8274009F14DA /* Loadable.swift */; };
-		D9ED41A1252E8275009F14DA /* SlideInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4101252E8274009F14DA /* SlideInViewController.swift */; };
-		D9ED41A2252E8275009F14DA /* SlideInPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4102252E8274009F14DA /* SlideInPresentationManager.swift */; };
-		D9ED41A3252E8275009F14DA /* SlideInPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4103252E8274009F14DA /* SlideInPresentationController.swift */; };
-		D9ED41A4252E8275009F14DA /* PaymentSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4105252E8274009F14DA /* PaymentSessionProvider.swift */; };
-		D9ED41A5252E8275009F14DA /* DownloadTranslationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4106252E8274009F14DA /* DownloadTranslationService.swift */; };
-		D9ED41A6252E8275009F14DA /* PaymentSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4107252E8274009F14DA /* PaymentSessionService.swift */; };
-		D9ED41A7252E8275009F14DA /* Result+interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4109252E8274009F14DA /* Result+interaction.swift */; };
-		D9ED41A8252E8275009F14DA /* BasicPaymentService.ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED410B252E8274009F14DA /* BasicPaymentService.ResponseParser.swift */; };
-		D9ED41A9252E8275009F14DA /* RedirectCallbackHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED410C252E8274009F14DA /* RedirectCallbackHandler.swift */; };
-		D9ED41AA252E8275009F14DA /* BasicPaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED410D252E8274009F14DA /* BasicPaymentService.swift */; };
-		D9ED41AB252E8275009F14DA /* PaymentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED410E252E8274009F14DA /* PaymentResult.swift */; };
-		D9ED41AC252E8275009F14DA /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED410F252E8274009F14DA /* PaymentService.swift */; };
-		D9ED41AD252E8275009F14DA /* PaymentServicesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4110252E8274009F14DA /* PaymentServicesFactory.swift */; };
-		D9ED41AE252E8275009F14DA /* CustomErrorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4111252E8274009F14DA /* CustomErrorInfo.swift */; };
-		D9ED41AF252E8275009F14DA /* PaymentServiceParsedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4112252E8274009F14DA /* PaymentServiceParsedResponse.swift */; };
-		D9ED41B0252E8275009F14DA /* PaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4113252E8274009F14DA /* PaymentRequest.swift */; };
-		D9ED41B1252E8275009F14DA /* DataDownloadProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4114252E8274009F14DA /* DataDownloadProvider.swift */; };
-		D9ED41B2252E8275009F14DA /* DequeueableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4116252E8274009F14DA /* DequeueableCell.swift */; };
-		D9ED41B3252E8275009F14DA /* PaymentDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4117252E8274009F14DA /* PaymentDelegate.swift */; };
-		D9ED41B4252E8275009F14DA /* KeyboardChangeFrameObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9ED4118252E8274009F14DA /* KeyboardChangeFrameObserver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,173 +72,173 @@
 		D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFactory.ListResult.swift; sourceTree = "<group>"; };
 		D96BB8CB249FEBC500C2AD73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D9A0DA1C256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CVVTextFieldViewCell.swift; sourceTree = "<group>"; };
-		D9A0DA1D256BE842009CE983 /* Input.Table.LabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LabelViewCell.swift; sourceTree = "<group>"; };
-		D9A0DA1E256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.ClearButtonController.swift; sourceTree = "<group>"; };
-		D9A0DA1F256BE842009CE983 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
-		D9A0DA20256BE842009CE983 /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
-		D9A0DA21256BE842009CE983 /* Input.Table.TextFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.swift; sourceTree = "<group>"; };
-		D9A0DA22256BE842009CE983 /* Input.Table.ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ButtonCell.swift; sourceTree = "<group>"; };
-		D9A0DA25256BE842009CE983 /* Input.Table.ImagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesView.swift; sourceTree = "<group>"; };
-		D9A0DA26256BE842009CE983 /* Input.Table.ImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImageViewCell.swift; sourceTree = "<group>"; };
-		D9A0DA27256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionViewController.swift; sourceTree = "<group>"; };
-		D9A0DA28256BE842009CE983 /* Input.Table.ImagesCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionView.swift; sourceTree = "<group>"; };
-		D9A0DA29256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DetailedTextLogoView.swift; sourceTree = "<group>"; };
-		D9A0DA2A256BE842009CE983 /* Input.Table.LogoTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LogoTextView.swift; sourceTree = "<group>"; };
+		D995982B257D65630040D131 /* Redirect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Redirect.swift; sourceTree = "<group>"; };
+		D995982C257D65630040D131 /* PaymentAmount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentAmount.swift; sourceTree = "<group>"; };
+		D995982D257D65630040D131 /* ApplicableNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicableNetwork.swift; sourceTree = "<group>"; };
+		D995982E257D65630040D131 /* PresetAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetAccount.swift; sourceTree = "<group>"; };
+		D995982F257D65630040D131 /* ListResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListResult.swift; sourceTree = "<group>"; };
+		D9959830257D65630040D131 /* InstallmentsPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentsPlan.swift; sourceTree = "<group>"; };
+		D9959831257D65630040D131 /* Parameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameter.swift; sourceTree = "<group>"; };
+		D9959832257D65630040D131 /* InstallmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallmentItem.swift; sourceTree = "<group>"; };
+		D9959833257D65630040D131 /* AccountMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMask.swift; sourceTree = "<group>"; };
+		D9959834257D65630040D131 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		D9959835257D65630040D131 /* Installments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installments.swift; sourceTree = "<group>"; };
+		D9959836257D65630040D131 /* ProviderParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderParameters.swift; sourceTree = "<group>"; };
+		D9959837257D65630040D131 /* CustomerFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerFormData.swift; sourceTree = "<group>"; };
+		D9959838257D65630040D131 /* OperationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationResult.swift; sourceTree = "<group>"; };
+		D9959839257D65630040D131 /* ExtraElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElements.swift; sourceTree = "<group>"; };
+		D995983A257D65630040D131 /* PaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethod.swift; sourceTree = "<group>"; };
+		D995983B257D65630040D131 /* Interaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interaction.swift; sourceTree = "<group>"; };
+		D995983C257D65630040D131 /* ExtraElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElement.swift; sourceTree = "<group>"; };
+		D995983D257D65630040D131 /* FormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormData.swift; sourceTree = "<group>"; };
+		D995983E257D65630040D131 /* ErrorInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorInfo.swift; sourceTree = "<group>"; };
+		D995983F257D65630040D131 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		D9959840257D65630040D131 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
+		D9959841257D65630040D131 /* InputElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputElement.swift; sourceTree = "<group>"; };
+		D9959842257D65630040D131 /* Networks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networks.swift; sourceTree = "<group>"; };
+		D9959843257D65630040D131 /* SelectOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOption.swift; sourceTree = "<group>"; };
+		D9959844257D65630040D131 /* AccountRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRegistration.swift; sourceTree = "<group>"; };
+		D9959845257D65630040D131 /* AccountFormData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountFormData.swift; sourceTree = "<group>"; };
+		D9959847257D65630040D131 /* TranslatedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatedModel.swift; sourceTree = "<group>"; };
+		D9959849257D65630040D131 /* TranslationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationProvider.swift; sourceTree = "<group>"; };
+		D995984A257D65630040D131 /* CombinedTranslationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedTranslationProvider.swift; sourceTree = "<group>"; };
+		D995984B257D65630040D131 /* SharedTranslationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTranslationProvider.swift; sourceTree = "<group>"; };
+		D995984D257D65630040D131 /* TranslationKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationKey.swift; sourceTree = "<group>"; };
+		D995984F257D65630040D131 /* log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
+		D9959850257D65630040D131 /* InternalError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternalError.swift; sourceTree = "<group>"; };
+		D9959851257D65630040D131 /* AssetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
+		D9959855257D65630040D131 /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
+		D9959856257D65630040D131 /* Input.NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.NavigationController.swift; sourceTree = "<group>"; };
+		D9959859257D65630040D131 /* InputModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputModifier.swift; sourceTree = "<group>"; };
+		D995985A257D65630040D131 /* TextFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatter.swift; sourceTree = "<group>"; };
+		D995985C257D65630040D131 /* FormattedTextValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattedTextValue.swift; sourceTree = "<group>"; };
+		D995985D257D65630040D131 /* ReplaceableString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceableString.swift; sourceTree = "<group>"; };
+		D995985E257D65630040D131 /* TextFormatPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFormatPattern.swift; sourceTree = "<group>"; };
+		D9959860257D65630040D131 /* PatternFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternFormatter.swift; sourceTree = "<group>"; };
+		D9959861257D65630040D131 /* InputPatternFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPatternFormatter.swift; sourceTree = "<group>"; };
+		D9959862257D65630040D131 /* CaretPositionCorrector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaretPositionCorrector.swift; sourceTree = "<group>"; };
+		D9959863257D65630040D131 /* String+characterAt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+characterAt.swift"; sourceTree = "<group>"; };
+		D9959865257D65630040D131 /* ExpirationDateInputModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateInputModifier.swift; sourceTree = "<group>"; };
+		D9959866257D65630040D131 /* UppercaseInputModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UppercaseInputModifier.swift; sourceTree = "<group>"; };
+		D9959867257D65630040D131 /* Input.SmartSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.SmartSwitch.swift; sourceTree = "<group>"; };
+		D9959868257D65630040D131 /* Input.ViewController.PaymentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.PaymentController.swift; sourceTree = "<group>"; };
+		D9959869257D65630040D131 /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
+		D995986B257D65630040D131 /* Input.Table.Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.Controller.swift; sourceTree = "<group>"; };
+		D995986C257D65630040D131 /* Input.Table.Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.Validator.swift; sourceTree = "<group>"; };
+		D995986E257D65630040D131 /* Input.Table.CVVTextFieldViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.CVVTextFieldViewCell.swift; sourceTree = "<group>"; };
+		D995986F257D65630040D131 /* Input.Table.LabelViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.LabelViewCell.swift; sourceTree = "<group>"; };
+		D9959870257D65630040D131 /* Input.Table.TextFieldController.ClearButtonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.ClearButtonController.swift; sourceTree = "<group>"; };
+		D9959871257D65630040D131 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
+		D9959872257D65630040D131 /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
+		D9959873257D65630040D131 /* Input.Table.TextFieldController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.swift; sourceTree = "<group>"; };
+		D9959874257D65630040D131 /* Input.Table.ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.ButtonCell.swift; sourceTree = "<group>"; };
+		D9959877257D65630040D131 /* Input.Table.ImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesView.swift; sourceTree = "<group>"; };
+		D9959878257D65630040D131 /* Input.Table.ImageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.ImageViewCell.swift; sourceTree = "<group>"; };
+		D9959879257D65630040D131 /* Input.Table.ImagesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionViewController.swift; sourceTree = "<group>"; };
+		D995987A257D65630040D131 /* Input.Table.ImagesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.ImagesCollectionView.swift; sourceTree = "<group>"; };
+		D995987B257D65630040D131 /* Input.Table.DetailedTextLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.DetailedTextLogoView.swift; sourceTree = "<group>"; };
+		D995987C257D65630040D131 /* Input.Table.LogoTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.LogoTextView.swift; sourceTree = "<group>"; };
+		D995987D257D65630040D131 /* Input.Table.DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.DataSource.swift; sourceTree = "<group>"; };
+		D995987E257D65630040D131 /* Input.Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.swift; sourceTree = "<group>"; };
+		D9959880257D65630040D131 /* Input.Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Network.swift; sourceTree = "<group>"; };
+		D9959882257D65630040D131 /* Input.Field.Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Checkbox.swift; sourceTree = "<group>"; };
+		D9959883257D65630040D131 /* Input.Field.Hidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Hidden.swift; sourceTree = "<group>"; };
+		D9959884257D65630040D131 /* Input.Field.AccountNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.AccountNumber.swift; sourceTree = "<group>"; };
+		D9959885257D65630040D131 /* Input.Field.IBAN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.IBAN.swift; sourceTree = "<group>"; };
+		D9959886257D65630040D131 /* Input.Field.HolderName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.HolderName.swift; sourceTree = "<group>"; };
+		D9959887257D65630040D131 /* Input.Field.Generic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Generic.swift; sourceTree = "<group>"; };
+		D9959888257D65630040D131 /* Input.Field.BankCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.BankCode.swift; sourceTree = "<group>"; };
+		D9959889257D65630040D131 /* Input.Field.BIC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.BIC.swift; sourceTree = "<group>"; };
+		D995988A257D65630040D131 /* Input.Field.Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Button.swift; sourceTree = "<group>"; };
+		D995988B257D65630040D131 /* Input.Field.ExpiryDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.ExpiryDate.swift; sourceTree = "<group>"; };
+		D995988C257D65630040D131 /* Input.Field.VerificationCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.VerificationCode.swift; sourceTree = "<group>"; };
+		D995988D257D65630040D131 /* Input.Field.Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Label.swift; sourceTree = "<group>"; };
+		D995988E257D65630040D131 /* Input.Field.BasicText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.BasicText.swift; sourceTree = "<group>"; };
+		D995988F257D65630040D131 /* Input.Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.swift; sourceTree = "<group>"; };
+		D9959891257D65630040D131 /* Input.Field.Validation.IBAN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.IBAN.swift; sourceTree = "<group>"; };
+		D9959892257D65630040D131 /* Input.Field.Validation.ExpiryDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.ExpiryDate.swift; sourceTree = "<group>"; };
+		D9959893257D65630040D131 /* Input.Field.Validation.Luhn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.Luhn.swift; sourceTree = "<group>"; };
+		D9959894257D65630040D131 /* Input.Field.Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.swift; sourceTree = "<group>"; };
+		D9959895257D65630040D131 /* Input.ModelTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.swift; sourceTree = "<group>"; };
+		D9959897257D65630040D131 /* Input.TextHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.TextHeader.swift; sourceTree = "<group>"; };
+		D9959898257D65630040D131 /* Input.ImagesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ImagesHeader.swift; sourceTree = "<group>"; };
+		D995989A257D65630040D131 /* InputElementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputElementModel.swift; sourceTree = "<group>"; };
+		D995989B257D65630040D131 /* SelectInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectInputField.swift; sourceTree = "<group>"; };
+		D995989C257D65630040D131 /* DefinesKeyboardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinesKeyboardStyle.swift; sourceTree = "<group>"; };
+		D995989D257D65630040D131 /* SupportsPrimaryAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportsPrimaryAction.swift; sourceTree = "<group>"; };
+		D995989E257D65630040D131 /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
+		D995989F257D65630040D131 /* Validatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validatable.swift; sourceTree = "<group>"; };
+		D99598A0257D65630040D131 /* CellRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellRepresentable.swift; sourceTree = "<group>"; };
+		D99598A1257D65630040D131 /* InputCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCellDelegate.swift; sourceTree = "<group>"; };
+		D99598A2257D65630040D131 /* Selectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
+		D99598A3257D65630040D131 /* TextInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
+		D99598A4257D65630040D131 /* Input.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.swift; sourceTree = "<group>"; };
+		D99598A6257D65630040D131 /* List.Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Router.swift; sourceTree = "<group>"; };
+		D99598A7257D65630040D131 /* List.ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.ViewController.swift; sourceTree = "<group>"; };
+		D99598A9257D65630040D131 /* NetworkOperationResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperationResultHandler.swift; sourceTree = "<group>"; };
+		D99598AA257D65630040D131 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		D99598AD257D65630040D131 /* List.Table.DataSource.SingleNetworkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.SingleNetworkRow.swift; sourceTree = "<group>"; };
+		D99598AE257D65630040D131 /* List.Table.DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.swift; sourceTree = "<group>"; };
+		D99598AF257D65630040D131 /* List.Table.DataSource.GroupedNetworkRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.GroupedNetworkRow.swift; sourceTree = "<group>"; };
+		D99598B0257D65630040D131 /* List.Table.DataSource.AccountRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.AccountRow.swift; sourceTree = "<group>"; };
+		D99598B2257D65630040D131 /* List.Table.SingleLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.SingleLabelCell.swift; sourceTree = "<group>"; };
+		D99598B3257D65630040D131 /* List.Table.BorderedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.BorderedCell.swift; sourceTree = "<group>"; };
+		D99598B4257D65630040D131 /* List.Table.DetailedLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DetailedLabelCell.swift; sourceTree = "<group>"; };
+		D99598B5257D65630040D131 /* List.Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.swift; sourceTree = "<group>"; };
+		D99598B6257D65630040D131 /* LoadableLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableLogo.swift; sourceTree = "<group>"; };
+		D99598B7257D65630040D131 /* List.Table.GroupingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.GroupingService.swift; sourceTree = "<group>"; };
+		D99598B8257D65630040D131 /* List.Table.Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.Controller.swift; sourceTree = "<group>"; };
+		D99598BA257D65630040D131 /* List.Table.SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.SectionHeader.swift; sourceTree = "<group>"; };
+		D99598BB257D65630040D131 /* List.Table.TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.TableView.swift; sourceTree = "<group>"; };
+		D99598BD257D65630040D131 /* String+removeCharacters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+removeCharacters.swift"; sourceTree = "<group>"; };
+		D99598BE257D65630040D131 /* Bool+stringValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+stringValue.swift"; sourceTree = "<group>"; };
+		D99598C0257D65630040D131 /* mergeClosures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mergeClosures.swift; sourceTree = "<group>"; };
+		D99598C1257D65630040D131 /* Error+isNetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+isNetworkError.swift"; sourceTree = "<group>"; };
+		D99598C3257D65630040D131 /* TooltipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipViewController.swift; sourceTree = "<group>"; };
+		D99598C5257D65630040D131 /* SlideInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideInViewController.swift; sourceTree = "<group>"; };
+		D99598C6257D65630040D131 /* SlideInPresentationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideInPresentationManager.swift; sourceTree = "<group>"; };
+		D99598C7257D65630040D131 /* SlideInPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideInPresentationController.swift; sourceTree = "<group>"; };
+		D99598C9257D65630040D131 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		D99598CB257D65630040D131 /* PaymentNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentNetwork.swift; sourceTree = "<group>"; };
+		D99598CC257D65630040D131 /* RegisteredAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredAccount.swift; sourceTree = "<group>"; };
+		D99598CD257D65630040D131 /* PaymentSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSession.swift; sourceTree = "<group>"; };
+		D99598CE257D65630040D131 /* UIAlertController.PreparedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.PreparedError.swift; sourceTree = "<group>"; };
+		D99598CF257D65630040D131 /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
+		D99598D2257D65630040D131 /* PaymentSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionProvider.swift; sourceTree = "<group>"; };
+		D99598D3257D65630040D131 /* PaymentSessionServiceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionServiceDelegate.swift; sourceTree = "<group>"; };
+		D99598D4257D65630040D131 /* DownloadTranslationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTranslationService.swift; sourceTree = "<group>"; };
+		D99598D5257D65630040D131 /* PaymentSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionService.swift; sourceTree = "<group>"; };
+		D99598D6257D65630040D131 /* DataDownloadProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDownloadProvider.swift; sourceTree = "<group>"; };
+		D99598D8257D65630040D131 /* Result+interaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+interaction.swift"; sourceTree = "<group>"; };
+		D99598DA257D65630040D131 /* BasicPaymentService.ResponseParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicPaymentService.ResponseParser.swift; sourceTree = "<group>"; };
+		D99598DB257D65630040D131 /* RedirectCallbackHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectCallbackHandler.swift; sourceTree = "<group>"; };
+		D99598DC257D65630040D131 /* BasicPaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicPaymentService.swift; sourceTree = "<group>"; };
+		D99598DD257D65630040D131 /* PaymentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentResult.swift; sourceTree = "<group>"; };
+		D99598DE257D65630040D131 /* PaymentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
+		D99598DF257D65630040D131 /* PaymentServicesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentServicesFactory.swift; sourceTree = "<group>"; };
+		D99598E0257D65630040D131 /* CustomErrorInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorInfo.swift; sourceTree = "<group>"; };
+		D99598E1257D65630040D131 /* PaymentServiceParsedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentServiceParsedResponse.swift; sourceTree = "<group>"; };
+		D99598E2257D65630040D131 /* PaymentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequest.swift; sourceTree = "<group>"; };
+		D99598E4257D65630040D131 /* DequeueableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DequeueableCell.swift; sourceTree = "<group>"; };
+		D99598E5257D65630040D131 /* PaymentDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDelegate.swift; sourceTree = "<group>"; };
+		D99598E6257D65630040D131 /* KeyboardChangeFrameObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardChangeFrameObserver.swift; sourceTree = "<group>"; };
+		D99598E9257D65630040D131 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
+		D99598EA257D65630040D131 /* SendRequestOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRequestOperation.swift; sourceTree = "<group>"; };
+		D99598EB257D65630040D131 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		D99598ED257D65630040D131 /* GetListResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetListResult.swift; sourceTree = "<group>"; };
+		D99598EE257D65630040D131 /* DownloadLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadLocalization.swift; sourceTree = "<group>"; };
+		D99598EF257D65630040D131 /* DownloadData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadData.swift; sourceTree = "<group>"; };
+		D99598F0257D65630040D131 /* URLSessionConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionConnection.swift; sourceTree = "<group>"; };
+		D99598F2257D65630040D131 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		D99598F3257D65630040D131 /* GetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRequest.swift; sourceTree = "<group>"; };
+		D99598F4257D65630040D131 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A88D92241C55040043F535 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
 		D9A88D94241C55040043F535 /* groups.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = groups.json; sourceTree = "<group>"; };
 		D9A88D95241C55040043F535 /* validations-default.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "validations-default.json"; sourceTree = "<group>"; };
-		D9BDD9D32567131900EF17E5 /* TooltipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipViewController.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9ED4057252E8274009F14DA /* AsynchronousOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
-		D9ED4058252E8274009F14DA /* SendRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendRequestOperation.swift; sourceTree = "<group>"; };
-		D9ED4059252E8274009F14DA /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		D9ED405B252E8274009F14DA /* GetListResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetListResult.swift; sourceTree = "<group>"; };
-		D9ED405C252E8274009F14DA /* DownloadLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadLocalization.swift; sourceTree = "<group>"; };
-		D9ED405D252E8274009F14DA /* DownloadData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadData.swift; sourceTree = "<group>"; };
-		D9ED405E252E8274009F14DA /* URLSessionConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionConnection.swift; sourceTree = "<group>"; };
-		D9ED4060252E8274009F14DA /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
-		D9ED4061252E8274009F14DA /* GetRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetRequest.swift; sourceTree = "<group>"; };
-		D9ED4062252E8274009F14DA /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		D9ED4064252E8274009F14DA /* Redirect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Redirect.swift; sourceTree = "<group>"; };
-		D9ED4065252E8274009F14DA /* PaymentAmount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentAmount.swift; sourceTree = "<group>"; };
-		D9ED4066252E8274009F14DA /* ApplicableNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicableNetwork.swift; sourceTree = "<group>"; };
-		D9ED4067252E8274009F14DA /* PresetAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetAccount.swift; sourceTree = "<group>"; };
-		D9ED4068252E8274009F14DA /* ListResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListResult.swift; sourceTree = "<group>"; };
-		D9ED4069252E8274009F14DA /* InstallmentsPlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstallmentsPlan.swift; sourceTree = "<group>"; };
-		D9ED406A252E8274009F14DA /* Parameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parameter.swift; sourceTree = "<group>"; };
-		D9ED406B252E8274009F14DA /* InstallmentItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstallmentItem.swift; sourceTree = "<group>"; };
-		D9ED406C252E8274009F14DA /* AccountMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountMask.swift; sourceTree = "<group>"; };
-		D9ED406D252E8274009F14DA /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		D9ED406E252E8274009F14DA /* Installments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Installments.swift; sourceTree = "<group>"; };
-		D9ED406F252E8274009F14DA /* ProviderParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderParameters.swift; sourceTree = "<group>"; };
-		D9ED4070252E8274009F14DA /* CustomerFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerFormData.swift; sourceTree = "<group>"; };
-		D9ED4071252E8274009F14DA /* OperationResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationResult.swift; sourceTree = "<group>"; };
-		D9ED4072252E8274009F14DA /* ExtraElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtraElements.swift; sourceTree = "<group>"; };
-		D9ED4073252E8274009F14DA /* PaymentMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentMethod.swift; sourceTree = "<group>"; };
-		D9ED4074252E8274009F14DA /* Interaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interaction.swift; sourceTree = "<group>"; };
-		D9ED4075252E8274009F14DA /* ExtraElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtraElement.swift; sourceTree = "<group>"; };
-		D9ED4076252E8274009F14DA /* FormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormData.swift; sourceTree = "<group>"; };
-		D9ED4077252E8274009F14DA /* ErrorInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorInfo.swift; sourceTree = "<group>"; };
-		D9ED4078252E8274009F14DA /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		D9ED4079252E8274009F14DA /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
-		D9ED407A252E8274009F14DA /* InputElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputElement.swift; sourceTree = "<group>"; };
-		D9ED407B252E8274009F14DA /* Networks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networks.swift; sourceTree = "<group>"; };
-		D9ED407C252E8274009F14DA /* SelectOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectOption.swift; sourceTree = "<group>"; };
-		D9ED407D252E8274009F14DA /* AccountRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRegistration.swift; sourceTree = "<group>"; };
-		D9ED407E252E8274009F14DA /* AccountFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountFormData.swift; sourceTree = "<group>"; };
-		D9ED4080252E8274009F14DA /* TranslatedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslatedModel.swift; sourceTree = "<group>"; };
-		D9ED4082252E8274009F14DA /* TranslationKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationKey.swift; sourceTree = "<group>"; };
-		D9ED4084252E8274009F14DA /* TranslationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslationProvider.swift; sourceTree = "<group>"; };
-		D9ED4085252E8274009F14DA /* CombinedTranslationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedTranslationProvider.swift; sourceTree = "<group>"; };
-		D9ED4086252E8274009F14DA /* SharedTranslationProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedTranslationProvider.swift; sourceTree = "<group>"; };
-		D9ED4088252E8274009F14DA /* log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = log.swift; sourceTree = "<group>"; };
-		D9ED4089252E8274009F14DA /* InternalError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalError.swift; sourceTree = "<group>"; };
-		D9ED408A252E8274009F14DA /* AssetProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetProvider.swift; sourceTree = "<group>"; };
-		D9ED408E252E8274009F14DA /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
-		D9ED408F252E8274009F14DA /* Input.NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.NavigationController.swift; sourceTree = "<group>"; };
-		D9ED4092252E8274009F14DA /* InputModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputModifier.swift; sourceTree = "<group>"; };
-		D9ED4093252E8274009F14DA /* TextFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFormatter.swift; sourceTree = "<group>"; };
-		D9ED4095252E8274009F14DA /* FormattedTextValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormattedTextValue.swift; sourceTree = "<group>"; };
-		D9ED4096252E8274009F14DA /* ReplaceableString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceableString.swift; sourceTree = "<group>"; };
-		D9ED4097252E8274009F14DA /* TextFormatPattern.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFormatPattern.swift; sourceTree = "<group>"; };
-		D9ED4099252E8274009F14DA /* PatternFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatternFormatter.swift; sourceTree = "<group>"; };
-		D9ED409A252E8274009F14DA /* InputPatternFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputPatternFormatter.swift; sourceTree = "<group>"; };
-		D9ED409B252E8274009F14DA /* CaretPositionCorrector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaretPositionCorrector.swift; sourceTree = "<group>"; };
-		D9ED409C252E8274009F14DA /* String+characterAt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+characterAt.swift"; sourceTree = "<group>"; };
-		D9ED409E252E8274009F14DA /* ExpirationDateInputModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpirationDateInputModifier.swift; sourceTree = "<group>"; };
-		D9ED409F252E8274009F14DA /* UppercaseInputModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UppercaseInputModifier.swift; sourceTree = "<group>"; };
-		D9ED40A0252E8274009F14DA /* Input.SmartSwitch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.SmartSwitch.swift; sourceTree = "<group>"; };
-		D9ED40A1252E8274009F14DA /* Input.ViewController.PaymentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.PaymentController.swift; sourceTree = "<group>"; };
-		D9ED40A2252E8274009F14DA /* Input.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
-		D9ED40A4252E8274009F14DA /* Input.Table.Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.Controller.swift; sourceTree = "<group>"; };
-		D9ED40A5252E8274009F14DA /* Input.Table.Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.Validator.swift; sourceTree = "<group>"; };
-		D9ED40B3252E8274009F14DA /* Input.Table.DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.DataSource.swift; sourceTree = "<group>"; };
-		D9ED40B4252E8274009F14DA /* Input.Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.swift; sourceTree = "<group>"; };
-		D9ED40B6252E8274009F14DA /* Input.Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Network.swift; sourceTree = "<group>"; };
-		D9ED40B8252E8274009F14DA /* Input.Field.Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Checkbox.swift; sourceTree = "<group>"; };
-		D9ED40B9252E8274009F14DA /* Input.Field.Hidden.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Hidden.swift; sourceTree = "<group>"; };
-		D9ED40BA252E8274009F14DA /* Input.Field.AccountNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.AccountNumber.swift; sourceTree = "<group>"; };
-		D9ED40BB252E8274009F14DA /* Input.Field.IBAN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.IBAN.swift; sourceTree = "<group>"; };
-		D9ED40BC252E8274009F14DA /* Input.Field.HolderName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.HolderName.swift; sourceTree = "<group>"; };
-		D9ED40BD252E8274009F14DA /* Input.Field.Generic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Generic.swift; sourceTree = "<group>"; };
-		D9ED40BE252E8274009F14DA /* Input.Field.BankCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.BankCode.swift; sourceTree = "<group>"; };
-		D9ED40BF252E8274009F14DA /* Input.Field.BIC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.BIC.swift; sourceTree = "<group>"; };
-		D9ED40C0252E8274009F14DA /* Input.Field.Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Button.swift; sourceTree = "<group>"; };
-		D9ED40C1252E8274009F14DA /* Input.Field.ExpiryDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.ExpiryDate.swift; sourceTree = "<group>"; };
-		D9ED40C2252E8274009F14DA /* Input.Field.VerificationCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.VerificationCode.swift; sourceTree = "<group>"; };
-		D9ED40C3252E8274009F14DA /* Input.Field.Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Label.swift; sourceTree = "<group>"; };
-		D9ED40C4252E8274009F14DA /* Input.Field.BasicText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.BasicText.swift; sourceTree = "<group>"; };
-		D9ED40C5252E8274009F14DA /* Input.Field.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.swift; sourceTree = "<group>"; };
-		D9ED40C7252E8274009F14DA /* Input.Field.Validation.IBAN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.IBAN.swift; sourceTree = "<group>"; };
-		D9ED40C8252E8274009F14DA /* Input.Field.Validation.ExpiryDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.ExpiryDate.swift; sourceTree = "<group>"; };
-		D9ED40C9252E8274009F14DA /* Input.Field.Validation.Luhn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.Luhn.swift; sourceTree = "<group>"; };
-		D9ED40CA252E8274009F14DA /* Input.Field.Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.swift; sourceTree = "<group>"; };
-		D9ED40CB252E8274009F14DA /* Input.ModelTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.swift; sourceTree = "<group>"; };
-		D9ED40CD252E8274009F14DA /* Input.TextHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.TextHeader.swift; sourceTree = "<group>"; };
-		D9ED40CE252E8274009F14DA /* Input.ImagesHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ImagesHeader.swift; sourceTree = "<group>"; };
-		D9ED40D0252E8274009F14DA /* InputElementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputElementModel.swift; sourceTree = "<group>"; };
-		D9ED40D1252E8274009F14DA /* SelectInputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectInputField.swift; sourceTree = "<group>"; };
-		D9ED40D2252E8274009F14DA /* DefinesKeyboardStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinesKeyboardStyle.swift; sourceTree = "<group>"; };
-		D9ED40D3252E8274009F14DA /* SupportsPrimaryAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportsPrimaryAction.swift; sourceTree = "<group>"; };
-		D9ED40D4252E8274009F14DA /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
-		D9ED40D5252E8274009F14DA /* Validatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validatable.swift; sourceTree = "<group>"; };
-		D9ED40D6252E8274009F14DA /* CellRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellRepresentable.swift; sourceTree = "<group>"; };
-		D9ED40D7252E8274009F14DA /* InputCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputCellDelegate.swift; sourceTree = "<group>"; };
-		D9ED40D8252E8274009F14DA /* Selectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selectable.swift; sourceTree = "<group>"; };
-		D9ED40D9252E8274009F14DA /* TextInputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
-		D9ED40DA252E8274009F14DA /* Input.ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.swift; sourceTree = "<group>"; };
-		D9ED40DC252E8274009F14DA /* List.Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Router.swift; sourceTree = "<group>"; };
-		D9ED40DD252E8274009F14DA /* List.ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.ViewController.swift; sourceTree = "<group>"; };
-		D9ED40DE252E8274009F14DA /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		D9ED40E1252E8274009F14DA /* List.Table.DataSource.SingleNetworkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.SingleNetworkRow.swift; sourceTree = "<group>"; };
-		D9ED40E2252E8274009F14DA /* List.Table.DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.swift; sourceTree = "<group>"; };
-		D9ED40E3252E8274009F14DA /* List.Table.DataSource.GroupedNetworkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.GroupedNetworkRow.swift; sourceTree = "<group>"; };
-		D9ED40E4252E8274009F14DA /* List.Table.DataSource.AccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.AccountRow.swift; sourceTree = "<group>"; };
-		D9ED40E6252E8274009F14DA /* List.Table.SingleLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.SingleLabelCell.swift; sourceTree = "<group>"; };
-		D9ED40E7252E8274009F14DA /* List.Table.BorderedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.BorderedCell.swift; sourceTree = "<group>"; };
-		D9ED40E8252E8274009F14DA /* List.Table.DetailedLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DetailedLabelCell.swift; sourceTree = "<group>"; };
-		D9ED40E9252E8274009F14DA /* List.Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.swift; sourceTree = "<group>"; };
-		D9ED40EA252E8274009F14DA /* LoadableLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadableLogo.swift; sourceTree = "<group>"; };
-		D9ED40EB252E8274009F14DA /* List.Table.GroupingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.GroupingService.swift; sourceTree = "<group>"; };
-		D9ED40EC252E8274009F14DA /* List.Table.Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.Controller.swift; sourceTree = "<group>"; };
-		D9ED40EE252E8274009F14DA /* List.Table.SectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.SectionHeader.swift; sourceTree = "<group>"; };
-		D9ED40EF252E8274009F14DA /* List.Table.TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.TableView.swift; sourceTree = "<group>"; };
-		D9ED40F0252E8274009F14DA /* NetworkOperationResultHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkOperationResultHandler.swift; sourceTree = "<group>"; };
-		D9ED40F2252E8274009F14DA /* String+removeCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+removeCharacters.swift"; sourceTree = "<group>"; };
-		D9ED40F3252E8274009F14DA /* Bool+stringValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+stringValue.swift"; sourceTree = "<group>"; };
-		D9ED40F5252E8274009F14DA /* mergeClosures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mergeClosures.swift; sourceTree = "<group>"; };
-		D9ED40F6252E8274009F14DA /* Error+isNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Error+isNetworkError.swift"; sourceTree = "<group>"; };
-		D9ED40F8252E8274009F14DA /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		D9ED40FA252E8274009F14DA /* TranslatedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslatedError.swift; sourceTree = "<group>"; };
-		D9ED40FB252E8274009F14DA /* PaymentNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentNetwork.swift; sourceTree = "<group>"; };
-		D9ED40FC252E8274009F14DA /* RegisteredAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisteredAccount.swift; sourceTree = "<group>"; };
-		D9ED40FD252E8274009F14DA /* PaymentSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSession.swift; sourceTree = "<group>"; };
-		D9ED40FE252E8274009F14DA /* UIAlertController.PreparedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController.PreparedError.swift; sourceTree = "<group>"; };
-		D9ED40FF252E8274009F14DA /* Loadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
-		D9ED4101252E8274009F14DA /* SlideInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInViewController.swift; sourceTree = "<group>"; };
-		D9ED4102252E8274009F14DA /* SlideInPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationManager.swift; sourceTree = "<group>"; };
-		D9ED4103252E8274009F14DA /* SlideInPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationController.swift; sourceTree = "<group>"; };
-		D9ED4105252E8274009F14DA /* PaymentSessionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSessionProvider.swift; sourceTree = "<group>"; };
-		D9ED4106252E8274009F14DA /* DownloadTranslationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadTranslationService.swift; sourceTree = "<group>"; };
-		D9ED4107252E8274009F14DA /* PaymentSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSessionService.swift; sourceTree = "<group>"; };
-		D9ED4109252E8274009F14DA /* Result+interaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+interaction.swift"; sourceTree = "<group>"; };
-		D9ED410B252E8274009F14DA /* BasicPaymentService.ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicPaymentService.ResponseParser.swift; sourceTree = "<group>"; };
-		D9ED410C252E8274009F14DA /* RedirectCallbackHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedirectCallbackHandler.swift; sourceTree = "<group>"; };
-		D9ED410D252E8274009F14DA /* BasicPaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicPaymentService.swift; sourceTree = "<group>"; };
-		D9ED410E252E8274009F14DA /* PaymentResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResult.swift; sourceTree = "<group>"; };
-		D9ED410F252E8274009F14DA /* PaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
-		D9ED4110252E8274009F14DA /* PaymentServicesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentServicesFactory.swift; sourceTree = "<group>"; };
-		D9ED4111252E8274009F14DA /* CustomErrorInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomErrorInfo.swift; sourceTree = "<group>"; };
-		D9ED4112252E8274009F14DA /* PaymentServiceParsedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentServiceParsedResponse.swift; sourceTree = "<group>"; };
-		D9ED4113252E8274009F14DA /* PaymentRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequest.swift; sourceTree = "<group>"; };
-		D9ED4114252E8274009F14DA /* DataDownloadProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataDownloadProvider.swift; sourceTree = "<group>"; };
-		D9ED4116252E8274009F14DA /* DequeueableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DequeueableCell.swift; sourceTree = "<group>"; };
-		D9ED4117252E8274009F14DA /* PaymentDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentDelegate.swift; sourceTree = "<group>"; };
-		D9ED4118252E8274009F14DA /* KeyboardChangeFrameObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardChangeFrameObserver.swift; sourceTree = "<group>"; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -550,51 +390,514 @@
 			path = Factory;
 			sourceTree = "<group>";
 		};
-		D9A0DA1B256BE842009CE983 /* Cell */ = {
+		D995982A257D65630040D131 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D9A0DA1C256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift */,
-				D9A0DA1D256BE842009CE983 /* Input.Table.LabelViewCell.swift */,
-				D9A0DA1E256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift */,
-				D9A0DA1F256BE842009CE983 /* Input.Table.CheckboxViewCell.swift */,
-				D9A0DA20256BE842009CE983 /* Input.Table.TextFieldViewCell.swift */,
-				D9A0DA21256BE842009CE983 /* Input.Table.TextFieldController.swift */,
-				D9A0DA22256BE842009CE983 /* Input.Table.ButtonCell.swift */,
-				D9A0DA23256BE842009CE983 /* Header */,
+				D995982B257D65630040D131 /* Redirect.swift */,
+				D995982C257D65630040D131 /* PaymentAmount.swift */,
+				D995982D257D65630040D131 /* ApplicableNetwork.swift */,
+				D995982E257D65630040D131 /* PresetAccount.swift */,
+				D995982F257D65630040D131 /* ListResult.swift */,
+				D9959830257D65630040D131 /* InstallmentsPlan.swift */,
+				D9959831257D65630040D131 /* Parameter.swift */,
+				D9959832257D65630040D131 /* InstallmentItem.swift */,
+				D9959833257D65630040D131 /* AccountMask.swift */,
+				D9959834257D65630040D131 /* .swiftlint.yml */,
+				D9959835257D65630040D131 /* Installments.swift */,
+				D9959836257D65630040D131 /* ProviderParameters.swift */,
+				D9959837257D65630040D131 /* CustomerFormData.swift */,
+				D9959838257D65630040D131 /* OperationResult.swift */,
+				D9959839257D65630040D131 /* ExtraElements.swift */,
+				D995983A257D65630040D131 /* PaymentMethod.swift */,
+				D995983B257D65630040D131 /* Interaction.swift */,
+				D995983C257D65630040D131 /* ExtraElement.swift */,
+				D995983D257D65630040D131 /* FormData.swift */,
+				D995983E257D65630040D131 /* ErrorInfo.swift */,
+				D995983F257D65630040D131 /* Style.swift */,
+				D9959840257D65630040D131 /* Checkbox.swift */,
+				D9959841257D65630040D131 /* InputElement.swift */,
+				D9959842257D65630040D131 /* Networks.swift */,
+				D9959843257D65630040D131 /* SelectOption.swift */,
+				D9959844257D65630040D131 /* AccountRegistration.swift */,
+				D9959845257D65630040D131 /* AccountFormData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D9959846257D65630040D131 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				D9959847257D65630040D131 /* TranslatedModel.swift */,
+				D9959848257D65630040D131 /* TranslationProviders */,
+				D995984C257D65630040D131 /* Strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		D9959848257D65630040D131 /* TranslationProviders */ = {
+			isa = PBXGroup;
+			children = (
+				D9959849257D65630040D131 /* TranslationProvider.swift */,
+				D995984A257D65630040D131 /* CombinedTranslationProvider.swift */,
+				D995984B257D65630040D131 /* SharedTranslationProvider.swift */,
+			);
+			path = TranslationProviders;
+			sourceTree = "<group>";
+		};
+		D995984C257D65630040D131 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				D995984D257D65630040D131 /* TranslationKey.swift */,
+			);
+			path = Strings;
+			sourceTree = "<group>";
+		};
+		D995984E257D65630040D131 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D995984F257D65630040D131 /* log.swift */,
+				D9959850257D65630040D131 /* InternalError.swift */,
+				D9959851257D65630040D131 /* AssetProvider.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		D9959852257D65630040D131 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D9959853257D65630040D131 /* Scenes */,
+				D99598BC257D65630040D131 /* Core */,
+				D99598C2257D65630040D131 /* ViewControllers */,
+				D99598C8257D65630040D131 /* Theme */,
+				D99598CA257D65630040D131 /* Model */,
+				D99598D0257D65630040D131 /* Service */,
+				D99598E3257D65630040D131 /* Protocols */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D9959853257D65630040D131 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				D9959854257D65630040D131 /* Input */,
+				D99598A5257D65630040D131 /* List */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		D9959854257D65630040D131 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				D9959855257D65630040D131 /* Input.ViewController.StateManager.swift */,
+				D9959856257D65630040D131 /* Input.NavigationController.swift */,
+				D9959857257D65630040D131 /* TextFormatter */,
+				D9959867257D65630040D131 /* Input.SmartSwitch.swift */,
+				D9959868257D65630040D131 /* Input.ViewController.PaymentController.swift */,
+				D9959869257D65630040D131 /* Input.swift */,
+				D995986A257D65630040D131 /* Table */,
+				D995987F257D65630040D131 /* Model */,
+				D9959899257D65630040D131 /* Protocols */,
+				D99598A4257D65630040D131 /* Input.ViewController.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		D9959857257D65630040D131 /* TextFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				D9959858257D65630040D131 /* Protocol */,
+				D995985B257D65630040D131 /* Model */,
+				D995985F257D65630040D131 /* Class */,
+				D9959863257D65630040D131 /* String+characterAt.swift */,
+				D9959864257D65630040D131 /* InputModifier */,
+			);
+			path = TextFormatter;
+			sourceTree = "<group>";
+		};
+		D9959858257D65630040D131 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				D9959859257D65630040D131 /* InputModifier.swift */,
+				D995985A257D65630040D131 /* TextFormatter.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		D995985B257D65630040D131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D995985C257D65630040D131 /* FormattedTextValue.swift */,
+				D995985D257D65630040D131 /* ReplaceableString.swift */,
+				D995985E257D65630040D131 /* TextFormatPattern.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D995985F257D65630040D131 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				D9959860257D65630040D131 /* PatternFormatter.swift */,
+				D9959861257D65630040D131 /* InputPatternFormatter.swift */,
+				D9959862257D65630040D131 /* CaretPositionCorrector.swift */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
+		D9959864257D65630040D131 /* InputModifier */ = {
+			isa = PBXGroup;
+			children = (
+				D9959865257D65630040D131 /* ExpirationDateInputModifier.swift */,
+				D9959866257D65630040D131 /* UppercaseInputModifier.swift */,
+			);
+			path = InputModifier;
+			sourceTree = "<group>";
+		};
+		D995986A257D65630040D131 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				D995986B257D65630040D131 /* Input.Table.Controller.swift */,
+				D995986C257D65630040D131 /* Input.Table.Validator.swift */,
+				D995986D257D65630040D131 /* Cell */,
+				D995987D257D65630040D131 /* Input.Table.DataSource.swift */,
+				D995987E257D65630040D131 /* Input.Table.swift */,
+			);
+			path = Table;
+			sourceTree = "<group>";
+		};
+		D995986D257D65630040D131 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D995986E257D65630040D131 /* Input.Table.CVVTextFieldViewCell.swift */,
+				D995986F257D65630040D131 /* Input.Table.LabelViewCell.swift */,
+				D9959870257D65630040D131 /* Input.Table.TextFieldController.ClearButtonController.swift */,
+				D9959871257D65630040D131 /* Input.Table.CheckboxViewCell.swift */,
+				D9959872257D65630040D131 /* Input.Table.TextFieldViewCell.swift */,
+				D9959873257D65630040D131 /* Input.Table.TextFieldController.swift */,
+				D9959874257D65630040D131 /* Input.Table.ButtonCell.swift */,
+				D9959875257D65630040D131 /* Header */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		D9A0DA23256BE842009CE983 /* Header */ = {
+		D9959875257D65630040D131 /* Header */ = {
 			isa = PBXGroup;
 			children = (
-				D9A0DA24256BE842009CE983 /* ImagesCollection */,
-				D9A0DA29256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift */,
-				D9A0DA2A256BE842009CE983 /* Input.Table.LogoTextView.swift */,
+				D9959876257D65630040D131 /* ImagesCollection */,
+				D995987B257D65630040D131 /* Input.Table.DetailedTextLogoView.swift */,
+				D995987C257D65630040D131 /* Input.Table.LogoTextView.swift */,
 			);
 			path = Header;
 			sourceTree = "<group>";
 		};
-		D9A0DA24256BE842009CE983 /* ImagesCollection */ = {
+		D9959876257D65630040D131 /* ImagesCollection */ = {
 			isa = PBXGroup;
 			children = (
-				D9A0DA25256BE842009CE983 /* Input.Table.ImagesView.swift */,
-				D9A0DA26256BE842009CE983 /* Input.Table.ImageViewCell.swift */,
-				D9A0DA27256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift */,
-				D9A0DA28256BE842009CE983 /* Input.Table.ImagesCollectionView.swift */,
+				D9959877257D65630040D131 /* Input.Table.ImagesView.swift */,
+				D9959878257D65630040D131 /* Input.Table.ImageViewCell.swift */,
+				D9959879257D65630040D131 /* Input.Table.ImagesCollectionViewController.swift */,
+				D995987A257D65630040D131 /* Input.Table.ImagesCollectionView.swift */,
 			);
 			path = ImagesCollection;
+			sourceTree = "<group>";
+		};
+		D995987F257D65630040D131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D9959880257D65630040D131 /* Input.Network.swift */,
+				D9959881257D65630040D131 /* Field */,
+				D9959895257D65630040D131 /* Input.ModelTransformer.swift */,
+				D9959896257D65630040D131 /* Header */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D9959881257D65630040D131 /* Field */ = {
+			isa = PBXGroup;
+			children = (
+				D9959882257D65630040D131 /* Input.Field.Checkbox.swift */,
+				D9959883257D65630040D131 /* Input.Field.Hidden.swift */,
+				D9959884257D65630040D131 /* Input.Field.AccountNumber.swift */,
+				D9959885257D65630040D131 /* Input.Field.IBAN.swift */,
+				D9959886257D65630040D131 /* Input.Field.HolderName.swift */,
+				D9959887257D65630040D131 /* Input.Field.Generic.swift */,
+				D9959888257D65630040D131 /* Input.Field.BankCode.swift */,
+				D9959889257D65630040D131 /* Input.Field.BIC.swift */,
+				D995988A257D65630040D131 /* Input.Field.Button.swift */,
+				D995988B257D65630040D131 /* Input.Field.ExpiryDate.swift */,
+				D995988C257D65630040D131 /* Input.Field.VerificationCode.swift */,
+				D995988D257D65630040D131 /* Input.Field.Label.swift */,
+				D995988E257D65630040D131 /* Input.Field.BasicText.swift */,
+				D995988F257D65630040D131 /* Input.Field.swift */,
+				D9959890257D65630040D131 /* Validation */,
+			);
+			path = Field;
+			sourceTree = "<group>";
+		};
+		D9959890257D65630040D131 /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				D9959891257D65630040D131 /* Input.Field.Validation.IBAN.swift */,
+				D9959892257D65630040D131 /* Input.Field.Validation.ExpiryDate.swift */,
+				D9959893257D65630040D131 /* Input.Field.Validation.Luhn.swift */,
+				D9959894257D65630040D131 /* Input.Field.Validation.swift */,
+			);
+			path = Validation;
+			sourceTree = "<group>";
+		};
+		D9959896257D65630040D131 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				D9959897257D65630040D131 /* Input.TextHeader.swift */,
+				D9959898257D65630040D131 /* Input.ImagesHeader.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
+		D9959899257D65630040D131 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				D995989A257D65630040D131 /* InputElementModel.swift */,
+				D995989B257D65630040D131 /* SelectInputField.swift */,
+				D995989C257D65630040D131 /* DefinesKeyboardStyle.swift */,
+				D995989D257D65630040D131 /* SupportsPrimaryAction.swift */,
+				D995989E257D65630040D131 /* InputField.swift */,
+				D995989F257D65630040D131 /* Validatable.swift */,
+				D99598A0257D65630040D131 /* CellRepresentable.swift */,
+				D99598A1257D65630040D131 /* InputCellDelegate.swift */,
+				D99598A2257D65630040D131 /* Selectable.swift */,
+				D99598A3257D65630040D131 /* TextInputField.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		D99598A5257D65630040D131 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				D99598A6257D65630040D131 /* List.Router.swift */,
+				D99598A7257D65630040D131 /* List.ViewController.swift */,
+				D99598A8257D65630040D131 /* Protocol */,
+				D99598AA257D65630040D131 /* List.swift */,
+				D99598AB257D65630040D131 /* Table */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		D99598A8257D65630040D131 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				D99598A9257D65630040D131 /* NetworkOperationResultHandler.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		D99598AB257D65630040D131 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				D99598AC257D65630040D131 /* DataSource */,
+				D99598B1257D65630040D131 /* Cells */,
+				D99598B5257D65630040D131 /* List.Table.swift */,
+				D99598B6257D65630040D131 /* LoadableLogo.swift */,
+				D99598B7257D65630040D131 /* List.Table.GroupingService.swift */,
+				D99598B8257D65630040D131 /* List.Table.Controller.swift */,
+				D99598B9257D65630040D131 /* Views */,
+			);
+			path = Table;
+			sourceTree = "<group>";
+		};
+		D99598AC257D65630040D131 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				D99598AD257D65630040D131 /* List.Table.DataSource.SingleNetworkRow.swift */,
+				D99598AE257D65630040D131 /* List.Table.DataSource.swift */,
+				D99598AF257D65630040D131 /* List.Table.DataSource.GroupedNetworkRow.swift */,
+				D99598B0257D65630040D131 /* List.Table.DataSource.AccountRow.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		D99598B1257D65630040D131 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D99598B2257D65630040D131 /* List.Table.SingleLabelCell.swift */,
+				D99598B3257D65630040D131 /* List.Table.BorderedCell.swift */,
+				D99598B4257D65630040D131 /* List.Table.DetailedLabelCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		D99598B9257D65630040D131 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D99598BA257D65630040D131 /* List.Table.SectionHeader.swift */,
+				D99598BB257D65630040D131 /* List.Table.TableView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D99598BC257D65630040D131 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D99598BD257D65630040D131 /* String+removeCharacters.swift */,
+				D99598BE257D65630040D131 /* Bool+stringValue.swift */,
+				D99598BF257D65630040D131 /* Infix */,
+				D99598C1257D65630040D131 /* Error+isNetworkError.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		D99598BF257D65630040D131 /* Infix */ = {
+			isa = PBXGroup;
+			children = (
+				D99598C0257D65630040D131 /* mergeClosures.swift */,
+			);
+			path = Infix;
+			sourceTree = "<group>";
+		};
+		D99598C2257D65630040D131 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D99598C3257D65630040D131 /* TooltipViewController.swift */,
+				D99598C4257D65630040D131 /* SlideInViewController */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D99598C4257D65630040D131 /* SlideInViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D99598C5257D65630040D131 /* SlideInViewController.swift */,
+				D99598C6257D65630040D131 /* SlideInPresentationManager.swift */,
+				D99598C7257D65630040D131 /* SlideInPresentationController.swift */,
+			);
+			path = SlideInViewController;
+			sourceTree = "<group>";
+		};
+		D99598C8257D65630040D131 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				D99598C9257D65630040D131 /* Theme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		D99598CA257D65630040D131 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D99598CB257D65630040D131 /* PaymentNetwork.swift */,
+				D99598CC257D65630040D131 /* RegisteredAccount.swift */,
+				D99598CD257D65630040D131 /* PaymentSession.swift */,
+				D99598CE257D65630040D131 /* UIAlertController.PreparedError.swift */,
+				D99598CF257D65630040D131 /* Loadable.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D99598D0257D65630040D131 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				D99598D1257D65630040D131 /* PaymentSessionService */,
+				D99598D7257D65630040D131 /* PaymentService */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		D99598D1257D65630040D131 /* PaymentSessionService */ = {
+			isa = PBXGroup;
+			children = (
+				D99598D2257D65630040D131 /* PaymentSessionProvider.swift */,
+				D99598D3257D65630040D131 /* PaymentSessionServiceDelegate.swift */,
+				D99598D4257D65630040D131 /* DownloadTranslationService.swift */,
+				D99598D5257D65630040D131 /* PaymentSessionService.swift */,
+				D99598D6257D65630040D131 /* DataDownloadProvider.swift */,
+			);
+			path = PaymentSessionService;
+			sourceTree = "<group>";
+		};
+		D99598D7257D65630040D131 /* PaymentService */ = {
+			isa = PBXGroup;
+			children = (
+				D99598D8257D65630040D131 /* Result+interaction.swift */,
+				D99598D9257D65630040D131 /* BasicPaymentService */,
+				D99598DD257D65630040D131 /* PaymentResult.swift */,
+				D99598DE257D65630040D131 /* PaymentService.swift */,
+				D99598DF257D65630040D131 /* PaymentServicesFactory.swift */,
+				D99598E0257D65630040D131 /* CustomErrorInfo.swift */,
+				D99598E1257D65630040D131 /* PaymentServiceParsedResponse.swift */,
+				D99598E2257D65630040D131 /* PaymentRequest.swift */,
+			);
+			path = PaymentService;
+			sourceTree = "<group>";
+		};
+		D99598D9257D65630040D131 /* BasicPaymentService */ = {
+			isa = PBXGroup;
+			children = (
+				D99598DA257D65630040D131 /* BasicPaymentService.ResponseParser.swift */,
+				D99598DB257D65630040D131 /* RedirectCallbackHandler.swift */,
+				D99598DC257D65630040D131 /* BasicPaymentService.swift */,
+			);
+			path = BasicPaymentService;
+			sourceTree = "<group>";
+		};
+		D99598E3257D65630040D131 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				D99598E4257D65630040D131 /* DequeueableCell.swift */,
+				D99598E5257D65630040D131 /* PaymentDelegate.swift */,
+				D99598E6257D65630040D131 /* KeyboardChangeFrameObserver.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		D99598E7257D65630040D131 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				D99598E8257D65630040D131 /* Operations */,
+				D99598EB257D65630040D131 /* HTTPMethod.swift */,
+				D99598EC257D65630040D131 /* Requests */,
+				D99598F0257D65630040D131 /* URLSessionConnection.swift */,
+				D99598F1257D65630040D131 /* Protocols */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		D99598E8257D65630040D131 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				D99598E9257D65630040D131 /* AsynchronousOperation.swift */,
+				D99598EA257D65630040D131 /* SendRequestOperation.swift */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
+		D99598EC257D65630040D131 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				D99598ED257D65630040D131 /* GetListResult.swift */,
+				D99598EE257D65630040D131 /* DownloadLocalization.swift */,
+				D99598EF257D65630040D131 /* DownloadData.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		D99598F1257D65630040D131 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				D99598F2257D65630040D131 /* Connection.swift */,
+				D99598F3257D65630040D131 /* GetRequest.swift */,
+				D99598F4257D65630040D131 /* Request.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		D9A88D04241C55040043F535 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				D9A67987241C6B2F006DC1DF /* Info.plist */,
-				D9ED4087252E8274009F14DA /* Core */,
-				D9ED407F252E8274009F14DA /* Localization */,
-				D9ED4063252E8274009F14DA /* Model */,
-				D9ED4055252E8274009F14DA /* Network */,
-				D9ED408B252E8274009F14DA /* UI */,
+				D995984E257D65630040D131 /* Core */,
+				D9959846257D65630040D131 /* Localization */,
+				D995982A257D65630040D131 /* Model */,
+				D99598E7257D65630040D131 /* Network */,
+				D9959852257D65630040D131 /* UI */,
 				D9A88D91241C55040043F535 /* Assets */,
 			);
 			path = Sources;
@@ -625,15 +928,6 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		D9BDD9D52567137400EF17E5 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				D9BDD9D32567131900EF17E5 /* TooltipViewController.swift */,
-				D9ED4100252E8274009F14DA /* SlideInViewController */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
 		D9C9572B241C54CA00049AFE = {
 			isa = PBXGroup;
 			children = (
@@ -652,444 +946,6 @@
 				D9C9573E241C54CA00049AFE /* Tests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		D9ED4055252E8274009F14DA /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4056252E8274009F14DA /* Operations */,
-				D9ED4059252E8274009F14DA /* HTTPMethod.swift */,
-				D9ED405A252E8274009F14DA /* Requests */,
-				D9ED405E252E8274009F14DA /* URLSessionConnection.swift */,
-				D9ED405F252E8274009F14DA /* Protocols */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		D9ED4056252E8274009F14DA /* Operations */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4057252E8274009F14DA /* AsynchronousOperation.swift */,
-				D9ED4058252E8274009F14DA /* SendRequestOperation.swift */,
-			);
-			path = Operations;
-			sourceTree = "<group>";
-		};
-		D9ED405A252E8274009F14DA /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED405B252E8274009F14DA /* GetListResult.swift */,
-				D9ED405C252E8274009F14DA /* DownloadLocalization.swift */,
-				D9ED405D252E8274009F14DA /* DownloadData.swift */,
-			);
-			path = Requests;
-			sourceTree = "<group>";
-		};
-		D9ED405F252E8274009F14DA /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4060252E8274009F14DA /* Connection.swift */,
-				D9ED4061252E8274009F14DA /* GetRequest.swift */,
-				D9ED4062252E8274009F14DA /* Request.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		D9ED4063252E8274009F14DA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4064252E8274009F14DA /* Redirect.swift */,
-				D9ED4065252E8274009F14DA /* PaymentAmount.swift */,
-				D9ED4066252E8274009F14DA /* ApplicableNetwork.swift */,
-				D9ED4067252E8274009F14DA /* PresetAccount.swift */,
-				D9ED4068252E8274009F14DA /* ListResult.swift */,
-				D9ED4069252E8274009F14DA /* InstallmentsPlan.swift */,
-				D9ED406A252E8274009F14DA /* Parameter.swift */,
-				D9ED406B252E8274009F14DA /* InstallmentItem.swift */,
-				D9ED406C252E8274009F14DA /* AccountMask.swift */,
-				D9ED406D252E8274009F14DA /* .swiftlint.yml */,
-				D9ED406E252E8274009F14DA /* Installments.swift */,
-				D9ED406F252E8274009F14DA /* ProviderParameters.swift */,
-				D9ED4070252E8274009F14DA /* CustomerFormData.swift */,
-				D9ED4071252E8274009F14DA /* OperationResult.swift */,
-				D9ED4072252E8274009F14DA /* ExtraElements.swift */,
-				D9ED4073252E8274009F14DA /* PaymentMethod.swift */,
-				D9ED4074252E8274009F14DA /* Interaction.swift */,
-				D9ED4075252E8274009F14DA /* ExtraElement.swift */,
-				D9ED4076252E8274009F14DA /* FormData.swift */,
-				D9ED4077252E8274009F14DA /* ErrorInfo.swift */,
-				D9ED4078252E8274009F14DA /* Style.swift */,
-				D9ED4079252E8274009F14DA /* Checkbox.swift */,
-				D9ED407A252E8274009F14DA /* InputElement.swift */,
-				D9ED407B252E8274009F14DA /* Networks.swift */,
-				D9ED407C252E8274009F14DA /* SelectOption.swift */,
-				D9ED407D252E8274009F14DA /* AccountRegistration.swift */,
-				D9ED407E252E8274009F14DA /* AccountFormData.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		D9ED407F252E8274009F14DA /* Localization */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4080252E8274009F14DA /* TranslatedModel.swift */,
-				D9ED4081252E8274009F14DA /* Strings */,
-				D9ED4083252E8274009F14DA /* TranslationProviders */,
-			);
-			path = Localization;
-			sourceTree = "<group>";
-		};
-		D9ED4081252E8274009F14DA /* Strings */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4082252E8274009F14DA /* TranslationKey.swift */,
-			);
-			path = Strings;
-			sourceTree = "<group>";
-		};
-		D9ED4083252E8274009F14DA /* TranslationProviders */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4084252E8274009F14DA /* TranslationProvider.swift */,
-				D9ED4085252E8274009F14DA /* CombinedTranslationProvider.swift */,
-				D9ED4086252E8274009F14DA /* SharedTranslationProvider.swift */,
-			);
-			path = TranslationProviders;
-			sourceTree = "<group>";
-		};
-		D9ED4087252E8274009F14DA /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4088252E8274009F14DA /* log.swift */,
-				D9ED4089252E8274009F14DA /* InternalError.swift */,
-				D9ED408A252E8274009F14DA /* AssetProvider.swift */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		D9ED408B252E8274009F14DA /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED408C252E8274009F14DA /* Scenes */,
-				D9ED40F1252E8274009F14DA /* Core */,
-				D9ED40F7252E8274009F14DA /* Theme */,
-				D9ED40F9252E8274009F14DA /* Model */,
-				D9BDD9D52567137400EF17E5 /* ViewControllers */,
-				D9ED4104252E8274009F14DA /* Service */,
-				D9ED4115252E8274009F14DA /* Protocols */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		D9ED408C252E8274009F14DA /* Scenes */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED408D252E8274009F14DA /* Input */,
-				D9ED40DB252E8274009F14DA /* List */,
-			);
-			path = Scenes;
-			sourceTree = "<group>";
-		};
-		D9ED408D252E8274009F14DA /* Input */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED408E252E8274009F14DA /* Input.ViewController.StateManager.swift */,
-				D9ED408F252E8274009F14DA /* Input.NavigationController.swift */,
-				D9ED4090252E8274009F14DA /* TextFormatter */,
-				D9ED40A0252E8274009F14DA /* Input.SmartSwitch.swift */,
-				D9ED40A1252E8274009F14DA /* Input.ViewController.PaymentController.swift */,
-				D9ED40A2252E8274009F14DA /* Input.swift */,
-				D9ED40A3252E8274009F14DA /* Table */,
-				D9ED40B5252E8274009F14DA /* Model */,
-				D9ED40CF252E8274009F14DA /* Protocols */,
-				D9ED40DA252E8274009F14DA /* Input.ViewController.swift */,
-			);
-			path = Input;
-			sourceTree = "<group>";
-		};
-		D9ED4090252E8274009F14DA /* TextFormatter */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4091252E8274009F14DA /* Protocol */,
-				D9ED4094252E8274009F14DA /* Model */,
-				D9ED4098252E8274009F14DA /* Class */,
-				D9ED409C252E8274009F14DA /* String+characterAt.swift */,
-				D9ED409D252E8274009F14DA /* InputModifier */,
-			);
-			path = TextFormatter;
-			sourceTree = "<group>";
-		};
-		D9ED4091252E8274009F14DA /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4092252E8274009F14DA /* InputModifier.swift */,
-				D9ED4093252E8274009F14DA /* TextFormatter.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		D9ED4094252E8274009F14DA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4095252E8274009F14DA /* FormattedTextValue.swift */,
-				D9ED4096252E8274009F14DA /* ReplaceableString.swift */,
-				D9ED4097252E8274009F14DA /* TextFormatPattern.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		D9ED4098252E8274009F14DA /* Class */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4099252E8274009F14DA /* PatternFormatter.swift */,
-				D9ED409A252E8274009F14DA /* InputPatternFormatter.swift */,
-				D9ED409B252E8274009F14DA /* CaretPositionCorrector.swift */,
-			);
-			path = Class;
-			sourceTree = "<group>";
-		};
-		D9ED409D252E8274009F14DA /* InputModifier */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED409E252E8274009F14DA /* ExpirationDateInputModifier.swift */,
-				D9ED409F252E8274009F14DA /* UppercaseInputModifier.swift */,
-			);
-			path = InputModifier;
-			sourceTree = "<group>";
-		};
-		D9ED40A3252E8274009F14DA /* Table */ = {
-			isa = PBXGroup;
-			children = (
-				D9A0DA1B256BE842009CE983 /* Cell */,
-				D9ED40A4252E8274009F14DA /* Input.Table.Controller.swift */,
-				D9ED40A5252E8274009F14DA /* Input.Table.Validator.swift */,
-				D9ED40B3252E8274009F14DA /* Input.Table.DataSource.swift */,
-				D9ED40B4252E8274009F14DA /* Input.Table.swift */,
-			);
-			path = Table;
-			sourceTree = "<group>";
-		};
-		D9ED40B5252E8274009F14DA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40B6252E8274009F14DA /* Input.Network.swift */,
-				D9ED40B7252E8274009F14DA /* Field */,
-				D9ED40CB252E8274009F14DA /* Input.ModelTransformer.swift */,
-				D9ED40CC252E8274009F14DA /* Header */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		D9ED40B7252E8274009F14DA /* Field */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40B8252E8274009F14DA /* Input.Field.Checkbox.swift */,
-				D9ED40B9252E8274009F14DA /* Input.Field.Hidden.swift */,
-				D9ED40BA252E8274009F14DA /* Input.Field.AccountNumber.swift */,
-				D9ED40BB252E8274009F14DA /* Input.Field.IBAN.swift */,
-				D9ED40BC252E8274009F14DA /* Input.Field.HolderName.swift */,
-				D9ED40BD252E8274009F14DA /* Input.Field.Generic.swift */,
-				D9ED40BE252E8274009F14DA /* Input.Field.BankCode.swift */,
-				D9ED40BF252E8274009F14DA /* Input.Field.BIC.swift */,
-				D9ED40C0252E8274009F14DA /* Input.Field.Button.swift */,
-				D9ED40C1252E8274009F14DA /* Input.Field.ExpiryDate.swift */,
-				D9ED40C2252E8274009F14DA /* Input.Field.VerificationCode.swift */,
-				D9ED40C3252E8274009F14DA /* Input.Field.Label.swift */,
-				D9ED40C4252E8274009F14DA /* Input.Field.BasicText.swift */,
-				D9ED40C5252E8274009F14DA /* Input.Field.swift */,
-				D9ED40C6252E8274009F14DA /* Validation */,
-			);
-			path = Field;
-			sourceTree = "<group>";
-		};
-		D9ED40C6252E8274009F14DA /* Validation */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40C7252E8274009F14DA /* Input.Field.Validation.IBAN.swift */,
-				D9ED40C8252E8274009F14DA /* Input.Field.Validation.ExpiryDate.swift */,
-				D9ED40C9252E8274009F14DA /* Input.Field.Validation.Luhn.swift */,
-				D9ED40CA252E8274009F14DA /* Input.Field.Validation.swift */,
-			);
-			path = Validation;
-			sourceTree = "<group>";
-		};
-		D9ED40CC252E8274009F14DA /* Header */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40CD252E8274009F14DA /* Input.TextHeader.swift */,
-				D9ED40CE252E8274009F14DA /* Input.ImagesHeader.swift */,
-			);
-			path = Header;
-			sourceTree = "<group>";
-		};
-		D9ED40CF252E8274009F14DA /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40D0252E8274009F14DA /* InputElementModel.swift */,
-				D9ED40D1252E8274009F14DA /* SelectInputField.swift */,
-				D9ED40D2252E8274009F14DA /* DefinesKeyboardStyle.swift */,
-				D9ED40D3252E8274009F14DA /* SupportsPrimaryAction.swift */,
-				D9ED40D4252E8274009F14DA /* InputField.swift */,
-				D9ED40D5252E8274009F14DA /* Validatable.swift */,
-				D9ED40D6252E8274009F14DA /* CellRepresentable.swift */,
-				D9ED40D7252E8274009F14DA /* InputCellDelegate.swift */,
-				D9ED40D8252E8274009F14DA /* Selectable.swift */,
-				D9ED40D9252E8274009F14DA /* TextInputField.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		D9ED40DB252E8274009F14DA /* List */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40DC252E8274009F14DA /* List.Router.swift */,
-				D9ED40DD252E8274009F14DA /* List.ViewController.swift */,
-				D9ED40DE252E8274009F14DA /* List.swift */,
-				D9ED40DF252E8274009F14DA /* Table */,
-				D9ED40F0252E8274009F14DA /* NetworkOperationResultHandler.swift */,
-			);
-			path = List;
-			sourceTree = "<group>";
-		};
-		D9ED40DF252E8274009F14DA /* Table */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40E0252E8274009F14DA /* DataSource */,
-				D9ED40E5252E8274009F14DA /* Cells */,
-				D9ED40E9252E8274009F14DA /* List.Table.swift */,
-				D9ED40EA252E8274009F14DA /* LoadableLogo.swift */,
-				D9ED40EB252E8274009F14DA /* List.Table.GroupingService.swift */,
-				D9ED40EC252E8274009F14DA /* List.Table.Controller.swift */,
-				D9ED40ED252E8274009F14DA /* Views */,
-			);
-			path = Table;
-			sourceTree = "<group>";
-		};
-		D9ED40E0252E8274009F14DA /* DataSource */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40E1252E8274009F14DA /* List.Table.DataSource.SingleNetworkRow.swift */,
-				D9ED40E2252E8274009F14DA /* List.Table.DataSource.swift */,
-				D9ED40E3252E8274009F14DA /* List.Table.DataSource.GroupedNetworkRow.swift */,
-				D9ED40E4252E8274009F14DA /* List.Table.DataSource.AccountRow.swift */,
-			);
-			path = DataSource;
-			sourceTree = "<group>";
-		};
-		D9ED40E5252E8274009F14DA /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40E6252E8274009F14DA /* List.Table.SingleLabelCell.swift */,
-				D9ED40E7252E8274009F14DA /* List.Table.BorderedCell.swift */,
-				D9ED40E8252E8274009F14DA /* List.Table.DetailedLabelCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		D9ED40ED252E8274009F14DA /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40EE252E8274009F14DA /* List.Table.SectionHeader.swift */,
-				D9ED40EF252E8274009F14DA /* List.Table.TableView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		D9ED40F1252E8274009F14DA /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40F2252E8274009F14DA /* String+removeCharacters.swift */,
-				D9ED40F3252E8274009F14DA /* Bool+stringValue.swift */,
-				D9ED40F4252E8274009F14DA /* Infix */,
-				D9ED40F6252E8274009F14DA /* Error+isNetworkError.swift */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		D9ED40F4252E8274009F14DA /* Infix */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40F5252E8274009F14DA /* mergeClosures.swift */,
-			);
-			path = Infix;
-			sourceTree = "<group>";
-		};
-		D9ED40F7252E8274009F14DA /* Theme */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40F8252E8274009F14DA /* Theme.swift */,
-			);
-			path = Theme;
-			sourceTree = "<group>";
-		};
-		D9ED40F9252E8274009F14DA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED40FA252E8274009F14DA /* TranslatedError.swift */,
-				D9ED40FB252E8274009F14DA /* PaymentNetwork.swift */,
-				D9ED40FC252E8274009F14DA /* RegisteredAccount.swift */,
-				D9ED40FD252E8274009F14DA /* PaymentSession.swift */,
-				D9ED40FE252E8274009F14DA /* UIAlertController.PreparedError.swift */,
-				D9ED40FF252E8274009F14DA /* Loadable.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		D9ED4100252E8274009F14DA /* SlideInViewController */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4101252E8274009F14DA /* SlideInViewController.swift */,
-				D9ED4102252E8274009F14DA /* SlideInPresentationManager.swift */,
-				D9ED4103252E8274009F14DA /* SlideInPresentationController.swift */,
-			);
-			path = SlideInViewController;
-			sourceTree = "<group>";
-		};
-		D9ED4104252E8274009F14DA /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4105252E8274009F14DA /* PaymentSessionProvider.swift */,
-				D9ED4106252E8274009F14DA /* DownloadTranslationService.swift */,
-				D9ED4107252E8274009F14DA /* PaymentSessionService.swift */,
-				D9ED4108252E8274009F14DA /* PaymentService */,
-				D9ED4114252E8274009F14DA /* DataDownloadProvider.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
-		D9ED4108252E8274009F14DA /* PaymentService */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4109252E8274009F14DA /* Result+interaction.swift */,
-				D9ED410A252E8274009F14DA /* BasicPaymentService */,
-				D9ED410E252E8274009F14DA /* PaymentResult.swift */,
-				D9ED410F252E8274009F14DA /* PaymentService.swift */,
-				D9ED4110252E8274009F14DA /* PaymentServicesFactory.swift */,
-				D9ED4111252E8274009F14DA /* CustomErrorInfo.swift */,
-				D9ED4112252E8274009F14DA /* PaymentServiceParsedResponse.swift */,
-				D9ED4113252E8274009F14DA /* PaymentRequest.swift */,
-			);
-			path = PaymentService;
-			sourceTree = "<group>";
-		};
-		D9ED410A252E8274009F14DA /* BasicPaymentService */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED410B252E8274009F14DA /* BasicPaymentService.ResponseParser.swift */,
-				D9ED410C252E8274009F14DA /* RedirectCallbackHandler.swift */,
-				D9ED410D252E8274009F14DA /* BasicPaymentService.swift */,
-			);
-			path = BasicPaymentService;
-			sourceTree = "<group>";
-		};
-		D9ED4115252E8274009F14DA /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				D9ED4116252E8274009F14DA /* DequeueableCell.swift */,
-				D9ED4117252E8274009F14DA /* PaymentDelegate.swift */,
-				D9ED4118252E8274009F14DA /* KeyboardChangeFrameObserver.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		E1466AD75BB5BAE0DAF66218 /* Pods */ = {
@@ -1200,7 +1056,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9ED412C252E8274009F14DA /* .swiftlint.yml in Resources */,
 				D9A88E48241C56490043F535 /* Media.xcassets in Resources */,
 				D9A88E0F241C55040043F535 /* validations.json in Resources */,
 				D9A88E11241C55040043F535 /* validations-default.json in Resources */,
@@ -1289,165 +1144,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9ED416B252E8274009F14DA /* Input.Field.BankCode.swift in Sources */,
-				D9ED417F252E8275009F14DA /* Validatable.swift in Sources */,
-				D9ED4165252E8274009F14DA /* Input.Field.Checkbox.swift in Sources */,
-				D9ED412E252E8274009F14DA /* ProviderParameters.swift in Sources */,
-				D9ED411F252E8274009F14DA /* URLSessionConnection.swift in Sources */,
-				D9ED41B3252E8275009F14DA /* PaymentDelegate.swift in Sources */,
-				D9ED419D252E8275009F14DA /* RegisteredAccount.swift in Sources */,
-				D9ED4119252E8274009F14DA /* AsynchronousOperation.swift in Sources */,
-				D9ED4191252E8275009F14DA /* List.Table.GroupingService.swift in Sources */,
-				D9ED411C252E8274009F14DA /* GetListResult.swift in Sources */,
-				D9ED4134252E8274009F14DA /* ExtraElement.swift in Sources */,
-				D9ED4145252E8274009F14DA /* AssetProvider.swift in Sources */,
-				D9ED417D252E8275009F14DA /* SupportsPrimaryAction.swift in Sources */,
-				D9ED4148252E8274009F14DA /* InputModifier.swift in Sources */,
-				D9ED4142252E8274009F14DA /* SharedTranslationProvider.swift in Sources */,
-				D9ED4194252E8275009F14DA /* List.Table.TableView.swift in Sources */,
-				D9A0DA34256BE842009CE983 /* Input.Table.ImagesCollectionViewController.swift in Sources */,
-				D9ED4120252E8274009F14DA /* Connection.swift in Sources */,
-				D9ED4177252E8275009F14DA /* Input.ModelTransformer.swift in Sources */,
-				D9ED414C252E8274009F14DA /* TextFormatPattern.swift in Sources */,
-				D9ED4170252E8275009F14DA /* Input.Field.Label.swift in Sources */,
-				D9ED4179252E8275009F14DA /* Input.ImagesHeader.swift in Sources */,
-				D9ED412F252E8274009F14DA /* CustomerFormData.swift in Sources */,
-				D9ED413D252E8274009F14DA /* AccountFormData.swift in Sources */,
-				D9ED4139252E8274009F14DA /* InputElement.swift in Sources */,
-				D9ED4168252E8274009F14DA /* Input.Field.IBAN.swift in Sources */,
-				D9ED4133252E8274009F14DA /* Interaction.swift in Sources */,
-				D9ED4138252E8274009F14DA /* Checkbox.swift in Sources */,
-				D9ED41A7252E8275009F14DA /* Result+interaction.swift in Sources */,
-				D9ED41A5252E8275009F14DA /* DownloadTranslationService.swift in Sources */,
-				D9ED4185252E8275009F14DA /* List.Router.swift in Sources */,
-				D9ED419A252E8275009F14DA /* Theme.swift in Sources */,
-				D9ED41B1252E8275009F14DA /* DataDownloadProvider.swift in Sources */,
-				D9ED413F252E8274009F14DA /* TranslationKey.swift in Sources */,
-				D9ED4123252E8274009F14DA /* Redirect.swift in Sources */,
-				D9ED411D252E8274009F14DA /* DownloadLocalization.swift in Sources */,
-				D9ED41AB252E8275009F14DA /* PaymentResult.swift in Sources */,
-				D9ED413C252E8274009F14DA /* AccountRegistration.swift in Sources */,
-				D9A0DA2B256BE842009CE983 /* Input.Table.CVVTextFieldViewCell.swift in Sources */,
-				D9ED413B252E8274009F14DA /* SelectOption.swift in Sources */,
-				D9A0DA2F256BE842009CE983 /* Input.Table.TextFieldViewCell.swift in Sources */,
-				D9ED4156252E8274009F14DA /* Input.Table.Controller.swift in Sources */,
-				D9ED41B2252E8275009F14DA /* DequeueableCell.swift in Sources */,
-				D9ED418C252E8275009F14DA /* List.Table.SingleLabelCell.swift in Sources */,
-				D9ED41B0252E8275009F14DA /* PaymentRequest.swift in Sources */,
-				D9ED4192252E8275009F14DA /* List.Table.Controller.swift in Sources */,
-				D9ED4198252E8275009F14DA /* mergeClosures.swift in Sources */,
-				D9ED417A252E8275009F14DA /* InputElementModel.swift in Sources */,
-				D9ED4171252E8275009F14DA /* Input.Field.BasicText.swift in Sources */,
-				D9ED4172252E8275009F14DA /* Input.Field.swift in Sources */,
-				D9ED4167252E8274009F14DA /* Input.Field.AccountNumber.swift in Sources */,
-				D9ED4130252E8274009F14DA /* OperationResult.swift in Sources */,
-				D9ED418B252E8275009F14DA /* List.Table.DataSource.AccountRow.swift in Sources */,
-				D9ED417C252E8275009F14DA /* DefinesKeyboardStyle.swift in Sources */,
-				D9ED4173252E8275009F14DA /* Input.Field.Validation.IBAN.swift in Sources */,
-				D9A0DA2E256BE842009CE983 /* Input.Table.CheckboxViewCell.swift in Sources */,
-				D9ED4195252E8275009F14DA /* NetworkOperationResultHandler.swift in Sources */,
-				D9ED41AD252E8275009F14DA /* PaymentServicesFactory.swift in Sources */,
-				D9ED4163252E8274009F14DA /* Input.Table.swift in Sources */,
-				D9ED41A2252E8275009F14DA /* SlideInPresentationManager.swift in Sources */,
-				D9ED4125252E8274009F14DA /* ApplicableNetwork.swift in Sources */,
-				D9ED414E252E8274009F14DA /* InputPatternFormatter.swift in Sources */,
-				D9ED417E252E8275009F14DA /* InputField.swift in Sources */,
-				D9ED4129252E8274009F14DA /* Parameter.swift in Sources */,
-				D9ED419F252E8275009F14DA /* UIAlertController.PreparedError.swift in Sources */,
-				D9ED4188252E8275009F14DA /* List.Table.DataSource.SingleNetworkRow.swift in Sources */,
-				D9ED41AC252E8275009F14DA /* PaymentService.swift in Sources */,
-				D9ED41A4252E8275009F14DA /* PaymentSessionProvider.swift in Sources */,
-				D9A0DA31256BE842009CE983 /* Input.Table.ButtonCell.swift in Sources */,
-				D9ED4127252E8274009F14DA /* ListResult.swift in Sources */,
-				D9A0DA36256BE842009CE983 /* Input.Table.DetailedTextLogoView.swift in Sources */,
-				D9ED4121252E8274009F14DA /* GetRequest.swift in Sources */,
-				D9ED416F252E8275009F14DA /* Input.Field.VerificationCode.swift in Sources */,
-				D9ED41A1252E8275009F14DA /* SlideInViewController.swift in Sources */,
-				D9ED4193252E8275009F14DA /* List.Table.SectionHeader.swift in Sources */,
-				D9ED414F252E8274009F14DA /* CaretPositionCorrector.swift in Sources */,
-				D9ED4184252E8275009F14DA /* Input.ViewController.swift in Sources */,
-				D9ED4141252E8274009F14DA /* CombinedTranslationProvider.swift in Sources */,
-				D9A0DA2D256BE842009CE983 /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */,
-				D9ED4169252E8274009F14DA /* Input.Field.HolderName.swift in Sources */,
-				D9ED4151252E8274009F14DA /* ExpirationDateInputModifier.swift in Sources */,
-				D9ED414B252E8274009F14DA /* ReplaceableString.swift in Sources */,
-				D9A0DA32256BE842009CE983 /* Input.Table.ImagesView.swift in Sources */,
-				D9ED4174252E8275009F14DA /* Input.Field.Validation.ExpiryDate.swift in Sources */,
-				D9ED4155252E8274009F14DA /* Input.swift in Sources */,
-				D9A0DA33256BE842009CE983 /* Input.Table.ImageViewCell.swift in Sources */,
-				D9ED41AE252E8275009F14DA /* CustomErrorInfo.swift in Sources */,
-				D9ED4176252E8275009F14DA /* Input.Field.Validation.swift in Sources */,
-				D9ED412B252E8274009F14DA /* AccountMask.swift in Sources */,
-				D9ED4166252E8274009F14DA /* Input.Field.Hidden.swift in Sources */,
-				D9ED41A0252E8275009F14DA /* Loadable.swift in Sources */,
-				D9ED412D252E8274009F14DA /* Installments.swift in Sources */,
-				D9ED4146252E8274009F14DA /* Input.ViewController.StateManager.swift in Sources */,
-				D9ED416D252E8275009F14DA /* Input.Field.Button.swift in Sources */,
-				D9ED411A252E8274009F14DA /* SendRequestOperation.swift in Sources */,
-				D9A0DA37256BE842009CE983 /* Input.Table.LogoTextView.swift in Sources */,
-				D9ED4128252E8274009F14DA /* InstallmentsPlan.swift in Sources */,
-				D9ED4144252E8274009F14DA /* InternalError.swift in Sources */,
-				D9ED4137252E8274009F14DA /* Style.swift in Sources */,
-				D9ED4196252E8275009F14DA /* String+removeCharacters.swift in Sources */,
-				D9ED4178252E8275009F14DA /* Input.TextHeader.swift in Sources */,
-				D9ED417B252E8275009F14DA /* SelectInputField.swift in Sources */,
-				D9ED4135252E8274009F14DA /* FormData.swift in Sources */,
-				D9ED412A252E8274009F14DA /* InstallmentItem.swift in Sources */,
-				D9ED4124252E8274009F14DA /* PaymentAmount.swift in Sources */,
-				D9ED4132252E8274009F14DA /* PaymentMethod.swift in Sources */,
-				D9ED4154252E8274009F14DA /* Input.ViewController.PaymentController.swift in Sources */,
-				D9ED4180252E8275009F14DA /* CellRepresentable.swift in Sources */,
-				D9ED4126252E8274009F14DA /* PresetAccount.swift in Sources */,
-				D9ED419B252E8275009F14DA /* TranslatedError.swift in Sources */,
-				D9ED4122252E8274009F14DA /* Request.swift in Sources */,
-				D9ED418F252E8275009F14DA /* List.Table.swift in Sources */,
-				D9ED4140252E8274009F14DA /* TranslationProvider.swift in Sources */,
-				D9ED4187252E8275009F14DA /* List.swift in Sources */,
-				D9ED418A252E8275009F14DA /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */,
-				D9ED416C252E8274009F14DA /* Input.Field.BIC.swift in Sources */,
-				D9ED41A6252E8275009F14DA /* PaymentSessionService.swift in Sources */,
-				D9ED4164252E8274009F14DA /* Input.Network.swift in Sources */,
-				D9A0DA2C256BE842009CE983 /* Input.Table.LabelViewCell.swift in Sources */,
-				D9ED41A3252E8275009F14DA /* SlideInPresentationController.swift in Sources */,
-				D9ED419E252E8275009F14DA /* PaymentSession.swift in Sources */,
-				D9ED4149252E8274009F14DA /* TextFormatter.swift in Sources */,
-				D9ED416E252E8275009F14DA /* Input.Field.ExpiryDate.swift in Sources */,
-				D9ED4152252E8274009F14DA /* UppercaseInputModifier.swift in Sources */,
-				D9ED41B4252E8275009F14DA /* KeyboardChangeFrameObserver.swift in Sources */,
-				D9A0DA35256BE842009CE983 /* Input.Table.ImagesCollectionView.swift in Sources */,
-				D9ED416A252E8274009F14DA /* Input.Field.Generic.swift in Sources */,
-				D9ED4162252E8274009F14DA /* Input.Table.DataSource.swift in Sources */,
-				D9BDD9D42567131900EF17E5 /* TooltipViewController.swift in Sources */,
-				D9ED411B252E8274009F14DA /* HTTPMethod.swift in Sources */,
-				D9ED4182252E8275009F14DA /* Selectable.swift in Sources */,
-				D9ED4153252E8274009F14DA /* Input.SmartSwitch.swift in Sources */,
-				D9ED411E252E8274009F14DA /* DownloadData.swift in Sources */,
-				D9ED418E252E8275009F14DA /* List.Table.DetailedLabelCell.swift in Sources */,
-				D9ED4189252E8275009F14DA /* List.Table.DataSource.swift in Sources */,
-				D9ED4186252E8275009F14DA /* List.ViewController.swift in Sources */,
-				D9ED4136252E8274009F14DA /* ErrorInfo.swift in Sources */,
-				D9ED41A8252E8275009F14DA /* BasicPaymentService.ResponseParser.swift in Sources */,
-				D9ED4183252E8275009F14DA /* TextInputField.swift in Sources */,
-				D9ED4190252E8275009F14DA /* LoadableLogo.swift in Sources */,
-				D9ED41AF252E8275009F14DA /* PaymentServiceParsedResponse.swift in Sources */,
-				D9ED4181252E8275009F14DA /* InputCellDelegate.swift in Sources */,
-				D9ED414A252E8274009F14DA /* FormattedTextValue.swift in Sources */,
-				D9ED419C252E8275009F14DA /* PaymentNetwork.swift in Sources */,
-				D9A0DA30256BE842009CE983 /* Input.Table.TextFieldController.swift in Sources */,
-				D9ED4157252E8274009F14DA /* Input.Table.Validator.swift in Sources */,
-				D9ED413E252E8274009F14DA /* TranslatedModel.swift in Sources */,
-				D9ED41A9252E8275009F14DA /* RedirectCallbackHandler.swift in Sources */,
-				D9ED414D252E8274009F14DA /* PatternFormatter.swift in Sources */,
-				D9ED4197252E8275009F14DA /* Bool+stringValue.swift in Sources */,
-				D9ED413A252E8274009F14DA /* Networks.swift in Sources */,
-				D9ED4143252E8274009F14DA /* log.swift in Sources */,
-				D9ED4199252E8275009F14DA /* Error+isNetworkError.swift in Sources */,
-				D9ED418D252E8275009F14DA /* List.Table.BorderedCell.swift in Sources */,
-				D9ED4175252E8275009F14DA /* Input.Field.Validation.Luhn.swift in Sources */,
-				D9ED41AA252E8275009F14DA /* BasicPaymentService.swift in Sources */,
-				D9ED4147252E8274009F14DA /* Input.NavigationController.swift in Sources */,
-				D9ED4131252E8274009F14DA /* ExtraElements.swift in Sources */,
-				D9ED4150252E8274009F14DA /* String+characterAt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1665,7 +1361,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6AA5EF5833CCFE9360C69E54 /* Pods-Tests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7X2PJ6H6YM;
@@ -1686,7 +1381,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8AE876F2AB3608344995F5BC /* Pods-Tests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7X2PJ6H6YM;
