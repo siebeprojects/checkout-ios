@@ -8,26 +8,6 @@ import XCTest
 @testable import Optile
 
 class PaymentSessionServiceTests: XCTestCase {
-    func testPaymentPageUnavailable() {
-        let result = syncLoadPaymentSession(using: PaymentPageFailureDataSource())
-
-        guard case let .failure(error) = result else {
-            XCTFail("Expected failure")
-            return
-        }
-
-        let errorAttach = XCTAttachment(subject: error)
-        errorAttach.name = "Error"
-        add(errorAttach)
-
-        guard let localized = error as? LocalizedError else {
-            XCTFail("Error is not localized")
-            return
-        }
-
-        XCTAssertEqual(localized.localizedDescription, TranslationKey.errorText.localizedString)
-    }
-
     // TODO:
     // Write a test if payment network doesn't contain language URL or download failed
 
