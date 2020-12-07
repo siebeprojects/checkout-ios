@@ -73,7 +73,7 @@ extension ViewController: PaymentDelegate {
         }
 
         let messageDictionary = [
-            TextLine(key: "ResultInfo", description: paymentResult.operationResult?.resultInfo ?? "n/a"),
+            TextLine(key: "ResultInfo", description: paymentResult.resultInfo),
             TextLine(key: "Interaction code", description: paymentResult.interaction.code),
             TextLine(key: "Interaction reason", description: paymentResult.interaction.reason),
             TextLine(key: "Error", description: paymentErrorText)
