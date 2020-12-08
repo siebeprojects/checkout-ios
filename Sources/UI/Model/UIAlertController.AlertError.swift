@@ -8,26 +8,45 @@ import UIKit
 
 extension UIAlertController {
     /// Error with title and message, prefer using it in `UIAlertViewController`
-    struct PreparedError: LocalizedError {
+    struct AlertError: LocalizedError {
         let title: String?
         let message: String
 
         var underlyingError: Error?
 
-        /// Block that should be called after alert dismissal
-        var dismissBlock: (() -> Void)?
+        var actions: [Action] = {
+            [Action(label: .ok, handler: nil, style: .default)]
+        }()
+
+        struct Action {
+            /// E.g.: `button.ok.label`
+            let label: LocalizationKey
+
+            /// Action to be executed when button is tapped
+            let handler: ((UIAlertAction) -> Void)?
+
+            let style: UIAlertAction.Style
+
+            enum LocalizationKey: String {
+                case ok = "button.ok.label"
+            }
+        }
     }
 }
 
-extension UIAlertController.PreparedError {
+extension UIAlertController.AlertError {
     func createAlertController(translator: TranslationProvider) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-        let dismissLocalizedText: String = translator.translation(forKey: "button.ok.label")
-        let dismissAction = UIAlertAction(title: dismissLocalizedText, style: .cancel) { [dismissBlock] _ in
-            dismissBlock?()
+        let alertActions: [UIAlertAction] = actions.map {
+            UIAlertAction(
+                title: translator.translation(forKey: $0.label.rawValue),
+                style: $0.style,
+                handler: $0.handler
+            )
         }
-        alertController.addAction(dismissAction)
+
+        alertActions.forEach { alertController.addAction($0) }
 
         return alertController
     }
@@ -35,7 +54,7 @@ extension UIAlertController.PreparedError {
 
 // MARK: - Init from Error
 
-extension UIAlertController.PreparedError {
+extension UIAlertController.AlertError {
     /// Show a default text for Error, error will be packed in `underlyingError`
     init(for error: Error, translator: TranslationProvider) {
         let title: String = translator.translation(forKey: "messages.error.default.title")
@@ -48,7 +67,7 @@ extension UIAlertController.PreparedError {
 
 // MARK: - Init from Interaction
 
-extension UIAlertController.PreparedError {
+extension UIAlertController.AlertError {
     /// Initialize localized error if translator could translate both title and message
     /// - Throws: `InternalError` with no localization description
     init(for interaction: Interaction, translator: TranslationProvider) throws {

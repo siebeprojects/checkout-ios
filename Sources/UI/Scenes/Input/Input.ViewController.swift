@@ -257,17 +257,19 @@ extension Input.ViewController: InputPaymentControllerDelegate {
 
         // Construct error
         let translator = smartSwitch.selected.network.translation
-        var uiPreparedError: UIAlertController.PreparedError
+        var uiPreparedError: UIAlertController.AlertError
         do {
-            uiPreparedError = try UIAlertController.PreparedError(for: interaction, translator: translator)
+            uiPreparedError = try UIAlertController.AlertError(for: interaction, translator: translator)
         } catch {
-            uiPreparedError = UIAlertController.PreparedError(for: error, translator: translator)
+            uiPreparedError = UIAlertController.AlertError(for: error, translator: translator)
         }
-
+        
         // Unlock input fields after error alert dismissal
-        uiPreparedError.dismissBlock = {
-            self.stateManager.state = .inputFieldsPresentation
-        }
+        uiPreparedError.actions = [
+            .init(label: .ok, handler: { _ in
+                self.stateManager.state = .inputFieldsPresentation
+            }, style: .default)
+        ]
 
         // Show an error
         stateManager.state = .error(uiPreparedError)

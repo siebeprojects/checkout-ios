@@ -209,7 +209,7 @@ extension List.ViewController {
             return
         }
 
-        let errorDismissBlock = {
+        let errorDismissBlock: ((UIAlertAction) -> Void)  = { _ in
             if self.navigationController == nil {
                 self.dismiss(animated: true, completion: nil)
             } else {
@@ -219,7 +219,8 @@ extension List.ViewController {
 
         // Present a custom error for network failures
         if let networkError = error.asNetworkError {
-            let builtError = UIAlertController.PreparedError(title: nil, message: networkError.localizedDescription, dismissBlock: errorDismissBlock)
+            var builtError = UIAlertController.AlertError(title: nil, message: networkError.localizedDescription)
+            builtError.actions = [.init(label: .ok, handler: errorDismissBlock, style: .default)]
 
             let alertController = builtError.createAlertController(translator: sharedTranslationProvider)
             let retryLabel: String = sharedTranslationProvider.translation(forKey: TranslationKey.retryLabel.rawValue)
@@ -230,19 +231,21 @@ extension List.ViewController {
 
             self.errorAlertController = alertController
             present(alertController, animated: true, completion: nil)
+            
+            return
         }
 
-        var localizedError: UIAlertController.PreparedError
+        var localizedError: UIAlertController.AlertError
 
-        if let uiPreparedError = error as? UIAlertController.PreparedError {
+        if let uiPreparedError = error as? UIAlertController.AlertError {
             // For prebuilt errors don't do any transformations
             localizedError = uiPreparedError
         } else {
             // Some unknown error, just show a generic error
-            localizedError = UIAlertController.PreparedError(for: error, translator: sharedTranslationProvider)
+            localizedError = UIAlertController.AlertError(for: error, translator: sharedTranslationProvider)
         }
 
-        localizedError.dismissBlock = errorDismissBlock
+        localizedError.actions = [.init(label: .ok, handler: errorDismissBlock, style: .default)]
 
         // Create and show error controller
         let alertController = localizedError.createAlertController(translator: sharedTranslationProvider)
@@ -354,16 +357,16 @@ extension List.ViewController: NetworkOperationResultHandler {
         switch Interaction.Code(rawValue: result.interaction.code) {
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
             // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
-            var uiPreparedError: UIAlertController.PreparedError
+            var uiPreparedError: UIAlertController.AlertError
             do {
-                uiPreparedError = try UIAlertController.PreparedError(for: result.interaction, translator: network.translation)
+                uiPreparedError = try UIAlertController.AlertError(for: result.interaction, translator: network.translation)
             } catch {
-                uiPreparedError = UIAlertController.PreparedError(for: error, translator: network.translation)
+                uiPreparedError = UIAlertController.AlertError(for: error, translator: network.translation)
             }
 
-            uiPreparedError.dismissBlock = {
+            uiPreparedError.actions = [.init(label: .ok, handler: { _ in
                 self.loadPaymentSession()
-            }
+            }, style: .default)]
 
             viewState = .failure(uiPreparedError)
         case .RELOAD:
