@@ -62,27 +62,35 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
                 self.delegate?.paymentController(presentURL: url)
             }
         case .result(let result):
-            // On retry show an error and leave on that view
-            if case .RETRY = Interaction.Code(rawValue: result.errorInfo.interaction.code) {
-                DispatchQueue.main.async {
-                    self.delegate?.paymentController(inputShouldBeChanged: result.errorInfo)
+            switch result {
+            case .failure(let errorInfo):
+                // On retry show an error and leave on that view
+                if case .RETRY = Interaction.Code(rawValue: errorInfo.interaction.code) {
+                    DispatchQueue.main.async {
+                        self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
+                    }
                 }
-            }
-            
-            // If a reason is a communication failure, propose to retry
-            else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: result.errorInfo.interaction.reason) {
-                // Propose to retry a charge request
-                DispatchQueue.main.async {
-                    self.delegate?.paymentController(communicationDidFailWith: result.errorInfo)
+
+                // If a reason is a communication failure, propose to retry
+                else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: errorInfo.interaction.reason) {
+                    // Propose to retry a charge request
+                    DispatchQueue.main.async {
+                        self.delegate?.paymentController(communicationDidFailWith: errorInfo)
+                    }
                 }
-            }
-            
-            // In other situations route to a parent view
-            else {
+
+                // In other situations route to a parent view
+                else {
+                    DispatchQueue.main.async {
+                        self.delegate?.paymentController(route: result)
+                    }
+                }
+            case .success:
                 DispatchQueue.main.async {
                     self.delegate?.paymentController(route: result)
                 }
             }
+            
         }
     }
 }

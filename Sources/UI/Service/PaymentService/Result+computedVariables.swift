@@ -13,13 +13,6 @@ extension Result where Success: OperationResult, Failure: ErrorInfo {
         case .failure(let errorInfo): return errorInfo.interaction
         }
     }
-
-    var errorInfo: ErrorInfo {
-        switch self {
-        case .success(let operationResult): return ErrorInfo(resultInfo: operationResult.resultInfo, interaction: operationResult.interaction)
-        case .failure(let errorInfo): return errorInfo
-        }
-    }
     
     var resultInfo: String {
         switch self {
