@@ -69,9 +69,8 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
                 }
             }
             
-            // If a reason is communication failure and code is ABORT (we shouldn't retry if it is VERIFY one), propose to retry
-            else if case .ABORT = Interaction.Code(rawValue: result.errorInfo.interaction.code),
-                    case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: result.errorInfo.interaction.reason) {
+            // If a reason is a communication failure, propose to retry
+            else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: result.errorInfo.interaction.reason) {
                 // Propose to retry a charge request
                 DispatchQueue.main.async {
                     self.delegate?.paymentController(communicationDidFailWith: result.errorInfo)
