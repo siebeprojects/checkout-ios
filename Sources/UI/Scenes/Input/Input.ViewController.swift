@@ -264,7 +264,9 @@ extension Input.ViewController: InputPaymentControllerDelegate {
                 submitPayment()
             },
             .init(label: .cancel, style: .cancel, handler: { [self] _ in
-                self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: self.smartSwitch.selected.network)
+                dismiss(animated: true) {
+                    self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: self.smartSwitch.selected.network)
+                }
             })
         ]
 
