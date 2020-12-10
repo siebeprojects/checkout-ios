@@ -14,20 +14,21 @@ extension UIAlertController {
 
         var underlyingError: Error?
 
-        var actions: [Action] = {
-            [Action(label: .ok, handler: nil, style: .default)]
-        }()
+        /// Alert window's actions
+        var actions = [Action]()
 
         struct Action {
-            /// E.g.: `button.ok.label`
+            /// Button's label (localization key), e.g.: `button.ok.label`
             let label: LocalizationKey
 
+            let style: UIAlertAction.Style
+            
             /// Action to be executed when button is tapped
             let handler: ((UIAlertAction) -> Void)?
 
-            let style: UIAlertAction.Style
-
             enum LocalizationKey: String {
+                case cancel = "button.cancel.label"
+                case retry = "button.retry.label"
                 case ok = "button.ok.label"
             }
         }
@@ -39,11 +40,8 @@ extension UIAlertController.AlertError {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         let alertActions: [UIAlertAction] = actions.map {
-            UIAlertAction(
-                title: translator.translation(forKey: $0.label.rawValue),
-                style: $0.style,
-                handler: $0.handler
-            )
+            let title: String = translator.translation(forKey: $0.label.rawValue)
+            return .init(title: title, style: $0.style, handler: $0.handler)
         }
 
         alertActions.forEach { alertController.addAction($0) }
@@ -69,13 +67,24 @@ extension UIAlertController.AlertError {
 
 extension UIAlertController.AlertError {
     /// Initialize localized error if translator could translate both title and message
-    /// - Throws: `InternalError` with no localization description
-    init(for interaction: Interaction, translator: TranslationProvider) throws {
-        guard let title = translator.translation(forKey: interaction.localizableError.titleKey), let message = translator.translation(forKey: interaction.localizableError.messageKey) else {
-            throw InternalError(description: "No translation for interaction with code and reason: %@", interaction)
+    init(for error: ErrorInfo, translator: TranslationProvider) {
+        // If it is a communication error info, custom translations' keys should be used
+        if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: error.interaction.reason),
+           let title = translator.translation(forKey: "messages.error.internet.title"),
+           let message = translator.translation(forKey: "messages.error.internet.text") {
+            self.init(title: title, message: message)
         }
 
-        self.init(title: title, message: message)
+        // Try to localize using `interaction.CODE.REASON.title`
+        else if let title = translator.translation(forKey: error.interaction.localizableError.titleKey),
+                  let message = translator.translation(forKey: error.interaction.localizableError.messageKey) {
+            self.init(title: title, message: message)
+        }
+
+        // Init with a generic error
+        else {
+            self.init(for: error as Error, translator: translator)
+        }
     }
 }
 

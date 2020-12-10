@@ -20,4 +20,10 @@ final class CustomErrorInfo: ErrorInfo {
     required init(from decoder: Decoder) throws {
         fatalError("Can't be inited from decoder")
     }
+
+    /// Create an instance with `ABORT` and `CLIENTSIDE_ERROR` Interaction
+    static func createClientSideError(from error: Error) -> CustomErrorInfo {
+        let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
+        return .init(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
+    }
 }

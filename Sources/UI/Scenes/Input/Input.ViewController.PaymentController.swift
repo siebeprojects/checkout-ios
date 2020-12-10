@@ -9,7 +9,8 @@ import Foundation
 protocol InputPaymentControllerDelegate: class {
     func paymentController(presentURL url: URL)
     func paymentController(route result: Result<OperationResult, ErrorInfo>)
-    func paymentController(presentAlertFor interaction: Interaction)
+    func paymentController(inputShouldBeChanged error: ErrorInfo)
+    func paymentController(communicationDidFailWith error: ErrorInfo)
 }
 
 extension Input.ViewController {
@@ -61,14 +62,24 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
                 self.delegate?.paymentController(presentURL: url)
             }
         case .result(let result):
-            switch Interaction.Code(rawValue: result.interaction.code) {
-            case .RETRY:
-                // On retry show an error and leave on that view
+            // On retry show an error and leave on that view
+            if case .RETRY = Interaction.Code(rawValue: result.errorInfo.interaction.code) {
                 DispatchQueue.main.async {
-                    self.delegate?.paymentController(presentAlertFor: result.interaction)
+                    self.delegate?.paymentController(inputShouldBeChanged: result.errorInfo)
                 }
-            default:
-                // Route result to other view
+            }
+            
+            // If a reason is communication failure and code is ABORT (we shouldn't retry if it is VERIFY one), propose to retry
+            else if case .ABORT = Interaction.Code(rawValue: result.errorInfo.interaction.code),
+                    case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: result.errorInfo.interaction.reason) {
+                // Propose to retry a charge request
+                DispatchQueue.main.async {
+                    self.delegate?.paymentController(communicationDidFailWith: result.errorInfo)
+                }
+            }
+            
+            // In other situations route to a parent view
+            else {
                 DispatchQueue.main.async {
                     self.delegate?.paymentController(route: result)
                 }

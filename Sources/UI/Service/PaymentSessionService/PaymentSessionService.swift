@@ -12,12 +12,14 @@ class PaymentSessionService {
     let downloadProvider: DataDownloadProvider
     private let paymentSessionProvider: PaymentSessionProvider
     private let localizationProvider: TranslationProvider
+    private let connection: Connection
 
     let paymentServicesFactory: PaymentServicesFactory
     
     weak var delegate: PaymentSessionServiceDelegate?
 
     init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider) {
+        self.connection = connection
         paymentServicesFactory = PaymentServicesFactory(connection: connection)
         downloadProvider = DataDownloadProvider(connection: connection)
         paymentSessionProvider = PaymentSessionProvider(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider)
@@ -28,7 +30,7 @@ class PaymentSessionService {
 
     /// - Parameter completion: `LocalizedError` or `NSError` with localized description is always returned if `Load` produced an error.
     func loadPaymentSession() {
-        paymentSessionProvider.loadPaymentSession { [weak delegate, firstSelectedNetwork] result in
+        paymentSessionProvider.loadPaymentSession { [self, weak delegate, firstSelectedNetwork] result in
             switch result {
             case .loading:
                 DispatchQueue.main.async {
@@ -44,9 +46,26 @@ class PaymentSessionService {
                 }
             case .failure(let error):
                 log(error)
-
-                DispatchQueue.main.async {
-                    delegate?.paymentSessionService(loadingDidCompleteWith: .failure(error))
+                
+                // If server responded with ErrorInfo
+                if let errorInfo = error as? ErrorInfo {
+                    DispatchQueue.main.async {
+                        delegate?.paymentSessionService(loadingDidCompleteWith: .failure(errorInfo))
+                    }
+                // If it is recoverable error (network error in our case)
+                } else if type(of: self.connection.self).isRecoverableError(error) {
+                    let interaction = Interaction(code: .ABORT, reason: .COMMUNICATION_FAILURE)
+                    let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
+                    DispatchQueue.main.async {
+                        delegate?.paymentSessionService(loadingDidCompleteWith: .failure(errorInfo))
+                    }
+                // In all other cases
+                } else {
+                    let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
+                    let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
+                    DispatchQueue.main.async {
+                        delegate?.paymentSessionService(loadingDidCompleteWith: .failure(errorInfo))
+                    }
                 }
             }
         }
