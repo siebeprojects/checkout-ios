@@ -89,6 +89,7 @@ extension Input.Table.ButtonCell {
         button.backgroundColor = button.tintColor
         updateButtonTitle(model: model)
         setActivityIndicator(isAnimating: model.isActivityIndicatorAnimating)
+        button.isEnabled = model.isEnabled
     }
 
     fileprivate func updateButtonTitle(model: Input.Field.Button) {
