@@ -29,6 +29,9 @@ import Foundation
         return (errorInfo as? CustomErrorInfo)?.underlyingError
     }
 
+    /// Contains result info from `OperationResult` or `ErrorInfo`
+    public var resultInfo: String { result.resultInfo }
+
     /// A reference to `Interaction` object inside `operationResult` or `errorInfo`.
     public var interaction: Interaction { result.interaction }
 
