@@ -315,11 +315,11 @@ extension List.ViewController: PaymentSessionServiceDelegate {
         switch result {
         case .failure(let error):
             if let errorInfo = error as? ErrorInfo {
-                dismiss(withOperationResult: .failure(errorInfo))
+                dismiss(with: .failure(errorInfo))
             } else {
                 let abortInteraction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
                 let customErrorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: abortInteraction, underlyingError: error)
-                dismiss(withOperationResult: .failure(customErrorInfo))
+                dismiss(with: .failure(customErrorInfo))
             }
         default:
             self.viewState = result
@@ -370,12 +370,12 @@ extension List.ViewController: NetworkOperationResultHandler {
             // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
             loadPaymentSession()
         default:
-            dismiss(withOperationResult: result)
+            dismiss(with: result)
         }
     }
 
     /// Dismiss view controller and send result to a merchant
-    private func dismiss(withOperationResult result: Result<OperationResult, ErrorInfo>) {
+    private func dismiss(with result: Result<OperationResult, ErrorInfo>) {
         let paymentResult = PaymentResult(operationResult: result)
         delegate?.paymentService(didReceivePaymentResult: paymentResult)
         navigationController?.popViewController(animated: true)
