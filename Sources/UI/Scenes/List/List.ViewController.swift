@@ -102,7 +102,7 @@ extension List.ViewController {
             inputViewController.delegate = self
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-            dismiss(withOperationResult: .failure(errorInfo))
+            dismiss(with: .failure(errorInfo))
         }
     }
 
@@ -112,7 +112,7 @@ extension List.ViewController {
             inputViewController.delegate = self
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-            dismiss(withOperationResult: .failure(errorInfo))
+            dismiss(with: .failure(errorInfo))
         }
     }
 
@@ -133,7 +133,7 @@ extension List.ViewController {
                 dismissAlertController()
             } catch {
                 let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-                dismiss(withOperationResult: .failure(errorInfo))
+                dismiss(with: .failure(errorInfo))
             }
         case .loading:
             do {
@@ -142,7 +142,7 @@ extension List.ViewController {
                 dismissAlertController()
             } catch {
                 let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-                dismiss(withOperationResult: .failure(errorInfo))
+                dismiss(with: .failure(errorInfo))
            }
         case .failure(let error):
             activityIndicator(isActive: true)
@@ -293,7 +293,7 @@ extension List.ViewController: PaymentSessionServiceDelegate {
                 viewState = .failure(alert)
             // In case of other errors just route the error to a merchant
             } else {
-                dismiss(withOperationResult: .failure(errorInfo))
+                dismiss(with: .failure(errorInfo))
             }
         case .loading:
             viewState = .loading
@@ -344,15 +344,15 @@ extension List.ViewController: NetworkOperationResultHandler {
                 // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
                 loadPaymentSession()
             default:
-                dismiss(withOperationResult: result)
+                dismiss(with: result)
             }
         case .success:
-            dismiss(withOperationResult: result)
+            dismiss(with: result)
         }
     }
 
     /// Dismiss view controller and send result to a merchant
-    private func dismiss(withOperationResult result: Result<OperationResult, ErrorInfo>) {
+    private func dismiss(with result: Result<OperationResult, ErrorInfo>) {
         let paymentResult = PaymentResult(operationResult: result)
         delegate?.paymentService(didReceivePaymentResult: paymentResult)
         navigationController?.popViewController(animated: true)
