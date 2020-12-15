@@ -6,8 +6,6 @@
 
 import Foundation
 
-struct TranslatedError: LocalizedError {
-    var localizedDescription: String
-    var underlyingError: Error?
-    var errorDescription: String? { return localizedDescription}
+protocol NetworkOperationResultHandler: class {
+    func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for network: Input.Network)
 }

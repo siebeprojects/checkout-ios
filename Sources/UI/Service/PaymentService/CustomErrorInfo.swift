@@ -11,7 +11,7 @@ final class CustomErrorInfo: ErrorInfo {
     /// Underlying error that caused payment error
     let underlyingError: Error?
 
-    init(resultInfo: String, interaction: Interaction, underlyingError: Error?) {
+    init(resultInfo: String, interaction: Interaction, underlyingError: Error? = nil) {
         self.underlyingError = underlyingError
         super.init(resultInfo: resultInfo, interaction: interaction)
     }
