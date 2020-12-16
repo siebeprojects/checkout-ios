@@ -9,7 +9,6 @@ import UIKit
 
 extension List {
     @objc public final class ViewController: UIViewController {
-        weak var scrollView: UIScrollView?
         weak var methodsTableView: UITableView?
         weak var activityIndicator: UIActivityIndicatorView?
         weak var errorAlertController: UIAlertController?
@@ -67,11 +66,6 @@ extension List.ViewController {
         }
 
         loadPaymentSession()
-    }
-
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableController?.viewDidLayoutSubviews()
     }
 
     public override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -162,9 +156,6 @@ extension List.ViewController {
     private func showPaymentMethods(for session: PaymentSession?) throws {
         guard let session = session else {
             // Hide payment methods
-            scrollView?.removeFromSuperview()
-            scrollView = nil
-
             methodsTableView?.removeFromSuperview()
             methodsTableView = nil
             tableController = nil
@@ -173,10 +164,7 @@ extension List.ViewController {
         }
 
         // Show payment methods
-        let scrollView = addScrollView()
-        self.scrollView = scrollView
-
-        let methodsTableView = addMethodsTableView(to: scrollView)
+        let methodsTableView = addMethodsTableView(to: view)
         self.methodsTableView = methodsTableView
 
         let tableController = try List.Table.Controller(session: session, translationProvider: sharedTranslationProvider)
@@ -289,12 +277,7 @@ extension List.ViewController {
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
         methodsTableView.rowHeight = .rowHeight
-        methodsTableView.contentInsetAdjustmentBehavior = .never
-
-        // Use that to remove extra spacing at top
-        methodsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
-
-        methodsTableView.isScrollEnabled = false
+        methodsTableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
         methodsTableView.register(List.Table.SingleLabelCell.self)
@@ -304,13 +287,12 @@ extension List.ViewController {
         let topPadding: CGFloat = 30
 
         NSLayoutConstraint.activate([
-            methodsTableView.leadingAnchor.constraint(equalTo: superview.layoutMarginsGuide.leadingAnchor),
-            methodsTableView.bottomAnchor.constraint(equalTo: superview.layoutMarginsGuide.bottomAnchor),
-            methodsTableView.topAnchor.constraint(equalTo: superview.layoutMarginsGuide.topAnchor, constant: topPadding),
-            methodsTableView.centerXAnchor.constraint(equalTo: superview.centerXAnchor)
+            methodsTableView.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+            methodsTableView.bottomAnchor.constraint(equalTo: superview.bottomAnchor),
+            methodsTableView.topAnchor.constraint(equalTo: superview.topAnchor, constant: topPadding),
         ])
 
-        let trailingConstraint = methodsTableView.trailingAnchor.constraint(equalTo: superview.layoutMarginsGuide.trailingAnchor)
+        let trailingConstraint = methodsTableView.trailingAnchor.constraint(equalTo: superview.trailingAnchor)
         trailingConstraint.priority = .defaultHigh
         trailingConstraint.isActive = true
 
