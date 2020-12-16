@@ -31,14 +31,6 @@ extension List.Table {
             dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, translation: translationProvider, genericLogo: genericLogo)
         }
 
-        func viewDidLayoutSubviews() {
-            guard let tableView = self.tableView else { return }
-            for cell in tableView.visibleCells {
-                guard let paymentCell = cell as? List.Table.BorderedCell else { continue }
-                paymentCell.viewDidLayoutSubviews()
-            }
-        }
-
         fileprivate func loadLogo(for indexPath: IndexPath) {
             let models: [ContainsLoadableImage]
             switch dataSource.model(for: indexPath) {
