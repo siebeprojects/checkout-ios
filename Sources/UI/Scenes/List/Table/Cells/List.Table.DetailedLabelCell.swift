@@ -66,7 +66,7 @@ extension List.Table.DetailedLabelCell {
             secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor),
             secondaryLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
 
-            logoView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            logoView.leadingAnchor.constraint(equalTo: leftBorder.layoutMarginsGuide.leadingAnchor),
             logoView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             logoView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
             logoView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)

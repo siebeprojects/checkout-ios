@@ -10,10 +10,10 @@ import UIKit
 
 extension List.Table {
     class BorderedCell: UITableViewCell {
-        weak var leftBorder: UIView?
-        weak var rightBorder: UIView?
-        weak var topBorder: UIView?
-        weak var bottomBorder: UIView?
+        weak var leftBorder: UIView!
+        weak var rightBorder: UIView!
+        weak var topBorder: UIView!
+        weak var bottomBorder: UIView!
 
         var cellIndex: CellIndex = .middle {
             didSet { cellIndexDidChange() }
@@ -27,6 +27,8 @@ extension List.Table {
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
+            
+            self.preservesSuperviewLayoutMargins = true
 
             addBordersViews()
         }
@@ -71,12 +73,12 @@ extension List.Table.BorderedCell {
         }
 
         NSLayoutConstraint.activate([
-            leftBorder.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            leftBorder.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
             leftBorder.topAnchor.constraint(equalTo: topAnchor),
             leftBorder.bottomAnchor.constraint(equalTo: bottomAnchor),
             leftBorder.widthAnchor.constraint(equalToConstant: .separatorWidth),
 
-            rightBorder.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            rightBorder.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             rightBorder.topAnchor.constraint(equalTo: topAnchor),
             rightBorder.bottomAnchor.constraint(equalTo: bottomAnchor),
             rightBorder.widthAnchor.constraint(equalToConstant: .separatorWidth),

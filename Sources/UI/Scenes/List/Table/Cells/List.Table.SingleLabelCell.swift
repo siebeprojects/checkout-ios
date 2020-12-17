@@ -50,7 +50,7 @@ extension List.Table.SingleLabelCell {
             networkLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -.defaultSpacing),
             networkLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
 
-            networkLogoView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            networkLogoView.leadingAnchor.constraint(equalTo: leftBorder.layoutMarginsGuide.leadingAnchor),
             networkLogoView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             networkLogoView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
             networkLogoView.trailingAnchor.constraint(equalTo: networkLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)
