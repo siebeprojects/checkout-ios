@@ -50,8 +50,18 @@ extension List.Table {
 extension List.Table.BorderedCell {
     fileprivate func cellIndexDidChange() {
         switch cellIndex {
-        case .first, .middle: bottomBorder?.isHidden = true
-        case .last: bottomBorder?.isHidden = false
+        case .first:
+            topBorder.backgroundColor = .themedTableBorder
+            bottomBorder.backgroundColor = .themedTableBorder
+            bottomBorder?.isHidden = true
+        case .middle:
+            topBorder.backgroundColor = .themedTableCellSeparator
+            bottomBorder.backgroundColor = .themedTableCellSeparator
+            bottomBorder?.isHidden = true
+        case .last:
+            topBorder.backgroundColor = .themedTableCellSeparator
+            bottomBorder.backgroundColor = .themedTableBorder
+            bottomBorder?.isHidden = false
         }
     }
 
