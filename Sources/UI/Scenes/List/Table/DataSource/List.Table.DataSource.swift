@@ -153,8 +153,6 @@ extension SingleLabelRow {
         default: cell.cellIndex = .middle
         }
 
-        cell.accessoryType = .disclosureIndicator
-
         return cell
     }
 }

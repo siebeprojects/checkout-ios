@@ -39,6 +39,14 @@ final class AssetProvider {
     static var iconClear: UIImage? {
         return UIImage(named: "iconClear", in: bundle, compatibleWith: nil)
     }
+
+    static var disclosureIndicator: UIImage? {
+        if #available(iOS 13.0, *) {
+            return UIImage(systemName: "chevron.right")
+        } else {
+            return UIImage(named: "disclosureIndicator", in: bundle, compatibleWith: nil)
+        }
+    }
     #endif
 
     static func getGroupingRulesData() throws -> Data {

@@ -14,6 +14,9 @@ extension List.Table {
         weak var rightBorder: UIView!
         weak var topBorder: UIView!
         weak var bottomBorder: UIView!
+        
+        weak var customAccessoryView: UIView!
+        weak var customContentView: UIView!
 
         var cellIndex: CellIndex = .middle {
             didSet { cellIndexDidChange() }
@@ -31,6 +34,8 @@ extension List.Table {
             self.preservesSuperviewLayoutMargins = true
 
             addBordersViews()
+            addCustomAccessoryView()
+            addCustomContentView()
             addSelectedBackgroundView()
         }
 
@@ -66,7 +71,7 @@ extension List.Table.BorderedCell {
 
         for border in [leftBorder, rightBorder, topBorder, bottomBorder] {
             border.translatesAutoresizingMaskIntoConstraints = false
-            border.backgroundColor = .red
+            border.backgroundColor = .themedTableBorder
             contentView.addSubview(border)
         }
 
@@ -91,8 +96,6 @@ extension List.Table.BorderedCell {
             bottomBorder.trailingAnchor.constraint(equalTo: rightBorder.trailingAnchor),
             bottomBorder.heightAnchor.constraint(equalToConstant: .separatorWidth)
         ])
-
-        addSelectedBackgroundView()
     }
 
     private func addSelectedBackgroundView() {
@@ -106,12 +109,42 @@ extension List.Table.BorderedCell {
 
         viewWithPaddings.translatesAutoresizingMaskIntoConstraints = false
         selectedBackgroundView.preservesSuperviewLayoutMargins = true
-
+        
         NSLayoutConstraint.activate([
             viewWithPaddings.leadingAnchor.constraint(equalTo: selectedBackgroundView.layoutMarginsGuide.leadingAnchor),
             viewWithPaddings.topAnchor.constraint(equalTo: selectedBackgroundView.topAnchor),
             viewWithPaddings.bottomAnchor.constraint(equalTo: selectedBackgroundView.bottomAnchor),
             viewWithPaddings.trailingAnchor.constraint(equalTo: selectedBackgroundView.layoutMarginsGuide.trailingAnchor)
+        ])
+    }
+
+    fileprivate func addCustomContentView() {
+        let customContentView = UIView(frame: .zero)
+        self.customContentView = customContentView
+        customContentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(customContentView)
+
+        NSLayoutConstraint.activate([
+            customContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            customContentView.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor),
+            customContentView.trailingAnchor.constraint(equalTo: customAccessoryView.trailingAnchor, constant: -16),
+            customContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        ])
+    }
+    
+    fileprivate func addCustomAccessoryView() {
+        let customAccessoryView = UIImageView(frame: .zero)
+        customAccessoryView.contentMode = .scaleAspectFit
+        customAccessoryView.image = AssetProvider.disclosureIndicator
+        customAccessoryView.tintColor = .themedTableBorder
+        self.customAccessoryView = customAccessoryView
+        customAccessoryView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(customAccessoryView)
+        
+        NSLayoutConstraint.activate([
+            customAccessoryView.topAnchor.constraint(equalTo: topAnchor),
+            customAccessoryView.trailingAnchor.constraint(equalTo: rightBorder.trailingAnchor, constant: -16),
+            customAccessoryView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }

@@ -36,40 +36,40 @@ extension List.Table.DetailedLabelCell {
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
         primaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
         primaryLabel.textColor = .themedText
-        contentView.addSubview(primaryLabel)
+        customContentView.addSubview(primaryLabel)
         self.primaryLabel = primaryLabel
 
         let secondaryLabel = UILabel(frame: .zero)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         secondaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
         secondaryLabel.textColor = .themedDetailedText
-        contentView.addSubview(secondaryLabel)
+        customContentView.addSubview(secondaryLabel)
         self.secondaryLabel = secondaryLabel
 
         let logoView = UIImageView(frame: .zero)
         logoView.tintColor = .themedDetailedText
         logoView.contentMode = .scaleAspectFill
         logoView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(logoView)
+        customContentView.addSubview(logoView)
         self.logoView = logoView
 
         // Layout
 
         NSLayoutConstraint.activate([
-            primaryLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: .labelToLeftSeparatorSpacing),
-            primaryLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.topAnchor),
-            primaryLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor, constant: .verticalSpacing / -2),
-            primaryLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            primaryLabel.topAnchor.constraint(greaterThanOrEqualTo: customContentView.layoutMarginsGuide.topAnchor),
+            primaryLabel.bottomAnchor.constraint(equalTo: customContentView.centerYAnchor, constant: .verticalSpacing / -4),
+            primaryLabel.trailingAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.trailingAnchor),
 
-            secondaryLabel.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: .defaultSpacing * 2),
-            secondaryLabel.topAnchor.constraint(equalTo: contentView.centerYAnchor, constant: .verticalSpacing / 2),
-            secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.layoutMarginsGuide.bottomAnchor),
-            secondaryLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
+            secondaryLabel.topAnchor.constraint(equalTo: customContentView.centerYAnchor, constant: .verticalSpacing / 4),
+            secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: customContentView.layoutMarginsGuide.bottomAnchor),
+            secondaryLabel.trailingAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.trailingAnchor),
 
-            logoView.leadingAnchor.constraint(equalTo: leftBorder.layoutMarginsGuide.leadingAnchor),
-            logoView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-            logoView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
-            logoView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)
+            logoView.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor, constant: 2 * CGFloat.defaultSpacing),
+            logoView.topAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.topAnchor),
+            logoView.bottomAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.bottomAnchor),
+            logoView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing),
+            logoView.widthAnchor.constraint(equalToConstant: .imageWidth)
         ])
     }
 }
@@ -77,7 +77,7 @@ extension List.Table.DetailedLabelCell {
 // MARK: - Constants
 
 private extension CGFloat {
-    static var labelToLeftSeparatorSpacing: CGFloat { return 68 }
+    static var imageWidth: CGFloat { return 50 }
     static var defaultSpacing: CGFloat { return 8 }
     static var verticalSpacing: CGFloat { return 4 }
 }

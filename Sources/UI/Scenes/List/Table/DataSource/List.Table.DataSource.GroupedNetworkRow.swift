@@ -87,8 +87,6 @@ extension List.Table.DataSource.GroupedNetworkRow {
         default: cell.cellIndex = .middle
         }
 
-        cell.accessoryType = .disclosureIndicator
-
         return cell
     }
 }

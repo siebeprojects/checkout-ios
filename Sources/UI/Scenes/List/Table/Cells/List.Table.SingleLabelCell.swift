@@ -35,24 +35,24 @@ extension List.Table.SingleLabelCell {
         networkLabel.translatesAutoresizingMaskIntoConstraints = false
         networkLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
         networkLabel.textColor = .themedText
-        contentView.addSubview(networkLabel)
+        customContentView.addSubview(networkLabel)
         self.networkLabel = networkLabel
 
         let networkLogoView = UIImageView(image: nil)
         networkLogoView.translatesAutoresizingMaskIntoConstraints = false
         networkLogoView.contentMode = .scaleAspectFit
-        contentView.addSubview(networkLogoView)
+        customContentView.addSubview(networkLogoView)
         self.networkLogoView = networkLogoView
 
         NSLayoutConstraint.activate([
-            networkLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: .labelToLeftSeparatorSpacing),
-            networkLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: .defaultSpacing),
-            networkLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -.defaultSpacing),
-            networkLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            networkLabel.topAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.topAnchor, constant: .defaultSpacing),
+            networkLabel.bottomAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.bottomAnchor, constant: -.defaultSpacing),
+            networkLabel.trailingAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.trailingAnchor),
 
-            networkLogoView.leadingAnchor.constraint(equalTo: leftBorder.layoutMarginsGuide.leadingAnchor),
-            networkLogoView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-            networkLogoView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            networkLogoView.leadingAnchor.constraint(equalTo: customContentView.leadingAnchor, constant: 2 * .defaultSpacing),
+            networkLogoView.topAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.topAnchor),
+            networkLogoView.bottomAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.bottomAnchor),
+            networkLogoView.widthAnchor.constraint(equalToConstant: .imageWidth),
             networkLogoView.trailingAnchor.constraint(equalTo: networkLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing)
         ])
 
@@ -64,7 +64,7 @@ extension List.Table.SingleLabelCell {
 // MARK: - Constants
 
 private extension CGFloat {
-    static var labelToLeftSeparatorSpacing: CGFloat { return 68 }
+    static var imageWidth: CGFloat { return 50 }
     static var defaultSpacing: CGFloat { return 8 }
 }
 #endif
