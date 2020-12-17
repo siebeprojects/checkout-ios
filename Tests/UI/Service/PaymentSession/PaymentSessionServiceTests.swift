@@ -8,26 +8,6 @@ import XCTest
 @testable import Optile
 
 class PaymentSessionServiceTests: XCTestCase {
-    func testPaymentPageUnavailable() {
-        let result = syncLoadPaymentSession(using: PaymentPageFailureDataSource())
-
-        guard case let .failure(error) = result else {
-            XCTFail("Expected failure")
-            return
-        }
-
-        let errorAttach = XCTAttachment(subject: error)
-        errorAttach.name = "Error"
-        add(errorAttach)
-
-        guard let localized = error as? LocalizedError else {
-            XCTFail("Error is not localized")
-            return
-        }
-
-        XCTAssertEqual(localized.localizedDescription, TranslationKey.errorText.localizedString)
-    }
-
     // TODO:
     // Write a test if payment network doesn't contain language URL or download failed
 
@@ -51,35 +31,47 @@ class PaymentSessionServiceTests: XCTestCase {
     }
 
     // MARK: - Helper methods
+    
+    var loadingPromise: XCTestExpectation!
+    var resultPromise: XCTestExpectation!
+    var sessionResult: Load<PaymentSession, Error>?
 
     private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Load<PaymentSession, Error> {
         let connection = MockConnection(dataSource: dataSource)
         let provider = PaymentSessionService(paymentSessionURL: URL.example, connection: connection, localizationProvider: SharedTranslationProvider())
+        provider.delegate = self
 
-        let loadingPromise = expectation(description: "PaymentSessionProvider: loading")
-        let resultPromise = expectation(description: "PaymentSessionProvider: completed")
-        var sessionResult: Load<PaymentSession, Error>!
-        provider.loadPaymentSession(
-            loadDidComplete: { result in
-                switch result {
-                case .loading: loadingPromise.fulfill()
-                default:
-                    sessionResult = result
-                    resultPromise.fulfill()
-                }
-            },
-            shouldSelect: { _ in
-                return
-            }
-        )
+        loadingPromise = expectation(description: "PaymentSessionProvider: loading")
+        resultPromise = expectation(description: "PaymentSessionProvider: completed")
+        provider.loadPaymentSession()
+        
         wait(for: [loadingPromise, resultPromise], timeout: 1, enforceOrder: true)
 
         let attachment = XCTAttachment(subject: sessionResult)
         attachment.name = "LoadPaymentSessionResult"
         add(attachment)
 
-        return sessionResult
+        defer {
+            loadingPromise = nil
+            resultPromise = nil
+            sessionResult = nil
+        }
+        
+        return sessionResult!
     }
+}
+
+extension PaymentSessionServiceTests: PaymentSessionServiceDelegate {
+    func paymentSessionService(loadingDidCompleteWith result: Load<PaymentSession, Error>) {
+        switch result {
+        case .loading: loadingPromise.fulfill()
+        default:
+            sessionResult = result
+            resultPromise.fulfill()
+        }
+    }
+    
+    func paymentSessionService(shouldSelect network: PaymentNetwork) {}
 }
 
 // MARK: - Data Sources

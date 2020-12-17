@@ -14,6 +14,8 @@ class PaymentSessionService {
     private let localizationProvider: TranslationProvider
 
     let paymentServicesFactory: PaymentServicesFactory
+    
+    weak var delegate: PaymentSessionServiceDelegate?
 
     init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider) {
         paymentServicesFactory = PaymentServicesFactory(connection: connection)
@@ -25,34 +27,28 @@ class PaymentSessionService {
     }
 
     /// - Parameter completion: `LocalizedError` or `NSError` with localized description is always returned if `Load` produced an error.
-    func loadPaymentSession(loadDidComplete: @escaping (Load<PaymentSession, Error>) -> Void, shouldSelect: @escaping (PaymentNetwork) -> Void) {
-        paymentSessionProvider.loadPaymentSession { [firstSelectedNetwork, localize] result in
+    func loadPaymentSession() {
+        paymentSessionProvider.loadPaymentSession { [weak delegate, firstSelectedNetwork] result in
             switch result {
-            case .loading: loadDidComplete(.loading)
+            case .loading:
+                DispatchQueue.main.async {
+                    delegate?.paymentSessionService(loadingDidCompleteWith: .loading)
+                }
             case .success(let session):
-                loadDidComplete(.success(session))
-                if let selectedNetwork = firstSelectedNetwork(session) {
-                    shouldSelect(selectedNetwork)
+                DispatchQueue.main.async {
+                    delegate?.paymentSessionService(loadingDidCompleteWith: .success(session))
+
+                    if let selectedNetwork = firstSelectedNetwork(session) {
+                        delegate?.paymentSessionService(shouldSelect: selectedNetwork)
+                    }
                 }
             case .failure(let error):
                 log(error)
 
-                let localizedError = localize(error)
-                loadDidComplete(.failure(localizedError))
+                DispatchQueue.main.async {
+                    delegate?.paymentSessionService(loadingDidCompleteWith: .failure(error))
+                }
             }
-        }
-    }
-
-    private func localize(error: Error) -> Error {
-        switch error {
-        case let localizedError as LocalizedError:
-            return localizedError
-        case let error where error.asNetworkError != nil:
-            // Network errors has built-in localizations
-            return error
-        default:
-            let text: String = localizationProvider.translation(forKey: TranslationKey.errorText.rawValue)
-            return TranslatedError(localizedDescription: text, underlyingError: error)
         }
     }
 
