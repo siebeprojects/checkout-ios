@@ -27,10 +27,11 @@ extension List.Table {
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-            
+
             self.preservesSuperviewLayoutMargins = true
 
             addBordersViews()
+            addSelectedBackgroundView()
         }
 
         required init?(coder: NSCoder) {
@@ -48,10 +49,7 @@ extension List.Table.BorderedCell {
         case .last: bottomBorder?.isHidden = false
         }
     }
-    
-    /// Add border views.
-    /// - Description: we create 2 rectangles, outer rectangle will have a border background color, inner background will have a normal background color and it will have 1px spacing between outer one. Result will be a border that we could round.
-    // I think it's the best way to create a rounded border around section's content and use dynamic constraints instead of frame calculations. It's iOS10+ way, if requirements will be iOS11+ that could be done easier with `maskedCorners`.
+
     fileprivate func addBordersViews() {
         let leftBorder = UIView(frame: .zero)
         self.leftBorder = leftBorder
@@ -69,7 +67,7 @@ extension List.Table.BorderedCell {
         for border in [leftBorder, rightBorder, topBorder, bottomBorder] {
             border.translatesAutoresizingMaskIntoConstraints = false
             border.backgroundColor = .red
-            addSubview(border)
+            contentView.addSubview(border)
         }
 
         NSLayoutConstraint.activate([
@@ -107,13 +105,13 @@ extension List.Table.BorderedCell {
         selectedBackgroundView.addSubview(viewWithPaddings)
 
         viewWithPaddings.translatesAutoresizingMaskIntoConstraints = false
+        selectedBackgroundView.preservesSuperviewLayoutMargins = true
 
         NSLayoutConstraint.activate([
-            viewWithPaddings.leadingAnchor.constraint(equalTo: selectedBackgroundView.leadingAnchor),
+            viewWithPaddings.leadingAnchor.constraint(equalTo: selectedBackgroundView.layoutMarginsGuide.leadingAnchor),
             viewWithPaddings.topAnchor.constraint(equalTo: selectedBackgroundView.topAnchor),
-            // Have to be the same as outer's view bottom anchor constant
-            viewWithPaddings.bottomAnchor.constraint(equalTo: selectedBackgroundView.bottomAnchor, constant: 1),
-            viewWithPaddings.trailingAnchor.constraint(equalTo: selectedBackgroundView.trailingAnchor)
+            viewWithPaddings.bottomAnchor.constraint(equalTo: selectedBackgroundView.bottomAnchor),
+            viewWithPaddings.trailingAnchor.constraint(equalTo: selectedBackgroundView.layoutMarginsGuide.trailingAnchor)
         ])
     }
 }
