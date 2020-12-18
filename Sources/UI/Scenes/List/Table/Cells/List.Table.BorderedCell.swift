@@ -26,6 +26,9 @@ extension List.Table {
             case first
             case middle
             case last
+            
+            /// It is an only one cell in section
+            case singleCell
         }
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -53,15 +56,19 @@ extension List.Table.BorderedCell {
         case .first:
             topBorder.backgroundColor = .themedTableBorder
             bottomBorder.backgroundColor = .themedTableBorder
-            bottomBorder?.isHidden = true
+            bottomBorder.isHidden = true
         case .middle:
             topBorder.backgroundColor = .themedTableCellSeparator
             bottomBorder.backgroundColor = .themedTableCellSeparator
-            bottomBorder?.isHidden = true
+            bottomBorder.isHidden = true
         case .last:
             topBorder.backgroundColor = .themedTableCellSeparator
             bottomBorder.backgroundColor = .themedTableBorder
-            bottomBorder?.isHidden = false
+            bottomBorder.isHidden = false
+        case .singleCell:
+            topBorder.backgroundColor = .themedTableBorder
+            bottomBorder.backgroundColor = .themedTableBorder
+            bottomBorder.isHidden = false
         }
     }
 
