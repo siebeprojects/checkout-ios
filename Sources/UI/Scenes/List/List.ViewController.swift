@@ -328,25 +328,20 @@ extension List.ViewController: ListTableControllerDelegate {
 // Received response from InputViewController
 extension List.ViewController: NetworkOperationResultHandler {
     func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for network: Input.Network) {
-        switch result {
-        case .failure(let errorInfo):
-            // Parse failure interaction code
-            switch Interaction.Code(rawValue: errorInfo.interaction.code) {
-            case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
-                // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
-                var alertError = UIAlertController.AlertError(for: errorInfo, translator: network.translation)
-                alertError.actions = [.init(label: .ok, style: .default) { _ in
-                    self.loadPaymentSession()
-                }]
+        switch Interaction.Code(rawValue: result.interaction.code) {
+        // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+            let errorInfo = ErrorInfo(resultInfo: result.resultInfo, interaction: result.interaction)
+            var alertError = UIAlertController.AlertError(for: errorInfo, translator: network.translation)
+            alertError.actions = [.init(label: .ok, style: .default) { _ in
+                self.loadPaymentSession()
+            }]
 
-                viewState = .failure(alertError)
-            case .RELOAD:
-                // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
-                loadPaymentSession()
-            default:
-                dismiss(with: result)
-            }
-        case .success:
+            viewState = .failure(alertError)
+        case .RELOAD:
+            // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
+            loadPaymentSession()
+        default:
             dismiss(with: result)
         }
     }

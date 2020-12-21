@@ -56,41 +56,40 @@ extension Input.ViewController.PaymentController {
 
 extension Input.ViewController.PaymentController: PaymentServiceDelegate {
     func paymentService(didReceiveResponse response: PaymentServiceParsedResponse) {
+        let serverResponse: Result<OperationResult, ErrorInfo>
+
         switch response {
         case .redirect(let url):
             DispatchQueue.main.async {
                 self.delegate?.paymentController(presentURL: url)
             }
+            return
         case .result(let result):
-            switch result {
-            case .failure(let errorInfo):
-                // On retry show an error and leave on that view
-                if case .RETRY = Interaction.Code(rawValue: errorInfo.interaction.code) {
-                    DispatchQueue.main.async {
-                        self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
-                    }
-                }
+            serverResponse = result
+        }
 
-                // If a reason is a communication failure, propose to retry
-                else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: errorInfo.interaction.reason) {
-                    // Propose to retry a charge request
-                    DispatchQueue.main.async {
-                        self.delegate?.paymentController(communicationDidFailWith: errorInfo)
-                    }
-                }
-
-                // In other situations route to a parent view
-                else {
-                    DispatchQueue.main.async {
-                        self.delegate?.paymentController(route: result)
-                    }
-                }
-            case .success:
-                DispatchQueue.main.async {
-                    self.delegate?.paymentController(route: result)
-                }
-            }
+        // On retry show an error and leave on that view
+        if case .RETRY = Interaction.Code(rawValue: serverResponse.interaction.code) {
+            let errorInfo = ErrorInfo(resultInfo: serverResponse.resultInfo, interaction: serverResponse.interaction)
             
+            DispatchQueue.main.async {
+                self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
+            }
+        }
+
+        // If a reason is a communication failure, propose to retry
+        else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: serverResponse.interaction.reason),
+                case let .failure(errorInfo) = serverResponse {
+            DispatchQueue.main.async {
+                self.delegate?.paymentController(communicationDidFailWith: errorInfo)
+            }
+        }
+
+        // In other situations route to a parent view
+        else {
+            DispatchQueue.main.async {
+                self.delegate?.paymentController(route: serverResponse)
+            }
         }
     }
 }
