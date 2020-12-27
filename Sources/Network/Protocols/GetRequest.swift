@@ -14,7 +14,7 @@ protocol GetRequest: Request {
 }
 
 extension GetRequest {
-    public func build() throws -> URLRequest {
+    func build() throws -> URLRequest {
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             throw InternalError(description: "Internal error, incorrect GetRequest URL")
         }

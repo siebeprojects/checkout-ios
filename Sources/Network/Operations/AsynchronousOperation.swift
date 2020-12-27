@@ -12,20 +12,20 @@ import Foundation
 /// Subclass of `Operation` that adds support of asynchronous operations.
 /// 1. Call `super.main()` when override `main` method.
 /// 2. When operation is finished or cancelled set `state = .finished` or `finish()`
-open class AsynchronousOperation: Operation {
-    public override var isAsynchronous: Bool {
+class AsynchronousOperation: Operation {
+    override var isAsynchronous: Bool {
         return true
     }
 
-    public override var isExecuting: Bool {
+    override var isExecuting: Bool {
         return state == .executing
     }
 
-    public override var isFinished: Bool {
+    override var isFinished: Bool {
         return state == .finished
     }
 
-    public override func start() {
+    override func start() {
         if self.isCancelled {
             state = .finished
         } else {
@@ -34,7 +34,7 @@ open class AsynchronousOperation: Operation {
         }
     }
 
-    open override func main() {
+    override func main() {
         if self.isCancelled {
             state = .finished
         } else {
@@ -42,13 +42,13 @@ open class AsynchronousOperation: Operation {
         }
     }
 
-    public func finish() {
+    func finish() {
         state = .finished
     }
 
     // MARK: - State management
 
-    public enum State: String {
+    enum State: String {
         case ready = "Ready"
         case executing = "Executing"
         case finished = "Finished"
@@ -56,7 +56,7 @@ open class AsynchronousOperation: Operation {
     }
 
     /// Thread-safe computed state value
-    public var state: State {
+    var state: State {
         get {
             stateQueue.sync {
                 return stateStore

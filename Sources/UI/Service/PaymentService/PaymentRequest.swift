@@ -6,14 +6,14 @@
 
 import Foundation
 
-@objc public class PaymentRequest: NSObject {
+@objc class PaymentRequest: NSObject {
     /// Payment network code.
-    public let networkCode: String
+    let networkCode: String
 
-    public let operationURL: URL
+    let operationURL: URL
 
     /// Textual dictionary with input fields.
-    public let inputFields: [String: String]
+    let inputFields: [String: String]
 
     internal init(networkCode: String, operationURL: URL, inputFields: [String: String]) {
         self.networkCode = networkCode

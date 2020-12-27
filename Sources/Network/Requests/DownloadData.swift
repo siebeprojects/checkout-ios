@@ -12,13 +12,13 @@ import Foundation
 ///
 /// Retrieves available payment capabilities for active `LIST` session.
 /// Response model is `
-public struct DownloadData: GetRequest {
-    public var url: URL
+struct DownloadData: GetRequest {
+    var url: URL
     let queryItems = [URLQueryItem]()
-    public typealias Response = Data
+    typealias Response = Data
 
     /// - Parameter url: `self` link from payment session
-    public init(from url: URL) {
+    init(from url: URL) {
         self.url = url
     }
 }
