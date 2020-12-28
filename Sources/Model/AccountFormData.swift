@@ -6,7 +6,7 @@
 
 import Foundation
 
-public class AccountFormData: NSObject, Decodable {
+class AccountFormData: NSObject, Decodable {
     /// Account holder name.
-    public let holderName: String?
+    let holderName: String?
 }
