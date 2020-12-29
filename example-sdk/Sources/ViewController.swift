@@ -13,8 +13,6 @@ class ViewController: UITableViewController {
     @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var sendButton: UIButton!
 
-    var paymentResult: PaymentResult?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,15 +50,9 @@ class ViewController: UITableViewController {
 
 extension ViewController: PaymentDelegate {
     func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
-        self.paymentResult = paymentResult
-    }
-
-    func paymentViewControllerDidDismiss() {
-        guard let result = paymentResult else { return }
-        // Payment result was received
-        self.presentAlert(with: result)
-
-        paymentResult = nil
+        navigationController?.popViewController(animated: true, completion: {
+            self.presentAlert(with: paymentResult)
+        })
     }
 
     private func presentAlert(with paymentResult: PaymentResult) {
