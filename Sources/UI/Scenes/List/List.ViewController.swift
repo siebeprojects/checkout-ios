@@ -367,7 +367,7 @@ extension List.ViewController: NetworkOperationResultHandler {
     /// Dismiss view controller and send result to a merchant
     private func dismiss(with result: Result<OperationResult, ErrorInfo>) {
         let paymentResult = PaymentResult(operationResult: result)
-        delegate?.paymentService(didReceivePaymentResult: paymentResult)
+        delegate?.paymentService(didReceivePaymentResult: paymentResult, viewController: self)
     }
 }
 

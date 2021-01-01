@@ -49,7 +49,7 @@ class ViewController: UITableViewController {
 }
 
 extension ViewController: PaymentDelegate {
-    func paymentService(didReceivePaymentResult paymentResult: PaymentResult) {
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: List.ViewController) {
         navigationController?.popViewController(animated: true, completion: {
             self.presentAlert(with: paymentResult)
         })

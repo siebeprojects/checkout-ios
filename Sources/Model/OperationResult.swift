@@ -6,6 +6,7 @@
 
 import Foundation
 
+/// Result of `CHARGE` operation execution with interaction information
 public class OperationResult: NSObject, Decodable {
     /// Descriptive information that complements the interaction advice
     public let resultInfo: String

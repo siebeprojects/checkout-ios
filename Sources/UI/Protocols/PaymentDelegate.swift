@@ -6,6 +6,10 @@
 
 import Foundation
 
+/// A protocol used to implement event handling for payment service events.
 public protocol PaymentDelegate: class {
-    func paymentService(didReceivePaymentResult paymentResult: PaymentResult)
+    /// Method is called when payment result was received, you should handle a payment result and dismiss a view manually
+    /// - Parameters:
+    ///   - controller: payment view controller, it should be dismissed
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: List.ViewController)
 }
