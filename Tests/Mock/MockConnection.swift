@@ -5,7 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
-import Optile
+@testable import Optile
 
 class MockConnection: Connection {
     private let serialQueue = DispatchQueue(label: "Mock connection serial queue")
