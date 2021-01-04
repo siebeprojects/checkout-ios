@@ -34,9 +34,9 @@ class PaymentSessionServiceTests: XCTestCase {
     
     var loadingPromise: XCTestExpectation!
     var resultPromise: XCTestExpectation!
-    var sessionResult: Load<PaymentSession, Error>?
+    var sessionResult: Load<PaymentSession, ErrorInfo>?
 
-    private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Load<PaymentSession, Error> {
+    private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Load<PaymentSession, ErrorInfo> {
         let connection = MockConnection(dataSource: dataSource)
         let provider = PaymentSessionService(paymentSessionURL: URL.example, connection: connection, localizationProvider: SharedTranslationProvider())
         provider.delegate = self
@@ -62,7 +62,7 @@ class PaymentSessionServiceTests: XCTestCase {
 }
 
 extension PaymentSessionServiceTests: PaymentSessionServiceDelegate {
-    func paymentSessionService(loadingDidCompleteWith result: Load<PaymentSession, Error>) {
+    func paymentSessionService(loadingDidCompleteWith result: Load<PaymentSession, ErrorInfo>) {
         switch result {
         case .loading: loadingPromise.fulfill()
         default:

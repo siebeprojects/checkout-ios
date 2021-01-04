@@ -25,4 +25,8 @@ class MockConnection: Connection {
     }
 
     func cancel() {}
+
+    static func isRecoverableError(_ error: Error) -> Bool {
+        return false
+    }
 }

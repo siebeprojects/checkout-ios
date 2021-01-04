@@ -10,6 +10,7 @@ extension BasicPaymentService {
     struct ResponseParser {
         private let supportedRedirectTypes = ["PROVIDER", "3DS2-HANDLER"]
         let operationType: String
+        let connectionType: Connection.Type
     }
 }
 
@@ -25,11 +26,19 @@ extension BasicPaymentService.ResponseParser {
                 return .result(.failure(errorInfo))
             }
 
-            // Some network module's error
             let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
-            let interaction = Interaction(code: interactionCode, reason: .COMMUNICATION_FAILURE)
-            let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
-            return .result(.failure(paymentError))
+            
+            // Get interaction
+            let interaction: Interaction
+            if connectionType.isRecoverableError(error) {
+                // It is a network error
+                interaction = Interaction(code: interactionCode, reason: .COMMUNICATION_FAILURE)
+            } else {
+                interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
+            }
+            
+            let customErrorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
+            return .result(.failure(customErrorInfo))
         case .success(let responseData):
             guard let responseData = responseData else {
                 let emptyResponseError = InternalError(description: "Empty response from a server on charge request")

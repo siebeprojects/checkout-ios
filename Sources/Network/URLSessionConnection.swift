@@ -63,3 +63,11 @@ class URLSessionConnection: Connection {
         completionHandler(.success(data))
     }
 }
+
+extension URLSessionConnection {
+    // Is error could be potentially recovered (if it is a network error in that case)
+    static func isRecoverableError(_ error: Error) -> Bool {
+        let nsError = error as NSError
+        return nsError.domain == NSURLErrorDomain
+    }
+}
