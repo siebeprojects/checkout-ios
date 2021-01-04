@@ -21,7 +21,7 @@ extension List {
         public weak var delegate: PaymentDelegate?
 
         /// TODO: Migrate to separate State manager
-        fileprivate var viewState: Load<PaymentSession, Error> = .loading {
+        fileprivate var viewState: Load<PaymentSession, UIAlertController.AlertError> = .loading {
             didSet { changeState(to: viewState) }
         }
 
@@ -95,7 +95,8 @@ extension List.ViewController {
             let inputViewController = try router.present(paymentNetworks: paymentNetworks, animated: animated)
             inputViewController.delegate = self
         } catch {
-            viewState = .failure(error)
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            dismiss(with: .failure(errorInfo))
         }
     }
 
@@ -104,7 +105,8 @@ extension List.ViewController {
             let inputViewController = try router.present(registeredAccount: registeredAccount, animated: animated)
             inputViewController.delegate = self
         } catch {
-            viewState = .failure(error)
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            dismiss(with: .failure(errorInfo))
         }
     }
 
@@ -116,28 +118,30 @@ extension List.ViewController {
 // MARK: - View state management
 
 extension List.ViewController {
-    fileprivate func changeState(to state: Load<PaymentSession, Error>) {
+    fileprivate func changeState(to state: Load<PaymentSession, UIAlertController.AlertError>) {
         switch state {
         case .success(let session):
             do {
                 activityIndicator(isActive: false)
                 try showPaymentMethods(for: session)
-                presentError(nil)
+                dismissAlertController()
             } catch {
-                viewState = .failure(error)
+                let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+                dismiss(with: .failure(errorInfo))
             }
         case .loading:
             do {
                 activityIndicator(isActive: true)
                 try showPaymentMethods(for: nil)
-                presentError(nil)
+                dismissAlertController()
             } catch {
-                viewState = .failure(error)
+                let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+                dismiss(with: .failure(errorInfo))
            }
         case .failure(let error):
             activityIndicator(isActive: true)
             try? showPaymentMethods(for: nil)
-            presentError(error)
+            present(error: error)
         }
     }
 
@@ -190,51 +194,12 @@ extension List.ViewController {
         activityIndicator.startAnimating()
     }
 
-    private func presentError(_ error: Error?) {
-        guard let error = error else {
-            // Dismiss alert controller
-            errorAlertController?.dismiss(animated: true, completion: nil)
-            return
-        }
+    private func dismissAlertController() {
+        errorAlertController?.dismiss(animated: true, completion: nil)
+    }
 
-        let errorDismissBlock = {
-            if self.navigationController == nil {
-                self.dismiss(animated: true, completion: nil)
-            } else {
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
-
-        // Present a custom error for network failures
-        if let networkError = error.asNetworkError {
-            let builtError = UIAlertController.PreparedError(title: nil, message: networkError.localizedDescription, dismissBlock: errorDismissBlock)
-
-            let alertController = builtError.createAlertController(translator: sharedTranslationProvider)
-            let retryLabel: String = sharedTranslationProvider.translation(forKey: TranslationKey.retryLabel.rawValue)
-            let retryAction = UIAlertAction(title: retryLabel, style: .default) { [weak self] _ in
-                self?.loadPaymentSession()
-            }
-            alertController.addAction(retryAction)
-
-            self.errorAlertController = alertController
-            present(alertController, animated: true, completion: nil)
-        }
-
-        var localizedError: UIAlertController.PreparedError
-
-        if let uiPreparedError = error as? UIAlertController.PreparedError {
-            // For prebuilt errors don't do any transformations
-            localizedError = uiPreparedError
-        } else {
-            // Some unknown error, just show a generic error
-            localizedError = UIAlertController.PreparedError(for: error, translator: sharedTranslationProvider)
-        }
-
-        localizedError.dismissBlock = errorDismissBlock
-
-        // Create and show error controller
-        let alertController = localizedError.createAlertController(translator: sharedTranslationProvider)
-        self.errorAlertController = alertController
+    private func present(error: UIAlertController.AlertError) {
+        let alertController = error.createAlertController(translator: sharedTranslationProvider)
         present(alertController, animated: true, completion: nil)
     }
 }
@@ -291,20 +256,31 @@ extension List.ViewController {
 // MARK: - PaymentSessionServiceDelegate
 
 extension List.ViewController: PaymentSessionServiceDelegate {
-    func paymentSessionService(loadingDidCompleteWith result: Load<PaymentSession, Error>) {
+    func paymentSessionService(loadingDidCompleteWith result: Load<PaymentSession, ErrorInfo>) {
         self.title = self.sharedTranslationProvider.translation(forKey: "paymentpage.title")
 
         switch result {
-        case .failure(let error):
-            if let errorInfo = error as? ErrorInfo {
-                dismiss(with: .failure(errorInfo))
+        case .failure(let errorInfo):
+            // If it is a communication failure show an alert with a retry option
+            if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: errorInfo.interaction.reason) {
+                var alert = UIAlertController.AlertError(for: errorInfo, translator: sharedTranslationProvider)
+                alert.actions = [
+                    .init(label: .retry, style: .default) { [loadPaymentSession] _ in
+                        loadPaymentSession()
+                    },
+                    .init(label: .cancel, style: .cancel) { [dismiss] _ in
+                        dismiss(.failure(errorInfo))
+                    }
+                ]
+                viewState = .failure(alert)
+            // In case of other errors just route the error to a merchant
             } else {
-                let abortInteraction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
-                let customErrorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: abortInteraction, underlyingError: error)
-                dismiss(with: .failure(customErrorInfo))
+                dismiss(with: .failure(errorInfo))
             }
-        default:
-            self.viewState = result
+        case .loading:
+            viewState = .loading
+        case .success(let session):
+            viewState = .success(session)
         }
     }
 
@@ -331,23 +307,19 @@ extension List.ViewController: ListTableControllerDelegate {
 
 // MARK: - NetworkOperationResultHandler
 
+// Received response from InputViewController
 extension List.ViewController: NetworkOperationResultHandler {
     func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for network: Input.Network) {
         switch Interaction.Code(rawValue: result.interaction.code) {
+        // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
-            // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
-            var uiPreparedError: UIAlertController.PreparedError
-            do {
-                uiPreparedError = try UIAlertController.PreparedError(for: result.interaction, translator: network.translation)
-            } catch {
-                uiPreparedError = UIAlertController.PreparedError(for: error, translator: network.translation)
-            }
-
-            uiPreparedError.dismissBlock = {
+            let errorInfo = ErrorInfo(resultInfo: result.resultInfo, interaction: result.interaction)
+            var alertError = UIAlertController.AlertError(for: errorInfo, translator: network.translation)
+            alertError.actions = [.init(label: .ok, style: .default) { _ in
                 self.loadPaymentSession()
-            }
+            }]
 
-            viewState = .failure(uiPreparedError)
+            viewState = .failure(alertError)
         case .RELOAD:
             // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
             loadPaymentSession()

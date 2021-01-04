@@ -250,27 +250,48 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         })
     }
 
-    /// Show an error and return to input fields editing state
-    func paymentController(presentAlertFor interaction: Interaction) {
+    func paymentController(communicationDidFailWith error: ErrorInfo) {
         // Try to dismiss safari VC (if exists)
         safariViewController?.dismiss(animated: true, completion: nil)
 
         // Construct error
         let translator = smartSwitch.selected.network.translation
-        var uiPreparedError: UIAlertController.PreparedError
-        do {
-            uiPreparedError = try UIAlertController.PreparedError(for: interaction, translator: translator)
-        } catch {
-            uiPreparedError = UIAlertController.PreparedError(for: error, translator: translator)
-        }
+        var alertError = UIAlertController.AlertError(for: error, translator: translator)
 
         // Unlock input fields after error alert dismissal
-        uiPreparedError.dismissBlock = {
-            self.stateManager.state = .inputFieldsPresentation
-        }
+        alertError.actions = [
+            .init(label: .retry, style: .default) { [submitPayment] _ in
+                submitPayment()
+            },
+            .init(label: .cancel, style: .cancel, handler: { [self] _ in
+                dismiss(animated: true) {
+                    self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: self.smartSwitch.selected.network)
+                }
+            })
+        ]
 
         // Show an error
-        stateManager.state = .error(uiPreparedError)
+        stateManager.state = .error(alertError)
+    }
+
+    /// Show an error and return to input fields editing state
+    func paymentController(inputShouldBeChanged error: ErrorInfo) {
+        // Try to dismiss safari VC (if exists)
+        safariViewController?.dismiss(animated: true, completion: nil)
+
+        // Construct error
+        let translator = smartSwitch.selected.network.translation
+        var alertError = UIAlertController.AlertError(for: error, translator: translator)
+
+        // Unlock input fields after error alert dismissal
+        alertError.actions = [
+            .init(label: .ok, style: .default) { _ in
+                self.stateManager.state = .inputFieldsPresentation
+            }
+        ]
+
+        // Show an error
+        stateManager.state = .error(alertError)
     }
 
     /// Present Safari View Controller with redirect URL

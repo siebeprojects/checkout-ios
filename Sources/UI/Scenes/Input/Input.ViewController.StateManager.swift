@@ -49,7 +49,7 @@ extension Input.ViewController.StateManager {
         vc.collectionView.reloadData()
     }
 
-    private func present(error: UIAlertController.PreparedError) {
+    private func present(error: UIAlertController.AlertError) {
         let translator = vc.smartSwitch.selected.network.translation
         let alertController = error.createAlertController(translator: translator)
 
@@ -63,6 +63,6 @@ extension Input.ViewController.StateManager {
     enum UIState {
         case inputFieldsPresentation
         case paymentSubmission
-        case error(UIAlertController.PreparedError)
+        case error(UIAlertController.AlertError)
     }
 }

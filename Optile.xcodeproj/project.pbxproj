@@ -107,7 +107,7 @@
 		D96A4FA2257D96EF00E74C8C /* PaymentNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EF4257D96EE00E74C8C /* PaymentNetwork.swift */; };
 		D96A4FA3257D96EF00E74C8C /* RegisteredAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EF5257D96EE00E74C8C /* RegisteredAccount.swift */; };
 		D96A4FA4257D96EF00E74C8C /* PaymentSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EF6257D96EE00E74C8C /* PaymentSession.swift */; };
-		D96A4FA5257D96EF00E74C8C /* UIAlertController.PreparedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EF7257D96EE00E74C8C /* UIAlertController.PreparedError.swift */; };
+		D96A4FA5257D96EF00E74C8C /* UIAlertController.AlertError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EF7257D96EE00E74C8C /* UIAlertController.AlertError.swift */; };
 		D96A4FA6257D96EF00E74C8C /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EF8257D96EE00E74C8C /* Loadable.swift */; };
 		D96A4FA7257D96EF00E74C8C /* PaymentSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EFB257D96EE00E74C8C /* PaymentSessionProvider.swift */; };
 		D96A4FA8257D96EF00E74C8C /* PaymentSessionServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EFC257D96EE00E74C8C /* PaymentSessionServiceDelegate.swift */; };
@@ -309,7 +309,7 @@
 		D96A4EF4257D96EE00E74C8C /* PaymentNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentNetwork.swift; sourceTree = "<group>"; };
 		D96A4EF5257D96EE00E74C8C /* RegisteredAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisteredAccount.swift; sourceTree = "<group>"; };
 		D96A4EF6257D96EE00E74C8C /* PaymentSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSession.swift; sourceTree = "<group>"; };
-		D96A4EF7257D96EE00E74C8C /* UIAlertController.PreparedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController.PreparedError.swift; sourceTree = "<group>"; };
+		D96A4EF7257D96EE00E74C8C /* UIAlertController.AlertError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertController.AlertError.swift; sourceTree = "<group>"; };
 		D96A4EF8257D96EE00E74C8C /* Loadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		D96A4EFB257D96EE00E74C8C /* PaymentSessionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSessionProvider.swift; sourceTree = "<group>"; };
 		D96A4EFC257D96EE00E74C8C /* PaymentSessionServiceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSessionServiceDelegate.swift; sourceTree = "<group>"; };
@@ -472,12 +472,12 @@
 				D96A4E7F257D96EE00E74C8C /* Input.NavigationController.swift */,
 				D96A4E80257D96EE00E74C8C /* TextFormatter */,
 				D96A4E90257D96EE00E74C8C /* Input.SmartSwitch.swift */,
-				D96A4E91257D96EE00E74C8C /* Input.ViewController.PaymentController.swift */,
 				D96A4E92257D96EE00E74C8C /* Input.swift */,
 				D96A4E93257D96EE00E74C8C /* Table */,
 				D96A4EA8257D96EE00E74C8C /* Model */,
 				D96A4EC2257D96EE00E74C8C /* Protocols */,
 				D96A4ECD257D96EE00E74C8C /* Input.ViewController.swift */,
+				D96A4E91257D96EE00E74C8C /* Input.ViewController.PaymentController.swift */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -766,7 +766,7 @@
 				D96A4EF4257D96EE00E74C8C /* PaymentNetwork.swift */,
 				D96A4EF5257D96EE00E74C8C /* RegisteredAccount.swift */,
 				D96A4EF6257D96EE00E74C8C /* PaymentSession.swift */,
-				D96A4EF7257D96EE00E74C8C /* UIAlertController.PreparedError.swift */,
+				D96A4EF7257D96EE00E74C8C /* UIAlertController.AlertError.swift */,
 				D96A4EF8257D96EE00E74C8C /* Loadable.swift */,
 			);
 			path = Model;
@@ -1311,7 +1311,7 @@
 				D96A4F61257D96EF00E74C8C /* Input.Table.ImagesCollectionViewController.swift in Sources */,
 				D96A4FE0257D96EF00E74C8C /* DownloadLocalization.swift in Sources */,
 				D96A4F73257D96EF00E74C8C /* Input.Field.Label.swift in Sources */,
-				D96A4FA5257D96EF00E74C8C /* UIAlertController.PreparedError.swift in Sources */,
+				D96A4FA5257D96EF00E74C8C /* UIAlertController.AlertError.swift in Sources */,
 				D96A4F4A257D96EF00E74C8C /* FormattedTextValue.swift in Sources */,
 				D96A4FDD257D96EF00E74C8C /* SendRequestOperation.swift in Sources */,
 				D96A4FCC257D96EF00E74C8C /* ExtraElements.swift in Sources */,
