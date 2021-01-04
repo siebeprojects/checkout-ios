@@ -67,7 +67,7 @@ class BasicPaymentService: PaymentService {
         }
 
         connection.send(request: urlRequest) { result in
-            let parser = ResponseParser(operationType: paymentRequest.operationURL.lastPathComponent)
+            let parser = ResponseParser(operationType: paymentRequest.operationURL.lastPathComponent, connectionType: type(of: self.connection.self))
             let response = parser.parse(paymentRequestResponse: result)
 
             switch response {
