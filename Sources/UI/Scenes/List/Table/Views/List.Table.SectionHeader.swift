@@ -14,6 +14,8 @@ extension List.Table {
         override init(frame: CGRect) {
             super.init(frame: frame)
 
+            self.preservesSuperviewLayoutMargins = true
+            
             let textLabel = UILabel(frame: frame)
             textLabel.translatesAutoresizingMaskIntoConstraints = false
             textLabel.textColor = Theme.shared.textColor
@@ -23,10 +25,10 @@ extension List.Table {
             self.textLabel = textLabel
 
             NSLayoutConstraint.activate([
-                textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                textLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
                 textLabel.topAnchor.constraint(equalTo: self.topAnchor),
                 textLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
-                textLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+                textLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
             ])
         }
 

@@ -10,24 +10,36 @@ import UIKit
 
 extension List.Table {
     class BorderedCell: UITableViewCell {
-        weak var outerView: UIView?
-        weak var innerView: UIView?
-        weak var separatorView: UIView?
-        weak var separatorStickyConstraint: NSLayoutConstraint?
+        weak var leftBorder: UIView!
+        weak var rightBorder: UIView!
+        weak var topBorder: UIView!
+        weak var bottomBorder: UIView!
+        
+        weak var customAccessoryView: UIView!
+        weak var customContentView: UIView!
 
-        /// Cell's position in a table, used for rounding correct corners
-        var cellIndex: CellIndex = .middle
+        var cellIndex: CellIndex = .middle {
+            didSet { cellIndexDidChange() }
+        }
 
         enum CellIndex {
             case first
             case middle
             case last
+            
+            /// It is an only one cell in section
+            case singleCell
         }
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+            self.preservesSuperviewLayoutMargins = true
+
             addBordersViews()
+            addCustomAccessoryView()
+            addCustomContentView()
+            addSelectedBackgroundView()
         }
 
         required init?(coder: NSCoder) {
@@ -36,89 +48,71 @@ extension List.Table {
     }
 }
 
-extension List.Table.BorderedCell {
-    func viewDidLayoutSubviews() {
-        guard let separatorView = self.separatorView else { return }
-        guard let innerView = self.innerView, let outerView = self.outerView else { return }
-
-        // Stick separator to top or bottom
-        if let constraint = separatorStickyConstraint {
-            separatorView.removeConstraint(constraint)
-        }
-
-        let constraint: NSLayoutConstraint
-        switch cellIndex {
-        case .first, .middle:
-            constraint = separatorView.bottomAnchor.constraint(equalTo: outerView.bottomAnchor)
-        case .last:
-            constraint = separatorView.topAnchor.constraint(equalTo: outerView.topAnchor)
-        }
-        constraint.isActive = true
-        self.separatorStickyConstraint = constraint
-
-        // Round corners
-        let corners: UIRectCorner
-
-        switch cellIndex {
-        case .first: corners = [.topLeft, .topRight]
-        case .middle: corners = []
-        case .last: corners = [.bottomLeft, .bottomRight]
-        }
-
-        for view in [innerView, outerView] {
-            let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: .cornerRadius, height: .cornerRadius))
-            let maskLayer = CAShapeLayer()
-            maskLayer.frame = view.bounds
-            maskLayer.path = path.cgPath
-            view.layer.mask = maskLayer
-        }
-    }
-}
-
 // MARK: - Views
 
 extension List.Table.BorderedCell {
-    /// Add border views.
-    /// - Description: we create 2 rectangles, outer rectangle will have a border background color, inner background will have a normal background color and it will have 1px spacing between outer one. Result will be a border that we could round.
-    // I think it's the best way to create a rounded border around section's content and use dynamic constraints instead of frame calculations. It's iOS10+ way, if requirements will be iOS11+ that could be done easier with `maskedCorners`.
+    fileprivate func cellIndexDidChange() {
+        switch cellIndex {
+        case .first:
+            topBorder.backgroundColor = .themedTableBorder
+            bottomBorder.backgroundColor = .themedTableBorder
+            bottomBorder.isHidden = true
+        case .middle:
+            topBorder.backgroundColor = .themedTableCellSeparator
+            bottomBorder.backgroundColor = .themedTableCellSeparator
+            bottomBorder.isHidden = true
+        case .last:
+            topBorder.backgroundColor = .themedTableCellSeparator
+            bottomBorder.backgroundColor = .themedTableBorder
+            bottomBorder.isHidden = false
+        case .singleCell:
+            topBorder.backgroundColor = .themedTableBorder
+            bottomBorder.backgroundColor = .themedTableBorder
+            bottomBorder.isHidden = false
+        }
+    }
+
     fileprivate func addBordersViews() {
-        let outerView = UIView(frame: .zero)
-        self.backgroundView = outerView
-        outerView.translatesAutoresizingMaskIntoConstraints = false
-        outerView.backgroundColor = .themedTableBorder
-        addSubview(outerView)
-        sendSubviewToBack(outerView)
-        self.outerView = outerView
+        let leftBorder = UIView(frame: .zero)
+        self.leftBorder = leftBorder
 
-        let innerView = UIView(frame: .zero)
-        innerView.translatesAutoresizingMaskIntoConstraints = false
-        innerView.backgroundColor = .themedBackground
-        outerView.addSubview(innerView)
-        self.innerView = innerView
+        let rightBorder = UIView(frame: .zero)
+        self.rightBorder = rightBorder
+        
+        let topBorder = UIView(frame: .zero)
+        self.topBorder = topBorder
+        
+        let bottomBorder = UIView(frame: .zero)
+        self.bottomBorder = bottomBorder
+        bottomBorder.isHidden = true
 
-        let separatorView = UIView(frame: .zero)
-        separatorView.translatesAutoresizingMaskIntoConstraints = false
-        separatorView.backgroundColor = .themedTableCellSeparator
-        outerView.addSubview(separatorView)
-        self.separatorView = separatorView
+        for border in [leftBorder, rightBorder, topBorder, bottomBorder] {
+            border.translatesAutoresizingMaskIntoConstraints = false
+            border.backgroundColor = .themedTableBorder
+            contentView.addSubview(border)
+        }
 
         NSLayoutConstraint.activate([
-            outerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            outerView.topAnchor.constraint(equalTo: topAnchor),
-            outerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 1),
-            outerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            leftBorder.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            leftBorder.topAnchor.constraint(equalTo: topAnchor),
+            leftBorder.bottomAnchor.constraint(equalTo: bottomAnchor),
+            leftBorder.widthAnchor.constraint(equalToConstant: .separatorWidth),
 
-            innerView.leadingAnchor.constraint(equalTo: outerView.leadingAnchor, constant: 1),
-            innerView.topAnchor.constraint(equalTo: outerView.topAnchor, constant: 1),
-            innerView.bottomAnchor.constraint(equalTo: outerView.bottomAnchor, constant: -1),
-            innerView.trailingAnchor.constraint(equalTo: outerView.trailingAnchor, constant: -1),
-
-            separatorView.leadingAnchor.constraint(equalTo: outerView.leadingAnchor, constant: 1),
-            separatorView.trailingAnchor.constraint(equalTo: outerView.trailingAnchor, constant: -1),
-            separatorView.heightAnchor.constraint(equalToConstant: .separatorWidth)
+            rightBorder.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            rightBorder.topAnchor.constraint(equalTo: topAnchor),
+            rightBorder.bottomAnchor.constraint(equalTo: bottomAnchor),
+            rightBorder.widthAnchor.constraint(equalToConstant: .separatorWidth),
+            
+            topBorder.topAnchor.constraint(equalTo: topAnchor),
+            topBorder.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor),
+            topBorder.trailingAnchor.constraint(equalTo: rightBorder.trailingAnchor),
+            topBorder.heightAnchor.constraint(equalToConstant: .separatorWidth),
+            
+            bottomBorder.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomBorder.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor),
+            bottomBorder.trailingAnchor.constraint(equalTo: rightBorder.trailingAnchor),
+            bottomBorder.heightAnchor.constraint(equalToConstant: .separatorWidth)
         ])
-
-        addSelectedBackgroundView()
     }
 
     private func addSelectedBackgroundView() {
@@ -131,13 +125,43 @@ extension List.Table.BorderedCell {
         selectedBackgroundView.addSubview(viewWithPaddings)
 
         viewWithPaddings.translatesAutoresizingMaskIntoConstraints = false
+        selectedBackgroundView.preservesSuperviewLayoutMargins = true
+        
+        NSLayoutConstraint.activate([
+            viewWithPaddings.leadingAnchor.constraint(equalTo: selectedBackgroundView.layoutMarginsGuide.leadingAnchor),
+            viewWithPaddings.topAnchor.constraint(equalTo: selectedBackgroundView.topAnchor),
+            viewWithPaddings.bottomAnchor.constraint(equalTo: selectedBackgroundView.bottomAnchor),
+            viewWithPaddings.trailingAnchor.constraint(equalTo: selectedBackgroundView.layoutMarginsGuide.trailingAnchor)
+        ])
+    }
+
+    fileprivate func addCustomContentView() {
+        let customContentView = UIView(frame: .zero)
+        self.customContentView = customContentView
+        customContentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(customContentView)
 
         NSLayoutConstraint.activate([
-            viewWithPaddings.leadingAnchor.constraint(equalTo: selectedBackgroundView.leadingAnchor),
-            viewWithPaddings.topAnchor.constraint(equalTo: selectedBackgroundView.topAnchor),
-            // Have to be the same as outer's view bottom anchor constant
-            viewWithPaddings.bottomAnchor.constraint(equalTo: selectedBackgroundView.bottomAnchor, constant: 1),
-            viewWithPaddings.trailingAnchor.constraint(equalTo: selectedBackgroundView.trailingAnchor)
+            customContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            customContentView.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor),
+            customContentView.trailingAnchor.constraint(equalTo: customAccessoryView.trailingAnchor, constant: -16),
+            customContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        ])
+    }
+    
+    fileprivate func addCustomAccessoryView() {
+        let customAccessoryView = UIImageView(frame: .zero)
+        customAccessoryView.contentMode = .scaleAspectFit
+        customAccessoryView.image = AssetProvider.disclosureIndicator
+        customAccessoryView.tintColor = .themedTableBorder
+        self.customAccessoryView = customAccessoryView
+        customAccessoryView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(customAccessoryView)
+        
+        NSLayoutConstraint.activate([
+            customAccessoryView.topAnchor.constraint(equalTo: topAnchor),
+            customAccessoryView.trailingAnchor.constraint(equalTo: rightBorder.trailingAnchor, constant: -16),
+            customAccessoryView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }
