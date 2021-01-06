@@ -147,13 +147,16 @@ extension SingleLabelRow {
 
         // Set cell position
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
-        switch indexPath.row {
-        case let row where row == 0: cell.cellIndex = .first
-        case let row where row == numberOfRows - 1: cell.cellIndex = .last
-        default: cell.cellIndex = .middle
-        }
 
-        cell.accessoryType = .disclosureIndicator
+        if numberOfRows == 1 {
+            cell.cellIndex = .singleCell
+        } else {
+            switch indexPath.row {
+            case let row where row == 0: cell.cellIndex = .first
+            case let row where row == numberOfRows - 1: cell.cellIndex = .last
+            default: cell.cellIndex = .middle
+            }
+        }
 
         return cell
     }
