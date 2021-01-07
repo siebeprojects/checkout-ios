@@ -7,14 +7,14 @@
 import Foundation
 
 /// Base request protocol that will be used for `Connection`.
-public protocol Request {
+protocol Request {
     associatedtype Response
 
     func decodeResponse(with data: Data?) throws -> Response
     func build() throws -> URLRequest
 }
 
-public extension Request where Response == Data {
+extension Request where Response == Data {
     func decodeResponse(with data: Data?) throws -> Response {
         guard let data = data else {
             let error = InternalError(description: "Server returned no data")
@@ -25,7 +25,7 @@ public extension Request where Response == Data {
     }
 }
 
-public extension Request where Response: Decodable {
+extension Request where Response: Decodable {
     func decodeResponse(with data: Data?) throws -> Response {
         guard let data = data else {
             let error = InternalError(description: "Server returned no data")
@@ -37,7 +37,7 @@ public extension Request where Response: Decodable {
     }
 }
 
-public extension Request where Response == Void {
+extension Request where Response == Void {
     func decodeResponse(with data: Data?) throws -> Response {
         return Void()
     }

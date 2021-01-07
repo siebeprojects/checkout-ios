@@ -72,16 +72,6 @@ extension List.ViewController {
     public override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         methodsTableView?.reloadData()
     }
-
-    public override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        delegate?.paymentViewControllerWillDismiss()
-    }
-
-    public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        delegate?.paymentViewControllerDidDismiss()
-    }
 }
 
 extension List.ViewController {
@@ -331,8 +321,7 @@ extension List.ViewController: NetworkOperationResultHandler {
     /// Dismiss view controller and send result to a merchant
     private func dismiss(with result: Result<OperationResult, ErrorInfo>) {
         let paymentResult = PaymentResult(operationResult: result)
-        delegate?.paymentService(didReceivePaymentResult: paymentResult)
-        navigationController?.popViewController(animated: true)
+        delegate?.paymentService(didReceivePaymentResult: paymentResult, viewController: self)
     }
 }
 

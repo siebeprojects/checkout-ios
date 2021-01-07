@@ -23,14 +23,14 @@ struct InternalError: Error, CustomStringConvertible, CustomDebugStringConvertib
     private let staticDescription: StaticString
     private let arguments: [CVarArg]
 
-    public init(description: StaticString, type: LogType = .error, file: String = #file, line: Int = #line, function: String = #function, _ args: CVarArg...) {
+    init(description: StaticString, type: LogType = .error, file: String = #file, line: Int = #line, function: String = #function, _ args: CVarArg...) {
         self.callStack = "Called from the file: " + file + "#" + String(line) + ", method: " + function
         self.staticDescription = description
         self.arguments = args
         self.type = type
     }
 
-    public init<T>(description: StaticString, type: LogType = .error, file: String = #file, line: Int = #line, function: String = #function, objects: T...) {
+    init<T>(description: StaticString, type: LogType = .error, file: String = #file, line: Int = #line, function: String = #function, objects: T...) {
         self.callStack = "Called from the file: " + file + "#" + String(line) + ", method: " + function
         self.staticDescription = description
 

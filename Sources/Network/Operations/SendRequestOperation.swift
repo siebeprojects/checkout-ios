@@ -6,20 +6,20 @@
 
 import Foundation
 
-public class SendRequestOperation<T>: AsynchronousOperation where T: Request {
+class SendRequestOperation<T>: AsynchronousOperation where T: Request {
     let connection: Connection
-    public let request: T
-    public var downloadCompletionBlock: ((Result<T.Response, Error>) -> Void)?
+    let request: T
+    var downloadCompletionBlock: ((Result<T.Response, Error>) -> Void)?
 
-    public private(set) var result: Result<T.Response, Error>?
+    private(set) var result: Result<T.Response, Error>?
 
-    public init(connection: Connection, request: T) {
+    init(connection: Connection, request: T) {
         self.connection = connection
         self.request = request
         super.init()
     }
 
-    public override func main() {
+    override func main() {
         let urlRequest: URLRequest
         do {
             urlRequest = try request.build()

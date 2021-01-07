@@ -6,23 +6,23 @@
 
 import Foundation
 
-public class InputElement: NSObject, Decodable {
+class InputElement: NSObject, Decodable {
     /// The name of the parameter represented by this input element.
-    public let name: String
+    let name: String
 
     /// Input type / restrictions that can and should be enforced by the client for this input element.
     ///
     /// Possible values: `string`, `numeric`, `integer`, `select`, `checkbox`
-    public let type: String
+    let type: String
 
     /// Array of possible options for element of the `select` type.
-    public let options: [SelectOption]?
+    let options: [SelectOption]?
 
     // MARK: - Enumerations
 
-    public var inputElementType: InputElementType? { InputElementType(rawValue: type) }
+    var inputElementType: InputElementType? { InputElementType(rawValue: type) }
 
-    public enum InputElementType: String, Decodable {
+    enum InputElementType: String, Decodable {
         case string, numeric, integer, select, checkbox
     }
 

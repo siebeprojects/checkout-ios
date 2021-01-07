@@ -6,7 +6,7 @@
 
 import Foundation
 
-public class CustomerFormData: NSObject, Decodable {
+class CustomerFormData: NSObject, Decodable {
     /// Customer's birthday.
-    public let birthday: String?
+    let birthday: String?
 }
