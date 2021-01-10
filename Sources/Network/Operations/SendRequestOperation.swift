@@ -20,13 +20,18 @@ class SendRequestOperation<T>: AsynchronousOperation where T: Request {
     }
 
     override func main() {
-        let urlRequest: URLRequest
+        var urlRequest: URLRequest
+
         do {
             urlRequest = try request.build()
         } catch {
             self.finish(with: .failure(error))
             return
         }
+
+        let userAgentValue = VersionStringBuilder().createUserAgentValue()
+        urlRequest.addValue(userAgentValue, forHTTPHeaderField: "User-Agent")
+        print(userAgentValue)
 
         connection.send(request: urlRequest) { result in
             switch result {
@@ -49,3 +54,4 @@ class SendRequestOperation<T>: AsynchronousOperation where T: Request {
         finish()
     }
 }
+

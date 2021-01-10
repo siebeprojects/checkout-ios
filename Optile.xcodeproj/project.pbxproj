@@ -192,6 +192,7 @@
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
 		D9A88E48241C56490043F535 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D92241C55040043F535 /* Media.xcassets */; };
+		D9B842BD25AB36F200DB4D51 /* VersionStringBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B842BC25AB36F200DB4D51 /* VersionStringBuilder.swift */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
 /* End PBXBuildFile section */
 
@@ -397,6 +398,7 @@
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
 		D9A88D94241C55040043F535 /* groups.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = groups.json; sourceTree = "<group>"; };
 		D9A88D95241C55040043F535 /* validations-default.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "validations-default.json"; sourceTree = "<group>"; };
+		D9B842BC25AB36F200DB4D51 /* VersionStringBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionStringBuilder.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -905,6 +907,7 @@
 			children = (
 				D96A4F39257D96EF00E74C8C /* Operations */,
 				D96A4F3C257D96EF00E74C8C /* HTTPMethod.swift */,
+				D9B842BC25AB36F200DB4D51 /* VersionStringBuilder.swift */,
 				D96A4F3D257D96EF00E74C8C /* Requests */,
 				D96A4F41257D96EF00E74C8C /* URLSessionConnection.swift */,
 				D96A4F42257D96EF00E74C8C /* Protocols */,
@@ -1426,6 +1429,7 @@
 				D96A4F5B257D96EF00E74C8C /* Input.Table.CheckboxViewCell.swift in Sources */,
 				D96A4FCF257D96EF00E74C8C /* ExtraElement.swift in Sources */,
 				D96A4FC4257D96EF00E74C8C /* Parameter.swift in Sources */,
+				D9B842BD25AB36F200DB4D51 /* VersionStringBuilder.swift in Sources */,
 				D96A4FB9257D96EF00E74C8C /* TranslatedModel.swift in Sources */,
 				D96A4F7E257D96EF00E74C8C /* SelectInputField.swift in Sources */,
 				D96A4F83257D96EF00E74C8C /* CellRepresentable.swift in Sources */,
