@@ -29,7 +29,7 @@ class SendRequestOperation<T>: AsynchronousOperation where T: Request {
             return
         }
 
-        let userAgentValue = VersionStringBuilder().createUserAgentValue()
+        let userAgentValue = UserAgentBuilder().createUserAgentValue()
         urlRequest.addValue(userAgentValue, forHTTPHeaderField: "User-Agent")
 
         connection.send(request: urlRequest) { result in

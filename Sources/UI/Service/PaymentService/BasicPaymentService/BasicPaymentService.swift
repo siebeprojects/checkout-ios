@@ -92,7 +92,7 @@ class BasicPaymentService: PaymentService {
         request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
 
-        let userAgentValue = VersionStringBuilder().createUserAgentValue()
+        let userAgentValue = UserAgentBuilder().createUserAgentValue()
         request.addValue(userAgentValue, forHTTPHeaderField: "User-Agent")
 
         // Body

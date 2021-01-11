@@ -6,7 +6,7 @@
 
 import UIKit
 
-class VersionStringBuilder {
+class UserAgentBuilder {
     init() {}
 
     /// Create a version string that should be used as user-agent header's value
@@ -77,11 +77,11 @@ class VersionStringBuilder {
         return outputValue
     }
 
-    /// Returns framework version, e.g.: 1.2.3 (43).
+    /// Returns framework version, e.g.: `ios-sdk/1.2.3 (43)`
     private var frameworkVersion: String {
         let frameworkName = "ios-sdk"
 
-        let infoDictionary = Bundle(for: VersionStringBuilder.self).infoDictionary
+        let infoDictionary = Bundle(for: UserAgentBuilder.self).infoDictionary
         if let version = infoDictionary?["CFBundleShortVersionString"] as? String, let build = infoDictionary?["CFBundleVersion"] as? String {
             return frameworkName + "/" + version + " (" + build + ")"
         } else {
