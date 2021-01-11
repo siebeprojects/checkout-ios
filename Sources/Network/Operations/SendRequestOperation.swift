@@ -31,7 +31,6 @@ class SendRequestOperation<T>: AsynchronousOperation where T: Request {
 
         let userAgentValue = VersionStringBuilder().createUserAgentValue()
         urlRequest.addValue(userAgentValue, forHTTPHeaderField: "User-Agent")
-        print(userAgentValue)
 
         connection.send(request: urlRequest) { result in
             switch result {
