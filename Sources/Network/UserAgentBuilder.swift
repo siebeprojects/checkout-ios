@@ -32,10 +32,9 @@ class UserAgentBuilder {
         let prefix = "Platform"
 
         let version = UIDevice.current.systemVersion
-        let name = UIDevice.current.name
         let model = UIDevice.current.model
 
-        return prefix + "/" + version + " (" + model + "; " + name + ")"
+        return prefix + "/" + version + " (" + model + ")"
     }
 
     /// Returns application version string.
