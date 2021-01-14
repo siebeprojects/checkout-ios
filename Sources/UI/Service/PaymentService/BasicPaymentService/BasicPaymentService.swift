@@ -93,7 +93,7 @@ class BasicPaymentService: PaymentService {
         request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
 
         // Body
-        let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields)
+        let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields, browserData: .current)
         let jsonData = try JSONEncoder().encode(chargeRequest)
         request.httpBody = jsonData
 
@@ -106,9 +106,10 @@ private extension BasicPaymentService {
         var account = [String: String]()
         var autoRegistration: Bool?
         var allowRecurrence: Bool?
+        var browserData: BrowserData
 
         /// - Throws: `InternalError` if dictionary's value doesn't conform to `Encodable`
-        init(inputFields: [String: String]) {
+        init(inputFields: [String: String], browserData: BrowserData) {
             for (name, value) in inputFields {
                 switch name {
                 case Input.Field.Checkbox.Constant.allowRegistration: autoRegistration = Bool(stringValue: value)
@@ -116,6 +117,28 @@ private extension BasicPaymentService {
                 default: account[name] = value
                 }
             }
+
+            self.browserData = browserData
         }
+
+        struct BrowserData: Encodable {
+            var javaEnabled: Bool
+            var language: String?
+            var colorDepth: Int
+            var timezone: String
+            var browserScreenHeight: Int
+            var browserScreenWidth: Int
+        }
+    }
+}
+
+private extension BasicPaymentService.ChargeRequest.BrowserData {
+    static var current: BasicPaymentService.ChargeRequest.BrowserData {
+        let size = UIScreen.main.bounds
+        let colorDepth = 32 // colorDepth is always 32 bit for now for Apple products and it can't be obtained from a system
+        let timeZone = TimeZone.current.identifier
+        let language = Locale.current.languageCode
+
+        return .init(javaEnabled: false, language: language, colorDepth: colorDepth, timezone: timeZone, browserScreenHeight: Int(size.height), browserScreenWidth: Int(size.width))
     }
 }
