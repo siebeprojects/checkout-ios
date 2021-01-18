@@ -19,6 +19,12 @@ class ViewController: UITableViewController {
         setTintColor(to: Theme.shared.tintColor)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        textField.becomeFirstResponder()
+    }
+
     @IBAction func switchValueDidChange(_ sender: UISwitch) {
         Theme.shared = sender.isOn ? .custom : .standard
         setTintColor(to: Theme.shared.tintColor)
