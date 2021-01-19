@@ -7,22 +7,22 @@
 import UIKit
 
 @objc public class Theme: NSObject {
-    public var font: UIFont?
+    @objc public var font: UIFont?
 
-    public var backgroundColor: UIColor
-    public var tableBorder: UIColor
-    public var tableCellSeparator: UIColor
+    @objc public var backgroundColor: UIColor
+    @objc public var tableBorder: UIColor
+    @objc public var tableCellSeparator: UIColor
 
-    public var textColor: UIColor
-    public var detailTextColor: UIColor
-    public var buttonTextColor: UIColor
+    @objc public var textColor: UIColor
+    @objc public var detailTextColor: UIColor
+    @objc public var buttonTextColor: UIColor
 
-    public var tintColor: UIColor
-    public var errorTextColor: UIColor
+    @objc public var tintColor: UIColor
+    @objc public var errorTextColor: UIColor
 
     /// - Parameters:
     ///   - font: `nil` is used for default system font
-    public init(font: UIFont? = nil, backgroundColor: UIColor, tableBorder: UIColor, tableCellSeparator: UIColor, textColor: UIColor, detailTextColor: UIColor, buttonTextColor: UIColor, tintColor: UIColor, errorTextColor: UIColor) {
+    @objc public init(font: UIFont? = nil, backgroundColor: UIColor, tableBorder: UIColor, tableCellSeparator: UIColor, textColor: UIColor, detailTextColor: UIColor, buttonTextColor: UIColor, tintColor: UIColor, errorTextColor: UIColor) {
         self.font = font
         self.backgroundColor = backgroundColor
         self.tableBorder = tableBorder
@@ -36,9 +36,9 @@ import UIKit
 }
 
 public extension Theme {
-    static var shared: Theme = .standard
+    @objc static var shared: Theme = .standard
 
-    static var standard: Theme {
+    @objc static var standard: Theme {
         let textColor = UIColor(white: 66.0 / 255.0, alpha: 1.0)
         let detailedTextColor = UIColor(white: 143.0 / 255.0, alpha: 1.0)
         let tintColor = UIColor(red: 0.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
