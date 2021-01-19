@@ -7,55 +7,53 @@
 #if canImport(UIKit)
 import UIKit
 
-extension List {
-    @objc public final class ViewController: UIViewController {
-        weak var methodsTableView: UITableView?
-        weak var activityIndicator: UIActivityIndicatorView?
-        weak var errorAlertController: UIAlertController?
+@objc public final class PaymentListViewController: UIViewController {
+    weak var methodsTableView: UITableView?
+    weak var activityIndicator: UIActivityIndicatorView?
+    weak var errorAlertController: UIAlertController?
 
-        let sessionService: PaymentSessionService
-        fileprivate(set) var tableController: List.Table.Controller?
-        let sharedTranslationProvider: SharedTranslationProvider
-        fileprivate let router: List.Router
+    let sessionService: PaymentSessionService
+    fileprivate(set) var tableController: List.Table.Controller?
+    let sharedTranslationProvider: SharedTranslationProvider
+    fileprivate let router: List.Router
 
-        public weak var delegate: PaymentDelegate?
+    public weak var delegate: PaymentDelegate?
 
-        /// TODO: Migrate to separate State manager
-        fileprivate var viewState: Load<PaymentSession, UIAlertController.AlertError> = .loading {
-            didSet { changeState(to: viewState) }
-        }
+    /// TODO: Migrate to separate State manager
+    fileprivate var viewState: Load<PaymentSession, UIAlertController.AlertError> = .loading {
+        didSet { changeState(to: viewState) }
+    }
 
-        lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
+    lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
-        /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
-        /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
-        @objc public convenience init(listResultURL: URL) {
-            let sharedTranslationProvider = SharedTranslationProvider()
-            let connection = URLSessionConnection()
+    /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
+    /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
+    @objc public convenience init(listResultURL: URL) {
+        let sharedTranslationProvider = SharedTranslationProvider()
+        let connection = URLSessionConnection()
 
-            self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider)
-        }
+        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider)
+    }
 
-        init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
-            sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
-            self.sharedTranslationProvider = sharedTranslationProvider
-            router = List.Router(paymentServicesFactory: sessionService.paymentServicesFactory)
+    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
+        sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
+        self.sharedTranslationProvider = sharedTranslationProvider
+        router = List.Router(paymentServicesFactory: sessionService.paymentServicesFactory)
 
-            super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil)
 
-            sessionService.delegate = self
-            router.rootViewController = self
-        }
+        sessionService.delegate = self
+        router.rootViewController = self
+    }
 
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Overrides
 
-extension List.ViewController {
+extension PaymentListViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .themedBackground
@@ -74,7 +72,7 @@ extension List.ViewController {
     }
 }
 
-extension List.ViewController {
+extension PaymentListViewController {
     func loadPaymentSession() {
         viewState = .loading
         sessionService.loadPaymentSession()
@@ -107,7 +105,7 @@ extension List.ViewController {
 
 // MARK: - View state management
 
-extension List.ViewController {
+extension PaymentListViewController {
     fileprivate func changeState(to state: Load<PaymentSession, UIAlertController.AlertError>) {
         switch state {
         case .success(let session):
@@ -196,7 +194,7 @@ extension List.ViewController {
 
 // MARK: - Table View UI
 
-extension List.ViewController {
+extension PaymentListViewController {
     fileprivate func addScrollView() -> UIScrollView {
         let scrollView = UIScrollView(frame: .zero)
         scrollView.alwaysBounceVertical = true
@@ -245,7 +243,7 @@ extension List.ViewController {
 
 // MARK: - PaymentSessionServiceDelegate
 
-extension List.ViewController: PaymentSessionServiceDelegate {
+extension PaymentListViewController: PaymentSessionServiceDelegate {
     func paymentSessionService(loadingDidCompleteWith result: Load<PaymentSession, ErrorInfo>) {
         self.title = self.sharedTranslationProvider.translation(forKey: "paymentpage.title")
 
@@ -283,7 +281,7 @@ extension List.ViewController: PaymentSessionServiceDelegate {
 
 // MARK: - ListTableControllerDelegate
 
-extension List.ViewController: ListTableControllerDelegate {
+extension PaymentListViewController: ListTableControllerDelegate {
     var downloadProvider: DataDownloadProvider { sessionService.downloadProvider }
 
     func didSelect(paymentNetworks: [PaymentNetwork]) {
@@ -298,7 +296,7 @@ extension List.ViewController: ListTableControllerDelegate {
 // MARK: - NetworkOperationResultHandler
 
 // Received response from InputViewController
-extension List.ViewController: NetworkOperationResultHandler {
+extension PaymentListViewController: NetworkOperationResultHandler {
     func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for network: Input.Network) {
         switch Interaction.Code(rawValue: result.interaction.code) {
         // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 

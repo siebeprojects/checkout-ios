@@ -11,5 +11,5 @@ public protocol PaymentDelegate: class {
     /// Method is called when payment result was received, you should handle a payment result and dismiss a view manually
     /// - Parameters:
     ///   - controller: payment view controller, it should be dismissed
-    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: List.ViewController)
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController)
 }
