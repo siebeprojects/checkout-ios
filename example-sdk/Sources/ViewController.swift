@@ -8,7 +8,6 @@ import UIKit
 import Optile
 
 class ViewController: UITableViewController {
-
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var sendButton: UIButton!
