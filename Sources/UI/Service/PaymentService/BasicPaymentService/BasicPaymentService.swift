@@ -93,7 +93,7 @@ class BasicPaymentService: PaymentService {
         request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
 
         // Body
-        let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields, browserData: .current)
+        let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields, browserData: BrowserDataBuilder.build())
         let jsonData = try JSONEncoder().encode(chargeRequest)
         request.httpBody = jsonData
 
@@ -120,25 +120,5 @@ private extension BasicPaymentService {
 
             self.browserData = browserData
         }
-
-        struct BrowserData: Encodable {
-            var javaEnabled: Bool
-            var language: String?
-            var colorDepth: Int
-            var timezone: String
-            var browserScreenHeight: Int
-            var browserScreenWidth: Int
-        }
-    }
-}
-
-private extension BasicPaymentService.ChargeRequest.BrowserData {
-    static var current: BasicPaymentService.ChargeRequest.BrowserData {
-        let size = UIScreen.main.bounds
-        let colorDepth = 32 // colorDepth is always 32 bit for now for Apple products and it can't be obtained from a system
-        let timeZone = TimeZone.current.identifier
-        let language = Locale.current.languageCode
-
-        return .init(javaEnabled: false, language: language, colorDepth: colorDepth, timezone: timeZone, browserScreenHeight: Int(size.height), browserScreenWidth: Int(size.width))
     }
 }
