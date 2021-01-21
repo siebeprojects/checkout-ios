@@ -22,12 +22,7 @@ class ViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let pasteText = UIPasteboard.general.string, let _ = URL(string: pasteText) {
-            // Paste URL from clipboard automatically
-            textField.text = pasteText
-        } else {
-            textField.becomeFirstResponder()
-        }
+        textField.becomeFirstResponder()
     }
 
     @IBAction func switchValueDidChange(_ sender: UISwitch) {
