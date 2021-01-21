@@ -10,7 +10,7 @@ class UserAgentBuilder {
     init() {}
 
     /// Create a version string that should be used as user-agent header's value
-    /// Output format: `ios-sdk/<SDK versionNumber> (SDK buildNumber) <App/App versionNumber> (App identifier; App name; App buildNumber) <Platform/major.minor.patch OS version> (Device model; Device name)`
+    /// Output format: `ios-sdk/<SDK versionNumber> (SDK buildNumber) <App/App versionNumber> (App identifier; App name; App buildNumber) <Platform/major.minor.patch OS version> (Device model)`
     /// Example output: `ios-sdk/1.2.3 (43) App/3.2.1 (net.optile.example.sdk; Example SDK; 50) Platform/14.2.0 (iPhone; iPhone SE (2nd generation))`
     func createUserAgentValue() -> String {
         var outputSlices = [String]()
@@ -27,7 +27,7 @@ class UserAgentBuilder {
     }
 
     /// Returns platform version.
-    /// Example: `Platform/14.2.0 (iPhone; iPhone SE (2nd generation))`
+    /// Example: `Platform/14.2.0 (iPhone)`
     private var platformVersion: String {
         let prefix = "Platform"
 
