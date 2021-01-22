@@ -26,7 +26,6 @@ import UIKit
 
     lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
-    /// - Parameter tableConfiguration: settings for a payment table view, if not specified defaults will be used
     /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
     @objc public convenience init(listResultURL: URL) {
         let sharedTranslationProvider = SharedTranslationProvider()
