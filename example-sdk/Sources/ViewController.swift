@@ -8,7 +8,6 @@ import UIKit
 import Optile
 
 class ViewController: UITableViewController {
-
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var sendButton: UIButton!
@@ -37,14 +36,14 @@ class ViewController: UITableViewController {
             return
         }
 
-        let viewController = List.ViewController(listResultURL: url)
+        let viewController = PaymentListViewController(listResultURL: url)
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
 extension ViewController: PaymentDelegate {
-    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: List.ViewController) {
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController) {
         navigationController?.popViewController(animated: true, completion: {
             self.presentAlert(with: paymentResult)
         })

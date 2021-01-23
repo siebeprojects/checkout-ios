@@ -80,7 +80,7 @@
 		D96A4F86257D96EF00E74C8C /* TextInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ECC257D96EE00E74C8C /* TextInputField.swift */; };
 		D96A4F87257D96EF00E74C8C /* Input.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ECD257D96EE00E74C8C /* Input.ViewController.swift */; };
 		D96A4F88257D96EF00E74C8C /* List.Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ECF257D96EE00E74C8C /* List.Router.swift */; };
-		D96A4F89257D96EF00E74C8C /* List.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED0257D96EE00E74C8C /* List.ViewController.swift */; };
+		D96A4F89257D96EF00E74C8C /* PaymentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED0257D96EE00E74C8C /* PaymentListViewController.swift */; };
 		D96A4F8A257D96EF00E74C8C /* NetworkOperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED2257D96EE00E74C8C /* NetworkOperationResultHandler.swift */; };
 		D96A4F8B257D96EF00E74C8C /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED3257D96EE00E74C8C /* List.swift */; };
 		D96A4F8C257D96EF00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED6257D96EE00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift */; };
@@ -283,7 +283,7 @@
 		D96A4ECC257D96EE00E74C8C /* TextInputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
 		D96A4ECD257D96EE00E74C8C /* Input.ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.swift; sourceTree = "<group>"; };
 		D96A4ECF257D96EE00E74C8C /* List.Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Router.swift; sourceTree = "<group>"; };
-		D96A4ED0257D96EE00E74C8C /* List.ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.ViewController.swift; sourceTree = "<group>"; };
+		D96A4ED0257D96EE00E74C8C /* PaymentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentListViewController.swift; sourceTree = "<group>"; };
 		D96A4ED2257D96EE00E74C8C /* NetworkOperationResultHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkOperationResultHandler.swift; sourceTree = "<group>"; };
 		D96A4ED3257D96EE00E74C8C /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		D96A4ED6257D96EE00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.SingleNetworkRow.swift; sourceTree = "<group>"; };
@@ -656,7 +656,7 @@
 			isa = PBXGroup;
 			children = (
 				D96A4ECF257D96EE00E74C8C /* List.Router.swift */,
-				D96A4ED0257D96EE00E74C8C /* List.ViewController.swift */,
+				D96A4ED0257D96EE00E74C8C /* PaymentListViewController.swift */,
 				D96A4ED1257D96EE00E74C8C /* Protocol */,
 				D96A4ED3257D96EE00E74C8C /* List.swift */,
 				D96A4ED4257D96EE00E74C8C /* Table */,
@@ -1365,7 +1365,7 @@
 				D96A4FBC257D96EF00E74C8C /* SharedTranslationProvider.swift in Sources */,
 				D96A4FE5257D96EF00E74C8C /* Request.swift in Sources */,
 				D96A4F49257D96EF00E74C8C /* TextFormatter.swift in Sources */,
-				D96A4F89257D96EF00E74C8C /* List.ViewController.swift in Sources */,
+				D96A4F89257D96EF00E74C8C /* PaymentListViewController.swift in Sources */,
 				D96A4FD8257D96EF00E74C8C /* AccountFormData.swift in Sources */,
 				D96A4FCE257D96EF00E74C8C /* Interaction.swift in Sources */,
 				D96A4F9C257D96EF00E74C8C /* Error+isNetworkError.swift in Sources */,

@@ -13,6 +13,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/optile/ios-sdk.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '12.4'
+  s.swift_version = '5.3'
 
   s.source_files = 'Sources/**/*.swift'
   
