@@ -12,6 +12,7 @@
 		D918A3F2254F205C005BBA8B /* ListResult.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F1254F205C005BBA8B /* ListResult.json */; };
 		D918A3F5254F2450005BBA8B /* NetworkLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F4254F2450005BBA8B /* NetworkLocalization.json */; };
 		D918A3F7254F2483005BBA8B /* CheckoutLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */; };
+		D928CD8525B9F9B300DE602F /* BrowserDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */; };
 		D96A4F46257D96EF00E74C8C /* Input.ViewController.StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */; };
 		D96A4F47257D96EF00E74C8C /* Input.NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E7F257D96EE00E74C8C /* Input.NavigationController.swift */; };
 		D96A4F48257D96EF00E74C8C /* InputModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E82257D96EE00E74C8C /* InputModifier.swift */; };
@@ -79,7 +80,7 @@
 		D96A4F86257D96EF00E74C8C /* TextInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ECC257D96EE00E74C8C /* TextInputField.swift */; };
 		D96A4F87257D96EF00E74C8C /* Input.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ECD257D96EE00E74C8C /* Input.ViewController.swift */; };
 		D96A4F88257D96EF00E74C8C /* List.Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ECF257D96EE00E74C8C /* List.Router.swift */; };
-		D96A4F89257D96EF00E74C8C /* List.ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED0257D96EE00E74C8C /* List.ViewController.swift */; };
+		D96A4F89257D96EF00E74C8C /* PaymentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED0257D96EE00E74C8C /* PaymentListViewController.swift */; };
 		D96A4F8A257D96EF00E74C8C /* NetworkOperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED2257D96EE00E74C8C /* NetworkOperationResultHandler.swift */; };
 		D96A4F8B257D96EF00E74C8C /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED3257D96EE00E74C8C /* List.swift */; };
 		D96A4F8C257D96EF00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED6257D96EE00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift */; };
@@ -215,6 +216,7 @@
 		D918A3F1254F205C005BBA8B /* ListResult.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ListResult.json; sourceTree = "<group>"; };
 		D918A3F4254F2450005BBA8B /* NetworkLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkLocalization.json; sourceTree = "<group>"; };
 		D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CheckoutLocalization.json; sourceTree = "<group>"; };
+		D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserDataBuilder.swift; sourceTree = "<group>"; };
 		D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
 		D96A4E7F257D96EE00E74C8C /* Input.NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.NavigationController.swift; sourceTree = "<group>"; };
 		D96A4E82257D96EE00E74C8C /* InputModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputModifier.swift; sourceTree = "<group>"; };
@@ -282,7 +284,7 @@
 		D96A4ECC257D96EE00E74C8C /* TextInputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputField.swift; sourceTree = "<group>"; };
 		D96A4ECD257D96EE00E74C8C /* Input.ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.swift; sourceTree = "<group>"; };
 		D96A4ECF257D96EE00E74C8C /* List.Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Router.swift; sourceTree = "<group>"; };
-		D96A4ED0257D96EE00E74C8C /* List.ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.ViewController.swift; sourceTree = "<group>"; };
+		D96A4ED0257D96EE00E74C8C /* PaymentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentListViewController.swift; sourceTree = "<group>"; };
 		D96A4ED2257D96EE00E74C8C /* NetworkOperationResultHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkOperationResultHandler.swift; sourceTree = "<group>"; };
 		D96A4ED3257D96EE00E74C8C /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		D96A4ED6257D96EE00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.SingleNetworkRow.swift; sourceTree = "<group>"; };
@@ -656,7 +658,7 @@
 			isa = PBXGroup;
 			children = (
 				D96A4ECF257D96EE00E74C8C /* List.Router.swift */,
-				D96A4ED0257D96EE00E74C8C /* List.ViewController.swift */,
+				D96A4ED0257D96EE00E74C8C /* PaymentListViewController.swift */,
 				D96A4ED1257D96EE00E74C8C /* Protocol */,
 				D96A4ED3257D96EE00E74C8C /* List.swift */,
 				D96A4ED4257D96EE00E74C8C /* Table */,
@@ -806,6 +808,7 @@
 				D96A4F09257D96EE00E74C8C /* CustomErrorInfo.swift */,
 				D96A4F0A257D96EE00E74C8C /* PaymentServiceParsedResponse.swift */,
 				D96A4F0B257D96EE00E74C8C /* PaymentRequest.swift */,
+				D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */,
 			);
 			path = PaymentService;
 			sourceTree = "<group>";
@@ -1365,7 +1368,7 @@
 				D96A4FBC257D96EF00E74C8C /* SharedTranslationProvider.swift in Sources */,
 				D96A4FE5257D96EF00E74C8C /* Request.swift in Sources */,
 				D96A4F49257D96EF00E74C8C /* TextFormatter.swift in Sources */,
-				D96A4F89257D96EF00E74C8C /* List.ViewController.swift in Sources */,
+				D96A4F89257D96EF00E74C8C /* PaymentListViewController.swift in Sources */,
 				D96A4FD8257D96EF00E74C8C /* AccountFormData.swift in Sources */,
 				D96A4FCE257D96EF00E74C8C /* Interaction.swift in Sources */,
 				D96A4F9C257D96EF00E74C8C /* Error+isNetworkError.swift in Sources */,
@@ -1396,6 +1399,7 @@
 				D96A4F94257D96EF00E74C8C /* LoadableLogo.swift in Sources */,
 				D96A4FD5257D96EF00E74C8C /* Networks.swift in Sources */,
 				D96A4FBD257D96EF00E74C8C /* TranslationKey.swift in Sources */,
+				D928CD8525B9F9B300DE602F /* BrowserDataBuilder.swift in Sources */,
 				D96A4FA1257D96EF00E74C8C /* Theme.swift in Sources */,
 				D96A4F67257D96EF00E74C8C /* Input.Network.swift in Sources */,
 				D96A4F4C257D96EF00E74C8C /* TextFormatPattern.swift in Sources */,

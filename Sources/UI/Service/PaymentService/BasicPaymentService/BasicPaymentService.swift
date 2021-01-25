@@ -96,7 +96,7 @@ class BasicPaymentService: PaymentService {
         request.addValue(userAgentValue, forHTTPHeaderField: "User-Agent")
 
         // Body
-        let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields)
+        let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields, browserData: BrowserDataBuilder.build())
         let jsonData = try JSONEncoder().encode(chargeRequest)
         request.httpBody = jsonData
 
@@ -109,9 +109,10 @@ private extension BasicPaymentService {
         var account = [String: String]()
         var autoRegistration: Bool?
         var allowRecurrence: Bool?
+        var browserData: BrowserData
 
         /// - Throws: `InternalError` if dictionary's value doesn't conform to `Encodable`
-        init(inputFields: [String: String]) {
+        init(inputFields: [String: String], browserData: BrowserData) {
             for (name, value) in inputFields {
                 switch name {
                 case Input.Field.Checkbox.Constant.allowRegistration: autoRegistration = Bool(stringValue: value)
@@ -119,6 +120,8 @@ private extension BasicPaymentService {
                 default: account[name] = value
                 }
             }
+
+            self.browserData = browserData
         }
     }
 }

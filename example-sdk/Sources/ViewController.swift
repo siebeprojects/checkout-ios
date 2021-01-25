@@ -8,7 +8,6 @@ import UIKit
 import Optile
 
 class ViewController: UITableViewController {
-
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var sendButton: UIButton!
@@ -22,12 +21,7 @@ class ViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let pasteText = UIPasteboard.general.string, let _ = URL(string: pasteText) {
-            // Paste URL from clipboard automatically
-            textField.text = pasteText
-        } else {
-            textField.becomeFirstResponder()
-        }
+        textField.becomeFirstResponder()
     }
 
     @IBAction func switchValueDidChange(_ sender: UISwitch) {
@@ -42,14 +36,14 @@ class ViewController: UITableViewController {
             return
         }
 
-        let viewController = List.ViewController(listResultURL: url)
+        let viewController = PaymentListViewController(listResultURL: url)
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
 extension ViewController: PaymentDelegate {
-    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: List.ViewController) {
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController) {
         navigationController?.popViewController(animated: true, completion: {
             self.presentAlert(with: paymentResult)
         })
