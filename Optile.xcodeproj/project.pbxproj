@@ -194,6 +194,7 @@
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
 		D9A88E48241C56490043F535 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D92241C55040043F535 /* Media.xcassets */; };
 		D9C9573F241C54CA00049AFE /* Optile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* Optile.framework */; };
+		D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -401,6 +402,7 @@
 		D9A88D95241C55040043F535 /* validations-default.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "validations-default.json"; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* Optile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Optile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -906,6 +908,7 @@
 		D96A4F38257D96EF00E74C8C /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */,
 				D96A4F39257D96EF00E74C8C /* Operations */,
 				D96A4F3C257D96EF00E74C8C /* HTTPMethod.swift */,
 				D96A4F3D257D96EF00E74C8C /* Requests */,
@@ -1443,6 +1446,7 @@
 				D96A4F72257D96EF00E74C8C /* Input.Field.VerificationCode.swift in Sources */,
 				D96A4FC6257D96EF00E74C8C /* AccountMask.swift in Sources */,
 				D96A4FAD257D96EF00E74C8C /* BasicPaymentService.ResponseParser.swift in Sources */,
+				D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */,
 				D96A4F52257D96EF00E74C8C /* UppercaseInputModifier.swift in Sources */,
 				D96A4FE1257D96EF00E74C8C /* DownloadData.swift in Sources */,
 				D96A4F91257D96EF00E74C8C /* List.Table.BorderedCell.swift in Sources */,
