@@ -14,7 +14,7 @@ extension List.Table {
         weak var rightBorder: UIView!
         weak var topBorder: UIView!
         weak var bottomBorder: UIView!
-        
+
         weak var customAccessoryView: UIView!
         weak var customContentView: UIView!
 
@@ -26,7 +26,7 @@ extension List.Table {
             case first
             case middle
             case last
-            
+
             /// It is an only one cell in section
             case singleCell
         }
@@ -78,10 +78,10 @@ extension List.Table.BorderedCell {
 
         let rightBorder = UIView(frame: .zero)
         self.rightBorder = rightBorder
-        
+
         let topBorder = UIView(frame: .zero)
         self.topBorder = topBorder
-        
+
         let bottomBorder = UIView(frame: .zero)
         self.bottomBorder = bottomBorder
         bottomBorder.isHidden = true
@@ -102,12 +102,12 @@ extension List.Table.BorderedCell {
             rightBorder.topAnchor.constraint(equalTo: topAnchor),
             rightBorder.bottomAnchor.constraint(equalTo: bottomAnchor),
             rightBorder.widthAnchor.constraint(equalToConstant: .separatorWidth),
-            
+
             topBorder.topAnchor.constraint(equalTo: topAnchor),
             topBorder.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor),
             topBorder.trailingAnchor.constraint(equalTo: rightBorder.trailingAnchor),
             topBorder.heightAnchor.constraint(equalToConstant: .separatorWidth),
-            
+
             bottomBorder.bottomAnchor.constraint(equalTo: bottomAnchor),
             bottomBorder.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor),
             bottomBorder.trailingAnchor.constraint(equalTo: rightBorder.trailingAnchor),
@@ -126,7 +126,7 @@ extension List.Table.BorderedCell {
 
         viewWithPaddings.translatesAutoresizingMaskIntoConstraints = false
         selectedBackgroundView.preservesSuperviewLayoutMargins = true
-        
+
         NSLayoutConstraint.activate([
             viewWithPaddings.leadingAnchor.constraint(equalTo: selectedBackgroundView.layoutMarginsGuide.leadingAnchor),
             viewWithPaddings.topAnchor.constraint(equalTo: selectedBackgroundView.topAnchor),
@@ -145,10 +145,10 @@ extension List.Table.BorderedCell {
             customContentView.topAnchor.constraint(equalTo: contentView.topAnchor),
             customContentView.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor),
             customContentView.trailingAnchor.constraint(equalTo: customAccessoryView.trailingAnchor, constant: -16),
-            customContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            customContentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+
     fileprivate func addCustomAccessoryView() {
         let customAccessoryView = UIImageView(frame: .zero)
         customAccessoryView.contentMode = .scaleAspectFit
@@ -157,11 +157,11 @@ extension List.Table.BorderedCell {
         self.customAccessoryView = customAccessoryView
         customAccessoryView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(customAccessoryView)
-        
+
         NSLayoutConstraint.activate([
             customAccessoryView.topAnchor.constraint(equalTo: topAnchor),
             customAccessoryView.trailingAnchor.constraint(equalTo: rightBorder.trailingAnchor, constant: -16),
-            customAccessoryView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            customAccessoryView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

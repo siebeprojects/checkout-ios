@@ -15,7 +15,7 @@ class PaymentSessionService {
     private let connection: Connection
 
     let paymentServicesFactory: PaymentServicesFactory
-    
+
     weak var delegate: PaymentSessionServiceDelegate?
 
     init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider) {
@@ -46,7 +46,7 @@ class PaymentSessionService {
                 }
             case .failure(let error):
                 log(error)
-                
+
                 // If server responded with ErrorInfo
                 if let errorInfo = error as? ErrorInfo {
                     DispatchQueue.main.async {

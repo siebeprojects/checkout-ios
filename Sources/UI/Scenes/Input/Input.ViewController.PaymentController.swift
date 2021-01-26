@@ -71,7 +71,7 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
         // On retry show an error and leave on that view
         if case .RETRY = Interaction.Code(rawValue: serverResponse.interaction.code) {
             let errorInfo = ErrorInfo(resultInfo: serverResponse.resultInfo, interaction: serverResponse.interaction)
-            
+
             DispatchQueue.main.async {
                 self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
             }

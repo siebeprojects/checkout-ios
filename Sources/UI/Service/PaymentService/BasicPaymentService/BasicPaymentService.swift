@@ -18,7 +18,7 @@ class BasicPaymentService: PaymentService {
 
         return false
     }
-    
+
     /// Find appropriate interaction code for specified operation type.
     static func getFailureInteractionCode(forOperationType operationType: String?) -> Interaction.Code {
         switch operationType {

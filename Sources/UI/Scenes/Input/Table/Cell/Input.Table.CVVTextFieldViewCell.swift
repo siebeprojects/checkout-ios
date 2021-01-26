@@ -22,13 +22,12 @@ extension Input.Table {
             hintButton.setImage(AssetProvider.iconCVVQuestionMark, for: .normal)
             hintButton.addTarget(self, action: #selector(hintButtonDidTap(button:)), for: .touchUpInside)
 
-
         }
-        
+
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        
+
         @objc private func hintButtonDidTap(button: UIButton) {
             let tooltipVC = TooltipViewController()
 

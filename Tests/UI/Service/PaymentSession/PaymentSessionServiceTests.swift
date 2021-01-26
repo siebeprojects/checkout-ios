@@ -31,7 +31,7 @@ class PaymentSessionServiceTests: XCTestCase {
     }
 
     // MARK: - Helper methods
-    
+
     var loadingPromise: XCTestExpectation!
     var resultPromise: XCTestExpectation!
     var sessionResult: Load<PaymentSession, ErrorInfo>?
@@ -44,7 +44,7 @@ class PaymentSessionServiceTests: XCTestCase {
         loadingPromise = expectation(description: "PaymentSessionProvider: loading")
         resultPromise = expectation(description: "PaymentSessionProvider: completed")
         provider.loadPaymentSession()
-        
+
         wait(for: [loadingPromise, resultPromise], timeout: 1, enforceOrder: true)
 
         let attachment = XCTAttachment(subject: sessionResult)
@@ -56,7 +56,7 @@ class PaymentSessionServiceTests: XCTestCase {
             resultPromise = nil
             sessionResult = nil
         }
-        
+
         return sessionResult!
     }
 }
@@ -70,7 +70,7 @@ extension PaymentSessionServiceTests: PaymentSessionServiceDelegate {
             resultPromise.fulfill()
         }
     }
-    
+
     func paymentSessionService(shouldSelect network: PaymentNetwork) {}
 }
 

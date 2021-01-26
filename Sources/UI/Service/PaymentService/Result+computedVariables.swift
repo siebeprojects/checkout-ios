@@ -13,7 +13,7 @@ extension Result where Success: OperationResult, Failure: ErrorInfo {
         case .failure(let errorInfo): return errorInfo.interaction
         }
     }
-    
+
     var resultInfo: String {
         switch self {
         case .success(let operationResult): return operationResult.resultInfo

@@ -59,7 +59,7 @@ class PaymentSessionProvider {
         }
         getListResultOperation.start()
     }
-    
+
     private func checkIntegrationType(for listResult: ListResult, completion: ((Result<ListResult, Error>) -> Void)) {
         guard listResult.integrationType == "MOBILE_NATIVE" else {
             let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)

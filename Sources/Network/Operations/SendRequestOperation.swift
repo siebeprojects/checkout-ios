@@ -53,4 +53,3 @@ class SendRequestOperation<T>: AsynchronousOperation where T: Request {
         finish()
     }
 }
-

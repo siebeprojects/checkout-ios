@@ -81,7 +81,7 @@ extension List.Table.DataSource.GroupedNetworkRow {
 
         // Set cell position
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
-        
+
         if numberOfRows == 1 {
             cell.cellIndex = .singleCell
         } else {
