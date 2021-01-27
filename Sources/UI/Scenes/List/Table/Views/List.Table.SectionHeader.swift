@@ -15,7 +15,7 @@ extension List.Table {
             super.init(frame: frame)
 
             self.preservesSuperviewLayoutMargins = true
-            
+
             let textLabel = UILabel(frame: frame)
             textLabel.translatesAutoresizingMaskIntoConstraints = false
             textLabel.textColor = Theme.shared.textColor

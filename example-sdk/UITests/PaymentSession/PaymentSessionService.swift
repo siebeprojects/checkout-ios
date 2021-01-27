@@ -6,7 +6,7 @@
 
 import Foundation
 
-fileprivate func infoPlistValue(forKey key: String) -> String? {
+private func infoPlistValue(forKey key: String) -> String? {
     let value = Bundle(for: PaymentSessionService.self).infoDictionary?[key]
     return value as? String
 }

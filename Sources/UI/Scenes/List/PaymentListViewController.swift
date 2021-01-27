@@ -229,7 +229,7 @@ extension PaymentListViewController {
         NSLayoutConstraint.activate([
             methodsTableView.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
             methodsTableView.bottomAnchor.constraint(equalTo: superview.bottomAnchor),
-            methodsTableView.topAnchor.constraint(equalTo: superview.topAnchor, constant: topPadding),
+            methodsTableView.topAnchor.constraint(equalTo: superview.topAnchor, constant: topPadding)
         ])
 
         let trailingConstraint = methodsTableView.trailingAnchor.constraint(equalTo: superview.trailingAnchor)

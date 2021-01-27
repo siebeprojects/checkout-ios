@@ -91,7 +91,7 @@ class TooltipViewController: UIViewController {
         let verticalSpacing: CGFloat = 16
         let minimumImageHeight: CGFloat = 50
         let titleDetailLabelSpacing: CGFloat = 4
-        
+
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: verticalSpacing),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalSpacing),

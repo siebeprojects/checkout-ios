@@ -10,7 +10,7 @@ import Foundation
 @objc public class OperationResult: NSObject, Decodable {
     /// Descriptive information that complements the interaction advice
     public let resultInfo: String
-    
+
     /// - TODO: Document it
     /// - TODO: Is it optional?
     public let links: [String: URL]?

@@ -22,7 +22,7 @@ extension UIAlertController {
             let label: LocalizationKey
 
             let style: UIAlertAction.Style
-            
+
             /// Action to be executed when button is tapped
             let handler: ((UIAlertAction) -> Void)?
 

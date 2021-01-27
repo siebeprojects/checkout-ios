@@ -27,7 +27,7 @@ extension BasicPaymentService.ResponseParser {
             }
 
             let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
-            
+
             // Get interaction
             let interaction: Interaction
             if connectionType.isRecoverableError(error) {
@@ -36,7 +36,7 @@ extension BasicPaymentService.ResponseParser {
             } else {
                 interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
             }
-            
+
             let customErrorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
             return .result(.failure(customErrorInfo))
         case .success(let responseData):
@@ -56,7 +56,7 @@ extension BasicPaymentService.ResponseParser {
 
             // Check if an external browser should be opened
             if let redirect = operationResult.redirect, let redirectType = redirect.type, self.supportedRedirectTypes.contains(redirectType) {
-                
+
                 let parser = RedirectParser(redirect: redirect, links: operationResult.links)
                 let url = try parser.createRedirectURL()
                 return .redirect(url)
@@ -78,10 +78,10 @@ extension BasicPaymentService.ResponseParser {
 /// Parser class for `Redirect` object
 private struct RedirectParser {
     let redirect: Redirect
-    
+
     /// Links property from `OperationResult`
     let links: [String: URL]?
-    
+
     /// Construct an url from `Redirect` object which should be opened in a browser to continue the charge request.
     func createRedirectURL() throws -> URL {
         switch redirect.method {
