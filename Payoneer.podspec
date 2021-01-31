@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'Payoneer'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of Optile.'
+  s.summary          = 'A short description.'
 
   s.description      = <<-DESC
 TODO: Add long description of the pod here.

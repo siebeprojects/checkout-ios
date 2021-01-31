@@ -1,4 +1,4 @@
-# Optile iOS SDK
+# Payoneer iOS SDK
 
 ⚠️ Framework is on development stage.
 
@@ -8,7 +8,7 @@
 CocoaPods is one of dependency managers. For usage and installation instructions, visit [their website](https://cocoapods.org). To integrate the framework into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-pod 'Optile', :git => 'https://github.com/optile/ios-sdk', :branch => 'develop'
+pod 'Payoneer', :git => 'https://github.com/optile/ios-sdk', :branch => 'develop'
 ```
 
 ## Example
