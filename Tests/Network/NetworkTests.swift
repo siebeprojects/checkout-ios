@@ -5,7 +5,7 @@
 // See the LICENSE file for more information.
 
 import XCTest
-@testable import Optile
+@testable import Payoneer
 
 final class NetworkTests: XCTestCase {
     func testGetListResult() {

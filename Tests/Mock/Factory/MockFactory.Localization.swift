@@ -5,7 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
-@testable import Optile
+@testable import Payoneer
 
 extension MockFactory {
     class Localization {

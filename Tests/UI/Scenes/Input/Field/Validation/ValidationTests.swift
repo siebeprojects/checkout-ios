@@ -5,7 +5,7 @@
 // See the LICENSE file for more information.
 
 import XCTest
-@testable import Optile
+@testable import Payoneer
 
 class ValidationTests: XCTestCase {
     private let translationProvider = KeysOnlyTranslationProvider()
