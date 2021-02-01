@@ -27,7 +27,7 @@ platform :ios do
     match(type: "adhoc", readonly: is_ci)
     update_project_team(path: "./Example-sdk/Example-sdk.xcodeproj")
     update_project_provisioning(
-      profile: ENV["sigh_net.optile.example.sdk_adhoc_profile-path"],
+      profile: ENV["sigh_com.payoneer.mrs.examplesdk_adhoc_profile-path"],
       xcodeproj: "./Example-sdk/Example-sdk.xcodeproj"
     )
     build_ios_app(
