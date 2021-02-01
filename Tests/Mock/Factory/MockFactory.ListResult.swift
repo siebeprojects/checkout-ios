@@ -15,7 +15,7 @@ extension MockFactory {
 
 extension MockFactory.ListResult {
     static var paymentSession: PaymentSession {
-        let listResult = try! JSONDecoder().decode(Optile.ListResult.self, from: listResultData)
+        let listResult = try! JSONDecoder().decode(Payoneer.ListResult.self, from: listResultData)
 
         let translatedNetworks = listResult.networks.applicable.map {
             TranslatedModel(model: $0, translator: MockFactory.Localization.provider)
