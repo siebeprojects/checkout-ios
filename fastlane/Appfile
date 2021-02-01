@@ -1,4 +1,4 @@
-app_identifier("com.payoneer.mrs.example.sdk")
+app_identifier("com.payoneer.mrs.examplesdk")
 
 # Apple email address for signing
 apple_id ENV['FASTLANE_IOS_USERNAME'] 
