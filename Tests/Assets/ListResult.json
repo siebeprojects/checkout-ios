@@ -209,7 +209,7 @@
     "language": "en_US"
   },
   "payment": {
-    "reference": "Shop optile/03-12-2018",
+    "reference": "Shop/03-12-2018",
     "amount": 120,
     "currency": "EUR"
   },
