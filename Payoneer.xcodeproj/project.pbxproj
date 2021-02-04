@@ -203,7 +203,7 @@
 			containerPortal = D9C9572C241C54CA00049AFE /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D9C95734241C54CA00049AFE;
-			remoteInfo = Optile;
+			remoteInfo = Payoneer;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -212,9 +212,7 @@
 		36B42BA5B51E0C0C5F1F7D54 /* Pods_Payoneer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Payoneer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AA5EF5833CCFE9360C69E54 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		8AE876F2AB3608344995F5BC /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
-		95E5DEA2906240D51D3804B0 /* Pods-Optile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.debug.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.debug.xcconfig"; sourceTree = "<group>"; };
 		BF36E8A2FE025E51C137C45E /* Pods-Payoneer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payoneer.release.xcconfig"; path = "Target Support Files/Pods-Payoneer/Pods-Payoneer.release.xcconfig"; sourceTree = "<group>"; };
-		C1464685FF385FE59D6C10F5 /* Pods-Optile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Optile.release.xcconfig"; path = "Target Support Files/Pods-Optile/Pods-Optile.release.xcconfig"; sourceTree = "<group>"; };
 		D918A3F1254F205C005BBA8B /* ListResult.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ListResult.json; sourceTree = "<group>"; };
 		D918A3F4254F2450005BBA8B /* NetworkLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkLocalization.json; sourceTree = "<group>"; };
 		D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CheckoutLocalization.json; sourceTree = "<group>"; };
@@ -1119,8 +1117,6 @@
 		E1466AD75BB5BAE0DAF66218 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				95E5DEA2906240D51D3804B0 /* Pods-Optile.debug.xcconfig */,
-				C1464685FF385FE59D6C10F5 /* Pods-Optile.release.xcconfig */,
 				6AA5EF5833CCFE9360C69E54 /* Pods-Tests.debug.xcconfig */,
 				8AE876F2AB3608344995F5BC /* Pods-Tests.release.xcconfig */,
 				04081EF4F12285ABCF79A364 /* Pods-Payoneer.debug.xcconfig */,
@@ -1157,7 +1153,7 @@
 			dependencies = (
 			);
 			name = Payoneer;
-			productName = Optile;
+			productName = Payoneer;
 			productReference = D9C95735241C54CA00049AFE /* Payoneer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -1177,7 +1173,7 @@
 				D9C95741241C54CA00049AFE /* PBXTargetDependency */,
 			);
 			name = Tests;
-			productName = OptileTests;
+			productName = PayoneerTests;
 			productReference = D9C9573E241C54CA00049AFE /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -1190,7 +1186,7 @@
 				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1130;
-				ORGANIZATIONNAME = "optile GmbH";
+				ORGANIZATIONNAME = "Payoneer Germany GmbH";
 				TargetAttributes = {
 					D9C95734241C54CA00049AFE = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -1703,7 +1699,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = optile.io.OptileTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.payoneer.mrs.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1724,7 +1720,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = optile.io.OptileTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.payoneer.mrs.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
