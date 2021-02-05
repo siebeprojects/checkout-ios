@@ -1,11 +1,11 @@
-// Copyright (c) 2020 optile GmbH
-// https://www.optile.net
+// Copyright (c) 2021 Payoneer Germany GmbH
+// https://www.payoneer.com
 //
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
 
 import Foundation
-@testable import Optile
+@testable import Payoneer
 
 extension MockFactory {
     class ListResult {
@@ -15,7 +15,7 @@ extension MockFactory {
 
 extension MockFactory.ListResult {
     static var paymentSession: PaymentSession {
-        let listResult = try! JSONDecoder().decode(Optile.ListResult.self, from: listResultData)
+        let listResult = try! JSONDecoder().decode(Payoneer.ListResult.self, from: listResultData)
 
         let translatedNetworks = listResult.networks.applicable.map {
             TranslatedModel(model: $0, translator: MockFactory.Localization.provider)

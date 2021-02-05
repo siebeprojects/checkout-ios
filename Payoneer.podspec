@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-  s.name             = 'Optile'
+  s.name             = 'Payoneer'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of Optile.'
+  s.summary          = 'A short description.'
 
   s.description      = <<-DESC
 TODO: Add long description of the pod here.
@@ -9,7 +9,7 @@ TODO: Add long description of the pod here.
 
   s.homepage         = 'https://github.com/optile/ios-sdk'
   s.license          = { :type => 'MIT' }
-  s.author           = { 'optile GmbH' => '' }
+  s.author           = { 'Payoneer Germany GmbH' => '' }
   s.source           = { :git => 'https://github.com/optile/ios-sdk.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '12.4'

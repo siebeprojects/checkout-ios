@@ -1,5 +1,5 @@
-// Copyright (c) 2020 optile GmbH
-// https://www.optile.net
+// Copyright (c) 2021 Payoneer Germany GmbH
+// https://www.payoneer.com
 //
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
@@ -11,7 +11,7 @@ class UserAgentBuilder {
 
     /// Create a version string that should be used as user-agent header's value
     /// Output format: `ios-sdk/<SDK versionNumber> (SDK buildNumber) <App/App versionNumber> (App identifier; App name; App buildNumber) <Platform/major.minor.patch OS version> (Device model)`
-    /// Example output: `ios-sdk/1.2.3 (43) App/3.2.1 (net.optile.example.sdk; Example SDK; 50) Platform/14.2.0 (iPhone; iPhone SE (2nd generation))`
+    /// Example output: `ios-sdk/1.2.3 (43) App/3.2.1 (bundle.id; Example SDK; 50) Platform/14.2.0 (iPhone; iPhone SE (2nd generation))`
     func createUserAgentValue() -> String {
         var outputSlices = [String]()
 
@@ -38,7 +38,7 @@ class UserAgentBuilder {
     }
 
     /// Returns application version string.
-    /// Example output: `App/3.2.1 (net.optile.example.sdk; Example SDK; 50)`
+    /// Example output: `App/3.2.1 (bundle.id; Example SDK; 50)`
     private var applicationVersion: String? {
         guard let applicationInfoDictionary = Bundle.main.infoDictionary else { return nil }
 

@@ -10,14 +10,14 @@
   "payment": {
     "amount": 120,
     "currency": "EUR",
-    "reference": "Shop optile/03-12-2018"
+    "reference": "Example iOS SDK"
   },
   "style": {
     "language": "en_US",
     "resolution": "2x"
   },
   "callback": {
-    "appId": "net.optile.example.sdk",
+    "appId": "com.payoneer.mrs.examplesdk",
     "notificationUrl": "https://example.com/shop/notify.html"
   }
 }
