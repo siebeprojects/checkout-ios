@@ -10,12 +10,13 @@ class UserAgentBuilder {
     init() {}
 
     /// Create a version string that should be used as user-agent header's value
-    /// Output format: `ios-sdk/<SDK versionNumber> (SDK buildNumber) <App/App versionNumber> (App identifier; App name; App buildNumber) <Platform/major.minor.patch OS version> (Device model)`
-    /// Example output: `ios-sdk/1.2.3 (43) App/3.2.1 (bundle.id; Example SDK; 50) Platform/14.2.0 (iPhone; iPhone SE (2nd generation))`
+    /// Output format: `IOSSDK/<SDK versionNumber> (SDK buildNumber) IOSApp/<App versionNumber> (App identifier; App name; App buildNumber) IOSPlatform/<major.minor.patch OS version> (Device model)`
     func createUserAgentValue() -> String {
         var outputSlices = [String]()
 
-        outputSlices.append(frameworkVersion)
+        if let frameworkVersion = self.frameworkVersion {
+            outputSlices.append(frameworkVersion)
+        }
 
         if let applicationVersion = applicationVersion {
             outputSlices.append(applicationVersion)
@@ -27,9 +28,9 @@ class UserAgentBuilder {
     }
 
     /// Returns platform version.
-    /// Example: `Platform/14.2.0 (iPhone)`
+    /// Example: `IOSPlatform/14.2.0 (iPhone)`
     private var platformVersion: String {
-        let prefix = "Platform"
+        let prefix = "IOSPlatform"
 
         let version = UIDevice.current.systemVersion
         let model = UIDevice.current.model
@@ -38,53 +39,51 @@ class UserAgentBuilder {
     }
 
     /// Returns application version string.
-    /// Example output: `App/3.2.1 (bundle.id; Example SDK; 50)`
+    /// Example output: `IOSApp/3.2.1 (bundle.id; Example SDK; 50)`
     private var applicationVersion: String? {
         guard let applicationInfoDictionary = Bundle.main.infoDictionary else { return nil }
 
-        let prefix = "App"
+        let prefix = "IOSApp"
 
-        let applicationVersion = applicationInfoDictionary["CFBundleShortVersionString"] as? String
+        guard let applicationVersion = applicationInfoDictionary["CFBundleShortVersionString"] as? String else {
+            // Don't return application version if we can't get a version number
+            return nil
+        }
 
         // Detailed information in brackets
-        var detailedInformation = [String]()
-
-        if let identifier = applicationInfoDictionary["CFBundleIdentifier"] as? String {
-            detailedInformation.append(identifier)
-        }
-
-        if let displayName = applicationInfoDictionary["CFBundleDisplayName"] as? String {
-            detailedInformation.append(displayName)
-        }
-
-        if let buildNumber = applicationInfoDictionary["CFBundleVersion"] as? String {
-            detailedInformation.append(buildNumber)
-        }
+        let identifier = applicationInfoDictionary["CFBundleIdentifier"] as? String ?? ""
+        let displayName = applicationInfoDictionary["CFBundleDisplayName"] as? String ?? ""
+        let buildNumber = applicationInfoDictionary["CFBundleVersion"] as? String ?? ""
 
         // Combine data to output string
-        var outputValue = String()
-        if let version = applicationVersion {
-            outputValue = prefix + "/" + version
-        } else {
-            outputValue = prefix
-        }
+        var outputValue = prefix + "/" + applicationVersion
 
-        if !detailedInformation.isEmpty {
-            outputValue += " (" + detailedInformation.joined(separator: "; ") + ")"
+        let filledInformationBlocks = [identifier, displayName, buildNumber].filter { !$0.isEmpty }
+
+        // If we have any detailed information
+        if filledInformationBlocks.count != 0 {
+            outputValue += " (\(identifier); \(displayName); \(buildNumber))"
         }
 
         return outputValue
     }
 
-    /// Returns framework version, e.g.: `ios-sdk/1.2.3 (43)`
-    private var frameworkVersion: String {
-        let frameworkName = "ios-sdk"
-
+    /// Returns framework version, e.g.: `IOSSDK/1.2.3 (43)`
+    private var frameworkVersion: String? {
+        let frameworkName = "IOSSDK"
+     
         let infoDictionary = Bundle(for: UserAgentBuilder.self).infoDictionary
-        if let version = infoDictionary?["CFBundleShortVersionString"] as? String, let build = infoDictionary?["CFBundleVersion"] as? String {
-            return frameworkName + "/" + version + " (" + build + ")"
-        } else {
-            return frameworkName
+        guard let version = infoDictionary?["CFBundleShortVersionString"] as? String else {
+            // If version couldn't be obtained don't send framework version
+            return nil
         }
+
+        var output = frameworkName + "/" + version
+
+        if let build = infoDictionary?["CFBundleVersion"] as? String {
+            output += " (" + build + ")"
+        }
+
+        return output
     }
 }
