@@ -3,8 +3,6 @@ line_length:
   error: 300
   ignores_urls: true
   ignores_comments: true
-excluded:
-  - .build
 disabled_rules:
   - todo
   - force_try
