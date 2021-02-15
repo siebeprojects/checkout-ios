@@ -10,7 +10,7 @@ protocol InputPaymentControllerDelegate: class {
     func paymentController(presentURL url: URL)
     func paymentController(route result: Result<OperationResult, ErrorInfo>)
     func paymentController(inputShouldBeChanged error: ErrorInfo)
-    func paymentController(communicationDidFailWith error: ErrorInfo)
+    func paymentController(didFailWith error: ErrorInfo)
 }
 
 extension Input.ViewController {
@@ -45,7 +45,14 @@ extension Input.ViewController.PaymentController {
         // Split expiry date
         if let expiryDate = expiryDate {
             inputFieldsDictionary["expiryMonth"] = String(expiryDate.prefix(2))
-            inputFieldsDictionary["expiryYear"] = String(expiryDate.suffix(2))
+            let shortYear = String(expiryDate.suffix(2))
+            do {
+                inputFieldsDictionary["expiryYear"] = try DateFormatter.string(fromShortYear: shortYear)
+            } catch {
+                let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
+                delegate?.paymentController(didFailWith: errorInfo)
+                return
+            }
         }
 
         let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
@@ -81,7 +88,7 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
         else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: serverResponse.interaction.reason),
                 case let .failure(errorInfo) = serverResponse {
             DispatchQueue.main.async {
-                self.delegate?.paymentController(communicationDidFailWith: errorInfo)
+                self.delegate?.paymentController(didFailWith: errorInfo)
             }
         }
 

@@ -250,7 +250,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         })
     }
 
-    func paymentController(communicationDidFailWith error: ErrorInfo) {
+    func paymentController(didFailWith error: ErrorInfo) {
         // Try to dismiss safari VC (if exists)
         safariViewController?.dismiss(animated: true, completion: nil)
 
