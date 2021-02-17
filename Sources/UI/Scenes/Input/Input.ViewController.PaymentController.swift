@@ -30,6 +30,21 @@ extension Input.ViewController.PaymentController {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
         service?.delegate = self
 
+        let inputFieldsDictionary: [String: String]
+        do {
+            inputFieldsDictionary = try createInputFields(from: network)
+        } catch {
+            let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
+            delegate?.paymentController(didFailWith: errorInfo)
+            return
+        }
+
+        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
+
+        service?.send(paymentRequest: request)
+    }
+    
+    private func createInputFields(from network: Input.Network) throws -> [String: String] {
         var inputFieldsDictionary = [String: String]()
         var expiryDate: String?
         for element in network.uiModel.inputFields + network.uiModel.separatedCheckboxes {
@@ -44,20 +59,22 @@ extension Input.ViewController.PaymentController {
 
         // Split expiry date
         if let expiryDate = expiryDate {
-            inputFieldsDictionary["expiryMonth"] = String(expiryDate.prefix(2))
-            let shortYear = String(expiryDate.suffix(2))
-            do {
-                inputFieldsDictionary["expiryYear"] = try DateFormatter.string(fromShortYear: shortYear)
-            } catch {
-                let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
-                delegate?.paymentController(didFailWith: errorInfo)
-                return
-            }
+            let dateComponents = try createDateComponents(fromExpiryDateString: expiryDate)
+            inputFieldsDictionary["expiryMonth"] = dateComponents.month
+            inputFieldsDictionary["expiryYear"] = dateComponents.year
         }
 
-        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
+        return inputFieldsDictionary
+    }
 
-        service?.send(paymentRequest: request)
+    /// Create month and full year for short date string
+    /// - Parameter expiryDate: example `03/30`
+    /// - Returns: month and full year
+    private func createDateComponents(fromExpiryDateString expiryDate: String) throws -> (month: String, year: String) {
+        let expiryMonth = String(expiryDate.prefix(2))
+        let shortYear = String(expiryDate.suffix(2))
+        let expiryYear = try DateFormatter.string(fromShortYear: shortYear)
+        return (month: expiryMonth, year: expiryYear)
     }
 }
 
