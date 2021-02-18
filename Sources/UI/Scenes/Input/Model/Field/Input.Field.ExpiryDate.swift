@@ -42,15 +42,10 @@ extension Input.Field.ExpiryDate: Validatable {
             return false
         }
 
-        // Get current year without suffix (we will add that suffix later)
-        // E.g. 2050 = 20
-        let calendar = Calendar.current
-        let currentYear = String(calendar.component(.year, from: Date()))
-        let prefixCharacters = currentYear.count - 2
-        let currentYearWithoutSuffix = currentYear.prefix(prefixCharacters)
-
         guard let month = Int(String(value.prefix(2))) else { return false }
-        guard let year = Int(String(currentYearWithoutSuffix + value.suffix(2))) else { return false }
+        guard let textYear = try? DateFormatter.string(fromShortYear: String(value.suffix(2))), let year = Int(textYear) else {
+            return false
+        }
         guard month >= 1, month <= 12 else { return false }
 
         let validationResult = Input.Field.Validation.ExpiryDate.isInFuture(expiryMonth: month, expiryYear: year) ?? false

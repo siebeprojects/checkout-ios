@@ -10,7 +10,7 @@ protocol InputPaymentControllerDelegate: class {
     func paymentController(presentURL url: URL)
     func paymentController(route result: Result<OperationResult, ErrorInfo>)
     func paymentController(inputShouldBeChanged error: ErrorInfo)
-    func paymentController(communicationDidFailWith error: ErrorInfo)
+    func paymentController(didFailWith error: ErrorInfo)
 }
 
 extension Input.ViewController {
@@ -27,31 +27,48 @@ extension Input.ViewController {
 
 extension Input.ViewController.PaymentController {
     func submitPayment(for network: Input.Network) {
-         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
-         service?.delegate = self
+        let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        service?.delegate = self
 
-         var inputFieldsDictionary = [String: String]()
-         var expiryDate: String?
-         for element in network.uiModel.inputFields + network.uiModel.separatedCheckboxes {
-             if element.name == "expiryDate" {
-                 // Expiry date is processed below
-                 expiryDate = element.value
-                 continue
-             }
+        let inputFieldsDictionary: [String: String]
+        do {
+            inputFieldsDictionary = try createInputFields(from: network)
+        } catch {
+            let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
+            delegate?.paymentController(didFailWith: errorInfo)
+            return
+        }
 
-             inputFieldsDictionary[element.name] = element.value
-         }
+        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
 
-         // Split expiry date
-         if let expiryDate = expiryDate {
-             inputFieldsDictionary["expiryMonth"] = String(expiryDate.prefix(2))
-             inputFieldsDictionary["expiryYear"] = String(expiryDate.suffix(2))
-         }
+        service?.send(paymentRequest: request)
+    }
+    
+    private func createInputFields(from network: Input.Network) throws -> [String: String] {
+        var inputFieldsDictionary = [String: String]()
+        for element in network.uiModel.inputFields + network.uiModel.separatedCheckboxes {
+            if element.name == "expiryDate" {
+                // Transform expiryDate to month and a full year
+                let dateComponents = try createDateComponents(fromExpiryDateString: element.value)
+                inputFieldsDictionary["expiryMonth"] = dateComponents.month
+                inputFieldsDictionary["expiryYear"] = dateComponents.year
+            } else {
+                inputFieldsDictionary[element.name] = element.value
+            }
+        }
 
-         let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
+        return inputFieldsDictionary
+    }
 
-         service?.send(paymentRequest: request)
-     }
+    /// Create month and full year for short date string
+    /// - Parameter expiryDate: example `03/30`
+    /// - Returns: month and full year
+    private func createDateComponents(fromExpiryDateString expiryDate: String) throws -> (month: String, year: String) {
+        let expiryMonth = String(expiryDate.prefix(2))
+        let shortYear = String(expiryDate.suffix(2))
+        let expiryYear = try DateFormatter.string(fromShortYear: shortYear)
+        return (month: expiryMonth, year: expiryYear)
+    }
 }
 
 extension Input.ViewController.PaymentController: PaymentServiceDelegate {
@@ -81,7 +98,7 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
         else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: serverResponse.interaction.reason),
                 case let .failure(errorInfo) = serverResponse {
             DispatchQueue.main.async {
-                self.delegate?.paymentController(communicationDidFailWith: errorInfo)
+                self.delegate?.paymentController(didFailWith: errorInfo)
             }
         }
 
