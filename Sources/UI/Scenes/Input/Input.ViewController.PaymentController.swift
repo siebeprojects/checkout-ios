@@ -46,22 +46,15 @@ extension Input.ViewController.PaymentController {
     
     private func createInputFields(from network: Input.Network) throws -> [String: String] {
         var inputFieldsDictionary = [String: String]()
-        var expiryDate: String?
         for element in network.uiModel.inputFields + network.uiModel.separatedCheckboxes {
             if element.name == "expiryDate" {
-                // Expiry date is processed below
-                expiryDate = element.value
-                continue
+                // Transform expiryDate to month and a full year
+                let dateComponents = try createDateComponents(fromExpiryDateString: element.value)
+                inputFieldsDictionary["expiryMonth"] = dateComponents.month
+                inputFieldsDictionary["expiryYear"] = dateComponents.year
+            } else {
+                inputFieldsDictionary[element.name] = element.value
             }
-
-            inputFieldsDictionary[element.name] = element.value
-        }
-
-        // Split expiry date
-        if let expiryDate = expiryDate {
-            let dateComponents = try createDateComponents(fromExpiryDateString: expiryDate)
-            inputFieldsDictionary["expiryMonth"] = dateComponents.month
-            inputFieldsDictionary["expiryYear"] = dateComponents.year
         }
 
         return inputFieldsDictionary
