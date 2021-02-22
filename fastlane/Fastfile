@@ -61,6 +61,7 @@ platform :ios do
       devices: ["iPhone 12"],
       output_directory: "./output/scan",
       output_types: "junit",
+      result_bundle: true,
       xcargs: "MERCHANT_CODE=" + ENV["MERCHANT_CODE"] + " MERCHANT_PAYMENT_TOKEN=" + ENV["MERCHANT_PAYMENT_TOKEN"]
     )
   end
