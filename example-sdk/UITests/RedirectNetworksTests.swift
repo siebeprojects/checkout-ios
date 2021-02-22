@@ -10,7 +10,7 @@ class RedirectNetworksTests: NetworksTests {
     func testPayPalAccept() throws {
         app.tables.staticTexts["PayPal"].tap()
         app.collectionViews.buttons["Pay"].tap()
-        app.webViews.webViews.webViews.staticTexts["accept"].tap()
+        app.webViews.staticTexts["accept"].tap()
 
         _ = app.alerts.firstMatch.waitForExistence(timeout: 5)
         let result = app.alerts.staticTexts.element(boundBy: 1).label
