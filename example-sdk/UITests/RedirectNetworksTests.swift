@@ -18,4 +18,18 @@ class RedirectNetworksTests: NetworksTests {
         XCTAssertTrue(result.contains("Interaction code: PROCEED"))
         XCTAssertTrue(result.contains("Interaction reason: OK"))
     }
+
+    func testPayPalFailure() throws {
+        app.tables.staticTexts["PayPal"].tap()
+        app.collectionViews.buttons["Pay"].tap()
+        app.webViews.staticTexts["abort"].tap()
+
+        _ = app.alerts.firstMatch.waitForExistence(timeout: 5)
+        let title = app.alerts.staticTexts.element(boundBy: 0).label
+        let message = app.alerts.staticTexts.element(boundBy: 1).label
+
+        // Translation for TRY_OTHER_ACCOUNT/CUSTOMER_ABORT
+        XCTAssertEqual(title, "Payment interrupted")
+        XCTAssertEqual(message, "Please try again.")
+    }
 }
