@@ -91,7 +91,7 @@ jobs:
           path: output/scan
       - run:
           name: Zip xcresult
-          command: zip -r output/scan/example.xcresult.zip Example.xcresult
+          command: zip -r output/scan/example.xcresult.zip output/scan/Example.xcresult/
           when: on_fail
       - store_artifacts:
           path: output/scan/example.xcresult.zip
