@@ -125,5 +125,6 @@ workflows:
           requires:
             - build_example
       - browserstack:
+          type: approval
           requires:
             - build_example
