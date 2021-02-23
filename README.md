@@ -1,47 +1,5 @@
-# Payoneer iOS SDK
+With Payoneer’s iOS SDK you can accept payments in your native shop application and provide a professional checkout experience. You can render a payment page which renders the payment method scene and user interactions, and takes over all communication with the Open Payment Gateway (OPG), all at a minimum effort for you and your team, and without requiring a high level of PCI-DSS compliance.
 
-⚠️ Framework is on development stage.
+For information about integrating the iOS SDK into your native application, visit [optile.io](https://optile.io)
 
-## Installation
-
-### CocoaPods
-CocoaPods is one of dependency managers. For usage and installation instructions, visit [their website](https://cocoapods.org). To integrate the framework into your Xcode project using CocoaPods, specify it in your `Podfile`:
-
-```ruby
-pod 'Payoneer', :git => 'https://github.com/optile/ios-sdk', :branch => 'develop'
-```
-
-## Example
-We prepared an example application where you could try our framework. To launch it complete these steps:
-
-1. Install local dependency using:
-  ```bash
-cd Example
-pod install
-```
-
-2. Open `Example/Example.xcworkspace` file in XCode.
-
-## Customizing the UI
-
-You may customize the appearance of payment screens by using `Theme.shared` singleton:
-
-```swift
-Theme.shared.errorTextColor = .orange
-```
-
-Default values are stored in `Theme.standard` object.
-
-![Color description](docs/ui_customization.png)
-
-|Property|Description|
-|-|-|
-|`font`|Global font that will be used in all views, size will changed automatically. `nil` value is used for default system font.|
-|`textColor`|Primary text color|
-|`detailTextColor`|Secondary text color, used for detailed description in list's cell|
-|`buttonTextColor`|Buttons text color|
-|`errorTextColor`|Text color for error messages|
-|`backgroundColor`|Background color of view controllers|
-|`tableBorder`|Table border's line color|
-|`tableCellSeparator`|Table line separators color|
-|`tintColor`|Tint color used for interactive elements, it used also as a background color for buttons|
+![Payment methods](docs/payment_methods.png)![Card details](docs/card.png)![SEPA details](docs/sepa.png)
