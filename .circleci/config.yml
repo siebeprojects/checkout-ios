@@ -119,11 +119,11 @@ jobs:
 workflows:
   build:
     jobs:
-      # - unit_test
+      - unit_test
       - build_example
       - ui_test:
           requires:
             - build_example
-      # - browserstack:
-      #     requires:
-      #       - build_example
+      - browserstack:
+          requires:
+            - build_example
