@@ -12,7 +12,7 @@ class RedirectNetworksTests: NetworksTests {
         app.collectionViews.buttons["Pay"].tap()
         
         let button = app.webViews.staticTexts["accept"]
-        button.waitForExistence(timeout: 5)
+        button.waitForExistence(timeout: 10)
         button.tap()
 
         _ = app.alerts.firstMatch.waitForExistence(timeout: 5)
@@ -27,7 +27,7 @@ class RedirectNetworksTests: NetworksTests {
         app.collectionViews.buttons["Pay"].tap()
         
         let button = app.webViews.staticTexts["abort"]
-        button.waitForExistence(timeout: 5)
+        button.waitForExistence(timeout: 10)
         button.tap()
 
         _ = app.alerts.firstMatch.waitForExistence(timeout: 5)
