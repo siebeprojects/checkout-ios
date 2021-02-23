@@ -89,6 +89,12 @@ jobs:
             - Example-sdk/Pods
       - store_test_results:
           path: output/scan
+      - store_artifacts:
+          path: output
+          destination: output
+      - store_artifacts:
+          path: /tmp/workspace/derived_data
+          destination: derived_data
 
   browserstack:
     macos:
@@ -112,11 +118,11 @@ jobs:
 workflows:
   build:
     jobs:
-      - unit_test
+      # - unit_test
       - build_example
       - ui_test:
           requires:
             - build_example
-      - browserstack:
-          requires:
-            - build_example
+      # - browserstack:
+      #     requires:
+      #       - build_example
