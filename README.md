@@ -2,4 +2,4 @@ With Payoneer’s iOS SDK you can accept payments in your native shop applicatio
 
 For information about integrating the iOS SDK into your native application, visit [optile.io](https://optile.io)
 
-![Payment methods](docs/payment_methods.png)![Card details](docs/card.png)![SEPA details](docs/sepa.png)
+<img src="docs/payment_methods.png" width="33%"/> <img src="docs/card.png" width="33%"/> <img src="docs/sepa.png" width="33%"/> 
