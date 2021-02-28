@@ -56,17 +56,10 @@ class BasicPaymentService: PaymentService {
     }
 
     func send(paymentRequest: PaymentRequest) {
-        let urlRequest: URLRequest
-        do {
-            urlRequest = try createRequest(for: paymentRequest)
-        } catch {
-            let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
-            let paymentError = CustomErrorInfo(resultInfo: "", interaction: interaction, underlyingError: error)
-            delegate?.paymentService(didReceiveResponse: .result(.failure(paymentError)))
-            return
-        }
-
-        connection.send(request: urlRequest) { result in
+        let chargeRequestBody = ChargeRequest.Body(inputFields: paymentRequest.inputFields)
+        let chargeRequest = ChargeRequest(from: paymentRequest.operationURL, body: chargeRequestBody)
+        let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
+        chargeOperation.downloadCompletionBlock = { result in
             let parser = ResponseParser(operationType: paymentRequest.operationURL.lastPathComponent, connectionType: type(of: self.connection.self))
             let response = parser.parse(paymentRequestResponse: result)
 
@@ -81,47 +74,7 @@ class BasicPaymentService: PaymentService {
 
             self.delegate?.paymentService(didReceiveResponse: response)
         }
-    }
 
-    /// Create `URLRequest` from `PaymentRequest`
-    private func createRequest(for paymentRequest: PaymentRequest) throws -> URLRequest {
-        var request = URLRequest(url: paymentRequest.operationURL)
-        request.httpMethod = "POST"
-
-        // Headers
-        request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
-
-        let userAgentValue = UserAgentBuilder().createUserAgentValue()
-        request.addValue(userAgentValue, forHTTPHeaderField: "User-Agent")
-
-        // Body
-        let chargeRequest = ChargeRequest(inputFields: paymentRequest.inputFields, browserData: BrowserDataBuilder.build())
-        let jsonData = try JSONEncoder().encode(chargeRequest)
-        request.httpBody = jsonData
-
-        return request
-    }
-}
-
-private extension BasicPaymentService {
-    struct ChargeRequest: Encodable {
-        var account = [String: String]()
-        var autoRegistration: Bool?
-        var allowRecurrence: Bool?
-        var browserData: BrowserData
-
-        /// - Throws: `InternalError` if dictionary's value doesn't conform to `Encodable`
-        init(inputFields: [String: String], browserData: BrowserData) {
-            for (name, value) in inputFields {
-                switch name {
-                case Input.Field.Checkbox.Constant.allowRegistration: autoRegistration = Bool(stringValue: value)
-                case Input.Field.Checkbox.Constant.allowRecurrence: allowRecurrence = Bool(stringValue: value)
-                default: account[name] = value
-                }
-            }
-
-            self.browserData = browserData
-        }
+        chargeOperation.start()
     }
 }
