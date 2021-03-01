@@ -18,7 +18,7 @@ platform :ios do
 
   desc "Build example app"
   lane :build_example do
-    filename = "Example-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+    filename = "Example-sdk-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     cocoapods(podfile: "./Example-sdk/Podfile")
     disable_automatic_code_signing(
       path: "./Example-sdk/Example-sdk.xcodeproj",
@@ -31,7 +31,7 @@ platform :ios do
       xcodeproj: "./Example-sdk/Example-sdk.xcodeproj"
     )
     build_ios_app(
-      scheme: "Example",
+      scheme: "Example-sdk",
       configuration: "Release",
       workspace: "./Example-sdk/Example-sdk.xcworkspace",
       export_method: "ad-hoc",
@@ -43,7 +43,7 @@ platform :ios do
 
   desc "Upload binary to Browserstack"
   lane :browserstack do
-    path = "/tmp/workspace/output/Example-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+    path = "/tmp/workspace/output/Example-sdk-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     upload_to_browserstack_app_live(
       browserstack_username: ENV["BROWSERSTACK_USERNAME"],
       browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
@@ -55,12 +55,13 @@ platform :ios do
   lane :ui_test do
     cocoapods(podfile: "./Example-sdk/Podfile")
     run_tests(
-      scheme: "Example",
+      scheme: "Example-sdk",
       derived_data_path: "/tmp/workspace/derived_data",
       workspace: "Example-sdk/Example-sdk.xcworkspace",
       devices: ["iPhone 12"],
       output_directory: "./output/scan",
       output_types: "junit",
+      result_bundle: true,
       xcargs: "MERCHANT_CODE=" + ENV["MERCHANT_CODE"] + " MERCHANT_PAYMENT_TOKEN=" + ENV["MERCHANT_PAYMENT_TOKEN"]
     )
   end
