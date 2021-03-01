@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		470C772B89C2AE30697174B2 /* Pods_Example_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF7E5A3E946D31E9ABB3A01A /* Pods_Example_sdk.framework */; };
+		D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */; };
+		D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28525DEB9E0001A2EAD /* NetworksTests.swift */; };
+		D956D28925DEBE23001A2EAD /* CardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28825DEBE23001A2EAD /* CardTests.swift */; };
 		D99E9E07253D9F3400DFF8BD /* Transaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A5FA7F253D8B09001C71B7 /* Transaction.json */; };
 		D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99E9E09253DAA2700DFF8BD /* NetworkService.swift */; };
-		D9A5FA59253CA701001C71B7 /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA58253CA701001C71B7 /* UITests.swift */; };
 		D9A5FA62253CA8BE001C71B7 /* PaymentSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA61253CA8BE001C71B7 /* PaymentSessionService.swift */; };
 		D9A5FA69253CF7B6001C71B7 /* PaymentSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA68253CF7B6001C71B7 /* PaymentSession.swift */; };
 		D9A5FA6C253D8213001C71B7 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA6B253D8213001C71B7 /* Transaction.swift */; };
@@ -55,10 +57,12 @@
 /* Begin PBXFileReference section */
 		4908350015424F9C57EC4D90 /* Pods-Example-sdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.release.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.release.xcconfig"; sourceTree = "<group>"; };
 		5A64E6638EAF1E31D0F73F96 /* Pods-Example-sdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.debug.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.debug.xcconfig"; sourceTree = "<group>"; };
+		D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectNetworksTests.swift; sourceTree = "<group>"; };
+		D956D28525DEB9E0001A2EAD /* NetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksTests.swift; sourceTree = "<group>"; };
+		D956D28825DEBE23001A2EAD /* CardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTests.swift; sourceTree = "<group>"; };
 		D967A55C25481D29001BBCCA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		D99E9E09253DAA2700DFF8BD /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D9A5FA56253CA701001C71B7 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9A5FA58253CA701001C71B7 /* UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITests.swift; sourceTree = "<group>"; };
 		D9A5FA5A253CA701001C71B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A5FA61253CA8BE001C71B7 /* PaymentSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionService.swift; sourceTree = "<group>"; };
 		D9A5FA68253CF7B6001C71B7 /* PaymentSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSession.swift; sourceTree = "<group>"; };
@@ -115,7 +119,9 @@
 			children = (
 				D9FCC6AA25488A9800E0AF74 /* Helpers */,
 				D9A5FA7E253D8AE3001C71B7 /* Assets */,
-				D9A5FA58253CA701001C71B7 /* UITests.swift */,
+				D956D28525DEB9E0001A2EAD /* NetworksTests.swift */,
+				D956D28825DEBE23001A2EAD /* CardTests.swift */,
+				D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */,
 				D9A5FA65253CF744001C71B7 /* PaymentSession */,
 				D9A5FA5A253CA701001C71B7 /* Info.plist */,
 			);
@@ -371,10 +377,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */,
 				D9A5FA70253D86F6001C71B7 /* Callback.swift in Sources */,
 				D9A5FA77253D87A7001C71B7 /* Customer.swift in Sources */,
-				D9A5FA59253CA701001C71B7 /* UITests.swift in Sources */,
+				D956D28925DEBE23001A2EAD /* CardTests.swift in Sources */,
 				D9A5FA62253CA8BE001C71B7 /* PaymentSessionService.swift in Sources */,
+				D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */,
 				D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,
 				D9A5FA6C253D8213001C71B7 /* Transaction.swift in Sources */,
