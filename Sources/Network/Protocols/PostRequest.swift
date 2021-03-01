@@ -44,9 +44,6 @@ extension PostRequest {
         urlRequest.httpMethod = HTTPMethod.POST.rawValue
         urlRequest.httpBody = try encodeBody()
 
-        urlRequest.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
-
         return urlRequest
     }
 }

@@ -32,6 +32,9 @@ class SendRequestOperation<T>: AsynchronousOperation where T: Request {
         let userAgentValue = UserAgentBuilder().createUserAgentValue()
         urlRequest.addValue(userAgentValue, forHTTPHeaderField: "User-Agent")
 
+        urlRequest.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
+
         connection.send(request: urlRequest) { result in
             switch result {
             case .success(let data):
