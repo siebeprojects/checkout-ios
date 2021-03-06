@@ -13,12 +13,12 @@ struct ChargeRequest: PostRequest {
     let url: URL
     let queryItems = [URLQueryItem]()
     let body: Body?
-    
+
     var operationType: String { url.lastPathComponent }
 
     typealias Response = OperationResult
 
-    /// - Parameter url: `self` link from payment session
+    /// - Parameter url: value from `links.operation` for charge operation
     init(from url: URL, body: Body) {
         self.url = url
         self.body = body
