@@ -6,6 +6,14 @@
 
 import Foundation
 
+// MARK: - Constants
+
+private extension String {
+    static var httpVendorHeader: String { "application/vnd.optile.payment.enterprise-v1-extensible+json" }
+}
+
+// MARK: - SendRequestOperation
+
 class SendRequestOperation<T>: AsynchronousOperation where T: Request {
     let connection: Connection
     let request: T
@@ -32,8 +40,8 @@ class SendRequestOperation<T>: AsynchronousOperation where T: Request {
         let userAgentValue = UserAgentBuilder().createUserAgentValue()
         urlRequest.addValue(userAgentValue, forHTTPHeaderField: "User-Agent")
 
-        urlRequest.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("application/vnd.optile.payment.enterprise-v1-extensible+json", forHTTPHeaderField: "Accept")
+        urlRequest.addValue(.httpVendorHeader, forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue(.httpVendorHeader, forHTTPHeaderField: "Accept")
 
         connection.send(request: urlRequest) { result in
             switch result {
