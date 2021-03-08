@@ -29,7 +29,7 @@ extension PostRequest where Body: Encodable {
 extension PostRequest {
     func build() throws -> URLRequest {
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            throw InternalError(description: "Internal error, incorrect GetRequest URL")
+            throw InternalError(description: "Internal error, incorrect PostRequest URL: %@", url.absoluteString)
         }
 
         if !queryItems.isEmpty {
@@ -37,7 +37,7 @@ extension PostRequest {
         }
 
         guard let url = components.url else {
-            throw InternalError(description: "Internal error, unable to create API request URL")
+            throw InternalError(description: "Internal error, unable to create API request URL from URLComponents")
         }
 
         var urlRequest = URLRequest(url: url)
