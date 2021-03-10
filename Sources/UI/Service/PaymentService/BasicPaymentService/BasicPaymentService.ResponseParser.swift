@@ -16,11 +16,13 @@ extension BasicPaymentService {
 
 extension BasicPaymentService.ResponseParser {
     /// Parse server's http data response to enumeration
-    func parse(paymentRequestResponse: Result<Data?, Error>) -> PaymentServiceParsedResponse {
-        let data: Data
+    func parse(paymentRequestResponse: Result<OperationResult, Error>) -> PaymentServiceParsedResponse {
+        let operationResult: OperationResult
 
-        switch paymentRequestResponse {
-        case .failure(let error):
+        // Unwrap Result enumeration
+        do {
+            operationResult = try paymentRequestResponse.get()
+        } catch {
             // Return server's error info if it replied with error
             if let errorInfo = error as? ErrorInfo {
                 return .result(.failure(errorInfo))
@@ -39,37 +41,24 @@ extension BasicPaymentService.ResponseParser {
 
             let customErrorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
             return .result(.failure(customErrorInfo))
-        case .success(let responseData):
-            guard let responseData = responseData else {
-                let emptyResponseError = InternalError(description: "Empty response from a server on charge request")
-                let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
-                let interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
-                let paymentError = CustomErrorInfo(resultInfo: emptyResponseError.localizedDescription, interaction: interaction, underlyingError: emptyResponseError)
-                return .result(.failure(paymentError))
-            }
-
-            data = responseData
         }
 
-        do {
-            let operationResult = try JSONDecoder().decode(OperationResult.self, from: data)
+        // Check if an external browser should be opened
+        if let redirect = operationResult.redirect, let redirectType = redirect.type, self.supportedRedirectTypes.contains(redirectType) {
+            let parser = RedirectParser(redirect: redirect, links: operationResult.links)
 
-            // Check if an external browser should be opened
-            if let redirect = operationResult.redirect, let redirectType = redirect.type, self.supportedRedirectTypes.contains(redirectType) {
-
-                let parser = RedirectParser(redirect: redirect, links: operationResult.links)
+            do {
                 let url = try parser.createRedirectURL()
                 return .redirect(url)
+            } catch {
+                let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
+                let interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
+                let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
+                return .result(.failure(paymentError))
             }
-
-            return .result(.success(operationResult))
-        } catch {
-            // Error happened after CHARGE request
-            let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
-            let interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
-            let paymentError = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
-            return .result(.failure(paymentError))
         }
+
+        return .result(.success(operationResult))
     }
 }
 
