@@ -1,0 +1,160 @@
+version: 2.1
+jobs:
+  unit_test:
+    macos:
+      xcode: 12.1.0
+    environment:
+      FASTLANE_LANE: test
+    steps:
+      - checkout
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          key: framework-cocoapods-{{ checksum "Podfile.lock" }}
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - store_test_results:
+          path: output/scan
+      - save_cache:
+          key: framework-cocoapods-{{ checksum "Podfile.lock" }}
+          paths:
+            - Pods
+
+  build_example:
+    macos:
+      xcode: 12.1.0
+    environment:
+      FASTLANE_LANE: build_example
+    steps:
+      - checkout
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          key: example-cocoapods-{{ checksum "ExampleCheckout/Podfile.lock" }}
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - store_test_results:
+          path: output/scan
+      - save_cache:
+          key: example-cocoapods-{{ checksum "ExampleCheckout/Podfile.lock" }}
+          paths:
+            - ExampleCheckout/Pods
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - derived_data
+            - output
+
+  ui_test:
+    macos:
+      xcode: 12.1.0
+    environment:
+      FASTLANE_LANE: ui_test
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - checkout
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          key: example-cocoapods-{{ checksum "ExampleCheckout/Podfile.lock" }}
+      - run:
+          name: Inject env variables
+          command: |
+            echo "MERCHANT_PAYMENT_TOKEN=$MERCHANT_PAYMENT_TOKEN" > ExampleCheckout/UITests/Assets/Config.xcconfig
+            echo "MERCHANT_CODE=$MERCHANT_CODE" >> ExampleCheckout/UITests/Assets/Config.xcconfig
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - save_cache:
+          key: example-cocoapods-{{ checksum "ExampleCheckout/Podfile.lock" }}
+          paths:
+            - ExampleCheckout/Pods
+      - store_test_results:
+          path: output/scan
+      - run:
+          name: Zip xcresult
+          command: zip -r output/scan/example.xcresult.zip output/scan/Example.xcresult/
+          when: on_fail
+      - store_artifacts:
+          path: output/scan/example.xcresult.zip
+          when: on_fail
+  
+  browserstack:
+    macos:
+      xcode: "12.1.0"
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    shell: /bin/bash --login -o pipefail
+    steps:
+      - checkout
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: bundle exec fastlane browserstack
+
+  submit_to_testflight:
+    macos:
+      xcode: "12.1.0"
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    shell: /bin/bash --login -o pipefail
+    steps:
+      - checkout
+      - run: git clone --single-branch --branch ios-sdk --depth 1 https://github.com/optile/opx-mobiledev-certificates.git certificates
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle check || bundle install --path vendor/bundle
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: bundle exec fastlane submit_to_testflight
+
+workflows:
+  build:
+    jobs:
+      - unit_test
+      - build_example
+      - ui_test:
+          requires:
+            - build_example
+      - browserstack:
+          requires:
+            - build_example
+          filters:
+            branches:
+              ignore:
+                - develop
+      - submit_to_testflight:
+          requires: 
+            - build_example
+          filters:
+            branches:
+              only:
+                - develop

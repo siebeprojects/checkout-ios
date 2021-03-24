@@ -1,0 +1,74 @@
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+    if is_ci?
+      setup_circle_ci
+    end
+  end
+
+  desc "Build framework and run tests"
+  lane :test do
+    cocoapods
+    scan(
+      output_directory: "./output/scan",
+      output_types: "junit"
+    )
+  end
+
+  desc "Build example app"
+  lane :build_example do
+    filename = "ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+    example_xcodeproj = "ExampleCheckout/ExampleCheckout.xcodeproj"
+    cocoapods(podfile: "./ExampleCheckout/Podfile")
+    increment_build_number(
+      build_number: ENV["CIRCLE_BUILD_NUM"],
+      xcodeproj: example_xcodeproj
+    )
+    match(type: "appstore", readonly: is_ci)
+    build_ios_app(
+      scheme: "ExampleCheckout",
+      configuration: "Release",
+      workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace",
+      output_directory: "/tmp/workspace/output",
+      output_name: filename,
+      derived_data_path: "/tmp/workspace/derived_data"
+    )
+  end
+
+  desc "Upload binary to Browserstack"
+  lane :browserstack do
+    example_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+    upload_to_browserstack_app_live(
+      browserstack_username: ENV["BROWSERSTACK_USERNAME"],
+      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
+      file_path: example_ipa
+    )
+  end
+
+  desc "Run UI tests"
+  lane :ui_test do
+    cocoapods(podfile: "./ExampleCheckout/Podfile")
+    run_tests(
+      scheme: "ExampleCheckout",
+      derived_data_path: "/tmp/workspace/derived_data",
+      workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
+      devices: ["iPhone 12"],
+      output_directory: "./output/scan",
+      output_types: "junit",
+      result_bundle: true,
+      xcargs: "MERCHANT_CODE=" + ENV["MERCHANT_CODE"] + " MERCHANT_PAYMENT_TOKEN=" + ENV["MERCHANT_PAYMENT_TOKEN"]
+    )
+  end
+
+  desc "Submit to TestFlight"
+  lane :submit_to_testflight do
+    example_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+    certificate_json = "certificates/itunes_connect/fastlane_api_key.json"
+    upload_to_testflight(
+      api_key_path: certificate_json,
+      ipa: example_ipa
+    )
+  end
+
+end

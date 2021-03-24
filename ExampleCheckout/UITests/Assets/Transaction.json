@@ -1,0 +1,21 @@
+{
+  "transactionId": "tr1",
+  "integration": "MOBILE_NATIVE",
+  "presetFirst": false,
+  "country": "DE",
+  "customer": {
+    "number": "1",
+    "email": "john.doe@example.com"
+  },
+  "payment": {
+    "amount": 120,
+    "currency": "EUR",
+    "reference": "Example iOS SDK"
+  },
+  "style": {
+    "language": "en_US"
+  },
+  "callback": {
+    "appId": "com.payoneer.checkout.examplecheckout"
+  }
+}

@@ -1,0 +1,7 @@
+platform :ios, '12.4'
+
+target 'ExampleCheckout' do
+  use_frameworks!
+
+  pod 'PayoneerCheckout', :path => '../'
+end
