@@ -19,8 +19,8 @@ class CardsTests: NetworksTests {
         collectionViewsQuery.textFields["MM / YY"].tap()
         collectionViewsQuery.textFields["MM / YY"].typeText("1030")
 
-        collectionViewsQuery.textFields["Security Code"].tap()
-        collectionViewsQuery.textFields["Security Code"].typeText("111")
+        collectionViewsQuery.textFields["CVV"].tap()
+        collectionViewsQuery.textFields["CVV"].typeText("111")
 
         collectionViewsQuery.textFields["Name on card"].tap()
         collectionViewsQuery.textFields["Name on card"].typeText("Test Test")
@@ -28,6 +28,8 @@ class CardsTests: NetworksTests {
         collectionViewsQuery.buttons["Pay"].tap()
 
         // Check result
+        app.alerts.firstMatch.waitForExistence(timeout: 10)
+
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         let expectedResult = "ResultInfo: Approved Interaction code: PROCEED Interaction reason: OK Error: n/a"
         XCTAssertEqual(expectedResult, interactionResult)

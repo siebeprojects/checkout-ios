@@ -11,8 +11,6 @@ import MaterialComponents.MaterialTextFields
 extension Input.Table {
     /// Cell that represents all text inputs, contains label and text field.
     /// Upon some actions calls `delegate`, don't forget to set it.
-    ///
-    /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
     class TextFieldViewCell: UICollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
 
@@ -29,10 +27,9 @@ extension Input.Table {
 
             // Add the text field to a view
             contentView.addSubview(textField)
-
             textField.translatesAutoresizingMaskIntoConstraints = false
 
-            let textFieldBottomAnchor = contentView.bottomAnchor.constraint(equalTo: textField.bottomAnchor)
+            let textFieldBottomAnchor = textField.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
             textFieldBottomAnchor.priority = .defaultHigh
 
             NSLayoutConstraint.activate([
