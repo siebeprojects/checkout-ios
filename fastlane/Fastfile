@@ -6,6 +6,7 @@ platform :ios do
   before_all do
     if is_ci?
       setup_circle_ci
+      skip_docs
     end
   end
 
@@ -83,6 +84,11 @@ platform :ios do
 
     git_commit(path: "*", message: "Bump version to " + new_version_number)
     push_to_git_remote()
+  end
+
+  desc "Validate framework for CocoaPods"
+  lane :lib_lint do
+    pod_lib_lint(allow_warnings: true)
   end
 
   desc "Deploy"
