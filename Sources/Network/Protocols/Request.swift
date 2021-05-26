@@ -12,6 +12,8 @@ protocol Request {
 
     func decodeResponse(with data: Data?) throws -> Response
     func build() throws -> URLRequest
+
+    var httpMethod: HTTPMethod { get }
 }
 
 extension Request where Response == Data {

@@ -18,6 +18,10 @@ protocol PostRequest: Request {
     func encodeBody() throws -> Data?
 }
 
+extension PostRequest {
+    var httpMethod: HTTPMethod { .POST }
+}
+
 extension PostRequest where Body: Encodable {
     func encodeBody() throws -> Data? {
         guard let body = self.body else { return nil }
@@ -41,7 +45,7 @@ extension PostRequest {
         }
 
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = HTTPMethod.POST.rawValue
+        urlRequest.httpMethod = httpMethod.rawValue
         urlRequest.httpBody = try encodeBody()
 
         return urlRequest
