@@ -19,7 +19,10 @@ extension Input {
 
         let uiModel: UIModel
 
-        init(operationURL: URL, paymentMethod: String?, networkCode: String, translator: TranslationProvider, switchRule: SmartSwitch.Rule?, uiModel: UIModel) {
+        let apiModel: APIModel
+
+        init(apiModel: APIModel, operationURL: URL, paymentMethod: String?, networkCode: String, translator: TranslationProvider, switchRule: SmartSwitch.Rule?, uiModel: UIModel) {
+            self.apiModel = apiModel
             self.operationURL = operationURL
             self.paymentMethod = paymentMethod
             self.networkCode = networkCode
@@ -27,6 +30,13 @@ extension Input {
             self.switchRule = switchRule
             self.uiModel = uiModel
         }
+    }
+}
+
+extension Input.Network {
+    enum APIModel {
+        case account(AccountRegistration)
+        case network(ApplicableNetwork)
     }
 }
 

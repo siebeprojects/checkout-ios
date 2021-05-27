@@ -17,6 +17,10 @@ protocol PaymentService: class {
     init(using connection: Connection)
 }
 
+protocol DeletionService where Self: PaymentService {
+    func deleteRegisteredAccount(using accountURL: URL, operationType: String)
+}
+
 protocol PaymentServiceDelegate: class {
     func paymentService(didReceiveResponse response: PaymentServiceParsedResponse)
 }
