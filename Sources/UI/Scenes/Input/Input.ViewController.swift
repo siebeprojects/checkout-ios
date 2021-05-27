@@ -140,8 +140,24 @@ extension Input.ViewController {
     }
 
     @objc private func deleteBarButtonDidTap(_ sender: UIBarButtonItem) {
-        stateManager.state = .deletion
-        paymentController.delete(network: smartSwitch.selected.network)
+        let translator = smartSwitch.selected.network.translation
+        let title: String = translator.translation(forKey: "acounts.delete.title")
+        let message: String = translator.translation(forKey: "accounts.delete.text")
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        let cancelText: String? = translator.translation(forKey: "button.cancel.label")
+        let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
+
+        let deleteText: String? = translator.translation(forKey: "button.delete.label")
+        let deleteAction = UIAlertAction(title: deleteText, style: .destructive) { _ in
+            self.stateManager.state = .deletion
+            self.paymentController.delete(network: self.smartSwitch.selected.network)
+        }
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc func dismissView() {
