@@ -96,8 +96,8 @@ extension Input.ViewController {
 
         collectionView.layoutIfNeeded()
         setPreferredContentSize()
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
+        
+        configureNavigationBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -123,15 +123,27 @@ extension Input.ViewController {
     }
 }
 
-extension Input.ViewController {
-    @objc func dismissView() {
-        dismiss(animated: true, completion: nil)
-    }
-}
-
 // MARK: - View configurator
 
 extension Input.ViewController {
+    fileprivate func configureNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
+
+        guard networks.count == 1, let network = networks.first, case .account = network.apiModel else { return }
+        guard paymentController.isDeletable(network: network) else { return }
+        
+        let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteBarButtonDidTap(_:)))
+        navigationItem.setRightBarButton(deleteBarButton, animated: false)
+    }
+
+    @objc private func deleteBarButtonDidTap(_ sender: UIBarButtonItem) {
+        paymentController.delete(network: smartSwitch.selected.network)
+    }
+    
+    @objc func dismissView() {
+        dismiss(animated: true, completion: nil)
+    }
+
     fileprivate func configure(collectionView: UICollectionView) {
         collectionView.tintColor = view.tintColor
         collectionView.backgroundColor = .themedBackground
