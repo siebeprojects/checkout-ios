@@ -26,6 +26,33 @@ extension Input.ViewController {
 }
 
 extension Input.ViewController.PaymentController {
+    func isDeletable(network: Input.Network) -> Bool {
+        let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+
+        return service is DeletionService
+    }
+
+    func delete(network: Input.Network) {
+        let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        service?.delegate = self
+
+        guard let deletionService = service as? DeletionService else {
+            let error = InternalError(description: "Payment service doesn't support deletion and delete action shouldn't be called without prior checking that")
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            delegate?.paymentController(didFailWith: errorInfo)
+            return
+        }
+        
+        guard let selfLink = network.apiModel.links?["self"] else {
+            let error = InternalError(description: "API model doesn't contain links.self property")
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            delegate?.paymentController(didFailWith: errorInfo)
+            return
+        }
+
+        deletionService.deleteRegisteredAccount(using: selfLink, operationType: network.apiModel.operationType)
+    }
+    
     func submitPayment(for network: Input.Network) {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
         service?.delegate = self
@@ -107,6 +134,22 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
             DispatchQueue.main.async {
                 self.delegate?.paymentController(route: serverResponse)
             }
+        }
+    }
+}
+
+private extension Input.Network.APIModel {
+    var links: [String: URL]? {
+        switch self {
+        case .account(let account): return account.links
+        case .network(let network): return network.links
+        }
+    }
+
+    var operationType: String {
+        switch self {
+        case .account(let account): return account.operationType
+        case .network(let network): return network.operationType
         }
     }
 }
