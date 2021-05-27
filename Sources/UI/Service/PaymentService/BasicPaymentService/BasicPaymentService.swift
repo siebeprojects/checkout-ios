@@ -78,3 +78,28 @@ class BasicPaymentService: PaymentService {
         chargeOperation.start()
     }
 }
+
+extension BasicPaymentService: DeletionService {
+    func deleteRegisteredAccount(using accountURL: URL, operationType: String) {
+        let requestBody = DeleteAccount.Body(deleteRegistration: true, deleteRecurrence: true)
+        let request = DeleteAccount(url: accountURL, body: requestBody)
+        let operation = SendRequestOperation(connection: connection, request: request)
+        operation.downloadCompletionBlock = { result in
+            let parser = ResponseParser(operationType: operationType, connectionType: type(of: self.connection.self))
+            let response = parser.parse(paymentRequestResponse: result)
+
+            switch response {
+            case .result(let result):
+                log(.debug, "Payment result received. Interaction code: %@, reason: %@", result.interaction.code, result.interaction.reason)
+            case .redirect(let url):
+                log(.debug, "Redirecting user to an external url: %@", url.absoluteString)
+                self.redirectCallbackHandler.delegate = self.delegate
+                self.redirectCallbackHandler.subscribeForNotification()
+            }
+
+            self.delegate?.paymentService(didReceiveResponse: response)
+        }
+
+        operation.start()
+    }
+}

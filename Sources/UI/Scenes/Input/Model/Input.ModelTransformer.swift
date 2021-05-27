@@ -46,7 +46,7 @@ extension Input.ModelTransformer {
             throw InternalError(description: "Incorrect registered account model, operation URL is not present. Links: %@", objects: registeredAccount.apiModel.links)
         }
 
-        return .init(operationURL: operationURL, paymentMethod: registeredAccount.apiModel.method, networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, switchRule: nil, uiModel: uiModel)
+        return .init(apiModel: .account(registeredAccount.apiModel), operationURL: operationURL, paymentMethod: registeredAccount.apiModel.method, networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, switchRule: nil, uiModel: uiModel)
     }
 
     func transform(paymentNetwork: PaymentNetwork) throws -> Input.Network {
@@ -81,7 +81,7 @@ extension Input.ModelTransformer {
             throw InternalError(description: "Incorrect applicable network model, operation URL is not present. Links: %@", objects: paymentNetwork.applicableNetwork.links)
         }
 
-        return .init(operationURL: operationURL, paymentMethod: paymentNetwork.applicableNetwork.method, networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, switchRule: smartSwitchRule, uiModel: uiModel)
+        return .init(apiModel: .network(paymentNetwork.applicableNetwork), operationURL: operationURL, paymentMethod: paymentNetwork.applicableNetwork.method, networkCode: paymentNetwork.applicableNetwork.code, translator: paymentNetwork.translation, switchRule: smartSwitchRule, uiModel: uiModel)
     }
 
     // MARK: Smart Switch
