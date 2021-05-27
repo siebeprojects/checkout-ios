@@ -25,6 +25,11 @@ extension Input {
 
         weak var delegate: NetworkOperationResultHandler?
 
+        lazy var activityIndicatorView: UIActivityIndicatorView = { UIActivityIndicatorView(style: .gray) }()
+        lazy var deleteBarButton: UIBarButtonItem = {
+            UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteBarButtonDidTap(_:)))
+        }()
+
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
             self.networks = smartSwitch.networks
@@ -129,14 +134,13 @@ extension Input.ViewController {
     fileprivate func configureNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
 
-        guard networks.count == 1, let network = networks.first, case .account = network.apiModel else { return }
-        guard paymentController.isDeletable(network: network) else { return }
-        
-        let deleteBarButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteBarButtonDidTap(_:)))
-        navigationItem.setRightBarButton(deleteBarButton, animated: false)
+        if networks.count == 1, let network = networks.first, case .account = network.apiModel, paymentController.isDeletable(network: network) {
+            navigationItem.setRightBarButton(deleteBarButton, animated: false)
+        }
     }
 
     @objc private func deleteBarButtonDidTap(_ sender: UIBarButtonItem) {
+        stateManager.state = .deletion
         paymentController.delete(network: smartSwitch.selected.network)
     }
     
