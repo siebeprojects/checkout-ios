@@ -132,7 +132,15 @@ extension Input.ViewController {
 
 extension Input.ViewController {
     fileprivate func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
+        let closeButton: UIBarButtonItem
+
+        if #available(iOS 13.0, *) {
+            closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(dismissView))
+        } else {
+            closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
+        }
+
+        navigationItem.setRightBarButton(closeButton, animated: false)
 
         if networks.count == 1, let network = networks.first, case .account = network.apiModel, paymentController.isDeletable(network: network) {
             navigationItem.setRightBarButton(deleteBarButton, animated: false)

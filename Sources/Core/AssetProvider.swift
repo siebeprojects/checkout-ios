@@ -20,10 +20,6 @@ final class AssetProvider {
         return UIImage(named: "iconCard", in: bundle, compatibleWith: nil)
     }
 
-    static var iconClose: UIImage? {
-        return UIImage(named: "iconClose", in: bundle, compatibleWith: nil)
-    }
-
     static var iconCVVQuestionMark: UIImage? {
         return UIImage(named: "iconCVVQuestionMark", in: bundle, compatibleWith: nil)
     }
