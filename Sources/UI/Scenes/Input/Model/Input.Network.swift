@@ -21,7 +21,9 @@ extension Input {
 
         let apiModel: APIModel
 
-        init(apiModel: APIModel, operationURL: URL, paymentMethod: String?, networkCode: String, translator: TranslationProvider, switchRule: SmartSwitch.Rule?, uiModel: UIModel) {
+        let isDeletable: Bool
+
+        init(apiModel: APIModel, operationURL: URL, paymentMethod: String?, networkCode: String, translator: TranslationProvider, switchRule: SmartSwitch.Rule?, uiModel: UIModel, isDeletable: Bool) {
             self.apiModel = apiModel
             self.operationURL = operationURL
             self.paymentMethod = paymentMethod
@@ -29,6 +31,7 @@ extension Input {
             self.translation = translator
             self.switchRule = switchRule
             self.uiModel = uiModel
+            self.isDeletable = isDeletable
         }
     }
 }
