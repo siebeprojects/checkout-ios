@@ -140,9 +140,9 @@ extension Input.ViewController {
             closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
         }
 
-        navigationItem.setRightBarButton(closeButton, animated: false)
+        navigationItem.setLeftBarButton(closeButton, animated: false)
 
-        if networks.count == 1, let network = networks.first, case .account = network.apiModel, paymentController.isDeletable(network: network) {
+        if networks.count == 1, let network = networks.first, network.isDeletable, paymentController.isDeletable(network: network) {
             navigationItem.setRightBarButton(deleteBarButton, animated: false)
         }
     }

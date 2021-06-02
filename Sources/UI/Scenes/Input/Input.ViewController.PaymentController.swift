@@ -26,6 +26,7 @@ extension Input.ViewController {
 }
 
 extension Input.ViewController.PaymentController {
+    /// Checks if payment service supports deletion for a specified network
     func isDeletable(network: Input.Network) -> Bool {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
 
