@@ -198,6 +198,7 @@
 		D9B8372125D9158100066EB4 /* Date+fullYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8372025D9158100066EB4 /* Date+fullYear.swift */; };
 		D9C9573F241C54CA00049AFE /* PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */; };
 		D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */; };
+		D9E380C82671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */; };
 		D9E5570A2670B63700942FF8 /* OperationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E557092670B63700942FF8 /* OperationRequest.swift */; };
 		D9EB49A52670CD74000131FC /* DeletionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EB49A42670CD74000131FC /* DeletionRequest.swift */; };
 		D9F00EA02625AF6D00C5A823 /* Input.Table.LayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F00E9F2625AF6D00C5A823 /* Input.Table.LayoutController.swift */; };
@@ -417,6 +418,7 @@
 		D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayoneerCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
+		D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListViewController.OperationResultHandler.swift; sourceTree = "<group>"; };
 		D9E557092670B63700942FF8 /* OperationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationRequest.swift; sourceTree = "<group>"; };
 		D9EB49A42670CD74000131FC /* DeletionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletionRequest.swift; sourceTree = "<group>"; };
 		D9F00E9F2625AF6D00C5A823 /* Input.Table.LayoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.LayoutController.swift; sourceTree = "<group>"; };
@@ -695,6 +697,7 @@
 			children = (
 				D96A4ECF257D96EE00E74C8C /* List.Router.swift */,
 				D96A4ED0257D96EE00E74C8C /* PaymentListViewController.swift */,
+				D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */,
 				E26E10762636A65B00D76D93 /* PaymentListViewController.ViewManager.swift */,
 				E2F3031D2635F8A100A38A97 /* PaymentListViewController.StateManager.swift */,
 				D96A4ED1257D96EE00E74C8C /* Protocol */,
@@ -1403,6 +1406,7 @@
 				D96A4FAB257D96EF00E74C8C /* DataDownloadProvider.swift in Sources */,
 				D96A4FB6257D96EF00E74C8C /* DequeueableCell.swift in Sources */,
 				D96A4F59257D96EF00E74C8C /* Input.Table.LabelViewCell.swift in Sources */,
+				D9E380C82671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift in Sources */,
 				D96A4F8B257D96EF00E74C8C /* List.swift in Sources */,
 				D96A4F46257D96EF00E74C8C /* Input.ViewController.StateManager.swift in Sources */,
 				D96A4F82257D96EF00E74C8C /* Validatable.swift in Sources */,
