@@ -13,6 +13,11 @@ private extension String {
 
 class RedirectCallbackHandler {
     weak var delegate: PaymentServiceDelegate?
+    let operationRequest: OperationRequest
+    
+    init(for operationRequest: OperationRequest) {
+        self.operationRequest = operationRequest
+    }
 
     func subscribeForNotification() {
         // Received payment result notification
@@ -38,7 +43,7 @@ class RedirectCallbackHandler {
         let interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
         let errorInfo = ErrorInfo(resultInfo: "Missing OperationResult after client-side redirect", interaction: interaction)
 
-        delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)))
+        delegate?.paymentService(didReceiveResponse: .result(.failure(errorInfo)), for: operationRequest)
     }
 
     private func handle(receivedURL: URL) {
@@ -50,7 +55,7 @@ class RedirectCallbackHandler {
                 let errorInteraction = Interaction(code: .VERIFY, reason: .CLIENTSIDE_ERROR)
                 let error = InternalError(description: "Callback URL doesn't contain interaction code or reason. URL: %@", receivedURL.absoluteString)
                 let paymentError = CustomErrorInfo(resultInfo: "Missing OperationResult after client-side redirect", interaction: errorInteraction, underlyingError: error)
-                delegate?.paymentService(didReceiveResponse: .result(.failure(paymentError)))
+                delegate?.paymentService(didReceiveResponse: .result(.failure(paymentError)), for: operationRequest)
                 return
         }
 
@@ -63,7 +68,7 @@ class RedirectCallbackHandler {
 
         let operationResult = OperationResult(resultInfo: "OperationResult received from the mobile-redirect webapp", links: nil, interaction: interaction, redirect: redirect)
 
-        delegate?.paymentService(didReceiveResponse: .result(.success(operationResult)))
+        delegate?.paymentService(didReceiveResponse: .result(.success(operationResult)), for: operationRequest)
     }
 }
 

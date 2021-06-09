@@ -48,7 +48,7 @@ class BasicPaymentService: PaymentService {
     weak var delegate: PaymentServiceDelegate?
 
     let connection: Connection
-    private lazy var redirectCallbackHandler: RedirectCallbackHandler = .init()
+    private var redirectCallbackHandler: RedirectCallbackHandler?
     private var responseParser: ResponseParser?
 
     required init(using connection: Connection) {
@@ -70,10 +70,13 @@ class BasicPaymentService: PaymentService {
             log(.debug, "Payment result received. Interaction code: %@, reason: %@", result.interaction.code, result.interaction.reason)
         case .redirect(let url):
             log(.debug, "Redirecting user to an external url: %@", url.absoluteString)
-            self.redirectCallbackHandler.delegate = self.delegate
-            self.redirectCallbackHandler.subscribeForNotification()
+            let callbackHandler = RedirectCallbackHandler(for: request)
+            callbackHandler.delegate = self.delegate
+            callbackHandler.subscribeForNotification()
+
+            self.redirectCallbackHandler = callbackHandler
         }
 
-        self.delegate?.paymentService(didReceiveResponse: response)
+        self.delegate?.paymentService(didReceiveResponse: response, for: request)
     }
 }

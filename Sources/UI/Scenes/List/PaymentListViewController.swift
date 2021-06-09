@@ -167,7 +167,7 @@ extension PaymentListViewController: ListTableControllerDelegate {
 
 // Received response from InputViewController
 extension PaymentListViewController: NetworkOperationResultHandler {
-    func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for network: Input.Network) {
+    func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for request: OperationRequest?, network: Input.Network) {
         switch Interaction.Code(rawValue: result.interaction.code) {
         // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
