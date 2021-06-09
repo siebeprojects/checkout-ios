@@ -263,14 +263,14 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
 
 extension Input.ViewController: InputPaymentControllerDelegate {
     /// Route result to the next view controller
-    func paymentController(route result: Result<OperationResult, ErrorInfo>) {
+    func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
         safariViewController?.dismiss(animated: true, completion: nil)
         dismiss(animated: true, completion: {
-            self.delegate?.paymentController(didReceiveOperationResult: result, for: self.smartSwitch.selected.network)
+            self.delegate?.paymentController(didReceiveOperationResult: result, for: request, network: self.smartSwitch.selected.network)
         })
     }
 
-    func paymentController(didFailWith error: ErrorInfo) {
+    func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?) {
         // Try to dismiss safari VC (if exists)
         safariViewController?.dismiss(animated: true, completion: nil)
 
@@ -285,7 +285,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
             },
             .init(label: .cancel, style: .cancel, handler: { [self] _ in
                 dismiss(animated: true) {
-                    self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: self.smartSwitch.selected.network)
+                    self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: request, network: self.smartSwitch.selected.network)
                 }
             })
         ]

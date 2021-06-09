@@ -8,9 +8,13 @@ import Foundation
 
 protocol InputPaymentControllerDelegate: class {
     func paymentController(presentURL url: URL)
-    func paymentController(route result: Result<OperationResult, ErrorInfo>)
+    func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest)
     func paymentController(inputShouldBeChanged error: ErrorInfo)
-    func paymentController(didFailWith error: ErrorInfo)
+
+    /// Request is failed and error should be displayed
+    /// - Parameters:
+    ///   - request: could be `nil` if error was thrown before `OperationRequest` was created or sent
+    func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?)
 }
 
 extension Input.ViewController {
@@ -33,7 +37,7 @@ extension Input.ViewController.PaymentController {
         guard let selfLink = network.apiModel.links?["self"] else {
             let error = InternalError(description: "API model doesn't contain links.self property")
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-            delegate?.paymentController(didFailWith: errorInfo)
+            delegate?.paymentController(didFailWith: errorInfo, for: nil)
             return
         }
 
@@ -50,7 +54,7 @@ extension Input.ViewController.PaymentController {
             inputFieldsDictionary = try createInputFields(from: network)
         } catch {
             let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
-            delegate?.paymentController(didFailWith: errorInfo)
+            delegate?.paymentController(didFailWith: errorInfo, for: nil)
             return
         }
 
@@ -87,7 +91,7 @@ extension Input.ViewController.PaymentController {
 }
 
 extension Input.ViewController.PaymentController: PaymentServiceDelegate {
-    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse) {
+    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest) {
         let serverResponse: Result<OperationResult, ErrorInfo>
 
         switch response {
@@ -113,14 +117,14 @@ extension Input.ViewController.PaymentController: PaymentServiceDelegate {
         else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: serverResponse.interaction.reason),
                 case let .failure(errorInfo) = serverResponse {
             DispatchQueue.main.async {
-                self.delegate?.paymentController(didFailWith: errorInfo)
+                self.delegate?.paymentController(didFailWith: errorInfo, for: request)
             }
         }
 
         // In other situations route to a parent view
         else {
             DispatchQueue.main.async {
-                self.delegate?.paymentController(route: serverResponse)
+                self.delegate?.paymentController(route: serverResponse, for: request)
             }
         }
     }

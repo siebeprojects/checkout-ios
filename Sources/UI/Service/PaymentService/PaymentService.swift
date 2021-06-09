@@ -18,5 +18,5 @@ protocol PaymentService: class {
 }
 
 protocol PaymentServiceDelegate: class {
-    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse)
+    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest)
 }

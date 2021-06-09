@@ -7,5 +7,5 @@
 import Foundation
 
 protocol NetworkOperationResultHandler: class {
-    func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for network: Input.Network)
+    func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for request: OperationRequest?, network: Input.Network)
 }
