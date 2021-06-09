@@ -199,6 +199,7 @@
 		D9C9573F241C54CA00049AFE /* PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */; };
 		D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */; };
 		D9E5570A2670B63700942FF8 /* OperationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E557092670B63700942FF8 /* OperationRequest.swift */; };
+		D9EB49A52670CD74000131FC /* DeletionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EB49A42670CD74000131FC /* DeletionRequest.swift */; };
 		D9F00EA02625AF6D00C5A823 /* Input.Table.LayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F00E9F2625AF6D00C5A823 /* Input.Table.LayoutController.swift */; };
 		D9F5C46F265E5CF500053715 /* DeleteAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C46E265E5CF500053715 /* DeleteAccount.swift */; };
 		D9F5C471265E60D000053715 /* DeleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C470265E60D000053715 /* DeleteRequest.swift */; };
@@ -417,6 +418,7 @@
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		D9E557092670B63700942FF8 /* OperationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationRequest.swift; sourceTree = "<group>"; };
+		D9EB49A42670CD74000131FC /* DeletionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletionRequest.swift; sourceTree = "<group>"; };
 		D9F00E9F2625AF6D00C5A823 /* Input.Table.LayoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.LayoutController.swift; sourceTree = "<group>"; };
 		D9F5C46E265E5CF500053715 /* DeleteAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccount.swift; sourceTree = "<group>"; };
 		D9F5C470265E60D000053715 /* DeleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteRequest.swift; sourceTree = "<group>"; };
@@ -470,6 +472,7 @@
 			isa = PBXGroup;
 			children = (
 				D96A4F0B257D96EE00E74C8C /* PaymentRequest.swift */,
+				D9EB49A42670CD74000131FC /* DeletionRequest.swift */,
 				D9E557092670B63700942FF8 /* OperationRequest.swift */,
 				D96A4F0A257D96EE00E74C8C /* PaymentServiceParsedResponse.swift */,
 				D96A4F09257D96EE00E74C8C /* CustomErrorInfo.swift */,
@@ -1414,6 +1417,7 @@
 				D96A4F89257D96EF00E74C8C /* PaymentListViewController.swift in Sources */,
 				D96A4FD8257D96EF00E74C8C /* AccountFormData.swift in Sources */,
 				D96A4FCE257D96EF00E74C8C /* Interaction.swift in Sources */,
+				D9EB49A52670CD74000131FC /* DeletionRequest.swift in Sources */,
 				D96A4F9C257D96EF00E74C8C /* Error+isNetworkError.swift in Sources */,
 				D9861B94257F71BD005DA1A4 /* Result+computedVariables.swift in Sources */,
 				D96A4FCB257D96EF00E74C8C /* OperationResult.swift in Sources */,

@@ -142,7 +142,7 @@ extension Input.ViewController {
 
         navigationItem.setLeftBarButton(closeButton, animated: false)
 
-        if networks.count == 1, let network = networks.first, network.isDeletable, paymentController.isDeletable(network: network) {
+        if networks.count == 1, let network = networks.first, network.isDeletable {
             navigationItem.setRightBarButton(deleteBarButton, animated: false)
         }
     }
