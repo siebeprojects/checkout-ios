@@ -9,7 +9,7 @@ import Foundation
 // MARK: - Request
 
 /// Request for `CHARGE` operation.
-struct ChargeRequest: PostRequest {
+struct Charge: PostRequest {
     let url: URL
     let queryItems = [URLQueryItem]()
     let body: Body?
@@ -27,7 +27,7 @@ struct ChargeRequest: PostRequest {
 
 // MARK: - Body
 
-extension ChargeRequest {
+extension Charge {
     struct Body: Encodable {
         var account = [String: String]()
         var autoRegistration: Bool?

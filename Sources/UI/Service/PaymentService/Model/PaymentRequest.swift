@@ -27,8 +27,8 @@ class PaymentRequest {
 
 extension PaymentRequest: OperationRequest {
     func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
-        let chargeRequestBody = ChargeRequest.Body(inputFields: inputFields)
-        let chargeRequest = ChargeRequest(from: operationURL, body: chargeRequestBody)
+        let chargeRequestBody = Charge.Body(inputFields: inputFields)
+        let chargeRequest = Charge(from: operationURL, body: chargeRequestBody)
         let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
         chargeOperation.downloadCompletionBlock = completion
         chargeOperation.start()
