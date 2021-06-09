@@ -26,24 +26,10 @@ extension Input.ViewController {
 }
 
 extension Input.ViewController.PaymentController {
-    /// Checks if payment service supports deletion for a specified network
-    func isDeletable(network: Input.Network) -> Bool {
-        let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
-
-        return service is DeletionService
-    }
-
     func delete(network: Input.Network) {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
         service?.delegate = self
 
-        guard let deletionService = service as? DeletionService else {
-            let error = InternalError(description: "Payment service doesn't support deletion and delete action shouldn't be called without prior checking that")
-            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-            delegate?.paymentController(didFailWith: errorInfo)
-            return
-        }
-        
         guard let selfLink = network.apiModel.links?["self"] else {
             let error = InternalError(description: "API model doesn't contain links.self property")
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
@@ -51,7 +37,8 @@ extension Input.ViewController.PaymentController {
             return
         }
 
-        deletionService.deleteRegisteredAccount(using: selfLink, operationType: network.apiModel.operationType)
+        let request = DeletionRequest(accountURL: selfLink, operationType: network.apiModel.operationType)
+        service?.send(operationRequest: request)
     }
     
     func submitPayment(for network: Input.Network) {
