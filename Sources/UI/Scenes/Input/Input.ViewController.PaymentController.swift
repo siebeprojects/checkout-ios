@@ -69,7 +69,7 @@ extension Input.ViewController.PaymentController {
 
         let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
 
-        service?.send(paymentRequest: request)
+        service?.send(operationRequest: request)
     }
     
     private func createInputFields(from network: Input.Network) throws -> [String: String] {
