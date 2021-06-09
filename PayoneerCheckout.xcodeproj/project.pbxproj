@@ -466,6 +466,18 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		D93937842670CBD60086A768 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D96A4F0B257D96EE00E74C8C /* PaymentRequest.swift */,
+				D9E557092670B63700942FF8 /* OperationRequest.swift */,
+				D96A4F0A257D96EE00E74C8C /* PaymentServiceParsedResponse.swift */,
+				D96A4F09257D96EE00E74C8C /* CustomErrorInfo.swift */,
+				D96A4F06257D96EE00E74C8C /* PaymentResult.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D96A4E7B257D96EE00E74C8C /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -824,15 +836,11 @@
 		D96A4F00257D96EE00E74C8C /* PaymentService */ = {
 			isa = PBXGroup;
 			children = (
-				D9861B93257F71BD005DA1A4 /* Result+computedVariables.swift */,
 				D96A4F02257D96EE00E74C8C /* BasicPaymentService */,
-				D96A4F06257D96EE00E74C8C /* PaymentResult.swift */,
+				D93937842670CBD60086A768 /* Model */,
+				D9861B93257F71BD005DA1A4 /* Result+computedVariables.swift */,
 				D96A4F07257D96EE00E74C8C /* PaymentService.swift */,
 				D96A4F08257D96EE00E74C8C /* PaymentServicesFactory.swift */,
-				D96A4F09257D96EE00E74C8C /* CustomErrorInfo.swift */,
-				D96A4F0A257D96EE00E74C8C /* PaymentServiceParsedResponse.swift */,
-				D96A4F0B257D96EE00E74C8C /* PaymentRequest.swift */,
-				D9E557092670B63700942FF8 /* OperationRequest.swift */,
 			);
 			path = PaymentService;
 			sourceTree = "<group>";
