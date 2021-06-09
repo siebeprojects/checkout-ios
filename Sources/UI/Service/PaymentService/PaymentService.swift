@@ -11,7 +11,7 @@ protocol PaymentService: class {
     /// Returns whether the service can make payments
     static func isSupported(networkCode: String, paymentMethod: String?) -> Bool
 
-    func send(paymentRequest: PaymentRequest)
+    func send(operationRequest: OperationRequest)
     var delegate: PaymentServiceDelegate? { get set }
 
     init(using connection: Connection)

@@ -6,7 +6,7 @@
 
 import Foundation
 
-@objc class PaymentRequest: NSObject {
+class PaymentRequest {
     /// Payment network code.
     let networkCode: String
 
@@ -14,12 +14,23 @@ import Foundation
 
     /// Textual dictionary with input fields.
     let inputFields: [String: String]
+    
+    let operationType: String
 
     internal init(networkCode: String, operationURL: URL, inputFields: [String: String]) {
         self.networkCode = networkCode
         self.operationURL = operationURL
         self.inputFields = inputFields
+        self.operationType = operationURL.lastPathComponent.uppercased()
+    }
+}
 
-        super.init()
+extension PaymentRequest: OperationRequest {
+    func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
+        let chargeRequestBody = ChargeRequest.Body(inputFields: inputFields)
+        let chargeRequest = ChargeRequest(from: operationURL, body: chargeRequestBody)
+        let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
+        chargeOperation.downloadCompletionBlock = completion
+        chargeOperation.start()
     }
 }

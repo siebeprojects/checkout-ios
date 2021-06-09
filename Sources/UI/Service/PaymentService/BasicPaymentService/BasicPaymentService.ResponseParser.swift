@@ -23,24 +23,8 @@ extension BasicPaymentService.ResponseParser {
         do {
             operationResult = try paymentRequestResponse.get()
         } catch {
-            // Return server's error info if it replied with error
-            if let errorInfo = error as? ErrorInfo {
-                return .result(.failure(errorInfo))
-            }
-
-            let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
-
-            // Get interaction
-            let interaction: Interaction
-            if connectionType.isRecoverableError(error) {
-                // It is a network error
-                interaction = Interaction(code: interactionCode, reason: .COMMUNICATION_FAILURE)
-            } else {
-                interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
-            }
-
-            let customErrorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
-            return .result(.failure(customErrorInfo))
+            let errorInfo = parse(error: error)
+            return .result(.failure(errorInfo))
         }
 
         // Check if an external browser should be opened
@@ -59,6 +43,28 @@ extension BasicPaymentService.ResponseParser {
         }
 
         return .result(.success(operationResult))
+    }
+
+    /// Convert some `Error` to `ErrorInfo`
+    func parse(error: Error) -> ErrorInfo {
+        // Return server's error info if it replied with error
+        if let errorInfo = error as? ErrorInfo {
+            return errorInfo
+        }
+
+        let interactionCode = BasicPaymentService.getFailureInteractionCode(forOperationType: operationType)
+
+        // Get interaction
+        let interaction: Interaction
+        if connectionType.isRecoverableError(error) {
+            // It is a network error
+            interaction = Interaction(code: interactionCode, reason: .COMMUNICATION_FAILURE)
+        } else {
+            interaction = Interaction(code: interactionCode, reason: .CLIENTSIDE_ERROR)
+        }
+
+        let customErrorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
+        return customErrorInfo
     }
 }
 
