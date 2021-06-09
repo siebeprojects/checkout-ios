@@ -21,6 +21,7 @@ import UIKit
 
     let stateManager = StateManager()
     let viewManager = ViewManager()
+    fileprivate let operationResultHandler = OperationResultHandler()
 
     lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
@@ -41,6 +42,7 @@ import UIKit
 
         viewManager.vc = self
         stateManager.vc = self
+        operationResultHandler.delegate = self
         sessionService.delegate = self
         router.rootViewController = self
     }
@@ -80,7 +82,7 @@ extension PaymentListViewController {
     fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
         do {
             let inputViewController = try router.present(paymentNetworks: paymentNetworks, animated: animated)
-            inputViewController.delegate = self
+            inputViewController.delegate = operationResultHandler
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
             dismiss(with: .failure(errorInfo))
@@ -90,7 +92,7 @@ extension PaymentListViewController {
     fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
         do {
             let inputViewController = try router.present(registeredAccount: registeredAccount, animated: animated)
-            inputViewController.delegate = self
+            inputViewController.delegate = operationResultHandler
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
             dismiss(with: .failure(errorInfo))
@@ -99,15 +101,6 @@ extension PaymentListViewController {
 
     @objc fileprivate func cancelButtonDidPress() {
         dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK: - UI Management
-
-extension PaymentListViewController {
-    func present(error: UIAlertController.AlertError) {
-        let alertController = error.createAlertController(translator: sharedTranslationProvider)
-        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -166,24 +159,9 @@ extension PaymentListViewController: ListTableControllerDelegate {
 // MARK: - NetworkOperationResultHandler
 
 // Received response from InputViewController
-extension PaymentListViewController: NetworkOperationResultHandler {
-    func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for request: OperationRequest?, network: Input.Network) {
-        switch Interaction.Code(rawValue: result.interaction.code) {
-        // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
-        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
-            let errorInfo = ErrorInfo(resultInfo: result.resultInfo, interaction: result.interaction)
-            var alertError = UIAlertController.AlertError(for: errorInfo, translator: network.translation)
-            alertError.actions = [.init(label: .ok, style: .default) { _ in
-                self.loadPaymentSession()
-            }]
-
-            stateManager.viewState = .failure(alertError)
-        case .RELOAD:
-            // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
-            loadPaymentSession()
-        default:
-            dismiss(with: result)
-        }
+extension PaymentListViewController: OperationResultHandlerDelegate {
+    func present(error: UIAlertController.AlertError) {
+        stateManager.viewState = .failure(error)
     }
 
     /// Dismiss view controller and send result to a merchant
