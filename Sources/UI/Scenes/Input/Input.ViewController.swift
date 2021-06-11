@@ -40,6 +40,7 @@ extension Input {
             super.init(nibName: nil, bundle: nil)
 
             paymentController.delegate = self
+            paymentController.operationResultHandler.delegate = self
 
             tableController.setModel(network: smartSwitch.selected.network, header: header)
 
