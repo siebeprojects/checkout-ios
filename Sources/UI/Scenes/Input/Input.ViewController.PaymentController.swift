@@ -6,20 +6,10 @@
 
 import Foundation
 
-protocol InputPaymentControllerDelegate: class {
-    func paymentController(presentURL url: URL)
-    func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest)
-    func paymentController(inputShouldBeChanged error: ErrorInfo)
-
-    /// Request is failed and error should be displayed
-    /// - Parameters:
-    ///   - request: could be `nil` if error was thrown before `OperationRequest` was created or sent
-    func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?)
-}
-
 extension Input.ViewController {
     class PaymentController {
         let paymentServiceFactory: PaymentServicesFactory
+        let operationResultHandler = OperationResultHandler()
 
         weak var delegate: InputPaymentControllerDelegate?
 
@@ -32,7 +22,7 @@ extension Input.ViewController {
 extension Input.ViewController.PaymentController {
     func delete(network: Input.Network) {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
-        service?.delegate = self
+        service?.delegate = operationResultHandler
 
         guard let selfLink = network.apiModel.links?["self"] else {
             let error = InternalError(description: "API model doesn't contain links.self property")
@@ -47,7 +37,7 @@ extension Input.ViewController.PaymentController {
     
     func submitPayment(for network: Input.Network) {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
-        service?.delegate = self
+        service?.delegate = operationResultHandler
 
         let inputFieldsDictionary: [String: String]
         do {
@@ -87,46 +77,6 @@ extension Input.ViewController.PaymentController {
         let shortYear = String(expiryDate.suffix(2))
         let expiryYear = try DateFormatter.string(fromShortYear: shortYear)
         return (month: expiryMonth, year: expiryYear)
-    }
-}
-
-extension Input.ViewController.PaymentController: PaymentServiceDelegate {
-    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest) {
-        let serverResponse: Result<OperationResult, ErrorInfo>
-
-        switch response {
-        case .redirect(let url):
-            DispatchQueue.main.async {
-                self.delegate?.paymentController(presentURL: url)
-            }
-            return
-        case .result(let result):
-            serverResponse = result
-        }
-
-        // On retry show an error and leave on that view
-        if case .RETRY = Interaction.Code(rawValue: serverResponse.interaction.code) {
-            let errorInfo = ErrorInfo(resultInfo: serverResponse.resultInfo, interaction: serverResponse.interaction)
-
-            DispatchQueue.main.async {
-                self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
-            }
-        }
-
-        // If a reason is a communication failure, propose to retry
-        else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: serverResponse.interaction.reason),
-                case let .failure(errorInfo) = serverResponse {
-            DispatchQueue.main.async {
-                self.delegate?.paymentController(didFailWith: errorInfo, for: request)
-            }
-        }
-
-        // In other situations route to a parent view
-        else {
-            DispatchQueue.main.async {
-                self.delegate?.paymentController(route: serverResponse, for: request)
-            }
-        }
     }
 }
 
