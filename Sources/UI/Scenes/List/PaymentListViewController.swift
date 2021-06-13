@@ -161,7 +161,8 @@ extension PaymentListViewController: ListTableControllerDelegate {
 // Received response from InputViewController
 extension PaymentListViewController: OperationResultHandlerDelegate {
     func present(error: UIAlertController.AlertError) {
-        stateManager.viewState = .failure(error)
+        let alertController = error.createAlertController(translator: sharedTranslationProvider)
+        present(alertController, animated: true, completion: nil)
     }
 
     /// Dismiss view controller and send result to a merchant
