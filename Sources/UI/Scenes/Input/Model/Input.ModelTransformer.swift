@@ -21,6 +21,7 @@ private struct Constant {
 // MARK: - Transformer
 
 extension Input {
+    /// Transformer from `List` models to `Input` UI models.
     class ModelTransformer {
         fileprivate let inputFieldFactory = InputFieldFactory()
 
@@ -39,7 +40,7 @@ extension Input.ModelTransformer {
 
         let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 
-        let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
+        let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, detailedLabel: registeredAccount.maskedAccountLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
 
         // Operation URL
         guard let operationURL = registeredAccount.apiModel.links["operation"] else {
@@ -82,7 +83,7 @@ extension Input.ModelTransformer {
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
-        let uiModel = Input.Network.UIModel(label: paymentNetwork.label, logo: logo, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton)
+        let uiModel = Input.Network.UIModel(label: paymentNetwork.label, detailedLabel: nil, logo: logo, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton)
 
         // Operation URL
         guard let operationURL = paymentNetwork.applicableNetwork.links?["operation"] else {

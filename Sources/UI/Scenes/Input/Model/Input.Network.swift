@@ -52,6 +52,7 @@ extension Input.Network: Equatable {
 extension Input.Network {
     class UIModel {
         let label: String
+        let detailedLabel: String?
         let logo: UIImage?
         let inputFields: [InputField]
 
@@ -59,12 +60,13 @@ extension Input.Network {
         let separatedCheckboxes: [InputField]
 
         let submitButton: Input.Field.Button
-        init(label: String, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button) {
+        init(label: String, detailedLabel: String?, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button) {
             self.label = label
             self.logo = logo
             self.inputFields = inputFields
             self.separatedCheckboxes = separatedCheckboxes
             self.submitButton = submitButton
+            self.detailedLabel = detailedLabel
         }
     }
 }
