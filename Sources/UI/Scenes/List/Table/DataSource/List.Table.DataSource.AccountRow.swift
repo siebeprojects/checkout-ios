@@ -16,19 +16,10 @@ extension List.Table.DataSource {
     }
 }
 
+// MARK: Computed variables
+
 extension List.Table.DataSource.AccountRow {
-    var label: String {
-        // Example: VISA
-        let network = account.networkLabel
-
-        // Example: 41 *** 1111
-        var number = account.apiModel.maskedAccount.number ?? String()
-        number = String(number.suffix(4)) // 1111
-
-        // Example: VISA •••• 1111
-        return network + " •••• " + number
-    }
-
+    var label: String { account.maskedAccountLabel }
     var image: UIImage? { account.logo?.value }
 }
 
