@@ -92,7 +92,9 @@ extension Input.Table {
             sections += checkboxes.map { [$0] }
 
             // Submit
-            sections += [[networkUIModel.submitButton]]
+            if let submitButton = networkUIModel.submitButton {
+                sections += [[submitButton]]
+            }
 
             let dataSource = sections.filter { !$0.isEmpty }
 

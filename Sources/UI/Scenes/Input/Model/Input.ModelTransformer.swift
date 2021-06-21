@@ -37,9 +37,7 @@ extension Input.ModelTransformer {
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
         let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 
-        let submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
 
-        let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
 
         // Operation URL
         guard let operationURL = registeredAccount.apiModel.links["operation"] else {
@@ -53,6 +51,16 @@ extension Input.ModelTransformer {
         } else {
             isDeletable = false
         }
+
+        // Check if we need to show a submit button
+        let submitButton: Input.Field.Button?
+        if registeredAccount.apiModel.operationType == "UPDATE", inputFields.isEmpty {
+            submitButton = nil
+        } else {
+            submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
+        }
+
+        let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
 
         return .init(apiModel: .account(registeredAccount.apiModel), operationURL: operationURL, paymentMethod: registeredAccount.apiModel.method, networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, switchRule: nil, uiModel: uiModel, isDeletable: isDeletable)
     }

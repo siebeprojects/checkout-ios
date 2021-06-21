@@ -58,8 +58,9 @@ extension Input.Network {
         /// Checkboxes that must be arranged in another section (used for recurrence and registration)
         let separatedCheckboxes: [InputField]
 
-        let submitButton: Input.Field.Button
-        init(label: String, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button) {
+        let submitButton: Input.Field.Button?
+
+        init(label: String, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button?) {
             self.label = label
             self.logo = logo
             self.inputFields = inputFields
