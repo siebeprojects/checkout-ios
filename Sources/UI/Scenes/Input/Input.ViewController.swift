@@ -155,7 +155,7 @@ extension Input.ViewController {
 
         // Message comes with replacable variables, whe replace it with 
         var message: String = translator.translation(forKey: "accounts.delete.text")
-        let accountDisplayLabel = smartSwitch.selected.network.uiModel.detailedLabel ?? smartSwitch.selected.network.uiModel.label
+        let accountDisplayLabel = smartSwitch.selected.network.uiModel.maskedAccountLabel ?? smartSwitch.selected.network.uiModel.networkLabel
         message = message.replacingOccurrences(of: "${account.displayLabel}", with: accountDisplayLabel)
 
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
