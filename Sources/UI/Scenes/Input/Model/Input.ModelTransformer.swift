@@ -21,6 +21,7 @@ private struct Constant {
 // MARK: - Transformer
 
 extension Input {
+    /// Transformer from `List` models to `Input` UI models.
     class ModelTransformer {
         fileprivate let inputFieldFactory = InputFieldFactory()
 
@@ -37,20 +38,13 @@ extension Input.ModelTransformer {
         let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, networkMethod: nil, translator: registeredAccount.translation)
         let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 
-
-
         // Operation URL
         guard let operationURL = registeredAccount.apiModel.links["operation"] else {
             throw InternalError(description: "Incorrect registered account model, operation URL is not present. Links: %@", objects: registeredAccount.apiModel.links)
         }
 
         // Detect if we're in UPDATE flow
-        let isDeletable: Bool
-        if registeredAccount.apiModel.operationType == "UPDATE" {
-            isDeletable = true
-        } else {
-            isDeletable = false
-        }
+        let isDeletable = registeredAccount.apiModel.operationType == "UPDATE"
 
         // Check if we need to show a submit button
         let submitButton: Input.Field.Button?
@@ -60,7 +54,7 @@ extension Input.ModelTransformer {
             submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
         }
 
-        let uiModel = Input.Network.UIModel(label: registeredAccount.networkLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
+        let uiModel = Input.Network.UIModel(networkLabel: registeredAccount.networkLabel, maskedAccountLabel: registeredAccount.maskedAccountLabel, logo: logo, inputFields: inputFields, separatedCheckboxes: [], submitButton: submitButton)
 
         return .init(apiModel: .account(registeredAccount.apiModel), operationURL: operationURL, paymentMethod: registeredAccount.apiModel.method, networkCode: registeredAccount.apiModel.code, translator: registeredAccount.translation, switchRule: nil, uiModel: uiModel, isDeletable: isDeletable)
     }
@@ -90,7 +84,7 @@ extension Input.ModelTransformer {
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
-        let uiModel = Input.Network.UIModel(label: paymentNetwork.label, logo: logo, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton)
+        let uiModel = Input.Network.UIModel(networkLabel: paymentNetwork.label, maskedAccountLabel: nil, logo: logo, inputFields: inputFields, separatedCheckboxes: checkboxes, submitButton: submitButton)
 
         // Operation URL
         guard let operationURL = paymentNetwork.applicableNetwork.links?["operation"] else {
