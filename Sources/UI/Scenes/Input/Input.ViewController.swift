@@ -150,8 +150,14 @@ extension Input.ViewController {
 
     @objc private func deleteBarButtonDidTap(_ sender: UIBarButtonItem) {
         let translator = smartSwitch.selected.network.translation
+        
         let title: String = translator.translation(forKey: "accounts.delete.title")
-        let message: String = translator.translation(forKey: "accounts.delete.text")
+
+        // Message comes with replacable variables, whe replace it with 
+        var message: String = translator.translation(forKey: "accounts.delete.text")
+        let accountDisplayLabel = smartSwitch.selected.network.uiModel.maskedAccountLabel ?? smartSwitch.selected.network.uiModel.networkLabel
+        message = message.replacingOccurrences(of: "${account.displayLabel}", with: accountDisplayLabel)
+
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         let cancelText: String? = translator.translation(forKey: "button.cancel.label")

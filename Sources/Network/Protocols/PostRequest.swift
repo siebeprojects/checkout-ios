@@ -12,7 +12,3 @@ protocol PostRequest: Request, BodyEncodable {}
 extension PostRequest {
     var httpMethod: HTTPMethod { .POST }
 }
-
-extension PostRequest {
-
-}
