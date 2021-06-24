@@ -61,7 +61,7 @@ extension Input.Network {
 
         let submitButton: Input.Field.Button?
         init(networkLabel: String, maskedAccountLabel: String?, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button?) {
-                self.networkLabel = networkLabel
+            self.networkLabel = networkLabel
             self.maskedAccountLabel = maskedAccountLabel
             self.logo = logo
             self.inputFields = inputFields
