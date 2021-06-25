@@ -59,8 +59,8 @@ extension Input.Network {
         /// Checkboxes that must be arranged in another section (used for recurrence and registration)
         let separatedCheckboxes: [InputField]
 
-        let submitButton: Input.Field.Button
-        init(networkLabel: String, maskedAccountLabel: String?, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button) {
+        let submitButton: Input.Field.Button?
+        init(networkLabel: String, maskedAccountLabel: String?, logo: UIImage?, inputFields: [InputField], separatedCheckboxes: [InputField], submitButton: Input.Field.Button?) {
             self.networkLabel = networkLabel
             self.maskedAccountLabel = maskedAccountLabel
             self.logo = logo
