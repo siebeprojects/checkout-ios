@@ -115,8 +115,20 @@ class PaymentSessionProvider {
     private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])
 
     private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworksTuple) -> Void)) {
-        let filteredPaymentNetworks = listResult.networks.applicable.filter { (network) -> Bool in
+        // Filter networks unsupported by any of `PaymentService`
+        var filteredPaymentNetworks = listResult.networks.applicable.filter { network in
             paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
+        }
+
+        // Filter networks with `NONE/NONE` registration options in `UPDATE` flow, more info at: [PCX-1396](https://optile.atlassian.net/browse/PCX-1396) AC #1.a
+        if listResult.operationType == "UPDATE" {
+            filteredPaymentNetworks = filteredPaymentNetworks.filter { network in
+                if case .NONE = network.registrationRequirement, case .NONE = network.recurrenceRequirement {
+                    return false
+                } else {
+                    return true
+                }
+            }
         }
 
         let filteredRegisteredNetworks: [AccountRegistration]
