@@ -74,7 +74,7 @@ extension Input.ModelTransformer {
         let smartSwitchRule = switchRule(forNetworkCode: paymentNetwork.applicableNetwork.code)
 
         // Checkboxes
-        let checkboxFactory = RegistrationOptionsBuilder(translator: paymentNetwork.translation)
+        let checkboxFactory = RegistrationOptionsBuilder(translator: paymentNetwork.translation, operationType: paymentNetwork.applicableNetwork.operationType)
 
         let registrationCheckbox = RegistrationOptionsBuilder.RegistrationOption(type: .registration, requirement: paymentNetwork.applicableNetwork.registrationRequirement)
         let recurrenceCheckbox = RegistrationOptionsBuilder.RegistrationOption(type: .recurrence, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement)
