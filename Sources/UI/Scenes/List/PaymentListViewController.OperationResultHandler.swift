@@ -21,49 +21,21 @@ extension PaymentListViewController {
 extension PaymentListViewController.OperationResultHandler: NetworkOperationResultHandler {
     func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for request: OperationRequest?, network: Input.Network) {
         switch request {
-        case is DeletionRequest:
-            handleDeletionRequestResult(result: result, network: network)
-        case is PaymentRequest:
-            handleChargeRequest(result: result, network: network)
+        case let deletionRequest as DeletionRequest:
+            handle(response: result, for: deletionRequest, network: network)
+        case let paymentRequest as PaymentRequest:
+            handle(response: result, for: paymentRequest, network: network)
         default:
-            let error = InternalError(description: "Unknown request's type was forwarded, using CHARGE flow to process it")
-            error.log()
-
-            // This type of request is unknown, use the `CHARGE` flow
-            handleChargeRequest(result: result, network: network)
-        }
-    }
-
-    private func handleChargeRequest(result: Result<OperationResult, ErrorInfo>, network: Input.Network) {
-        switch Interaction.Code(rawValue: result.interaction.code) {
-        // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
-        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
-            reloadListWithError(errorDescription: result.resultInfo, interaction: result.interaction, translation: network.translation)
-        case .RELOAD:
-            // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
-            delegate?.loadPaymentSession()
-        default:
-            delegate?.dismiss(with: result)
-        }
-    }
-
-    private func handleDeletionRequestResult(result: Result<OperationResult, ErrorInfo>, network: Input.Network) {
-        switch Interaction.Code(rawValue: result.interaction.code) {
-        // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
-        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
-            reloadListWithError(errorDescription: result.resultInfo, interaction: result.interaction, translation: network.translation)
-        case .RELOAD, .PROCEED:
-            // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
-            delegate?.loadPaymentSession()
-        default:
-            delegate?.dismiss(with: result)
+            let internalError = InternalError(description: "Unexpected request type, programmatic error")
+            let errorInfo = CustomErrorInfo.createClientSideError(from: internalError)
+            delegate?.dismiss(with: .failure(errorInfo))
         }
     }
 
     /// Show an alert view controller and reload after dismissal
     /// - Parameters:
     ///   - errorDescription: should be extracted from `resultInfo`
-    private func reloadListWithError(errorDescription: String, interaction: Interaction, translation: TranslationProvider) {
+    fileprivate func reloadListWithError(errorDescription: String, interaction: Interaction, translation: TranslationProvider) {
         let errorInfo = ErrorInfo(resultInfo: errorDescription, interaction: interaction)
         var alertError = UIAlertController.AlertError(for: errorInfo, translator: translation)
         alertError.actions = [.init(label: .ok, style: .default) { [delegate] _ in
@@ -71,5 +43,39 @@ extension PaymentListViewController.OperationResultHandler: NetworkOperationResu
         }]
 
         delegate?.present(error: alertError)
+    }
+}
+
+// MARK: Handler for `PaymentRequest`
+
+private extension PaymentListViewController.OperationResultHandler {
+    func handle(response: Result<OperationResult, ErrorInfo>, for request: PaymentRequest, network: Input.Network) {
+        switch Interaction.Code(rawValue: response.interaction.code) {
+        // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+            reloadListWithError(errorDescription: response.resultInfo, interaction: response.interaction, translation: network.translation)
+        case .RELOAD:
+            // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
+            delegate?.loadPaymentSession()
+        default:
+            delegate?.dismiss(with: response)
+        }
+    }
+}
+
+// MARK: Handler for `DeletionRequest`
+
+private extension PaymentListViewController.OperationResultHandler {
+    func handle(response: Result<OperationResult, ErrorInfo>, for request: DeletionRequest, network: Input.Network) {
+        switch Interaction.Code(rawValue: response.interaction.code) {
+        // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
+            reloadListWithError(errorDescription: response.resultInfo, interaction: response.interaction, translation: network.translation)
+        case .RELOAD, .PROCEED:
+            // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
+            delegate?.loadPaymentSession()
+        default:
+            delegate?.dismiss(with: response)
+        }
     }
 }
