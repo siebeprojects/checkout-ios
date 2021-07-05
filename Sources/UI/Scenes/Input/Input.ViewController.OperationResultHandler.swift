@@ -51,8 +51,12 @@ extension Input.ViewController.OperationResultHandler: PaymentServiceDelegate {
 
         // Handlers for each flow
         switch request {
-        case let chargeRequest as PaymentRequest:
-            handle(response: serverResponse, for: chargeRequest)
+        case let paymentRequest as PaymentRequest:
+            if paymentRequest.operationType == "UPDATE" {
+                handle(response: serverResponse, forUpdateRequest: paymentRequest)
+            } else {
+                handle(response: serverResponse, for: paymentRequest)
+            }
         case let deletionRequest as DeletionRequest:
             handle(response: serverResponse, for: deletionRequest)
         default:
@@ -81,6 +85,15 @@ extension Input.ViewController.OperationResultHandler {
             DispatchQueue.main.async {
                 self.delegate?.paymentController(route: response, for: request)
             }
+        }
+    }
+
+    /// Handler for responses in `UPDATE` flow.
+    ///
+    /// Flow rules are defined in [PCX-1396](https://optile.atlassian.net/browse/PCX-1396).
+    func handle(response: Result<OperationResult, ErrorInfo>, forUpdateRequest request: PaymentRequest) {
+        DispatchQueue.main.async {
+            self.delegate?.paymentController(route: response, for: request)
         }
     }
 }

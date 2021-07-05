@@ -24,7 +24,11 @@ extension PaymentListViewController.OperationResultHandler: NetworkOperationResu
         case let deletionRequest as DeletionRequest:
             handle(response: result, for: deletionRequest, network: network)
         case let paymentRequest as PaymentRequest:
-            handle(response: result, for: paymentRequest, network: network)
+            if paymentRequest.operationType == "UPDATE" {
+                handle(response: result, forUpdateRequest: paymentRequest, network: network)
+            } else {
+                handle(response: result, for: paymentRequest, network: network)
+            }
         default:
             let internalError = InternalError(description: "Unexpected request type, programmatic error")
             let errorInfo = CustomErrorInfo.createClientSideError(from: internalError)
@@ -41,7 +45,6 @@ extension PaymentListViewController.OperationResultHandler: NetworkOperationResu
         alertError.actions = [.init(label: .ok, style: .default) { [delegate] _ in
             delegate?.loadPaymentSession()
         }]
-
         delegate?.present(error: alertError)
     }
 }
@@ -56,6 +59,33 @@ private extension PaymentListViewController.OperationResultHandler {
             reloadListWithError(errorDescription: response.resultInfo, interaction: response.interaction, translation: network.translation)
         case .RELOAD:
             // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
+            delegate?.loadPaymentSession()
+        default:
+            delegate?.dismiss(with: response)
+        }
+    }
+
+    /// Handler for responses in `UPDATE` flow.
+    ///
+    /// Flow rules are defined in [PCX-1396](https://optile.atlassian.net/browse/PCX-1396).
+    func handle(response: Result<OperationResult, ErrorInfo>, forUpdateRequest request: PaymentRequest, network: Input.Network) {
+        switch Interaction.Code(rawValue: response.interaction.code) {
+        // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
+        case .PROCEED:
+            guard case .PENDING = Interaction.Reason(rawValue: response.interaction.reason) else {
+                // For all reasons except `PENDING` route result to a merchant
+                delegate?.dismiss(with: response)
+                break
+            }
+
+            // On `PROCEED/PENDING` display an alert and don't do anything in a list view
+            let errorInfo = CustomErrorInfo(resultInfo: response.resultInfo, interaction: response.interaction)
+            var alertError = UIAlertController.AlertError(for: errorInfo, translator: network.translation)
+            alertError.actions = [.init(label: .ok, style: .default, handler: nil)]
+            delegate?.present(error: alertError)
+        case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK, .RETRY:
+            reloadListWithError(errorDescription: response.resultInfo, interaction: response.interaction, translation: network.translation)
+        case .RELOAD:
             delegate?.loadPaymentSession()
         default:
             delegate?.dismiss(with: response)
