@@ -35,6 +35,9 @@ class NetworksTests: XCTestCase {
         }
         tablesQuery.textFields.firstMatch.typeText(sessionURL.absoluteString)
         tablesQuery.buttons["Send request"].tap()
+        
+        // Wait for loading completion
+        XCTAssert(app.tables.firstMatch.waitForExistence(timeout: 10))
     }
 
     private func createPaymentSession(using transaction: Transaction) throws -> URL {

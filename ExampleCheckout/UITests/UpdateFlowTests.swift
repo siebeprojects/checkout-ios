@@ -44,4 +44,26 @@ class UpdateFlowTests: NetworksTests {
         let expectedResult = "Please refresh or check back later for updates."
         XCTAssertEqual(expectedResult, interactionResult)
     }
+
+    func testSaveNewCardPaymentMethod() throws {
+        let transaction = try Transaction.loadFromTemplate(operationType: .update)
+        try setupWithPaymentSession(using: transaction)
+
+        let paymentMethodText = "Visa •••• 1111"
+        deleteIfExistsPaymentMethod(withText: paymentMethodText)
+        app.tables.staticTexts["Cards"].tap()
+        Card.visa.submit(in: app.collectionViews)
+
+        let isPaymentMethodAppeared = app.tables.staticTexts[paymentMethodText].waitForExistence(timeout: 5)
+        XCTAssert(isPaymentMethodAppeared, "Payment method didn't appear in the list after saving")
+    }
+
+    private func deleteIfExistsPaymentMethod(withText text: String) {
+        let savedMethodText = app.tables.staticTexts[text]
+        if savedMethodText.waitForExistence(timeout: 5) {
+            savedMethodText.tap()
+            app.navigationBars.buttons["Delete"].tap()
+            app.alerts.firstMatch.buttons["Delete"].tap()
+        }
+    }
 }
