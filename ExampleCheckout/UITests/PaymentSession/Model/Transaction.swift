@@ -33,7 +33,7 @@ struct Transaction: Codable {
 extension Transaction {
     /// Load template transaction from JSON.
     /// - Parameter amount: you could specify a custom amount (used as "magic number" for testing).
-    static func loadFromTemplate(amount: MagicNumber = .proceedOk, operationType: OperationType = .charge) throws -> Transaction {
+    static func loadFromTemplate(amount: MagicNumber = .nonMagicNumber, operationType: OperationType = .charge) throws -> Transaction {
         let bundle = Bundle(for: PaymentSessionService.self)
         let url = bundle.url(forResource: "Transaction", withExtension: "json")!
         let data = try Data(contentsOf: url)
@@ -55,29 +55,32 @@ extension Transaction {
         case retry
         case tryOtherAccount
         case tryOtherNetwork
-        
+        case nonMagicNumber
+
         func value(for operationType: OperationType) -> Double? {
             switch operationType {
             case .charge: return chargeFlowValue
             case .update: return updateFlowValue
             }
         }
-        
+
         private var chargeFlowValue: Double {
             switch self {
             case .proceedOk: return 1.01
             case .retry: return 1.03
             case .tryOtherNetwork: return 1.20
             case .tryOtherAccount: return 1.21
+            case .nonMagicNumber: return 15
             }
         }
-        
+
         private var updateFlowValue: Double? {
             switch self {
             case .proceedOk: return 1.01
             case .retry: return nil
             case .tryOtherNetwork: return nil
             case .tryOtherAccount: return 1.21
+            case .nonMagicNumber: return 15
             }
         }
     }
