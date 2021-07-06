@@ -8,6 +8,8 @@ import XCTest
 
 class CardsTests: NetworksTests {
     func testVISAProceed() throws {
+        try setupWithPaymentSession()
+
         // List
         app.tables.staticTexts["Cards"].tap()
 
@@ -28,14 +30,16 @@ class CardsTests: NetworksTests {
         collectionViewsQuery.buttons["Pay"].tap()
 
         // Check result
-        app.alerts.firstMatch.waitForExistence(timeout: 10)
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10), "Alert didn't appear in time")
 
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         let expectedResult = "ResultInfo: Approved Interaction code: PROCEED Interaction reason: OK Error: n/a"
         XCTAssertEqual(expectedResult, interactionResult)
     }
 
-    func testClearButton() {
+    func testClearButton() throws {
+        try setupWithPaymentSession()
+
         // List
         app.tables.staticTexts["Cards"].tap()
 

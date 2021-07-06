@@ -8,14 +8,12 @@ import XCTest
 
 class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
-    private let paymentSessionService = PaymentSessionService()!
 
-    // Prepare for network tests (create session, launch app, fill url)
-    override func setUpWithError() throws {
+    func setupWithPaymentSession(amount: Double = 1.99) throws {
         continueAfterFailure = false
 
         // Create payment session
-        let sessionURL = try createPaymentSession()
+        let sessionURL = try createPaymentSession(amount: amount)
 
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
@@ -31,12 +29,13 @@ class NetworksTests: XCTestCase {
         tablesQuery.buttons["Send request"].tap()
     }
 
-    private func createPaymentSession() throws -> URL {
+    private func createPaymentSession(amount: Double = 1.99) throws -> URL {
         let sessionExpectation = expectation(description: "Create payment session")
-        let transaction = Transaction.loadFromTemplate()
+        let transaction = Transaction.loadFromTemplate(amount: amount)
 
         var createSessionResult: Result<URL, Error>?
 
+        let paymentSessionService = PaymentSessionService()!
         paymentSessionService.create(using: transaction, completion: { (result) in
             createSessionResult = result
             sessionExpectation.fulfill()
@@ -49,9 +48,5 @@ class NetworksTests: XCTestCase {
         case .failure(let error): throw error
         case .none: throw "Create session result wasn't set"
         }
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 }

@@ -8,11 +8,13 @@ import XCTest
 
 class RedirectNetworksTests: NetworksTests {
     func testPayPalAccept() throws {
+        try setupWithPaymentSession()
+
         app.tables.staticTexts["PayPal"].tap()
         app.collectionViews.buttons["Pay"].tap()
 
         let button = app.webViews.staticTexts["accept"]
-        button.waitForExistence(timeout: 10)
+        XCTAssertTrue(button.waitForExistence(timeout: 10), "Accept button didn't appear in time")
         button.tap()
 
         _ = app.alerts.firstMatch.waitForExistence(timeout: 5)
@@ -23,11 +25,13 @@ class RedirectNetworksTests: NetworksTests {
     }
 
     func testPayPalFailure() throws {
+        try setupWithPaymentSession()
+
         app.tables.staticTexts["PayPal"].tap()
         app.collectionViews.buttons["Pay"].tap()
 
         let button = app.webViews.staticTexts["abort"]
-        button.waitForExistence(timeout: 10)
+        XCTAssertTrue(button.waitForExistence(timeout: 10), "Abort button didn't appear in time")
         button.tap()
 
         _ = app.alerts.firstMatch.waitForExistence(timeout: 5)
