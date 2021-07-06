@@ -26,6 +26,8 @@ struct Transaction: Codable {
     ///
     /// **Default** type is `CHARGE` unless `operationType` is explicitly set or one of the legacy options is supplied during `LIST` initialization: `updateOnly`, `presetFirst`, or `preselection.direction`
     var operationType: String?
+
+    var division: String?
 }
 
 extension Transaction {
