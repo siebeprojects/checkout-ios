@@ -30,6 +30,7 @@
 		D9E0AEB8234143BD0021184C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB6234143BD0021184C /* Main.storyboard */; };
 		D9E0AEBD234143BF0021184C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */; };
 		D9E1A87C2694810300CF4C9C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87B2694810300CF4C9C /* Card.swift */; };
+		D9E1A87E2694893F00CF4C9C /* UpdateFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */; };
 		D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
 		D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
@@ -91,6 +92,7 @@
 		D9E0AEBC234143BF0021184C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9E0AEBE234143BF0021184C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9E1A87B2694810300CF4C9C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFlowTests.swift; sourceTree = "<group>"; };
 		D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCTFailError.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				D9FCC6AA25488A9800E0AF74 /* Helpers */,
 				D9A5FA7E253D8AE3001C71B7 /* Assets */,
 				D956D28525DEB9E0001A2EAD /* NetworksTests.swift */,
+				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
 				D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */,
 				D9A5FA65253CF744001C71B7 /* PaymentSession */,
@@ -401,6 +404,7 @@
 				D956D28925DEBE23001A2EAD /* CardTests.swift in Sources */,
 				D9A5FA62253CA8BE001C71B7 /* PaymentSessionService.swift in Sources */,
 				D9E1A87C2694810300CF4C9C /* Card.swift in Sources */,
+				D9E1A87E2694893F00CF4C9C /* UpdateFlowTests.swift in Sources */,
 				D917D816267679F8000DB4CA /* Interaction.swift in Sources */,
 				D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */,
 				D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */,
