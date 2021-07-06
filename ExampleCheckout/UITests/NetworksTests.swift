@@ -45,7 +45,11 @@ class NetworksTests: XCTestCase {
 
         switch createSessionResult {
         case .success(let url): return url
-        case .failure(let error): throw error
+        case .failure(let error):
+            let attachment = XCTAttachment(subject: error)
+            attachment.name = "LoadPaymentSessionError"
+            add(attachment)
+            throw error
         case .none: throw "Create session result wasn't set"
         }
     }
