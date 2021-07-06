@@ -8,12 +8,20 @@ import XCTest
 
 class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
-
-    func setupWithPaymentSession(amount: Double = 1.99) throws {
+    
+    /// Load an app and load networks list from list url.
+    /// - Parameter transaction: if `nil`, default `Transaction` will be used
+    func setupWithPaymentSession(using transaction: Transaction? = nil) throws {
         continueAfterFailure = false
 
         // Create payment session
-        let sessionURL = try createPaymentSession(amount: amount)
+        let sessionURL: URL
+        
+        if let transaction = transaction {
+            sessionURL = try createPaymentSession(using: transaction)
+        } else {
+            sessionURL = try createPaymentSession(using: Transaction.loadFromTemplate())
+        }
 
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
@@ -29,9 +37,8 @@ class NetworksTests: XCTestCase {
         tablesQuery.buttons["Send request"].tap()
     }
 
-    private func createPaymentSession(amount: Double = 1.99) throws -> URL {
+    private func createPaymentSession(using transaction: Transaction) throws -> URL {
         let sessionExpectation = expectation(description: "Create payment session")
-        let transaction = Transaction.loadFromTemplate(amount: amount)
 
         var createSessionResult: Result<URL, Error>?
 

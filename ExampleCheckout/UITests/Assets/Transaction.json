@@ -1,7 +1,6 @@
 {
   "transactionId": "tr1",
   "integration": "MOBILE_NATIVE",
-  "presetFirst": false,
   "country": "DE",
   "customer": {
     "number": "1",
@@ -17,5 +16,6 @@
   },
   "callback": {
     "appId": "com.payoneer.checkout.examplecheckout"
-  }
+  },
+  "operationType": "CHARGE"
 }
