@@ -7,8 +7,11 @@
 import UIKit
 
 extension Input.ViewController {
-    class DeletionAlertController: UIAlertController {
+    struct DeletionAlert {
         private let translator: TranslationProvider
+
+        private let title, message: String
+        private var deleteAction: UIAlertAction?
 
         /// Initialize `UIAlertController` with added message, title and cancel button.
         /// - Note: don't forget to call `addDeleteAction(handler:)` to add a delete button
@@ -18,29 +21,32 @@ extension Input.ViewController {
         init(translator: TranslationProvider, accountLabel: String) {
             self.translator = translator
             
-            let title: String = translator.translation(forKey: "accounts.delete.title")
+            self.title = translator.translation(forKey: "accounts.delete.title")
 
             // Message comes with replacable variable
             var message: String = translator.translation(forKey: "accounts.delete.text")
             message = message.replacingOccurrences(of: "${account.displayLabel}", with: accountLabel)
-            
-            super.init(title: title, message: message, preferredStyle: .alert)
-
-            let cancelText: String? = translator.translation(forKey: "button.cancel.label")
-            let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
-            addAction(cancelAction)
-        }
-
-        @available(*, unavailable)
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
+            self.message = message
         }
         
         /// Add a translated delete action.
-        func addDeleteAction(handler: ((UIAlertAction) -> Void)?) {
+        mutating func setDeleteAction(handler: ((UIAlertAction) -> Void)?) {
             let deleteText: String? = translator.translation(forKey: "button.delete.label")
-            let action = UIAlertAction(title: deleteText, style: .destructive, handler: handler)
-            addAction(action)
+            self.deleteAction = UIAlertAction(title: deleteText, style: .destructive, handler: handler)
+        }
+
+        func createAlertController() -> UIAlertController {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+            let cancelText: String? = translator.translation(forKey: "button.cancel.label")
+            let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+
+            if let deleteAction = self.deleteAction {
+                alertController.addAction(deleteAction)
+            }
+
+            return alertController
         }
     }
 }
