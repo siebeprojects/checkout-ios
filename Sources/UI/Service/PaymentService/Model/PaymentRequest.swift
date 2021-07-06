@@ -17,11 +17,11 @@ class PaymentRequest {
 
     let operationType: String
 
-    internal init(networkCode: String, operationURL: URL, inputFields: [String: String]) {
+    internal init(networkCode: String, operationURL: URL, operationType: String, inputFields: [String: String]) {
         self.networkCode = networkCode
         self.operationURL = operationURL
         self.inputFields = inputFields
-        self.operationType = operationURL.lastPathComponent.uppercased()
+        self.operationType = operationType
     }
 }
 
