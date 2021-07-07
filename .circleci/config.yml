@@ -168,23 +168,21 @@ workflows:
           filters:
             branches:
               only: /PCX-.*/
-      - build_example:
-          filters:
-            branches:
-              only: /PCX-.*/
       - ui_test:
-          requires:
-            - build_example
           filters:
             branches:
               only: /PCX-.*/
       - request_qa:
           type: approval
           requires:
-            - build_example
+            - unit_test
+            - ui_test
           filters:
             branches:
               only: /PCX-.*/
+      - build_example:
+          requires:
+            - request_qa
       - browserstack:
           requires:
             - build_example
