@@ -51,11 +51,7 @@ class UpdateFlowTests: NetworksTests {
         // Test save the new payment method
         let paymentMethodText = "Visa •••• 1111"
         deleteIfExistsPaymentMethod(withText: paymentMethodText)
-        app.tables.staticTexts["Cards"].tap()
-        Card.visa.submit(in: app.collectionViews)
-
-        let isPaymentMethodAppeared = app.tables.staticTexts[paymentMethodText].waitForExistence(timeout: 5)
-        XCTAssert(isPaymentMethodAppeared, "Payment method didn't appear in the list after saving")
+        addVisaPaymentMethod()
 
         // Test deletion
         deleteIfExistsPaymentMethod(withText: paymentMethodText)
@@ -63,8 +59,6 @@ class UpdateFlowTests: NetworksTests {
         XCTAssertFalse(app.tables.staticTexts[paymentMethodText].exists, "Payment network still exists after deletion")
     }
 
-    // TODO: Test delete shouldn't appear in a CHARGE flow
-    
     /// Wait until activity indicator disappears
     private func waitForLoadingCompletion() {
         XCTContext.runActivity(named: "Wait for loading completion") { _ in
@@ -86,5 +80,51 @@ class UpdateFlowTests: NetworksTests {
                 app.alerts.firstMatch.buttons["Delete"].tap()
             }
         }
+    }
+}
+
+// MARK: - Helpers
+
+extension UpdateFlowTests {
+    fileprivate func addVisaPaymentMethod() {
+        app.tables.staticTexts["Cards"].tap()
+        Card.visa.submit(in: app.collectionViews)
+
+        let isPaymentMethodAppeared = app.tables.staticTexts["Visa •••• 1111"].waitForExistence(timeout: 5)
+        XCTAssert(isPaymentMethodAppeared, "Payment method didn't appear in the list after saving")
+    }
+}
+
+// MARK: -
+
+extension UpdateFlowTests {
+    func testDeleteButtonShouldntAppear() throws {
+        try XCTContext.runActivity(named: "Save the new payment method") { _ in
+            let transaction = try Transaction.loadFromTemplate(operationType: .update)
+            try setupWithPaymentSession(using: transaction)
+            try addVisaPaymentMethodIfNeeded()
+        }
+
+        try XCTContext.runActivity(named: "Delete the payment method") { _ in
+            let transaction = try Transaction.loadFromTemplate(operationType: .charge)
+            try setupWithPaymentSession(using: transaction)
+            deleteVisaPaymentMethod()
+        }
+    }
+
+    private func addVisaPaymentMethodIfNeeded() throws {
+        let paymentMethodText = "Visa •••• 1111"
+
+        // Add a payment method if it doesn't exist
+        if !app.tables.staticTexts[paymentMethodText].exists {
+            addVisaPaymentMethod()
+        }
+    }
+
+    private func deleteVisaPaymentMethod() {
+        let paymentMethodText = "Visa •••• 1111"
+
+        app.tables.staticTexts[paymentMethodText].tap()
+        XCTAssertFalse(app.navigationBars.buttons["Delete"].exists, "Delete button shouldn't exist in a CHARGE flow")
     }
 }
