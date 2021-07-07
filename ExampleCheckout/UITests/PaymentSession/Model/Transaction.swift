@@ -48,45 +48,61 @@ extension Transaction {
     }
 }
 
+// MARK: - OperationType
+
 extension Transaction {
-    /// Numbers are taken from https://www.optile.io/opg#293524
+    enum OperationType: String {
+        case charge = "CHARGE"
+        case update = "UPDATE"
+    }
+}
+
+// MARK: - Magic Numbers
+
+extension Transaction {
+    /// The Payment Gateway enables you to test the "happy path" (a success is returned) as well as negative responses (e.g. denials). To test different cases you should use magic numbers as an amount value.
+    ///
+    /// Full list of magic numbers: https://www.optile.io/opg#293524
     enum MagicNumber {
         case proceedOk
+        case proceedPending
         case retry
         case tryOtherAccount
         case tryOtherNetwork
         case nonMagicNumber
+    }
+}
 
-        func value(for operationType: OperationType) -> Double? {
-            switch operationType {
-            case .charge: return chargeFlowValue
-            case .update: return updateFlowValue
-            }
-        }
-
-        private var chargeFlowValue: Double {
-            switch self {
-            case .proceedOk: return 1.01
-            case .retry: return 1.03
-            case .tryOtherNetwork: return 1.20
-            case .tryOtherAccount: return 1.21
-            case .nonMagicNumber: return 15
-            }
-        }
-
-        private var updateFlowValue: Double? {
-            switch self {
-            case .proceedOk: return 1.01
-            case .retry: return nil
-            case .tryOtherNetwork: return nil
-            case .tryOtherAccount: return 1.21
-            case .nonMagicNumber: return 15
-            }
+extension Transaction.MagicNumber {
+    /// Get the amount value for the magic number.
+    ///
+    /// Each operation type may have different amount for the same magic number.
+    func value(for operationType: Transaction.OperationType) -> Double? {
+        switch operationType {
+        case .charge: return chargeFlowValue
+        case .update: return updateFlowValue
         }
     }
 
-    enum OperationType: String {
-        case charge = "CHARGE"
-        case update = "UPDATE"
+    private var chargeFlowValue: Double {
+        switch self {
+        case .proceedOk: return 1.01
+        case .proceedPending: return 1.04
+        case .retry: return 1.03
+        case .tryOtherNetwork: return 1.20
+        case .tryOtherAccount: return 1.21
+        case .nonMagicNumber: return 15
+        }
+    }
+
+    private var updateFlowValue: Double? {
+        switch self {
+        case .proceedOk: return 1.01
+        case .proceedPending: return 7.51
+        case .retry: return nil
+        case .tryOtherNetwork: return nil
+        case .tryOtherAccount: return 1.21
+        case .nonMagicNumber: return 15
+        }
     }
 }

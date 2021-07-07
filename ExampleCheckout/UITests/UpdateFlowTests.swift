@@ -27,8 +27,7 @@ class UpdateFlowTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        var transaction = try Transaction.loadFromTemplate(operationType: .update)
-        transaction.division = "PayOne"
+        let transaction = try Transaction.loadFromTemplate(amount: .proceedPending ,operationType: .update)
         try setupWithPaymentSession(using: transaction)
 
         // List
