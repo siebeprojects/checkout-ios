@@ -14,30 +14,29 @@ class NetworksTests: XCTestCase {
     func setupWithPaymentSession(using transaction: Transaction? = nil) throws {
         continueAfterFailure = false
 
-        // Create payment session
-        let sessionURL: URL
-        
-        if let transaction = transaction {
-            sessionURL = try createPaymentSession(using: transaction)
-        } else {
-            sessionURL = try createPaymentSession(using: Transaction.loadFromTemplate())
-        }
+        try XCTContext.runActivity(named: "Setup payment session") { _ in
+            // Create payment session
+            let sessionURL: URL
+            
+            if let transaction = transaction {
+                sessionURL = try createPaymentSession(using: transaction)
+            } else {
+                sessionURL = try createPaymentSession(using: Transaction.loadFromTemplate())
+            }
 
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        self.app = app
-        app.launch()
+            // UI tests must launch the application that they test.
+            let app = XCUIApplication()
+            self.app = app
+            app.launch()
 
-        // Initial screen
-        let tablesQuery = app.tables
-        if tablesQuery.buttons["Clear text"].exists {
-            tablesQuery.buttons["Clear text"].tap()
+            // Initial screen
+            let tablesQuery = app.tables
+            tablesQuery.textFields.firstMatch.typeText(sessionURL.absoluteString)
+            tablesQuery.buttons["Send request"].tap()
+
+            // Wait for loading completion
+            XCTAssert(tablesQuery.firstMatch.waitForExistence(timeout: 10))
         }
-        tablesQuery.textFields.firstMatch.typeText(sessionURL.absoluteString)
-        tablesQuery.buttons["Send request"].tap()
-        
-        // Wait for loading completion
-        XCTAssert(app.tables.firstMatch.waitForExistence(timeout: 10))
     }
 
     private func createPaymentSession(using transaction: Transaction) throws -> URL {

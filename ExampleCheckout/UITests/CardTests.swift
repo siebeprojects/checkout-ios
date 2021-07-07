@@ -10,11 +10,8 @@ class CardsTests: NetworksTests {
     func testVISAProceed() throws {
         try setupWithPaymentSession()
 
-        // List
         app.tables.staticTexts["Cards"].tap()
-
-        // Input
-        Card.visa.submit(in: app.collectionViews)
+        Visa().submit(in: app.collectionViews)
 
         // Check result
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10), "Alert didn't appear in time")

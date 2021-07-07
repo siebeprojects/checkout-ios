@@ -12,13 +12,9 @@ class UpdateFlowTests: NetworksTests {
         let transaction = try Transaction.loadFromTemplate(amount: .tryOtherAccount, operationType: .update)
         try setupWithPaymentSession(using: transaction)
 
-        // List
         app.tables.staticTexts["Cards"].tap()
+        Visa().submit(in: app.collectionViews)
 
-        // Input
-        Card.visa.submit(in: app.collectionViews)
-
-        // Check result
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10), "Alert didn't appear in time")
 
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
@@ -30,33 +26,37 @@ class UpdateFlowTests: NetworksTests {
         let transaction = try Transaction.loadFromTemplate(amount: .proceedPending, operationType: .update)
         try setupWithPaymentSession(using: transaction)
 
-        // List
         app.tables.staticTexts["Cards"].tap()
+        Visa().submit(in: app.collectionViews)
 
-        // Input
-        Card.visa.submit(in: app.collectionViews)
-
-        // Check result
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10), "Alert didn't appear in time")
 
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         let expectedResult = "Please refresh or check back later for updates."
         XCTAssertEqual(expectedResult, interactionResult)
     }
+}
 
+// MARK: Test: SaveDeleteNewCardPaymentMethod
+
+extension UpdateFlowTests {
     func testSaveDeleteNewCardPaymentMethod() throws {
         let transaction = try Transaction.loadFromTemplate(operationType: .update)
         try setupWithPaymentSession(using: transaction)
 
-        // Test save the new payment method
-        let paymentMethodText = "Visa •••• 1111"
-        deleteIfExistsPaymentMethod(withText: paymentMethodText)
-        addVisaPaymentMethod()
+        let visa = Visa()
+
+        XCTContext.runActivity(named: "Test saving the new payment method") { _ in
+            deleteIfExistsPaymentMethod(withLabel: visa.label)
+            submitAndWaitForExistence(forPaymentNetwork: visa)
+        }
 
         // Test deletion
-        deleteIfExistsPaymentMethod(withText: paymentMethodText)
-        waitForLoadingCompletion()
-        XCTAssertFalse(app.tables.staticTexts[paymentMethodText].exists, "Payment network still exists after deletion")
+        XCTContext.runActivity(named: "Test payment method deletion") { _ in
+            deleteIfExistsPaymentMethod(withLabel: visa.label)
+            waitForLoadingCompletion()
+            XCTAssertFalse(app.tables.staticTexts[visa.label].exists, "Payment network still exists after deletion")
+        }
     }
 
     /// Wait until activity indicator disappears
@@ -71,9 +71,9 @@ class UpdateFlowTests: NetworksTests {
         }
     }
 
-    private func deleteIfExistsPaymentMethod(withText text: String) {
-        XCTContext.runActivity(named: "Delete payment method \(text)") { activity in
-            let savedMethodText = app.tables.staticTexts[text]
+    private func deleteIfExistsPaymentMethod(withLabel label: String) {
+        XCTContext.runActivity(named: "Delete payment method \(label)") { activity in
+            let savedMethodText = app.tables.staticTexts[label]
             if savedMethodText.exists {
                 savedMethodText.tap()
                 app.navigationBars.buttons["Delete"].tap()
@@ -83,48 +83,48 @@ class UpdateFlowTests: NetworksTests {
     }
 }
 
-// MARK: - Helpers
-
-extension UpdateFlowTests {
-    fileprivate func addVisaPaymentMethod() {
-        app.tables.staticTexts["Cards"].tap()
-        Card.visa.submit(in: app.collectionViews)
-
-        let isPaymentMethodAppeared = app.tables.staticTexts["Visa •••• 1111"].waitForExistence(timeout: 5)
-        XCTAssert(isPaymentMethodAppeared, "Payment method didn't appear in the list after saving")
-    }
-}
-
-// MARK: -
+// MARK: Test: DeleteButtonShouldntAppear
 
 extension UpdateFlowTests {
     func testDeleteButtonShouldntAppear() throws {
+        let visa = Visa()
+
         try XCTContext.runActivity(named: "Save the new payment method") { _ in
             let transaction = try Transaction.loadFromTemplate(operationType: .update)
             try setupWithPaymentSession(using: transaction)
-            try addVisaPaymentMethodIfNeeded()
+
+            try addPaymentNetworkIfNeeded(visa)
         }
 
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction.loadFromTemplate(operationType: .charge)
             try setupWithPaymentSession(using: transaction)
-            deleteVisaPaymentMethod()
+
+            delete(paymentNetwork: visa)
         }
     }
 
-    private func addVisaPaymentMethodIfNeeded() throws {
-        let paymentMethodText = "Visa •••• 1111"
-
+    private func addPaymentNetworkIfNeeded(_ paymentNetwork: PaymentNetwork) throws {
         // Add a payment method if it doesn't exist
-        if !app.tables.staticTexts[paymentMethodText].exists {
-            addVisaPaymentMethod()
+        if !app.tables.staticTexts[paymentNetwork.label].exists {
+            submitAndWaitForExistence(forPaymentNetwork: paymentNetwork)
         }
     }
 
-    private func deleteVisaPaymentMethod() {
-        let paymentMethodText = "Visa •••• 1111"
-
-        app.tables.staticTexts[paymentMethodText].tap()
+    private func delete(paymentNetwork: PaymentNetwork) {
+        app.tables.staticTexts[paymentNetwork.label].tap()
         XCTAssertFalse(app.navigationBars.buttons["Delete"].exists, "Delete button shouldn't exist in a CHARGE flow")
+    }
+}
+
+// MARK: - Class helpers
+
+fileprivate extension UpdateFlowTests {
+    func submitAndWaitForExistence(forPaymentNetwork paymentNetwork: PaymentNetwork) {
+        app.tables.staticTexts["Cards"].tap()
+        paymentNetwork.submit(in: app.collectionViews)
+
+        let isPaymentMethodAppeared = app.tables.staticTexts[paymentNetwork.label].waitForExistence(timeout: 5)
+        XCTAssert(isPaymentMethodAppeared, "Payment method didn't appear in the list after saving")
     }
 }
