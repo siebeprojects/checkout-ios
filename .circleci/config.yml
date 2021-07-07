@@ -91,10 +91,10 @@ jobs:
           path: output/scan
       - run:
           name: Zip xcresult
-          command: zip -r output/scan/example.xcresult.zip output/scan/Example.xcresult/
+          command: zip -r output/scan/checkout.xcresult.zip output/scan/ExampleCheckout.xcresult/
           when: on_fail
       - store_artifacts:
-          path: output/scan/example.xcresult.zip
+          path: output/scan/checkout.xcresult.zip
           when: on_fail
   
   browserstack:
