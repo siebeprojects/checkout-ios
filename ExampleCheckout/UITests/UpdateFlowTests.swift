@@ -27,7 +27,7 @@ class UpdateFlowTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .proceedPending ,operationType: .update)
+        let transaction = try Transaction.loadFromTemplate(amount: .proceedPending, operationType: .update)
         try setupWithPaymentSession(using: transaction)
 
         // List
@@ -44,10 +44,11 @@ class UpdateFlowTests: NetworksTests {
         XCTAssertEqual(expectedResult, interactionResult)
     }
 
-    func testSaveNewCardPaymentMethod() throws {
+    func testSaveDeleteNewCardPaymentMethod() throws {
         let transaction = try Transaction.loadFromTemplate(operationType: .update)
         try setupWithPaymentSession(using: transaction)
 
+        // Test save the new payment method
         let paymentMethodText = "Visa •••• 1111"
         deleteIfExistsPaymentMethod(withText: paymentMethodText)
         app.tables.staticTexts["Cards"].tap()
@@ -55,14 +56,35 @@ class UpdateFlowTests: NetworksTests {
 
         let isPaymentMethodAppeared = app.tables.staticTexts[paymentMethodText].waitForExistence(timeout: 5)
         XCTAssert(isPaymentMethodAppeared, "Payment method didn't appear in the list after saving")
+
+        // Test deletion
+        deleteIfExistsPaymentMethod(withText: paymentMethodText)
+        waitForLoadingCompletion()
+        XCTAssertFalse(app.tables.staticTexts[paymentMethodText].exists, "Payment network still exists after deletion")
+    }
+
+    // TODO: Test delete shouldn't appear in a CHARGE flow
+    
+    /// Wait until activity indicator disappears
+    private func waitForLoadingCompletion() {
+        XCTContext.runActivity(named: "Wait for loading completion") { _ in
+            let _ = app.activityIndicators.firstMatch.waitForExistence(timeout: 1)
+
+            // Wait until loading indicator will disappear
+            let notExists = NSPredicate(format: "exists == 0")
+            let activityIndicatorIsFinished = expectation(for: notExists, evaluatedWith: app.activityIndicators.firstMatch, handler: nil)
+            wait(for: [activityIndicatorIsFinished], timeout: 5)
+        }
     }
 
     private func deleteIfExistsPaymentMethod(withText text: String) {
-        let savedMethodText = app.tables.staticTexts[text]
-        if savedMethodText.waitForExistence(timeout: 5) {
-            savedMethodText.tap()
-            app.navigationBars.buttons["Delete"].tap()
-            app.alerts.firstMatch.buttons["Delete"].tap()
+        XCTContext.runActivity(named: "Delete payment method \(text)") { activity in
+            let savedMethodText = app.tables.staticTexts[text]
+            if savedMethodText.exists {
+                savedMethodText.tap()
+                app.navigationBars.buttons["Delete"].tap()
+                app.alerts.firstMatch.buttons["Delete"].tap()
+            }
         }
     }
 }
