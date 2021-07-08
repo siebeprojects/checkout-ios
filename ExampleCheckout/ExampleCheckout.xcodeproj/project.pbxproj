@@ -12,6 +12,7 @@
 		D917D816267679F8000DB4CA /* Interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917D815267679F8000DB4CA /* Interaction.swift */; };
 		D92B4D6825F6843A00103C70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D92B4D6725F6843A00103C70 /* Assets.xcassets */; };
 		D954C00E2696621600714396 /* Visa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00D2696621600714396 /* Visa.swift */; };
+		D954C0102696F41000714396 /* TimeInterval+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00F2696F41000714396 /* TimeInterval+timeout.swift */; };
 		D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */; };
 		D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28525DEB9E0001A2EAD /* NetworksTests.swift */; };
 		D956D28925DEBE23001A2EAD /* CardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28825DEBE23001A2EAD /* CardTests.swift */; };
@@ -71,6 +72,7 @@
 		D917D815267679F8000DB4CA /* Interaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interaction.swift; sourceTree = "<group>"; };
 		D92B4D6725F6843A00103C70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D954C00D2696621600714396 /* Visa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visa.swift; sourceTree = "<group>"; };
+		D954C00F2696F41000714396 /* TimeInterval+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+timeout.swift"; sourceTree = "<group>"; };
 		D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectNetworksTests.swift; sourceTree = "<group>"; };
 		D956D28525DEB9E0001A2EAD /* NetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksTests.swift; sourceTree = "<group>"; };
 		D956D28825DEBE23001A2EAD /* CardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTests.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 			children = (
 				D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */,
 				D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */,
+				D954C00F2696F41000714396 /* TimeInterval+timeout.swift */,
 				D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */,
 			);
 			path = Helpers;
@@ -419,6 +422,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D954C0102696F41000714396 /* TimeInterval+timeout.swift in Sources */,
 				D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */,
 				D9A5FA70253D86F6001C71B7 /* Callback.swift in Sources */,
 				D917D814267679B0000DB4CA /* ErrorInfo.swift in Sources */,

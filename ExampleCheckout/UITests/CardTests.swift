@@ -14,7 +14,7 @@ class CardsTests: NetworksTests {
         Visa().submit(in: app.collectionViews)
 
         // Check result
-        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10), "Alert didn't appear in time")
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
 
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         let expectedResult = "ResultInfo: Approved Interaction code: PROCEED Interaction reason: OK Error: n/a"

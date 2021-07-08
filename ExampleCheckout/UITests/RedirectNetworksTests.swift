@@ -14,10 +14,10 @@ class RedirectNetworksTests: NetworksTests {
         app.collectionViews.buttons["Pay"].tap()
 
         let button = app.webViews.staticTexts["accept"]
-        XCTAssertTrue(button.waitForExistence(timeout: 10), "Accept button didn't appear in time")
+        XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Accept button didn't appear in time")
         button.tap()
 
-        _ = app.alerts.firstMatch.waitForExistence(timeout: 5)
+        _ = app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout)
         let result = app.alerts.staticTexts.element(boundBy: 1).label
 
         XCTAssertTrue(result.contains("Interaction code: PROCEED"))
@@ -31,10 +31,10 @@ class RedirectNetworksTests: NetworksTests {
         app.collectionViews.buttons["Pay"].tap()
 
         let button = app.webViews.staticTexts["abort"]
-        XCTAssertTrue(button.waitForExistence(timeout: 10), "Abort button didn't appear in time")
+        XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Abort button didn't appear in time")
         button.tap()
 
-        _ = app.alerts.firstMatch.waitForExistence(timeout: 5)
+        _ = app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout)
         let title = app.alerts.staticTexts.element(boundBy: 0).label
         let message = app.alerts.staticTexts.element(boundBy: 1).label
 

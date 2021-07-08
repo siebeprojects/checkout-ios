@@ -35,7 +35,7 @@ class NetworksTests: XCTestCase {
             tablesQuery.buttons["Send request"].tap()
 
             // Wait for loading completion
-            XCTAssert(tablesQuery.firstMatch.waitForExistence(timeout: 10))
+            XCTAssert(tablesQuery.firstMatch.waitForExistence(timeout: .networkTimeout))
         }
     }
 
@@ -50,7 +50,7 @@ class NetworksTests: XCTestCase {
             sessionExpectation.fulfill()
         })
 
-        wait(for: [sessionExpectation], timeout: 5)
+        wait(for: [sessionExpectation], timeout: .networkTimeout)
 
         switch createSessionResult {
         case .success(let url): return url

@@ -15,7 +15,7 @@ class UpdateFlowTests: NetworksTests {
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
 
-        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10), "Alert didn't appear in time")
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
 
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         let expectedResult = "Please verify the data you entered is correct and try again, or use another payment method."
@@ -29,7 +29,7 @@ class UpdateFlowTests: NetworksTests {
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
 
-        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: 10), "Alert didn't appear in time")
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
 
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         let expectedResult = "Please refresh or check back later for updates."
@@ -124,7 +124,7 @@ fileprivate extension UpdateFlowTests {
         app.tables.staticTexts["Cards"].tap()
         paymentNetwork.submit(in: app.collectionViews)
 
-        let isPaymentMethodAppeared = app.tables.staticTexts[paymentNetwork.label].waitForExistence(timeout: 5)
+        let isPaymentMethodAppeared = app.tables.staticTexts[paymentNetwork.label].waitForExistence(timeout: .networkTimeout)
         XCTAssert(isPaymentMethodAppeared, "Payment method didn't appear in the list after saving")
     }
 }
