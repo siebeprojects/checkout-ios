@@ -35,6 +35,27 @@ class UpdateFlowTests: NetworksTests {
         let expectedResult = "Please refresh or check back later for updates."
         XCTAssertEqual(expectedResult, interactionResult)
     }
+
+    // PayPal returns `PROCEED/OK` when it updated.
+    func testProceedOk() throws {
+        let transaction = try Transaction.loadFromTemplate(operationType: .update)
+        try setupWithPaymentSession(using: transaction)
+        
+        let payPal = PayPalAccount()
+
+        // Bottom sheet
+        app.tables.staticTexts[payPal.label].tap()
+        payPal.submit(in: app.collectionViews)
+
+        // Webview
+        let button = app.webViews.staticTexts["accept"]
+        XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Accept button didn't appear in time")
+        button.tap()
+
+        // List of networks
+        waitForLoadingCompletion()
+        XCTAssert(app.tables.staticTexts[payPal.label].exists, "Table with PayPal network is not found")
+    }
 }
 
 // MARK: Test: SaveDeleteNewCardPaymentMethod
@@ -56,18 +77,6 @@ extension UpdateFlowTests {
             deleteIfExistsPaymentMethod(withLabel: visa.label)
             waitForLoadingCompletion()
             XCTAssertFalse(app.tables.staticTexts[visa.label].exists, "Payment network still exists after deletion")
-        }
-    }
-
-    /// Wait until activity indicator disappears
-    private func waitForLoadingCompletion() {
-        XCTContext.runActivity(named: "Wait for loading completion") { _ in
-            let _ = app.activityIndicators.firstMatch.waitForExistence(timeout: 1)
-
-            // Wait until loading indicator will disappear
-            let notExists = NSPredicate(format: "exists == 0")
-            let activityIndicatorIsFinished = expectation(for: notExists, evaluatedWith: app.activityIndicators.firstMatch, handler: nil)
-            wait(for: [activityIndicatorIsFinished], timeout: 5)
         }
     }
 
@@ -120,6 +129,18 @@ extension UpdateFlowTests {
 // MARK: - Class helpers
 
 fileprivate extension UpdateFlowTests {
+    /// Wait until activity indicator disappears
+    func waitForLoadingCompletion() {
+        XCTContext.runActivity(named: "Wait for loading completion") { _ in
+            let _ = app.activityIndicators.firstMatch.waitForExistence(timeout: 1)
+
+            // Wait until loading indicator will disappear
+            let notExists = NSPredicate(format: "exists == 0")
+            let activityIndicatorIsFinished = expectation(for: notExists, evaluatedWith: app.activityIndicators.firstMatch, handler: nil)
+            wait(for: [activityIndicatorIsFinished], timeout: 5)
+        }
+    }
+
     func submitAndWaitForExistence(forPaymentNetwork paymentNetwork: PaymentNetwork) {
         app.tables.staticTexts["Cards"].tap()
         paymentNetwork.submit(in: app.collectionViews)
