@@ -9,4 +9,3 @@ import Foundation
 struct Registration: Codable {
     var id: String?
 }
-

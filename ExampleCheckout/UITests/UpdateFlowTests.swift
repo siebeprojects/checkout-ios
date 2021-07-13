@@ -40,7 +40,7 @@ class UpdateFlowTests: NetworksTests {
     func testProceedOk() throws {
         let transaction = try Transaction.loadFromTemplate(operationType: .update)
         try setupWithPaymentSession(using: transaction)
-        
+
         let payPal = PayPalAccount()
 
         // Bottom sheet
@@ -81,7 +81,7 @@ extension UpdateFlowTests {
     }
 
     private func deleteIfExistsPaymentMethod(withLabel label: String) {
-        XCTContext.runActivity(named: "Delete payment method \(label)") { activity in
+        XCTContext.runActivity(named: "Delete payment method \(label)") { _ in
             let savedMethodText = app.tables.staticTexts[label]
             if savedMethodText.exists {
                 savedMethodText.tap()
@@ -132,7 +132,7 @@ fileprivate extension UpdateFlowTests {
     /// Wait until activity indicator disappears
     func waitForLoadingCompletion() {
         XCTContext.runActivity(named: "Wait for loading completion") { _ in
-            let _ = app.activityIndicators.firstMatch.waitForExistence(timeout: 1)
+            _ = app.activityIndicators.firstMatch.waitForExistence(timeout: 1)
 
             // Wait until loading indicator will disappear
             let notExists = NSPredicate(format: "exists == 0")

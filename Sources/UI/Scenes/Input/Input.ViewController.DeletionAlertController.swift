@@ -20,7 +20,7 @@ extension Input.ViewController {
         ///   - accountLabel: account label (e.g. `VISA **** 2021`) that will be used in a message
         init(translator: TranslationProvider, accountLabel: String) {
             self.translator = translator
-            
+
             self.title = translator.translation(forKey: "accounts.delete.title")
 
             // Message comes with replacable variable
@@ -28,7 +28,7 @@ extension Input.ViewController {
             message = message.replacingOccurrences(of: "${account.displayLabel}", with: accountLabel)
             self.message = message
         }
-        
+
         /// Add a translated delete action.
         mutating func setDeleteAction(handler: ((UIAlertAction) -> Void)?) {
             let deleteText: String? = translator.translation(forKey: "button.delete.label")
