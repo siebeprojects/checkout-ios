@@ -174,13 +174,13 @@ extension Input.ViewController {
         let translator = smartSwitch.selected.network.translation
         let accountLabel = smartSwitch.selected.network.uiModel.maskedAccountLabel ?? smartSwitch.selected.network.uiModel.networkLabel
 
-        let alertController = DeletionAlertController(translator: translator, accountLabel: accountLabel)
-        alertController.addDeleteAction { _ in
+        var alert = DeletionAlert(translator: translator, accountLabel: accountLabel)
+        alert.setDeleteAction { _ in
             self.stateManager.state = .deletion
             self.paymentController.delete(network: self.smartSwitch.selected.network)
         }
 
-        present(alertController, animated: true, completion: nil)
+        present(alert.createAlertController(), animated: true, completion: nil)
     }
 
     @objc private func dismissView() {

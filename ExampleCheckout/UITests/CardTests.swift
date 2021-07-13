@@ -8,34 +8,22 @@ import XCTest
 
 class CardsTests: NetworksTests {
     func testVISAProceed() throws {
-        // List
+        try setupWithPaymentSession()
+
         app.tables.staticTexts["Cards"].tap()
-
-        // Input
-        let collectionViewsQuery = app.collectionViews
-        collectionViewsQuery.textFields["Card Number"].tap()
-        collectionViewsQuery.textFields["Card Number"].typeText("4111111111111111")
-
-        collectionViewsQuery.textFields["MM / YY"].tap()
-        collectionViewsQuery.textFields["MM / YY"].typeText("1030")
-
-        collectionViewsQuery.textFields["CVV"].tap()
-        collectionViewsQuery.textFields["CVV"].typeText("111")
-
-        collectionViewsQuery.textFields["Name on card"].tap()
-        collectionViewsQuery.textFields["Name on card"].typeText("Test Test")
-
-        collectionViewsQuery.buttons["Pay"].tap()
+        Visa().submit(in: app.collectionViews)
 
         // Check result
-        app.alerts.firstMatch.waitForExistence(timeout: 10)
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
 
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         let expectedResult = "ResultInfo: Approved Interaction code: PROCEED Interaction reason: OK Error: n/a"
         XCTAssertEqual(expectedResult, interactionResult)
     }
 
-    func testClearButton() {
+    func testClearButton() throws {
+        try setupWithPaymentSession()
+
         // List
         app.tables.staticTexts["Cards"].tap()
 

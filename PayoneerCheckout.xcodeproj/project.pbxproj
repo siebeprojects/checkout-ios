@@ -13,7 +13,7 @@
 		D918A3F5254F2450005BBA8B /* NetworkLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F4254F2450005BBA8B /* NetworkLocalization.json */; };
 		D918A3F7254F2483005BBA8B /* CheckoutLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */; };
 		D91FC7FD2687E1090014997B /* Input.ViewController.DeletionAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */; };
-		D91FC802268868CF0014997B /* Input.ModelTransformer.CheckboxFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC801268868CF0014997B /* Input.ModelTransformer.CheckboxFactory.swift */; };
+		D91FC802268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */; };
 		D91FC804268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */; };
 		D91FC80626886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC80526886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift */; };
 		D928CD8525B9F9B300DE602F /* BrowserDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */; };
@@ -236,7 +236,7 @@
 		D918A3F4254F2450005BBA8B /* NetworkLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkLocalization.json; sourceTree = "<group>"; };
 		D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CheckoutLocalization.json; sourceTree = "<group>"; };
 		D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.DeletionAlertController.swift; sourceTree = "<group>"; };
-		D91FC801268868CF0014997B /* Input.ModelTransformer.CheckboxFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.CheckboxFactory.swift; sourceTree = "<group>"; };
+		D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.RegistrationOptionsBuilder.swift; sourceTree = "<group>"; };
 		D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.ExpirationDateManager.swift; sourceTree = "<group>"; };
 		D91FC80526886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.InputFieldFactory.swift; sourceTree = "<group>"; };
 		D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserDataBuilder.swift; sourceTree = "<group>"; };
@@ -490,7 +490,7 @@
 				D96A4EBE257D96EE00E74C8C /* Input.ModelTransformer.swift */,
 				D91FC80526886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift */,
 				D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */,
-				D91FC801268868CF0014997B /* Input.ModelTransformer.CheckboxFactory.swift */,
+				D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */,
 			);
 			path = ModelTransformer;
 			sourceTree = "<group>";
@@ -1525,7 +1525,7 @@
 				D96A4F54257D96EF00E74C8C /* Input.ViewController.PaymentController.swift in Sources */,
 				D96A4FAF257D96EF00E74C8C /* BasicPaymentService.swift in Sources */,
 				D96A4FA4257D96EF00E74C8C /* PaymentSession.swift in Sources */,
-				D91FC802268868CF0014997B /* Input.ModelTransformer.CheckboxFactory.swift in Sources */,
+				D91FC802268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift in Sources */,
 				D96A4F92257D96EF00E74C8C /* List.Table.DetailedLabelCell.swift in Sources */,
 				D96A4FD7257D96EF00E74C8C /* AccountRegistration.swift in Sources */,
 				D96A4F8F257D96EF00E74C8C /* List.Table.DataSource.AccountRow.swift in Sources */,

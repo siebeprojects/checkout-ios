@@ -10,15 +10,21 @@ extension Input.ModelTransformer {
     /// Builder responsible for making UI models from registration options.
     class RegistrationOptionsBuilder {
         let translator: TranslationProvider
+        let operationType: String?
 
-        init(translator: TranslationProvider) {
+        init(translator: TranslationProvider, operationType: String?) {
             self.translator = translator
+            self.operationType = operationType
         }
     }
 }
 
 extension Input.ModelTransformer.RegistrationOptionsBuilder {
     func createInternalModel(from registrationOption: RegistrationOption) -> InputField {
+        if operationType == "UPDATE" {
+            return createInternalModel(forUpdateFlowFrom: registrationOption)
+        }
+
         let isOn: Bool
 
         switch registrationOption.requirement {
@@ -35,6 +41,17 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
 
         let translationKey = localizationKey(for: registrationOption)
         return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, translationKey: translationKey, translator: translator)
+    }
+
+    /// Make hidden fields based on registration options.
+    ///
+    /// Framework shouldn't show any registration options checkboxes for `UPDATE` operation type.
+    /// - SeeAlso: [PCX-1396](https://optile.atlassian.net/browse/PCX-1396)
+    private func createInternalModel(forUpdateFlowFrom registrationOption: RegistrationOption) -> InputField {
+        switch registrationOption.requirement {
+        case .NONE: return Input.Field.Hidden(name: registrationOption.type.name, value: false.stringValue)
+        default: return Input.Field.Hidden(name: registrationOption.type.name, value: true.stringValue)
+        }
     }
 
     /// Localization key rules are declared in [PCX-728](https://optile.atlassian.net/browse/PCX-728).

@@ -91,10 +91,10 @@ jobs:
           path: output/scan
       - run:
           name: Zip xcresult
-          command: zip -r output/scan/example.xcresult.zip output/scan/Example.xcresult/
+          command: zip -r output/scan/checkout.xcresult.zip output/scan/ExampleCheckout.xcresult/
           when: on_fail
       - store_artifacts:
-          path: output/scan/example.xcresult.zip
+          path: output/scan/checkout.xcresult.zip
           when: on_fail
   
   browserstack:
@@ -195,23 +195,21 @@ workflows:
           filters:
             branches:
               only: /PCX-.*/
-      - build_example:
-          filters:
-            branches:
-              only: /PCX-.*/
       - ui_test:
-          requires:
-            - build_example
           filters:
             branches:
               only: /PCX-.*/
       - request_qa:
           type: approval
           requires:
-            - build_example
+            - unit_test
+            - ui_test
           filters:
             branches:
               only: /PCX-.*/
+      - build_example:
+          requires:
+            - request_qa
       - browserstack:
           requires:
             - build_example

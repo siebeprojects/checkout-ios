@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import XCTest
 
 struct Transaction: Codable {
     var integration: String?
@@ -19,31 +20,89 @@ struct Transaction: Codable {
     var customer: Customer
     var payment: Payment
 
-    /// Indicates that this `LIST` transaction is initiated with 'preset' option. When selected by customer network and provided account are saved in the system until this `LIST` session will be closed by additional `CHARGE` request. Callback must specify 'summaryUrl' for this type of `LIST` transaction.
-    @available(*, deprecated, message: "Use `operationType` instead.")
-    var presetFirst: Bool?
-
     var style: Style?
 
     /// Type of operation this `LIST` session is initialized for.
     ///
     /// **Default** type is `CHARGE` unless `operationType` is explicitly set or one of the legacy options is supplied during `LIST` initialization: `updateOnly`, `presetFirst`, or `preselection.direction`
     var operationType: String?
+
+    var division: String?
 }
 
 extension Transaction {
     /// Load template transaction from JSON.
     /// - Parameter amount: you could specify a custom amount (used as "magic number" for testing).
-    static func loadFromTemplate(amount: Double = 1.99) -> Transaction {
+    static func loadFromTemplate(amount: MagicNumber = .nonMagicNumber, operationType: OperationType = .charge) throws -> Transaction {
         let bundle = Bundle(for: PaymentSessionService.self)
         let url = bundle.url(forResource: "Transaction", withExtension: "json")!
-        guard let data = try? Data(contentsOf: url) else {
-            fatalError("Unable to find Transaction.json")
-        }
+        let data = try Data(contentsOf: url)
 
-        var transaction = try! JSONDecoder().decode(Transaction.self, from: data)
+        let amount = try XCTUnwrap(amount.value(for: operationType), "Specified magic number is not supported for that operation type")
+
+        var transaction = try JSONDecoder().decode(Transaction.self, from: data)
         transaction.payment.amount = amount
+        transaction.operationType = operationType.rawValue
 
         return transaction
+    }
+}
+
+// MARK: - OperationType
+
+extension Transaction {
+    enum OperationType: String {
+        case charge = "CHARGE"
+        case update = "UPDATE"
+    }
+}
+
+// MARK: - Magic Numbers
+
+extension Transaction {
+    /// The Payment Gateway enables you to test the "happy path" (a success is returned) as well as negative responses (e.g. denials). To test different cases you should use magic numbers as an amount value.
+    ///
+    /// Full list of magic numbers: https://www.optile.io/opg#293524
+    enum MagicNumber {
+        case proceedOk
+        case proceedPending
+        case retry
+        case tryOtherAccount
+        case tryOtherNetwork
+        case nonMagicNumber
+    }
+}
+
+extension Transaction.MagicNumber {
+    /// Get the amount value for the magic number.
+    ///
+    /// Each operation type may have different amount for the same magic number.
+    func value(for operationType: Transaction.OperationType) -> Double? {
+        switch operationType {
+        case .charge: return chargeFlowValue
+        case .update: return updateFlowValue
+        }
+    }
+
+    private var chargeFlowValue: Double {
+        switch self {
+        case .proceedOk: return 1.01
+        case .proceedPending: return 1.04
+        case .retry: return 1.03
+        case .tryOtherNetwork: return 1.20
+        case .tryOtherAccount: return 1.21
+        case .nonMagicNumber: return 15
+        }
+    }
+
+    private var updateFlowValue: Double? {
+        switch self {
+        case .proceedOk: return 1.01
+        case .proceedPending: return 7.51
+        case .retry: return nil
+        case .tryOtherNetwork: return nil
+        case .tryOtherAccount: return 1.21
+        case .nonMagicNumber: return 15
+        }
     }
 }

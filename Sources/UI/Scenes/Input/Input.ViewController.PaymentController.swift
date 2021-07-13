@@ -48,7 +48,7 @@ extension Input.ViewController.PaymentController {
             return
         }
 
-        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
+        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.apiModel.operationType, inputFields: inputFieldsDictionary)
 
         service?.send(operationRequest: request)
     }
