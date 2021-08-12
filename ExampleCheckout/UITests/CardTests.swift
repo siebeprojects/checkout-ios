@@ -57,7 +57,7 @@ class CardsTests: NetworksTests {
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         let expectedResult = "Something went wrong. Please try again later or use another payment method."
         XCTAssertEqual(expectedResult, interactionResult)
-    
+
         // Check input fields
         app.alerts.buttons.firstMatch.tap()
         let nameTextField = app.collectionViews.textFields["Name on card"]

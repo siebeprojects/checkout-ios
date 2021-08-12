@@ -53,7 +53,7 @@ class ThreeDSTests: NetworksTests {
 
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
         XCTAssert(interactionResult.contains("PROCEED"))
-        
+
         if !interactionResult.contains("OK") && !interactionResult.contains("PENDING") {
             XCTFail("Interaction reason is not OK or PENDING")
         }
