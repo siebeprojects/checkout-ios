@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   unit_test:
     macos:
-      xcode: 12.1.0
+      xcode: 12.5.1
     environment:
       FASTLANE_LANE: test
     steps:
@@ -28,7 +28,7 @@ jobs:
 
   build_example:
     macos:
-      xcode: 12.1.0
+      xcode: 12.5.1
     environment:
       FASTLANE_LANE: build_example
     steps:
@@ -59,7 +59,7 @@ jobs:
 
   ui_test:
     macos:
-      xcode: 12.1.0
+      xcode: 12.5.1
     environment:
       FASTLANE_LANE: ui_test
     steps:
@@ -91,15 +91,15 @@ jobs:
           path: output/scan
       - run:
           name: Zip xcresult
-          command: zip -r output/scan/example.xcresult.zip output/scan/Example.xcresult/
+          command: zip -r output/scan/checkout.xcresult.zip output/scan/ExampleCheckout.xcresult/
           when: on_fail
       - store_artifacts:
-          path: output/scan/example.xcresult.zip
+          path: output/scan/checkout.xcresult.zip
           when: on_fail
   
-  upload_to_browserstack:
+  browserstack:
     macos:
-      xcode: "12.1.0"
+      xcode: 12.5.1
     environment:
       HOMEBREW_NO_AUTO_UPDATE: 1
     shell: /bin/bash --login -o pipefail
@@ -137,7 +137,7 @@ jobs:
 
   deploy:
     macos:
-      xcode: "12.1.0"
+      xcode: 12.5.1
     environment:
       HOMEBREW_NO_AUTO_UPDATE: 1
     shell: /bin/bash --login -o pipefail
@@ -161,7 +161,7 @@ jobs:
 
   submit_to_testflight:
     macos:
-      xcode: "12.1.0"
+      xcode: 12.5.1
     environment:
       HOMEBREW_NO_AUTO_UPDATE: 1
     shell: /bin/bash --login -o pipefail
@@ -179,46 +179,66 @@ jobs:
           at: /tmp/workspace
       - run: bundle exec fastlane submit_to_testflight
 
+  swiftlint:
+    macos:
+      xcode: 12.5.1
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    shell: /bin/bash --login -o pipefail
+    steps:
+      - checkout
+      - restore_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --path vendor/bundle
+      - save_cache:
+          key: gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run: bundle exec fastlane run cocoapods
+      - run:
+          name: Lint framework
+          command: Pods/SwiftLint/swiftlint --reporter emoji --quiet
+      - run:
+          name: Lint Example app
+          command: Pods/SwiftLint/swiftlint --config ExampleCheckout/.swiftlint.yml --reporter emoji --quiet
+
 workflows:
   # Build workflow, only for pull requests
   test:
     jobs:
+      - swiftlint:
+          filters:
+            branches:
+              only: /PCX-.*/
       - unit_test:
           filters:
             branches:
               only: /PCX-.*/
-      - build_example:
+      - ui_test:
           filters:
             branches:
               only: /PCX-.*/
-      - ui_test:
+      - request_qa:
+          type: approval
+          requires:
+            - unit_test
+            - ui_test
+          filters:
+            branches:
+              only: /PCX-.*/
+      - build_example:
+          requires:
+            - request_qa
+      - browserstack:
           requires:
             - build_example
-          filters:
-            branches:
-              only: /PCX-.*/
+            - request_qa
       - lib_lint:
           filters:
             branches:
               only: develop
 
-  # Upload to BrowserStack workflow (required for QA testing)
-  browserstack:
-    jobs:
-      - request_qa:
-          type: approval
-          filters:
-            branches:
-              only: /PCX-.*/ 
-      - build_example:
-          requires:
-            - request_qa
-      - upload_to_browserstack:
-          requires:
-            - request_qa
-            - build_example
-
-  # Submit to TestFlight, only for commits in develop branch
+# Submit to TestFlight, only for commits in develop branch
   # testflight:
   #   jobs:
   #     - build_example:

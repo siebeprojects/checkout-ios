@@ -5,14 +5,16 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import OSLog
 
 // MARK: - Request
 
 /// Request for `CHARGE` operation.
-struct ChargeRequest: PostRequest {
+struct Charge: PostRequest {
     let url: URL
     let queryItems = [URLQueryItem]()
-    let body: Body?
+    var body: Body? { chargeBody }
+    private let chargeBody: Body
 
     var operationType: String { url.lastPathComponent }
 
@@ -21,13 +23,24 @@ struct ChargeRequest: PostRequest {
     /// - Parameter url: value from `links.operation` for charge operation
     init(from url: URL, body: Body) {
         self.url = url
-        self.body = body
+        self.chargeBody = body
+    }
+}
+
+@available(iOS 14.0, *)
+extension Charge {
+    func logRequest(to logger: Logger) {
+        logger.notice("[POST] ➡️ Charge request: \(url.absoluteString, privacy: .private)")
+    }
+
+    func logResponse(_ response: OperationResult, to logger: Logger) {
+        logger.info("[POST] ✅ \(response.resultInfo, privacy: .private). Interaction: \(response.interaction.code, privacy: .private)/\(response.interaction.reason, privacy: .private)")
     }
 }
 
 // MARK: - Body
 
-extension ChargeRequest {
+extension Charge {
     struct Body: Encodable {
         var account = [String: String]()
         var autoRegistration: Bool?

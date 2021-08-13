@@ -41,10 +41,17 @@ class NetworkService {
             return
         }
 
-        // - TODO: Read more about backend's status codes
         guard httpResponse.statusCode >= 200, httpResponse.statusCode < 400 else {
-            let error = NetworkError(description: "Non-OK response from a server")
+            if let data = data, let backendError = try? JSONDecoder().decode(ErrorInfo.self, from: data) {
+                completionHandler(.failure(backendError))
+            } else if let data = data, let textData = String(data: data, encoding: .utf8) {
+                let error = NetworkError(description: "Non-OK response from a server: \(textData)")
                 completionHandler(.failure(error))
+            } else {
+                let error = NetworkError(description: "Non-OK response from a server")
+                completionHandler(.failure(error))
+            }
+
             return
         }
 

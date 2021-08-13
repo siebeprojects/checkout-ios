@@ -7,6 +7,7 @@
 #if canImport(UIKit)
 import UIKit
 import SafariServices
+import os.log
 
 // MARK: Initializers
 
@@ -25,6 +26,14 @@ extension Input {
 
         weak var delegate: NetworkOperationResultHandler?
 
+        lazy var activityIndicatorView: UIActivityIndicatorView = { UIActivityIndicatorView(style: .gray) }()
+        lazy var deleteBarButton: UIBarButtonItem = {
+            UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteBarButtonDidTap(_:)))
+        }()
+
+        @available(iOS 14.0, *)
+        fileprivate var logger: Logger { Logger(subsystem: Bundle.frameworkIdentifier, category: "InputScene") }
+
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory)
             self.networks = smartSwitch.networks
@@ -35,6 +44,7 @@ extension Input {
             super.init(nibName: nil, bundle: nil)
 
             paymentController.delegate = self
+            paymentController.operationResultHandler.delegate = self
 
             tableController.setModel(network: smartSwitch.selected.network, header: header)
 
@@ -97,7 +107,7 @@ extension Input.ViewController {
         collectionView.layoutIfNeeded()
         setPreferredContentSize()
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: AssetProvider.iconClose, style: .plain, target: self, action: #selector(dismissView))
+        configureNavigationBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -123,13 +133,7 @@ extension Input.ViewController {
     }
 }
 
-extension Input.ViewController {
-    @objc func dismissView() {
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK: - View configurator
+// MARK: - Initial configuration
 
 extension Input.ViewController {
     fileprivate func configure(collectionView: UICollectionView) {
@@ -149,9 +153,46 @@ extension Input.ViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor)
         ])
     }
+
+    fileprivate func configureNavigationBar() {
+        let closeButton: UIBarButtonItem
+
+        if #available(iOS 13.0, *) {
+            closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(dismissView))
+        } else {
+            closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
+        }
+
+        navigationItem.setLeftBarButton(closeButton, animated: false)
+
+        if networks.count == 1, let network = networks.first, network.isDeletable {
+            navigationItem.setRightBarButton(deleteBarButton, animated: false)
+        }
+    }
 }
 
-// MARK: - InputValueChangesListener
+// MARK: - Navigation Bar configurator
+
+extension Input.ViewController {
+    @objc private func deleteBarButtonDidTap(_ sender: UIBarButtonItem) {
+        let translator = smartSwitch.selected.network.translation
+        let accountLabel = smartSwitch.selected.network.uiModel.maskedAccountLabel ?? smartSwitch.selected.network.uiModel.networkLabel
+
+        var alert = DeletionAlert(translator: translator, accountLabel: accountLabel)
+        alert.setDeleteAction { _ in
+            self.stateManager.state = .deletion
+            self.paymentController.delete(network: self.smartSwitch.selected.network)
+        }
+
+        present(alert.createAlertController(), animated: true, completion: nil)
+    }
+
+    @objc private func dismissView() {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - InputTableControllerDelegate
 
 extension Input.ViewController: InputTableControllerDelegate {
     func submitPayment() {
@@ -159,8 +200,7 @@ extension Input.ViewController: InputTableControllerDelegate {
         paymentController.submitPayment(for: smartSwitch.selected.network)
     }
 
-    // MARK: Navigation bar shadow
-
+    // Navigation bar shadow
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         // Control behaviour of navigation bar's shadow line
         guard let navigationController = self.navigationController else { return }
@@ -206,8 +246,18 @@ extension Input.ViewController: InputTableControllerDelegate {
     private func replaceCurrentNetwork(with newSelection: Input.SmartSwitch.Selector.DetectedNetwork) {
         if let imagesHeaderModel = header as? Input.ImagesHeader {
             switch newSelection {
-            case .generic: imagesHeaderModel.networks = self.networks
-            case .specific(let specificNetwork): imagesHeaderModel.networks = [specificNetwork]
+            case .generic:
+                if #available(iOS 14.0, *) {
+                    logger.debug("SmartSwitch replacing model with a generic network")
+                }
+
+                imagesHeaderModel.networks = self.networks
+            case .specific(let specificNetwork):
+                if #available(iOS 14.0, *) {
+                    logger.debug("SmartSwitch replacing model with the specific network: \(specificNetwork.uiModel.networkLabel, privacy: .private)")
+                }
+
+                imagesHeaderModel.networks = [specificNetwork]
             }
         }
 
@@ -221,16 +271,18 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
     var scrollViewToModify: UIScrollView? { collectionView }
 }
 
+// MARK: - InputPaymentControllerDelegate
+
 extension Input.ViewController: InputPaymentControllerDelegate {
     /// Route result to the next view controller
-    func paymentController(route result: Result<OperationResult, ErrorInfo>) {
+    func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
         safariViewController?.dismiss(animated: true, completion: nil)
         dismiss(animated: true, completion: {
-            self.delegate?.paymentController(didReceiveOperationResult: result, for: self.smartSwitch.selected.network)
+            self.delegate?.paymentController(didReceiveOperationResult: result, for: request, network: self.smartSwitch.selected.network)
         })
     }
 
-    func paymentController(didFailWith error: ErrorInfo) {
+    func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?) {
         // Try to dismiss safari VC (if exists)
         safariViewController?.dismiss(animated: true, completion: nil)
 
@@ -245,7 +297,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
             },
             .init(label: .cancel, style: .cancel, handler: { [self] _ in
                 dismiss(animated: true) {
-                    self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: self.smartSwitch.selected.network)
+                    self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: request, network: self.smartSwitch.selected.network)
                 }
             })
         ]

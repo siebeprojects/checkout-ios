@@ -48,33 +48,35 @@ class BasicPaymentService: PaymentService {
     weak var delegate: PaymentServiceDelegate?
 
     let connection: Connection
-    private lazy var redirectCallbackHandler: RedirectCallbackHandler = .init()
+    private var redirectCallbackHandler: RedirectCallbackHandler?
     private var responseParser: ResponseParser?
 
     required init(using connection: Connection) {
         self.connection = connection
     }
 
-    func send(paymentRequest: PaymentRequest) {
-        let chargeRequestBody = ChargeRequest.Body(inputFields: paymentRequest.inputFields)
-        let chargeRequest = ChargeRequest(from: paymentRequest.operationURL, body: chargeRequestBody)
-        let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
-        chargeOperation.downloadCompletionBlock = { result in
-            let parser = ResponseParser(operationType: paymentRequest.operationURL.lastPathComponent, connectionType: type(of: self.connection.self))
-            let response = parser.parse(paymentRequestResponse: result)
+    func send(operationRequest: OperationRequest) {
+        operationRequest.send(using: connection) { result in
+            self.handle(response: result, for: operationRequest)
+        }
+    }
 
-            switch response {
-            case .result(let result):
-                log(.debug, "Payment result received. Interaction code: %@, reason: %@", result.interaction.code, result.interaction.reason)
-            case .redirect(let url):
-                log(.debug, "Redirecting user to an external url: %@", url.absoluteString)
-                self.redirectCallbackHandler.delegate = self.delegate
-                self.redirectCallbackHandler.subscribeForNotification()
-            }
+    private func handle(response: Result<OperationResult, Error>, for request: OperationRequest) {
+        let parser = ResponseParser(operationType: request.operationType, connectionType: type(of: self.connection.self))
+        let response = parser.parse(paymentRequestResponse: response)
 
-            self.delegate?.paymentService(didReceiveResponse: response)
+        switch response {
+        case .result(let result):
+            log(.debug, "Payment result received. Interaction code: %@, reason: %@", result.interaction.code, result.interaction.reason)
+        case .redirect(let url):
+            log(.debug, "Redirecting user to an external url: %@", url.absoluteString)
+            let callbackHandler = RedirectCallbackHandler(for: request)
+            callbackHandler.delegate = self.delegate
+            callbackHandler.subscribeForNotification()
+
+            self.redirectCallbackHandler = callbackHandler
         }
 
-        chargeOperation.start()
+        self.delegate?.paymentService(didReceiveResponse: response, for: request)
     }
 }

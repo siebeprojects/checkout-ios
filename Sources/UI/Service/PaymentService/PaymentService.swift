@@ -7,16 +7,16 @@
 import UIKit
 import SafariServices
 
-protocol PaymentService: class {
+protocol PaymentService: AnyObject {
     /// Returns whether the service can make payments
     static func isSupported(networkCode: String, paymentMethod: String?) -> Bool
 
-    func send(paymentRequest: PaymentRequest)
+    func send(operationRequest: OperationRequest)
     var delegate: PaymentServiceDelegate? { get set }
 
     init(using connection: Connection)
 }
 
-protocol PaymentServiceDelegate: class {
-    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse)
+protocol PaymentServiceDelegate: AnyObject {
+    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest)
 }

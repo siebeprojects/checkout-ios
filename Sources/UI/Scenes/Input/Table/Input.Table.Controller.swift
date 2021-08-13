@@ -16,7 +16,7 @@ private extension CGFloat {
 
 // MARK: - InputTableControllerDelegate
 
-protocol InputTableControllerDelegate: class {
+protocol InputTableControllerDelegate: AnyObject {
     func submitPayment()
     func valueDidChange(for field: InputField)
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView)
@@ -42,7 +42,7 @@ extension Input.Table {
         weak var delegate: InputTableControllerDelegate? {
             didSet { layoutController.inputTableControllerDelegate = delegate }
         }
-        
+
         weak var cvvHintDelegate: CVVTextFieldViewCellDelegate? {
             didSet {
                 dataSource.cvvHintDelegate = cvvHintDelegate
@@ -58,7 +58,7 @@ extension Input.Table {
         }
 
         func setModel(network: Input.Network, header: CellRepresentable) {
-            network.uiModel.submitButton.buttonDidTap = { [weak self] _ in
+            network.uiModel.submitButton?.buttonDidTap = { [weak self] _ in
                 if self?.validator.validateAll(option: .fullCheck) == true {
                     self?.delegate?.submitPayment()
                 }

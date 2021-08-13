@@ -1,0 +1,10 @@
+included:
+  - Sources
+line_length:
+  warning: 230
+  error: 300
+  ignores_urls: true
+  ignores_comments: true
+disabled_rules:
+  - todo
+  - identifier_name
