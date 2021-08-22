@@ -195,6 +195,7 @@
 		D96BB8C7249FEBB400C2AD73 /* MockFactory.Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B6249FEBB400C2AD73 /* MockFactory.Localization.swift */; };
 		D96BB8C8249FEBB400C2AD73 /* MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B7249FEBB400C2AD73 /* MockFactory.swift */; };
 		D96BB8CA249FEBB400C2AD73 /* MockFactory.ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */; };
+		D9836FB826D2E526003D751C /* LocalizableInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9836FB726D2E526003D751C /* LocalizableInteraction.swift */; };
 		D9861B94257F71BD005DA1A4 /* Result+computedVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9861B93257F71BD005DA1A4 /* Result+computedVariables.swift */; };
 		D99FF39D25E7B517005F4097 /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99FF39C25E7B517005F4097 /* Charge.swift */; };
 		D99FF39F25E7B593005F4097 /* PostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99FF39E25E7B593005F4097 /* PostRequest.swift */; };
@@ -421,6 +422,7 @@
 		D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFactory.ListResult.swift; sourceTree = "<group>"; };
 		D96BB8CB249FEBC500C2AD73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9836FB726D2E526003D751C /* LocalizableInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizableInteraction.swift; sourceTree = "<group>"; };
 		D9861B93257F71BD005DA1A4 /* Result+computedVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+computedVariables.swift"; sourceTree = "<group>"; };
 		D99FF39C25E7B517005F4097 /* Charge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charge.swift; sourceTree = "<group>"; };
 		D99FF39E25E7B593005F4097 /* PostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRequest.swift; sourceTree = "<group>"; };
@@ -904,6 +906,7 @@
 			isa = PBXGroup;
 			children = (
 				D96A4F11257D96EE00E74C8C /* TranslatedModel.swift */,
+				D9836FB726D2E526003D751C /* LocalizableInteraction.swift */,
 				D96A4F12257D96EE00E74C8C /* TranslationProviders */,
 				D96A4F16257D96EE00E74C8C /* Strings */,
 			);
@@ -1440,6 +1443,7 @@
 				D96A4F4D257D96EF00E74C8C /* PatternFormatter.swift in Sources */,
 				D96A4F6D257D96EF00E74C8C /* Input.Field.Generic.swift in Sources */,
 				D96A4FCD257D96EF00E74C8C /* PaymentMethod.swift in Sources */,
+				D9836FB826D2E526003D751C /* LocalizableInteraction.swift in Sources */,
 				D9396F42267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift in Sources */,
 				D96A4F56257D96EF00E74C8C /* Input.Table.Controller.swift in Sources */,
 				D96A4F7F257D96EF00E74C8C /* DefinesKeyboardStyle.swift in Sources */,

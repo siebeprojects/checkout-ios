@@ -77,34 +77,35 @@ extension UIAlertController.AlertError {
            let title = translator.translation(forKey: "messages.error.internet.title"),
            let message = translator.translation(forKey: "messages.error.internet.text") {
             self.init(title: title, message: message)
+            return
         }
 
-        // Try to localize using `interaction.CODE.REASON.title`
-        else if let title = translator.translation(forKey: error.interaction.localizableError.titleKey),
-                  let message = translator.translation(forKey: error.interaction.localizableError.messageKey) {
+        let keys = Self.localizationKeys(for: error.interaction)
+
+        if let title = translator.translation(forKey: keys.titleKey), let message = translator.translation(forKey: keys.messageKey) {
+            // Localize using `interaction.CODE.REASON.title`
             self.init(title: title, message: message)
-        }
-
-        // Init with a generic error
-        else {
+        } else {
+            // Init with a generic error
             self.init(for: error as Error, translator: translator)
         }
     }
-}
 
-private extension Interaction {
-    /// Error that could be localized using given key for error's title and error's message. Lookup translations using `TranslationProvider`
-    struct LocalizableError: Error {
-        let titleKey: String
-        let messageKey: String
-    }
+    /// Get keys in format that is used in localization files for specified `Interaction`
+    private static func localizationKeys(for interaction: Interaction) -> (titleKey: String, messageKey: String) {
+        var localizationKeyPrefix = "interaction."
 
-    var localizableError: LocalizableError {
-        let localizationKeyPrefix = "interaction." + self.code + "." + self.reason + "."
+        if let interaction = interaction as? LocalizableInteraction {
+            localizationKeyPrefix += interaction.flow.localizationKey + "."
+        }
 
         let titleKey = localizationKeyPrefix + "title"
         let messageKey = localizationKeyPrefix + "text"
 
-        return LocalizableError(titleKey: titleKey, messageKey: messageKey)
+        return (titleKey, messageKey)
     }
+}
+
+private extension Flow {
+    var localizationKey: String { self.rawValue.uppercased() }
 }
