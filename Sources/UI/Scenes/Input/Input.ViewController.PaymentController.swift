@@ -9,12 +9,13 @@ import Foundation
 extension Input.ViewController {
     class PaymentController {
         let paymentServiceFactory: PaymentServicesFactory
-        let operationResultHandler = OperationResultHandler()
+        let operationResultHandler: OperationResultHandler
 
         weak var delegate: InputPaymentControllerDelegate?
 
-        init(paymentServiceFactory: PaymentServicesFactory) {
+        init(paymentServiceFactory: PaymentServicesFactory, listOperationType: String) {
             self.paymentServiceFactory = paymentServiceFactory
+            self.operationResultHandler = OperationResultHandler(listOperationType: listOperationType)
         }
     }
 }

@@ -91,7 +91,7 @@ extension PaymentListViewController {
                 let paymentNetworkNames = paymentNetworks.map { $0.label }
                 logger.info("Requested to show payment networks: \(paymentNetworkNames, privacy: .private)")
             }
-            let inputViewController = try router.present(paymentNetworks: paymentNetworks, animated: animated)
+            let inputViewController = try router.present(paymentNetworks: paymentNetworks, listOperationType: operationType, animated: animated)
             inputViewController.delegate = operationResultHandler
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
@@ -104,7 +104,7 @@ extension PaymentListViewController {
             if #available(iOS 14.0, *) {
                 logger.debug("Requested to show a registered account for the network: \(registeredAccount.networkLabel, privacy: .private)")
             }
-            let inputViewController = try router.present(registeredAccount: registeredAccount, animated: animated)
+            let inputViewController = try router.present(registeredAccount: registeredAccount, listOperationType: operationType, animated: animated)
             inputViewController.delegate = operationResultHandler
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
