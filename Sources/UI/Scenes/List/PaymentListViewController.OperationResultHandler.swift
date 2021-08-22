@@ -56,7 +56,8 @@ private extension PaymentListViewController.OperationResultHandler {
         switch Interaction.Code(rawValue: response.interaction.code) {
         // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
-            reloadListWithError(errorDescription: response.resultInfo, interaction: response.interaction, translation: network.translation)
+            let interaction = LocalizableInteraction.create(fromInteraction: response.interaction, flow: .charge)
+            reloadListWithError(errorDescription: response.resultInfo, interaction: interaction, translation: network.translation)
         case .RELOAD:
             // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
             delegate?.loadPaymentSession()
@@ -75,7 +76,8 @@ private extension PaymentListViewController.OperationResultHandler {
             switch Interaction.Reason(rawValue: response.interaction.reason) {
             case .PENDING:
                 // On `PROCEED/PENDING` display an alert and don't do anything in a list view
-                let errorInfo = CustomErrorInfo(resultInfo: response.resultInfo, interaction: response.interaction)
+                let interaction = LocalizableInteraction.create(fromInteraction: response.interaction, flow: .update)
+                let errorInfo = CustomErrorInfo(resultInfo: response.resultInfo, interaction: interaction)
                 var alertError = UIAlertController.AlertError(for: errorInfo, translator: network.translation)
                 alertError.actions = [.init(label: .ok, style: .default, handler: nil)]
                 delegate?.present(error: alertError)
@@ -85,7 +87,8 @@ private extension PaymentListViewController.OperationResultHandler {
                 delegate?.dismiss(with: response)
             }
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK, .RETRY:
-            reloadListWithError(errorDescription: response.resultInfo, interaction: response.interaction, translation: network.translation)
+            let interaction = LocalizableInteraction.create(fromInteraction: response.interaction, flow: .update)
+            reloadListWithError(errorDescription: response.resultInfo, interaction: interaction, translation: network.translation)
         case .RELOAD:
             delegate?.loadPaymentSession()
         default:
@@ -101,7 +104,8 @@ private extension PaymentListViewController.OperationResultHandler {
         switch Interaction.Code(rawValue: response.interaction.code) {
         // Display a popup containing the title/text correlating to the INTERACTION_CODE and INTERACTION_REASON (see https://www.optile.io/de/opg#292619) with an OK button. 
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK:
-            reloadListWithError(errorDescription: response.resultInfo, interaction: response.interaction, translation: network.translation)
+            let interaction = LocalizableInteraction.create(fromInteraction: response.interaction, flow: .delete)
+            reloadListWithError(errorDescription: response.resultInfo, interaction: interaction, translation: network.translation)
         case .RELOAD, .PROCEED:
             // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
             delegate?.loadPaymentSession()
