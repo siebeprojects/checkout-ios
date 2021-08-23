@@ -80,32 +80,13 @@ extension UIAlertController.AlertError {
             return
         }
 
-        let keys = Self.localizationKeys(for: error.interaction)
+        let localizer = InteractionLocalizer(translator: translator)
 
-        if let title = translator.translation(forKey: keys.titleKey), let message = translator.translation(forKey: keys.messageKey) {
-            // Localize using `interaction.CODE.REASON.title`
-            self.init(title: title, message: message)
+        if let localizedInteraction = localizer.localize(interaction: error.interaction) {
+            self.init(title: localizedInteraction.title, message: localizedInteraction.message)
         } else {
             // Init with a generic error
             self.init(for: error as Error, translator: translator)
         }
     }
-
-    /// Get keys in format that is used in localization files for specified `Interaction`
-    private static func localizationKeys(for interaction: Interaction) -> (titleKey: String, messageKey: String) {
-        var localizationKeyPrefix = "interaction."
-
-        if let interaction = interaction as? LocalizableInteraction {
-            localizationKeyPrefix += interaction.flow.localizationKey + "."
-        }
-
-        let titleKey = localizationKeyPrefix + "title"
-        let messageKey = localizationKeyPrefix + "text"
-
-        return (titleKey, messageKey)
-    }
-}
-
-private extension Flow {
-    var localizationKey: String { self.rawValue.uppercased() }
 }
