@@ -24,6 +24,12 @@ protocol InputPaymentControllerDelegate: AnyObject {
 extension Input.ViewController {
     class OperationResultHandler {
         weak var delegate: InputPaymentControllerDelegate?
+
+        let listOperationType: String
+
+        init(listOperationType: String) {
+            self.listOperationType = listOperationType
+        }
     }
 }
 
@@ -73,7 +79,8 @@ extension Input.ViewController.OperationResultHandler {
     func handle(response: Result<OperationResult, ErrorInfo>, for request: PaymentRequest) {
         // On retry show an error and leave on that view
         if case .RETRY = Interaction.Code(rawValue: response.interaction.code) {
-            let errorInfo = ErrorInfo(resultInfo: response.resultInfo, interaction: response.interaction)
+            let interaction = LocalizableInteraction.create(fromInteraction: response.interaction, flow: .charge)
+            let errorInfo = ErrorInfo(resultInfo: response.resultInfo, interaction: interaction)
 
             DispatchQueue.main.async {
                 self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
@@ -104,7 +111,8 @@ extension Input.ViewController.OperationResultHandler {
     func handle(response: Result<OperationResult, ErrorInfo>, for request: DeletionRequest) {
         // On retry show an error and leave on that view
         if case .RETRY = Interaction.Code(rawValue: response.interaction.code) {
-            let errorInfo = ErrorInfo(resultInfo: response.resultInfo, interaction: response.interaction)
+            let interaction = LocalizableInteraction.create(fromInteraction: response.interaction, flow: .delete)
+            let errorInfo = ErrorInfo(resultInfo: response.resultInfo, interaction: interaction)
 
             DispatchQueue.main.async {
                 self.delegate?.paymentController(inputShouldBeChanged: errorInfo)

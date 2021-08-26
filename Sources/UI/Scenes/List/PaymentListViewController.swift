@@ -80,13 +80,13 @@ extension PaymentListViewController {
         sessionService.loadPaymentSession()
     }
 
-    fileprivate func show(paymentNetworks: [PaymentNetwork], animated: Bool) {
+    fileprivate func show(paymentNetworks: [PaymentNetwork], operationType: String, animated: Bool) {
         do {
             if #available(iOS 14.0, *) {
                 let paymentNetworkNames = paymentNetworks.map { $0.label }
                 logger.info("Requested to show payment networks: \(paymentNetworkNames, privacy: .private)")
             }
-            let inputViewController = try router.present(paymentNetworks: paymentNetworks, animated: animated)
+            let inputViewController = try router.present(paymentNetworks: paymentNetworks, listOperationType: operationType, animated: animated)
             inputViewController.delegate = operationResultHandler
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
@@ -94,12 +94,12 @@ extension PaymentListViewController {
         }
     }
 
-    fileprivate func show(registeredAccount: RegisteredAccount, animated: Bool) {
+    fileprivate func show(registeredAccount: RegisteredAccount, operationType: String, animated: Bool) {
         do {
             if #available(iOS 14.0, *) {
                 logger.debug("Requested to show a registered account for the network: \(registeredAccount.networkLabel, privacy: .private)")
             }
-            let inputViewController = try router.present(registeredAccount: registeredAccount, animated: animated)
+            let inputViewController = try router.present(registeredAccount: registeredAccount, listOperationType: operationType, animated: animated)
             inputViewController.delegate = operationResultHandler
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
@@ -143,9 +143,9 @@ extension PaymentListViewController: PaymentSessionServiceDelegate {
         }
     }
 
-    func paymentSessionService(shouldSelect network: PaymentNetwork) {
+    func paymentSessionService(shouldSelect network: PaymentNetwork, operationType: String) {
         DispatchQueue.main.async {
-            self.show(paymentNetworks: [network], animated: false)
+            self.show(paymentNetworks: [network], operationType: operationType, animated: false)
         }
     }
 }
@@ -155,12 +155,12 @@ extension PaymentListViewController: PaymentSessionServiceDelegate {
 extension PaymentListViewController: ListTableControllerDelegate {
     var downloadProvider: DataDownloadProvider { sessionService.downloadProvider }
 
-    func didSelect(paymentNetworks: [PaymentNetwork]) {
-        show(paymentNetworks: paymentNetworks, animated: true)
+    func didSelect(paymentNetworks: [PaymentNetwork], operationType: String) {
+        show(paymentNetworks: paymentNetworks, operationType: operationType, animated: true)
     }
 
-    func didSelect(registeredAccount: RegisteredAccount) {
-        show(registeredAccount: registeredAccount, animated: true)
+    func didSelect(registeredAccount: RegisteredAccount, operationType: String) {
+        show(registeredAccount: registeredAccount, operationType: operationType, animated: true)
     }
 
     func didRefreshRequest() {

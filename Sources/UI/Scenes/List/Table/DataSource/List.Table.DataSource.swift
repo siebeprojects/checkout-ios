@@ -12,7 +12,7 @@ extension List.Table {
     final class DataSource: NSObject {
         private let sections: [Section]
         private let translationProvider: TranslationProvider
-        private let operationType: PaymentSession.Operation
+        let operationType: PaymentSession.Operation
 
         init(networks: [PaymentNetwork], accounts: [RegisteredAccount]?, translation: SharedTranslationProvider, genericLogo: UIImage, operationType: PaymentSession.Operation) {
             self.translationProvider = translation
@@ -32,7 +32,7 @@ extension List.Table {
                 sections.append(accountSection)
             }
 
-            // Fill networrks
+            // Fill networks
             let groupedNetworks = GroupingService().group(networks: networks)
 
             var singleRows = [SingleNetworkRow]()

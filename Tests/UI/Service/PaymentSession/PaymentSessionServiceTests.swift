@@ -71,7 +71,7 @@ extension PaymentSessionServiceTests: PaymentSessionServiceDelegate {
         }
     }
 
-    func paymentSessionService(shouldSelect network: PaymentNetwork) {}
+    func paymentSessionService(shouldSelect network: PaymentNetwork, operationType: String) {}
 }
 
 // MARK: - Data Sources

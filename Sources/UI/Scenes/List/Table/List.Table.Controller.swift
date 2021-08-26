@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 protocol ListTableControllerDelegate: AnyObject {
-    func didSelect(paymentNetworks: [PaymentNetwork])
-    func didSelect(registeredAccount: RegisteredAccount)
+    func didSelect(paymentNetworks: [PaymentNetwork], operationType: String)
+    func didSelect(registeredAccount: RegisteredAccount, operationType: String)
     func didRefreshRequest()
 
     var downloadProvider: DataDownloadProvider { get }
@@ -96,8 +96,8 @@ extension List.Table.Controller: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch dataSource.model(for: indexPath) {
-        case .account(let account): delegate?.didSelect(registeredAccount: account)
-        case .network(let networks): delegate?.didSelect(paymentNetworks: networks)
+        case .account(let account): delegate?.didSelect(registeredAccount: account, operationType: dataSource.operationType.rawValue)
+        case .network(let networks): delegate?.didSelect(paymentNetworks: networks, operationType: dataSource.operationType.rawValue)
         }
 
         tableView.deselectRow(at: indexPath, animated: true)

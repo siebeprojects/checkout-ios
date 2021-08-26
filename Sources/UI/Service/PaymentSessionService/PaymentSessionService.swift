@@ -41,7 +41,7 @@ class PaymentSessionService {
                     delegate?.paymentSessionService(loadingDidCompleteWith: .success(session))
 
                     if let selectedNetwork = firstSelectedNetwork(session) {
-                        delegate?.paymentSessionService(shouldSelect: selectedNetwork)
+                        delegate?.paymentSessionService(shouldSelect: selectedNetwork, operationType: session.operationType.rawValue)
                     }
                 }
             case .failure(let error):
