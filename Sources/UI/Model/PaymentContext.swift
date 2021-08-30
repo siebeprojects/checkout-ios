@@ -6,7 +6,7 @@
 
 import Foundation
 
-/// Global properties that maybe usefull but not directly related to applicable network or registered account.
+/// Global properties that may be useful but not directly related to applicable network or registered account.
 class PaymentContext {
     let operationType: PaymentSession.Operation
     let extraElements: ExtraElements?
