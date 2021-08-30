@@ -86,11 +86,16 @@ extension Input.Network.UIModel {
 
 extension Input.Network.UIModel.InputSection: Hashable, Equatable {
     static func == (lhs: Input.Network.UIModel.InputSection, rhs: Input.Network.UIModel.InputSection) -> Bool {
-        return lhs.category == rhs.category
+        guard lhs.category == rhs.category else { return false }
+        return lhs.inputFields.elementsEqual(rhs.inputFields) { $0.name == $1.name }
     }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(category)
+
+        for inputField in inputFields {
+            hasher.combine(inputField.name)
+        }
     }
 }
 
