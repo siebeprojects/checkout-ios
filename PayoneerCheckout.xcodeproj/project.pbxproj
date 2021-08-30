@@ -16,7 +16,7 @@
 		D91FC7FD2687E1090014997B /* Input.ViewController.DeletionAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */; };
 		D91FC802268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */; };
 		D91FC804268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */; };
-		D91FC80626886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC80526886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift */; };
+		D91FC80626886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */; };
 		D925E95D26D7C846007F8AC2 /* InteractionLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925E95C26D7C846007F8AC2 /* InteractionLocalizer.swift */; };
 		D928CD8525B9F9B300DE602F /* BrowserDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */; };
 		D934255D26814883008EB74A /* DeregistrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D934255C26814883008EB74A /* DeregistrationData.swift */; };
@@ -247,7 +247,7 @@
 		D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.DeletionAlertController.swift; sourceTree = "<group>"; };
 		D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.RegistrationOptionsBuilder.swift; sourceTree = "<group>"; };
 		D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.ExpirationDateManager.swift; sourceTree = "<group>"; };
-		D91FC80526886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.InputFieldFactory.swift; sourceTree = "<group>"; };
+		D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.InputElementsTransformer.swift; sourceTree = "<group>"; };
 		D925E95C26D7C846007F8AC2 /* InteractionLocalizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionLocalizer.swift; sourceTree = "<group>"; };
 		D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserDataBuilder.swift; sourceTree = "<group>"; };
 		D934255C26814883008EB74A /* DeregistrationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeregistrationData.swift; sourceTree = "<group>"; };
@@ -505,7 +505,7 @@
 			isa = PBXGroup;
 			children = (
 				D96A4EBE257D96EE00E74C8C /* Input.ModelTransformer.swift */,
-				D91FC80526886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift */,
+				D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */,
 				D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */,
 				D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */,
 			);
@@ -1584,7 +1584,7 @@
 				D96A4FB2257D96EF00E74C8C /* PaymentServicesFactory.swift in Sources */,
 				D96A4F72257D96EF00E74C8C /* Input.Field.VerificationCode.swift in Sources */,
 				D96A4FC6257D96EF00E74C8C /* AccountMask.swift in Sources */,
-				D91FC80626886A240014997B /* Input.ModelTransformer.InputFieldFactory.swift in Sources */,
+				D91FC80626886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift in Sources */,
 				D96A4FAD257D96EF00E74C8C /* BasicPaymentService.ResponseParser.swift in Sources */,
 				D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */,
 				D96A4F52257D96EF00E74C8C /* UppercaseInputModifier.swift in Sources */,

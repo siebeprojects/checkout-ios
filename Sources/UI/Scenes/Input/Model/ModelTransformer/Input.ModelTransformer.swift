@@ -25,7 +25,7 @@ extension Input.ModelTransformer {
 extension Input {
     /// Transformer from `List` models to `Input` UI models.
     class ModelTransformer {
-        fileprivate let inputFieldFactory = InputFieldFactory()
+        fileprivate let inputFieldFactory = InputElementsTransformer()
 
         init() {}
     }
@@ -37,7 +37,7 @@ extension Input.ModelTransformer {
 
         // Input fields
         let inputElements = registeredAccount.apiModel.inputElements ?? [InputElement]()
-        let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, paymentMethod: nil, translator: registeredAccount.translation)
+        let modelToTransform = InputElementsTransformer.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, paymentMethod: nil, translator: registeredAccount.translation)
         let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 
         // Operation URL
@@ -82,7 +82,7 @@ extension Input.ModelTransformer {
         // Input fields
         let inputElements = paymentNetwork.applicableNetwork.inputElements ?? [InputElement]()
 
-        let modelToTransform = InputFieldFactory.TransformableModel(
+        let modelToTransform = InputElementsTransformer.TransformableModel(
             inputElements: inputElements,
             networkCode: paymentNetwork.applicableNetwork.code,
             paymentMethod: paymentNetwork.applicableNetwork.method,

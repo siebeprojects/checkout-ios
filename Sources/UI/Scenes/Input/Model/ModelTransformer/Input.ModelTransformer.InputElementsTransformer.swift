@@ -7,10 +7,10 @@
 import Foundation
 
 extension Input.ModelTransformer {
-    class InputFieldFactory {}
+    class InputElementsTransformer {}
 }
 
-extension Input.ModelTransformer.InputFieldFactory {
+extension Input.ModelTransformer.InputElementsTransformer {
     private typealias Constant = Input.ModelTransformer.Constant
     private typealias ExpirationDateManager = Input.ModelTransformer.ExpirationDateManager
 
