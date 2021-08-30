@@ -39,8 +39,8 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
             return Input.Field.Hidden(name: registrationOption.type.name, value: false.stringValue)
         }
 
-        let translationKey = localizationKey(for: registrationOption)
-        return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, translationKey: translationKey, translator: translator)
+        let label: String = translator.translation(forKey: localizationKey(for: registrationOption))
+        return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, label: label)
     }
 
     /// Make hidden fields based on registration options.

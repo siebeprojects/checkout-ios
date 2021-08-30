@@ -5,16 +5,10 @@
 // See the LICENSE file for more information.
 
 import Foundation
-
-extension Input.Field.Checkbox {
-    struct Constant {
-        static var allowRegistration: String { "allowRegistration" }
-        static var allowRecurrence: String { "allowRecurrence" }
-    }
-}
+import UIKit
 
 extension Input.Field {
-    final class Checkbox {
+    final class TextViewCheckbox {
         let name: String
         var isOn: Bool
         var isEnabled: Bool = true
@@ -29,7 +23,7 @@ extension Input.Field {
     }
 }
 
-extension Input.Field.Checkbox: InputField {
+extension Input.Field.TextViewCheckbox: InputField {
     var value: String {
         get { isOn.stringValue }
         set {
@@ -43,10 +37,7 @@ extension Input.Field.Checkbox: InputField {
     }
 }
 
-#if canImport(UIKit)
-import UIKit
-
-extension Input.Field.Checkbox: CellRepresentable {
+extension Input.Field.TextViewCheckbox: CellRepresentable {
     var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.CheckboxViewCell.self }
 
     func configure(cell: UICollectionViewCell) throws {
@@ -54,4 +45,3 @@ extension Input.Field.Checkbox: CellRepresentable {
         checkboxViewCell.configure(with: self)
     }
 }
-#endif

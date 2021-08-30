@@ -51,7 +51,7 @@ extension Input {
         }
 
         convenience init(for paymentNetworks: [PaymentNetwork], context: PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
-            let transformer = ModelTransformer()
+            let transformer = ModelTransformer(paymentContext: context)
             let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
             let smartSwitch = try SmartSwitch.Selector(networks: networks)
 
@@ -68,7 +68,7 @@ extension Input {
         }
 
         convenience init(for registeredAccount: RegisteredAccount, context: PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
-            let transformer = ModelTransformer()
+            let transformer = ModelTransformer(paymentContext: context)
             let network = try transformer.transform(registeredAccount: registeredAccount)
             let smartSwitch = try SmartSwitch.Selector(networks: [network])
             let header = Input.TextHeader(from: registeredAccount)

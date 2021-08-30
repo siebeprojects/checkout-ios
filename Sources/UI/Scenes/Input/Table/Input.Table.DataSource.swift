@@ -58,13 +58,13 @@ extension Input.Table {
         private static func arrangeBySections(networkUIModel: Input.Network.UIModel, header: CellRepresentable) -> [[CellRepresentable]] {
             var sections = [[CellRepresentable]]()
 
-            // Header
-            sections += [[header]]
-
             // Top extra elements
             if let topExtraElements = networkUIModel.inputFieldsByCategory[.extraElements(at: .top)] {
                 sections += [topExtraElements.compactMap { $0 as? CellRepresentable }]
             }
+
+            // Header
+            sections += [[header]]
 
             // Input Fields
             if let accountInputFields = networkUIModel.inputFieldsByCategory[.account] {

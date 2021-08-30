@@ -82,6 +82,14 @@ extension Input.Table.CheckboxViewCell {
         checkbox.onTintColor = self.tintColor
         checkbox.isEnabled = model.isEnabled
     }
+
+    // TODO: To be defined what UI model should we use for extra element's checkbox
+    func configure(with model: Input.Field.TextViewCheckbox) {
+        label.text = model.label
+        checkbox.isOn = model.isOn
+        checkbox.onTintColor = self.tintColor
+        checkbox.isEnabled = model.isEnabled
+    }
 }
 
 extension Input.Table.CheckboxViewCell: ContainsInputCellDelegate {}

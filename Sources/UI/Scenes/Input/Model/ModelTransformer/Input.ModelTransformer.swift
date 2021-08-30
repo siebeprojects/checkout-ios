@@ -26,8 +26,11 @@ extension Input {
     /// Transformer from `List` models to `Input` UI models.
     class ModelTransformer {
         fileprivate let inputFieldFactory = InputElementsTransformer()
+        let paymentContext: PaymentContext
 
-        init() {}
+        init(paymentContext: PaymentContext) {
+            self.paymentContext = paymentContext
+        }
     }
 }
 
@@ -38,7 +41,14 @@ extension Input.ModelTransformer {
         // Input fields
         let inputElements = registeredAccount.apiModel.inputElements ?? [InputElement]()
         let modelToTransform = InputElementsTransformer.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, paymentMethod: nil, translator: registeredAccount.translation)
-        let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
+
+        var inputFields: [Input.Network.UIModel.InputFieldCategory: [InputField]] = [
+            .account: inputFieldFactory.createInputFields(for: modelToTransform)
+        ]
+
+        if let extraElements = paymentContext.extraElements {
+            inputFields.setExtraElements(from: extraElements)
+        }
 
         // Operation URL
         guard let operationURL = registeredAccount.apiModel.links["operation"] else {
@@ -60,7 +70,7 @@ extension Input.ModelTransformer {
             networkLabel: registeredAccount.networkLabel,
             maskedAccountLabel: registeredAccount.maskedAccountLabel,
             logo: logo,
-            inputFieldsByCategory: [.account: inputFields],
+            inputFieldsByCategory: inputFields,
             submitButton: submitButton
         )
 
@@ -105,10 +115,14 @@ extension Input.ModelTransformer {
 
         let paymentInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 
-        let inputFields: [Input.Network.UIModel.InputFieldCategory: [InputField]] = [
+        var inputFields: [Input.Network.UIModel.InputFieldCategory: [InputField]] = [
             .account: paymentInputFields,
             .registration: registrationInputFields
         ]
+
+        if let extraElements = paymentContext.extraElements {
+            inputFields.setExtraElements(from: extraElements)
+        }
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
@@ -144,6 +158,18 @@ extension Input.ModelTransformer {
             internalError.log()
 
             return nil
+        }
+    }
+}
+
+private extension Dictionary where Self.Key == Input.Network.UIModel.InputFieldCategory, Self.Value == [InputField] {
+    mutating func setExtraElements(from extraElements: ExtraElements) {
+        if let topElements = extraElements.top {
+            self[.extraElements(at: .top)] = topElements.map { $0.createInputField() }
+        }
+
+        if let bottomElements = extraElements.bottom {
+            self[.extraElements(at: .bottom)] = bottomElements.map { $0.createInputField() }
         }
     }
 }
