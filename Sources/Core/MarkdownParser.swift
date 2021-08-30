@@ -47,7 +47,7 @@ extension MarkdownParser {
             }
         } catch {
             if #available(iOS 14.0, *) {
-                logger.error("⛔️ \(error.localizedDescription)")
+                logger.error("⛔️ \(error.localizedDescription, privacy: .private)")
             }
 
             return []
