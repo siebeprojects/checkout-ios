@@ -56,22 +56,57 @@ extension Input.Network {
         let networkLabel: String
         let maskedAccountLabel: String?
         let logo: UIImage?
-        let inputFieldsByCategory: [InputFieldCategory: [InputField]]
+        let inputSections: Set<InputSection>
         let submitButton: Input.Field.Button?
 
-        init(networkLabel: String, maskedAccountLabel: String?, logo: UIImage?, inputFieldsByCategory: [InputFieldCategory: [InputField]], submitButton: Input.Field.Button?) {
+        init(networkLabel: String, maskedAccountLabel: String?, logo: UIImage?, inputSections: Set<InputSection>, submitButton: Input.Field.Button?) {
             self.networkLabel = networkLabel
             self.maskedAccountLabel = maskedAccountLabel
             self.logo = logo
-            self.inputFieldsByCategory = inputFieldsByCategory
+            self.inputSections = inputSections
             self.submitButton = submitButton
         }
     }
 }
 
-// MARK: UIModel.InputFieldCategory
+// MARK: - InputSection
 
 extension Input.Network.UIModel {
+    /// Section with input fields
+    class InputSection {
+        let category: InputFieldCategory
+        let inputFields: [InputField]
+
+        init(category: InputFieldCategory, inputFields: [InputField]) {
+            self.category = category
+            self.inputFields = inputFields
+        }
+    }
+}
+
+extension Input.Network.UIModel.InputSection: Hashable, Equatable {
+    static func == (lhs: Input.Network.UIModel.InputSection, rhs: Input.Network.UIModel.InputSection) -> Bool {
+        return lhs.category == rhs.category
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(category)
+    }
+}
+
+extension Set where Self.Element == Input.Network.UIModel.InputSection {
+    subscript(category: Input.Network.UIModel.InputSection.InputFieldCategory) -> Self.Element? {
+        for element in self where element.category == category {
+            return element
+        }
+
+        return nil
+    }
+}
+
+// MARK: InputSection.InputFieldCategory
+
+extension Input.Network.UIModel.InputSection {
     enum InputFieldCategory: Hashable {
         case account
         case registration
@@ -79,7 +114,8 @@ extension Input.Network.UIModel {
     }
 }
 
-extension Input.Network.UIModel.InputFieldCategory {
+extension Input.Network.UIModel.InputSection.InputFieldCategory {
+    /// Vertical position for extra elements
     enum VerticalPosition {
         case top, bottom
     }

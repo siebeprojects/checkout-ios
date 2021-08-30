@@ -35,19 +35,24 @@ extension Input {
 }
 
 extension Input.ModelTransformer {
+    private typealias InputSection = Input.Network.UIModel.InputSection
+
     func transform(registeredAccount: RegisteredAccount) throws -> Input.Network {
         let logo = registeredAccount.logo?.value
 
-        // Input fields
+        // Input sections
         let inputElements = registeredAccount.apiModel.inputElements ?? [InputElement]()
         let modelToTransform = InputElementsTransformer.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, paymentMethod: nil, translator: registeredAccount.translation)
 
-        var inputFields: [Input.Network.UIModel.InputFieldCategory: [InputField]] = [
-            .account: inputFieldFactory.createInputFields(for: modelToTransform)
+        let accountInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
+
+        var inputSections: Set<InputSection> = [
+            .init(category: .account, inputFields: accountInputFields)
         ]
 
         if let extraElements = paymentContext.extraElements {
-            inputFields.setExtraElements(from: extraElements)
+            let extraElementsSections = createInputSections(from: extraElements)
+            inputSections.formUnion(extraElementsSections)
         }
 
         // Operation URL
@@ -60,7 +65,7 @@ extension Input.ModelTransformer {
 
         // Check if we need to show a submit button
         let submitButton: Input.Field.Button?
-        if registeredAccount.apiModel.operationType == "UPDATE", inputFields.isEmpty {
+        if registeredAccount.apiModel.operationType == "UPDATE", accountInputFields.isEmpty {
             submitButton = nil
         } else {
             submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
@@ -70,7 +75,7 @@ extension Input.ModelTransformer {
             networkLabel: registeredAccount.networkLabel,
             maskedAccountLabel: registeredAccount.maskedAccountLabel,
             logo: logo,
-            inputFieldsByCategory: inputFields,
+            inputSections: inputSections,
             submitButton: submitButton
         )
 
@@ -107,7 +112,7 @@ extension Input.ModelTransformer {
         let registrationCheckbox = RegistrationOptionsBuilder.RegistrationOption(type: .registration, requirement: paymentNetwork.applicableNetwork.registrationRequirement)
         let recurrenceCheckbox = RegistrationOptionsBuilder.RegistrationOption(type: .recurrence, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement)
 
-        // Input fields
+        // Input sections
         let registrationInputFields = [
             checkboxFactory.createInternalModel(from: registrationCheckbox),
             checkboxFactory.createInternalModel(from: recurrenceCheckbox)
@@ -115,20 +120,22 @@ extension Input.ModelTransformer {
 
         let paymentInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 
-        var inputFields: [Input.Network.UIModel.InputFieldCategory: [InputField]] = [
-            .account: paymentInputFields,
-            .registration: registrationInputFields
+        var inputSections: Set<InputSection> = [
+            .init(category: .account, inputFields: paymentInputFields),
+            .init(category: .registration, inputFields: registrationInputFields)
         ]
 
         if let extraElements = paymentContext.extraElements {
-            inputFields.setExtraElements(from: extraElements)
+            let extraElementsSections = createInputSections(from: extraElements)
+            inputSections.formUnion(extraElementsSections)
         }
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
         let uiModel = Input.Network.UIModel(networkLabel: paymentNetwork.label,
                                             maskedAccountLabel: nil,
-                                            logo: logo, inputFieldsByCategory: inputFields,
+                                            logo: logo,
+                                            inputSections: inputSections,
                                             submitButton: submitButton)
 
         // Operation URL
@@ -146,6 +153,25 @@ extension Input.ModelTransformer {
                      isDeletable: false)
     }
 
+    /// Create `InputSection` for top and bottom `ExtraElement`s.
+    private func createInputSections(from extraElements: ExtraElements) -> Set<InputSection> {
+        var inputSections = Set<InputSection>()
+
+        if let topElements = extraElements.top {
+            let inputFields = topElements.map { $0.createInputField() }
+            let section = InputSection(category: .extraElements(at: .top), inputFields: inputFields)
+            inputSections.insert(section)
+        }
+
+        if let bottomElements = extraElements.bottom {
+            let inputFields = bottomElements.map { $0.createInputField() }
+            let section = InputSection(category: .extraElements(at: .bottom), inputFields: inputFields)
+            inputSections.insert(section)
+        }
+
+        return inputSections
+    }
+
     // MARK: Smart Switch
 
     /// Get SmartSwitch rule for a network
@@ -158,18 +184,6 @@ extension Input.ModelTransformer {
             internalError.log()
 
             return nil
-        }
-    }
-}
-
-private extension Dictionary where Self.Key == Input.Network.UIModel.InputFieldCategory, Self.Value == [InputField] {
-    mutating func setExtraElements(from extraElements: ExtraElements) {
-        if let topElements = extraElements.top {
-            self[.extraElements(at: .top)] = topElements.map { $0.createInputField() }
-        }
-
-        if let bottomElements = extraElements.bottom {
-            self[.extraElements(at: .bottom)] = bottomElements.map { $0.createInputField() }
         }
     }
 }

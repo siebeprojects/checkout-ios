@@ -59,21 +59,21 @@ extension Input.Table {
             var sections = [[CellRepresentable]]()
 
             // Top extra elements
-            if let topExtraElements = networkUIModel.inputFieldsByCategory[.extraElements(at: .top)] {
-                sections += [topExtraElements.compactMap { $0 as? CellRepresentable }]
+            if let topExtraElements = networkUIModel.inputSections[.extraElements(at: .top)] {
+                sections += [topExtraElements.inputFields.compactMap { $0 as? CellRepresentable }]
             }
 
             // Header
             sections += [[header]]
 
             // Input Fields
-            if let accountInputFields = networkUIModel.inputFieldsByCategory[.account] {
-                sections += [accountInputFields.compactMap { $0 as? CellRepresentable }]
+            if let accountInputFields = networkUIModel.inputSections[.account] {
+                sections += [accountInputFields.inputFields.compactMap { $0 as? CellRepresentable }]
             }
 
             // Checkboxes, each checkbox in a separate section
-            if let registrationCheckboxes = networkUIModel.inputFieldsByCategory[.registration] {
-                let sortedCheckboxes = registrationCheckboxes
+            if let registrationCheckboxes = networkUIModel.inputSections[.registration] {
+                let sortedCheckboxes = registrationCheckboxes.inputFields
                     .compactMap { $0 as? CellRepresentable }
                     .sorted {
                         // Labels should be at the bottom
@@ -90,8 +90,8 @@ extension Input.Table {
             }
 
             // Bottom extra elements
-            if let bottomExtraElements = networkUIModel.inputFieldsByCategory[.extraElements(at: .bottom)] {
-                sections += [bottomExtraElements.compactMap { $0 as? CellRepresentable }]
+            if let bottomExtraElements = networkUIModel.inputSections[.extraElements(at: .bottom)] {
+                sections += [bottomExtraElements.inputFields.compactMap { $0 as? CellRepresentable }]
             }
 
             // Submit

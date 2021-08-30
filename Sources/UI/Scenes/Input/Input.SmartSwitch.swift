@@ -106,8 +106,8 @@ extension Input.SmartSwitch.Selector {
         }
 
         if previouslySelected.network != selected.network {
-            let oldInputFields = previouslySelected.network.uiModel.inputFieldsByCategory.values.flatMap { $0 }
-            let newInputFields = selected.network.uiModel.inputFieldsByCategory.values.flatMap { $0 }
+            let oldInputFields = previouslySelected.network.uiModel.inputSections.flatMap { $0.inputFields }
+            let newInputFields = selected.network.uiModel.inputSections.flatMap { $0.inputFields }
 
             moveInputValues(from: oldInputFields, to: newInputFields)
         }

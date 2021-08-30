@@ -88,7 +88,12 @@ extension Input {
 
 extension Input.ViewController {
     var hasInputFields: Bool {
-        !smartSwitch.selected.network.uiModel.inputFieldsByCategory.isEmpty
+        var numberOfInputFields = 0
+        for section in smartSwitch.selected.network.uiModel.inputSections {
+            numberOfInputFields += section.inputFields.count
+        }
+
+        return numberOfInputFields != 0
     }
 
     override func viewDidLoad() {
