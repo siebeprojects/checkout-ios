@@ -7,8 +7,8 @@
 import Foundation
 
 class ExtraElement: NSObject, Decodable {
-    let name: String?
-    let label: String?
+    let name: String
+    let label: String
 
     /// Checkbox parameters, 'null' if this extra element is a label.
     let checkbox: Checkbox?
