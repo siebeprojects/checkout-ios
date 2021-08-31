@@ -40,6 +40,12 @@ final class MarkdownParserTests: XCTestCase {
         XCTAssertEqual(result.string, "By clicking the button, you agree to the Terms of Service and Privacy Policy.")
     }
 
+    func testParse_whenInputContainsLinkWithOptionalTitle_shouldReturnStringContainingLinkText() {
+        let input = "By clicking the button, you agree to the [Terms of Service](https://www.apple.com/ \"optional title\")."
+        let result = parser.parse(input)
+        XCTAssertEqual(result.string, "By clicking the button, you agree to the Terms of Service.")
+    }
+
     func testParseLinks_whenInputContains1Link_shouldReturnAttributedStringWith1Link() {
         let input = "[Terms of Service](https://www.apple.com/)."
         let links = parser.parseLinks(in: input)
@@ -66,6 +72,12 @@ final class MarkdownParserTests: XCTestCase {
 
     func testParseLinks_whenInputContains2LinksWithoutWhitespace_shouldReturnAttributedStringWith2Links() {
         let input = "By clicking the button, you agree to the [Terms of Service](https://www.apple.com/)and[Privacy Policy](https://www.google.com/)."
+        let links = parser.parseLinks(in: input)
+        XCTAssertEqual(links.count, 2)
+    }
+
+    func testParseLinks_whenInputContains2LinksWithOptionalTitle_shouldReturn2Links() {
+        let input = "By clicking the button, you agree to the [Terms of Service](https://www.apple.com/ \"optional title\") and [Privacy Policy](https://www.google.com/ \"optional title\")."
         let links = parser.parseLinks(in: input)
         XCTAssertEqual(links.count, 2)
     }

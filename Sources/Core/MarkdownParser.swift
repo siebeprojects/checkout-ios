@@ -8,7 +8,7 @@ import UIKit
 
 /// Regular expressions used by `MarkdownParser`.
 private let textExpression = "\\[(?<text>[^\\]]*)\\]"
-private let urlExpression = "\\((?<url>[^\\)]*)\\)"
+private let urlExpression = "\\((?<url>[^\\]]*)(?:[ ]\"(?<title>[^\\]]*)\")?\\)"
 private let linkExpression = textExpression + urlExpression
 
 /// Responsible for parsing Markdown. Currently only supports links.
@@ -65,14 +65,19 @@ extension MarkdownParser {
         let url: URL
 
         init?(string: String) {
-            // Parse text
+            // Input: [Link](<url> "title")
+
+            // Parse text: Link
             guard let textRange = string.range(of: textExpression, options: .regularExpression) else { return nil }
             let text = string[textRange].dropFirst().dropLast()
 
-            // Parse URL
-            guard let urlRange = string.range(of: urlExpression, options: .regularExpression) else { return nil }
-            let urlString = string[urlRange].dropFirst().dropLast()
-            guard let url = URL(string: String(urlString)) else { return nil }
+            // Parse URL: <url>
+            // Ignore optional title: "title"
+            guard let urlComponentRange = string.range(of: urlExpression, options: .regularExpression) else { return nil } // (<url> "title")
+            let urlComponentText = String(string[urlComponentRange].dropFirst().dropLast()) // <url> "title"
+            let urlString = urlComponentText.components(separatedBy: " ").first ?? urlComponentText // <url>
+
+            guard let url = URL(string: urlString) else { return nil }
 
             self.string = string
             self.text = String(text)
