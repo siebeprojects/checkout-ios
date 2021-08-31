@@ -116,7 +116,7 @@ extension Input.ModelTransformer {
         let registrationInputFields = [
             checkboxFactory.createInternalModel(from: registrationCheckbox),
             checkboxFactory.createInternalModel(from: recurrenceCheckbox)
-            ].compactMap { $0 }
+        ].compactMap { $0 }
 
         let paymentInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 

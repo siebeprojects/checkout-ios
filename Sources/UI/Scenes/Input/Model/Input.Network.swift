@@ -101,11 +101,7 @@ extension Input.Network.UIModel.InputSection: Hashable, Equatable {
 
 extension Set where Self.Element == Input.Network.UIModel.InputSection {
     subscript(category: Input.Network.UIModel.InputSection.InputFieldCategory) -> Self.Element? {
-        for element in self where element.category == category {
-            return element
-        }
-
-        return nil
+        return first { $0.category == category }
     }
 }
 
