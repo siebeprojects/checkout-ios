@@ -8,7 +8,7 @@ import UIKit
 
 /// Regular expressions used by `MarkdownParser`.
 private let textExpression = "\\[(?<text>[^\\]]*)\\]"
-private let urlExpression = "\\((?<url>[^\\]]*)(?:[ ]\"(?<title>[^\\]]*)\")?\\)"
+private let urlExpression = "\\((?<url>[^\\]]*)\\)"
 private let linkExpression = textExpression + urlExpression
 
 /// Responsible for parsing Markdown. Currently only supports links.
