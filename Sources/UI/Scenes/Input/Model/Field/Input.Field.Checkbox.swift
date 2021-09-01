@@ -44,12 +44,26 @@ extension Input.Field.Checkbox: InputField {
     }
 }
 
-
 extension Input.Field.Checkbox: CellRepresentable {
-    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.CheckboxViewCell.self }
+    var cellType: (UICollectionViewCell & DequeueableCell).Type {
+        if label.contains(attribute: .link) {
+            return Input.Table.LabelSwitchViewCell.self
+        } else {
+            return Input.Table.TextViewSwitchViewCell.self
+        }
+    }
 
     func configure(cell: UICollectionViewCell) throws {
-        guard let checkboxViewCell = cell as? Input.Table.CheckboxViewCell else { throw errorForIncorrectView(cell) }
-        checkboxViewCell.configure(with: self)
+        switch cell {
+        case let labelCell as Input.Table.LabelSwitchViewCell: labelCell.configure(with: self)
+        case let textViewCell as Input.Table.TextViewSwitchViewCell: textViewCell.configure(with: self)
+        default: throw errorForIncorrectView(cell)
+        }
+    }
+}
+
+private extension NSAttributedString {
+    func contains(attribute: NSAttributedString.Key) -> Bool {
+        return attributes(at: 0, effectiveRange: nil).contains { $0.key == attribute }
     }
 }
