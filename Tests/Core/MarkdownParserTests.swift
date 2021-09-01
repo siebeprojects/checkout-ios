@@ -76,6 +76,12 @@ final class MarkdownParserTests: XCTestCase {
         XCTAssertEqual(links.count, 2)
     }
 
+    func testParseLinks_whenInputContainsLinkWithOptionalTitle_shouldOnlyParseURL() {
+        let input = "By clicking the button, you agree to the [Terms of Service](https://www.apple.com/ \"optional title\")."
+        let links = parser.parseLinks(in: input)
+        XCTAssertEqual(links.first?.url.absoluteString, "https://www.apple.com/")
+    }
+
     func testParseLinks_whenInputContains2LinksWithOptionalTitle_shouldReturn2Links() {
         let input = "By clicking the button, you agree to the [Terms of Service](https://www.apple.com/ \"optional title\") and [Privacy Policy](https://www.google.com/ \"optional title\")."
         let links = parser.parseLinks(in: input)
