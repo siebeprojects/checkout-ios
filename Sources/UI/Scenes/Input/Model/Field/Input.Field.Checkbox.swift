@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import UIKit
 
 extension Input.Field.Checkbox {
     struct Constant {
@@ -19,9 +20,9 @@ extension Input.Field {
         var isOn: Bool
         var isEnabled: Bool = true
 
-        let label: String
+        let label: NSAttributedString
 
-        init(name: String, isOn: Bool, label: String) {
+        init(name: String, isOn: Bool, label: NSAttributedString) {
             self.name = name
             self.isOn = isOn
             self.label = label
@@ -43,8 +44,6 @@ extension Input.Field.Checkbox: InputField {
     }
 }
 
-#if canImport(UIKit)
-import UIKit
 
 extension Input.Field.Checkbox: CellRepresentable {
     var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.CheckboxViewCell.self }
@@ -54,4 +53,3 @@ extension Input.Field.Checkbox: CellRepresentable {
         checkboxViewCell.configure(with: self)
     }
 }
-#endif

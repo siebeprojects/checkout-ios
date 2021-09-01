@@ -40,7 +40,7 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         }
 
         let label: String = translator.translation(forKey: localizationKey(for: registrationOption))
-        return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, label: label)
+        return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, label: NSAttributedString(string: label))
     }
 
     /// Make hidden fields based on registration options.

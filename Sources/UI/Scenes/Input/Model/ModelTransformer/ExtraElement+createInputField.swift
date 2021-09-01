@@ -23,6 +23,6 @@ extension ExtraElement {
             return Input.Field.Label(label: self.label, name: self.name, value: false.stringValue)
         }
 
-        return Input.Field.TextViewCheckbox(name: self.name, isOn: isOn, label: self.label)
+        return Input.Field.Checkbox(name: self.name, isOn: isOn, label: NSAttributedString(markdown: label))
     }
 }
