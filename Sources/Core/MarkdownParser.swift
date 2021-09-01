@@ -75,7 +75,7 @@ extension MarkdownParser {
             // Ignore optional title: "title"
             guard let urlComponentRange = string.range(of: urlExpression, options: .regularExpression) else { return nil } // (<url> "title")
             let urlComponentText = String(string[urlComponentRange].dropFirst().dropLast()) // <url> "title"
-            let urlString = urlComponentText.components(separatedBy: " ").first ?? urlComponentText // <url>
+            let urlString = urlComponentText.components(separatedBy: .whitespaces).first ?? urlComponentText // <url>
 
             guard let url = URL(string: urlString) else { return nil }
 
