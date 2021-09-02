@@ -14,13 +14,12 @@ extension ExtraElement {
         case .OPTIONAL, .REQUIRED: isOn = false
         case .OPTIONAL_PRESELECTED, .REQUIRED_PRESELECTED: isOn = true
         case .FORCED_DISPLAYED:
-            return Input.Field.Label(label: self.label, name: self.name, value: true.stringValue)
+            return Input.Field.Label(label: NSAttributedString(markdown: label), name: self.name, value: true.stringValue)
         case .FORCED:
             return Input.Field.Hidden(name: self.name, value: true.stringValue)
         // Case: checkbox property is not present
         case .none:
-            // TODO: Should be defined in the next ticket if we should sent any value in POST request if there is no checkbox or it is not displayed
-            return Input.Field.Label(label: self.label, name: self.name, value: false.stringValue)
+            return Input.Field.Label(label: NSAttributedString(markdown: label), name: self.name, value: false.stringValue)
         }
 
         return Input.Field.Checkbox(name: self.name, isOn: isOn, label: NSAttributedString(markdown: label))
