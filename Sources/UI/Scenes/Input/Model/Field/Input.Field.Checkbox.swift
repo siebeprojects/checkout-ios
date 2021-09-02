@@ -62,8 +62,3 @@ extension Input.Field.Checkbox: CellRepresentable {
     }
 }
 
-private extension NSAttributedString {
-    func contains(attribute: NSAttributedString.Key) -> Bool {
-        return attributes(at: 0, effectiveRange: nil).contains { $0.key == attribute }
-    }
-}
