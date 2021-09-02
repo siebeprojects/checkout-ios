@@ -117,8 +117,7 @@ extension Input.Table {
         private func registerCells() {
             // Input field cells
             collectionView.register(TextFieldViewCell.self)
-            collectionView.register(LabelSwitchViewCell.self)
-            collectionView.register(TextViewSwitchViewCell.self)
+            collectionView.register(CheckboxViewCell.self)
             collectionView.register(ButtonCell.self)
             collectionView.register(LabelViewCell.self)
             collectionView.register(Input.Table.CVVTextFieldViewCell.self)
