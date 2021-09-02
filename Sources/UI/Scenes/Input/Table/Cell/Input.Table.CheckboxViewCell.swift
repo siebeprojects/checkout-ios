@@ -32,10 +32,11 @@ extension Input.Table {
             textView.font = UIFont.preferredThemeFont(forTextStyle: .body)
             textView.isScrollEnabled = false
             textView.isEditable = false
-            textView.isSelectable = false
 
             textView.textContainerInset = .zero
             textView.textContainer.lineFragmentPadding = 0
+            
+            textView.delegate = self
 
             // Configure checkbox
             checkbox.addTarget(self, action: #selector(checkboxValueChanged), for: .valueChanged)
@@ -88,6 +89,12 @@ extension Input.Table.CheckboxViewCell {
         let mutableString = NSMutableAttributedString(attributedString: model.label)
         mutableString.addAttributes([.font: UIFont.preferredThemeFont(forTextStyle: .body)], range: NSRange(location: 0, length: mutableString.length))
         textView.attributedText = mutableString
+    }
+}
+
+extension Input.Table.CheckboxViewCell: UITextViewDelegate {
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        textView.selectedTextRange = nil
     }
 }
 
