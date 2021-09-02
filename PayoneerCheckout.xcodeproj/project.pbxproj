@@ -21,8 +21,9 @@
 		D91FC80626886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */; };
 		D925E95D26D7C846007F8AC2 /* InteractionLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925E95C26D7C846007F8AC2 /* InteractionLocalizer.swift */; };
 		D928CD8525B9F9B300DE602F /* BrowserDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */; };
+		D92CB6EB26DFC0C600CAEBCE /* NSAttributedString+markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92CB6EA26DFC0C600CAEBCE /* NSAttributedString+markdown.swift */; };
+		D92CB6F226DFD2BF00CAEBCE /* Input.Table.TextSwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92CB6F126DFD2BF00CAEBCE /* Input.Table.TextSwitchView.swift */; };
 		D934255D26814883008EB74A /* DeregistrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D934255C26814883008EB74A /* DeregistrationData.swift */; };
-		D93592EC26E135C900B389EA /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93592EB26E135C900B389EA /* NSAttributedString+Extensions.swift */; };
 		D9396F42267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */; };
 		D96A4F46257D96EF00E74C8C /* Input.ViewController.StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */; };
 		D96A4F47257D96EF00E74C8C /* Input.NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E7F257D96EE00E74C8C /* Input.NavigationController.swift */; };
@@ -45,7 +46,7 @@
 		D96A4F58257D96EF00E74C8C /* Input.Table.CVVTextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E97257D96EE00E74C8C /* Input.Table.CVVTextFieldViewCell.swift */; };
 		D96A4F59257D96EF00E74C8C /* Input.Table.LabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E98257D96EE00E74C8C /* Input.Table.LabelViewCell.swift */; };
 		D96A4F5A257D96EF00E74C8C /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E99257D96EE00E74C8C /* Input.Table.TextFieldController.ClearButtonController.swift */; };
-		D96A4F5B257D96EF00E74C8C /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E9A257D96EE00E74C8C /* Input.Table.CheckboxViewCell.swift */; };
+		D96A4F5B257D96EF00E74C8C /* Input.Table.LabelSwitchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E9A257D96EE00E74C8C /* Input.Table.LabelSwitchViewCell.swift */; };
 		D96A4F5C257D96EF00E74C8C /* Input.Table.TextFieldViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E9B257D96EE00E74C8C /* Input.Table.TextFieldViewCell.swift */; };
 		D96A4F5D257D96EF00E74C8C /* Input.Table.TextFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E9C257D96EE00E74C8C /* Input.Table.TextFieldController.swift */; };
 		D96A4F5E257D96EF00E74C8C /* Input.Table.ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E9D257D96EE00E74C8C /* Input.Table.ButtonCell.swift */; };
@@ -208,6 +209,7 @@
 		D9976E7A26DCEF9C00F3C357 /* ExtraElement+createInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9976E7926DCEF9C00F3C357 /* ExtraElement+createInputField.swift */; };
 		D99FF39D25E7B517005F4097 /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99FF39C25E7B517005F4097 /* Charge.swift */; };
 		D99FF39F25E7B593005F4097 /* PostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99FF39E25E7B593005F4097 /* PostRequest.swift */; };
+		D9A02A8326DFE47100E23FBC /* Input.Table.TextViewSwitchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A02A8226DFE47100E23FBC /* Input.Table.TextViewSwitchViewCell.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
 		D9A88E10241C55040043F535 /* groups.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D94241C55040043F535 /* groups.json */; };
 		D9A88E11241C55040043F535 /* validations-default.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D95241C55040043F535 /* validations-default.json */; };
@@ -256,8 +258,9 @@
 		D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.InputElementsTransformer.swift; sourceTree = "<group>"; };
 		D925E95C26D7C846007F8AC2 /* InteractionLocalizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionLocalizer.swift; sourceTree = "<group>"; };
 		D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserDataBuilder.swift; sourceTree = "<group>"; };
+		D92CB6EA26DFC0C600CAEBCE /* NSAttributedString+markdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+markdown.swift"; sourceTree = "<group>"; };
+		D92CB6F126DFD2BF00CAEBCE /* Input.Table.TextSwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.TextSwitchView.swift; sourceTree = "<group>"; };
 		D934255C26814883008EB74A /* DeregistrationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeregistrationData.swift; sourceTree = "<group>"; };
-		D93592EB26E135C900B389EA /* NSAttributedString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.OperationResultHandler.swift; sourceTree = "<group>"; };
 		D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
 		D96A4E7F257D96EE00E74C8C /* Input.NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.NavigationController.swift; sourceTree = "<group>"; };
@@ -280,7 +283,7 @@
 		D96A4E97257D96EE00E74C8C /* Input.Table.CVVTextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CVVTextFieldViewCell.swift; sourceTree = "<group>"; };
 		D96A4E98257D96EE00E74C8C /* Input.Table.LabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LabelViewCell.swift; sourceTree = "<group>"; };
 		D96A4E99257D96EE00E74C8C /* Input.Table.TextFieldController.ClearButtonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.ClearButtonController.swift; sourceTree = "<group>"; };
-		D96A4E9A257D96EE00E74C8C /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
+		D96A4E9A257D96EE00E74C8C /* Input.Table.LabelSwitchViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LabelSwitchViewCell.swift; sourceTree = "<group>"; };
 		D96A4E9B257D96EE00E74C8C /* Input.Table.TextFieldViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldViewCell.swift; sourceTree = "<group>"; };
 		D96A4E9C257D96EE00E74C8C /* Input.Table.TextFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.swift; sourceTree = "<group>"; };
 		D96A4E9D257D96EE00E74C8C /* Input.Table.ButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.ButtonCell.swift; sourceTree = "<group>"; };
@@ -445,6 +448,7 @@
 		D9976E7926DCEF9C00F3C357 /* ExtraElement+createInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExtraElement+createInputField.swift"; sourceTree = "<group>"; };
 		D99FF39C25E7B517005F4097 /* Charge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charge.swift; sourceTree = "<group>"; };
 		D99FF39E25E7B593005F4097 /* PostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRequest.swift; sourceTree = "<group>"; };
+		D9A02A8226DFE47100E23FBC /* Input.Table.TextViewSwitchViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.TextViewSwitchViewCell.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A88D92241C55040043F535 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		D9A88D93241C55040043F535 /* validations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = validations.json; sourceTree = "<group>"; };
@@ -533,7 +537,7 @@
 			isa = PBXGroup;
 			children = (
 				070FCD4826D8F94C00531B6A /* MarkdownParser.swift */,
-				D93592EB26E135C900B389EA /* NSAttributedString+Extensions.swift */,
+				D92CB6EA26DFC0C600CAEBCE /* NSAttributedString+markdown.swift */,
 			);
 			path = Markdown;
 			sourceTree = "<group>";
@@ -662,7 +666,9 @@
 				D96A4E97257D96EE00E74C8C /* Input.Table.CVVTextFieldViewCell.swift */,
 				D96A4E98257D96EE00E74C8C /* Input.Table.LabelViewCell.swift */,
 				D96A4E99257D96EE00E74C8C /* Input.Table.TextFieldController.ClearButtonController.swift */,
-				D96A4E9A257D96EE00E74C8C /* Input.Table.CheckboxViewCell.swift */,
+				D96A4E9A257D96EE00E74C8C /* Input.Table.LabelSwitchViewCell.swift */,
+				D9A02A8226DFE47100E23FBC /* Input.Table.TextViewSwitchViewCell.swift */,
+				D92CB6F126DFD2BF00CAEBCE /* Input.Table.TextSwitchView.swift */,
 				D96A4E9B257D96EE00E74C8C /* Input.Table.TextFieldViewCell.swift */,
 				D96A4E9C257D96EE00E74C8C /* Input.Table.TextFieldController.swift */,
 				D96A4E9D257D96EE00E74C8C /* Input.Table.ButtonCell.swift */,
@@ -1489,6 +1495,7 @@
 				D96A4F64257D96EF00E74C8C /* Input.Table.LogoTextView.swift in Sources */,
 				D96A4FB0257D96EF00E74C8C /* PaymentResult.swift in Sources */,
 				D96A4F47257D96EF00E74C8C /* Input.NavigationController.swift in Sources */,
+				D92CB6EB26DFC0C600CAEBCE /* NSAttributedString+markdown.swift in Sources */,
 				D96A4F4D257D96EF00E74C8C /* PatternFormatter.swift in Sources */,
 				D96A4F6D257D96EF00E74C8C /* Input.Field.Generic.swift in Sources */,
 				D96A4FCD257D96EF00E74C8C /* PaymentMethod.swift in Sources */,
@@ -1533,6 +1540,7 @@
 				D96A4FCE257D96EF00E74C8C /* Interaction.swift in Sources */,
 				D9EB49A52670CD74000131FC /* DeletionRequest.swift in Sources */,
 				D96A4F9C257D96EF00E74C8C /* Error+isNetworkError.swift in Sources */,
+				D9A02A8326DFE47100E23FBC /* Input.Table.TextViewSwitchViewCell.swift in Sources */,
 				D9861B94257F71BD005DA1A4 /* Result+computedVariables.swift in Sources */,
 				D96A4FCB257D96EF00E74C8C /* OperationResult.swift in Sources */,
 				D96A4FBE257D96EF00E74C8C /* Redirect.swift in Sources */,
@@ -1577,8 +1585,8 @@
 				D96A4F4F257D96EF00E74C8C /* CaretPositionCorrector.swift in Sources */,
 				D96A4FA2257D96EF00E74C8C /* PaymentNetwork.swift in Sources */,
 				D96A4F6C257D96EF00E74C8C /* Input.Field.HolderName.swift in Sources */,
+				D92CB6F226DFD2BF00CAEBCE /* Input.Table.TextSwitchView.swift in Sources */,
 				D96A4F69257D96EF00E74C8C /* Input.Field.Hidden.swift in Sources */,
-				D93592EC26E135C900B389EA /* NSAttributedString+Extensions.swift in Sources */,
 				D96A4F9A257D96EF00E74C8C /* Bool+stringValue.swift in Sources */,
 				D96A4F99257D96EF00E74C8C /* String+removeCharacters.swift in Sources */,
 				D96A4FB1257D96EF00E74C8C /* PaymentService.swift in Sources */,
@@ -1598,7 +1606,7 @@
 				D96A4FCA257D96EF00E74C8C /* CustomerFormData.swift in Sources */,
 				D96A4F93257D96EF00E74C8C /* List.Table.swift in Sources */,
 				D96A4F5D257D96EF00E74C8C /* Input.Table.TextFieldController.swift in Sources */,
-				D96A4F5B257D96EF00E74C8C /* Input.Table.CheckboxViewCell.swift in Sources */,
+				D96A4F5B257D96EF00E74C8C /* Input.Table.LabelSwitchViewCell.swift in Sources */,
 				D96A4FCF257D96EF00E74C8C /* ExtraElement.swift in Sources */,
 				D96A4FC4257D96EF00E74C8C /* Parameter.swift in Sources */,
 				E2F3031E2635F8A100A38A97 /* PaymentListViewController.StateManager.swift in Sources */,
