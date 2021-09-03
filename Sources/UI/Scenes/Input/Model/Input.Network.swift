@@ -23,6 +23,13 @@ extension Input {
 
         let isDeletable: Bool
 
+        var operationType: String {
+            switch apiModel {
+            case .account(let account): return account.operationType
+            case .network(let network): return network.operationType
+            }
+        }
+
         init(apiModel: APIModel, operationURL: URL, paymentMethod: String?, networkCode: String, translator: TranslationProvider, switchRule: SmartSwitch.Rule?, uiModel: UIModel, isDeletable: Bool) {
             self.apiModel = apiModel
             self.operationURL = operationURL

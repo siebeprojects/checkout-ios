@@ -42,8 +42,7 @@ extension Input.ViewController {
 extension Input.ViewController.BrowserController: SFSafariViewControllerDelegate {
     /// SafariViewController was closed by Done button
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        // Get operation type from the last path component
-        let operationType = smartSwitch.selected.network.operationURL.lastPathComponent
+        let operationType = smartSwitch.selected.network.operationType
         NotificationCenter.default.post(
             name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
             object: nil,
