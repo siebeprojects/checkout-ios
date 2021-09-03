@@ -88,8 +88,10 @@ extension Input {
 // MARK: - Overrides
 
 extension Input.ViewController {
+    /// Return a boolean with information if view controller has the main section with user-input fields
     var hasInputFields: Bool {
-        smartSwitch.selected.network.uiModel.inputSections.contains(where: { $0.inputFields.count > 0 })
+        guard let userInputSection = smartSwitch.selected.network.uiModel.inputSections[.account] else { return false }
+        return !userInputSection.inputFields.isEmpty
     }
 
     override func viewDidLoad() {
