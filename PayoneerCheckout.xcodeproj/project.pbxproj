@@ -219,6 +219,9 @@
 		D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */; };
 		D9E380C82671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */; };
 		D9E5570A2670B63700942FF8 /* OperationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E557092670B63700942FF8 /* OperationRequest.swift */; };
+		D9E9C22026E2332D006E4B82 /* NSNotification+userDidClickLinkInPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E9C21F26E2332D006E4B82 /* NSNotification+userDidClickLinkInPaymentView.swift */; };
+		D9E9C22226E23BC8006E4B82 /* Input.ViewController.BrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E9C22126E23BC8006E4B82 /* Input.ViewController.BrowserController.swift */; };
+		D9E9C22426E23FE3006E4B82 /* ModalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E9C22326E23FE3006E4B82 /* ModalPresenter.swift */; };
 		D9EB49A52670CD74000131FC /* DeletionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EB49A42670CD74000131FC /* DeletionRequest.swift */; };
 		D9F00EA02625AF6D00C5A823 /* Input.Table.LayoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F00E9F2625AF6D00C5A823 /* Input.Table.LayoutController.swift */; };
 		D9F5C46F265E5CF500053715 /* DeleteAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F5C46E265E5CF500053715 /* DeleteAccount.swift */; };
@@ -458,6 +461,9 @@
 		D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListViewController.OperationResultHandler.swift; sourceTree = "<group>"; };
 		D9E557092670B63700942FF8 /* OperationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationRequest.swift; sourceTree = "<group>"; };
+		D9E9C21F26E2332D006E4B82 /* NSNotification+userDidClickLinkInPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+userDidClickLinkInPaymentView.swift"; sourceTree = "<group>"; };
+		D9E9C22126E23BC8006E4B82 /* Input.ViewController.BrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.BrowserController.swift; sourceTree = "<group>"; };
+		D9E9C22326E23FE3006E4B82 /* ModalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresenter.swift; sourceTree = "<group>"; };
 		D9EB49A42670CD74000131FC /* DeletionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletionRequest.swift; sourceTree = "<group>"; };
 		D9F00E9F2625AF6D00C5A823 /* Input.Table.LayoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Table.LayoutController.swift; sourceTree = "<group>"; };
 		D9F5C46E265E5CF500053715 /* DeleteAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccount.swift; sourceTree = "<group>"; };
@@ -577,6 +583,7 @@
 		D96A4E7D257D96EE00E74C8C /* Input */ = {
 			isa = PBXGroup;
 			children = (
+				D9E9C21F26E2332D006E4B82 /* NSNotification+userDidClickLinkInPaymentView.swift */,
 				D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */,
 				D96A4E7F257D96EE00E74C8C /* Input.NavigationController.swift */,
 				D96A4E80257D96EE00E74C8C /* TextFormatter */,
@@ -586,6 +593,7 @@
 				D96A4EA8257D96EE00E74C8C /* Model */,
 				D96A4EC2257D96EE00E74C8C /* Protocols */,
 				D96A4ECD257D96EE00E74C8C /* Input.ViewController.swift */,
+				D9E9C22126E23BC8006E4B82 /* Input.ViewController.BrowserController.swift */,
 				D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */,
 				D96A4E91257D96EE00E74C8C /* Input.ViewController.PaymentController.swift */,
 				D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */,
@@ -759,6 +767,7 @@
 				D96A4ECA257D96EE00E74C8C /* InputCellDelegate.swift */,
 				D96A4ECB257D96EE00E74C8C /* Selectable.swift */,
 				D96A4ECC257D96EE00E74C8C /* TextInputField.swift */,
+				D9E9C22326E23FE3006E4B82 /* ModalPresenter.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1517,6 +1526,7 @@
 				D91A4E3726B8A3450036CAC9 /* Bundle+identifer.swift in Sources */,
 				D96A4FA8257D96EF00E74C8C /* PaymentSessionServiceDelegate.swift in Sources */,
 				D96A4FAB257D96EF00E74C8C /* DataDownloadProvider.swift in Sources */,
+				D9E9C22026E2332D006E4B82 /* NSNotification+userDidClickLinkInPaymentView.swift in Sources */,
 				D96A4FB6257D96EF00E74C8C /* DequeueableCell.swift in Sources */,
 				D9E380C82671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift in Sources */,
 				D9A9277626822FF000AC67DD /* BodyEncodable.swift in Sources */,
@@ -1558,6 +1568,7 @@
 				D96A4FC2257D96EF00E74C8C /* ListResult.swift in Sources */,
 				D96A4F74257D96EF00E74C8C /* Input.Field.BasicText.swift in Sources */,
 				D96A4FDE257D96EF00E74C8C /* HTTPMethod.swift in Sources */,
+				D9E9C22426E23FE3006E4B82 /* ModalPresenter.swift in Sources */,
 				D96A4F71257D96EF00E74C8C /* Input.Field.ExpiryDate.swift in Sources */,
 				D96A4F98257D96EF00E74C8C /* List.Table.TableView.swift in Sources */,
 				D96A4FD0257D96EF00E74C8C /* FormData.swift in Sources */,
@@ -1609,6 +1620,7 @@
 				D96A4F76257D96EF00E74C8C /* Input.Field.Validation.IBAN.swift in Sources */,
 				D96A4FE4257D96EF00E74C8C /* GetRequest.swift in Sources */,
 				D96A4F4E257D96EF00E74C8C /* InputPatternFormatter.swift in Sources */,
+				D9E9C22226E23BC8006E4B82 /* Input.ViewController.BrowserController.swift in Sources */,
 				D96A4F9E257D96EF00E74C8C /* SlideInViewController.swift in Sources */,
 				D91FC7FD2687E1090014997B /* Input.ViewController.DeletionAlertController.swift in Sources */,
 				D96A4FD1257D96EF00E74C8C /* ErrorInfo.swift in Sources */,

@@ -5,7 +5,6 @@
 // See the LICENSE file for more information.
 
 import UIKit
-import SafariServices
 
 // MARK: Initializers
 
@@ -20,7 +19,7 @@ extension Input {
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
 
-        var safariViewController: SFSafariViewController?
+        fileprivate let browserController: BrowserController
 
         weak var delegate: NetworkOperationResultHandler?
 
@@ -34,10 +33,12 @@ extension Input {
             self.networks = smartSwitch.networks
             self.header = header
             self.smartSwitch = smartSwitch
+            self.browserController = BrowserController(smartSwitch: smartSwitch)
             self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.layoutController.flowLayout)
 
             super.init(nibName: nil, bundle: nil)
 
+            browserController.presenter = self
             paymentController.delegate = self
             paymentController.operationResultHandler.delegate = self
 
@@ -273,7 +274,7 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
 extension Input.ViewController: InputPaymentControllerDelegate {
     /// Route result to the next view controller
     func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
-        safariViewController?.dismiss(animated: true, completion: nil)
+        browserController.dismissBrowserViewController()
         dismiss(animated: true, completion: {
             self.delegate?.paymentController(didReceiveOperationResult: result, for: request, network: self.smartSwitch.selected.network)
         })
@@ -281,7 +282,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
 
     func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?) {
         // Try to dismiss safari VC (if exists)
-        safariViewController?.dismiss(animated: true, completion: nil)
+        browserController.dismissBrowserViewController()
 
         // Construct error
         let translator = smartSwitch.selected.network.translation
@@ -306,7 +307,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
     /// Show an error and return to input fields editing state
     func paymentController(inputShouldBeChanged error: ErrorInfo) {
         // Try to dismiss safari VC (if exists)
-        safariViewController?.dismiss(animated: true, completion: nil)
+        browserController.dismissBrowserViewController()
 
         // Construct error
         let translator = smartSwitch.selected.network.translation
@@ -323,28 +324,8 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         stateManager.state = .error(alertError)
     }
 
-    /// Present Safari View Controller with redirect URL
     func paymentController(presentURL url: URL) {
-        safariViewController?.dismiss(animated: true, completion: nil)
-
-        // Preset SafariViewController
-        let safariVC = SFSafariViewController(url: url)
-        safariVC.delegate = self
-        self.safariViewController = safariVC
-        self.present(safariVC, animated: true, completion: nil)
-    }
-}
-
-extension Input.ViewController: SFSafariViewControllerDelegate {
-    /// SafariViewController was closed by Done button
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        // Get operation type from the last path component
-        let operationType = smartSwitch.selected.network.operationURL.lastPathComponent
-        NotificationCenter.default.post(
-            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
-            object: nil,
-            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: operationType]
-        )
+        browserController.paymentController(presentURL: url)
     }
 }
 
@@ -353,6 +334,8 @@ extension Input.ViewController: CVVTextFieldViewCellDelegate {
         self.present(viewController, animated: true, completion: nil)
     }
 }
+
+extension Input.ViewController: ModalPresenter {}
 
 extension Input.ViewController: Loggable {
     var logCategory: String { "InputScene" }
