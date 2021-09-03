@@ -7,13 +7,9 @@
 import UIKit
 import MaterialComponents.MaterialTextFields
 
-protocol CVVTextFieldViewCellDelegate: AnyObject {
-    func presentHint(viewController: UIViewController)
-}
-
 extension Input.Table {
     class CVVTextFieldViewCell: TextFieldViewCell, UIAdaptivePresentationControllerDelegate {
-        weak var cvvDelegate: CVVTextFieldViewCellDelegate?
+        weak var modalPresenter: ModalPresenter?
         private let hintButton = UIButton(frame: .zero)
 
         override init(frame: CGRect) {
@@ -54,7 +50,7 @@ extension Input.Table {
                 popoverController.permittedArrowDirections = [.up, .down, .right]
             }
 
-            cvvDelegate?.presentHint(viewController: tooltipVC)
+            modalPresenter?.present(tooltipVC, animated: true, completion: nil)
         }
 
         override func configure(with model: CellRepresentable & DefinesKeyboardStyle) {

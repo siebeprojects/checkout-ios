@@ -43,9 +43,9 @@ extension Input.Table {
             didSet { layoutController.inputTableControllerDelegate = delegate }
         }
 
-        weak var cvvHintDelegate: CVVTextFieldViewCellDelegate? {
+        weak var modalPresenter: ModalPresenter? {
             didSet {
-                dataSource.cvvHintDelegate = cvvHintDelegate
+                dataSource.modalPresenter = modalPresenter
             }
         }
 

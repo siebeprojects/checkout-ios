@@ -48,7 +48,7 @@ extension Input {
 
             self.scrollView = collectionView
             tableController.delegate = self
-            tableController.cvvHintDelegate = self
+            tableController.modalPresenter = self
         }
 
         convenience init(for paymentNetworks: [PaymentNetwork], context: PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
@@ -328,12 +328,6 @@ extension Input.ViewController: InputPaymentControllerDelegate {
 
     func paymentController(presentURL url: URL) {
         browserController.presentBrowser(with: url)
-    }
-}
-
-extension Input.ViewController: CVVTextFieldViewCellDelegate {
-    func presentHint(viewController: UIViewController) {
-        self.present(viewController, animated: true, completion: nil)
     }
 }
 

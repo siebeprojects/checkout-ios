@@ -9,7 +9,7 @@ import UIKit
 extension Input.Table {
     class DataSource: NSObject {
         weak var inputCellDelegate: InputCellDelegate?
-        weak var cvvHintDelegate: CVVTextFieldViewCellDelegate?
+        weak var modalPresenter: ModalPresenter?
 
         fileprivate(set) var model: [[CellRepresentable]] = .init()
 
@@ -141,7 +141,7 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
         }
 
         if let cvvCell = cell as? Input.Table.CVVTextFieldViewCell {
-            cvvCell.cvvDelegate = cvvHintDelegate
+            cvvCell.modalPresenter = modalPresenter
         }
 
         return cell
