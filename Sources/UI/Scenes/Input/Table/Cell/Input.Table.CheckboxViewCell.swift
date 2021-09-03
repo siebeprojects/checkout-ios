@@ -96,6 +96,13 @@ extension Input.Table.CheckboxViewCell: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
         textView.selectedTextRange = nil
     }
+
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        typealias BrowserController = Input.ViewController.BrowserController
+
+        NotificationCenter.default.post(name: BrowserController.userDidClickLinkInPaymentView, object: nil, userInfo: [BrowserController.linkUserInfoKey: URL])
+        return false
+    }
 }
 
 extension Input.Table.CheckboxViewCell: ContainsInputCellDelegate {}

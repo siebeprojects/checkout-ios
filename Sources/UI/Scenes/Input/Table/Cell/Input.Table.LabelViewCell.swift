@@ -62,6 +62,13 @@ extension Input.Table.LabelViewCell {
         mutableString.addAttributes([.font: UIFont.preferredThemeFont(forTextStyle: .body)], range: NSRange(location: 0, length: mutableString.length))
         textView.attributedText = mutableString
     }
+
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        typealias BrowserController = Input.ViewController.BrowserController
+
+        NotificationCenter.default.post(name: BrowserController.userDidClickLinkInPaymentView, object: nil, userInfo: [BrowserController.linkUserInfoKey: URL])
+        return false
+    }
 }
 
 extension Input.Table.LabelViewCell: UITextViewDelegate {

@@ -16,16 +16,18 @@ extension Input.ViewController {
 
         let smartSwitch: Input.SmartSwitch.Selector
 
+        fileprivate var notificationSubscriptionToken: NSObjectProtocol?
+
         init(smartSwitch: Input.SmartSwitch.Selector) {
             self.smartSwitch = smartSwitch
         }
-        
+
         func dismissBrowserViewController() {
             safariViewController?.dismiss(animated: true, completion: nil)
         }
 
         /// Present Safari View Controller with redirect URL
-        func paymentController(presentURL url: URL) {
+        func presentBrowser(with url: URL) {
             safariViewController?.dismiss(animated: true, completion: nil)
 
             // Preset SafariViewController
@@ -34,6 +36,28 @@ extension Input.ViewController {
             self.safariViewController = safariVC
             presenter?.present(safariVC, animated: true, completion: nil)
         }
+    }
+}
+
+extension Input.ViewController.BrowserController {
+    func subscribeForNotification() {
+        notificationSubscriptionToken = NotificationCenter.default.addObserver(forName: Self.userDidClickLinkInPaymentView, object: nil, queue: nil, using: presentBrowser)
+    }
+
+    func unsubscribeFromNotification() {
+        guard let token = self.notificationSubscriptionToken else { return }
+        NotificationCenter.default.removeObserver(token)
+    }
+
+    private func presentBrowser(for notification: Notification) {
+        guard let url = notification.userInfo?[Self.linkUserInfoKey] as? URL else {
+            if #available(iOS 14.0, *) {
+                logger.critical("Notification with incorrect userInfo was received, browser won't be opened")
+            }
+            return
+        }
+
+        presentBrowser(with: url)
     }
 }
 
@@ -50,3 +74,11 @@ extension Input.ViewController.BrowserController: SFSafariViewControllerDelegate
         )
     }
 }
+
+extension Input.ViewController.BrowserController {
+    static let userDidClickLinkInPaymentView: NSNotification.Name = .init("BrowserControllerUserDidClickLinkInPaymentView")
+    
+    static var linkUserInfoKey: String { "link" }
+}
+
+extension Input.ViewController.BrowserController: Loggable {}

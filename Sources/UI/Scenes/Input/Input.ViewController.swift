@@ -113,12 +113,14 @@ extension Input.ViewController {
 
         addKeyboardFrameChangesObserver()
         tableController.becomeFirstResponder()
+        browserController.subscribeForNotification()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         removeKeyboardFrameChangesObserver()
+        browserController.unsubscribeFromNotification()
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -325,7 +327,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
     }
 
     func paymentController(presentURL url: URL) {
-        browserController.paymentController(presentURL: url)
+        browserController.presentBrowser(with: url)
     }
 }
 
