@@ -35,7 +35,7 @@ extension Input.Table {
 
             textView.textContainerInset = .zero
             textView.textContainer.lineFragmentPadding = 0
-            
+
             textView.delegate = self
 
             // Configure checkbox

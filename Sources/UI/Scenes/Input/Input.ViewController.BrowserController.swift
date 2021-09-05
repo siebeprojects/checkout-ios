@@ -77,7 +77,7 @@ extension Input.ViewController.BrowserController: SFSafariViewControllerDelegate
 
 extension Input.ViewController.BrowserController {
     static let userDidClickLinkInPaymentView: NSNotification.Name = .init("BrowserControllerUserDidClickLinkInPaymentView")
-    
+
     static var linkUserInfoKey: String { "link" }
 }
 
