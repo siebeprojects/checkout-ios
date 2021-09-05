@@ -56,6 +56,16 @@ extension Input.ViewController.PaymentController {
 
     private func createInputFields(from network: Input.Network) throws -> [String: String] {
         var inputFieldsDictionary = [String: String]()
+
+        // TODO: Rework when send POST request with extra elements
+        var inputFields = [InputField]()
+        if let account = network.uiModel.inputSections[.account] {
+            inputFields += account.inputFields
+        }
+        if let registration = network.uiModel.inputSections[.registration] {
+            inputFields += registration.inputFields
+        }
+
         for element in network.uiModel.inputSections.flatMap({ $0.inputFields }) {
             if element.name == "expiryDate" {
                 // Transform expiryDate to month and a full year
