@@ -197,10 +197,10 @@ jobs:
       - run: bundle exec fastlane run cocoapods
       - run:
           name: Lint framework
-          command: Pods/SwiftLint/swiftlint --reporter emoji --quiet
+          command: Pods/SwiftLint/swiftlint --reporter emoji --quiet --strict
       - run:
           name: Lint Example app
-          command: Pods/SwiftLint/swiftlint --config ExampleCheckout/.swiftlint.yml --reporter emoji --quiet
+          command: Pods/SwiftLint/swiftlint --config ExampleCheckout/.swiftlint.yml --reporter emoji --quiet --strict
 
 workflows:
   # Build workflow, only for pull requests
