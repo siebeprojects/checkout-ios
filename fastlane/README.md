@@ -41,11 +41,16 @@ Run UI tests
 fastlane ios submit_to_testflight
 ```
 Submit to TestFlight
-### ios bump_version_number_in_develop
+### ios bump_version_number
 ```
-fastlane ios bump_version_number_in_develop
+fastlane ios bump_version_number
 ```
-Bump minor version and commit in develop branch
+Bump minor version and commit
+### ios lib_lint
+```
+fastlane ios lib_lint
+```
+Validate framework for CocoaPods
 ### ios deploy
 ```
 fastlane ios deploy
@@ -54,6 +59,6 @@ Deploy
 
 ----
 
-This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
+This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
 More information about fastlane can be found on [fastlane.tools](https://fastlane.tools).
 The documentation of fastlane can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
