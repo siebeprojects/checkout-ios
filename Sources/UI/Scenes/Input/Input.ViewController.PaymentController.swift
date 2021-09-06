@@ -59,7 +59,7 @@ extension Input.ViewController.PaymentController {
 
         // TODO: Rework when send POST request with extra elements
         var inputFields = [InputField]()
-        if let account = network.uiModel.inputSections[.account] {
+        if let account = network.uiModel.inputSections[.inputElements] {
             inputFields += account.inputFields
         }
         if let registration = network.uiModel.inputSections[.registration] {

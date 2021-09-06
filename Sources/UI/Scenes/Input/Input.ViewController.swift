@@ -90,7 +90,7 @@ extension Input {
 extension Input.ViewController {
     /// Return a boolean with information if view controller has the main section with user-input fields
     var hasInputFields: Bool {
-        guard let userInputSection = smartSwitch.selected.network.uiModel.inputSections[.account] else { return false }
+        guard let userInputSection = smartSwitch.selected.network.uiModel.inputSections[.inputElements] else { return false }
         return !userInputSection.inputFields.isEmpty
     }
 

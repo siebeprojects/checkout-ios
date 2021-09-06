@@ -67,7 +67,7 @@ extension Input.Table {
             sections += [[header]]
 
             // Input Fields
-            if let accountInputFields = networkUIModel.inputSections[.account] {
+            if let accountInputFields = networkUIModel.inputSections[.inputElements] {
                 sections += [accountInputFields.inputFields.compactMap { $0 as? CellRepresentable }]
             }
 

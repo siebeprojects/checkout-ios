@@ -116,7 +116,7 @@ extension Set where Self.Element == Input.Network.UIModel.InputSection {
 
 extension Input.Network.UIModel.InputSection {
     enum InputFieldCategory: Hashable {
-        case account
+        case inputElements
         case registration
         case extraElements(at: VerticalPosition)
     }

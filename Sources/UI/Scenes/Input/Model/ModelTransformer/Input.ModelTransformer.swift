@@ -47,7 +47,7 @@ extension Input.ModelTransformer {
         let accountInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 
         var inputSections: Set<InputSection> = [
-            .init(category: .account, inputFields: accountInputFields)
+            .init(category: .inputElements, inputFields: accountInputFields)
         ]
 
         if let extraElements = paymentContext.extraElements {
@@ -121,7 +121,7 @@ extension Input.ModelTransformer {
         let paymentInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 
         var inputSections: Set<InputSection> = [
-            .init(category: .account, inputFields: paymentInputFields),
+            .init(category: .inputElements, inputFields: paymentInputFields),
             .init(category: .registration, inputFields: registrationInputFields)
         ]
 
