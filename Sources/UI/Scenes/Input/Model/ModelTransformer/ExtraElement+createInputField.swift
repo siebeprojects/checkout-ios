@@ -25,7 +25,7 @@ extension ExtraElement {
             let parsedLabel = markdown.parse(label)
             return Input.Field.Label(label: parsedLabel, name: self.name, value: false.stringValue)
         }
-        
+
         let parsedLabel = markdown.parse(label)
         return Input.Field.Checkbox(name: self.name, isOn: isOn, label: parsedLabel)
     }
