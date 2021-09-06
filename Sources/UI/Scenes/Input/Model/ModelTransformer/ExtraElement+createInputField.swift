@@ -7,6 +7,8 @@
 import Foundation
 
 extension ExtraElement {
+    private var markdown: MarkdownParser { .init() }
+
     func createInputField() -> InputField {
         let isOn: Bool
 
@@ -14,14 +16,17 @@ extension ExtraElement {
         case .OPTIONAL, .REQUIRED: isOn = false
         case .OPTIONAL_PRESELECTED, .REQUIRED_PRESELECTED: isOn = true
         case .FORCED_DISPLAYED:
-            return Input.Field.Label(label: NSAttributedString(markdown: label), name: self.name, value: true.stringValue)
+            let parsedLabel = markdown.parse(label)
+            return Input.Field.Label(label: parsedLabel, name: self.name, value: true.stringValue)
         case .FORCED:
             return Input.Field.Hidden(name: self.name, value: true.stringValue)
         // Case: checkbox property is not present
         case .none:
-            return Input.Field.Label(label: NSAttributedString(markdown: label), name: self.name, value: false.stringValue)
+            let parsedLabel = markdown.parse(label)
+            return Input.Field.Label(label: parsedLabel, name: self.name, value: false.stringValue)
         }
-
-        return Input.Field.Checkbox(name: self.name, isOn: isOn, label: NSAttributedString(markdown: label))
+        
+        let parsedLabel = markdown.parse(label)
+        return Input.Field.Checkbox(name: self.name, isOn: isOn, label: parsedLabel)
     }
 }
