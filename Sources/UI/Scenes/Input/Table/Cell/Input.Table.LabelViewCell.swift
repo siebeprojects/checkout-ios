@@ -7,7 +7,7 @@
 import UIKit
 
 extension Input.Table {
-    /// Cell that represents a textView.
+    /// Cell that represents a text label.
     class LabelViewCell: UICollectionViewCell, DequeueableCell {
         fileprivate let textView: UITextView
 
