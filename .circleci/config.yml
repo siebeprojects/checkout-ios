@@ -209,15 +209,15 @@ workflows:
       - swiftlint:
           filters:
             branches:
-              only: /PCX-.*/
+              only: /.*PCX-.*/
       - unit_test:
           filters:
             branches:
-              only: /PCX-.*/
+              only: /.*PCX-.*/
       - ui_test:
           filters:
             branches:
-              only: /PCX-.*/
+              only: /.*PCX-.*/
       - request_qa:
           type: approval
           requires:
@@ -225,7 +225,7 @@ workflows:
             - ui_test
           filters:
             branches:
-              only: /PCX-.*/
+              only: /.*PCX-.*/
       - build_example:
           requires:
             - request_qa
