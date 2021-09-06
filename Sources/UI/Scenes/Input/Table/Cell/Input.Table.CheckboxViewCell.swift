@@ -42,11 +42,11 @@ extension Input.Table {
             checkbox.addTarget(self, action: #selector(checkboxValueChanged), for: .valueChanged)
 
             // Layout
-            contentView.addSubview(textView)
-            contentView.addSubview(checkbox)
-
             textView.translatesAutoresizingMaskIntoConstraints = false
             checkbox.translatesAutoresizingMaskIntoConstraints = false
+
+            contentView.addSubview(textView)
+            contentView.addSubview(checkbox)
 
             textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
