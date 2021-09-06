@@ -67,7 +67,7 @@ class ValidationTests: XCTestCase {
             let transformer = Input.ModelTransformer(paymentContext: context)
             let inputNetwork = try! transformer.transform(paymentNetwork: network)
 
-            guard let inputElement = inputNetwork.uiModel.inputFieldsByCategory[.account]?.first else {
+            guard let inputElement = inputNetwork.uiModel.inputSections[.inputElements]?.inputFields.first else {
                 fatalError("Input element is not present applicable network, programmatic error")
             }
 
