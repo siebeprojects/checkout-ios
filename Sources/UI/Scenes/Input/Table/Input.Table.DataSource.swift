@@ -67,8 +67,8 @@ extension Input.Table {
             sections += [[header]]
 
             // Input Fields
-            if let accountInputFields = networkUIModel.inputSections[.inputElements] {
-                sections += [accountInputFields.inputFields.compactMap { $0 as? CellRepresentable }]
+            if let inputElements = networkUIModel.inputSections[.inputElements] {
+                sections += [inputElements.inputFields.compactMap { $0 as? CellRepresentable }]
             }
 
             // Checkboxes, each checkbox in a separate section
