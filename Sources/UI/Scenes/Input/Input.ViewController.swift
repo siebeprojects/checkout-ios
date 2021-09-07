@@ -29,7 +29,7 @@ extension Input {
         }()
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, context: PaymentContext) {
-            self.paymentController = .init(paymentServiceFactory: paymentServiceFactory, listOperationType: context.operationType.rawValue)
+            self.paymentController = .init(paymentServiceFactory: paymentServiceFactory, listOperationType: context.listOperationType.rawValue)
             self.networks = smartSwitch.networks
             self.header = header
             self.smartSwitch = smartSwitch

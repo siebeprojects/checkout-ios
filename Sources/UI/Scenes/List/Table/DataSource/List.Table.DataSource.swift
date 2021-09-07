@@ -99,7 +99,7 @@ extension List.Table.DataSource: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch (sections[section], context.operationType) {
+        switch (sections[section], context.listOperationType) {
         case (.accounts, .CHARGE): return translationProvider.translation(forKey: "accounts.title")
         case (.accounts, .UPDATE): return translationProvider.translation(forKey: "accounts.update.title")
         case (.networks, .CHARGE): return translationProvider.translation(forKey: "networks.title")

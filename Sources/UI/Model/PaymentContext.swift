@@ -8,11 +8,11 @@ import Foundation
 
 /// Global properties that may be useful but not directly related to applicable network or registered account.
 class PaymentContext {
-    let operationType: PaymentSession.Operation
+    let listOperationType: PaymentSession.Operation
     let extraElements: ExtraElements?
 
     init(operationType: PaymentSession.Operation, extraElements: ExtraElements?) {
-        self.operationType = operationType
+        self.listOperationType = operationType
         self.extraElements = extraElements
     }
 }

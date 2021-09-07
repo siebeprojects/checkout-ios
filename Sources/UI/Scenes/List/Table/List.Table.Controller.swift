@@ -37,7 +37,7 @@ extension List.Table {
 
             dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, translation: translationProvider, genericLogo: genericLogo, context: session.context)
 
-            switch session.context.operationType {
+            switch session.context.listOperationType {
             case .UPDATE: isRefreshable = true
             default: isRefreshable = false
             }

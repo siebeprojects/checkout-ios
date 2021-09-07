@@ -18,7 +18,7 @@ final class PaymentSession {
     init(networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?, context: PaymentContext) {
         self.context = context
 
-        let buttonLocalizationKey = "button.operation." + context.operationType.rawValue.uppercased() + ".label"
+        let buttonLocalizationKey = "button.operation." + context.listOperationType.rawValue.uppercased() + ".label"
 
         self.networks = networks.map {
             .init(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator)
