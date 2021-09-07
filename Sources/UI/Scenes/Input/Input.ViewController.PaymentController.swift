@@ -6,44 +6,54 @@
 
 import Foundation
 
-protocol InputPaymentControllerDelegate: class {
-    func paymentController(presentURL url: URL)
-    func paymentController(route result: Result<OperationResult, ErrorInfo>)
-    func paymentController(inputShouldBeChanged error: ErrorInfo)
-    func paymentController(didFailWith error: ErrorInfo)
-}
-
 extension Input.ViewController {
     class PaymentController {
         let paymentServiceFactory: PaymentServicesFactory
+        let operationResultHandler: OperationResultHandler
 
         weak var delegate: InputPaymentControllerDelegate?
 
-        init(paymentServiceFactory: PaymentServicesFactory) {
+        init(paymentServiceFactory: PaymentServicesFactory, listOperationType: String) {
             self.paymentServiceFactory = paymentServiceFactory
+            self.operationResultHandler = OperationResultHandler(listOperationType: listOperationType)
         }
     }
 }
 
 extension Input.ViewController.PaymentController {
+    func delete(network: Input.Network) {
+        let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        service?.delegate = operationResultHandler
+
+        guard let selfLink = network.apiModel.links?["self"] else {
+            let error = InternalError(description: "API model doesn't contain links.self property")
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            delegate?.paymentController(didFailWith: errorInfo, for: nil)
+            return
+        }
+
+        let request = DeletionRequest(accountURL: selfLink, operationType: network.apiModel.operationType)
+        service?.send(operationRequest: request)
+    }
+
     func submitPayment(for network: Input.Network) {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
-        service?.delegate = self
+        service?.delegate = operationResultHandler
 
         let inputFieldsDictionary: [String: String]
         do {
             inputFieldsDictionary = try createInputFields(from: network)
         } catch {
             let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
-            delegate?.paymentController(didFailWith: errorInfo)
+            delegate?.paymentController(didFailWith: errorInfo, for: nil)
             return
         }
 
-        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, inputFields: inputFieldsDictionary)
+        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.apiModel.operationType, inputFields: inputFieldsDictionary)
 
-        service?.send(paymentRequest: request)
+        service?.send(operationRequest: request)
     }
-    
+
     private func createInputFields(from network: Input.Network) throws -> [String: String] {
         var inputFieldsDictionary = [String: String]()
         for element in network.uiModel.inputFields + network.uiModel.separatedCheckboxes {
@@ -71,42 +81,18 @@ extension Input.ViewController.PaymentController {
     }
 }
 
-extension Input.ViewController.PaymentController: PaymentServiceDelegate {
-    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse) {
-        let serverResponse: Result<OperationResult, ErrorInfo>
-
-        switch response {
-        case .redirect(let url):
-            DispatchQueue.main.async {
-                self.delegate?.paymentController(presentURL: url)
-            }
-            return
-        case .result(let result):
-            serverResponse = result
+private extension Input.Network.APIModel {
+    var links: [String: URL]? {
+        switch self {
+        case .account(let account): return account.links
+        case .network(let network): return network.links
         }
+    }
 
-        // On retry show an error and leave on that view
-        if case .RETRY = Interaction.Code(rawValue: serverResponse.interaction.code) {
-            let errorInfo = ErrorInfo(resultInfo: serverResponse.resultInfo, interaction: serverResponse.interaction)
-
-            DispatchQueue.main.async {
-                self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
-            }
-        }
-
-        // If a reason is a communication failure, propose to retry
-        else if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: serverResponse.interaction.reason),
-                case let .failure(errorInfo) = serverResponse {
-            DispatchQueue.main.async {
-                self.delegate?.paymentController(didFailWith: errorInfo)
-            }
-        }
-
-        // In other situations route to a parent view
-        else {
-            DispatchQueue.main.async {
-                self.delegate?.paymentController(route: serverResponse)
-            }
+    var operationType: String {
+        switch self {
+        case .account(let account): return account.operationType
+        case .network(let network): return network.operationType
         }
     }
 }

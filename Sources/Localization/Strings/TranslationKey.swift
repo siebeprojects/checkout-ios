@@ -14,12 +14,24 @@ enum TranslationKey: String, CaseIterable {
     case cancelLabel = "button.cancel.label"
     case retryLabel = "button.retry.label"
 
+    case accountsUpdateTitle = "accounts.update.title"
+    case networksUpdateTitle = "networks.update.title"
+
+    // Used in UPDATE flow
+    case processPendingTitle = "interaction.PROCEED.PENDING.title"
+    case processPendingText = "interaction.PROCEED.PENDING.text"
+
     var localizedString: String {
         switch self {
         case .errorInternetTitle: return "Oops!"
         case .errorInternetText: return "There was a problem with your internet connection"
         case .retryLabel: return "Retry"
         case .cancelLabel: return "Cancel"
+        case .accountsUpdateTitle: return "Edit your payment methods"
+        case .networksUpdateTitle: return "Add a payment method"
+
+        case .processPendingTitle: return "Payment method pending"
+        case .processPendingText: return "Please refresh or check back later for updates."
         }
     }
 }

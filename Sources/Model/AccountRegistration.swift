@@ -47,4 +47,7 @@ class AccountRegistration: NSObject, Decodable {
     let inputElements: [InputElement]?
 
     // FIXME: `contractData` is not present
+
+    /// Types of possible operations
+    let operationType: String
 }

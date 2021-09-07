@@ -56,7 +56,11 @@ extension Input.Table.Validator {
                 guard let validatable = row as? Validatable else { continue }
                 validatable.validateAndSaveResult(option: option)
 
-                if validatable.validationErrorText != nil {
+                if let errorText = validatable.validationErrorText {
+                    if #available(iOS 14.0, *) {
+                        logger.debug("Validation error for row #\(rowNumber, privacy: .private): \(errorText, privacy: .private)")
+                    }
+
                     isValid = false
                 }
 
@@ -69,7 +73,9 @@ extension Input.Table.Validator {
                 do {
                     try cellRepresentable.configure(cell: cell)
                 } catch {
-                    log(error)
+                    if #available(iOS 14.0, *) {
+                        error.log(to: logger)
+                    }
                 }
             }
         }
@@ -101,7 +107,9 @@ extension Input.Table.Validator {
                 try cellRepresentable.configure(cell: cell)
                 invalidateLayout(at: [indexPath])
             } catch {
-                log(error)
+                if #available(iOS 14.0, *) {
+                    error.log(to: logger)
+                }
             }
         }
     }
@@ -116,4 +124,8 @@ extension Input.Table.Validator {
             self.collectionView.collectionViewLayout.invalidateLayout(with: context)
         }, completion: nil)
     }
+}
+
+extension Input.Table.Validator: Loggable {
+    var logCategory: String { "Validator" }
 }

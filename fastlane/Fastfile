@@ -79,6 +79,7 @@ platform :ios do
     ensure_git_status_clean()
 
     new_version_number = increment_version_number(bump_type: "minor")
+    increment_version_number(version_number: new_version_number)
     increment_version_number(version_number: new_version_number, xcodeproj: example_xcodeproj)
     version_bump_podspec(version_number: new_version_number, path: "PayoneerCheckout.podspec")
 

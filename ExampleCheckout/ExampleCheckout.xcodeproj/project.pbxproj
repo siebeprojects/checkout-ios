@@ -8,10 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		3BCEB4344D22A655188DD322 /* Pods_ExampleCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7838BF38EF6A45DB6C258DB /* Pods_ExampleCheckout.framework */; };
+		D917D814267679B0000DB4CA /* ErrorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917D813267679B0000DB4CA /* ErrorInfo.swift */; };
+		D917D816267679F8000DB4CA /* Interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917D815267679F8000DB4CA /* Interaction.swift */; };
 		D92B4D6825F6843A00103C70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D92B4D6725F6843A00103C70 /* Assets.xcassets */; };
+		D9368BAB26B1CC7F0083E5E3 /* ThreeDSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */; };
+		D954C00E2696621600714396 /* Visa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00D2696621600714396 /* Visa.swift */; };
+		D954C0102696F41000714396 /* TimeInterval+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00F2696F41000714396 /* TimeInterval+timeout.swift */; };
 		D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */; };
 		D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28525DEB9E0001A2EAD /* NetworksTests.swift */; };
 		D956D28925DEBE23001A2EAD /* CardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28825DEBE23001A2EAD /* CardTests.swift */; };
+		D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D048726ADDBE300C027CB /* SepaTests.swift */; };
+		D99D048A26ADDC7E00C027CB /* Sepa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D048926ADDC7E00C027CB /* Sepa.swift */; };
 		D99E9E07253D9F3400DFF8BD /* Transaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A5FA7F253D8B09001C71B7 /* Transaction.json */; };
 		D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99E9E09253DAA2700DFF8BD /* NetworkService.swift */; };
 		D9A5FA62253CA8BE001C71B7 /* PaymentSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA61253CA8BE001C71B7 /* PaymentSessionService.swift */; };
@@ -27,6 +34,11 @@
 		D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB4234143BD0021184C /* ViewController.swift */; };
 		D9E0AEB8234143BD0021184C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB6234143BD0021184C /* Main.storyboard */; };
 		D9E0AEBD234143BF0021184C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */; };
+		D9E1A87C2694810300CF4C9C /* PaymentNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87B2694810300CF4C9C /* PaymentNetwork.swift */; };
+		D9E1A87E2694893F00CF4C9C /* UpdateFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */; };
+		D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
+		D9E1A8822694DA1200CF4C9C /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A8812694DA1200CF4C9C /* Registration.swift */; };
+		D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
 		D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
 /* End PBXBuildFile section */
@@ -60,11 +72,18 @@
 		5A64E6638EAF1E31D0F73F96 /* Pods-Example-sdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.debug.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.debug.xcconfig"; sourceTree = "<group>"; };
 		A7838BF38EF6A45DB6C258DB /* Pods_ExampleCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExampleCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AABDD5EEB905FBAD81758984 /* Pods-ExampleCheckout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleCheckout.release.xcconfig"; path = "Target Support Files/Pods-ExampleCheckout/Pods-ExampleCheckout.release.xcconfig"; sourceTree = "<group>"; };
+		D917D813267679B0000DB4CA /* ErrorInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorInfo.swift; sourceTree = "<group>"; };
+		D917D815267679F8000DB4CA /* Interaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interaction.swift; sourceTree = "<group>"; };
 		D92B4D6725F6843A00103C70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDSTests.swift; sourceTree = "<group>"; };
+		D954C00D2696621600714396 /* Visa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visa.swift; sourceTree = "<group>"; };
+		D954C00F2696F41000714396 /* TimeInterval+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+timeout.swift"; sourceTree = "<group>"; };
 		D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectNetworksTests.swift; sourceTree = "<group>"; };
 		D956D28525DEB9E0001A2EAD /* NetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksTests.swift; sourceTree = "<group>"; };
 		D956D28825DEBE23001A2EAD /* CardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTests.swift; sourceTree = "<group>"; };
 		D967A55C25481D29001BBCCA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		D99D048726ADDBE300C027CB /* SepaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepaTests.swift; sourceTree = "<group>"; };
+		D99D048926ADDC7E00C027CB /* Sepa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sepa.swift; sourceTree = "<group>"; };
 		D99E9E09253DAA2700DFF8BD /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D9A5FA56253CA701001C71B7 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9A5FA5A253CA701001C71B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -84,6 +103,11 @@
 		D9E0AEB7234143BD0021184C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D9E0AEBC234143BF0021184C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9E0AEBE234143BF0021184C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9E1A87B2694810300CF4C9C /* PaymentNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentNetwork.swift; sourceTree = "<group>"; };
+		D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFlowTests.swift; sourceTree = "<group>"; };
+		D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
+		D9E1A8812694DA1200CF4C9C /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
+		D9E726A9269DBF5700889C64 /* PayPalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalAccount.swift; sourceTree = "<group>"; };
 		D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCTFailError.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,13 +142,36 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D954C00B269661F600714396 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				D9E1A87B2694810300CF4C9C /* PaymentNetwork.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		D954C00C2696620600714396 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D954C00D2696621600714396 /* Visa.swift */,
+				D99D048926ADDC7E00C027CB /* Sepa.swift */,
+				D9E726A9269DBF5700889C64 /* PayPalAccount.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D9A5FA57253CA701001C71B7 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
+				D954C00C2696620600714396 /* Model */,
+				D954C00B269661F600714396 /* Protocol */,
 				D9FCC6AA25488A9800E0AF74 /* Helpers */,
 				D9A5FA7E253D8AE3001C71B7 /* Assets */,
 				D956D28525DEB9E0001A2EAD /* NetworksTests.swift */,
+				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
+				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
+				D99D048726ADDBE300C027CB /* SepaTests.swift */,
 				D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */,
 				D9A5FA65253CF744001C71B7 /* PaymentSession */,
 				D9A5FA5A253CA701001C71B7 /* Info.plist */,
@@ -151,6 +198,9 @@
 				D9A5FA6F253D86F6001C71B7 /* Callback.swift */,
 				D9A5FA73253D870E001C71B7 /* Payment.swift */,
 				D9A5FA76253D87A7001C71B7 /* Customer.swift */,
+				D9E1A8812694DA1200CF4C9C /* Registration.swift */,
+				D917D813267679B0000DB4CA /* ErrorInfo.swift */,
+				D917D815267679F8000DB4CA /* Interaction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,6 +261,8 @@
 			isa = PBXGroup;
 			children = (
 				D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */,
+				D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */,
+				D954C00F2696F41000714396 /* TimeInterval+timeout.swift */,
 				D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */,
 			);
 			path = Helpers;
@@ -373,7 +425,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if which Pods/SwiftLint/swiftlint >/dev/null; then\n  Pods/SwiftLint/swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -382,19 +434,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D954C0102696F41000714396 /* TimeInterval+timeout.swift in Sources */,
 				D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */,
 				D9A5FA70253D86F6001C71B7 /* Callback.swift in Sources */,
+				D917D814267679B0000DB4CA /* ErrorInfo.swift in Sources */,
 				D9A5FA77253D87A7001C71B7 /* Customer.swift in Sources */,
+				D9E1A8822694DA1200CF4C9C /* Registration.swift in Sources */,
 				D956D28925DEBE23001A2EAD /* CardTests.swift in Sources */,
 				D9A5FA62253CA8BE001C71B7 /* PaymentSessionService.swift in Sources */,
+				D9E1A87C2694810300CF4C9C /* PaymentNetwork.swift in Sources */,
+				D9E1A87E2694893F00CF4C9C /* UpdateFlowTests.swift in Sources */,
+				D917D816267679F8000DB4CA /* Interaction.swift in Sources */,
 				D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */,
+				D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */,
+				D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */,
 				D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,
 				D9A5FA6C253D8213001C71B7 /* Transaction.swift in Sources */,
 				D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */,
 				D9A5FA74253D870E001C71B7 /* Payment.swift in Sources */,
+				D9368BAB26B1CC7F0083E5E3 /* ThreeDSTests.swift in Sources */,
+				D954C00E2696621600714396 /* Visa.swift in Sources */,
 				D9A5FA69253CF7B6001C71B7 /* PaymentSession.swift in Sources */,
 				D9A5FA7A253D887B001C71B7 /* Style.swift in Sources */,
+				D99D048A26ADDC7E00C027CB /* Sepa.swift in Sources */,
+				D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,7 +511,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				INFOPLIST_FILE = UITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -470,7 +534,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				INFOPLIST_FILE = UITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

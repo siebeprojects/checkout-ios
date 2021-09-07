@@ -52,7 +52,11 @@ class ApplicableNetwork: NSObject, Decodable {
     /// Collection of links related to this payment network in scope of the `LIST` session
     let links: [String: URL]?
 
-    internal init(code: String, label: String, method: String, grouping: String, registration: String, recurrence: String, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, inputElements: [InputElement]?, links: [String: URL]? = nil) {
+    /// Types of possible operations
+    let operationType: String
+
+    // swiftlint:disable:next line_length
+    internal init(code: String, label: String, method: String, grouping: String, registration: String, recurrence: String, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, inputElements: [InputElement]?, links: [String: URL]? = nil, operationType: String) {
         self.code = code
         self.label = label
         self.method = method
@@ -67,6 +71,7 @@ class ApplicableNetwork: NSObject, Decodable {
         self.emptyForm = emptyForm
         self.inputElements = inputElements
         self.links = links
+        self.operationType = operationType
     }
 
     // MARK: -

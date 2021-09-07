@@ -12,9 +12,11 @@ extension List.Table {
     final class DataSource: NSObject {
         private let sections: [Section]
         private let translationProvider: TranslationProvider
+        let operationType: PaymentSession.Operation
 
-        init(networks: [PaymentNetwork], accounts: [RegisteredAccount]?, translation: SharedTranslationProvider, genericLogo: UIImage) {
+        init(networks: [PaymentNetwork], accounts: [RegisteredAccount]?, translation: SharedTranslationProvider, genericLogo: UIImage, operationType: PaymentSession.Operation) {
             self.translationProvider = translation
+            self.operationType = operationType
 
             var sections = [Section]()
 
@@ -30,7 +32,7 @@ extension List.Table {
                 sections.append(accountSection)
             }
 
-            // Fill networrks
+            // Fill networks
             let groupedNetworks = GroupingService().group(networks: networks)
 
             var singleRows = [SingleNetworkRow]()
@@ -66,17 +68,19 @@ extension List.Table {
             }
         }
 
-        enum Model {
-            case network([PaymentNetwork])
-            case account(RegisteredAccount)
-        }
-
         func model(for indexPath: IndexPath) -> Model {
             switch sections[indexPath.section] {
             case .accounts(let accountRows): return .account(accountRows[indexPath.row].account)
             case .networks(let networkRows): return .network(networkRows[indexPath.row].networks)
             }
         }
+    }
+}
+
+extension List.Table.DataSource {
+    enum Model {
+        case network([PaymentNetwork])
+        case account(RegisteredAccount)
     }
 }
 
@@ -95,9 +99,11 @@ extension List.Table.DataSource: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch sections[section] {
-        case .accounts: return translationProvider.translation(forKey: "accounts.title")
-        case .networks: return translationProvider.translation(forKey: "networks.title")
+        switch (sections[section], operationType) {
+        case (.accounts, .CHARGE): return translationProvider.translation(forKey: "accounts.title")
+        case (.accounts, .UPDATE): return translationProvider.translation(forKey: "accounts.update.title")
+        case (.networks, .CHARGE): return translationProvider.translation(forKey: "networks.title")
+        case (.networks, .UPDATE): return translationProvider.translation(forKey: "networks.update.title")
         }
     }
 

@@ -9,26 +9,38 @@
 import Foundation
 import UIKit
 
-protocol ListTableControllerDelegate: class {
-    func didSelect(paymentNetworks: [PaymentNetwork])
-    func didSelect(registeredAccount: RegisteredAccount)
+protocol ListTableControllerDelegate: AnyObject {
+    func didSelect(paymentNetworks: [PaymentNetwork], operationType: String)
+    func didSelect(registeredAccount: RegisteredAccount, operationType: String)
+    func didRefreshRequest()
 
     var downloadProvider: DataDownloadProvider { get }
 }
 
 extension List.Table {
     final class Controller: NSObject {
-        weak var tableView: UITableView?
+        weak var tableView: UITableView? {
+            didSet { updateRefreshControl() }
+        }
+
         weak var delegate: ListTableControllerDelegate?
 
         let dataSource: List.Table.DataSource
+
+        fileprivate let isRefreshable: Bool
+        fileprivate var refreshControl: UIRefreshControl?
 
         init(session: PaymentSession, translationProvider: SharedTranslationProvider) throws {
             guard let genericLogo = AssetProvider.iconCard else {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }
 
-            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, translation: translationProvider, genericLogo: genericLogo)
+            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, translation: translationProvider, genericLogo: genericLogo, operationType: session.operationType)
+
+            switch session.operationType {
+            case .UPDATE: isRefreshable = true
+            default: isRefreshable = false
+            }
         }
 
         fileprivate func loadLogo(for indexPath: IndexPath) {
@@ -50,6 +62,25 @@ extension List.Table {
     }
 }
 
+extension List.Table.Controller {
+    fileprivate func updateRefreshControl() {
+        guard isRefreshable else {
+            refreshControl?.removeFromSuperview()
+            refreshControl = nil
+            return
+        }
+
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+        tableView?.addSubview(refreshControl)
+        self.refreshControl = refreshControl
+    }
+
+    @objc private func refresh() {
+        delegate?.didRefreshRequest()
+    }
+}
+
 extension List.Table.Controller: UITableViewDataSourcePrefetching {
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
@@ -65,8 +96,8 @@ extension List.Table.Controller: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch dataSource.model(for: indexPath) {
-        case .account(let account): delegate?.didSelect(registeredAccount: account)
-        case .network(let networks): delegate?.didSelect(paymentNetworks: networks)
+        case .account(let account): delegate?.didSelect(registeredAccount: account, operationType: dataSource.operationType.rawValue)
+        case .network(let networks): delegate?.didSelect(paymentNetworks: networks, operationType: dataSource.operationType.rawValue)
         }
 
         tableView.deselectRow(at: indexPath, animated: true)

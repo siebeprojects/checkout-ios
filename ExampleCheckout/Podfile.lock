@@ -55,17 +55,20 @@ PODS:
     - MDFTextAccessibility
   - MDFInternationalization (2.0.0)
   - MDFTextAccessibility (2.0.1)
-  - PayoneerCheckout (0.3.1):
+  - PayoneerCheckout (0.2.1):
     - MaterialComponents/TextFields (= 124.1.1)
+  - SwiftLint (0.43.1)
 
 DEPENDENCIES:
   - PayoneerCheckout (from `../`)
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
     - MaterialComponents
     - MDFInternationalization
     - MDFTextAccessibility
+    - SwiftLint
 
 EXTERNAL SOURCES:
   PayoneerCheckout:
@@ -75,8 +78,9 @@ SPEC CHECKSUMS:
   MaterialComponents: b9f58f24bf74588a83b2dce05802a11aaed5257d
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
-  PayoneerCheckout: 870fc86efb89c60d4da694db2bc02c77950cc753
+  PayoneerCheckout: da6a12b1deb806ddfe71e22fbb03f0281aa4dbc3
+  SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: 59cb5106ab85990c425ec89a70599a7efc06dfd3
+PODFILE CHECKSUM: 329c872be248300e1878731c1acbca85f37c2cc1
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.10.2

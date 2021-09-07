@@ -20,9 +20,9 @@ class PaymentSessionService {
 
     init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider) {
         self.connection = connection
-        paymentServicesFactory = PaymentServicesFactory(connection: connection)
-        downloadProvider = DataDownloadProvider(connection: connection)
-        paymentSessionProvider = PaymentSessionProvider(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider)
+        paymentServicesFactory = .init(connection: connection)
+        downloadProvider = .init(connection: connection)
+        paymentSessionProvider = .init(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider)
         self.localizationProvider = localizationProvider
 
         paymentServicesFactory.registerServices()
@@ -41,11 +41,13 @@ class PaymentSessionService {
                     delegate?.paymentSessionService(loadingDidCompleteWith: .success(session))
 
                     if let selectedNetwork = firstSelectedNetwork(session) {
-                        delegate?.paymentSessionService(shouldSelect: selectedNetwork)
+                        delegate?.paymentSessionService(shouldSelect: selectedNetwork, operationType: session.operationType.rawValue)
                     }
                 }
             case .failure(let error):
-                log(error)
+                if #available(iOS 14.0, *) {
+                    error.log(to: logger)
+                }
 
                 // If server responded with ErrorInfo
                 if let errorInfo = error as? ErrorInfo {
@@ -73,10 +75,8 @@ class PaymentSessionService {
 
     /// Return first preselected network in a session
     private func firstSelectedNetwork(in session: PaymentSession) -> PaymentNetwork? {
-        for network in session.networks {
-            if network.applicableNetwork.selected == true {
-                return network
-            }
+        for network in session.networks where network.applicableNetwork.selected == true {
+            return network
         }
 
         return nil
@@ -89,3 +89,5 @@ enum Load<Success, ErrorType> where ErrorType: Error {
     case failure(ErrorType)
     case success(Success)
 }
+
+extension PaymentSessionService: Loggable {}

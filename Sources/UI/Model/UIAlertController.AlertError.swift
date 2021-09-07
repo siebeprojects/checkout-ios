@@ -16,22 +16,26 @@ extension UIAlertController {
 
         /// Alert window's actions
         var actions = [Action]()
+    }
+}
 
-        struct Action {
-            /// Button's label (localization key), e.g.: `button.ok.label`
-            let label: LocalizationKey
+extension UIAlertController {
+    struct Action {
+        /// Button's label (localization key), e.g.: `button.ok.label`
+        let label: LocalizationKey
 
-            let style: UIAlertAction.Style
+        let style: UIAlertAction.Style
 
-            /// Action to be executed when button is tapped
-            let handler: ((UIAlertAction) -> Void)?
+        /// Action to be executed when button is tapped
+        let handler: ((UIAlertAction) -> Void)?
+    }
+}
 
-            enum LocalizationKey: String {
-                case cancel = "button.cancel.label"
-                case retry = "button.retry.label"
-                case ok = "button.ok.label"
-            }
-        }
+extension UIAlertController.Action {
+    enum LocalizationKey: String {
+        case cancel = "button.cancel.label"
+        case retry = "button.retry.label"
+        case ok = "button.ok.label"
     }
 }
 
@@ -73,34 +77,16 @@ extension UIAlertController.AlertError {
            let title = translator.translation(forKey: "messages.error.internet.title"),
            let message = translator.translation(forKey: "messages.error.internet.text") {
             self.init(title: title, message: message)
+            return
         }
 
-        // Try to localize using `interaction.CODE.REASON.title`
-        else if let title = translator.translation(forKey: error.interaction.localizableError.titleKey),
-                  let message = translator.translation(forKey: error.interaction.localizableError.messageKey) {
-            self.init(title: title, message: message)
-        }
+        let localizer = InteractionLocalizer(translator: translator)
 
-        // Init with a generic error
-        else {
+        if let localizedInteraction = localizer.localize(interaction: error.interaction) {
+            self.init(title: localizedInteraction.title, message: localizedInteraction.message)
+        } else {
+            // Init with a generic error
             self.init(for: error as Error, translator: translator)
         }
-    }
-}
-
-private extension Interaction {
-    /// Error that could be localized using given key for error's title and error's message. Lookup translations using `TranslationProvider`
-    struct LocalizableError: Error {
-        let titleKey: String
-        let messageKey: String
-    }
-
-    var localizableError: LocalizableError {
-        let localizationKeyPrefix = "interaction." + self.code + "." + self.reason + "."
-
-        let titleKey = localizationKeyPrefix + "title"
-        let messageKey = localizationKeyPrefix + "text"
-
-        return LocalizableError(titleKey: titleKey, messageKey: messageKey)
     }
 }

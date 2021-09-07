@@ -73,20 +73,8 @@ class PaymentSessionProvider {
     }
 
     private func checkOperationType(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
-        guard let operationType = listResult.operationType else {
+        guard listResult.operationType != nil else {
             let error = InternalError(description: "Operation type is not specified")
-            completion(.failure(error))
-            return
-        }
-
-        guard let operation = Operation(rawValue: operationType) else {
-            let error = InternalError(description: "Operation type is not known: %@", operationType)
-            completion(.failure(error))
-            return
-        }
-
-        guard case .CHARGE = operation else {
-            let error = InternalError(description: "Operation type is not supported: %@", operationType)
             completion(.failure(error))
             return
         }
@@ -127,8 +115,20 @@ class PaymentSessionProvider {
     private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])
 
     private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworksTuple) -> Void)) {
-        let filteredPaymentNetworks = listResult.networks.applicable.filter { (network) -> Bool in
+        // Filter networks unsupported by any of `PaymentService`
+        var filteredPaymentNetworks = listResult.networks.applicable.filter { network in
             paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
+        }
+
+        // Filter networks with `NONE/NONE` registration options in `UPDATE` flow, more info at: [PCX-1396](https://optile.atlassian.net/browse/PCX-1396) AC #1.a
+        if listResult.operationType == "UPDATE" {
+            filteredPaymentNetworks = filteredPaymentNetworks.filter { network in
+                if case .NONE = network.registrationRequirement, case .NONE = network.recurrenceRequirement {
+                    return false
+                } else {
+                    return true
+                }
+            }
         }
 
         let filteredRegisteredNetworks: [AccountRegistration]
@@ -155,12 +155,11 @@ class PaymentSessionProvider {
             throw InternalError(description: "Operation type or ListResult is not defined")
         }
 
-        return .init(operationType: operationType, networks: translations.networks, accounts: translations.accounts)
-    }
-}
+        // PaymentSession.Operation contains only supported operation types by the framework
+        guard let operation = PaymentSession.Operation(rawValue: operationType) else {
+            throw InternalError(description: "Operation type is not known or supported: %@", operationType)
+        }
 
-private extension PaymentSessionProvider {
-    enum Operation: String {
-        case CHARGE
+        return .init(operationType: operation, networks: translations.networks, accounts: translations.accounts)
     }
 }

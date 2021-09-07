@@ -5,7 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
-import os
+import os.log
 
 class URLSessionConnection: Connection {
     let session = URLSession(configuration: URLSessionConfiguration.default)
@@ -19,11 +19,6 @@ class URLSessionConnection: Connection {
         }
 
         task.resume()
-
-        #if DEBUG
-        let method = request.httpMethod?.uppercased() ?? ""
-        os_log(.debug, "[API] >> %@ %@", method, request.url!.absoluteString)
-        #endif
     }
 
     // MARK: - Helper methods

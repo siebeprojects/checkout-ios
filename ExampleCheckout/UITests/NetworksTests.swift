@@ -8,50 +8,58 @@ import XCTest
 
 class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
-    private let paymentSessionService = PaymentSessionService()!
 
-    // Prepare for network tests (create session, launch app, fill url)
-    override func setUpWithError() throws {
+    /// Load an app and load networks list from list url.
+    /// - Parameter transaction: if `nil`, default `Transaction` will be used
+    func setupWithPaymentSession(using transaction: Transaction? = nil) throws {
         continueAfterFailure = false
 
-        // Create payment session
-        let sessionURL = try createPaymentSession()
+        try XCTContext.runActivity(named: "Setup payment session") { _ in
+            // Create payment session
+            let sessionURL: URL
 
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        self.app = app
-        app.launch()
+            if let transaction = transaction {
+                sessionURL = try createPaymentSession(using: transaction)
+            } else {
+                sessionURL = try createPaymentSession(using: Transaction.loadFromTemplate())
+            }
 
-        // Initial screen
-        let tablesQuery = app.tables
-        if tablesQuery.buttons["Clear text"].exists {
-            tablesQuery.buttons["Clear text"].tap()
+            // UI tests must launch the application that they test.
+            let app = XCUIApplication()
+            self.app = app
+            app.launch()
+
+            // Initial screen
+            let tablesQuery = app.tables
+            tablesQuery.textFields.firstMatch.typeText(sessionURL.absoluteString)
+            tablesQuery.buttons["Send request"].tap()
+
+            // Wait for loading completion
+            XCTAssert(tablesQuery.firstMatch.waitForExistence(timeout: .networkTimeout))
         }
-        tablesQuery.textFields.firstMatch.typeText(sessionURL.absoluteString)
-        tablesQuery.buttons["Send request"].tap()
     }
 
-    private func createPaymentSession() throws -> URL {
+    private func createPaymentSession(using transaction: Transaction) throws -> URL {
         let sessionExpectation = expectation(description: "Create payment session")
-        let transaction = Transaction.loadFromTemplate()
 
         var createSessionResult: Result<URL, Error>?
 
+        let paymentSessionService = PaymentSessionService()!
         paymentSessionService.create(using: transaction, completion: { (result) in
             createSessionResult = result
             sessionExpectation.fulfill()
         })
 
-        wait(for: [sessionExpectation], timeout: 5)
+        wait(for: [sessionExpectation], timeout: .networkTimeout)
 
         switch createSessionResult {
         case .success(let url): return url
-        case .failure(let error): throw error
+        case .failure(let error):
+            let attachment = XCTAttachment(subject: error)
+            attachment.name = "LoadPaymentSessionError"
+            add(attachment)
+            throw error
         case .none: throw "Create session result wasn't set"
         }
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 }
