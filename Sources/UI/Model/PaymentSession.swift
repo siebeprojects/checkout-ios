@@ -24,8 +24,18 @@ final class PaymentSession {
             .init(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator)
         }
 
+        /// Defined in https://optile.atlassian.net/browse/PCX-2012
+        let isDeletable: Bool = {
+            switch context.listOperationType {
+            case .UPDATE:
+                return (context.allowDelete == nil) || (context.allowDelete == true)
+            case .CHARGE:
+                return context.allowDelete == true
+            }
+        }()
+
         self.registeredAccounts = accounts?.map {
-            RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator, isDeletable: context.isDeletable)
+            RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator, isDeletable: isDeletable)
         }
     }
 }

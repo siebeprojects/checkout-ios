@@ -76,18 +76,6 @@ extension Input.ModelTransformer {
             submitButton: submitButton
         )
 
-        /// Defined in https://optile.atlassian.net/browse/PCX-2012
-        let isDeletable: Bool = {
-            switch registeredAccount.apiModel.operationType {
-            case "UPDATE":
-                return (registeredAccount.isDeletable == false) ? false : true
-            case "CHARGE":
-                return registeredAccount.isDeletable == true
-            default:
-                return false
-            }
-        }()
-
         return .init(
             apiModel: .account(registeredAccount.apiModel),
             operationURL: operationURL,
@@ -96,7 +84,7 @@ extension Input.ModelTransformer {
             translator: registeredAccount.translation,
             switchRule: nil,
             uiModel: uiModel,
-            isDeletable: isDeletable
+            isDeletable: registeredAccount.isDeletable
         )
     }
 
