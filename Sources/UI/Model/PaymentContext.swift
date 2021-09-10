@@ -10,9 +10,11 @@ import Foundation
 class PaymentContext {
     let listOperationType: PaymentSession.Operation
     let extraElements: ExtraElements?
+    let isDeletable: Bool?
 
-    init(operationType: PaymentSession.Operation, extraElements: ExtraElements?) {
+    init(operationType: PaymentSession.Operation, extraElements: ExtraElements?, isDeletable: Bool?) {
         self.listOperationType = operationType
         self.extraElements = extraElements
+        self.isDeletable = isDeletable
     }
 }

@@ -25,7 +25,7 @@ final class PaymentSession {
         }
 
         self.registeredAccounts = accounts?.map {
-            RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator)
+            RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator, isDeletable: context.isDeletable)
         }
     }
 }

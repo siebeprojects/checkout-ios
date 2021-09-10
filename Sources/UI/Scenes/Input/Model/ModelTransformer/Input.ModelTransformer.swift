@@ -60,9 +60,6 @@ extension Input.ModelTransformer {
             throw InternalError(description: "Incorrect registered account model, operation URL is not present. Links: %@", objects: registeredAccount.apiModel.links)
         }
 
-        // Detect if we're in UPDATE flow
-        let isDeletable = registeredAccount.apiModel.operationType == "UPDATE"
-
         // Check if we need to show a submit button
         let submitButton: Input.Field.Button?
         if registeredAccount.apiModel.operationType == "UPDATE", accountInputFields.isEmpty {
@@ -78,6 +75,18 @@ extension Input.ModelTransformer {
             inputSections: inputSections,
             submitButton: submitButton
         )
+
+        /// Defined in https://optile.atlassian.net/browse/PCX-2012
+        let isDeletable: Bool = {
+            switch registeredAccount.apiModel.operationType {
+            case "UPDATE":
+                return (registeredAccount.isDeletable == false) ? false : true
+            case "CHARGE":
+                return registeredAccount.isDeletable == true
+            default:
+                return false
+            }
+        }()
 
         return .init(
             apiModel: .account(registeredAccount.apiModel),
