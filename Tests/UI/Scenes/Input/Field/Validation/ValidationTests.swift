@@ -63,7 +63,7 @@ class ValidationTests: XCTestCase {
         let testCases: [MockFactory.Validation.InputElementTestCase]
 
         func test(within activity: XCTActivity) {
-            let context = PaymentContext(operationType: .CHARGE, extraElements: nil)
+            let context = PaymentContext(operationType: .CHARGE, extraElements: nil, isDeletable: nil)
             let transformer = Input.ModelTransformer(paymentContext: context)
             let inputNetwork = try! transformer.transform(paymentNetwork: network)
 
