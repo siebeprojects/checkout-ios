@@ -9,13 +9,13 @@ import UIKit
 final class RegisteredAccount {
     let apiModel: AccountRegistration
     let translation: TranslationProvider
-    let isDeletable: Bool?
+    let isDeletable: Bool
 
     let networkLabel: String
     let submitButtonLabel: String
     var logo: Loadable<UIImage>?
 
-    init(from apiModel: AccountRegistration, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider, isDeletable: Bool?) {
+    init(from apiModel: AccountRegistration, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider, isDeletable: Bool) {
         self.apiModel = apiModel
         self.translation = localizer
         self.isDeletable = isDeletable

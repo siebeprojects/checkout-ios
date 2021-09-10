@@ -160,7 +160,7 @@ class PaymentSessionProvider {
             throw InternalError(description: "Operation type is not known or supported: %@", operationType)
         }
 
-        let context = PaymentContext(operationType: operation, extraElements: listResult?.extraElements, isDeletable: listResult?.allowDelete)
+        let context = PaymentContext(operationType: operation, extraElements: listResult?.extraElements, allowDelete: listResult?.allowDelete)
 
         return .init(networks: translations.networks, accounts: translations.accounts, context: context)
     }
