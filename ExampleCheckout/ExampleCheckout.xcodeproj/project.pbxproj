@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07321F3126EB9EEC00DD2F0E /* DeleteButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */; };
 		3BCEB4344D22A655188DD322 /* Pods_ExampleCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7838BF38EF6A45DB6C258DB /* Pods_ExampleCheckout.framework */; };
 		D917D814267679B0000DB4CA /* ErrorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917D813267679B0000DB4CA /* ErrorInfo.swift */; };
 		D917D816267679F8000DB4CA /* Interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917D815267679F8000DB4CA /* Interaction.swift */; };
@@ -67,6 +68,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonTests.swift; sourceTree = "<group>"; };
 		3C22CD6CD060C1154E4097ED /* Pods-ExampleCheckout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleCheckout.debug.xcconfig"; path = "Target Support Files/Pods-ExampleCheckout/Pods-ExampleCheckout.debug.xcconfig"; sourceTree = "<group>"; };
 		4908350015424F9C57EC4D90 /* Pods-Example-sdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.release.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.release.xcconfig"; sourceTree = "<group>"; };
 		5A64E6638EAF1E31D0F73F96 /* Pods-Example-sdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.debug.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.debug.xcconfig"; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				D9A5FA7E253D8AE3001C71B7 /* Assets */,
 				D956D28525DEB9E0001A2EAD /* NetworksTests.swift */,
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
+				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
 				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
 				D99D048726ADDBE300C027CB /* SepaTests.swift */,
@@ -444,6 +447,7 @@
 				D9A5FA62253CA8BE001C71B7 /* PaymentSessionService.swift in Sources */,
 				D9E1A87C2694810300CF4C9C /* PaymentNetwork.swift in Sources */,
 				D9E1A87E2694893F00CF4C9C /* UpdateFlowTests.swift in Sources */,
+				07321F3126EB9EEC00DD2F0E /* DeleteButtonTests.swift in Sources */,
 				D917D816267679F8000DB4CA /* Interaction.swift in Sources */,
 				D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */,
 				D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */,
