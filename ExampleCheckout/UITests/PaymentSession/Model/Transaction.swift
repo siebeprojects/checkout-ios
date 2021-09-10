@@ -28,6 +28,8 @@ struct Transaction: Codable {
     var operationType: String?
 
     var division: String?
+
+    var allowDelete: Bool?
 }
 
 extension Transaction {
