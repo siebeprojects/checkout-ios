@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,7 +20,7 @@
 /* Begin PBXFileReference section */
 		6A033FFF720096A0789463A1 /* Pods-examplecheckout-objc.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-examplecheckout-objc.debug.xcconfig"; path = "Target Support Files/Pods-examplecheckout-objc/Pods-examplecheckout-objc.debug.xcconfig"; sourceTree = "<group>"; };
 		D7044BBDBC74B0A582E5C4FC /* Pods-examplecheckout-objc.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-examplecheckout-objc.release.xcconfig"; path = "Target Support Files/Pods-examplecheckout-objc/Pods-examplecheckout-objc.release.xcconfig"; sourceTree = "<group>"; };
-		D9642DEB26EFC83200187A00 /* examplecheckout-objc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "examplecheckout-objc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9642DEB26EFC83200187A00 /* ExampleCheckout-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ExampleCheckout-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9642DEE26EFC83200187A00 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D9642DEF26EFC83200187A00 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D9642DF126EFC83200187A00 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
@@ -53,7 +53,6 @@
 				6A033FFF720096A0789463A1 /* Pods-examplecheckout-objc.debug.xcconfig */,
 				D7044BBDBC74B0A582E5C4FC /* Pods-examplecheckout-objc.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -68,7 +67,7 @@
 		D9642DE226EFC83200187A00 = {
 			isa = PBXGroup;
 			children = (
-				D9642DED26EFC83200187A00 /* examplecheckout-objc */,
+				D9642DED26EFC83200187A00 /* Sources */,
 				D9642DEC26EFC83200187A00 /* Products */,
 				4FF25B85D342DFBD2FD60B20 /* Pods */,
 				579A9EE44EACD15C58F14394 /* Frameworks */,
@@ -78,12 +77,12 @@
 		D9642DEC26EFC83200187A00 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D9642DEB26EFC83200187A00 /* examplecheckout-objc.app */,
+				D9642DEB26EFC83200187A00 /* ExampleCheckout-ObjC.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D9642DED26EFC83200187A00 /* examplecheckout-objc */ = {
+		D9642DED26EFC83200187A00 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				D9642DEE26EFC83200187A00 /* AppDelegate.h */,
@@ -98,15 +97,15 @@
 				D9642DFF26EFC83300187A00 /* Info.plist */,
 				D9642E0026EFC83300187A00 /* main.m */,
 			);
-			path = "examplecheckout-objc";
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D9642DEA26EFC83200187A00 /* examplecheckout-objc */ = {
+		D9642DEA26EFC83200187A00 /* ExampleCheckout-ObjC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D9642E0426EFC83300187A00 /* Build configuration list for PBXNativeTarget "examplecheckout-objc" */;
+			buildConfigurationList = D9642E0426EFC83300187A00 /* Build configuration list for PBXNativeTarget "ExampleCheckout-ObjC" */;
 			buildPhases = (
 				2D1DB3B57B2B97D3011FFCB5 /* [CP] Check Pods Manifest.lock */,
 				D9642DE726EFC83200187A00 /* Sources */,
@@ -118,9 +117,9 @@
 			);
 			dependencies = (
 			);
-			name = "examplecheckout-objc";
+			name = "ExampleCheckout-ObjC";
 			productName = "examplecheckout-objc";
-			productReference = D9642DEB26EFC83200187A00 /* examplecheckout-objc.app */;
+			productReference = D9642DEB26EFC83200187A00 /* ExampleCheckout-ObjC.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -136,7 +135,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D9642DE626EFC83200187A00 /* Build configuration list for PBXProject "examplecheckout-objc" */;
+			buildConfigurationList = D9642DE626EFC83200187A00 /* Build configuration list for PBXProject "ExampleCheckout-ObjC" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -149,7 +148,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D9642DEA26EFC83200187A00 /* examplecheckout-objc */,
+				D9642DEA26EFC83200187A00 /* ExampleCheckout-ObjC */,
 			);
 		};
 /* End PBXProject section */
@@ -359,17 +358,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A033FFF720096A0789463A1 /* Pods-examplecheckout-objc.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "examplecheckout-objc/Info.plist";
+				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.payoneer.checkout.examplecheckout-objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -377,24 +377,25 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D7044BBDBC74B0A582E5C4FC /* Pods-examplecheckout-objc.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "examplecheckout-objc/Info.plist";
+				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.payoneer.checkout.examplecheckout-objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D9642DE626EFC83200187A00 /* Build configuration list for PBXProject "examplecheckout-objc" */ = {
+		D9642DE626EFC83200187A00 /* Build configuration list for PBXProject "ExampleCheckout-ObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D9642E0226EFC83300187A00 /* Debug */,
@@ -403,7 +404,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D9642E0426EFC83300187A00 /* Build configuration list for PBXNativeTarget "examplecheckout-objc" */ = {
+		D9642E0426EFC83300187A00 /* Build configuration list for PBXNativeTarget "ExampleCheckout-ObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D9642E0526EFC83300187A00 /* Debug */,

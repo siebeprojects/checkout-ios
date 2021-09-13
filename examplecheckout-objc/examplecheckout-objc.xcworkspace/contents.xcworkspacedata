@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:examplecheckout-objc.xcodeproj">
+      location = "group:/Users/vasily/Git/checkout-ios/ExampleCheckout-ObjC/ExampleCheckout-ObjC.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
