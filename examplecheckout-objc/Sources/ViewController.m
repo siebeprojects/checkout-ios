@@ -27,7 +27,7 @@
     [self.navigationController pushViewController:paymentListViewController animated:true];
 }
 
-// MARK: - PaymentDelegate
+#pragma mark - PaymentDelegate
 
 - (void)paymentServiceWithDidReceivePaymentResult:(PaymentResult * _Nonnull)paymentResult viewController:(PaymentListViewController * _Nonnull)viewController {
     [self.navigationController popViewControllerAnimated:true];
