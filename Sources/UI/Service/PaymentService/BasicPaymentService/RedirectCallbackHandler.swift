@@ -93,6 +93,6 @@ public extension NSNotification.Name {
     static let didReceivePaymentResultURL = NSNotification.Name(rawValue: "BasicPaymentServiceDidReceivePaymentResultURL")
 }
 
-@objc public extension NSNotification {
+public extension NSNotification {
     @objc static let didReceivePaymentResultURL = Notification.Name.didReceivePaymentResultURL
 }
