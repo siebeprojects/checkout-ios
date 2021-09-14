@@ -15,7 +15,7 @@ final class PaymentSession {
     let registeredAccounts: [RegisteredAccount]?
     let context: PaymentContext
 
-    init(networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?, context: PaymentContext) {
+    init(networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?, context: PaymentContext, allowDelete: Bool?) {
         self.context = context
 
         let buttonLocalizationKey = "button.operation." + context.listOperationType.rawValue.uppercased() + ".label"
@@ -28,9 +28,9 @@ final class PaymentSession {
         let isDeletable: Bool = {
             switch context.listOperationType {
             case .UPDATE:
-                return (context.allowDelete == nil) || (context.allowDelete == true)
+                return (allowDelete == nil) || (allowDelete == true)
             case .CHARGE:
-                return context.allowDelete == true
+                return allowDelete == true
             }
         }()
 
