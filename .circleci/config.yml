@@ -26,11 +26,9 @@ jobs:
           paths:
             - Pods
 
-  build_example:
+  build_example_swift:
     macos:
       xcode: 12.5.1
-    environment:
-      FASTLANE_LANE: build_example
     steps:
       - checkout
       - restore_cache:
@@ -44,7 +42,7 @@ jobs:
           key: example-cocoapods-{{ checksum "ExampleCheckout/Podfile.lock" }}
       - run:
           name: Fastlane
-          command: bundle exec fastlane $FASTLANE_LANE
+          command: bundle exec fastlane build_example_swift
       - store_test_results:
           path: output/scan
       - save_cache:
@@ -226,12 +224,12 @@ workflows:
           filters:
             branches:
               only: /.*PCX-.*/
-      - build_example:
+      - build_example_swift:
           requires:
             - request_qa
       - browserstack:
           requires:
-            - build_example
+            - build_example_swift
             - request_qa
       - lib_lint:
           filters:
