@@ -25,7 +25,7 @@ final class DeleteButtonTests: NetworksTests {
 
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .update, allowDelete: true)
-            try setupWithPaymentSession(using: transaction)
+            try startPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
@@ -37,7 +37,7 @@ final class DeleteButtonTests: NetworksTests {
 
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .update, allowDelete: false)
-            try setupWithPaymentSession(using: transaction)
+            try startPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
@@ -49,7 +49,7 @@ final class DeleteButtonTests: NetworksTests {
 
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .update, allowDelete: nil)
-            try setupWithPaymentSession(using: transaction)
+            try startPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
@@ -61,7 +61,7 @@ final class DeleteButtonTests: NetworksTests {
 
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .charge, allowDelete: true)
-            try setupWithPaymentSession(using: transaction)
+            try startPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
@@ -73,7 +73,7 @@ final class DeleteButtonTests: NetworksTests {
 
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .charge, allowDelete: false)
-            try setupWithPaymentSession(using: transaction)
+            try startPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
@@ -85,7 +85,7 @@ final class DeleteButtonTests: NetworksTests {
 
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .charge, allowDelete: nil)
-            try setupWithPaymentSession(using: transaction)
+            try startPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
@@ -99,7 +99,7 @@ extension DeleteButtonTests {
     private func addPaymentMethodIfNeeded(_ method: PaymentNetwork) throws {
         try XCTContext.runActivity(named: "Save new payment method") { _ in
             let transaction = try Transaction(operationType: .update)
-            try setupWithPaymentSession(using: transaction)
+            try startPaymentSession(transaction: transaction)
 
             if !app.tables.staticTexts[method.maskedLabel].exists {
                 app.tables.staticTexts["Cards"].tap()

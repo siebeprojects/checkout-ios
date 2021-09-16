@@ -10,7 +10,7 @@ import XCTest
 class ThreeDSTests: NetworksTests {
     func testProceedOk() throws {
         let transaction = try Transaction(magicNumber: .threeDS2, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
+        try startPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
@@ -32,7 +32,7 @@ class ThreeDSTests: NetworksTests {
 
     func testProceedPending() throws {
         let transaction = try Transaction(magicNumber: .threeDS2, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
+        try startPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
@@ -61,7 +61,7 @@ class ThreeDSTests: NetworksTests {
 
     func testAbort() throws {
         let transaction = try Transaction(magicNumber: .threeDS2, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
+        try startPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
