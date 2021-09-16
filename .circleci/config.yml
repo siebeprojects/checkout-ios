@@ -201,21 +201,9 @@ jobs:
           command: Pods/SwiftLint/swiftlint --config ExampleCheckout/.swiftlint.yml --reporter emoji --quiet --strict
 
 workflows:
-  # Build workflow, only for pull requests
-  test:
+  # Workflow for manual testing
+  qa:
     jobs:
-      - swiftlint:
-          filters:
-            branches:
-              only: /.*PCX-.*/
-      - unit_test:
-          filters:
-            branches:
-              only: /.*PCX-.*/
-      - ui_test:
-          filters:
-            branches:
-              only: /.*PCX-.*/
       - request_qa:
           type: approval
           requires:
@@ -231,6 +219,22 @@ workflows:
           requires:
             - build_example_swift
             - request_qa
+
+  # Automated tests workflow
+  test:
+    jobs:
+      - swiftlint:
+          filters:
+            branches:
+              only: /.*PCX-.*/
+      - unit_test:
+          filters:
+            branches:
+              only: /.*PCX-.*/
+      - ui_test:
+          filters:
+            branches:
+              only: /.*PCX-.*/
       - lib_lint:
           filters:
             branches:
