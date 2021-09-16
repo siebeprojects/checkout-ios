@@ -133,7 +133,7 @@ class CardsTests: NetworksTests {
     // MARK: Interface tests
 
     func testClearButton() throws {
-        try setupWithPaymentSession()
+        try setupWithPaymentSession(using: Transaction())
 
         // List
         app.tables.staticTexts["Cards"].tap()

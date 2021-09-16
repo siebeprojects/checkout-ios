@@ -11,18 +11,12 @@ class NetworksTests: XCTestCase {
 
     /// Load an app and load networks list from list url.
     /// - Parameter transaction: if `nil`, default `Transaction` will be used
-    func setupWithPaymentSession(using transaction: Transaction? = nil) throws {
+    func setupWithPaymentSession(using transaction: Transaction) throws {
         continueAfterFailure = false
 
         try XCTContext.runActivity(named: "Setup payment session") { _ in
             // Create payment session
-            let sessionURL: URL
-
-            if let transaction = transaction {
-                sessionURL = try createPaymentSession(using: transaction)
-            } else {
-                sessionURL = try createPaymentSession(using: Transaction())
-            }
+            let sessionURL = try createPaymentSession(using: transaction)
 
             // UI tests must launch the application that they test.
             let app = XCUIApplication()

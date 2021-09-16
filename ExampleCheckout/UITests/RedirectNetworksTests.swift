@@ -8,7 +8,7 @@ import XCTest
 
 class RedirectNetworksTests: NetworksTests {
     func testPayPalAccept() throws {
-        try setupWithPaymentSession()
+        try setupWithPaymentSession(using: Transaction())
 
         app.tables.staticTexts["PayPal"].tap()
         app.collectionViews.buttons["Pay"].tap()
@@ -25,7 +25,7 @@ class RedirectNetworksTests: NetworksTests {
     }
 
     func testPayPalFailure() throws {
-        try setupWithPaymentSession()
+        try setupWithPaymentSession(using: Transaction())
 
         app.tables.staticTexts["PayPal"].tap()
         app.collectionViews.buttons["Pay"].tap()
