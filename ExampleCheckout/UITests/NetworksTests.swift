@@ -21,7 +21,7 @@ class NetworksTests: XCTestCase {
             if let transaction = transaction {
                 sessionURL = try createPaymentSession(using: transaction)
             } else {
-                sessionURL = try createPaymentSession(using: Transaction.loadFromTemplate())
+                sessionURL = try createPaymentSession(using: Transaction())
             }
 
             // UI tests must launch the application that they test.
@@ -45,7 +45,7 @@ class NetworksTests: XCTestCase {
         var createSessionResult: Result<URL, Error>?
 
         let paymentSessionService = PaymentSessionService()!
-        paymentSessionService.create(using: transaction, completion: { (result) in
+        paymentSessionService.create(using: transaction, completion: { result in
             createSessionResult = result
             sessionExpectation.fulfill()
         })
@@ -53,13 +53,17 @@ class NetworksTests: XCTestCase {
         wait(for: [sessionExpectation], timeout: .networkTimeout)
 
         switch createSessionResult {
-        case .success(let url): return url
+        case .success(let url):
+            return url
+
         case .failure(let error):
             let attachment = XCTAttachment(subject: error)
             attachment.name = "LoadPaymentSessionError"
             add(attachment)
             throw error
-        case .none: throw "Create session result wasn't set"
+
+        case .none:
+            throw "Create session result wasn't set"
         }
     }
 }
