@@ -9,24 +9,13 @@ import XCTest
 
 struct Transaction: Codable {
     let integration: String
-
-    /// Identifier for this transaction given by the merchant. It is not validated for uniqueness by OPG, but may be checked for by some PSPs, thus recommended to be unique.
     let transactionId: String
-
-    /// Country where the payment is originating. This influences the choice of the available payment networks. Value format is according to ISO 3166-1 (alpha-2), e.g. "DE", "FR", "US", "GB", etc.
     let country: String
-
     let callback: Callback
     let customer: Customer
     let payment: Payment
-
     let style: Style
-
-    /// Type of operation this `LIST` session is initialized for.
-    ///
-    /// **Default** type is `CHARGE` unless `operationType` is explicitly set or one of the legacy options is supplied during `LIST` initialization: `updateOnly`, `presetFirst`, or `preselection.direction`
     let operationType: String
-
     let allowDelete: Bool?
 
     init(magicNumber: MagicNumber = .nonMagicNumber, operationType: OperationType = .charge, allowDelete: Bool? = nil) throws {
@@ -85,25 +74,25 @@ extension Transaction {
 
         private var chargeFlowValue: Double {
             switch self {
-            case .proceedOK: return 1.01
-            case .proceedPending: return 1.04
-            case .retry: return 1.03
+            case .proceedOK:       return 1.01
+            case .proceedPending:  return 1.04
+            case .retry:           return 1.03
             case .tryOtherNetwork: return 1.20
             case .tryOtherAccount: return 1.21
-            case .nonMagicNumber: return 15
-            case .threeDS2: return 1.23
+            case .nonMagicNumber:  return 15
+            case .threeDS2:        return 1.23
             }
         }
 
         private var updateFlowValue: Double? {
             switch self {
-            case .proceedOK: return 1.01
-            case .proceedPending: return 7.51
-            case .retry: return nil
+            case .proceedOK:       return 1.01
+            case .proceedPending:  return 7.51
+            case .retry:           return nil
             case .tryOtherNetwork: return nil
             case .tryOtherAccount: return 1.21
-            case .nonMagicNumber: return 15
-            case .threeDS2: return nil
+            case .nonMagicNumber:  return 15
+            case .threeDS2:        return nil
             }
         }
     }
