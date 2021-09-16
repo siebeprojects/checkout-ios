@@ -157,14 +157,16 @@ extension Input.ModelTransformer {
     private func createInputSections(from extraElements: ExtraElements) -> Set<InputSection> {
         var inputSections = Set<InputSection>()
 
+        let extraElementsTransformer = ExtraElementsTransformer()
+
         if let topElements = extraElements.top {
-            let inputFields = topElements.map { $0.createInputField() }
+            let inputFields = topElements.compactMap { extraElementsTransformer.createInputField(from: $0) }
             let section = InputSection(category: .extraElements(at: .top), inputFields: inputFields)
             inputSections.insert(section)
         }
 
         if let bottomElements = extraElements.bottom {
-            let inputFields = bottomElements.map { $0.createInputField() }
+            let inputFields = bottomElements.compactMap { extraElementsTransformer.createInputField(from: $0) }
             let section = InputSection(category: .extraElements(at: .bottom), inputFields: inputFields)
             inputSections.insert(section)
         }
