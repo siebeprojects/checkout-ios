@@ -15,7 +15,7 @@ import UIKit
     let sharedTranslationProvider: SharedTranslationProvider
     fileprivate let router: List.Router
 
-    public weak var delegate: PaymentDelegate?
+    @objc public weak var delegate: PaymentDelegate?
 
     let stateManager = StateManager()
     let viewManager = ViewManager()

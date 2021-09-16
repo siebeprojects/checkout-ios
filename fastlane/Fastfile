@@ -19,8 +19,8 @@ platform :ios do
     )
   end
 
-  desc "Build example app"
-  lane :build_example do
+  desc "Build example app (Swift)"
+  lane :build_example_swift do
     filename = "ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     cocoapods(podfile: "./ExampleCheckout/Podfile")
     increment_build_number(
@@ -30,7 +30,7 @@ platform :ios do
     match(type: "adhoc", readonly: is_ci)
     build_ios_app(
       silent: true,
-      scheme: "ExampleCheckout",
+      scheme: "Swift",
       workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace",
       output_directory: "/tmp/workspace/output",
       output_name: filename,
@@ -48,11 +48,11 @@ platform :ios do
     )
   end
 
-  desc "Run UI tests"
+  desc "Run UI tests (Swift)"
   lane :ui_test do
     cocoapods(podfile: "./ExampleCheckout/Podfile")
     run_tests(
-      scheme: "ExampleCheckout",
+      scheme: "Swift",
       derived_data_path: "/tmp/workspace/derived_data",
       workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
       devices: ["iPhone 12"],
