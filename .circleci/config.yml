@@ -206,9 +206,6 @@ workflows:
     jobs:
       - request_qa:
           type: approval
-          requires:
-            - unit_test
-            - ui_test
           filters:
             branches:
               only: /.*PCX-.*/
