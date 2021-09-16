@@ -162,6 +162,6 @@ class PaymentSessionProvider {
 
         let context = PaymentContext(operationType: operation, extraElements: listResult?.extraElements)
 
-        return .init(networks: translations.networks, accounts: translations.accounts, context: context)
+        return .init(networks: translations.networks, accounts: translations.accounts, context: context, allowDelete: listResult?.allowDelete)
     }
 }

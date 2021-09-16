@@ -22,7 +22,7 @@ extension MockFactory.ListResult {
         }
 
         let context = PaymentContext(operationType: .CHARGE, extraElements: nil)
-        return PaymentSession(networks: translatedNetworks, accounts: nil, context: context)
+        return PaymentSession(networks: translatedNetworks, accounts: nil, context: context, allowDelete: nil)
     }
 
     static var listResultData: Data {

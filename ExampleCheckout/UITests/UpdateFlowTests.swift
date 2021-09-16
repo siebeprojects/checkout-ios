@@ -92,40 +92,6 @@ extension UpdateFlowTests {
     }
 }
 
-// MARK: Test: DeleteButtonShouldntAppear
-
-extension UpdateFlowTests {
-    func testDeleteButtonShouldntAppear() throws {
-        let visa = Visa()
-
-        try XCTContext.runActivity(named: "Save the new payment method") { _ in
-            let transaction = try Transaction.loadFromTemplate(operationType: .update)
-            try setupWithPaymentSession(using: transaction)
-
-            try addPaymentNetworkIfNeeded(visa)
-        }
-
-        try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction.loadFromTemplate(operationType: .charge)
-            try setupWithPaymentSession(using: transaction)
-
-            delete(paymentNetwork: visa)
-        }
-    }
-
-    private func addPaymentNetworkIfNeeded(_ paymentNetwork: PaymentNetwork) throws {
-        // Add a payment method if it doesn't exist
-        if !app.tables.staticTexts[paymentNetwork.maskedLabel].exists {
-            submitAndWaitForExistence(forPaymentNetwork: paymentNetwork)
-        }
-    }
-
-    private func delete(paymentNetwork: PaymentNetwork) {
-        app.tables.staticTexts[paymentNetwork.maskedLabel].tap()
-        XCTAssertFalse(app.navigationBars.buttons["Delete"].exists, "Delete button shouldn't exist in a CHARGE flow")
-    }
-}
-
 // MARK: - Class helpers
 
 fileprivate extension UpdateFlowTests {
