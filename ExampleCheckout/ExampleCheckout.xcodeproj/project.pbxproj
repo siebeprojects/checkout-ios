@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07321F3126EB9EEC00DD2F0E /* DeleteButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */; };
+		07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		3BCEB4344D22A655188DD322 /* Pods_ExampleCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7838BF38EF6A45DB6C258DB /* Pods_ExampleCheckout.framework */; };
 		D917D814267679B0000DB4CA /* ErrorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917D813267679B0000DB4CA /* ErrorInfo.swift */; };
 		D917D816267679F8000DB4CA /* Interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917D815267679F8000DB4CA /* Interaction.swift */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonTests.swift; sourceTree = "<group>"; };
+		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
 		3C22CD6CD060C1154E4097ED /* Pods-ExampleCheckout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleCheckout.debug.xcconfig"; path = "Target Support Files/Pods-ExampleCheckout/Pods-ExampleCheckout.debug.xcconfig"; sourceTree = "<group>"; };
 		4908350015424F9C57EC4D90 /* Pods-Example-sdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.release.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.release.xcconfig"; sourceTree = "<group>"; };
 		5A64E6638EAF1E31D0F73F96 /* Pods-Example-sdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.debug.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.debug.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				D956D28525DEB9E0001A2EAD /* NetworksTests.swift */,
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
+				07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */,
 				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
 				D99D048726ADDBE300C027CB /* SepaTests.swift */,
@@ -451,6 +454,7 @@
 				D917D816267679F8000DB4CA /* Interaction.swift in Sources */,
 				D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */,
 				D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */,
+				07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */,
 				D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */,
 				D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,

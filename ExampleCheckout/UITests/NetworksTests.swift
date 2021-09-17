@@ -10,7 +10,7 @@ class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
 
     /// Load an app and load networks list from list url.
-    func startPaymentSession(transaction: Transaction) throws {
+    func startPaymentSession(transaction: Transaction, url: URL? = nil) throws {
         continueAfterFailure = false
 
         try XCTContext.runActivity(named: "Start payment session") { _ in
@@ -24,7 +24,7 @@ class NetworksTests: XCTestCase {
 
             // Initial screen
             let tablesQuery = app.tables
-            tablesQuery.textFields.firstMatch.typeText(sessionURL.absoluteString)
+            tablesQuery.textFields.firstMatch.typeText(url?.absoluteString ?? sessionURL.absoluteString)
             tablesQuery.buttons["Send request"].tap()
 
             // Wait for loading completion
