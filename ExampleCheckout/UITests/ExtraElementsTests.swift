@@ -31,27 +31,11 @@ final class ExtraElementsTests: NetworksTests {
         }
     }
 
-    func testExtraElements_whenContainsLink_shouldOpenSafari() throws {
-        try XCTContext.runActivity(named: "Open payment form") { _ in
-            try startPaymentSession(transaction: Transaction(), url: topBottomElementsURL)
-            app.staticTexts["Cards"].tap()
-            app.textViews.firstMatch.links["Number 1"].tap()
-            XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 1))
-        }
-    }
-
     func testExtraElements_whenTop_shouldDisplayTop() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try startPaymentSession(transaction: Transaction(), url: topElementURL)
-            app.staticTexts["Cards"].tap()
-            XCTAssertTrue(app.textViews["Top Element Number 1 with invalid link"].exists)
-        }
-    }
-
-    func testExtraElements_whenTop_shouldNotDisplayBottom() throws {
-        try XCTContext.runActivity(named: "Open payment form") { _ in
-            try startPaymentSession(transaction: Transaction(), url: topElementURL)
             app.tables.staticTexts["Cards"].tap()
+            XCTAssertTrue(app.textViews["Top Element Number 1 with invalid link"].exists)
             XCTAssertFalse(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
         }
     }
@@ -61,14 +45,16 @@ final class ExtraElementsTests: NetworksTests {
             try startPaymentSession(transaction: Transaction(), url: bottomElementURL)
             app.tables.staticTexts["Cards"].tap()
             XCTAssertTrue(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
+            XCTAssertFalse(app.textViews["Top Element Number 1 with invalid link"].exists)
         }
     }
 
-    func testExtraElements_whenBottom_shouldNotDisplayTop() throws {
+    func testExtraElements_whenContainsLink_shouldOpenSafari() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try startPaymentSession(transaction: Transaction(), url: bottomElementURL)
-            app.tables.staticTexts["Cards"].tap()
-            XCTAssertFalse(app.textViews["Top Element Number 1 with invalid link"].exists)
+            try startPaymentSession(transaction: Transaction(), url: topBottomElementsURL)
+            app.staticTexts["Cards"].tap()
+            app.textViews.firstMatch.links["Number 1"].tap()
+            XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 1))
         }
     }
 }
