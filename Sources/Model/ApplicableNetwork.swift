@@ -20,10 +20,10 @@ class ApplicableNetwork: NSObject, Decodable {
     let grouping: String
 
     /// Indicates whether this payment network supports registration and how this should be presented on payment page
-    let registration: String
+    let registration: RegistrationOption
 
     /// Indicates whether this payment network supports recurring registration and how this should be presented on payment page
-    let recurrence: String
+    let recurrence: RegistrationOption
 
     /// If `true` the payment via this network will result in redirect to the PSP web-site (e.g. PayPal, Sofortüberweisung, etc.)
     let redirect: Bool
@@ -56,7 +56,7 @@ class ApplicableNetwork: NSObject, Decodable {
     let operationType: String
 
     // swiftlint:disable:next line_length
-    internal init(code: String, label: String, method: String, grouping: String, registration: String, recurrence: String, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, inputElements: [InputElement]?, links: [String: URL]? = nil, operationType: String) {
+    internal init(code: String, label: String, method: String, grouping: String, registration: RegistrationOption, recurrence: RegistrationOption, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, inputElements: [InputElement]?, links: [String: URL]? = nil, operationType: String) {
         self.code = code
         self.label = label
         self.method = method
@@ -76,12 +76,7 @@ class ApplicableNetwork: NSObject, Decodable {
 
     // MARK: -
 
-    enum Requirement: String {
+    enum RegistrationOption: String, Decodable {
         case NONE, OPTIONAL, OPTIONAL_PRESELECTED, FORCED, FORCED_DISPLAYED
-    }
-
-    var registrationRequirement: Requirement? { Requirement(rawValue: registration) }
-    var recurrenceRequirement: Requirement? {
-        Requirement(rawValue: recurrence)
     }
 }

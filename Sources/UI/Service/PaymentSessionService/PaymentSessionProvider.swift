@@ -123,7 +123,7 @@ class PaymentSessionProvider {
         // Filter networks with `NONE/NONE` registration options in `UPDATE` flow, more info at: [PCX-1396](https://optile.atlassian.net/browse/PCX-1396) AC #1.a
         if listResult.operationType == "UPDATE" {
             filteredPaymentNetworks = filteredPaymentNetworks.filter { network in
-                if case .NONE = network.registrationRequirement, case .NONE = network.recurrenceRequirement {
+                if case .NONE = network.registration, case .NONE = network.recurrence {
                     return false
                 } else {
                     return true

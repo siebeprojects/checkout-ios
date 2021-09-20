@@ -83,9 +83,9 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
 extension Input.ModelTransformer.RegistrationOptionsBuilder {
     struct RegistrationOption {
         let type: CheckboxType
-        let requirement: ApplicableNetwork.Requirement
+        let requirement: ApplicableNetwork.RegistrationOption
 
-        init(type: RegistrationOption.CheckboxType, requirement: ApplicableNetwork.Requirement?) {
+        init(type: RegistrationOption.CheckboxType, requirement: ApplicableNetwork.RegistrationOption?) {
             self.type = type
             self.requirement = requirement ?? .NONE
         }
