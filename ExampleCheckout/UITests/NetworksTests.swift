@@ -37,11 +37,12 @@ class NetworksTests: XCTestCase {
 
         var createSessionResult: Result<URL, Error>?
 
-        let paymentSessionService = PaymentSessionService()!
-        paymentSessionService.create(using: transaction, completion: { result in
+        let paymentSessionService = try PaymentSessionService()
+
+        paymentSessionService.create(using: transaction) { result in
             createSessionResult = result
             sessionExpectation.fulfill()
-        })
+        }
 
         wait(for: [sessionExpectation], timeout: .networkTimeout)
 
