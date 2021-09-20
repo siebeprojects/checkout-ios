@@ -10,9 +10,10 @@ import XCTest
 final class DeleteButtonTests: NetworksTests {
     private var paymentMethod: PaymentNetwork!
 
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         paymentMethod = Visa()
+        try addPaymentMethodIfNeeded(paymentMethod)
     }
 
     override func tearDown() {
@@ -21,8 +22,6 @@ final class DeleteButtonTests: NetworksTests {
     }
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsTrue_shouldShow() throws {
-        try addPaymentMethodIfNeeded(paymentMethod)
-
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .update, allowDelete: true)
             try startPaymentSession(transaction: transaction)
@@ -33,8 +32,6 @@ final class DeleteButtonTests: NetworksTests {
     }
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsFalse_shouldHide() throws {
-        try addPaymentMethodIfNeeded(paymentMethod)
-
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .update, allowDelete: false)
             try startPaymentSession(transaction: transaction)
@@ -45,8 +42,6 @@ final class DeleteButtonTests: NetworksTests {
     }
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsNil_shouldShow() throws {
-        try addPaymentMethodIfNeeded(paymentMethod)
-
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .update, allowDelete: nil)
             try startPaymentSession(transaction: transaction)
@@ -57,8 +52,6 @@ final class DeleteButtonTests: NetworksTests {
     }
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsTrue_shouldShow() throws {
-        try addPaymentMethodIfNeeded(paymentMethod)
-
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .charge, allowDelete: true)
             try startPaymentSession(transaction: transaction)
@@ -69,8 +62,6 @@ final class DeleteButtonTests: NetworksTests {
     }
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsFalse_shouldHide() throws {
-        try addPaymentMethodIfNeeded(paymentMethod)
-
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .charge, allowDelete: false)
             try startPaymentSession(transaction: transaction)
@@ -81,8 +72,6 @@ final class DeleteButtonTests: NetworksTests {
     }
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsNil_shouldHide() throws {
-        try addPaymentMethodIfNeeded(paymentMethod)
-
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction(operationType: .charge, allowDelete: nil)
             try startPaymentSession(transaction: transaction)
