@@ -42,7 +42,8 @@ extension Input.ViewController.PaymentController {
 
         let inputFieldsDictionary: [String: String]
         do {
-            inputFieldsDictionary = try createInputFields(from: network)
+            let fabric = Input.ViewController.PaymentModelFabric()
+            inputFieldsDictionary = try fabric.createInputFields(from: network)
         } catch {
             let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
             delegate?.paymentController(didFailWith: errorInfo, for: nil)
@@ -53,56 +54,6 @@ extension Input.ViewController.PaymentController {
 
         service?.send(operationRequest: request)
     }
-
-    private func createInputFields(from network: Input.Network) throws -> [String: String] {
-        var inputFieldsDictionary = [String: String]()
-
-        // TODO: Rework when send POST request with extra elements
-        var inputFields = [InputField]()
-        if let inputElements = network.uiModel.inputSections[.inputElements] {
-            inputFields += inputElements.inputFields
-        }
-        if let registration = network.uiModel.inputSections[.registration] {
-            inputFields += registration.inputFields
-        }
-
-        for element in network.uiModel.inputSections.flatMap({ $0.inputFields }) {
-            if element.name == "expiryDate" {
-                // Transform expiryDate to month and a full year
-                let dateComponents = try createDateComponents(fromExpiryDateString: element.value)
-                inputFieldsDictionary["expiryMonth"] = dateComponents.month
-                inputFieldsDictionary["expiryYear"] = dateComponents.year
-            } else {
-                inputFieldsDictionary[element.name] = element.value
-            }
-        }
-
-        return inputFieldsDictionary
-    }
-
-    /// Create month and full year for short date string
-    /// - Parameter expiryDate: example `03/30`
-    /// - Returns: month and full year
-    private func createDateComponents(fromExpiryDateString expiryDate: String) throws -> (month: String, year: String) {
-        let expiryMonth = String(expiryDate.prefix(2))
-        let shortYear = String(expiryDate.suffix(2))
-        let expiryYear = try DateFormatter.string(fromShortYear: shortYear)
-        return (month: expiryMonth, year: expiryYear)
-    }
 }
 
-private extension Input.Network.APIModel {
-    var links: [String: URL]? {
-        switch self {
-        case .account(let account): return account.links
-        case .network(let network): return network.links
-        }
-    }
 
-    var operationType: String {
-        switch self {
-        case .account(let account): return account.operationType
-        case .network(let network): return network.operationType
-        }
-    }
-}

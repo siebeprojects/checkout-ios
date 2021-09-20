@@ -50,6 +50,22 @@ extension Input.Network {
     }
 }
 
+extension Input.Network.APIModel {
+    var links: [String: URL]? {
+        switch self {
+        case .account(let account): return account.links
+        case .network(let network): return network.links
+        }
+    }
+
+    var operationType: String {
+        switch self {
+        case .account(let account): return account.operationType
+        case .network(let network): return network.operationType
+        }
+    }
+}
+
 extension Input.Network: Equatable {
     static func == (lhs: Input.Network, rhs: Input.Network) -> Bool {
         return lhs.networkCode == rhs.networkCode
