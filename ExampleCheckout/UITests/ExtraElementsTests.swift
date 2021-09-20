@@ -49,6 +49,15 @@ final class ExtraElementsTests: NetworksTests {
         }
     }
 
+    func testExtraElements_whenContainsCheckbox_shouldNotDisplay() throws {
+        try XCTContext.runActivity(named: "Open payment form") { _ in
+            try startPaymentSession(transaction: Transaction(), url: topBottomElementsURL)
+            app.tables.staticTexts["Cards"].tap()
+            XCTAssertFalse(app.textViews["Top Element Number 2 with a Checkbox view"].exists)
+            XCTAssertFalse(app.textViews["Bottom Element Number 1 with an Checkbox optional title"].exists)
+        }
+    }
+
     func testExtraElements_whenContainsLink_shouldOpenSafari() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try startPaymentSession(transaction: Transaction(), url: topBottomElementsURL)
