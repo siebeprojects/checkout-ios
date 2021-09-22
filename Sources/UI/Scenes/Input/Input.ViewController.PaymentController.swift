@@ -40,20 +40,89 @@ extension Input.ViewController.PaymentController {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
         service?.delegate = operationResultHandler
 
-        let inputFieldsDictionary: [String: String]
         do {
-            let fabric = Input.ViewController.PaymentModelFabric()
-            inputFieldsDictionary = try fabric.createInputFields(from: network)
+            let builder = PaymentRequestBuilder()
+            let paymentRequest = try builder.createPaymentRequest(for: network)
+            service?.send(operationRequest: paymentRequest)
         } catch {
             let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
             delegate?.paymentController(didFailWith: errorInfo, for: nil)
             return
         }
-
-        let request = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.apiModel.operationType, inputFields: inputFieldsDictionary)
-
-        service?.send(operationRequest: request)
     }
 }
 
+// MARK: - PaymentRequestBuilder
 
+private struct PaymentRequestBuilder: Loggable {
+    /// Create a payment request with data from `Input.Network`
+    ///
+    /// - Warning: extra elements section will be ignored (to be implemented)
+    func createPaymentRequest(for network: Input.Network) throws -> PaymentRequest {
+        var paymentRequest = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.operationType)
+
+        if let inputElementsSection = network.uiModel.inputSections[.inputElements] {
+            paymentRequest.inputFields = try createDictionary(forInputElementsFields: inputElementsSection.inputFields)
+        }
+
+        if let registrationSection = network.uiModel.inputSections[.registration] {
+            setRegistrationOptions(in: &paymentRequest, forRegistrationFields: registrationSection.inputFields)
+        }
+
+        return paymentRequest
+    }
+
+    private func createDictionary(forInputElementsFields inputFields: [InputField]) throws -> [String: String] {
+        var dictionary = [String: String]()
+
+        for inputField in inputFields {
+            switch inputField.id {
+            case .expiryDate:
+                let date = ExpirationDate(shortDate: inputField.value)
+                dictionary["expiryMonth"] = date.getMonth()
+                dictionary["expiryYear"] = try date.getYear()
+            case .inputElementName(let name):
+                dictionary[name] = inputField.value
+            default:
+                if #available(iOS 14.0, *) {
+                    logger.critical("Unexpected input field was found in input elements section: \(String(describing: inputField.id), privacy: .private)")
+                }
+            }
+        }
+
+        return dictionary
+    }
+
+    private func setRegistrationOptions(in paymentRequest: inout PaymentRequest, forRegistrationFields inputFields: [InputField]) {
+        for inputField in inputFields {
+            switch inputField.id {
+            case .registration:
+                paymentRequest.autoRegistration = Bool(stringValue: inputField.value)
+            case .recurrence:
+                paymentRequest.allowRecurrence = Bool(stringValue: inputField.value)
+            case .combinedRegistration:
+                let isOn = Bool(stringValue: inputField.value)
+                paymentRequest.autoRegistration = isOn
+                paymentRequest.allowRecurrence = isOn
+            default:
+                if #available(iOS 14.0, *) {
+                    logger.critical("Unexpected input field was found in registration section: \(String(describing: inputField.id), privacy: .private)")
+                }
+            }
+        }
+    }
+}
+
+private struct ExpirationDate {
+    /// Date in `MMYY` format
+    let shortDate: String
+
+    func getMonth() -> String {
+        return String(shortDate.prefix(2))
+    }
+
+    func getYear() throws -> String {
+        let shortYear = String(shortDate.suffix(2))
+        return try DateFormatter.string(fromShortYear: shortYear)
+    }
+}

@@ -28,7 +28,6 @@
 		D91FC802268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */; };
 		D91FC804268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */; };
 		D91FC80626886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */; };
-		D9239F0426F7B1FC00272A99 /* Input.ViewController.PaymentModelFabric.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9239F0326F7B1FC00272A99 /* Input.ViewController.PaymentModelFabric.swift */; };
 		D925E95D26D7C846007F8AC2 /* InteractionLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925E95C26D7C846007F8AC2 /* InteractionLocalizer.swift */; };
 		D928CD8525B9F9B300DE602F /* BrowserDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */; };
 		D934255D26814883008EB74A /* DeregistrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D934255C26814883008EB74A /* DeregistrationData.swift */; };
@@ -266,7 +265,6 @@
 		D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.RegistrationOptionsBuilder.swift; sourceTree = "<group>"; };
 		D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.ExpirationDateManager.swift; sourceTree = "<group>"; };
 		D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.InputElementsTransformer.swift; sourceTree = "<group>"; };
-		D9239F0326F7B1FC00272A99 /* Input.ViewController.PaymentModelFabric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.PaymentModelFabric.swift; sourceTree = "<group>"; };
 		D925E95C26D7C846007F8AC2 /* InteractionLocalizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionLocalizer.swift; sourceTree = "<group>"; };
 		D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserDataBuilder.swift; sourceTree = "<group>"; };
 		D934255C26814883008EB74A /* DeregistrationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeregistrationData.swift; sourceTree = "<group>"; };
@@ -594,7 +592,6 @@
 				D9E9C22126E23BC8006E4B82 /* Input.ViewController.BrowserController.swift */,
 				D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */,
 				D96A4E91257D96EE00E74C8C /* Input.ViewController.PaymentController.swift */,
-				D9239F0326F7B1FC00272A99 /* Input.ViewController.PaymentModelFabric.swift */,
 				D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */,
 			);
 			path = Input;
@@ -1495,7 +1492,6 @@
 				D96A4F70257D96EF00E74C8C /* Input.Field.Button.swift in Sources */,
 				D96A4F63257D96EF00E74C8C /* Input.Table.DetailedTextLogoView.swift in Sources */,
 				D96A4F57257D96EF00E74C8C /* Input.Table.Validator.swift in Sources */,
-				D9239F0426F7B1FC00272A99 /* Input.ViewController.PaymentModelFabric.swift in Sources */,
 				D96A4FD9257D96EF00E74C8C /* Error+log.swift in Sources */,
 				D96A4FD2257D96EF00E74C8C /* Style.swift in Sources */,
 				D96A4F64257D96EF00E74C8C /* Input.Table.LogoTextView.swift in Sources */,

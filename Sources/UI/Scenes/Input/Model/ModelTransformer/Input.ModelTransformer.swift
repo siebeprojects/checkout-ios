@@ -104,16 +104,9 @@ extension Input.ModelTransformer {
         // Switch rule
         let smartSwitchRule = switchRule(forNetworkCode: paymentNetwork.applicableNetwork.code)
 
-        // Checkboxes
-        let checkboxFactory = RegistrationOptionsBuilder(translator: paymentNetwork.translation, operationType: paymentNetwork.applicableNetwork.operationType)
-        let registrationCheckbox = RegistrationOptionsBuilder.RegistrationOption(type: .registration, requirement: paymentNetwork.applicableNetwork.registration)
-        let recurrenceCheckbox = RegistrationOptionsBuilder.RegistrationOption(type: .recurrence, requirement: paymentNetwork.applicableNetwork.recurrence)
-
-        // Input sections
-        let registrationInputFields = [
-            checkboxFactory.createInternalModel(from: registrationCheckbox),
-            checkboxFactory.createInternalModel(from: recurrenceCheckbox)
-        ].compactMap { $0 }
+        // Registration options
+        let checkboxFactory = RegistrationOptionsBuilder(translator: paymentNetwork.translation, listOperationType: paymentContext.listOperationType)
+        let registrationInputFields = try checkboxFactory.createInternalModel(fromRegistration: paymentNetwork.applicableNetwork.registration, reccurrence: paymentNetwork.applicableNetwork.recurrence)
 
         let paymentInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 

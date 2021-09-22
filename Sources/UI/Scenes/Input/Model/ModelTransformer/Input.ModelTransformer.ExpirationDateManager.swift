@@ -7,9 +7,9 @@
 import Foundation
 
 extension Input.ModelTransformer {
-    class ExpirationDateManager {
-        fileprivate let expiryMonthElementName = "expiryMonth"
-        fileprivate let expiryYearElementName = "expiryYear"
+    struct ExpirationDateManager {
+        let expiryMonthElementName = "expiryMonth"
+        let expiryYearElementName = "expiryYear"
     }
 }
 
