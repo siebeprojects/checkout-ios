@@ -31,13 +31,16 @@ extension Input.ViewController.PaymentModelFabric {
     fileprivate func createInputElementsDictionary(from inputFields: [InputField]) throws -> [String: String] {
         var dictionary = [String: String]()
         for inputField in inputFields {
-            switch inputField.name {
-            case "expiryDate":
+            switch inputField.id {
+            case .expiryDate:
                 let date = ExpirationDate(shortDate: inputField.value)
                 dictionary["expiryMonth"] = date.getMonth()
                 dictionary["expiryYear"] = try date.getYear()
-            default:
-                dictionary[inputField.name] = inputField.value
+            case .combinedRegistration:
+                // FIXME: don't do nothing, is not supported yet
+                break
+            case .inputElementName(let name):
+                dictionary[name] = inputField.value
             }
         }
 

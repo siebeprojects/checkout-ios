@@ -16,14 +16,14 @@ extension Input.Field.Checkbox {
 
 extension Input.Field {
     final class Checkbox {
-        let name: String
+        let id: Identifier
         var isOn: Bool
         var isEnabled: Bool = true
 
         let label: NSAttributedString
 
-        init(name: String, isOn: Bool, label: NSAttributedString) {
-            self.name = name
+        init(id: Identifier, isOn: Bool, label: NSAttributedString) {
+            self.id = id
             self.isOn = isOn
             self.label = label
         }

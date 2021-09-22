@@ -31,11 +31,11 @@ extension Input.ModelTransformer.ExpirationDateManager {
         var removedIndexes = [Int]()
 
         for inputElement in inputFields.enumerated() {
-            switch inputElement.element.name {
-            case expiryMonthElementName:
+            switch inputElement.element.id {
+            case .inputElementName(expiryMonthElementName):
                 hasExpiryMonth = true
                 removedIndexes.append(inputElement.offset)
-            case expiryYearElementName:
+            case .inputElementName(expiryYearElementName):
                 hasExpiryYear = true
                 removedIndexes.append(inputElement.offset)
             default:

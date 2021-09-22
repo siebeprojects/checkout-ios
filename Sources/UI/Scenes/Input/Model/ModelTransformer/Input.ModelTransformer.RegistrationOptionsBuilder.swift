@@ -34,15 +34,15 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
             let localizationKey = localizationKey(for: registrationOption)
             let localizedString: String = translator.translation(forKey: localizationKey)
             let attributedLabel = NSAttributedString(string: localizedString)
-            return Input.Field.Label(label: attributedLabel, name: registrationOption.type.name, value: true.stringValue)
+            return Input.Field.Label(label: attributedLabel, id: .inputElementName(registrationOption.type.name), value: true.stringValue)
         case .FORCED:
-            return Input.Field.Hidden(name: registrationOption.type.name, value: true.stringValue)
+            return Input.Field.Hidden(id: .inputElementName(registrationOption.type.name), value: true.stringValue)
         case .NONE:
-            return Input.Field.Hidden(name: registrationOption.type.name, value: false.stringValue)
+            return Input.Field.Hidden(id: .inputElementName(registrationOption.type.name), value: false.stringValue)
         }
 
         let label: String = translator.translation(forKey: localizationKey(for: registrationOption))
-        return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, label: NSAttributedString(string: label))
+        return Input.Field.Checkbox(id: .inputElementName(registrationOption.type.name), isOn: isOn, label: NSAttributedString(string: label))
     }
 
     /// Make hidden fields based on registration options.
@@ -51,8 +51,8 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
     /// - SeeAlso: [PCX-1396](https://optile.atlassian.net/browse/PCX-1396)
     private func createInternalModel(forUpdateFlowFrom registrationOption: RegistrationOption) -> InputField {
         switch registrationOption.requirement {
-        case .NONE: return Input.Field.Hidden(name: registrationOption.type.name, value: false.stringValue)
-        default: return Input.Field.Hidden(name: registrationOption.type.name, value: true.stringValue)
+        case .NONE: return Input.Field.Hidden(id: .inputElementName(registrationOption.type.name), value: false.stringValue)
+        default: return Input.Field.Hidden(id: .inputElementName(registrationOption.type.name), value: true.stringValue)
         }
     }
 

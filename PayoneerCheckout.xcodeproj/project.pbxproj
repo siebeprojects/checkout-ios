@@ -11,6 +11,7 @@
 		070FCD4C26D8FA3F00531B6A /* MarkdownParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FCD4B26D8FA3F00531B6A /* MarkdownParserTests.swift */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
 		D171739C205EC3E55EFF56B1 /* Pods_PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1034F946707DF3385D21E705 /* Pods_PayoneerCheckout.framework */; };
+		D90D215B26F9EF2C008925F9 /* Input.Field.Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D215A26F9EF2C008925F9 /* Input.Field.Identifier.swift */; };
 		D918A3F2254F205C005BBA8B /* ListResult.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F1254F205C005BBA8B /* ListResult.json */; };
 		D918A3F5254F2450005BBA8B /* NetworkLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F4254F2450005BBA8B /* NetworkLocalization.json */; };
 		D918A3F7254F2483005BBA8B /* CheckoutLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */; };
@@ -248,6 +249,7 @@
 		8077BD8BBF00C6DDCD134FA2 /* Pods-PayoneerCheckout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PayoneerCheckout.release.xcconfig"; path = "Target Support Files/Pods-PayoneerCheckout/Pods-PayoneerCheckout.release.xcconfig"; sourceTree = "<group>"; };
 		8AE876F2AB3608344995F5BC /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BF36E8A2FE025E51C137C45E /* Pods-Payoneer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payoneer.release.xcconfig"; path = "Target Support Files/Pods-Payoneer/Pods-Payoneer.release.xcconfig"; sourceTree = "<group>"; };
+		D90D215A26F9EF2C008925F9 /* Input.Field.Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Identifier.swift; sourceTree = "<group>"; };
 		D918A3F1254F205C005BBA8B /* ListResult.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ListResult.json; sourceTree = "<group>"; };
 		D918A3F4254F2450005BBA8B /* NetworkLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NetworkLocalization.json; sourceTree = "<group>"; };
 		D918A3F6254F2483005BBA8B /* CheckoutLocalization.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CheckoutLocalization.json; sourceTree = "<group>"; };
@@ -726,6 +728,7 @@
 				D96A4EB7257D96EE00E74C8C /* Input.Field.BasicText.swift */,
 				D96A4EB8257D96EE00E74C8C /* Input.Field.swift */,
 				D96A4EB9257D96EE00E74C8C /* Validation */,
+				D90D215A26F9EF2C008925F9 /* Input.Field.Identifier.swift */,
 			);
 			path = Field;
 			sourceTree = "<group>";
@@ -1602,6 +1605,7 @@
 				D96A4F8A257D96EF00E74C8C /* NetworkOperationResultHandler.swift in Sources */,
 				D96A4F6B257D96EF00E74C8C /* Input.Field.IBAN.swift in Sources */,
 				D96A4FC8257D96EF00E74C8C /* Installments.swift in Sources */,
+				D90D215B26F9EF2C008925F9 /* Input.Field.Identifier.swift in Sources */,
 				D96A4F8C257D96EF00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift in Sources */,
 				D96A4FDC257D96EF00E74C8C /* AsynchronousOperation.swift in Sources */,
 				D96A4FCA257D96EF00E74C8C /* CustomerFormData.swift in Sources */,

@@ -9,11 +9,11 @@ import UIKit
 extension Input.Field {
     /// Label with no user interaction and pre-set value.
     class Hidden {
-        let name: String
+        let id: Identifier
         var value: String
 
-        init(name: String, value: String) {
-            self.name = name
+        init(id: Identifier, value: String) {
+            self.id = id
             self.value = value
         }
     }

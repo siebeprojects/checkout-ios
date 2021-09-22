@@ -121,7 +121,7 @@ extension Input.SmartSwitch.Selector {
     ///   - rhs: any, if not `InputField` element will be skipped
     private func moveInputValues(from lhs: [InputField], to rhs: [InputField]) {
         for fromInputField in lhs {
-            for toInputField in rhs where toInputField.name == fromInputField.name {
+            for toInputField in rhs where toInputField.id == fromInputField.id {
                 toInputField.value = fromInputField.value
             }
 

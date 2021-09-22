@@ -72,7 +72,7 @@ class ValidationTests: XCTestCase {
             }
 
             let attachment = XCTAttachment(subject: inputElement)
-            attachment.name = "inputField_\(inputElement.name)"
+            attachment.name = "inputField_\(inputElement.id)"
             activity.add(attachment)
 
             guard let validatableInputElement = inputElement as? InputField & Validatable else {
