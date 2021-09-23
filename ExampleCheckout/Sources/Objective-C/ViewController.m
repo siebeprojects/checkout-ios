@@ -13,6 +13,12 @@
 
 @implementation ViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    [self.urlTextField becomeFirstResponder];
+}
+
 - (IBAction)sendRequest:(UIButton *)sender {
     NSURL *url = [[NSURL alloc] initWithString:self.urlTextField.text];
 
