@@ -29,6 +29,7 @@
 		D91FC80626886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */; };
 		D925E95D26D7C846007F8AC2 /* InteractionLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D925E95C26D7C846007F8AC2 /* InteractionLocalizer.swift */; };
 		D928CD8525B9F9B300DE602F /* BrowserDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */; };
+		D92DD12726FE25D400F4FFF3 /* WritableInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92DD12626FE25D400F4FFF3 /* WritableInputField.swift */; };
 		D934255D26814883008EB74A /* DeregistrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D934255C26814883008EB74A /* DeregistrationData.swift */; };
 		D9396F42267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */; };
 		D96A4F46257D96EF00E74C8C /* Input.ViewController.StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */; };
@@ -265,6 +266,7 @@
 		D91FC80526886A240014997B /* Input.ModelTransformer.InputElementsTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.InputElementsTransformer.swift; sourceTree = "<group>"; };
 		D925E95C26D7C846007F8AC2 /* InteractionLocalizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractionLocalizer.swift; sourceTree = "<group>"; };
 		D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserDataBuilder.swift; sourceTree = "<group>"; };
+		D92DD12626FE25D400F4FFF3 /* WritableInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritableInputField.swift; sourceTree = "<group>"; };
 		D934255C26814883008EB74A /* DeregistrationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeregistrationData.swift; sourceTree = "<group>"; };
 		D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.OperationResultHandler.swift; sourceTree = "<group>"; };
 		D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
@@ -756,6 +758,7 @@
 				D96A4EC5257D96EE00E74C8C /* DefinesKeyboardStyle.swift */,
 				D96A4EC6257D96EE00E74C8C /* SupportsPrimaryAction.swift */,
 				D96A4EC7257D96EE00E74C8C /* InputField.swift */,
+				D92DD12626FE25D400F4FFF3 /* WritableInputField.swift */,
 				D96A4EC8257D96EE00E74C8C /* Validatable.swift */,
 				D96A4EC9257D96EE00E74C8C /* CellRepresentable.swift */,
 				D96A4ECA257D96EE00E74C8C /* InputCellDelegate.swift */,
@@ -1549,6 +1552,7 @@
 				070FCD4926D8F94C00531B6A /* MarkdownParser.swift in Sources */,
 				D96A4F85257D96EF00E74C8C /* Selectable.swift in Sources */,
 				D96A4FDF257D96EF00E74C8C /* GetListResult.swift in Sources */,
+				D92DD12726FE25D400F4FFF3 /* WritableInputField.swift in Sources */,
 				D96A4FB4257D96EF00E74C8C /* PaymentServiceParsedResponse.swift in Sources */,
 				D96A4F62257D96EF00E74C8C /* Input.Table.ImagesCollectionView.swift in Sources */,
 				D96A4FA7257D96EF00E74C8C /* PaymentSessionProvider.swift in Sources */,

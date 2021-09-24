@@ -30,7 +30,7 @@ extension Input.Field {
     }
 }
 
-extension Input.Field.Checkbox: InputField {
+extension Input.Field.Checkbox: WritableInputField {
     var value: String {
         get { isOn.stringValue }
         set {
