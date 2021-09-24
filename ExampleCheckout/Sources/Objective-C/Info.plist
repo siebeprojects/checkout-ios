@@ -24,10 +24,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.payoneer.checkout.examplecheckout-objc</string>
+			<string>com.payoneer.checkout.examplecheckout</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.payoneer.checkout.examplecheckout-objc.mobileredirect</string>
+				<string>com.payoneer.checkout.examplecheckout.mobileredirect</string>
 			</array>
 		</dict>
 	</array>
