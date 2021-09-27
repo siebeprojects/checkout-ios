@@ -75,7 +75,7 @@ class ValidationTests: XCTestCase {
             attachment.name = "inputField_\(inputElement.id)"
             activity.add(attachment)
 
-            guard let validatableInputElement = inputElement as? InputField & Validatable else {
+            guard let validatableInputElement = inputElement as? WritableInputField & Validatable else {
                 XCTFail("InputField doesn't conform to Validatable protocol")
                 return
             }
@@ -89,7 +89,7 @@ class ValidationTests: XCTestCase {
             }
         }
 
-        private func test(inputElement: InputField & Validatable, testCase: MockFactory.Validation.InputElementTestCase, within activity: XCTActivity) {
+        private func test(inputElement: WritableInputField & Validatable, testCase: MockFactory.Validation.InputElementTestCase, within activity: XCTActivity) {
             inputElement.validationErrorText = nil
             inputElement.value = testCase.value ?? ""
             inputElement.validateAndSaveResult(option: .fullCheck)
