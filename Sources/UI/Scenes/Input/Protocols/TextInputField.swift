@@ -29,11 +29,11 @@ extension TextInputField {
         translator.translation(forKey: translationPrefix + "label")
     }
 
-    // FIXME
     var translationPrefix: String {
         guard case let .inputElementName(name) = id else {
-            return ""
+            return String()
         }
+
         return "account." + name + "."
     }
 }
