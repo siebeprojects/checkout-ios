@@ -24,7 +24,7 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         switch listOperationType {
         // That case applies to PRESET flow as well when it will be supported
         case .CHARGE:
-            return try createInputFields(forChargeFlowUsingRegistration: registration, reccurrence: reccurrence)
+            return try createInputFields(forChargeFlowUsingRegistration: registration, recurrence: reccurrence)
         case .UPDATE:
             return try createInputFields(forUpdateFlowUsingRegistration: registration, reccurrence: reccurrence)
         }
@@ -36,8 +36,8 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         return NSAttributedString(string: localizedString)
     }
 
-    private func createInputFields(forChargeFlowUsingRegistration registration: ApplicableNetwork.RegistrationOption, reccurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
-        switch (registration, reccurrence) {
+    private func createInputFields(forChargeFlowUsingRegistration registration: ApplicableNetwork.RegistrationOption, recurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
+        switch (registration, recurrence) {
         case (.NONE, .NONE): return [InputField]()
         case (.FORCED, .NONE):
             let registrationField = Input.Field.Hidden(id: .registration, value: true.stringValue)
@@ -66,7 +66,7 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
             let combinedField = Input.Field.Checkbox(id: .combinedRegistration, isOn: true, label: localizedRegistrationLabel)
             return [combinedField]
         default:
-            let resultInfo = "Unsupported combination of autoRegistration (" + registration.rawValue + ") and allowRecurrence (" + reccurrence.rawValue + ") for a charge flow"
+            let resultInfo = "Unsupported combination of autoRegistration (" + registration.rawValue + ") and allowRecurrence (" + recurrence.rawValue + ") for a charge flow"
             throw CustomErrorInfo(resultInfo: resultInfo, interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
         }
     }
