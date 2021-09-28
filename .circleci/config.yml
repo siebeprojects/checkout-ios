@@ -151,11 +151,6 @@ jobs:
       - run:
           name: Deploy
           command: bundle exec fastlane deploy
-      - run: 
-          name: Increase version number in develop branch
-          command: |
-            git checkout develop
-            bundle exec fastlane bump_version_number
 
   submit_to_testflight:
     macos:
