@@ -5,7 +5,6 @@
 // See the LICENSE file for more information.
 
 import UIKit
-import SafariServices
 
 // MARK: Initializers
 
@@ -20,7 +19,7 @@ extension Input {
         fileprivate private(set) var stateManager: StateManager!
         fileprivate let paymentController: PaymentController!
 
-        var safariViewController: SFSafariViewController?
+        fileprivate let browserController: BrowserController
 
         weak var delegate: NetworkOperationResultHandler?
 
@@ -29,15 +28,17 @@ extension Input {
             UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteBarButtonDidTap(_:)))
         }()
 
-        private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, listOperationType: String) {
-            self.paymentController = .init(paymentServiceFactory: paymentServiceFactory, listOperationType: listOperationType)
+        private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, context: PaymentContext) {
+            self.paymentController = .init(paymentServiceFactory: paymentServiceFactory, listOperationType: context.listOperationType.rawValue)
             self.networks = smartSwitch.networks
             self.header = header
             self.smartSwitch = smartSwitch
+            self.browserController = BrowserController(smartSwitch: smartSwitch)
             self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.layoutController.flowLayout)
 
             super.init(nibName: nil, bundle: nil)
 
+            browserController.presenter = self
             paymentController.delegate = self
             paymentController.operationResultHandler.delegate = self
 
@@ -47,11 +48,11 @@ extension Input {
 
             self.scrollView = collectionView
             tableController.delegate = self
-            tableController.cvvHintDelegate = self
+            tableController.modalPresenter = self
         }
 
-        convenience init(for paymentNetworks: [PaymentNetwork], paymentServiceFactory: PaymentServicesFactory, operationType: String) throws {
-            let transformer = ModelTransformer()
+        convenience init(for paymentNetworks: [PaymentNetwork], context: PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
+            let transformer = ModelTransformer(paymentContext: context)
             let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
             let smartSwitch = try SmartSwitch.Selector(networks: networks)
 
@@ -62,18 +63,18 @@ extension Input {
                 header = Input.ImagesHeader(for: networks)
             }
 
-            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, listOperationType: operationType)
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
 
             self.title = smartSwitch.selected.network.translation.translation(forKey: "networks.form.default.title")
         }
 
-        convenience init(for registeredAccount: RegisteredAccount, paymentServiceFactory: PaymentServicesFactory, operationType: String) throws {
-            let transformer = ModelTransformer()
+        convenience init(for registeredAccount: RegisteredAccount, context: PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
+            let transformer = ModelTransformer(paymentContext: context)
             let network = try transformer.transform(registeredAccount: registeredAccount)
             let smartSwitch = try SmartSwitch.Selector(networks: [network])
             let header = Input.TextHeader(from: registeredAccount)
 
-            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, listOperationType: operationType)
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
 
             self.title = registeredAccount.translation.translation(forKey: "accounts.form.default.title")
         }
@@ -87,7 +88,11 @@ extension Input {
 // MARK: - Overrides
 
 extension Input.ViewController {
-    var hasInputFields: Bool { !smartSwitch.selected.network.uiModel.inputFields.isEmpty }
+    /// Return a boolean with information if view controller has the main section with user-input fields
+    var hasInputFields: Bool {
+        guard let inputElements = smartSwitch.selected.network.uiModel.inputSections[.inputElements] else { return false }
+        return !inputElements.inputFields.isEmpty
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,12 +115,14 @@ extension Input.ViewController {
 
         addKeyboardFrameChangesObserver()
         tableController.becomeFirstResponder()
+        browserController.subscribeForNotification()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         removeKeyboardFrameChangesObserver()
+        browserController.unsubscribeFromNotification()
     }
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -271,7 +278,7 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
 extension Input.ViewController: InputPaymentControllerDelegate {
     /// Route result to the next view controller
     func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
-        safariViewController?.dismiss(animated: true, completion: nil)
+        browserController.dismissBrowserViewController()
         dismiss(animated: true, completion: {
             self.delegate?.paymentController(didReceiveOperationResult: result, for: request, network: self.smartSwitch.selected.network)
         })
@@ -279,7 +286,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
 
     func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?) {
         // Try to dismiss safari VC (if exists)
-        safariViewController?.dismiss(animated: true, completion: nil)
+        browserController.dismissBrowserViewController()
 
         // Construct error
         let translator = smartSwitch.selected.network.translation
@@ -304,7 +311,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
     /// Show an error and return to input fields editing state
     func paymentController(inputShouldBeChanged error: ErrorInfo) {
         // Try to dismiss safari VC (if exists)
-        safariViewController?.dismiss(animated: true, completion: nil)
+        browserController.dismissBrowserViewController()
 
         // Construct error
         let translator = smartSwitch.selected.network.translation
@@ -321,36 +328,12 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         stateManager.state = .error(alertError)
     }
 
-    /// Present Safari View Controller with redirect URL
     func paymentController(presentURL url: URL) {
-        safariViewController?.dismiss(animated: true, completion: nil)
-
-        // Preset SafariViewController
-        let safariVC = SFSafariViewController(url: url)
-        safariVC.delegate = self
-        self.safariViewController = safariVC
-        self.present(safariVC, animated: true, completion: nil)
+        browserController.presentBrowser(with: url)
     }
 }
 
-extension Input.ViewController: SFSafariViewControllerDelegate {
-    /// SafariViewController was closed by Done button
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        // Get operation type from the last path component
-        let operationType = smartSwitch.selected.network.operationURL.lastPathComponent
-        NotificationCenter.default.post(
-            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
-            object: nil,
-            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: operationType]
-        )
-    }
-}
-
-extension Input.ViewController: CVVTextFieldViewCellDelegate {
-    func presentHint(viewController: UIViewController) {
-        self.present(viewController, animated: true, completion: nil)
-    }
-}
+extension Input.ViewController: ModalPresenter {}
 
 extension Input.ViewController: Loggable {
     var logCategory: String { "InputScene" }

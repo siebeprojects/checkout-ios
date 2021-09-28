@@ -31,16 +31,18 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         case .OPTIONAL: isOn = false
         case .OPTIONAL_PRESELECTED: isOn = true
         case .FORCED_DISPLAYED:
-            let translationKey = localizationKey(for: registrationOption)
-            return Input.Field.Label(label: translator.translation(forKey: translationKey), name: registrationOption.type.name, value: true.stringValue)
+            let key = localizationKey(for: registrationOption)
+            let localizedString: String = translator.translation(forKey: key)
+            let attributedLabel = NSAttributedString(string: localizedString)
+            return Input.Field.Label(label: attributedLabel, name: registrationOption.type.name, value: true.stringValue)
         case .FORCED:
             return Input.Field.Hidden(name: registrationOption.type.name, value: true.stringValue)
         case .NONE:
             return Input.Field.Hidden(name: registrationOption.type.name, value: false.stringValue)
         }
 
-        let translationKey = localizationKey(for: registrationOption)
-        return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, translationKey: translationKey, translator: translator)
+        let label: String = translator.translation(forKey: localizationKey(for: registrationOption))
+        return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, label: NSAttributedString(string: label))
     }
 
     /// Make hidden fields based on registration options.

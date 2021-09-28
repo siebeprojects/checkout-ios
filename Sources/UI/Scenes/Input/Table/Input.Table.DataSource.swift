@@ -9,7 +9,7 @@ import UIKit
 extension Input.Table {
     class DataSource: NSObject {
         weak var inputCellDelegate: InputCellDelegate?
-        weak var cvvHintDelegate: CVVTextFieldViewCellDelegate?
+        weak var modalPresenter: ModalPresenter?
 
         fileprivate(set) var model: [[CellRepresentable]] = .init()
 
@@ -58,38 +58,41 @@ extension Input.Table {
         private static func arrangeBySections(networkUIModel: Input.Network.UIModel, header: CellRepresentable) -> [[CellRepresentable]] {
             var sections = [[CellRepresentable]]()
 
+            // Top extra elements
+            if let topExtraElements = networkUIModel.inputSections[.extraElements(at: .top)] {
+                sections += [topExtraElements.inputFields.compactMap { $0 as? CellRepresentable }]
+            }
+
             // Header
             sections += [[header]]
 
             // Input Fields
-            sections += [
-                networkUIModel.inputFields.compactMap {
-                    // Don't add to view non representable input fields
-                    guard let cell = $0 as? CellRepresentable else { return nil }
-                    return cell
-                }
-            ]
+            if let inputElements = networkUIModel.inputSections[.inputElements] {
+                sections += [inputElements.inputFields.compactMap { $0 as? CellRepresentable }]
+            }
 
             // Checkboxes, each checkbox in a separate section
-            var checkboxes = [CellRepresentable]()
-            for field in networkUIModel.separatedCheckboxes {
-                guard let cellRepresentable = field as? CellRepresentable else { continue }
-                checkboxes += [cellRepresentable]
-            }
+            if let registrationCheckboxes = networkUIModel.inputSections[.registration] {
+                let sortedCheckboxes = registrationCheckboxes.inputFields
+                    .compactMap { $0 as? CellRepresentable }
+                    .sorted {
+                        // Labels should be at the bottom
+                        func order(for field: Any) -> Int {
+                            switch field {
+                            case is Input.Field.Label: return 1
+                            default: return 0
+                            }
+                        }
 
-            checkboxes.sort {
-                // Labels is always on the bottom
-                func order(for field: Any) -> Int {
-                    switch field {
-                    case is Input.Field.Label: return 1
-                    default: return 0
+                        return order(for: $0) < order(for: $1)
                     }
-                }
-
-                return order(for: $0) < order(for: $1)
+                sections += [sortedCheckboxes]
             }
 
-            sections += checkboxes.map { [$0] }
+            // Bottom extra elements
+            if let bottomExtraElements = networkUIModel.inputSections[.extraElements(at: .bottom)] {
+                sections += [bottomExtraElements.inputFields.compactMap { $0 as? CellRepresentable }]
+            }
 
             // Submit
             if let submitButton = networkUIModel.submitButton {
@@ -138,7 +141,7 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
         }
 
         if let cvvCell = cell as? Input.Table.CVVTextFieldViewCell {
-            cvvCell.cvvDelegate = cvvHintDelegate
+            cvvCell.modalPresenter = modalPresenter
         }
 
         return cell

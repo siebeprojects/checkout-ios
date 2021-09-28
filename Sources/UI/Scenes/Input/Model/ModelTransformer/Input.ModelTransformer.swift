@@ -25,32 +25,44 @@ extension Input.ModelTransformer {
 extension Input {
     /// Transformer from `List` models to `Input` UI models.
     class ModelTransformer {
-        fileprivate let inputFieldFactory = InputFieldFactory()
+        fileprivate let inputFieldFactory = InputElementsTransformer()
+        let paymentContext: PaymentContext
 
-        init() {}
+        init(paymentContext: PaymentContext) {
+            self.paymentContext = paymentContext
+        }
     }
 }
 
 extension Input.ModelTransformer {
+    private typealias InputSection = Input.Network.UIModel.InputSection
+
     func transform(registeredAccount: RegisteredAccount) throws -> Input.Network {
         let logo = registeredAccount.logo?.value
 
-        // Input fields
+        // Input sections
         let inputElements = registeredAccount.apiModel.inputElements ?? [InputElement]()
-        let modelToTransform = InputFieldFactory.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, paymentMethod: nil, translator: registeredAccount.translation)
-        let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
+        let modelToTransform = InputElementsTransformer.TransformableModel(inputElements: inputElements, networkCode: registeredAccount.apiModel.code, paymentMethod: nil, translator: registeredAccount.translation)
+
+        let accountInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
+
+        var inputSections: Set<InputSection> = [
+            .init(category: .inputElements, inputFields: accountInputFields)
+        ]
+
+        if let extraElements = paymentContext.extraElements {
+            let extraElementsSections = createInputSections(from: extraElements)
+            inputSections.formUnion(extraElementsSections)
+        }
 
         // Operation URL
         guard let operationURL = registeredAccount.apiModel.links["operation"] else {
             throw InternalError(description: "Incorrect registered account model, operation URL is not present. Links: %@", objects: registeredAccount.apiModel.links)
         }
 
-        // Detect if we're in UPDATE flow
-        let isDeletable = registeredAccount.apiModel.operationType == "UPDATE"
-
         // Check if we need to show a submit button
         let submitButton: Input.Field.Button?
-        if registeredAccount.apiModel.operationType == "UPDATE", inputFields.isEmpty {
+        if registeredAccount.apiModel.operationType == "UPDATE", accountInputFields.isEmpty {
             submitButton = nil
         } else {
             submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
@@ -60,8 +72,7 @@ extension Input.ModelTransformer {
             networkLabel: registeredAccount.networkLabel,
             maskedAccountLabel: registeredAccount.maskedAccountLabel,
             logo: logo,
-            inputFields: inputFields,
-            separatedCheckboxes: [],
+            inputSections: inputSections,
             submitButton: submitButton
         )
 
@@ -73,7 +84,7 @@ extension Input.ModelTransformer {
             translator: registeredAccount.translation,
             switchRule: nil,
             uiModel: uiModel,
-            isDeletable: isDeletable
+            isDeletable: registeredAccount.isDeletable
         )
     }
 
@@ -83,34 +94,45 @@ extension Input.ModelTransformer {
         // Input fields
         let inputElements = paymentNetwork.applicableNetwork.inputElements ?? [InputElement]()
 
-        let modelToTransform = InputFieldFactory.TransformableModel(
+        let modelToTransform = InputElementsTransformer.TransformableModel(
             inputElements: inputElements,
             networkCode: paymentNetwork.applicableNetwork.code,
             paymentMethod: paymentNetwork.applicableNetwork.method,
             translator: paymentNetwork.translation
         )
-        let inputFields = inputFieldFactory.createInputFields(for: modelToTransform)
 
         // Switch rule
         let smartSwitchRule = switchRule(forNetworkCode: paymentNetwork.applicableNetwork.code)
 
         // Checkboxes
         let checkboxFactory = RegistrationOptionsBuilder(translator: paymentNetwork.translation, operationType: paymentNetwork.applicableNetwork.operationType)
-
         let registrationCheckbox = RegistrationOptionsBuilder.RegistrationOption(type: .registration, requirement: paymentNetwork.applicableNetwork.registrationRequirement)
         let recurrenceCheckbox = RegistrationOptionsBuilder.RegistrationOption(type: .recurrence, requirement: paymentNetwork.applicableNetwork.recurrenceRequirement)
 
-        let checkboxes = [
+        // Input sections
+        let registrationInputFields = [
             checkboxFactory.createInternalModel(from: registrationCheckbox),
             checkboxFactory.createInternalModel(from: recurrenceCheckbox)
-            ].compactMap { $0 }
+        ].compactMap { $0 }
+
+        let paymentInputFields = inputFieldFactory.createInputFields(for: modelToTransform)
+
+        var inputSections: Set<InputSection> = [
+            .init(category: .inputElements, inputFields: paymentInputFields),
+            .init(category: .registration, inputFields: registrationInputFields)
+        ]
+
+        if let extraElements = paymentContext.extraElements {
+            let extraElementsSections = createInputSections(from: extraElements)
+            inputSections.formUnion(extraElementsSections)
+        }
 
         let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
 
         let uiModel = Input.Network.UIModel(networkLabel: paymentNetwork.label,
                                             maskedAccountLabel: nil,
-                                            logo: logo, inputFields: inputFields,
-                                            separatedCheckboxes: checkboxes,
+                                            logo: logo,
+                                            inputSections: inputSections,
                                             submitButton: submitButton)
 
         // Operation URL
@@ -126,6 +148,27 @@ extension Input.ModelTransformer {
                      switchRule: smartSwitchRule,
                      uiModel: uiModel,
                      isDeletable: false)
+    }
+
+    /// Create `InputSection` for top and bottom `ExtraElement`s.
+    private func createInputSections(from extraElements: ExtraElements) -> Set<InputSection> {
+        var inputSections = Set<InputSection>()
+
+        let extraElementsTransformer = ExtraElementsTransformer()
+
+        if let topElements = extraElements.top {
+            let inputFields = topElements.compactMap { extraElementsTransformer.createInputField(from: $0) }
+            let section = InputSection(category: .extraElements(at: .top), inputFields: inputFields)
+            inputSections.insert(section)
+        }
+
+        if let bottomElements = extraElements.bottom {
+            let inputFields = bottomElements.compactMap { extraElementsTransformer.createInputField(from: $0) }
+            let section = InputSection(category: .extraElements(at: .bottom), inputFields: inputFields)
+            inputSections.insert(section)
+        }
+
+        return inputSections
     }
 
     // MARK: Smart Switch

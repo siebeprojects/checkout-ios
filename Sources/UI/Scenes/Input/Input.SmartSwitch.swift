@@ -106,18 +106,17 @@ extension Input.SmartSwitch.Selector {
         }
 
         if previouslySelected.network != selected.network {
-            moveInputValues(from: previouslySelected.network.uiModel.inputFields, to: selected.network.uiModel.inputFields)
+            let oldInputFields = previouslySelected.network.uiModel.inputSections.flatMap { $0.inputFields }.compactMap { $0 as? WritableInputField }
+            let newInputFields = selected.network.uiModel.inputSections.flatMap { $0.inputFields }.compactMap { $0 as? WritableInputField }
+
+            moveInputValues(from: oldInputFields, to: newInputFields)
         }
 
         return selected
     }
 
-    /// Move input values from `InputField` to `InputField`.
-    /// We assume that inputFields are stored in the same order in both models, non-`InputField` elements will be skipped (e.g. header cells).
-    /// - Parameters:
-    ///   - lhs: any, if not `InputField` element will be skipped
-    ///   - rhs: any, if not `InputField` element will be skipped
-    private func moveInputValues(from lhs: [InputField], to rhs: [InputField]) {
+    /// Move input values from `WritableInputField` to `WritableInputField`.
+    private func moveInputValues(from lhs: [WritableInputField], to rhs: [WritableInputField]) {
         for fromInputField in lhs {
             for toInputField in rhs where toInputField.name == fromInputField.name {
                 toInputField.value = fromInputField.value

@@ -4,40 +4,44 @@
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
 
-#if canImport(UIKit)
 import UIKit
 
 extension Input.Table {
-    /// Cell that represents a label.
+    /// Cell that represents a text label.
     class LabelViewCell: UICollectionViewCell, DequeueableCell {
-        fileprivate let label: UILabel
+        fileprivate let textView: UITextView
 
         override init(frame: CGRect) {
-            label = .init(frame: .zero)
+            textView = .init(frame: .zero)
 
             super.init(frame: frame)
 
-            // Configure label
-            label.lineBreakMode = .byWordWrapping
-            label.numberOfLines = 0
-            label.textColor = .themedText
-            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            // Configure a text view
+            textView.textColor = .themedText
+            textView.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            textView.isScrollEnabled = false
+            textView.isEditable = false
+
+            textView.textContainerInset = .zero
+            textView.textContainer.lineFragmentPadding = 0
+
+            textView.delegate = self
 
             // Layout
-            contentView.addSubview(label)
+            contentView.addSubview(textView)
 
-            label.translatesAutoresizingMaskIntoConstraints = false
+            textView.translatesAutoresizingMaskIntoConstraints = false
 
-            label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-            let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            bottomLabelConstraint.priority = .defaultHigh
+            let bottomtextViewConstraint = textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            bottomtextViewConstraint.priority = .defaultHigh
 
             NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                bottomLabelConstraint,
-                label.topAnchor.constraint(equalTo: contentView.topAnchor)
+                textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                bottomtextViewConstraint,
+                textView.topAnchor.constraint(equalTo: contentView.topAnchor)
             ])
         }
 
@@ -51,8 +55,24 @@ extension Input.Table {
 
 extension Input.Table.LabelViewCell {
     func configure(with model: Input.Field.Label) {
-        label.text = model.label
-        label.isEnabled = model.isEnabled
+        textView.isUserInteractionEnabled = model.isEnabled
+
+        // Configure text view
+        let mutableString = NSMutableAttributedString(attributedString: model.label)
+        mutableString.addAttributes([.font: UIFont.preferredThemeFont(forTextStyle: .body)], range: NSRange(location: 0, length: mutableString.length))
+        textView.attributedText = mutableString
+    }
+
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        typealias BrowserController = Input.ViewController.BrowserController
+
+        NotificationCenter.default.post(name: BrowserController.userDidClickLinkInPaymentView, object: nil, userInfo: [BrowserController.linkUserInfoKey: URL])
+        return false
     }
 }
-#endif
+
+extension Input.Table.LabelViewCell: UITextViewDelegate {
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        textView.selectedTextRange = nil
+    }
+}

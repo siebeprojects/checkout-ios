@@ -21,11 +21,11 @@ or alternatively using `brew install fastlane`
 fastlane ios test
 ```
 Build framework and run tests
-### ios build_example
+### ios build_example_swift
 ```
-fastlane ios build_example
+fastlane ios build_example_swift
 ```
-Build example app
+Build example app (Swift)
 ### ios browserstack
 ```
 fastlane ios browserstack
@@ -35,17 +35,17 @@ Upload binary to Browserstack
 ```
 fastlane ios ui_test
 ```
-Run UI tests
+Run UI tests (Swift)
 ### ios submit_to_testflight
 ```
 fastlane ios submit_to_testflight
 ```
 Submit to TestFlight
-### ios bump_version_number
+### ios set_version
 ```
-fastlane ios bump_version_number
+fastlane ios set_version
 ```
-Bump minor version and commit
+Change version number
 ### ios lib_lint
 ```
 fastlane ios lib_lint

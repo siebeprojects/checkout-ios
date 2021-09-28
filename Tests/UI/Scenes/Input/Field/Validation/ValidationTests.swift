@@ -63,10 +63,11 @@ class ValidationTests: XCTestCase {
         let testCases: [MockFactory.Validation.InputElementTestCase]
 
         func test(within activity: XCTActivity) {
-            let transformer = Input.ModelTransformer()
+            let context = PaymentContext(operationType: .CHARGE, extraElements: nil)
+            let transformer = Input.ModelTransformer(paymentContext: context)
             let inputNetwork = try! transformer.transform(paymentNetwork: network)
 
-            guard let inputElement = inputNetwork.uiModel.inputFields.first else {
+            guard let inputElement = inputNetwork.uiModel.inputSections[.inputElements]?.inputFields.first else {
                 fatalError("Input element is not present applicable network, programmatic error")
             }
 
@@ -74,7 +75,7 @@ class ValidationTests: XCTestCase {
             attachment.name = "inputField_\(inputElement.name)"
             activity.add(attachment)
 
-            guard let validatableInputElement = inputElement as? InputField & Validatable else {
+            guard let validatableInputElement = inputElement as? WritableInputField & Validatable else {
                 XCTFail("InputField doesn't conform to Validatable protocol")
                 return
             }
@@ -88,7 +89,7 @@ class ValidationTests: XCTestCase {
             }
         }
 
-        private func test(inputElement: InputField & Validatable, testCase: MockFactory.Validation.InputElementTestCase, within activity: XCTActivity) {
+        private func test(inputElement: WritableInputField & Validatable, testCase: MockFactory.Validation.InputElementTestCase, within activity: XCTActivity) {
             inputElement.validationErrorText = nil
             inputElement.value = testCase.value ?? ""
             inputElement.validateAndSaveResult(option: .fullCheck)

@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import UIKit
 
 extension Input.Field.Checkbox {
     struct Constant {
@@ -15,42 +16,26 @@ extension Input.Field.Checkbox {
 
 extension Input.Field {
     final class Checkbox {
-        let translationKey: String
-        let translator: TranslationProvider
-
         let name: String
         var isOn: Bool
         var isEnabled: Bool = true
 
-        var label: String {
-            translator.translation(forKey: translationKey)
-        }
+        let label: NSAttributedString
 
-        init(name: String, isOn: Bool, translationKey: String, translator: TranslationProvider) {
-            self.translationKey = translationKey
-            self.translator = translator
+        init(name: String, isOn: Bool, label: NSAttributedString) {
             self.name = name
             self.isOn = isOn
+            self.label = label
         }
     }
 }
 
-extension Input.Field.Checkbox: InputField {
+extension Input.Field.Checkbox: WritableInputField {
     var value: String {
         get { isOn.stringValue }
-        set {
-            guard let newBoolean = Bool(stringValue: newValue) else {
-                InternalError(description: "Tried to set boolean from unexpected string value: %@", newValue).log()
-                return
-            }
-
-            isOn = newBoolean
-        }
+        set { isOn = Bool(stringValue: newValue) ?? false }
     }
 }
-
-#if canImport(UIKit)
-import UIKit
 
 extension Input.Field.Checkbox: CellRepresentable {
     var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.CheckboxViewCell.self }
@@ -60,4 +45,3 @@ extension Input.Field.Checkbox: CellRepresentable {
         checkboxViewCell.configure(with: self)
     }
 }
-#endif

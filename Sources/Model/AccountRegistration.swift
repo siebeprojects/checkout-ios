@@ -38,7 +38,7 @@ class AccountRegistration: NSObject, Decodable {
     let preferredAt: Date?
 
     /// Timestamp when this account was created.
-    let createdAt: Date?
+    let createdAt: String?
 
     /// Indicates that form for this account is empty, without any text and input elements.
     let emptyForm: Bool?

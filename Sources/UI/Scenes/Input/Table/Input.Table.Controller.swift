@@ -43,9 +43,9 @@ extension Input.Table {
             didSet { layoutController.inputTableControllerDelegate = delegate }
         }
 
-        weak var cvvHintDelegate: CVVTextFieldViewCellDelegate? {
+        weak var modalPresenter: ModalPresenter? {
             didSet {
-                dataSource.cvvHintDelegate = cvvHintDelegate
+                dataSource.modalPresenter = modalPresenter
             }
         }
 
@@ -185,7 +185,7 @@ extension Input.Table.Controller: InputCellDelegate {
         }
 
         let cellRepresentable = dataSource.model[indexPath.section][indexPath.row]
-        guard let inputField = cellRepresentable as? InputField else { return }
+        guard let inputField = cellRepresentable as? WritableInputField else { return }
 
         inputField.value = newValue ?? ""
         delegate?.valueDidChange(for: inputField)

@@ -13,19 +13,29 @@ final class PaymentSession {
 
     let networks: [PaymentNetwork]
     let registeredAccounts: [RegisteredAccount]?
+    let context: PaymentContext
 
-    let operationType: Operation
+    init(networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?, context: PaymentContext, allowDelete: Bool?) {
+        self.context = context
 
-    init(operationType: Operation, networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?) {
-        self.operationType = operationType
-        let buttonLocalizationKey = "button.operation." + operationType.rawValue.uppercased() + ".label"
+        let buttonLocalizationKey = "button.operation." + context.listOperationType.rawValue.uppercased() + ".label"
 
         self.networks = networks.map {
             .init(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator)
         }
 
+        /// Defined in https://optile.atlassian.net/browse/PCX-2012
+        let isDeletable: Bool = {
+            switch context.listOperationType {
+            case .UPDATE:
+                return (allowDelete == nil) || (allowDelete == true)
+            case .CHARGE:
+                return allowDelete == true
+            }
+        }()
+
         self.registeredAccounts = accounts?.map {
-            RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator)
+            RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator, isDeletable: isDeletable)
         }
     }
 }

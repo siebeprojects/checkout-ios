@@ -4,7 +4,6 @@
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
 
-#if canImport(UIKit)
 import UIKit
 
 private struct UIConstant {
@@ -19,42 +18,47 @@ extension Input.Table {
     class CheckboxViewCell: UICollectionViewCell, DequeueableCell {
         weak var delegate: InputCellDelegate?
 
-        private let label: UILabel
+        private let textView: UITextView
         let checkbox: UISwitch
 
         override init(frame: CGRect) {
-            label = .init(frame: .zero)
+            textView = .init(frame: .zero)
             checkbox = .init(frame: .zero)
 
             super.init(frame: frame)
 
-            // Configure label
-            label.lineBreakMode = .byWordWrapping
-            label.numberOfLines = 0
-            label.textColor = .themedText
-            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            // Configure a text view
+            textView.textColor = .themedText
+            textView.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            textView.isScrollEnabled = false
+            textView.isEditable = false
+
+            textView.textContainerInset = .zero
+            textView.textContainer.lineFragmentPadding = 0
+
+            textView.delegate = self
 
             // Configure checkbox
             checkbox.addTarget(self, action: #selector(checkboxValueChanged), for: .valueChanged)
 
             // Layout
-            contentView.addSubview(label)
-            contentView.addSubview(checkbox)
-
-            label.translatesAutoresizingMaskIntoConstraints = false
+            textView.translatesAutoresizingMaskIntoConstraints = false
             checkbox.translatesAutoresizingMaskIntoConstraints = false
 
-            label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            contentView.addSubview(textView)
+            contentView.addSubview(checkbox)
+
+            textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
             checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
 
-            let bottomLabelConstraint = label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            bottomLabelConstraint.priority = .defaultHigh
+            let bottomtextViewConstraint = textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            bottomtextViewConstraint.priority = .defaultHigh
 
             NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                label.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
-                bottomLabelConstraint,
-                label.topAnchor.constraint(equalTo: contentView.topAnchor),
+                textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                textView.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
+                bottomtextViewConstraint,
+                textView.topAnchor.constraint(equalTo: contentView.topAnchor),
 
                 checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -77,12 +81,28 @@ extension Input.Table {
 
 extension Input.Table.CheckboxViewCell {
     func configure(with model: Input.Field.Checkbox) {
-        label.text = model.label
         checkbox.isOn = model.isOn
         checkbox.onTintColor = self.tintColor
         checkbox.isEnabled = model.isEnabled
+
+        // Configure text view
+        let mutableString = NSMutableAttributedString(attributedString: model.label)
+        mutableString.addAttributes([.font: UIFont.preferredThemeFont(forTextStyle: .body)], range: NSRange(location: 0, length: mutableString.length))
+        textView.attributedText = mutableString
+    }
+}
+
+extension Input.Table.CheckboxViewCell: UITextViewDelegate {
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        textView.selectedTextRange = nil
+    }
+
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        typealias BrowserController = Input.ViewController.BrowserController
+
+        NotificationCenter.default.post(name: BrowserController.userDidClickLinkInPaymentView, object: nil, userInfo: [BrowserController.linkUserInfoKey: URL])
+        return false
     }
 }
 
 extension Input.Table.CheckboxViewCell: ContainsInputCellDelegate {}
-#endif
