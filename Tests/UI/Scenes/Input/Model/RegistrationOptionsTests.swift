@@ -25,10 +25,7 @@ class RegistrationOptionsTests: XCTestCase {
                     XCTFail(error)
                     return
                 }
-                
-                print(testingCase.registration, testingCase.recurrence)
-                print(testingCase.expectations)
-                
+
                 XCTAssertEqual(inputNetwork.uiModel.inputSections.count, 2, "Network contains invalid number of sections")
                 guard let registrationSection = inputNetwork.uiModel.inputSections[.registration] else {
                     XCTFail("Registration section is not found")
