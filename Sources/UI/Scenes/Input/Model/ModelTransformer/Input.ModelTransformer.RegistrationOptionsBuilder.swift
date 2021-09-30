@@ -66,8 +66,8 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
             let combinedField = Input.Field.Checkbox(id: .combinedRegistration, isOn: true, label: localizedRegistrationLabel)
             return [combinedField]
         default:
-            let internalError = InternalError(description: "Unsupported combination of autoRegistration (" + registration.rawValue + ") and allowRecurrence (" + recurrence.rawValue + ") for a charge flow")
-            let errorInfo = CustomErrorInfo.createClientSideError(from: internalError)
+            let resultInfo = "Unsupported combination of autoRegistration (" + registration.rawValue + ") and allowRecurrence (" + recurrence.rawValue + ") for a charge flow"
+            let errorInfo = CustomErrorInfo(resultInfo: resultInfo, interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
             throw errorInfo
         }
     }
