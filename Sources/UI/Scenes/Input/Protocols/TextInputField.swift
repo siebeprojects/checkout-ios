@@ -7,7 +7,7 @@
 import Foundation
 
 /// UI model for all text input fields
-protocol TextInputField: InputField {
+protocol TextInputField: WritableInputField {
     var translator: TranslationProvider { get }
     var label: String { get }
     var placeholder: String { get }

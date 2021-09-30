@@ -30,17 +30,10 @@ extension Input.Field {
     }
 }
 
-extension Input.Field.Checkbox: InputField {
+extension Input.Field.Checkbox: WritableInputField {
     var value: String {
         get { isOn.stringValue }
-        set {
-            guard let newBoolean = Bool(stringValue: newValue) else {
-                InternalError(description: "Tried to set boolean from unexpected string value: %@", newValue).log()
-                return
-            }
-
-            isOn = newBoolean
-        }
+        set { isOn = Bool(stringValue: newValue) ?? false }
     }
 }
 
