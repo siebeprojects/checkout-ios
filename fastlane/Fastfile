@@ -48,11 +48,11 @@ platform :ios do
     )
   end
 
-  desc "Run UI tests (Swift)"
-  lane :ui_test do
+  desc "Run UI tests"
+  lane :ui_test do |options|
     cocoapods(podfile: "./ExampleCheckout/Podfile")
     run_tests(
-      scheme: "Swift",
+      scheme: options[:scheme],
       derived_data_path: "/tmp/workspace/derived_data",
       workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
       devices: ["iPhone 12"],
