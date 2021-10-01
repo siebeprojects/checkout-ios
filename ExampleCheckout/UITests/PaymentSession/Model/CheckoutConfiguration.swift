@@ -9,7 +9,6 @@
 import Foundation
 
 enum CheckoutConfiguration: String {
-    case `default` = "Default"
     case extraElementsTopBottom = "UITests-ExtraElements-TopBottom"
     case extraElementsTop = "UITests-ExtraElements-Top"
     case extraElementsBottom = "UITests-ExtraElements-Bottom"
