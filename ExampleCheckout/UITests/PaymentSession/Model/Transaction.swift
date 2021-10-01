@@ -19,7 +19,7 @@ struct Transaction: Codable {
     let allowDelete: Bool?
     let checkoutConfigurationName: String?
 
-    init(magicNumber: MagicNumber = .nonMagicNumber, operationType: OperationType = .charge, checkoutConfigurationName: String? = "Default", allowDelete: Bool? = nil) throws {
+    init(magicNumber: MagicNumber = .nonMagicNumber, operationType: OperationType = .charge, checkoutConfiguration: CheckoutConfiguration = .default, allowDelete: Bool? = nil) throws {
         let bundle = Bundle(for: NetworksTests.self)
         let url = bundle.url(forResource: "Transaction", withExtension: "json")!
         let data = try Data(contentsOf: url)
@@ -36,7 +36,7 @@ struct Transaction: Codable {
         self.style = template.style
         self.operationType = operationType.rawValue
         self.allowDelete = allowDelete
-        self.checkoutConfigurationName = checkoutConfigurationName
+        self.checkoutConfigurationName = checkoutConfiguration.name
     }
 }
 
