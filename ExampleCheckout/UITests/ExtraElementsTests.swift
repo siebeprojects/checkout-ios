@@ -44,8 +44,8 @@ final class ExtraElementsTests: NetworksTests {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try startPaymentSession(transaction: Transaction(), url: bottomElementURL)
             app.tables.staticTexts["Cards"].tap()
-            XCTAssertTrue(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
             XCTAssertFalse(app.textViews["Top Element Number 1 with invalid link"].exists)
+            XCTAssertTrue(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
         }
     }
 
