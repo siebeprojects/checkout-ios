@@ -8,10 +8,6 @@
 
 import XCTest
 
-private let topBottomElementsURL = URL(string: "https://raw.githubusercontent.com/optile/checkout-android/PCX-2004/shared-test/lists/listresult_extraelements_topbottom.json")
-private let topElementURL = URL(string: "https://raw.githubusercontent.com/optile/checkout-android/PCX-2004/shared-test/lists/listresult_extraelements_top.json")
-private let bottomElementURL = URL(string: "https://raw.githubusercontent.com/optile/checkout-android/PCX-2004/shared-test/lists/listresult_extraelements_bottom.json")
-
 final class ExtraElementsTests: NetworksTests {
     func testExtraElements_whenNone_shouldNotDisplay() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
@@ -24,7 +20,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenTopAndBottom_shouldDisplayBoth() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try startPaymentSession(transaction: Transaction(), url: topBottomElementsURL)
+            try startPaymentSession(transaction: Transaction(checkoutConfigurationName: "UITests-ExtraElements-TopBottom"))
             app.tables.staticTexts["Cards"].tap()
             XCTAssertTrue(app.textViews["Top Element Number 1 with invalid link"].exists)
             XCTAssertTrue(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
@@ -33,7 +29,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenTop_shouldDisplayTop() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try startPaymentSession(transaction: Transaction(), url: topElementURL)
+            try startPaymentSession(transaction: Transaction(checkoutConfigurationName: "UITests-ExtraElements-Top"))
             app.tables.staticTexts["Cards"].tap()
             XCTAssertTrue(app.textViews["Top Element Number 1 with invalid link"].exists)
             XCTAssertFalse(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
@@ -42,7 +38,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenBottom_shouldDisplayBottom() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try startPaymentSession(transaction: Transaction(), url: bottomElementURL)
+            try startPaymentSession(transaction: Transaction(checkoutConfigurationName: "UITests-ExtraElements-Bottom"))
             app.tables.staticTexts["Cards"].tap()
             XCTAssertFalse(app.textViews["Top Element Number 1 with invalid link"].exists)
             XCTAssertTrue(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
@@ -51,7 +47,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenContainsCheckbox_shouldNotDisplay() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try startPaymentSession(transaction: Transaction(), url: topBottomElementsURL)
+            try startPaymentSession(transaction: Transaction(checkoutConfigurationName: "UITests-ExtraElements-TopBottom"))
             app.tables.staticTexts["Cards"].tap()
             XCTAssertFalse(app.textViews["Top Element Number 2 with a Checkbox view"].exists)
             XCTAssertFalse(app.textViews["Bottom Element Number 1 with an Checkbox optional title"].exists)
@@ -60,7 +56,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenContainsLink_shouldOpenSafari() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try startPaymentSession(transaction: Transaction(), url: topBottomElementsURL)
+            try startPaymentSession(transaction: Transaction(checkoutConfigurationName: "UITests-ExtraElements-TopBottom"))
             app.staticTexts["Cards"].tap()
             app.textViews.firstMatch.links["Number 1"].tap()
             XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 1))
