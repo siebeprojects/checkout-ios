@@ -59,7 +59,7 @@ final class ExtraElementsTests: NetworksTests {
             try startPaymentSession(transaction: Transaction(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom))
             app.staticTexts["Cards"].tap()
             app.textViews.firstMatch.links["Number 1"].tap()
-            XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: 1))
+            XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: .uiTimeout))
         }
     }
 }

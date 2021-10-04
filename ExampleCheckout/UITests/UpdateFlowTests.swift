@@ -98,12 +98,12 @@ fileprivate extension UpdateFlowTests {
     /// Wait until activity indicator disappears
     func waitForLoadingCompletion() {
         XCTContext.runActivity(named: "Wait for loading completion") { _ in
-            _ = app.activityIndicators.firstMatch.waitForExistence(timeout: 1)
+            _ = app.activityIndicators.firstMatch.waitForExistence(timeout: .uiTimeout)
 
             // Wait until loading indicator will disappear
             let notExists = NSPredicate(format: "exists == 0")
             let activityIndicatorIsFinished = expectation(for: notExists, evaluatedWith: app.activityIndicators.firstMatch, handler: nil)
-            wait(for: [activityIndicatorIsFinished], timeout: 5)
+            wait(for: [activityIndicatorIsFinished], timeout: .uiTimeout)
         }
     }
 

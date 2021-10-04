@@ -8,4 +8,5 @@ import XCTest
 
 extension TimeInterval {
     static var networkTimeout: TimeInterval { return 30 }
+    static var uiTimeout: TimeInterval { return 5 }
 }
