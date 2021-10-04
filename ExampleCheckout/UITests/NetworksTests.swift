@@ -10,7 +10,7 @@ class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
 
     /// Load an app and load networks list from list url.
-    func startPaymentSession(transaction: Transaction) throws {
+    func setupWithPaymentSession(transaction: Transaction) throws {
         continueAfterFailure = false
 
         try XCTContext.runActivity(named: "Start payment session") { _ in

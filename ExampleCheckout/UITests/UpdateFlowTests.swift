@@ -10,7 +10,7 @@ import XCTest
 class UpdateFlowTests: NetworksTests {
     func testTryOtherAccount() throws {
         let transaction = try Transaction(magicNumber: .tryOtherAccount, operationType: .update)
-        try startPaymentSession(transaction: transaction)
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
@@ -24,7 +24,7 @@ class UpdateFlowTests: NetworksTests {
 
     func testProceedPending() throws {
         let transaction = try Transaction(magicNumber: .proceedPending, operationType: .update)
-        try startPaymentSession(transaction: transaction)
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
@@ -39,7 +39,7 @@ class UpdateFlowTests: NetworksTests {
     // PayPal returns `PROCEED/OK` when it updated.
     func testProceedOk() throws {
         let transaction = try Transaction(operationType: .update)
-        try startPaymentSession(transaction: transaction)
+        try setupWithPaymentSession(transaction: transaction)
 
         let payPal = PayPalAccount()
 
@@ -63,7 +63,7 @@ class UpdateFlowTests: NetworksTests {
 extension UpdateFlowTests {
     func testSaveDeleteNewCardPaymentMethod() throws {
         let transaction = try Transaction(operationType: .update)
-        try startPaymentSession(transaction: transaction)
+        try setupWithPaymentSession(transaction: transaction)
 
         let visa = Visa()
 
