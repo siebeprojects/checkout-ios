@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		07321F3126EB9EEC00DD2F0E /* DeleteButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */; };
 		074E5ECC2707447600E35B24 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
+		074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
 		07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		28C4BE7B2FCA2C9D7687D6A9 /* Pods_CheckoutObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C7D087B0DBE87C71934507 /* Pods_CheckoutObjC.framework */; };
 		BD79F4E56A42BD139C3D71E5 /* Pods_CheckoutSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FC7D95F029F1FCD72462C2 /* Pods_CheckoutSwift.framework */; };
@@ -87,6 +88,7 @@
 		04FC7D95F029F1FCD72462C2 /* Pods_CheckoutSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CheckoutSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonTests.swift; sourceTree = "<group>"; };
 		074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutConfiguration.swift; sourceTree = "<group>"; };
+		074E5ECD270B595500E35B24 /* TransactionSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSettings.swift; sourceTree = "<group>"; };
 		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
 		3C22CD6CD060C1154E4097ED /* Pods-ExampleCheckout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleCheckout.debug.xcconfig"; path = "Target Support Files/Pods-ExampleCheckout/Pods-ExampleCheckout.debug.xcconfig"; sourceTree = "<group>"; };
 		4908350015424F9C57EC4D90 /* Pods-Example-sdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.release.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.release.xcconfig"; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 			children = (
 				D9A5FA68253CF7B6001C71B7 /* PaymentSession.swift */,
 				D9A5FA6B253D8213001C71B7 /* Transaction.swift */,
+				074E5ECD270B595500E35B24 /* TransactionSettings.swift */,
 				074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */,
 				D9A5FA79253D887B001C71B7 /* Style.swift */,
 				D9A5FA6F253D86F6001C71B7 /* Callback.swift */,
@@ -624,6 +627,7 @@
 				D9A5FA7A253D887B001C71B7 /* Style.swift in Sources */,
 				D99D048A26ADDC7E00C027CB /* Sepa.swift in Sources */,
 				D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */,
+				074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

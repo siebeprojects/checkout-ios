@@ -20,25 +20,31 @@ struct Transaction: Codable {
     let division: String?
     let checkoutConfigurationName: String?
 
-    init(magicNumber: MagicNumber = .nonMagicNumber, operationType: OperationType = .charge, division: String? = nil, checkoutConfiguration: CheckoutConfiguration? = nil, allowDelete: Bool? = nil) throws {
+    static func create(withSettings settings: TransactionSettings = TransactionSettings()) throws -> Transaction {
+        let template = try Transaction.createFromTemplate()
+
+        let amount = try XCTUnwrap(settings.magicNumber.value(for: settings.operationType), "Specified magic number is not supported for that operation type")
+
+        return Transaction(
+            integration: template.integration,
+            transactionId: String(Date().timeIntervalSince1970),
+            country: template.country,
+            callback: template.callback,
+            customer: template.customer,
+            payment: Payment(reference: template.payment.reference, amount: amount, currency: template.payment.currency),
+            style: template.style,
+            operationType: settings.operationType.rawValue,
+            allowDelete: settings.allowDelete,
+            division: settings.division,
+            checkoutConfigurationName: settings.checkoutConfiguration?.name
+        )
+    }
+
+    private static func createFromTemplate() throws -> Transaction {
         let bundle = Bundle(for: NetworksTests.self)
         let url = bundle.url(forResource: "Transaction", withExtension: "json")!
         let data = try Data(contentsOf: url)
-        let template = try JSONDecoder().decode(Transaction.self, from: data)
-
-        let amount = try XCTUnwrap(magicNumber.value(for: operationType), "Specified magic number is not supported for that operation type")
-
-        self.integration = template.integration
-        self.transactionId = String(Date().timeIntervalSince1970)
-        self.country = template.country
-        self.callback = template.callback
-        self.customer = template.customer
-        self.payment = Payment(reference: template.payment.reference, amount: amount, currency: template.payment.currency)
-        self.style = template.style
-        self.operationType = operationType.rawValue
-        self.allowDelete = allowDelete
-        self.division = division
-        self.checkoutConfigurationName = checkoutConfiguration?.name
+        return try JSONDecoder().decode(Transaction.self, from: data)
     }
 }
 

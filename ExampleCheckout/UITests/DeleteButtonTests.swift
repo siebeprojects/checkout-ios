@@ -23,7 +23,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsTrue_shouldShow() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction(operationType: .update, allowDelete: true)
+            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: true))
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
@@ -33,7 +33,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsFalse_shouldHide() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction(operationType: .update, allowDelete: false)
+            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: false))
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
@@ -43,7 +43,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsNil_shouldShow() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction(operationType: .update, allowDelete: nil)
+            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: nil))
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
@@ -53,7 +53,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsTrue_shouldShow() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction(operationType: .charge, allowDelete: true)
+            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: true))
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
@@ -63,7 +63,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsFalse_shouldHide() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction(operationType: .charge, allowDelete: false)
+            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: false))
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
@@ -73,7 +73,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsNil_shouldHide() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction(operationType: .charge, allowDelete: nil)
+            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: nil))
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[paymentMethod.maskedLabel].tap()
@@ -87,7 +87,7 @@ final class DeleteButtonTests: NetworksTests {
 extension DeleteButtonTests {
     private func addPaymentMethodIfNeeded(_ method: PaymentNetwork) throws {
         try XCTContext.runActivity(named: "Save new payment method") { _ in
-            let transaction = try Transaction(operationType: .update)
+            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update))
             try setupWithPaymentSession(transaction: transaction)
 
             if !app.tables.staticTexts[method.maskedLabel].exists {
