@@ -50,7 +50,6 @@
 		D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
 		D9E1A8822694DA1200CF4C9C /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A8812694DA1200CF4C9C /* Registration.swift */; };
 		D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
-		D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
 /* End PBXBuildFile section */
 
@@ -145,7 +144,6 @@
 		D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		D9E1A8812694DA1200CF4C9C /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		D9E726A9269DBF5700889C64 /* PayPalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalAccount.swift; sourceTree = "<group>"; };
-		D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCTFailError.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
 		E7C7D087B0DBE87C71934507 /* Pods_CheckoutObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CheckoutObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -342,7 +340,6 @@
 		D9FCC6AA25488A9800E0AF74 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */,
 				D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */,
 				D954C00F2696F41000714396 /* TimeInterval+timeout.swift */,
 				D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */,
@@ -616,7 +613,6 @@
 				D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */,
 				07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */,
 				D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */,
-				D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,
 				D9A5FA6C253D8213001C71B7 /* Transaction.swift in Sources */,
 				D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */,
