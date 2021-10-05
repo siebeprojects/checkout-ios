@@ -31,8 +31,8 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         case .OPTIONAL: isOn = false
         case .OPTIONAL_PRESELECTED: isOn = true
         case .FORCED_DISPLAYED:
-            let localizationKey = localizationKey(for: registrationOption)
-            let localizedString: String = translator.translation(forKey: localizationKey)
+            let key = localizationKey(for: registrationOption)
+            let localizedString: String = translator.translation(forKey: key)
             let attributedLabel = NSAttributedString(string: localizedString)
             return Input.Field.Label(label: attributedLabel, name: registrationOption.type.name, value: true.stringValue)
         case .FORCED:
