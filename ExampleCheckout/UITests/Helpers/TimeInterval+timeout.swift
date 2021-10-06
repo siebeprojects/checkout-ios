@@ -9,4 +9,5 @@ import XCTest
 extension TimeInterval {
     static var networkTimeout: TimeInterval { return 30 }
     static var uiTimeout: TimeInterval { return 5 }
+    static var safariPresentationTimeout: TimeInterval { return 10 }
 }
