@@ -108,13 +108,14 @@ extension Input.ViewController {
         setPreferredContentSize()
 
         configureNavigationBar()
+
+        tableController.becomeFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         addKeyboardFrameChangesObserver()
-        tableController.becomeFirstResponder()
         browserController.subscribeForNotification()
     }
 
