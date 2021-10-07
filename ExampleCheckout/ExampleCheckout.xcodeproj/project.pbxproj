@@ -22,7 +22,6 @@
 		0725B40E26FCBC9600C607A8 /* RedirectNetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */; };
 		0725B40F26FCBC9600C607A8 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
 		0725B41026FCBC9600C607A8 /* SepaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D048726ADDBE300C027CB /* SepaTests.swift */; };
-		0725B41126FCBC9600C607A8 /* XCTFailError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */; };
 		0725B41226FCBC9600C607A8 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99E9E09253DAA2700DFF8BD /* NetworkService.swift */; };
 		0725B41326FCBC9600C607A8 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA6B253D8213001C71B7 /* Transaction.swift */; };
 		0725B41426FCBC9600C607A8 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
@@ -35,6 +34,12 @@
 		0725B41B26FCBC9600C607A8 /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
 		0725B41E26FCBC9600C607A8 /* Transaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A5FA7F253D8B09001C71B7 /* Transaction.json */; };
 		07321F3126EB9EEC00DD2F0E /* DeleteButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */; };
+		074E5ECC2707447600E35B24 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
+		074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
+		07D1116F270C750E004CC554 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
+		07D11170270C7513004CC554 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
+		07D11171270C7518004CC554 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
+		07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		28C4BE7B2FCA2C9D7687D6A9 /* Pods_CheckoutObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C7D087B0DBE87C71934507 /* Pods_CheckoutObjC.framework */; };
 		BD79F4E56A42BD139C3D71E5 /* Pods_CheckoutSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FC7D95F029F1FCD72462C2 /* Pods_CheckoutSwift.framework */; };
 		D917D814267679B0000DB4CA /* ErrorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917D813267679B0000DB4CA /* ErrorInfo.swift */; };
@@ -74,7 +79,6 @@
 		D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
 		D9E1A8822694DA1200CF4C9C /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A8812694DA1200CF4C9C /* Registration.swift */; };
 		D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
-		D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +130,9 @@
 		04FC7D95F029F1FCD72462C2 /* Pods_CheckoutSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CheckoutSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0725B42226FCBC9600C607A8 /* UITestsObjC.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITestsObjC.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonTests.swift; sourceTree = "<group>"; };
+		074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutConfiguration.swift; sourceTree = "<group>"; };
+		074E5ECD270B595500E35B24 /* TransactionSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSettings.swift; sourceTree = "<group>"; };
+		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
 		3C22CD6CD060C1154E4097ED /* Pods-ExampleCheckout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleCheckout.debug.xcconfig"; path = "Target Support Files/Pods-ExampleCheckout/Pods-ExampleCheckout.debug.xcconfig"; sourceTree = "<group>"; };
 		4908350015424F9C57EC4D90 /* Pods-Example-sdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.release.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.release.xcconfig"; sourceTree = "<group>"; };
 		5A64E6638EAF1E31D0F73F96 /* Pods-Example-sdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.debug.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.debug.xcconfig"; sourceTree = "<group>"; };
@@ -180,7 +187,6 @@
 		D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		D9E1A8812694DA1200CF4C9C /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		D9E726A9269DBF5700889C64 /* PayPalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalAccount.swift; sourceTree = "<group>"; };
-		D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCTFailError.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
 		E7C7D087B0DBE87C71934507 /* Pods_CheckoutObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CheckoutObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -293,6 +299,7 @@
 				D956D28525DEB9E0001A2EAD /* NetworksTests.swift */,
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
+				07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */,
 				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
 				D99D048726ADDBE300C027CB /* SepaTests.swift */,
@@ -318,6 +325,8 @@
 			children = (
 				D9A5FA68253CF7B6001C71B7 /* PaymentSession.swift */,
 				D9A5FA6B253D8213001C71B7 /* Transaction.swift */,
+				074E5ECD270B595500E35B24 /* TransactionSettings.swift */,
+				074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */,
 				D9A5FA79253D887B001C71B7 /* Style.swift */,
 				D9A5FA6F253D86F6001C71B7 /* Callback.swift */,
 				D9A5FA73253D870E001C71B7 /* Payment.swift */,
@@ -381,7 +390,6 @@
 		D9FCC6AA25488A9800E0AF74 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				D9FCC6AB25488A9800E0AF74 /* XCTFailError.swift */,
 				D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */,
 				D954C00F2696F41000714396 /* TimeInterval+timeout.swift */,
 				D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */,
@@ -477,7 +485,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = "Payoneer Germany GmbH";
 				TargetAttributes = {
 					0725B3FC26FCBC9600C607A8 = {
@@ -659,6 +667,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D11171270C7518004CC554 /* ExtraElementsTests.swift in Sources */,
+				07D11170270C7513004CC554 /* CheckoutConfiguration.swift in Sources */,
+				07D1116F270C750E004CC554 /* TransactionSettings.swift in Sources */,
 				0725B40226FCBC9600C607A8 /* TimeInterval+timeout.swift in Sources */,
 				0725B40326FCBC9600C607A8 /* NetworksTests.swift in Sources */,
 				0725B40426FCBC9600C607A8 /* Callback.swift in Sources */,
@@ -674,7 +685,6 @@
 				0725B40E26FCBC9600C607A8 /* RedirectNetworksTests.swift in Sources */,
 				0725B40F26FCBC9600C607A8 /* PayPalAccount.swift in Sources */,
 				0725B41026FCBC9600C607A8 /* SepaTests.swift in Sources */,
-				0725B41126FCBC9600C607A8 /* XCTFailError.swift in Sources */,
 				0725B41226FCBC9600C607A8 /* NetworkService.swift in Sources */,
 				0725B41326FCBC9600C607A8 /* Transaction.swift in Sources */,
 				0725B41426FCBC9600C607A8 /* String+LocalizedError.swift in Sources */,
@@ -716,11 +726,12 @@
 				D917D816267679F8000DB4CA /* Interaction.swift in Sources */,
 				D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */,
 				D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */,
+				07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */,
 				D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */,
-				D9FCC6AD25488A9800E0AF74 /* XCTFailError.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,
 				D9A5FA6C253D8213001C71B7 /* Transaction.swift in Sources */,
 				D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */,
+				074E5ECC2707447600E35B24 /* CheckoutConfiguration.swift in Sources */,
 				D9A5FA74253D870E001C71B7 /* Payment.swift in Sources */,
 				D9368BAB26B1CC7F0083E5E3 /* ThreeDSTests.swift in Sources */,
 				D954C00E2696621600714396 /* Visa.swift in Sources */,
@@ -728,6 +739,7 @@
 				D9A5FA7A253D887B001C71B7 /* Style.swift in Sources */,
 				D99D048A26ADDC7E00C027CB /* Sepa.swift in Sources */,
 				D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */,
+				074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -853,6 +865,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8D43F652FA04CC30B966CAA5 /* Pods-CheckoutObjC.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -873,6 +886,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 73AB8AA25A7049EF6F0C595A /* Pods-CheckoutObjC.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -961,6 +975,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1021,6 +1036,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
