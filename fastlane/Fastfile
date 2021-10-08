@@ -12,9 +12,9 @@ platform :ios do
 
   desc "Build framework and run tests"
   lane :test do
-    cocoapods
     scan(
       output_directory: "./output/scan",
+      result_bundle: true,
       output_types: "junit"
     )
   end
