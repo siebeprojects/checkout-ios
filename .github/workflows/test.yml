@@ -42,7 +42,7 @@ jobs:
         if: steps.cache-pods.outputs.cache-hit != 'true'
         run: bundle exec pod install --deployment
 
-      - name: Unit tests
+      - name: Run unit tests
         env:
           FASTLANE_SKIP_UPDATE_CHECK: true
         run: bundle exec fastlane test
