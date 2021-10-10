@@ -106,11 +106,11 @@ extension Input.SmartSwitch.Selector {
         }
 
         if previouslySelected.network != selected.network {
-            let oldInputFields = previouslySelected.network.uiModel.inputSections
-                .filter { $0.category != .registration } // done 
+            let oldInputFields: [WritableInputField] = previouslySelected.network.uiModel.inputSections
+                .filter { $0.category != .registration }
                 .flatMap { $0.inputFields }
                 .compactMap { $0 as? WritableInputField }
-            let newInputFields = selected.network.uiModel.inputSections
+            let newInputFields: [WritableInputField] = selected.network.uiModel.inputSections
                 .filter { $0.category != .registration }
                 .flatMap { $0.inputFields }
                 .compactMap { $0 as? WritableInputField }
