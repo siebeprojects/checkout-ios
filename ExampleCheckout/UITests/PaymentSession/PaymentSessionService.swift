@@ -11,6 +11,12 @@ private func infoPlistValue(forKey key: String) -> String? {
     return value as? String
 }
 
+enum PaymentSessionServiceError: Error {
+    case invalidURL
+    case invalidMerchantCode
+    case invalidPaymentToken
+}
+
 class PaymentSessionService {
     let url: URL
     let merchantCode: String
@@ -18,14 +24,12 @@ class PaymentSessionService {
 
     private let networkService = NetworkService()
 
-    init?() {
-        guard let merchantCode = infoPlistValue(forKey: "MERCHANT_CODE"),
-              let merchantPaymentToken = infoPlistValue(forKey: "MERCHANT_PAYMENT_TOKEN") else {
-            return nil
-        }
+    init() throws {
+        guard let urlString = infoPlistValue(forKey: "PAYMENT_API_LISTURL"), let url = URL(string: urlString) else { throw PaymentSessionServiceError.invalidURL }
+        guard let merchantCode = infoPlistValue(forKey: "MERCHANT_CODE") else { throw PaymentSessionServiceError.invalidMerchantCode }
+        guard let merchantPaymentToken = infoPlistValue(forKey: "MERCHANT_PAYMENT_TOKEN") else { throw PaymentSessionServiceError.invalidPaymentToken }
 
-        let stringURL = infoPlistValue(forKey: "PAYMENT_API_LISTURL")
-        self.url = URL(string: stringURL!)!
+        self.url = url
         self.merchantCode = merchantCode
         self.merchantPaymentToken = merchantPaymentToken
     }

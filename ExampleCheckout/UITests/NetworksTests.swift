@@ -10,19 +10,12 @@ class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
 
     /// Load an app and load networks list from list url.
-    /// - Parameter transaction: if `nil`, default `Transaction` will be used
-    func setupWithPaymentSession(using transaction: Transaction? = nil) throws {
+    func setupWithPaymentSession(transaction: Transaction) throws {
         continueAfterFailure = false
 
-        try XCTContext.runActivity(named: "Setup payment session") { _ in
+        try XCTContext.runActivity(named: "Start payment session") { _ in
             // Create payment session
-            let sessionURL: URL
-
-            if let transaction = transaction {
-                sessionURL = try createPaymentSession(using: transaction)
-            } else {
-                sessionURL = try createPaymentSession(using: Transaction.loadFromTemplate())
-            }
+            let sessionURL = try createPaymentSession(using: transaction)
 
             // UI tests must launch the application that they test.
             let app = XCUIApplication()
@@ -44,22 +37,27 @@ class NetworksTests: XCTestCase {
 
         var createSessionResult: Result<URL, Error>?
 
-        let paymentSessionService = PaymentSessionService()!
-        paymentSessionService.create(using: transaction, completion: { (result) in
+        let paymentSessionService = try PaymentSessionService()
+
+        paymentSessionService.create(using: transaction) { result in
             createSessionResult = result
             sessionExpectation.fulfill()
-        })
+        }
 
         wait(for: [sessionExpectation], timeout: .networkTimeout)
 
         switch createSessionResult {
-        case .success(let url): return url
+        case .success(let url):
+            return url
+
         case .failure(let error):
             let attachment = XCTAttachment(subject: error)
             attachment.name = "LoadPaymentSessionError"
             add(attachment)
             throw error
-        case .none: throw "Create session result wasn't set"
+
+        case .none:
+            throw "Create session result wasn't set"
         }
     }
 }

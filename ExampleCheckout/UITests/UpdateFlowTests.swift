@@ -9,8 +9,8 @@ import XCTest
 // Flows should follow rules specified in https://optile.atlassian.net/browse/PCX-1396.
 class UpdateFlowTests: NetworksTests {
     func testTryOtherAccount() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .tryOtherAccount, operationType: .update)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherAccount, operationType: .update))
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
@@ -23,8 +23,8 @@ class UpdateFlowTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .proceedPending, operationType: .update)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedPending, operationType: .update))
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Visa().submit(in: app.collectionViews)
@@ -38,8 +38,8 @@ class UpdateFlowTests: NetworksTests {
 
     // PayPal returns `PROCEED/OK` when it updated.
     func testProceedOk() throws {
-        let transaction = try Transaction.loadFromTemplate(operationType: .update)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update))
+        try setupWithPaymentSession(transaction: transaction)
 
         let payPal = PayPalAccount()
 
@@ -62,8 +62,8 @@ class UpdateFlowTests: NetworksTests {
 
 extension UpdateFlowTests {
     func testSaveDeleteNewCardPaymentMethod() throws {
-        let transaction = try Transaction.loadFromTemplate(operationType: .update)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update))
+        try setupWithPaymentSession(transaction: transaction)
 
         let visa = Visa()
 
@@ -98,12 +98,12 @@ fileprivate extension UpdateFlowTests {
     /// Wait until activity indicator disappears
     func waitForLoadingCompletion() {
         XCTContext.runActivity(named: "Wait for loading completion") { _ in
-            _ = app.activityIndicators.firstMatch.waitForExistence(timeout: 1)
+            _ = app.activityIndicators.firstMatch.waitForExistence(timeout: .uiTimeout)
 
             // Wait until loading indicator will disappear
             let notExists = NSPredicate(format: "exists == 0")
             let activityIndicatorIsFinished = expectation(for: notExists, evaluatedWith: app.activityIndicators.firstMatch, handler: nil)
-            wait(for: [activityIndicatorIsFinished], timeout: 5)
+            wait(for: [activityIndicatorIsFinished], timeout: .uiTimeout)
         }
     }
 
