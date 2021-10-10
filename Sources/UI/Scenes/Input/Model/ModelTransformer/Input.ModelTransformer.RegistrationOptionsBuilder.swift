@@ -67,8 +67,7 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
             return [combinedField]
         default:
             let resultInfo = "Unsupported combination of autoRegistration (" + registration.rawValue + ") and allowRecurrence (" + recurrence.rawValue + ") for a charge flow"
-            let errorInfo = CustomErrorInfo(resultInfo: resultInfo, interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
-            throw errorInfo
+            throw CustomErrorInfo(resultInfo: resultInfo, interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
         }
     }
 
