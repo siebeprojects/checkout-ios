@@ -168,13 +168,13 @@ workflows:
   # Automated tests workflow
   test:
     jobs:
-      - ui_test:
-          filters:
-            branches:
-              only: /.*PCX-.*/
-          matrix:
-            parameters:
-              xcode_scheme: ["Swift", "Objective-C"]
+      # - ui_test:
+      #     filters:
+      #       branches:
+      #         only: /.*PCX-.*/
+      #     matrix:
+      #       parameters:
+      #         xcode_scheme: ["Swift", "Objective-C"]
       - lib_lint:
           filters:
             branches:
