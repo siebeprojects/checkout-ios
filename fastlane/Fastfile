@@ -57,6 +57,7 @@ platform :ios do
       devices: ["iPhone 12"],
       output_directory: "./output/scan",
       output_types: "junit",
+      max_concurrent_simulators: 2,
       result_bundle: true
     )
   end
