@@ -125,6 +125,7 @@ jobs:
       - name: Publish test report
         uses: mikepenz/action-junit-report@v2
         if: always() && steps.clear-secrets.outcome == 'success'
+        continue-on-error: true
         with:
           report_paths: output/scan/report.junit
           check_name: UI test report (${{ matrix.scheme }})
