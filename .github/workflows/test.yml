@@ -99,6 +99,7 @@ jobs:
         run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
 
       - name: Inject secrets
+        id: inject-secrets
         env:
           merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
           merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
@@ -115,9 +116,18 @@ jobs:
         run: bundle exec fastlane ui_test scheme:${{ matrix.scheme }}
 
       - name: Clear secrets
+        if: always() && steps.inject-secrets.outcome == 'success'
+        id: clear-secrets
         env:
           xcconfig: ExampleCheckout/UITests/Assets/Config.xcconfig
-        run: rm -f ${{ env.xcconfig }}
+        run: rm ${{ env.xcconfig }}
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v2
+        if: always() && steps.clear-secrets.outcome == 'success'
+        with:
+          report_paths: output/scan/report.junit
+          check_name: UI test report (${{ matrix.scheme }})
 
       - name: Zip test results
         if: failure()
