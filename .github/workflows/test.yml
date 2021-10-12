@@ -122,13 +122,12 @@ jobs:
           xcconfig: ExampleCheckout/UITests/Assets/Config.xcconfig
         run: rm ${{ env.xcconfig }}
 
-      - name: Publish test report (v2)
-        uses: dorny/test-reporter@v1
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v2
         if: always() && steps.clear-secrets.outcome == 'success'
         with:
-          name: UI test report (${{ matrix.scheme }})
-          path: output/scan/report.junit
-          reporter: jest-junit
+          report_paths: output/scan/report.junit
+          check_name: UI test report (${{ matrix.scheme }})
 
       - name: Zip test results
         id: zip-xcresult
