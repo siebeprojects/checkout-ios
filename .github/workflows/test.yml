@@ -69,6 +69,9 @@ jobs:
 
   ui-tests:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        scheme: [Swift, Objective-C]
 
     steps:
       - name: Checkout repository
@@ -109,7 +112,7 @@ jobs:
       - name: Run UI tests
         env:
           FASTLANE_SKIP_UPDATE_CHECK: true
-        run: bundle exec fastlane ui_test scheme:Swift
+        run: bundle exec fastlane ui_test scheme:${{ matrix.scheme }}
 
       - name: Clear secrets
         env:
