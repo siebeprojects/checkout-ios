@@ -130,13 +130,14 @@ jobs:
           check_name: UI test report (${{ matrix.scheme }})
 
       - name: Zip test results
+        id: zip-xcresult
         if: failure()
         env:
           project-name: ExampleCheckout
         run: zip -r output/scan/${{ github.sha }}.xcresult.zip output/scan/${{ env.project-name }}.xcresult/
 
       - name: Upload test results
-        if: failure()
+        if: failure() && steps.zip-xcresult.conclusion == 'success'
         uses: actions/upload-artifact@v2
         with:
           name: ${{ github.sha }}.xcresult.zip
