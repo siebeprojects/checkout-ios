@@ -11,6 +11,7 @@ class CardsTests: NetworksTests {
     // MARK: Success Card Payment
 
     func testProceedOk() throws {
+        XCTFail("Emulate error")
         let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .charge))
         try setupWithPaymentSession(transaction: transaction)
 
