@@ -20,31 +20,24 @@ platform :ios do
   end
 
   desc "Build example app (Swift)"
-  lane :build_example_swift do
-    filename = "ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
-    cocoapods(podfile: "./ExampleCheckout/Podfile")
-    increment_build_number(
-      build_number: ENV["CIRCLE_BUILD_NUM"],
-      xcodeproj: example_xcodeproj
-    )
+  lane :build_example_swift do |options|
     match(type: "adhoc", readonly: is_ci)
     build_ios_app(
       silent: true,
       scheme: "Swift",
       workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace",
       output_directory: "/tmp/workspace/output",
-      output_name: filename,
+      output_name: options[:binary],
       derived_data_path: "/tmp/workspace/derived_data"
     )
   end
 
   desc "Upload binary to Browserstack"
-  lane :browserstack do
-    example_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+  lane :browserstack do |options|
     upload_to_browserstack_app_live(
       browserstack_username: ENV["BROWSERSTACK_USERNAME"],
       browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
-      file_path: example_ipa
+      file_path: options[:binary]
     )
   end
 
