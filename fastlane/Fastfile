@@ -21,22 +21,20 @@ platform :ios do
 
   desc "Build example app (Swift)"
   lane :build_example_swift do |options|
-    match(type: "adhoc", readonly: is_ci)
     build_ios_app(
       silent: true,
+      export_method: "ad-hoc",
       scheme: "Swift",
       workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace",
-      output_directory: "/tmp/workspace/output",
-      output_name: options[:binary],
-      derived_data_path: "/tmp/workspace/derived_data"
+      output_name: options[:binary]
     )
   end
 
   desc "Upload binary to Browserstack"
   lane :browserstack do |options|
     upload_to_browserstack_app_live(
-      browserstack_username: ENV["BROWSERSTACK_USERNAME"],
-      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
+      browserstack_username: ENV["BROWSERSTACK_USER"],
+      browserstack_access_key: ENV["BROWSERSTACK_KEY"],
       file_path: options[:binary]
     )
   end
