@@ -1,0 +1,30 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency: 
+  group: deploy-${{ github.head_ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy-to-cocoapods:
+    runs-on: macos-latest
+    environment: CocoaPods
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install the dependencies specified in Gemfile
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Deploy to CocoaPods
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: bundle exec fastlane deploy
