@@ -2,9 +2,6 @@ name: Manual test
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - PCX-2120-github-actions
 
 concurrency: 
   group: manual-tests-${{ github.head_ref }}
