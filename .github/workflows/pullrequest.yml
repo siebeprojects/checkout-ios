@@ -142,35 +142,20 @@ jobs:
 ### SWIFT LINT
 
   swiftlint:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
-      - name: Install the dependencies specified in Gemfile
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.7'
-          bundler-cache: true
-
-      - name: Cache pods
-        id: cache-pods
-        uses: actions/cache@v2
-        env:
-          cache-name: framework-pods
-        with:
-          path: Pods/
-          key: cache-${{ env.cache-name }}-${{ hashFiles('Podfile.lock') }}
-
-      - name: Install Pods
-        if: steps.cache-pods.outputs.cache-hit != 'true'
-        run: bundle exec pod install --deployment
 
       - name: Lint the framework
-        run: Pods/SwiftLint/swiftlint --reporter github-actions-logging --quiet --strict
+        uses: norio-nomura/action-swiftlint@3.2.1
+        with:
+          args: --strict
 
-      - name: Lint Example apps
+      - name: Lint example applications
+        uses: norio-nomura/action-swiftlint@3.2.1
         env:
-          config: ExampleCheckout/.swiftlint.yml
-        run: Pods/SwiftLint/swiftlint --config ${{ env.config }} --reporter github-actions-logging --quiet --strict
+          WORKING_DIRECTORY: ExampleCheckout
+        with:
+          args: --strict
