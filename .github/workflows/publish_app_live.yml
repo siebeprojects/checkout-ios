@@ -87,7 +87,7 @@ jobs:
 
       - name: Upload to BrowserStack
         env: 
-          BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USERNAME }}
-          BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
+          BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
           ipa-binary: ExampleCheckout-${{ env.BRANCH_NAME }}.ipa
         run: bundle exec fastlane browserstack binary:${{ env.ipa-binary }}
