@@ -55,30 +55,30 @@ private var testingCasesForChargeFlow: [TestingCase] {
     [
         .init(registration: .NONE, recurrence: .NONE, expectations: []),
         .init(registration: .FORCED, recurrence: .NONE, expectations: [
-            .init(id: .registration, inputFieldType: Input.Field.Hidden.self, value: true)
+            .init(id: .registration, inputFieldType: Input.Field.HiddenRegistrationOption.self, value: true)
         ]),
         .init(registration: .FORCED_DISPLAYED, recurrence: .NONE, expectations: [
             .init(id: .registration, inputFieldType: Input.Field.Label.self, value: true)
         ]),
         .init(registration: .FORCED, recurrence: .FORCED, expectations: [
-            .init(id: .registration, inputFieldType: Input.Field.Hidden.self, value: true),
-            .init(id: .recurrence, inputFieldType: Input.Field.Hidden.self, value: true)
+            .init(id: .registration, inputFieldType: Input.Field.HiddenRegistrationOption.self, value: true),
+            .init(id: .recurrence, inputFieldType: Input.Field.HiddenRegistrationOption.self, value: true)
         ]),
         .init(registration: .FORCED_DISPLAYED, recurrence: .FORCED_DISPLAYED, expectations: [
             .init(id: .registration, inputFieldType: Input.Field.Label.self, value: true),
-            .init(id: .recurrence, inputFieldType: Input.Field.Hidden.self, value: true)
+            .init(id: .recurrence, inputFieldType: Input.Field.HiddenRegistrationOption.self, value: true)
         ]),
         .init(registration: .OPTIONAL, recurrence: .NONE, expectations: [
-            .init(id: .registration, inputFieldType: Input.Field.Checkbox.self, value: false)
+            .init(id: .registration, inputFieldType: Input.Field.RegistrationCheckbox.self, value: false)
         ]),
         .init(registration: .OPTIONAL_PRESELECTED, recurrence: .NONE, expectations: [
-            .init(id: .registration, inputFieldType: Input.Field.Checkbox.self, value: true)
+            .init(id: .registration, inputFieldType: Input.Field.RegistrationCheckbox.self, value: true)
         ]),
         .init(registration: .OPTIONAL, recurrence: .OPTIONAL, expectations: [
-            .init(id: .combinedRegistration, inputFieldType: Input.Field.Checkbox.self, value: false)
+            .init(id: .combinedRegistration, inputFieldType: Input.Field.RegistrationCheckbox.self, value: false)
         ]),
         .init(registration: .OPTIONAL_PRESELECTED, recurrence: .OPTIONAL_PRESELECTED, expectations: [
-            .init(id: .combinedRegistration, inputFieldType: Input.Field.Checkbox.self, value: true)
+            .init(id: .combinedRegistration, inputFieldType: Input.Field.RegistrationCheckbox.self, value: true)
         ])
     ]
 }
