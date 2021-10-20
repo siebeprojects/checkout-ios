@@ -123,7 +123,7 @@ extension Input.SmartSwitch.Selector {
     private func moveInputValues(from lhs: [WritableInputField], to rhs: [WritableInputField]) {
         for fromInputField in lhs {
             for toInputField in rhs where toInputField.id == fromInputField.id {
-                if let toResettableInputField = toInputField as? ResettableValue {
+                if let toResettableInputField = toInputField as? ContainsDefaultValue {
                     // Don't move values if value should be resetted
                     toInputField.value = toResettableInputField.defaultValue
                 } else {

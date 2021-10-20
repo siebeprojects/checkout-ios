@@ -219,7 +219,7 @@
 		D9C9573F241C54CA00049AFE /* PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */; };
 		D9CCE84D26D4BA16001B2498 /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CCE84C26D4BA16001B2498 /* Loggable.swift */; };
 		D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */; };
-		D9DFE5052720A1C0003E0768 /* ResettableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5042720A1C0003E0768 /* ResettableValue.swift */; };
+		D9DFE5052720A1C0003E0768 /* ContainsDefaultValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5042720A1C0003E0768 /* ContainsDefaultValue.swift */; };
 		D9DFE5072720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5062720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift */; };
 		D9DFE5092720A368003E0768 /* Input.Field.HiddenRegistrationOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5082720A368003E0768 /* Input.Field.HiddenRegistrationOption.swift */; };
 		D9E380C82671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */; };
@@ -465,7 +465,7 @@
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9CCE84C26D4BA16001B2498 /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
 		D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
-		D9DFE5042720A1C0003E0768 /* ResettableValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResettableValue.swift; sourceTree = "<group>"; };
+		D9DFE5042720A1C0003E0768 /* ContainsDefaultValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainsDefaultValue.swift; sourceTree = "<group>"; };
 		D9DFE5062720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.RegistrationCheckbox.swift; sourceTree = "<group>"; };
 		D9DFE5082720A368003E0768 /* Input.Field.HiddenRegistrationOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.HiddenRegistrationOption.swift; sourceTree = "<group>"; };
 		D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListViewController.OperationResultHandler.swift; sourceTree = "<group>"; };
@@ -776,7 +776,7 @@
 				D96A4EC9257D96EE00E74C8C /* CellRepresentable.swift */,
 				D96A4ECA257D96EE00E74C8C /* InputCellDelegate.swift */,
 				D96A4ECB257D96EE00E74C8C /* Selectable.swift */,
-				D9DFE5042720A1C0003E0768 /* ResettableValue.swift */,
+				D9DFE5042720A1C0003E0768 /* ContainsDefaultValue.swift */,
 				D96A4ECC257D96EE00E74C8C /* TextInputField.swift */,
 				D9E9C22326E23FE3006E4B82 /* ModalPresenter.swift */,
 			);
@@ -1543,7 +1543,7 @@
 				D96A4F55257D96EF00E74C8C /* Input.swift in Sources */,
 				D96A4FAE257D96EF00E74C8C /* RedirectCallbackHandler.swift in Sources */,
 				D96A4F78257D96EF00E74C8C /* Input.Field.Validation.Luhn.swift in Sources */,
-				D9DFE5052720A1C0003E0768 /* ResettableValue.swift in Sources */,
+				D9DFE5052720A1C0003E0768 /* ContainsDefaultValue.swift in Sources */,
 				D91A4E3726B8A3450036CAC9 /* Bundle+identifer.swift in Sources */,
 				D96A4FA8257D96EF00E74C8C /* PaymentSessionServiceDelegate.swift in Sources */,
 				D96A4FAB257D96EF00E74C8C /* DataDownloadProvider.swift in Sources */,

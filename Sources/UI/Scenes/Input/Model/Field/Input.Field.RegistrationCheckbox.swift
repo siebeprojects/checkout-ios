@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 extension Input.Field {
-    final class RegistrationCheckbox: Checkbox, ResettableValue {
+    final class RegistrationCheckbox: Checkbox, ContainsDefaultValue {
         let defaultValue: String
 
         override init(id: Identifier, isOn: Bool, label: NSAttributedString) {

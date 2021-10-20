@@ -8,7 +8,7 @@ import UIKit
 
 extension Input.Field {
     /// Label with no user interaction and pre-set value for registration options.
-    final class HiddenRegistrationOption: Hidden, ResettableValue {
+    final class HiddenRegistrationOption: Hidden, ContainsDefaultValue {
         let defaultValue: String
 
         override init(id: Identifier, value: String) {
