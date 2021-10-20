@@ -40,30 +40,30 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         switch (registration, recurrence) {
         case (.NONE, .NONE): return [InputField]()
         case (.FORCED, .NONE):
-            let registrationField = Input.Field.Hidden(id: .registration, value: true.stringValue)
+            let registrationField = Input.Field.HiddenRegistrationOption(id: .registration, value: true.stringValue)
             return [registrationField]
         case (.FORCED_DISPLAYED, .NONE):
             let registrationField = Input.Field.Label(label: localizedRegistrationLabel, id: .registration, value: true.stringValue)
             return [registrationField]
         case (.FORCED, .FORCED):
-            let registrationField = Input.Field.Hidden(id: .registration, value: true.stringValue)
-            let recurrenceField = Input.Field.Hidden(id: .recurrence, value: true.stringValue)
+            let registrationField = Input.Field.HiddenRegistrationOption(id: .registration, value: true.stringValue)
+            let recurrenceField = Input.Field.HiddenRegistrationOption(id: .recurrence, value: true.stringValue)
             return [registrationField, recurrenceField]
         case (.FORCED_DISPLAYED, .FORCED_DISPLAYED):
             let registrationField = Input.Field.Label(label: localizedRegistrationLabel, id: .registration, value: true.stringValue)
-            let recurrenceField = Input.Field.Hidden(id: .recurrence, value: true.stringValue)
+            let recurrenceField = Input.Field.HiddenRegistrationOption(id: .recurrence, value: true.stringValue)
             return [registrationField, recurrenceField]
         case (.OPTIONAL, .NONE):
-            let registrationField = Input.Field.Checkbox(id: .registration, isOn: false, label: localizedRegistrationLabel)
+            let registrationField = Input.Field.RegistrationCheckbox(id: .registration, isOn: false, label: localizedRegistrationLabel)
             return [registrationField]
         case (.OPTIONAL_PRESELECTED, .NONE):
-            let registrationField = Input.Field.Checkbox(id: .registration, isOn: true, label: localizedRegistrationLabel)
+            let registrationField = Input.Field.RegistrationCheckbox(id: .registration, isOn: true, label: localizedRegistrationLabel)
             return [registrationField]
         case (.OPTIONAL, .OPTIONAL):
-            let combinedField = Input.Field.Checkbox(id: .combinedRegistration, isOn: false, label: localizedRegistrationLabel)
+            let combinedField = Input.Field.RegistrationCheckbox(id: .combinedRegistration, isOn: false, label: localizedRegistrationLabel)
             return [combinedField]
         case (.OPTIONAL_PRESELECTED, .OPTIONAL_PRESELECTED):
-            let combinedField = Input.Field.Checkbox(id: .combinedRegistration, isOn: true, label: localizedRegistrationLabel)
+            let combinedField = Input.Field.RegistrationCheckbox(id: .combinedRegistration, isOn: true, label: localizedRegistrationLabel)
             return [combinedField]
         default:
             let resultInfo = "Unsupported combination of autoRegistration (" + registration.rawValue + ") and allowRecurrence (" + recurrence.rawValue + ") for a charge flow"
@@ -79,13 +79,13 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         var inputFields = [InputField]()
 
         switch registration {
-        case .NONE: inputFields += [Input.Field.Hidden(id: .registration, value: false.stringValue)]
-        default: inputFields += [Input.Field.Hidden(id: .registration, value: true.stringValue)]
+        case .NONE: inputFields += [Input.Field.HiddenRegistrationOption(id: .registration, value: false.stringValue)]
+        default: inputFields += [Input.Field.HiddenRegistrationOption(id: .registration, value: true.stringValue)]
         }
 
         switch reccurrence {
-        case .NONE: inputFields += [Input.Field.Hidden(id: .recurrence, value: false.stringValue)]
-        default: inputFields += [Input.Field.Hidden(id: .recurrence, value: true.stringValue)]
+        case .NONE: inputFields += [Input.Field.HiddenRegistrationOption(id: .recurrence, value: false.stringValue)]
+        default: inputFields += [Input.Field.HiddenRegistrationOption(id: .recurrence, value: true.stringValue)]
         }
 
         return inputFields

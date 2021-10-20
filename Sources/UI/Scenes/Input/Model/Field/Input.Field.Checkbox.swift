@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 extension Input.Field {
-    final class Checkbox {
+    class Checkbox {
         let id: Identifier
         var isOn: Bool
         var isEnabled: Bool = true
