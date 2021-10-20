@@ -55,18 +55,18 @@ private var testingCasesForChargeFlow: [TestingCase] {
     [
         .init(registration: .NONE, recurrence: .NONE, expectations: []),
         .init(registration: .FORCED, recurrence: .NONE, expectations: [
-            .init(id: .registration, inputFieldType: Input.Field.HiddenRegistrationOption.self, value: true)
+            .init(id: .registration, inputFieldType: Input.Field.Hidden.self, value: true)
         ]),
         .init(registration: .FORCED_DISPLAYED, recurrence: .NONE, expectations: [
             .init(id: .registration, inputFieldType: Input.Field.Label.self, value: true)
         ]),
         .init(registration: .FORCED, recurrence: .FORCED, expectations: [
-            .init(id: .registration, inputFieldType: Input.Field.HiddenRegistrationOption.self, value: true),
-            .init(id: .recurrence, inputFieldType: Input.Field.HiddenRegistrationOption.self, value: true)
+            .init(id: .registration, inputFieldType: Input.Field.Hidden.self, value: true),
+            .init(id: .recurrence, inputFieldType: Input.Field.Hidden.self, value: true)
         ]),
         .init(registration: .FORCED_DISPLAYED, recurrence: .FORCED_DISPLAYED, expectations: [
             .init(id: .registration, inputFieldType: Input.Field.Label.self, value: true),
-            .init(id: .recurrence, inputFieldType: Input.Field.HiddenRegistrationOption.self, value: true)
+            .init(id: .recurrence, inputFieldType: Input.Field.Hidden.self, value: true)
         ]),
         .init(registration: .OPTIONAL, recurrence: .NONE, expectations: [
             .init(id: .registration, inputFieldType: Input.Field.RegistrationCheckbox.self, value: false)

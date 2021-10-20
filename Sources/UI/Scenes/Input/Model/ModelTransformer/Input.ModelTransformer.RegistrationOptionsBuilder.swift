@@ -40,18 +40,18 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         switch (registration, recurrence) {
         case (.NONE, .NONE): return [InputField]()
         case (.FORCED, .NONE):
-            let registrationField = Input.Field.HiddenRegistrationOption(id: .registration, value: true.stringValue)
+            let registrationField = Input.Field.Hidden(id: .registration, value: true.stringValue)
             return [registrationField]
         case (.FORCED_DISPLAYED, .NONE):
             let registrationField = Input.Field.Label(label: localizedRegistrationLabel, id: .registration, value: true.stringValue)
             return [registrationField]
         case (.FORCED, .FORCED):
-            let registrationField = Input.Field.HiddenRegistrationOption(id: .registration, value: true.stringValue)
-            let recurrenceField = Input.Field.HiddenRegistrationOption(id: .recurrence, value: true.stringValue)
+            let registrationField = Input.Field.Hidden(id: .registration, value: true.stringValue)
+            let recurrenceField = Input.Field.Hidden(id: .recurrence, value: true.stringValue)
             return [registrationField, recurrenceField]
         case (.FORCED_DISPLAYED, .FORCED_DISPLAYED):
             let registrationField = Input.Field.Label(label: localizedRegistrationLabel, id: .registration, value: true.stringValue)
-            let recurrenceField = Input.Field.HiddenRegistrationOption(id: .recurrence, value: true.stringValue)
+            let recurrenceField = Input.Field.Hidden(id: .recurrence, value: true.stringValue)
             return [registrationField, recurrenceField]
         case (.OPTIONAL, .NONE):
             let registrationField = Input.Field.RegistrationCheckbox(id: .registration, isOn: false, label: localizedRegistrationLabel)
@@ -79,13 +79,13 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         var inputFields = [InputField]()
 
         switch registration {
-        case .NONE: inputFields += [Input.Field.HiddenRegistrationOption(id: .registration, value: false.stringValue)]
-        default: inputFields += [Input.Field.HiddenRegistrationOption(id: .registration, value: true.stringValue)]
+        case .NONE: inputFields += [Input.Field.Hidden(id: .registration, value: false.stringValue)]
+        default: inputFields += [Input.Field.Hidden(id: .registration, value: true.stringValue)]
         }
 
         switch reccurrence {
-        case .NONE: inputFields += [Input.Field.HiddenRegistrationOption(id: .recurrence, value: false.stringValue)]
-        default: inputFields += [Input.Field.HiddenRegistrationOption(id: .recurrence, value: true.stringValue)]
+        case .NONE: inputFields += [Input.Field.Hidden(id: .recurrence, value: false.stringValue)]
+        default: inputFields += [Input.Field.Hidden(id: .recurrence, value: true.stringValue)]
         }
 
         return inputFields

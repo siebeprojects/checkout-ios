@@ -221,7 +221,6 @@
 		D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */; };
 		D9DFE5052720A1C0003E0768 /* ContainsDefaultValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5042720A1C0003E0768 /* ContainsDefaultValue.swift */; };
 		D9DFE5072720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5062720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift */; };
-		D9DFE5092720A368003E0768 /* Input.Field.HiddenRegistrationOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5082720A368003E0768 /* Input.Field.HiddenRegistrationOption.swift */; };
 		D9E380C82671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */; };
 		D9E5570A2670B63700942FF8 /* OperationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E557092670B63700942FF8 /* OperationRequest.swift */; };
 		D9E9C22226E23BC8006E4B82 /* Input.ViewController.BrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E9C22126E23BC8006E4B82 /* Input.ViewController.BrowserController.swift */; };
@@ -467,7 +466,6 @@
 		D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		D9DFE5042720A1C0003E0768 /* ContainsDefaultValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainsDefaultValue.swift; sourceTree = "<group>"; };
 		D9DFE5062720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.RegistrationCheckbox.swift; sourceTree = "<group>"; };
-		D9DFE5082720A368003E0768 /* Input.Field.HiddenRegistrationOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.HiddenRegistrationOption.swift; sourceTree = "<group>"; };
 		D9E380C72671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListViewController.OperationResultHandler.swift; sourceTree = "<group>"; };
 		D9E557092670B63700942FF8 /* OperationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationRequest.swift; sourceTree = "<group>"; };
 		D9E9C22126E23BC8006E4B82 /* Input.ViewController.BrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.BrowserController.swift; sourceTree = "<group>"; };
@@ -723,7 +721,6 @@
 				D96A4EAB257D96EE00E74C8C /* Input.Field.Checkbox.swift */,
 				D9DFE5062720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift */,
 				D96A4EAC257D96EE00E74C8C /* Input.Field.Hidden.swift */,
-				D9DFE5082720A368003E0768 /* Input.Field.HiddenRegistrationOption.swift */,
 				D96A4EAD257D96EE00E74C8C /* Input.Field.AccountNumber.swift */,
 				D96A4EAE257D96EE00E74C8C /* Input.Field.IBAN.swift */,
 				D96A4EAF257D96EE00E74C8C /* Input.Field.HolderName.swift */,
@@ -1519,7 +1516,6 @@
 				D96A4FD2257D96EF00E74C8C /* Style.swift in Sources */,
 				D96A4F64257D96EF00E74C8C /* Input.Table.LogoTextView.swift in Sources */,
 				D96A4FB0257D96EF00E74C8C /* PaymentResult.swift in Sources */,
-				D9DFE5092720A368003E0768 /* Input.Field.HiddenRegistrationOption.swift in Sources */,
 				D96A4F47257D96EF00E74C8C /* Input.NavigationController.swift in Sources */,
 				D96A4F4D257D96EF00E74C8C /* PatternFormatter.swift in Sources */,
 				D91FC5CD26E1381000537DE1 /* Input.Table.CVVTextFieldViewCell.swift in Sources */,
