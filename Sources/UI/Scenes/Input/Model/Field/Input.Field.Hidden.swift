@@ -10,7 +10,7 @@ extension Input.Field {
     /// Label with no user interaction and pre-set value.
     class Hidden {
         let id: Identifier
-        var value: String
+        let value: String
 
         init(id: Identifier, value: String) {
             self.id = id

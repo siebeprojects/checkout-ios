@@ -9,7 +9,7 @@ import Foundation
 /// Generic UI model for input element
 protocol InputField: AnyObject {
     var id: Input.Field.Identifier { get }
-    var value: String { get set }
+    var value: String { get }
 }
 
 extension InputField where Self: InputElementModel {
