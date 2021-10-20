@@ -107,11 +107,9 @@ extension Input.SmartSwitch.Selector {
 
         if previouslySelected.network != selected.network {
             let oldInputFields: [WritableInputField] = previouslySelected.network.uiModel.inputSections
-                .filter { $0.category != .registration }
                 .flatMap { $0.inputFields }
                 .compactMap { $0 as? WritableInputField }
             let newInputFields: [WritableInputField] = selected.network.uiModel.inputSections
-                .filter { $0.category != .registration }
                 .flatMap { $0.inputFields }
                 .compactMap { $0 as? WritableInputField }
 
@@ -125,7 +123,12 @@ extension Input.SmartSwitch.Selector {
     private func moveInputValues(from lhs: [WritableInputField], to rhs: [WritableInputField]) {
         for fromInputField in lhs {
             for toInputField in rhs where toInputField.id == fromInputField.id {
-                toInputField.value = fromInputField.value
+                if let toResettableInputField = toInputField as? ResettableValue {
+                    // Don't move values if value should be resetted
+                    toInputField.value = toResettableInputField.defaultValue
+                } else {
+                    toInputField.value = fromInputField.value
+                }
             }
 
             fromInputField.value = String()
