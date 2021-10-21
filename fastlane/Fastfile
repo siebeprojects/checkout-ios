@@ -12,54 +12,44 @@ platform :ios do
 
   desc "Build framework and run tests"
   lane :test do
-    cocoapods
     scan(
       output_directory: "./output/scan",
+      result_bundle: true,
       output_types: "junit"
     )
   end
 
   desc "Build example app (Swift)"
-  lane :build_example_swift do
-    filename = "ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
-    cocoapods(podfile: "./ExampleCheckout/Podfile")
-    increment_build_number(
-      build_number: ENV["CIRCLE_BUILD_NUM"],
-      xcodeproj: example_xcodeproj
-    )
-    match(type: "adhoc", readonly: is_ci)
+  lane :build_example_swift do |options|
     build_ios_app(
       silent: true,
+      export_method: "ad-hoc",
       scheme: "Swift",
       workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace",
-      output_directory: "/tmp/workspace/output",
-      output_name: filename,
-      derived_data_path: "/tmp/workspace/derived_data"
+      output_name: options[:binary]
     )
   end
 
   desc "Upload binary to Browserstack"
-  lane :browserstack do
-    example_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+  lane :browserstack do |options|
     upload_to_browserstack_app_live(
-      browserstack_username: ENV["BROWSERSTACK_USERNAME"],
-      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
-      file_path: example_ipa
+      browserstack_username: ENV["BROWSERSTACK_USER"],
+      browserstack_access_key: ENV["BROWSERSTACK_KEY"],
+      file_path: options[:binary]
     )
   end
 
   desc "Run UI tests"
   lane :ui_test do |options|
-    cocoapods(podfile: "./ExampleCheckout/Podfile")
     run_tests(
       scheme: options[:scheme],
       derived_data_path: "/tmp/workspace/derived_data",
       workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
-      devices: ["iPhone 12"],
+      devices: ["iPhone 12 (14.5)"],
+      ensure_devices_found: true,
       output_directory: "./output/scan",
       output_types: "junit",
-      result_bundle: true,
-      xcargs: "MERCHANT_CODE=" + ENV["MERCHANT_CODE"] + " MERCHANT_PAYMENT_TOKEN=" + ENV["MERCHANT_PAYMENT_TOKEN"]
+      result_bundle: true
     )
   end
 
@@ -87,7 +77,6 @@ platform :ios do
 
   desc "Deploy"
   lane :deploy do
-    ensure_git_branch(branch: "master")
     ensure_git_status_clean()
 
     version_number = get_version_number()
