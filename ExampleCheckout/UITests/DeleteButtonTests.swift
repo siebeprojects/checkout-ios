@@ -8,17 +8,26 @@ import XCTest
 
 /// Defined in https://optile.atlassian.net/browse/PCX-2012
 final class DeleteButtonTests: NetworksTests {
-    private var paymentMethod: PaymentNetwork!
+    private static var paymentMethod: PaymentNetwork { Visa() }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        paymentMethod = Visa()
-        try addPaymentMethodIfNeeded(paymentMethod)
+        try addPaymentMethodIfNeeded(Self.paymentMethod)
     }
 
-    override func tearDown() {
-        paymentMethod = nil
-        super.tearDown()
+    // Remove the created network after tests are completed
+    class override func tearDown() {
+        do {
+            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: true))
+            let app = try setupWithPaymentSession(transaction: transaction)
+
+            app.tables.staticTexts[paymentMethod.maskedLabel].firstMatch.tap()
+            app.navigationBars.buttons["Delete"].tap()
+            app.alerts.firstMatch.buttons["Delete"].tap()
+            _ = app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout)
+        } catch {
+            XCTFail("Payment network wasn't removed")
+        }
     }
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsTrue_shouldShow() throws {
@@ -26,7 +35,7 @@ final class DeleteButtonTests: NetworksTests {
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: true))
             try setupWithPaymentSession(transaction: transaction)
 
-            app.tables.staticTexts[paymentMethod.maskedLabel].tap()
+            app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -36,7 +45,7 @@ final class DeleteButtonTests: NetworksTests {
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: false))
             try setupWithPaymentSession(transaction: transaction)
 
-            app.tables.staticTexts[paymentMethod.maskedLabel].tap()
+            app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -46,7 +55,7 @@ final class DeleteButtonTests: NetworksTests {
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: nil))
             try setupWithPaymentSession(transaction: transaction)
 
-            app.tables.staticTexts[paymentMethod.maskedLabel].tap()
+            app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -56,7 +65,7 @@ final class DeleteButtonTests: NetworksTests {
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: true))
             try setupWithPaymentSession(transaction: transaction)
 
-            app.tables.staticTexts[paymentMethod.maskedLabel].tap()
+            app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -66,7 +75,7 @@ final class DeleteButtonTests: NetworksTests {
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: false))
             try setupWithPaymentSession(transaction: transaction)
 
-            app.tables.staticTexts[paymentMethod.maskedLabel].tap()
+            app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -76,7 +85,7 @@ final class DeleteButtonTests: NetworksTests {
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: nil))
             try setupWithPaymentSession(transaction: transaction)
 
-            app.tables.staticTexts[paymentMethod.maskedLabel].tap()
+            app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
         }
     }

@@ -13,13 +13,17 @@ class NetworksTests: XCTestCase {
     func setupWithPaymentSession(transaction: Transaction) throws {
         continueAfterFailure = false
 
+        self.app = try Self.setupWithPaymentSession(transaction: transaction)
+    }
+    
+    /// Load an app and load networks list from list url.
+    static func setupWithPaymentSession(transaction: Transaction) throws -> XCUIApplication {
         try XCTContext.runActivity(named: "Start payment session") { _ in
             // Create payment session
             let sessionURL = try createPaymentSession(using: transaction)
 
             // UI tests must launch the application that they test.
             let app = XCUIApplication()
-            self.app = app
             app.launch()
 
             // Initial screen
@@ -29,35 +33,32 @@ class NetworksTests: XCTestCase {
 
             // Wait for loading completion
             XCTAssert(tablesQuery.firstMatch.waitForExistence(timeout: .networkTimeout))
+            
+            return app
         }
     }
 
-    private func createPaymentSession(using transaction: Transaction) throws -> URL {
-        let sessionExpectation = expectation(description: "Create payment session")
-
+    private static func createPaymentSession(using transaction: Transaction) throws -> URL {
         var createSessionResult: Result<URL, Error>?
 
         let paymentSessionService = try PaymentSessionService()
 
+        let semaphore = DispatchSemaphore(value: 0)
         paymentSessionService.create(using: transaction) { result in
             createSessionResult = result
-            sessionExpectation.fulfill()
+            semaphore.signal()
         }
 
-        wait(for: [sessionExpectation], timeout: .networkTimeout)
+        let timeoutResult = semaphore.wait(timeout: .now() + .networkTimeout)
+
+        guard case .success = timeoutResult else {
+            throw "Timeout waiting for payment session service reply. Most likely it's a network timeout error."
+        }
 
         switch createSessionResult {
-        case .success(let url):
-            return url
-
-        case .failure(let error):
-            let attachment = XCTAttachment(subject: error)
-            attachment.name = "LoadPaymentSessionError"
-            add(attachment)
-            throw error
-
-        case .none:
-            throw "Create session result wasn't set"
+        case .success(let url): return url
+        case .failure(let error): throw error
+        case .none: throw "Create session result wasn't set"
         }
     }
 }
