@@ -45,8 +45,8 @@ platform :ios do
       scheme: options[:scheme],
       derived_data_path: "/tmp/workspace/derived_data",
       workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
-      devices: ["iPhone 12 (14.5)"],
       ensure_devices_found: true,
+      concurrent_workers: options[:concurrent_workers],
       output_directory: "./output/scan",
       output_types: "junit",
       result_bundle: true

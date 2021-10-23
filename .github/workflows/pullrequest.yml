@@ -61,17 +61,15 @@ jobs:
 ### UI TESTS
 
   ui-tests:
-    runs-on: macos-latest
+    runs-on: macos-11
     strategy:
       matrix:
         scheme: [Swift, Objective-C]
+        device: ['iPhone 13 (15.0)', 'iPhone 12 (14.5)', 'iPhone 11 (13.7)']
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Select XCode version
-        run: sudo xcode-select -s "$XCODE_12_DEVELOPER_DIR"
 
       - name: Install the dependencies specified in Gemfile
         uses: ruby/setup-ruby@v1
@@ -94,6 +92,18 @@ jobs:
           project-directory: ExampleCheckout/
         run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
 
+      - name: Install simulators
+        run: |
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          sudo ln -s $XCODE_12_DEVELOPER_DIR/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.5.simruntime
+          sudo ln -s $XCODE_11_DEVELOPER_DIR/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.7.simruntime
+
+      - name: Set simulators
+        # I use file instead of passing it as a parameter to have an ability to test multiple devices per one run if needed
+        # (it is possible only with Scanfile)
+        run:
+          echo "devices(['${{ matrix.device }}'])" >> fastlane/Scanfile
+
       - name: Inject secrets
         id: inject-secrets
         env:
@@ -109,7 +119,8 @@ jobs:
       - name: Run UI tests
         env:
           FASTLANE_SKIP_UPDATE_CHECK: true
-        run: bundle exec fastlane ui_test scheme:${{ matrix.scheme }}
+          concurrent_workers: 3
+        run: bundle exec fastlane ui_test scheme:${{ matrix.scheme }} concurrent_workers:${{ env.concurrent_workers }}
 
       - name: Clear secrets
         if: always() && steps.inject-secrets.outcome == 'success'
@@ -120,7 +131,7 @@ jobs:
 
       - name: Publish test report
         uses: mikepenz/action-junit-report@v2
-        if: always() && steps.clear-secrets.outcome == 'success'
+        if: failure() && steps.clear-secrets.outcome == 'success'
         continue-on-error: true
         with:
           report_paths: output/scan/report.junit
