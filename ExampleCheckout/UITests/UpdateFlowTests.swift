@@ -53,8 +53,7 @@ class UpdateFlowTests: NetworksTests {
         button.tap()
 
         // List of networks
-        waitForLoadingCompletion()
-        XCTAssert(app.tables.staticTexts[payPal.label].exists, "Table with PayPal network is not found")
+        XCTAssert(app.tables.staticTexts[payPal.label].waitForExistence(timeout: .networkTimeout), "Table with PayPal network is not found")
     }
 }
 
@@ -69,27 +68,22 @@ extension UpdateFlowTests {
 
         let visa = Visa()
 
-        XCTContext.runActivity(named: "Test saving the new payment method") { _ in
-            deleteIfExistsPaymentMethod(withLabel: visa.maskedLabel)
-            submitAndWaitForExistence(forPaymentNetwork: visa)
-        }
+        // Method was saved previously when customer was registered
 
         // Test deletion
         XCTContext.runActivity(named: "Test payment method deletion") { _ in
-            deleteIfExistsPaymentMethod(withLabel: visa.maskedLabel)
+            deletePaymentMethod(withLabel: visa.maskedLabel)
             waitForLoadingCompletion()
+            XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
             XCTAssertFalse(app.tables.staticTexts[visa.maskedLabel].exists, "Payment network still exists after deletion")
         }
     }
 
-    private func deleteIfExistsPaymentMethod(withLabel label: String) {
+    private func deletePaymentMethod(withLabel label: String) {
         XCTContext.runActivity(named: "Delete payment method \(label)") { _ in
-            let savedMethodText = app.tables.staticTexts[label]
-            if savedMethodText.exists {
-                savedMethodText.tap()
-                app.navigationBars.buttons["Delete"].tap()
-                app.alerts.firstMatch.buttons["Delete"].tap()
-            }
+            app.tables.staticTexts[label].tap()
+            app.navigationBars.buttons["Delete"].tap()
+            app.alerts.firstMatch.buttons["Delete"].tap()
         }
     }
 }
