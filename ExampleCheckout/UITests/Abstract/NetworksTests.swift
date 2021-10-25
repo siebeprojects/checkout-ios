@@ -32,8 +32,9 @@ class NetworksTests: XCTestCase {
             tablesQuery.buttons["Send request"].tap()
 
             // Wait for loading completion
-            XCTAssert(tablesQuery.firstMatch.waitForExistence(timeout: .networkTimeout))
-            
+            let chooseMethodText = app.tables.staticTexts["Choose a method"]
+            XCTAssert(chooseMethodText.waitForExistence(timeout: .networkTimeout))
+
             return app
         }
     }

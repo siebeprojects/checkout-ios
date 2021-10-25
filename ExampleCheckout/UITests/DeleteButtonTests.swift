@@ -23,6 +23,7 @@ final class DeleteButtonTests: NetworksTests {
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -33,6 +34,7 @@ final class DeleteButtonTests: NetworksTests {
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -43,6 +45,7 @@ final class DeleteButtonTests: NetworksTests {
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -53,6 +56,7 @@ final class DeleteButtonTests: NetworksTests {
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertTrue(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -63,6 +67,7 @@ final class DeleteButtonTests: NetworksTests {
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
         }
     }
@@ -73,6 +78,7 @@ final class DeleteButtonTests: NetworksTests {
             try setupWithPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.navigationBars.buttons["Delete"].exists)
         }
     }
