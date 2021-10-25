@@ -28,8 +28,21 @@ class NetworksTests: XCTestCase {
 
             // Initial screen
             let tablesQuery = app.tables
-            tablesQuery.textFields.firstMatch.typeText(session.links["self"]!.absoluteString)
-            tablesQuery.buttons["Send request"].tap()
+            let textField = tablesQuery.textFields.firstMatch
+            let sendRequestButton = tablesQuery.buttons["Send request"]
+
+            let sessionURL = session.links["self"]!
+
+            if #available(iOS 15, *) {
+                textField.doubleTap()
+                UIPasteboard.general.string = sessionURL.absoluteString
+                app.menuItems["Paste"].tap()
+                _ = sendRequestButton.waitForExistence(timeout: .uiTimeout)
+            } else {
+                textField.typeText(sessionURL.absoluteString)
+            }
+
+            sendRequestButton.tap()
 
             // Wait for loading completion
             let chooseMethodText = app.tables.staticTexts["Cards"]
