@@ -62,7 +62,9 @@ class UpdateFlowTests: NetworksTests {
 
 extension UpdateFlowTests {
     func testSaveDeleteNewCardPaymentMethod() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update))
+        let customerId = try PaymentService().registerCustomer()
+        let settings = TransactionSettings(operationType: .update, customerId: customerId)
+        let transaction = try Transaction.create(withSettings: settings)
         try setupWithPaymentSession(transaction: transaction)
 
         let visa = Visa()

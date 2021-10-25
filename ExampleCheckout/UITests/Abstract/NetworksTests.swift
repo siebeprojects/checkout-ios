@@ -28,7 +28,7 @@ class NetworksTests: XCTestCase {
 
             // Initial screen
             let tablesQuery = app.tables
-            tablesQuery.textFields.firstMatch.typeText(session.absoluteString)
+            tablesQuery.textFields.firstMatch.typeText(session.links["self"]!.absoluteString)
             tablesQuery.buttons["Send request"].tap()
 
             // Wait for loading completion
@@ -38,8 +38,8 @@ class NetworksTests: XCTestCase {
         }
     }
 
-    static func createPaymentSession(using transaction: Transaction) throws -> URL {
-        var createSessionResult: Result<URL, Error>?
+    static func createPaymentSession(using transaction: Transaction) throws -> ListResult {
+        var createSessionResult: Result<ListResult, Error>?
 
         let paymentSessionService = try PaymentSessionService()
 

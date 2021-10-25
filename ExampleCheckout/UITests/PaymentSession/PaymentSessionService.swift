@@ -34,7 +34,7 @@ class PaymentSessionService {
         self.merchantPaymentToken = merchantPaymentToken
     }
 
-    func create(using transaction: Transaction, completion: @escaping ((Result<URL, Error>) -> Void)) {
+    func create(using transaction: Transaction, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
         var httpRequest = URLRequest(url: url)
 
         // Body
@@ -55,7 +55,7 @@ class PaymentSessionService {
 
                 do {
                     let paymentSession = try JSONDecoder().decode(ListResult.self, from: data)
-                    completion(.success(paymentSession.links["self"]!))
+                    completion(.success(paymentSession))
                 } catch {
                     completion(.failure(error))
                 }

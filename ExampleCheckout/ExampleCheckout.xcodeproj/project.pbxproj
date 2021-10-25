@@ -117,6 +117,10 @@
 		D9C602662726CF1F007CFD6A /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C602642726CF1F007CFD6A /* Registration.swift */; };
 		D9C602682726EA15007CFD6A /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C602672726EA15007CFD6A /* Style.swift */; };
 		D9C602692726EA15007CFD6A /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C602672726EA15007CFD6A /* Style.swift */; };
+		D9C602702726ECB7007CFD6A /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026E2726ECB7007CFD6A /* PaymentService.swift */; };
+		D9C602712726ECB7007CFD6A /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026E2726ECB7007CFD6A /* PaymentService.swift */; };
+		D9C602722726ECB7007CFD6A /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026F2726ECB7007CFD6A /* Charge.swift */; };
+		D9C602732726ECB7007CFD6A /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026F2726ECB7007CFD6A /* Charge.swift */; };
 		D9D5F36C251265EF00540F62 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D5F36B251265EF00540F62 /* Theme+custom.swift */; };
 		D9D829B825122A73002DE51C /* UIAlertController+unexpectedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D829B725122A73002DE51C /* UIAlertController+unexpectedError.swift */; };
 		D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB0234143BD0021184C /* AppDelegate.swift */; };
@@ -247,6 +251,8 @@
 		D9A5FA7F253D8B09001C71B7 /* Transaction.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Transaction.json; sourceTree = "<group>"; };
 		D9C602642726CF1F007CFD6A /* Registration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		D9C602672726EA15007CFD6A /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		D9C6026E2726ECB7007CFD6A /* PaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
+		D9C6026F2726ECB7007CFD6A /* Charge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Charge.swift; sourceTree = "<group>"; };
 		D9D5F36B251265EF00540F62 /* Theme+custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
 		D9D829B725122A73002DE51C /* UIAlertController+unexpectedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+unexpectedError.swift"; sourceTree = "<group>"; };
 		D9E0AEAD234143BD0021184C /* CheckoutSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckoutSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -432,6 +438,7 @@
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
 				D99D048726ADDBE300C027CB /* SepaTests.swift */,
 				D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */,
+				D9C6026D2726ECB7007CFD6A /* PaymentService */,
 				D9A5FA65253CF744001C71B7 /* PaymentSession */,
 				D9A5FA5A253CA701001C71B7 /* Info.plist */,
 			);
@@ -465,6 +472,15 @@
 				D967A55C25481D29001BBCCA /* Config.xcconfig */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		D9C6026D2726ECB7007CFD6A /* PaymentService */ = {
+			isa = PBXGroup;
+			children = (
+				D9C6026E2726ECB7007CFD6A /* PaymentService.swift */,
+				D9C6026F2726ECB7007CFD6A /* Charge.swift */,
+			);
+			path = PaymentService;
 			sourceTree = "<group>";
 		};
 		D9D705FC23703B66004000AE /* Frameworks */ = {
@@ -803,6 +819,7 @@
 				D912BB2E2726C1B70004AFAE /* ExtraElements.swift in Sources */,
 				D912BB462726C1B70004AFAE /* DeregistrationData.swift in Sources */,
 				D912BB522726C1B70004AFAE /* ExtraElement.swift in Sources */,
+				D9C602712726ECB7007CFD6A /* PaymentService.swift in Sources */,
 				D912BB4E2726C1B70004AFAE /* OperationResult.swift in Sources */,
 				D912BB342726C1B70004AFAE /* ErrorInfo.swift in Sources */,
 				0725B40826FCBC9600C607A8 /* CardTests.swift in Sources */,
@@ -817,6 +834,7 @@
 				0725B40E26FCBC9600C607A8 /* RedirectNetworksTests.swift in Sources */,
 				D9C602662726CF1F007CFD6A /* Registration.swift in Sources */,
 				0725B40F26FCBC9600C607A8 /* PayPalAccount.swift in Sources */,
+				D9C602732726ECB7007CFD6A /* Charge.swift in Sources */,
 				D912BB4C2726C1B70004AFAE /* Interaction.swift in Sources */,
 				D9C602692726EA15007CFD6A /* Style.swift in Sources */,
 				D912BB3C2726C1B70004AFAE /* AccountFormData.swift in Sources */,
@@ -872,6 +890,7 @@
 				D9A5FA62253CA8BE001C71B7 /* PaymentSessionService.swift in Sources */,
 				D9E1A87C2694810300CF4C9C /* PaymentNetwork.swift in Sources */,
 				D912BB512726C1B70004AFAE /* ExtraElement.swift in Sources */,
+				D9C602702726ECB7007CFD6A /* PaymentService.swift in Sources */,
 				D912BB4D2726C1B70004AFAE /* OperationResult.swift in Sources */,
 				D912BB332726C1B70004AFAE /* ErrorInfo.swift in Sources */,
 				D9E1A87E2694893F00CF4C9C /* UpdateFlowTests.swift in Sources */,
@@ -886,6 +905,7 @@
 				D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */,
 				D9C602652726CF1F007CFD6A /* Registration.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,
+				D9C602722726ECB7007CFD6A /* Charge.swift in Sources */,
 				D912BB4B2726C1B70004AFAE /* Interaction.swift in Sources */,
 				D9C602682726EA15007CFD6A /* Style.swift in Sources */,
 				D912BB3B2726C1B70004AFAE /* AccountFormData.swift in Sources */,

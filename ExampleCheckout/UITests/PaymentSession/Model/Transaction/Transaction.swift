@@ -25,7 +25,7 @@ struct Transaction: Codable {
 
         let amount = try XCTUnwrap(settings.magicNumber.value(for: settings.operationType), "Specified magic number is not supported for that operation type")
 
-        return Transaction(
+        var transaction = Transaction(
             integration: template.integration,
             transactionId: String(Date().timeIntervalSince1970),
             country: template.country,
@@ -38,6 +38,12 @@ struct Transaction: Codable {
             division: settings.division,
             checkoutConfigurationName: settings.checkoutConfiguration?.name
         )
+
+        if let customerId = settings.customerId {
+            transaction.customer.registration = Registration(id: customerId)
+        }
+
+        return transaction
     }
 
     private static func createFromTemplate() throws -> Transaction {
