@@ -6,10 +6,10 @@
 
 import Foundation
 
-struct PaymentSession: Decodable {
-    let links: Links
+class PaymentAmount: NSObject, Decodable {
+    /// Payment amount in major units.
+    let amount: Double
 
-    struct Links: Decodable {
-        let `self`: URL
-    }
+    /// 3-letter currency code (ISO 4217)
+    let currency: String
 }

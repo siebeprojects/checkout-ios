@@ -54,8 +54,8 @@ class PaymentSessionService {
                 }
 
                 do {
-                    let paymentSession = try JSONDecoder().decode(PaymentSession.self, from: data)
-                    completion(.success(paymentSession.links.`self`))
+                    let paymentSession = try JSONDecoder().decode(ListResult.self, from: data)
+                    completion(.success(paymentSession.links["self"]!))
                 } catch {
                     completion(.failure(error))
                 }

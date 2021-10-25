@@ -12,7 +12,7 @@ struct Transaction: Codable {
     let transactionId: String
     let country: String
     let callback: Callback
-    let customer: Customer
+    var customer: Customer
     let payment: Payment
     let style: Style
     let operationType: String
