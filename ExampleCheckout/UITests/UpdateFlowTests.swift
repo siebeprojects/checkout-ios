@@ -73,8 +73,8 @@ extension UpdateFlowTests {
         // Test deletion
         XCTContext.runActivity(named: "Test payment method deletion") { _ in
             deletePaymentMethod(withLabel: visa.maskedLabel)
-            waitForLoadingCompletion()
             XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
+            waitForLoadingCompletion()
             XCTAssertFalse(app.tables.staticTexts[visa.maskedLabel].exists, "Payment network still exists after deletion")
         }
     }
@@ -82,8 +82,10 @@ extension UpdateFlowTests {
     private func deletePaymentMethod(withLabel label: String) {
         XCTContext.runActivity(named: "Delete payment method \(label)") { _ in
             app.tables.staticTexts[label].tap()
-            app.navigationBars.buttons["Delete"].tap()
-            app.alerts.firstMatch.buttons["Delete"].tap()
+            app.navigationBars["Payment details"].buttons["Delete"].tap()
+            // Because of some bug iOS 15 doesn't handle alert buttons tap by text, so I tap by index
+            // [0] = Cancel, [1] = Delete
+            app.alerts["Delete payment method"].buttons.allElementsBoundByIndex[1].tap()
         }
     }
 }
