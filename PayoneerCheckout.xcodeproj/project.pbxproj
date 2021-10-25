@@ -111,7 +111,6 @@
 		D96A4F99257D96EF00E74C8C /* String+removeCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE6257D96EE00E74C8C /* String+removeCharacters.swift */; };
 		D96A4F9A257D96EF00E74C8C /* Bool+stringValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE7257D96EE00E74C8C /* Bool+stringValue.swift */; };
 		D96A4F9B257D96EF00E74C8C /* mergeClosures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE9257D96EE00E74C8C /* mergeClosures.swift */; };
-		D96A4F9C257D96EF00E74C8C /* Error+isNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EEA257D96EE00E74C8C /* Error+isNetworkError.swift */; };
 		D96A4F9D257D96EF00E74C8C /* TooltipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EEC257D96EE00E74C8C /* TooltipViewController.swift */; };
 		D96A4F9E257D96EF00E74C8C /* SlideInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EEE257D96EE00E74C8C /* SlideInViewController.swift */; };
 		D96A4F9F257D96EF00E74C8C /* SlideInPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EEF257D96EE00E74C8C /* SlideInPresentationManager.swift */; };
@@ -348,7 +347,6 @@
 		D96A4EE6257D96EE00E74C8C /* String+removeCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+removeCharacters.swift"; sourceTree = "<group>"; };
 		D96A4EE7257D96EE00E74C8C /* Bool+stringValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+stringValue.swift"; sourceTree = "<group>"; };
 		D96A4EE9257D96EE00E74C8C /* mergeClosures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mergeClosures.swift; sourceTree = "<group>"; };
-		D96A4EEA257D96EE00E74C8C /* Error+isNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Error+isNetworkError.swift"; sourceTree = "<group>"; };
 		D96A4EEC257D96EE00E74C8C /* TooltipViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TooltipViewController.swift; sourceTree = "<group>"; };
 		D96A4EEE257D96EE00E74C8C /* SlideInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInViewController.swift; sourceTree = "<group>"; };
 		D96A4EEF257D96EE00E74C8C /* SlideInPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideInPresentationManager.swift; sourceTree = "<group>"; };
@@ -842,7 +840,6 @@
 				D96A4EE6257D96EE00E74C8C /* String+removeCharacters.swift */,
 				D96A4EE7257D96EE00E74C8C /* Bool+stringValue.swift */,
 				D96A4EE8257D96EE00E74C8C /* Infix */,
-				D96A4EEA257D96EE00E74C8C /* Error+isNetworkError.swift */,
 				D9B8372025D9158100066EB4 /* Date+fullYear.swift */,
 			);
 			path = Core;
@@ -1540,7 +1537,6 @@
 				D96A4FD8257D96EF00E74C8C /* AccountFormData.swift in Sources */,
 				D96A4FCE257D96EF00E74C8C /* Interaction.swift in Sources */,
 				D9EB49A52670CD74000131FC /* DeletionRequest.swift in Sources */,
-				D96A4F9C257D96EF00E74C8C /* Error+isNetworkError.swift in Sources */,
 				D9861B94257F71BD005DA1A4 /* Result+computedVariables.swift in Sources */,
 				D96A4FCB257D96EF00E74C8C /* OperationResult.swift in Sources */,
 				D96A4FBE257D96EF00E74C8C /* Redirect.swift in Sources */,
