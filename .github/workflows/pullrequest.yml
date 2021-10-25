@@ -119,8 +119,7 @@ jobs:
       - name: Run UI tests
         env:
           FASTLANE_SKIP_UPDATE_CHECK: true
-          concurrent_workers: 3
-        run: bundle exec fastlane ui_test scheme:${{ matrix.scheme }} concurrent_workers:${{ env.concurrent_workers }}
+        run: bundle exec fastlane ui_test scheme:${{ matrix.scheme }}
 
       - name: Clear secrets
         if: always() && steps.inject-secrets.outcome == 'success'
