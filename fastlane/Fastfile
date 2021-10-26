@@ -46,6 +46,7 @@ platform :ios do
       derived_data_path: "/tmp/workspace/derived_data",
       workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
       ensure_devices_found: true,
+      number_of_retries: 1,
       output_directory: "./output/scan",
       output_types: "junit",
       result_bundle: true
