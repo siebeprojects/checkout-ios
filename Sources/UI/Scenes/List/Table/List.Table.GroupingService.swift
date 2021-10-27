@@ -80,9 +80,7 @@ private extension Sequence where Element == PaymentNetwork {
             }
         }
 
-        var groupedResult = ungroupedNetworks.map { [$0] }
-        groupedResult.append(groupedNetworks)
-
+        let groupedResult = [groupedNetworks] + ungroupedNetworks.map { [$0] }
         return groupedResult
     }
 }

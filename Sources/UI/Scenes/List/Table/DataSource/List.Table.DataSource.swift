@@ -35,21 +35,21 @@ extension List.Table {
             // Fill networks
             let groupedNetworks = GroupingService().group(networks: networks)
 
-            var singleRows = [SingleNetworkRow]()
-            var detailedRows = [GroupedNetworkRow]()
+            var networkRows = [NetworkRow]()
 
             for networks in groupedNetworks {
                 guard !networks.isEmpty else { continue }
 
                 if networks.count == 1, let network = networks.first {
                     let row = SingleNetworkRow(network: network)
-                    singleRows.append(row)
+                    networkRows.append(row)
                 } else {
                     let row = GroupedNetworkRow(networks: networks, genericLogo: genericLogo)
-                    detailedRows.append(row)
+                    networkRows.append(row)
                 }
             }
-            let networkSection = Section.networks(rows: detailedRows + singleRows)
+
+            let networkSection = Section.networks(rows: networkRows)
             sections.append(networkSection)
 
             // Don't display empty sections
