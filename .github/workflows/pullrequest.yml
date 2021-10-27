@@ -63,7 +63,7 @@ jobs:
 ### UI TESTS
 
   ui-tests:
-    runs-on: macos-11
+    runs-on: macos-latest
     strategy:
       matrix:
         scheme: [Swift, Objective-C]
