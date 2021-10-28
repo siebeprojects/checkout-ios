@@ -55,6 +55,10 @@ import UIKit
 extension PaymentListViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
+
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
         viewManager.configureMainView()
         navigationItem.largeTitleDisplayMode = .never
 
