@@ -53,8 +53,7 @@ class UpdateFlowTests: NetworksTests {
         button.tap()
 
         // List of networks
-        waitForLoadingCompletion()
-        XCTAssert(app.tables.staticTexts[payPal.label].exists, "Table with PayPal network is not found")
+        XCTAssert(app.tables.staticTexts[payPal.label].waitForExistence(timeout: .networkTimeout), "Table with PayPal network is not found")
     }
 }
 
@@ -62,32 +61,31 @@ class UpdateFlowTests: NetworksTests {
 
 extension UpdateFlowTests {
     func testSaveDeleteNewCardPaymentMethod() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update))
+        let customerId = try PaymentService().registerCustomer()
+        let settings = TransactionSettings(operationType: .update, customerId: customerId)
+        let transaction = try Transaction.create(withSettings: settings)
         try setupWithPaymentSession(transaction: transaction)
 
         let visa = Visa()
 
-        XCTContext.runActivity(named: "Test saving the new payment method") { _ in
-            deleteIfExistsPaymentMethod(withLabel: visa.maskedLabel)
-            submitAndWaitForExistence(forPaymentNetwork: visa)
-        }
+        // Method was saved previously when customer was registered
 
         // Test deletion
         XCTContext.runActivity(named: "Test payment method deletion") { _ in
-            deleteIfExistsPaymentMethod(withLabel: visa.maskedLabel)
+            deletePaymentMethod(withLabel: visa.maskedLabel)
+            XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
             waitForLoadingCompletion()
             XCTAssertFalse(app.tables.staticTexts[visa.maskedLabel].exists, "Payment network still exists after deletion")
         }
     }
 
-    private func deleteIfExistsPaymentMethod(withLabel label: String) {
+    private func deletePaymentMethod(withLabel label: String) {
         XCTContext.runActivity(named: "Delete payment method \(label)") { _ in
-            let savedMethodText = app.tables.staticTexts[label]
-            if savedMethodText.exists {
-                savedMethodText.tap()
-                app.navigationBars.buttons["Delete"].tap()
-                app.alerts.firstMatch.buttons["Delete"].tap()
-            }
+            app.tables.staticTexts[label].tap()
+            app.navigationBars["Payment details"].buttons["Delete"].tap()
+            // Because of some bug iOS 15 doesn't handle alert buttons tap by text, so I tap by index
+            // [0] = Cancel, [1] = Delete
+            app.alerts["Delete payment method"].buttons.allElementsBoundByIndex[1].tap()
         }
     }
 }

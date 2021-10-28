@@ -34,7 +34,7 @@ jobs:
           cache-name: example-app-pods
         with:
           path: ExampleCheckout/Pods/
-          key: cache-${{ env.cache-name }}-${{ hashFiles('ExampleCheckout/Podfile.lock') }}
+          key: cache-${{ env.cache-name }}-${{ hashFiles('ExampleCheckout/Podfile.lock', 'PayoneerCheckout.xcodeproj/project.pbxproj') }}
 
       - name: Install Pods
         if: steps.cache-pods.outputs.cache-hit != 'true'

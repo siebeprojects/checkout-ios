@@ -16,6 +16,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (@available(iOS 13.0, *)) {
+        self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+    }
     [self.urlTextField becomeFirstResponder];
 }
 

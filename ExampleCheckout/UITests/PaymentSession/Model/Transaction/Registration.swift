@@ -7,5 +7,5 @@
 import Foundation
 
 struct Registration: Codable {
-    let id: String
+    var id: String
 }

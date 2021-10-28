@@ -11,6 +11,7 @@ final class ExtraElementsTests: NetworksTests {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try setupWithPaymentSession(transaction: Transaction.create())
             app.staticTexts["Cards"].tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.textViews["Top Element Number 1 with invalid link"].exists)
             XCTAssertFalse(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
         }
@@ -20,6 +21,7 @@ final class ExtraElementsTests: NetworksTests {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
             app.tables.staticTexts["Cards"].tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertTrue(app.textViews["Top Element Number 1 with invalid link"].exists)
             XCTAssertTrue(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
         }
@@ -29,6 +31,7 @@ final class ExtraElementsTests: NetworksTests {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTop)))
             app.tables.staticTexts["Cards"].tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertTrue(app.textViews["Top Element Number 1 with invalid link"].exists)
             XCTAssertFalse(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
         }
@@ -38,6 +41,7 @@ final class ExtraElementsTests: NetworksTests {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsBottom)))
             app.tables.staticTexts["Cards"].tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.textViews["Top Element Number 1 with invalid link"].exists)
             XCTAssertTrue(app.textViews["Bottom Element Number 2 without Checkbox"].exists)
         }
@@ -47,6 +51,7 @@ final class ExtraElementsTests: NetworksTests {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
             app.tables.staticTexts["Cards"].tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.textViews["Top Element Number 2 with a Checkbox view"].exists)
             XCTAssertFalse(app.textViews["Bottom Element Number 1 with an Checkbox optional title"].exists)
         }
@@ -56,6 +61,7 @@ final class ExtraElementsTests: NetworksTests {
         try XCTContext.runActivity(named: "Open payment form") { _ in
             try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
             app.staticTexts["Cards"].tap()
+            XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             app.textViews.firstMatch.links["Number 1"].tap()
             XCTAssertTrue(app.webViews.firstMatch.waitForExistence(timeout: .safariPresentationTimeout))
         }
