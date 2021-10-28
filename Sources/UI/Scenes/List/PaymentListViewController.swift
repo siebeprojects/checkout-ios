@@ -93,8 +93,12 @@ extension PaymentListViewController {
             let inputViewController = try router.present(paymentNetworks: paymentNetworks, context: context, animated: animated)
             inputViewController.delegate = operationResultHandler
         } catch {
-            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-            dismiss(with: .failure(errorInfo))
+            if let errorInfo = error as? ErrorInfo {
+                dismiss(with: .failure(errorInfo))
+            } else {
+                let customErrorInfo = CustomErrorInfo.createClientSideError(from: error)
+                dismiss(with: .failure(customErrorInfo))
+            }
         }
     }
 

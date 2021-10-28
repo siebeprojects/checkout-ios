@@ -8,10 +8,10 @@ import Foundation
 
 /// Generic UI model for input element
 protocol InputField: AnyObject {
-    var name: String { get }
+    var id: Input.Field.Identifier { get }
     var value: String { get }
 }
 
 extension InputField where Self: InputElementModel {
-    var name: String { inputElement.name }
+    var id: Input.Field.Identifier { .inputElementName(inputElement.name) }
 }

@@ -7,23 +7,16 @@
 import Foundation
 import UIKit
 
-extension Input.Field.Checkbox {
-    struct Constant {
-        static var allowRegistration: String { "allowRegistration" }
-        static var allowRecurrence: String { "allowRecurrence" }
-    }
-}
-
 extension Input.Field {
-    final class Checkbox {
-        let name: String
+    class Checkbox {
+        let id: Identifier
         var isOn: Bool
         var isEnabled: Bool = true
 
         let label: NSAttributedString
 
-        init(name: String, isOn: Bool, label: NSAttributedString) {
-            self.name = name
+        init(id: Identifier, isOn: Bool, label: NSAttributedString) {
+            self.id = id
             self.isOn = isOn
             self.label = label
         }

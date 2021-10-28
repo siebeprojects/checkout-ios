@@ -10,14 +10,14 @@ extension Input.Field {
     /// Label with no user interaction and pre-set value.
     class Label {
         let label: NSAttributedString
-        let name: String
+        let id: Identifier
         var value: String
 
         var isEnabled: Bool = true
 
-        init(label: NSAttributedString, name: String, value: String) {
+        init(label: NSAttributedString, id: Identifier, value: String) {
             self.label = label
-            self.name = name
+            self.id = id
             self.value = value
         }
     }

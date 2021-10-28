@@ -57,6 +57,10 @@ extension Input.SmartSwitch {
 extension Input.SmartSwitch {
     class Selector {
         let networks: [Input.Network]
+
+        /// First network in `networks` array, used to avoid optional unwrapping
+        let firstNetwork: Input.Network
+
         private(set) var selected: DetectedNetwork
 
         init(networks: [Input.Network]) throws {
@@ -65,6 +69,8 @@ extension Input.SmartSwitch {
             guard let firstNetwork = networks.first else {
                 throw InternalError(description: "Tried to initialize with empty networks array")
             }
+
+            self.firstNetwork = firstNetwork
 
             if networks.count == 1 {
                 // If only 1 network is present - it is always specific
@@ -101,13 +107,18 @@ extension Input.SmartSwitch.Selector {
         if let newSelection = newSelection {
             selected = newSelection
         } else {
-            // Unable to find, return previously selected network as a generic one
-            selected = .generic(previouslySelected.network)
+            // Unable to find, return the first network
+            // Specified in [PCX-2227](https://optile.atlassian.net/browse/PCX-2227)
+            selected = .generic(firstNetwork)
         }
 
         if previouslySelected.network != selected.network {
-            let oldInputFields = previouslySelected.network.uiModel.inputSections.flatMap { $0.inputFields }.compactMap { $0 as? WritableInputField }
-            let newInputFields = selected.network.uiModel.inputSections.flatMap { $0.inputFields }.compactMap { $0 as? WritableInputField }
+            let oldInputFields: [WritableInputField] = previouslySelected.network.uiModel.inputSections
+                .flatMap { $0.inputFields }
+                .compactMap { $0 as? WritableInputField }
+            let newInputFields: [WritableInputField] = selected.network.uiModel.inputSections
+                .flatMap { $0.inputFields }
+                .compactMap { $0 as? WritableInputField }
 
             moveInputValues(from: oldInputFields, to: newInputFields)
         }
@@ -118,8 +129,13 @@ extension Input.SmartSwitch.Selector {
     /// Move input values from `WritableInputField` to `WritableInputField`.
     private func moveInputValues(from lhs: [WritableInputField], to rhs: [WritableInputField]) {
         for fromInputField in lhs {
-            for toInputField in rhs where toInputField.name == fromInputField.name {
-                toInputField.value = fromInputField.value
+            for toInputField in rhs where toInputField.id == fromInputField.id {
+                if let toResettableInputField = toInputField as? ContainsDefaultValue {
+                    // Don't move values if value should be resetted
+                    toInputField.value = toResettableInputField.defaultValue
+                } else {
+                    toInputField.value = fromInputField.value
+                }
             }
 
             fromInputField.value = String()

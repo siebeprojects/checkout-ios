@@ -6,28 +6,19 @@
 
 import Foundation
 
-class PaymentRequest {
+struct PaymentRequest {
     /// Payment network code.
     let networkCode: String
-
     let operationURL: URL
-
-    /// Textual dictionary with input fields.
-    let inputFields: [String: String]
-
+    var inputFields = [String: String]()
+    var autoRegistration: Bool?
+    var allowRecurrence: Bool?
     let operationType: String
-
-    internal init(networkCode: String, operationURL: URL, operationType: String, inputFields: [String: String]) {
-        self.networkCode = networkCode
-        self.operationURL = operationURL
-        self.inputFields = inputFields
-        self.operationType = operationType
-    }
 }
 
 extension PaymentRequest: OperationRequest {
     func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
-        let chargeRequestBody = Charge.Body(inputFields: inputFields)
+        let chargeRequestBody = Charge.Body(account: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence)
         let chargeRequest = Charge(from: operationURL, body: chargeRequestBody)
         let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
         chargeOperation.downloadCompletionBlock = completion

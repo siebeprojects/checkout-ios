@@ -48,7 +48,7 @@ class ValidationTests: XCTestCase {
             let method = validatableNetwork.method ?? ""
 
             let inputElement = InputElement(name: inputElementWithRules.name, type: "")
-            let applicableNetwork = ApplicableNetwork(code: networkCode, label: "", method: method, grouping: "", registration: "", recurrence: "", redirect: false, inputElements: [inputElement], links: ["operation": URL(string: "https://example.com")!], operationType: "CHARGE")
+            let applicableNetwork = ApplicableNetwork(code: networkCode, label: "", method: method, grouping: "", registration: .NONE, recurrence: .NONE, redirect: false, inputElements: [inputElement], links: ["operation": URL(string: "https://example.com")!], operationType: "CHARGE")
             let paymentNetwork = PaymentNetwork(from: applicableNetwork, submitButtonLocalizationKey: "", localizeUsing: translationProvider)
             let testableInputElement = TestableInputElement(name: inputElementWithRules.name, network: paymentNetwork, testCases: inputElementWithRules.tests)
             networks.append(testableInputElement)
@@ -72,7 +72,7 @@ class ValidationTests: XCTestCase {
             }
 
             let attachment = XCTAttachment(subject: inputElement)
-            attachment.name = "inputField_\(inputElement.name)"
+            attachment.name = "inputField_\(inputElement.id)"
             activity.add(attachment)
 
             guard let validatableInputElement = inputElement as? WritableInputField & Validatable else {

@@ -19,7 +19,7 @@ extension Input.ModelTransformer {
 
             let markdownParser = MarkdownParser()
             let parsedLabel = markdownParser.parse(extraElement.label)
-            return Input.Field.Label(label: parsedLabel, name: extraElement.name, value: "")
+            return Input.Field.Label(label: parsedLabel, id: .inputElementName(extraElement.name), value: "")
         }
     }
 }

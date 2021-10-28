@@ -8,6 +8,7 @@ import Foundation
 
 extension Input.Field {
     final class ExpiryDate {
+        let id: Identifier = .expiryDate
         let translator: TranslationProvider
         var validationErrorText: String?
 
@@ -55,7 +56,6 @@ extension Input.Field.ExpiryDate: Validatable {
 
 extension Input.Field.ExpiryDate: TextInputField {
     var maxInputLength: Int? { 4 }
-    var name: String { "expiryDate" }
     var allowedCharacters: CharacterSet? { return .decimalDigits }
 
     // We need to switch placeholder and label for the field
@@ -68,7 +68,7 @@ extension Input.Field.ExpiryDate: TextInputField {
         translator.translation(forKey: translationPrefix + "label")
     }
 
-    private var translationPrefix: String { "account." + name + "." }
+    private var translationPrefix: String { "account.expiryDate." }
 }
 
 #if canImport(UIKit)

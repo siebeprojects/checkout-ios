@@ -47,16 +47,10 @@ extension Charge {
         var allowRecurrence: Bool?
         let browserData: BrowserData
 
-        /// - Parameter inputFields: dictionary with input fields of `CHARGE` request
-        init(inputFields: [String: String]) {
-            for (name, value) in inputFields {
-                switch name {
-                case Input.Field.Checkbox.Constant.allowRegistration: autoRegistration = Bool(stringValue: value)
-                case Input.Field.Checkbox.Constant.allowRecurrence: allowRecurrence = Bool(stringValue: value)
-                default: account[name] = value
-                }
-            }
-
+        init(account: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?) {
+            self.account = account
+            self.autoRegistration = autoRegistration
+            self.allowRecurrence = allowRecurrence
             self.browserData = BrowserDataBuilder.build()
         }
     }

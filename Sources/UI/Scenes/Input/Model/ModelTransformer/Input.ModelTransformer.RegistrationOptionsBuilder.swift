@@ -10,98 +10,84 @@ extension Input.ModelTransformer {
     /// Builder responsible for making UI models from registration options.
     class RegistrationOptionsBuilder {
         let translator: TranslationProvider
-        let operationType: String?
+        let listOperationType: PaymentSession.Operation
 
-        init(translator: TranslationProvider, operationType: String?) {
+        init(translator: TranslationProvider, listOperationType: PaymentSession.Operation) {
             self.translator = translator
-            self.operationType = operationType
+            self.listOperationType = listOperationType
         }
     }
 }
 
 extension Input.ModelTransformer.RegistrationOptionsBuilder {
-    func createInternalModel(from registrationOption: RegistrationOption) -> InputField {
-        if operationType == "UPDATE" {
-            return createInternalModel(forUpdateFlowFrom: registrationOption)
+    func createInternalModel(fromRegistration registration: ApplicableNetwork.RegistrationOption, reccurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
+        switch listOperationType {
+        // That case applies to PRESET flow as well when it will be supported
+        case .CHARGE:
+            return try createInputFields(forChargeFlowUsingRegistration: registration, recurrence: reccurrence)
+        case .UPDATE:
+            return try createInputFields(forUpdateFlowUsingRegistration: registration, reccurrence: reccurrence)
         }
 
-        let isOn: Bool
+    }
 
-        switch registrationOption.requirement {
-        case .OPTIONAL: isOn = false
-        case .OPTIONAL_PRESELECTED: isOn = true
-        case .FORCED_DISPLAYED:
-            let key = localizationKey(for: registrationOption)
-            let localizedString: String = translator.translation(forKey: key)
-            let attributedLabel = NSAttributedString(string: localizedString)
-            return Input.Field.Label(label: attributedLabel, name: registrationOption.type.name, value: true.stringValue)
-        case .FORCED:
-            return Input.Field.Hidden(name: registrationOption.type.name, value: true.stringValue)
-        case .NONE:
-            return Input.Field.Hidden(name: registrationOption.type.name, value: false.stringValue)
+    private var localizedRegistrationLabel: NSAttributedString {
+        let localizedString: String = translator.translation(forKey: "networks.registration.label")
+        return NSAttributedString(string: localizedString)
+    }
+
+    private func createInputFields(forChargeFlowUsingRegistration registration: ApplicableNetwork.RegistrationOption, recurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
+        switch (registration, recurrence) {
+        case (.NONE, .NONE): return [InputField]()
+        case (.FORCED, .NONE):
+            let registrationField = Input.Field.Hidden(id: .registration, value: true.stringValue)
+            return [registrationField]
+        case (.FORCED_DISPLAYED, .NONE):
+            let registrationField = Input.Field.Label(label: localizedRegistrationLabel, id: .registration, value: true.stringValue)
+            return [registrationField]
+        case (.FORCED, .FORCED):
+            let registrationField = Input.Field.Hidden(id: .registration, value: true.stringValue)
+            let recurrenceField = Input.Field.Hidden(id: .recurrence, value: true.stringValue)
+            return [registrationField, recurrenceField]
+        case (.FORCED_DISPLAYED, .FORCED_DISPLAYED):
+            let registrationField = Input.Field.Label(label: localizedRegistrationLabel, id: .registration, value: true.stringValue)
+            let recurrenceField = Input.Field.Hidden(id: .recurrence, value: true.stringValue)
+            return [registrationField, recurrenceField]
+        case (.OPTIONAL, .NONE):
+            let registrationField = Input.Field.RegistrationCheckbox(id: .registration, isOn: false, label: localizedRegistrationLabel)
+            return [registrationField]
+        case (.OPTIONAL_PRESELECTED, .NONE):
+            let registrationField = Input.Field.RegistrationCheckbox(id: .registration, isOn: true, label: localizedRegistrationLabel)
+            return [registrationField]
+        case (.OPTIONAL, .OPTIONAL):
+            let combinedField = Input.Field.RegistrationCheckbox(id: .combinedRegistration, isOn: false, label: localizedRegistrationLabel)
+            return [combinedField]
+        case (.OPTIONAL_PRESELECTED, .OPTIONAL_PRESELECTED):
+            let combinedField = Input.Field.RegistrationCheckbox(id: .combinedRegistration, isOn: true, label: localizedRegistrationLabel)
+            return [combinedField]
+        default:
+            let resultInfo = "Unsupported combination of autoRegistration (" + registration.rawValue + ") and allowRecurrence (" + recurrence.rawValue + ") for a charge flow"
+            throw CustomErrorInfo(resultInfo: resultInfo, interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
         }
-
-        let label: String = translator.translation(forKey: localizationKey(for: registrationOption))
-        return Input.Field.Checkbox(name: registrationOption.type.name, isOn: isOn, label: NSAttributedString(string: label))
     }
 
     /// Make hidden fields based on registration options.
     ///
     /// Framework shouldn't show any registration options checkboxes for `UPDATE` operation type.
     /// - SeeAlso: [PCX-1396](https://optile.atlassian.net/browse/PCX-1396)
-    private func createInternalModel(forUpdateFlowFrom registrationOption: RegistrationOption) -> InputField {
-        switch registrationOption.requirement {
-        case .NONE: return Input.Field.Hidden(name: registrationOption.type.name, value: false.stringValue)
-        default: return Input.Field.Hidden(name: registrationOption.type.name, value: true.stringValue)
-        }
-    }
+    private func createInputFields(forUpdateFlowUsingRegistration registration: ApplicableNetwork.RegistrationOption, reccurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
+        var inputFields = [InputField]()
 
-    /// Localization key rules are declared in [PCX-728](https://optile.atlassian.net/browse/PCX-728).
-    /// - Returns: localization key, `nil` if requirement is `NONE`
-    private func localizationKey(for registrationOption: RegistrationOption) -> String {
-        var localizationKey = "networks."
-
-        switch registrationOption.type {
-        case .registration: localizationKey += "registration."
-        case .recurrence: localizationKey += "recurrence."
+        switch registration {
+        case .NONE: inputFields += [Input.Field.Hidden(id: .registration, value: false.stringValue)]
+        default: inputFields += [Input.Field.Hidden(id: .registration, value: true.stringValue)]
         }
 
-        switch registrationOption.requirement {
-        case .OPTIONAL, .OPTIONAL_PRESELECTED: localizationKey += "optional."
-        case .FORCED, .FORCED_DISPLAYED: localizationKey += "forced."
-        case .NONE:
-            assertionFailure("Programmatic error, shouldn't call that function with NONE requirement type")
-            return String()
+        switch reccurrence {
+        case .NONE: inputFields += [Input.Field.Hidden(id: .recurrence, value: false.stringValue)]
+        default: inputFields += [Input.Field.Hidden(id: .recurrence, value: true.stringValue)]
         }
 
-        localizationKey += "label"
-
-        return localizationKey
-    }
-}
-
-extension Input.ModelTransformer.RegistrationOptionsBuilder {
-    struct RegistrationOption {
-        let type: CheckboxType
-        let requirement: ApplicableNetwork.Requirement
-
-        init(type: RegistrationOption.CheckboxType, requirement: ApplicableNetwork.Requirement?) {
-            self.type = type
-            self.requirement = requirement ?? .NONE
-        }
-    }
-}
-
-extension Input.ModelTransformer.RegistrationOptionsBuilder.RegistrationOption {
-    enum CheckboxType {
-        case recurrence
-        case registration
-
-        var name: String {
-            switch self {
-            case .recurrence: return Input.Field.Checkbox.Constant.allowRecurrence
-            case .registration: return Input.Field.Checkbox.Constant.allowRegistration
-            }
-        }
+        return inputFields
     }
 }
