@@ -205,7 +205,7 @@ extension TextInputView {
     }
 
     @discardableResult override func becomeFirstResponder() -> Bool {
-        textField.becomeFirstResponder()
+        return textField.becomeFirstResponder()
     }
 
     @discardableResult override func resignFirstResponder() -> Bool {
