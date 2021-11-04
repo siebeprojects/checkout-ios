@@ -177,6 +177,10 @@ extension TextInputView {
         textFieldButtonStackView.translatesAutoresizingMaskIntoConstraints = false
         textFieldContainerView.addSubview(textFieldButtonStackView)
         textFieldButtonStackView.fitToSuperview(obeyMargins: true)
+
+        // Give the text field a minimum height to prevent it from shrinking to the trailing button's height
+        let minimumTextFieldHeight: CGFloat = 48
+
         textFieldButtonStackView.addConstraint(
             NSLayoutConstraint(
                 item: textFieldButtonStackView,
@@ -185,7 +189,7 @@ extension TextInputView {
                 toItem: nil,
                 attribute: .notAnAttribute,
                 multiplier: 1,
-                constant: 48
+                constant: minimumTextFieldHeight
             )
         )
 
