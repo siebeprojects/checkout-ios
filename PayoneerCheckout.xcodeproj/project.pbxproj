@@ -519,13 +519,6 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		07D87C2827302F5E00AD61C4 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		07D87C2927302FBA00AD61C4 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -611,7 +604,6 @@
 				D96A4EF9257D96EE00E74C8C /* Service */,
 				D96A4F0C257D96EE00E74C8C /* Protocols */,
 				07D87C2927302FBA00AD61C4 /* Components */,
-				07D87C2827302F5E00AD61C4 /* Extensions */,
 			);
 			path = UI;
 			sourceTree = "<group>";
