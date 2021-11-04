@@ -87,7 +87,7 @@ final class TextInputView: UIView {
     ///   - placeholder: The placeholder text displayed inside the component when text is empty.
     ///   - trailingButtonImage: An optional image for the trailing button. The button is shown or hidden based on this value.
     ///   - delegate: The delegate of the `TextInputView`.
-    required init(title: String? = nil, placeholder: String? = nil, trailingButtonImage: UIImage? = nil, delegate: TextInputViewDelegate?) {
+    required init(title: String, placeholder: String, trailingButtonImage: UIImage? = nil, delegate: TextInputViewDelegate?) {
         super.init(frame: .zero)
         configure(title: title, placeholder: placeholder, trailingButtonImage: trailingButtonImage, delegate: delegate)
         layout()
@@ -108,7 +108,7 @@ extension TextInputView {
     ///   - placeholder: The placeholder text displayed inside the component when text is empty.
     ///   - trailingButtonImage: An optional image for the trailing button. The button is shown or hidden based on this value.
     ///   - delegate: The delegate of the `TextInputView`.
-    func configure(title: String? = nil, placeholder: String? = nil, trailingButtonImage: UIImage? = nil, delegate: TextInputViewDelegate?) {
+    func configure(title: String, placeholder: String, trailingButtonImage: UIImage? = nil, delegate: TextInputViewDelegate?) {
         self.delegate = delegate
         titleLabel.text = title
         textField.placeholder = placeholder
