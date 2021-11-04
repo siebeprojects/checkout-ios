@@ -522,9 +522,6 @@
 		07D87C2827302F5E00AD61C4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */,
-				07D87C2227302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift */,
-				07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -532,10 +529,22 @@
 		07D87C2927302FBA00AD61C4 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				07D87C1E27302E9E00AD61C4 /* TextInputView.swift */,
-				07D87C2027302EAF00AD61C4 /* TextInputViewDelegate.swift */,
+				07D87C2C273426B600AD61C4 /* TextInputView */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		07D87C2C273426B600AD61C4 /* TextInputView */ = {
+			isa = PBXGroup;
+			children = (
+				07D87C1E27302E9E00AD61C4 /* TextInputView.swift */,
+				07D87C2027302EAF00AD61C4 /* TextInputViewDelegate.swift */,
+				07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */,
+				07D87C2227302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift */,
+				07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */,
+				07D87C2A27302FD200AD61C4 /* Constants.swift */,
+			);
+			path = TextInputView;
 			sourceTree = "<group>";
 		};
 		686D71EBAB51C7A0DC05494C /* Frameworks */ = {
@@ -885,7 +894,6 @@
 				D96A4EE7257D96EE00E74C8C /* Bool+stringValue.swift */,
 				D96A4EE8257D96EE00E74C8C /* Infix */,
 				D9B8372025D9158100066EB4 /* Date+fullYear.swift */,
-				07D87C2A27302FD200AD61C4 /* Constants.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
