@@ -22,8 +22,7 @@ extension Input.ModelTransformer {
 extension Input.ModelTransformer.RegistrationOptionsBuilder {
     func createInternalModel(fromRegistration registration: ApplicableNetwork.RegistrationOption, reccurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
         switch listOperationType {
-        // That case applies to PRESET flow as well when it will be supported
-        case .CHARGE:
+        case .CHARGE, .PRESET:
             return try createInputFields(forChargeFlowUsingRegistration: registration, recurrence: reccurrence)
         case .UPDATE:
             return try createInputFields(forUpdateFlowUsingRegistration: registration, reccurrence: reccurrence)

@@ -20,7 +20,7 @@ class PresetAccount: NSObject, Decodable {
     let emptyForm: Bool
 
     /// Code of button-label for this preset account.
-    let button: String
+    let button: String?
 
     /// Redirect object to summary page of merchants web-site.
     let redirect: Redirect

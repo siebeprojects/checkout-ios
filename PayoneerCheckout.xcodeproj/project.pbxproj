@@ -206,6 +206,7 @@
 		D988E41726CADA1500A57D8E /* CardNumberMatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D988E41626CADA1500A57D8E /* CardNumberMatcherTests.swift */; };
 		D988E41A26CADB1100A57D8E /* Input.Field.Validation.CardNumberMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D988E41826CADA4900A57D8E /* Input.Field.Validation.CardNumberMatcher.swift */; };
 		D988FD1426D822BA00616B41 /* UIModel.PaymentContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D988FD1326D822BA00616B41 /* UIModel.PaymentContext.swift */; };
+		D99C46072737DEE50088A07F /* UIModel.PresetAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99C46062737DEE40088A07F /* UIModel.PresetAccount.swift */; };
 		D99FF39D25E7B517005F4097 /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99FF39C25E7B517005F4097 /* Charge.swift */; };
 		D99FF39F25E7B593005F4097 /* PostRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99FF39E25E7B593005F4097 /* PostRequest.swift */; };
 		D9A88E0F241C55040043F535 /* validations.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D93241C55040043F535 /* validations.json */; };
@@ -449,6 +450,7 @@
 		D988E41626CADA1500A57D8E /* CardNumberMatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNumberMatcherTests.swift; sourceTree = "<group>"; };
 		D988E41826CADA4900A57D8E /* Input.Field.Validation.CardNumberMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Validation.CardNumberMatcher.swift; sourceTree = "<group>"; };
 		D988FD1326D822BA00616B41 /* UIModel.PaymentContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIModel.PaymentContext.swift; sourceTree = "<group>"; };
+		D99C46062737DEE40088A07F /* UIModel.PresetAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIModel.PresetAccount.swift; sourceTree = "<group>"; };
 		D99FF39C25E7B517005F4097 /* Charge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charge.swift; sourceTree = "<group>"; };
 		D99FF39E25E7B593005F4097 /* PostRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRequest.swift; sourceTree = "<group>"; };
 		D9A67987241C6B2F006DC1DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -899,6 +901,7 @@
 				D9C861832737D4F8009D4332 /* UIModel.swift */,
 				D96A4EF4257D96EE00E74C8C /* UIModel.PaymentNetwork.swift */,
 				D96A4EF5257D96EE00E74C8C /* UIModel.RegisteredAccount.swift */,
+				D99C46062737DEE40088A07F /* UIModel.PresetAccount.swift */,
 				D988FD1326D822BA00616B41 /* UIModel.PaymentContext.swift */,
 				D96A4EF6257D96EE00E74C8C /* UIModel.PaymentSession.swift */,
 				D96A4EF7257D96EE00E74C8C /* UIAlertController.AlertError.swift */,
@@ -1629,6 +1632,7 @@
 				D96A4FCA257D96EF00E74C8C /* CustomerFormData.swift in Sources */,
 				D96A4F93257D96EF00E74C8C /* List.Table.swift in Sources */,
 				D96A4FCF257D96EF00E74C8C /* ExtraElement.swift in Sources */,
+				D99C46072737DEE50088A07F /* UIModel.PresetAccount.swift in Sources */,
 				D96A4FC4257D96EF00E74C8C /* Parameter.swift in Sources */,
 				E2F3031E2635F8A100A38A97 /* PaymentListViewController.StateManager.swift in Sources */,
 				D9DFE5072720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift in Sources */,

@@ -102,8 +102,10 @@ extension List.Table.DataSource: UITableViewDataSource {
         switch (sections[section], context.listOperationType) {
         case (.accounts, .CHARGE): return translationProvider.translation(forKey: "accounts.title")
         case (.accounts, .UPDATE): return translationProvider.translation(forKey: "accounts.update.title")
+        case (.accounts, .PRESET): return translationProvider.translation(forKey: "accounts.preset.title")
         case (.networks, .CHARGE): return translationProvider.translation(forKey: "networks.title")
         case (.networks, .UPDATE): return translationProvider.translation(forKey: "networks.update.title")
+        case (.networks, .PRESET): return translationProvider.translation(forKey: "networks.preset.title")
         }
     }
 

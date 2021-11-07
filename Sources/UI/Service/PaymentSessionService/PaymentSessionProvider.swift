@@ -112,9 +112,7 @@ class PaymentSessionProvider {
         completion(.success(listResult))
     }
 
-    private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])
-
-    private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworksTuple) -> Void)) {
+    private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworks) -> Void)) {
         // Filter networks unsupported by any of `PaymentService`
         var filteredPaymentNetworks = listResult.networks.applicable.filter { network in
             paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
@@ -140,11 +138,17 @@ class PaymentSessionProvider {
             filteredRegisteredNetworks = .init()
         }
 
-        completion((filteredPaymentNetworks, filteredRegisteredNetworks))
+        let networks = APINetworks(
+            applicableNetworks: filteredPaymentNetworks,
+            accountRegistrations: filteredRegisteredNetworks,
+            presetAccount: listResult.presetAccount)
+
+        completion(networks)
     }
 
-    private func localize(tuple: APINetworksTuple, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
-        let translationService = DownloadTranslationService(networks: tuple.applicableNetworks, accounts: tuple.accountRegistrations, sharedTranslation: sharedTranslationProvider)
+    private func localize(networks: APINetworks, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
+        let translationService = DownloadTranslationService(networks: networks.applicableNetworks, accounts: networks.accountRegistrations, presetAccount: networks.presetAccount, sharedTranslation: sharedTranslationProvider)
+
         translationService.localize(using: connection, completion: completion)
     }
 
@@ -162,6 +166,12 @@ class PaymentSessionProvider {
 
         let context = UIModel.PaymentContext(operationType: operation, extraElements: listResult?.extraElements)
 
-        return .init(networks: translations.networks, accounts: translations.accounts, context: context, allowDelete: listResult?.allowDelete)
+        return .init(networks: translations.networks, accounts: translations.accounts, presetAccount: translations.presetAccount, context: context, allowDelete: listResult?.allowDelete)
     }
+}
+
+private struct APINetworks {
+    let applicableNetworks: [ApplicableNetwork]
+    let accountRegistrations: [AccountRegistration]
+    let presetAccount: PresetAccount?
 }
