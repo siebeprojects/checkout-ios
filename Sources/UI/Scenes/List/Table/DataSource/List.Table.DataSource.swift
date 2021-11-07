@@ -14,17 +14,22 @@ extension List.Table {
         private let translationProvider: TranslationProvider
         let context: UIModel.PaymentContext
 
-        init(networks: [UIModel.PaymentNetwork], accounts: [UIModel.RegisteredAccount]?, translation: SharedTranslationProvider, genericLogo: UIImage, context: UIModel.PaymentContext) {
+        init(networks: [UIModel.PaymentNetwork], accounts: [UIModel.RegisteredAccount]?, presetAccount: UIModel.PresetAccount?, translation: SharedTranslationProvider, genericLogo: UIImage, context: UIModel.PaymentContext) {
             self.translationProvider = translation
             self.context = context
 
             var sections = [Section]()
+            
+            if let presetAccount = presetAccount {
+                let row = PresetAccountRow(account: presetAccount)
+                sections.append(.preset(row: row))
+            }
 
             // Fill accounts
             if let accounts = accounts {
-                var rows = [AccountRow]()
+                var rows = [RegisteredAccountRow]()
                 for account in accounts {
-                    let row = AccountRow(account: account)
+                    let row = RegisteredAccountRow(account: account)
                     rows.append(row)
                 }
 
@@ -55,6 +60,7 @@ extension List.Table {
             // Don't display empty sections
             self.sections = sections.filter {
                 switch $0 {
+                case .preset: return true
                 case .accounts(let rows): return !rows.isEmpty
                 case .networks(let rows): return !rows.isEmpty
                 }
@@ -63,6 +69,7 @@ extension List.Table {
 
         func logo(for indexPath: IndexPath) -> LoadableLogo? {
             switch sections[indexPath.section] {
+            case .preset(let presetRow): return presetRow
             case .accounts(let accountRows): return accountRows[indexPath.row]
             case .networks(let networkRows): return networkRows[indexPath.row] as? LoadableLogo
             }
@@ -70,6 +77,7 @@ extension List.Table {
 
         func model(for indexPath: IndexPath) -> Model {
             switch sections[indexPath.section] {
+            case .preset(let presetRow): return .preset(presetRow.account)
             case .accounts(let accountRows): return .account(accountRows[indexPath.row].account)
             case .networks(let networkRows): return .network(networkRows[indexPath.row].networks)
             }
@@ -79,6 +87,7 @@ extension List.Table {
 
 extension List.Table.DataSource {
     enum Model {
+        case preset(UIModel.PresetAccount)
         case network([UIModel.PaymentNetwork])
         case account(UIModel.RegisteredAccount)
     }
@@ -93,6 +102,7 @@ extension List.Table.DataSource: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch sections[section] {
+        case .preset: return 1
         case .accounts(let accounts): return accounts.count
         case .networks(let networks): return networks.count
         }
@@ -100,6 +110,9 @@ extension List.Table.DataSource: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch (sections[section], context.listOperationType) {
+        case (.preset, .PRESET): return translationProvider.translation(forKey: "networks.preset.title")
+        // Preset account couldn't appear in CHARGE and UPDATE flow
+        case (.preset, .CHARGE), (.preset, .UPDATE): return ""
         case (.accounts, .CHARGE): return translationProvider.translation(forKey: "accounts.title")
         case (.accounts, .UPDATE): return translationProvider.translation(forKey: "accounts.update.title")
         case (.accounts, .PRESET): return translationProvider.translation(forKey: "accounts.preset.title")
@@ -113,6 +126,7 @@ extension List.Table.DataSource: UITableViewDataSource {
         let row: DequeuableRow
 
         switch sections[indexPath.section] {
+        case .preset(let presetRow): row = presetRow
         case .accounts(let rows): row = rows[indexPath.row]
         case .networks(let rows): row = rows[indexPath.row]
         }
@@ -125,7 +139,8 @@ extension List.Table.DataSource: UITableViewDataSource {
 
 extension List.Table.DataSource {
     fileprivate enum Section {
-        case accounts(rows: [AccountRow])
+        case preset(row: PresetAccountRow)
+        case accounts(rows: [RegisteredAccountRow])
         case networks(rows: [NetworkRow])
     }
 }
@@ -172,7 +187,8 @@ extension SingleLabelRow {
 
 // MARK: Extensions to model
 
-extension List.Table.DataSource.AccountRow: SingleLabelRow {}
+extension List.Table.DataSource.PresetAccountRow: SingleLabelRow {}
+extension List.Table.DataSource.RegisteredAccountRow: SingleLabelRow {}
 extension List.Table.DataSource.SingleNetworkRow: SingleLabelRow, NetworkRow {}
 extension List.Table.DataSource.GroupedNetworkRow: NetworkRow {}
 

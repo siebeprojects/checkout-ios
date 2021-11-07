@@ -35,7 +35,7 @@ extension List.Table {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }
 
-            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, translation: translationProvider, genericLogo: genericLogo, context: session.context)
+            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, presetAccount: session.presetAccount, translation: translationProvider, genericLogo: genericLogo, context: session.context)
 
             switch session.context.listOperationType {
             case .UPDATE: isRefreshable = true
@@ -46,6 +46,7 @@ extension List.Table {
         fileprivate func loadLogo(for indexPath: IndexPath) {
             let models: [ContainsLoadableImage]
             switch dataSource.model(for: indexPath) {
+            case .preset(let presetAccount): models = [presetAccount]
             case .account(let account): models = [account]
             case .network(let networks): models = networks
             }
@@ -96,6 +97,9 @@ extension List.Table.Controller: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch dataSource.model(for: indexPath) {
+        case .preset:
+            // TODO: Perform action on selection in other ticket
+            return
         case .account(let account): delegate?.didSelect(registeredAccount: account, context: dataSource.context)
         case .network(let networks): delegate?.didSelect(paymentNetworks: networks, context: dataSource.context)
         }
