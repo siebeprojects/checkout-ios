@@ -6,28 +6,30 @@
 
 import UIKit
 
-final class RegisteredAccount {
-    let apiModel: AccountRegistration
-    let translation: TranslationProvider
-    let isDeletable: Bool
+extension UIModel {
+    final class RegisteredAccount {
+        let apiModel: AccountRegistration
+        let translation: TranslationProvider
+        let isDeletable: Bool
 
-    let networkLabel: String
-    let submitButtonLabel: String
-    var logo: Loadable<UIImage>?
+        let networkLabel: String
+        let submitButtonLabel: String
+        var logo: Loadable<UIImage>?
 
-    init(from apiModel: AccountRegistration, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider, isDeletable: Bool) {
-        self.apiModel = apiModel
-        self.translation = localizer
-        self.isDeletable = isDeletable
+        init(from apiModel: AccountRegistration, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider, isDeletable: Bool) {
+            self.apiModel = apiModel
+            self.translation = localizer
+            self.isDeletable = isDeletable
 
-        self.networkLabel = localizer.translation(forKey: "network.label")
-        self.submitButtonLabel = localizer.translation(forKey: submitButtonLocalizationKey)
+            self.networkLabel = localizer.translation(forKey: "network.label")
+            self.submitButtonLabel = localizer.translation(forKey: submitButtonLocalizationKey)
 
-        logo = Loadable<UIImage>(identifier: apiModel.code.lowercased(), url: apiModel.links["logo"])
+            logo = Loadable<UIImage>(identifier: apiModel.code.lowercased(), url: apiModel.links["logo"])
+        }
     }
 }
 
-extension RegisteredAccount {
+extension UIModel.RegisteredAccount {
     /// User-readable masked label for a registered account
     /// - Example: `VISA •••• 1234`
     var maskedAccountLabel: String {

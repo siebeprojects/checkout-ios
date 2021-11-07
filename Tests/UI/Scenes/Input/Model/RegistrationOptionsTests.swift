@@ -11,7 +11,7 @@ class RegistrationOptionsTests: XCTestCase {
     private let localizationProvider = MockFactory.Localization.provider
 
     func testChargeFlow() {
-        let context = PaymentContext(operationType: .CHARGE, extraElements: nil)
+        let context = UIModel.PaymentContext(operationType: .CHARGE, extraElements: nil)
         let modelTransformer = Input.ModelTransformer(paymentContext: context)
 
         for testingCase in testingCasesForChargeFlow {
@@ -37,9 +37,9 @@ class RegistrationOptionsTests: XCTestCase {
         }
     }
 
-    private func createNetwork(for model: TestingCase) -> PaymentNetwork {
+    private func createNetwork(for model: TestingCase) -> UIModel.PaymentNetwork {
         let applicableNetwork = ApplicableNetwork(code: "", label: "", method: "", grouping: "", registration: model.registration, recurrence: model.recurrence, redirect: false, inputElements: nil, links: ["operation": URL(string: "https://example.com")!], operationType: "CHARGE")
-        return PaymentNetwork(from: applicableNetwork, submitButtonLocalizationKey: "", localizeUsing: localizationProvider)
+        return UIModel.PaymentNetwork(from: applicableNetwork, submitButtonLocalizationKey: "", localizeUsing: localizationProvider)
     }
 }
 

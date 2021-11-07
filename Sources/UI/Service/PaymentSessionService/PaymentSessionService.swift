@@ -74,7 +74,7 @@ class PaymentSessionService {
     }
 
     /// Return first preselected network in a session
-    private func firstSelectedNetwork(in session: PaymentSession) -> PaymentNetwork? {
+    private func firstSelectedNetwork(in session: UIModel.PaymentSession) -> UIModel.PaymentNetwork? {
         for network in session.networks where network.applicableNetwork.selected == true {
             return network
         }

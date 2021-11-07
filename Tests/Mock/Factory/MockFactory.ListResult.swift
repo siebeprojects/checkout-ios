@@ -14,15 +14,15 @@ extension MockFactory {
 }
 
 extension MockFactory.ListResult {
-    static var paymentSession: PaymentSession {
+    static var paymentSession: UIModel.PaymentSession {
         let listResult = try! JSONDecoder().decode(PayoneerCheckout.ListResult.self, from: listResultData)
 
         let translatedNetworks = listResult.networks.applicable.map {
             TranslatedModel(model: $0, translator: MockFactory.Localization.provider)
         }
 
-        let context = PaymentContext(operationType: .CHARGE, extraElements: nil)
-        return PaymentSession(networks: translatedNetworks, accounts: nil, context: context, allowDelete: nil)
+        let context = UIModel.PaymentContext(operationType: .CHARGE, extraElements: nil)
+        return UIModel.PaymentSession(networks: translatedNetworks, accounts: nil, context: context, allowDelete: nil)
     }
 
     static var listResultData: Data {

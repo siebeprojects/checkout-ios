@@ -22,7 +22,7 @@ class PaymentSessionProvider {
         self.paymentServicesFactory = paymentServicesFactory
     }
 
-    func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
+    func loadPaymentSession(completion: @escaping ((Load<UIModel.PaymentSession, Error>) -> Void)) {
         completion(.loading)
 
         let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
@@ -150,17 +150,17 @@ class PaymentSessionProvider {
 
     // MARK: - Synchronous methods
 
-    private func createPaymentSession(from translations: DownloadTranslationService.Translations) throws -> PaymentSession {
+    private func createPaymentSession(from translations: DownloadTranslationService.Translations) throws -> UIModel.PaymentSession {
         guard let operationType = listResult?.operationType else {
             throw InternalError(description: "Operation type or ListResult is not defined")
         }
 
         // PaymentSession.Operation contains only supported operation types by the framework
-        guard let operation = PaymentSession.Operation(rawValue: operationType) else {
+        guard let operation = UIModel.PaymentSession.Operation(rawValue: operationType) else {
             throw InternalError(description: "Operation type is not known or supported: %@", operationType)
         }
 
-        let context = PaymentContext(operationType: operation, extraElements: listResult?.extraElements)
+        let context = UIModel.PaymentContext(operationType: operation, extraElements: listResult?.extraElements)
 
         return .init(networks: translations.networks, accounts: translations.accounts, context: context, allowDelete: listResult?.allowDelete)
     }

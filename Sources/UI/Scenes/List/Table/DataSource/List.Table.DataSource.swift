@@ -12,9 +12,9 @@ extension List.Table {
     final class DataSource: NSObject {
         private let sections: [Section]
         private let translationProvider: TranslationProvider
-        let context: PaymentContext
+        let context: UIModel.PaymentContext
 
-        init(networks: [PaymentNetwork], accounts: [RegisteredAccount]?, translation: SharedTranslationProvider, genericLogo: UIImage, context: PaymentContext) {
+        init(networks: [UIModel.PaymentNetwork], accounts: [UIModel.RegisteredAccount]?, translation: SharedTranslationProvider, genericLogo: UIImage, context: UIModel.PaymentContext) {
             self.translationProvider = translation
             self.context = context
 
@@ -79,8 +79,8 @@ extension List.Table {
 
 extension List.Table.DataSource {
     enum Model {
-        case network([PaymentNetwork])
-        case account(RegisteredAccount)
+        case network([UIModel.PaymentNetwork])
+        case account(UIModel.RegisteredAccount)
     }
 }
 
@@ -135,7 +135,7 @@ private protocol DequeuableRow {
 }
 
 private protocol NetworkRow: DequeuableRow {
-    var networks: [PaymentNetwork] { get }
+    var networks: [UIModel.PaymentNetwork] { get }
 }
 
 private protocol SingleLabelRow: DequeuableRow {

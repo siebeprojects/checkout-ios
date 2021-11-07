@@ -8,9 +8,9 @@ import UIKit
 
 extension List.Table.DataSource {
     class AccountRow {
-        let account: RegisteredAccount
+        let account: UIModel.RegisteredAccount
 
-        init(account: RegisteredAccount) {
+        init(account: UIModel.RegisteredAccount) {
             self.account = account
         }
     }

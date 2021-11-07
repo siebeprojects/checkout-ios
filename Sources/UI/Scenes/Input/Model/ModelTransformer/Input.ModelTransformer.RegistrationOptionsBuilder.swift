@@ -10,9 +10,9 @@ extension Input.ModelTransformer {
     /// Builder responsible for making UI models from registration options.
     class RegistrationOptionsBuilder {
         let translator: TranslationProvider
-        let listOperationType: PaymentSession.Operation
+        let listOperationType: UIModel.PaymentSession.Operation
 
-        init(translator: TranslationProvider, listOperationType: PaymentSession.Operation) {
+        init(translator: TranslationProvider, listOperationType: UIModel.PaymentSession.Operation) {
             self.translator = translator
             self.listOperationType = listOperationType
         }

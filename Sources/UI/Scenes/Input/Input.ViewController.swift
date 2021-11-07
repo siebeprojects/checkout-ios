@@ -28,7 +28,7 @@ extension Input {
             UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteBarButtonDidTap(_:)))
         }()
 
-        private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, context: PaymentContext) {
+        private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, context: UIModel.PaymentContext) {
             self.paymentController = .init(paymentServiceFactory: paymentServiceFactory, listOperationType: context.listOperationType.rawValue)
             self.networks = smartSwitch.networks
             self.header = header
@@ -51,7 +51,7 @@ extension Input {
             tableController.modalPresenter = self
         }
 
-        convenience init(for paymentNetworks: [PaymentNetwork], context: PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
+        convenience init(for paymentNetworks: [UIModel.PaymentNetwork], context: UIModel.PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
             let transformer = ModelTransformer(paymentContext: context)
             let networks = try paymentNetworks.map { try transformer.transform(paymentNetwork: $0) }
             let smartSwitch = try SmartSwitch.Selector(networks: networks)
@@ -68,7 +68,7 @@ extension Input {
             self.title = smartSwitch.selected.network.translation.translation(forKey: "networks.form.default.title")
         }
 
-        convenience init(for registeredAccount: RegisteredAccount, context: PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
+        convenience init(for registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
             let transformer = ModelTransformer(paymentContext: context)
             let network = try transformer.transform(registeredAccount: registeredAccount)
             let smartSwitch = try SmartSwitch.Selector(networks: [network])

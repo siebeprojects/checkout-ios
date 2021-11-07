@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 protocol ListTableControllerDelegate: AnyObject {
-    func didSelect(paymentNetworks: [PaymentNetwork], context: PaymentContext)
-    func didSelect(registeredAccount: RegisteredAccount, context: PaymentContext)
+    func didSelect(paymentNetworks: [UIModel.PaymentNetwork], context: UIModel.PaymentContext)
+    func didSelect(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext)
     func didRefreshRequest()
 
     var downloadProvider: DataDownloadProvider { get }
@@ -30,7 +30,7 @@ extension List.Table {
         fileprivate let isRefreshable: Bool
         fileprivate var refreshControl: UIRefreshControl?
 
-        init(session: PaymentSession, translationProvider: SharedTranslationProvider) throws {
+        init(session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider) throws {
             guard let genericLogo = AssetProvider.iconCard else {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }

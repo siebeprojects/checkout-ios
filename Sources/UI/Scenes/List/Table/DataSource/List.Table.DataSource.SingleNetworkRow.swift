@@ -9,9 +9,9 @@ import UIKit
 extension List.Table.DataSource {
     /// Model for a single network.
     class SingleNetworkRow {
-        let network: PaymentNetwork
+        let network: UIModel.PaymentNetwork
 
-        init(network: PaymentNetwork) {
+        init(network: UIModel.PaymentNetwork) {
             self.network = network
         }
     }
@@ -23,7 +23,7 @@ extension List.Table.DataSource.SingleNetworkRow {
 }
 
 extension List.Table.DataSource.SingleNetworkRow {
-    var networks: [PaymentNetwork] { return [network] }
+    var networks: [UIModel.PaymentNetwork] { return [network] }
 }
 
 extension List.Table.DataSource.SingleNetworkRow: LoadableLogo {
