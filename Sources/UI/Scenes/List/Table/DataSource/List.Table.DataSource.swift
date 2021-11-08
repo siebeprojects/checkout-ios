@@ -158,6 +158,7 @@ private protocol NetworkRow: DequeuableRow {
 private protocol SingleLabelRow: DequeuableRow {
     var label: String { get }
     var image: UIImage? { get }
+    var borderColor: UIColor { get }
 }
 
 extension SingleLabelRow {
@@ -167,6 +168,7 @@ extension SingleLabelRow {
         // Set model
         cell.networkLabel?.text = label
         cell.networkLogoView?.image = image
+        cell.borderColor = self.borderColor
 
         // Set cell position
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
@@ -187,9 +189,15 @@ extension SingleLabelRow {
 
 // MARK: Extensions to model
 
-extension List.Table.DataSource.PresetAccountRow: SingleLabelRow {}
-extension List.Table.DataSource.RegisteredAccountRow: SingleLabelRow {}
-extension List.Table.DataSource.SingleNetworkRow: SingleLabelRow, NetworkRow {}
+extension List.Table.DataSource.PresetAccountRow: SingleLabelRow {
+    var borderColor: UIColor { return .green }
+}
+extension List.Table.DataSource.RegisteredAccountRow: SingleLabelRow {
+    var borderColor: UIColor { return .themedTableBorder }
+}
+extension List.Table.DataSource.SingleNetworkRow: SingleLabelRow, NetworkRow {
+    var borderColor: UIColor { return .themedTableBorder }
+}
 extension List.Table.DataSource.GroupedNetworkRow: NetworkRow {}
 
 #endif
