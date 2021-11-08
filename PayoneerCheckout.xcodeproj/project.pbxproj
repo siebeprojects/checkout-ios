@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		070FCD4926D8F94C00531B6A /* MarkdownParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FCD4826D8F94C00531B6A /* MarkdownParser.swift */; };
 		070FCD4C26D8FA3F00531B6A /* MarkdownParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070FCD4B26D8FA3F00531B6A /* MarkdownParserTests.swift */; };
+		07D87C1F27302E9E00AD61C4 /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C1E27302E9E00AD61C4 /* TextInputView.swift */; };
+		07D87C2127302EAF00AD61C4 /* TextInputViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2027302EAF00AD61C4 /* TextInputViewDelegate.swift */; };
+		07D87C2327302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2227302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift */; };
+		07D87C2527302EC800AD61C4 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */; };
+		07D87C2727302ED600AD61C4 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */; };
+		07D87C2B27302FD200AD61C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2A27302FD200AD61C4 /* Constants.swift */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
 		D171739C205EC3E55EFF56B1 /* Pods_PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1034F946707DF3385D21E705 /* Pods_PayoneerCheckout.framework */; };
 		D90D215B26F9EF2C008925F9 /* Input.Field.Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D215A26F9EF2C008925F9 /* Input.Field.Identifier.swift */; };
@@ -246,6 +252,12 @@
 		04081EF4F12285ABCF79A364 /* Pods-Payoneer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payoneer.debug.xcconfig"; path = "Target Support Files/Pods-Payoneer/Pods-Payoneer.debug.xcconfig"; sourceTree = "<group>"; };
 		070FCD4826D8F94C00531B6A /* MarkdownParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownParser.swift; sourceTree = "<group>"; };
 		070FCD4B26D8FA3F00531B6A /* MarkdownParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownParserTests.swift; sourceTree = "<group>"; };
+		07D87C1E27302E9E00AD61C4 /* TextInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputView.swift; sourceTree = "<group>"; };
+		07D87C2027302EAF00AD61C4 /* TextInputViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputViewDelegate.swift; sourceTree = "<group>"; };
+		07D87C2227302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDirectionalEdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
+		07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
+		07D87C2A27302FD200AD61C4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1034F946707DF3385D21E705 /* Pods_PayoneerCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PayoneerCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AA5EF5833CCFE9360C69E54 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		8077BD8BBF00C6DDCD134FA2 /* Pods-PayoneerCheckout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PayoneerCheckout.release.xcconfig"; path = "Target Support Files/Pods-PayoneerCheckout/Pods-PayoneerCheckout.release.xcconfig"; sourceTree = "<group>"; };
@@ -507,6 +519,27 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		07D87C2927302FBA00AD61C4 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				07D87C2C273426B600AD61C4 /* TextInputView */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		07D87C2C273426B600AD61C4 /* TextInputView */ = {
+			isa = PBXGroup;
+			children = (
+				07D87C1E27302E9E00AD61C4 /* TextInputView.swift */,
+				07D87C2027302EAF00AD61C4 /* TextInputViewDelegate.swift */,
+				07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */,
+				07D87C2227302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift */,
+				07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */,
+				07D87C2A27302FD200AD61C4 /* Constants.swift */,
+			);
+			path = TextInputView;
+			sourceTree = "<group>";
+		};
 		686D71EBAB51C7A0DC05494C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,6 +603,7 @@
 				D96A4EF3257D96EE00E74C8C /* Model */,
 				D96A4EF9257D96EE00E74C8C /* Service */,
 				D96A4F0C257D96EE00E74C8C /* Protocols */,
+				07D87C2927302FBA00AD61C4 /* Components */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1507,6 +1541,7 @@
 				D96A4F9F257D96EF00E74C8C /* SlideInPresentationManager.swift in Sources */,
 				D96A4FB8257D96EF00E74C8C /* KeyboardChangeFrameObserver.swift in Sources */,
 				D96A4F70257D96EF00E74C8C /* Input.Field.Button.swift in Sources */,
+				07D87C1F27302E9E00AD61C4 /* TextInputView.swift in Sources */,
 				D96A4F63257D96EF00E74C8C /* Input.Table.DetailedTextLogoView.swift in Sources */,
 				D96A4F57257D96EF00E74C8C /* Input.Table.Validator.swift in Sources */,
 				D96A4FD9257D96EF00E74C8C /* Error+log.swift in Sources */,
@@ -1519,6 +1554,7 @@
 				D96A4F6D257D96EF00E74C8C /* Input.Field.Generic.swift in Sources */,
 				D96A4FCD257D96EF00E74C8C /* PaymentMethod.swift in Sources */,
 				D9836FB826D2E526003D751C /* LocalizableInteraction.swift in Sources */,
+				07D87C2727302ED600AD61C4 /* CALayer+Extensions.swift in Sources */,
 				D9396F42267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift in Sources */,
 				D96A4F56257D96EF00E74C8C /* Input.Table.Controller.swift in Sources */,
 				D96A4F7F257D96EF00E74C8C /* DefinesKeyboardStyle.swift in Sources */,
@@ -1536,6 +1572,7 @@
 				D96A4F55257D96EF00E74C8C /* Input.swift in Sources */,
 				D96A4FAE257D96EF00E74C8C /* RedirectCallbackHandler.swift in Sources */,
 				D96A4F78257D96EF00E74C8C /* Input.Field.Validation.Luhn.swift in Sources */,
+				07D87C2327302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift in Sources */,
 				D9DFE5052720A1C0003E0768 /* ContainsDefaultValue.swift in Sources */,
 				D91A4E3726B8A3450036CAC9 /* Bundle+identifer.swift in Sources */,
 				D96A4FA8257D96EF00E74C8C /* PaymentSessionServiceDelegate.swift in Sources */,
@@ -1548,6 +1585,7 @@
 				D96A4F82257D96EF00E74C8C /* Validatable.swift in Sources */,
 				D96A4F81257D96EF00E74C8C /* InputField.swift in Sources */,
 				D9F5C46F265E5CF500053715 /* DeleteAccount.swift in Sources */,
+				07D87C2527302EC800AD61C4 /* UIView+Extensions.swift in Sources */,
 				D96A4F77257D96EF00E74C8C /* Input.Field.Validation.ExpiryDate.swift in Sources */,
 				D96A4F79257D96EF00E74C8C /* Input.Field.Validation.swift in Sources */,
 				D96A4FBC257D96EF00E74C8C /* SharedTranslationProvider.swift in Sources */,
@@ -1565,6 +1603,7 @@
 				D96A4FD4257D96EF00E74C8C /* InputElement.swift in Sources */,
 				D96A4FA0257D96EF00E74C8C /* SlideInPresentationController.swift in Sources */,
 				D96A4FE3257D96EF00E74C8C /* Connection.swift in Sources */,
+				07D87C2B27302FD200AD61C4 /* Constants.swift in Sources */,
 				D96A4F90257D96EF00E74C8C /* List.Table.SingleLabelCell.swift in Sources */,
 				070FCD4926D8F94C00531B6A /* MarkdownParser.swift in Sources */,
 				D96A4F85257D96EF00E74C8C /* Selectable.swift in Sources */,
@@ -1626,6 +1665,7 @@
 				D96A4F93257D96EF00E74C8C /* List.Table.swift in Sources */,
 				D96A4FCF257D96EF00E74C8C /* ExtraElement.swift in Sources */,
 				D96A4FC4257D96EF00E74C8C /* Parameter.swift in Sources */,
+				07D87C2127302EAF00AD61C4 /* TextInputViewDelegate.swift in Sources */,
 				E2F3031E2635F8A100A38A97 /* PaymentListViewController.StateManager.swift in Sources */,
 				D9DFE5072720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift in Sources */,
 				D96A4FB9257D96EF00E74C8C /* TranslatedModel.swift in Sources */,
