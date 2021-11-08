@@ -13,6 +13,9 @@ import UIKit
     @objc public var tableBorder: UIColor
     @objc public var tableCellSeparator: UIColor
 
+    /// Borders color for a payment network that was preset in `PRESET` flow
+    @objc public var tablePresetBordersColor: UIColor
+
     @objc public var textColor: UIColor
     @objc public var detailTextColor: UIColor
     @objc public var buttonTextColor: UIColor
@@ -22,12 +25,13 @@ import UIKit
 
     /// - Parameters:
     ///   - font: `nil` is used for default system font
-    @objc public init(font: UIFont? = nil, backgroundColor: UIColor, tableBorder: UIColor, tableCellSeparator: UIColor, textColor: UIColor, detailTextColor: UIColor, buttonTextColor: UIColor, tintColor: UIColor, errorTextColor: UIColor) {
+    @objc public init(font: UIFont? = nil, backgroundColor: UIColor, tableBorder: UIColor, tableCellSeparator: UIColor, tablePresetBordersColor: UIColor, textColor: UIColor, detailTextColor: UIColor, buttonTextColor: UIColor, tintColor: UIColor, errorTextColor: UIColor) {
         // swiftlint:disable:previous line_length
         self.font = font
         self.backgroundColor = backgroundColor
         self.tableBorder = tableBorder
         self.tableCellSeparator = tableCellSeparator
+        self.tablePresetBordersColor = tablePresetBordersColor
         self.textColor = textColor
         self.detailTextColor = detailTextColor
         self.buttonTextColor = buttonTextColor
@@ -44,6 +48,7 @@ public extension Theme {
         let detailedTextColor = UIColor(white: 143.0 / 255.0, alpha: 1.0)
         let tintColor = UIColor(red: 0.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
         let border = UIColor(white: 224.0 / 255.0, alpha: 1.0)
+        let presetBorder = UIColor(red: 0.0 / 255.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1)
         let separator = UIColor(white: 242.0 / 255.0, alpha: 1.0)
         let errorColor = UIColor(red: 205, green: 0, blue: 0, alpha: 1.0)
 
@@ -59,6 +64,7 @@ public extension Theme {
             backgroundColor: backgroundColor,
             tableBorder: border,
             tableCellSeparator: separator,
+            tablePresetBordersColor: presetBorder,
             textColor: textColor,
             detailTextColor: detailedTextColor,
             buttonTextColor: .white,
@@ -95,6 +101,10 @@ internal extension UIColor {
 
     static var themedTableCellSeparator: UIColor {
         return Theme.shared.tableCellSeparator
+    }
+
+    static var tablePresetBordersColor: UIColor {
+        return Theme.shared.tablePresetBordersColor
     }
 
     static var themedError: UIColor {

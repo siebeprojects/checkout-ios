@@ -190,7 +190,7 @@ extension SingleLabelRow {
 // MARK: Extensions to model
 
 extension List.Table.DataSource.PresetAccountRow: SingleLabelRow {
-    var borderColor: UIColor { return .green }
+    var borderColor: UIColor { return .tablePresetBordersColor }
 }
 extension List.Table.DataSource.RegisteredAccountRow: SingleLabelRow {
     var borderColor: UIColor { return .themedTableBorder }
