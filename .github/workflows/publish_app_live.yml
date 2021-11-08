@@ -2,6 +2,10 @@ name: Publish to Browserstack
 
 on:
   workflow_dispatch:
+    inputs:
+      pull-request-number:
+        description: 'Pull Request’s number (e.g.: 45)'     
+        required: false
 
 concurrency: 
   group: browserstack-${{ github.head_ref }}
@@ -89,6 +93,13 @@ jobs:
           ipa-binary: ExampleCheckout-${{ env.BRANCH_NAME }}.ipa
         run: bundle exec fastlane browserstack binary:${{ env.ipa-binary }}
 
-      - uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: awaits qa
+  apply-label:
+     runs-on: ubuntu-latest
+     needs: upload-to-browserstack
+
+     steps:
+       - uses: actions-ecosystem/action-add-labels@v1
+         if: ${{ github.event.inputs.pull-request-number != '' }}
+         with:
+           labels: awaits qa
+           number: ${{ github.event.inputs.pull-request-number }}
