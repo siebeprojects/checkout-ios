@@ -82,6 +82,13 @@ extension List.Table {
             case .networks(let networkRows): return .network(networkRows[indexPath.row].networks)
             }
         }
+
+        func titleForFooter(inSection section: Int) -> String? {
+            switch (sections[section], context.listOperationType) {
+            case (.preset, .PRESET): return translationProvider.translation(forKey: "networks.preset.conditional.text")
+            default: return nil
+            }
+        }
     }
 }
 
@@ -115,10 +122,10 @@ extension List.Table.DataSource: UITableViewDataSource {
         case (.preset, .CHARGE), (.preset, .UPDATE): return ""
         case (.accounts, .CHARGE): return translationProvider.translation(forKey: "accounts.title")
         case (.accounts, .UPDATE): return translationProvider.translation(forKey: "accounts.update.title")
-        case (.accounts, .PRESET): return translationProvider.translation(forKey: "accounts.preset.title")
+        case (.accounts, .PRESET): return translationProvider.translation(forKey: "accounts.title")
         case (.networks, .CHARGE): return translationProvider.translation(forKey: "networks.title")
         case (.networks, .UPDATE): return translationProvider.translation(forKey: "networks.update.title")
-        case (.networks, .PRESET): return translationProvider.translation(forKey: "networks.preset.title")
+        case (.networks, .PRESET): return translationProvider.translation(forKey: "networks.title")
         }
     }
 

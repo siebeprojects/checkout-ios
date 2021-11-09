@@ -99,7 +99,6 @@
 		D96A4F8C257D96EF00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED6257D96EE00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift */; };
 		D96A4F8D257D96EF00E74C8C /* List.Table.DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED7257D96EE00E74C8C /* List.Table.DataSource.swift */; };
 		D96A4F8E257D96EF00E74C8C /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED8257D96EE00E74C8C /* List.Table.DataSource.GroupedNetworkRow.swift */; };
-		D96A4F8F257D96EF00E74C8C /* List.Table.DataSource.AccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4ED9257D96EE00E74C8C /* List.Table.DataSource.AccountRow.swift */; };
 		D96A4F90257D96EF00E74C8C /* List.Table.SingleLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EDB257D96EE00E74C8C /* List.Table.SingleLabelCell.swift */; };
 		D96A4F91257D96EF00E74C8C /* List.Table.BorderedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EDC257D96EE00E74C8C /* List.Table.BorderedCell.swift */; };
 		D96A4F92257D96EF00E74C8C /* List.Table.DetailedLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EDD257D96EE00E74C8C /* List.Table.DetailedLabelCell.swift */; };
@@ -219,6 +218,9 @@
 		D9C861842737D4F8009D4332 /* UIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C861832737D4F8009D4332 /* UIModel.swift */; };
 		D9C9573F241C54CA00049AFE /* PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */; };
 		D9CCE84D26D4BA16001B2498 /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CCE84C26D4BA16001B2498 /* Loggable.swift */; };
+		D9D067B22739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D067B12739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift */; };
+		D9D067B4273AC30A005F0E6B /* List.Table.DataSource.PresetAccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D067B3273AC30A005F0E6B /* List.Table.DataSource.PresetAccountRow.swift */; };
+		D9D067B6273AC311005F0E6B /* List.Table.DataSource.RegisteredAccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D067B5273AC311005F0E6B /* List.Table.DataSource.RegisteredAccountRow.swift */; };
 		D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */; };
 		D9DFE5052720A1C0003E0768 /* ContainsDefaultValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5042720A1C0003E0768 /* ContainsDefaultValue.swift */; };
 		D9DFE5072720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DFE5062720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift */; };
@@ -341,7 +343,6 @@
 		D96A4ED6257D96EE00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.SingleNetworkRow.swift; sourceTree = "<group>"; };
 		D96A4ED7257D96EE00E74C8C /* List.Table.DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.swift; sourceTree = "<group>"; };
 		D96A4ED8257D96EE00E74C8C /* List.Table.DataSource.GroupedNetworkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.GroupedNetworkRow.swift; sourceTree = "<group>"; };
-		D96A4ED9257D96EE00E74C8C /* List.Table.DataSource.AccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.AccountRow.swift; sourceTree = "<group>"; };
 		D96A4EDB257D96EE00E74C8C /* List.Table.SingleLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.SingleLabelCell.swift; sourceTree = "<group>"; };
 		D96A4EDC257D96EE00E74C8C /* List.Table.BorderedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.BorderedCell.swift; sourceTree = "<group>"; };
 		D96A4EDD257D96EE00E74C8C /* List.Table.DetailedLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DetailedLabelCell.swift; sourceTree = "<group>"; };
@@ -465,6 +466,9 @@
 		D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayoneerCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9CCE84C26D4BA16001B2498 /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
+		D9D067B12739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.LabelHeaderFooterView.swift; sourceTree = "<group>"; };
+		D9D067B3273AC30A005F0E6B /* List.Table.DataSource.PresetAccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.PresetAccountRow.swift; sourceTree = "<group>"; };
+		D9D067B5273AC311005F0E6B /* List.Table.DataSource.RegisteredAccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.RegisteredAccountRow.swift; sourceTree = "<group>"; };
 		D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		D9DFE5042720A1C0003E0768 /* ContainsDefaultValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainsDefaultValue.swift; sourceTree = "<group>"; };
 		D9DFE5062720A2C4003E0768 /* Input.Field.RegistrationCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.RegistrationCheckbox.swift; sourceTree = "<group>"; };
@@ -823,9 +827,10 @@
 			isa = PBXGroup;
 			children = (
 				D96A4ED6257D96EE00E74C8C /* List.Table.DataSource.SingleNetworkRow.swift */,
+				D9D067B3273AC30A005F0E6B /* List.Table.DataSource.PresetAccountRow.swift */,
+				D9D067B5273AC311005F0E6B /* List.Table.DataSource.RegisteredAccountRow.swift */,
 				D96A4ED7257D96EE00E74C8C /* List.Table.DataSource.swift */,
 				D96A4ED8257D96EE00E74C8C /* List.Table.DataSource.GroupedNetworkRow.swift */,
-				D96A4ED9257D96EE00E74C8C /* List.Table.DataSource.AccountRow.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -835,6 +840,7 @@
 			children = (
 				D96A4EDB257D96EE00E74C8C /* List.Table.SingleLabelCell.swift */,
 				D96A4EDC257D96EE00E74C8C /* List.Table.BorderedCell.swift */,
+				D9D067B12739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift */,
 				D96A4EDD257D96EE00E74C8C /* List.Table.DetailedLabelCell.swift */,
 			);
 			path = Cells;
@@ -1580,6 +1586,7 @@
 				D96A4FB4257D96EF00E74C8C /* PaymentServiceParsedResponse.swift in Sources */,
 				D96A4F62257D96EF00E74C8C /* Input.Table.ImagesCollectionView.swift in Sources */,
 				D96A4FA7257D96EF00E74C8C /* PaymentSessionProvider.swift in Sources */,
+				D9D067B22739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift in Sources */,
 				D96A4F9B257D96EF00E74C8C /* mergeClosures.swift in Sources */,
 				D96A4FDA257D96EF00E74C8C /* InternalError.swift in Sources */,
 				D96A4F6A257D96EF00E74C8C /* Input.Field.AccountNumber.swift in Sources */,
@@ -1592,6 +1599,7 @@
 				D919CBD226EA5A1300DBB320 /* Input.ModelTransformer.ExtraElementsTransformer.swift in Sources */,
 				D96A4F98257D96EF00E74C8C /* List.Table.TableView.swift in Sources */,
 				D96A4FD0257D96EF00E74C8C /* FormData.swift in Sources */,
+				D9D067B6273AC311005F0E6B /* List.Table.DataSource.RegisteredAccountRow.swift in Sources */,
 				D96A4F94257D96EF00E74C8C /* LoadableLogo.swift in Sources */,
 				D96A4FD5257D96EF00E74C8C /* Networks.swift in Sources */,
 				D988E41A26CADB1100A57D8E /* Input.Field.Validation.CardNumberMatcher.swift in Sources */,
@@ -1622,7 +1630,6 @@
 				D91FC802268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift in Sources */,
 				D96A4F92257D96EF00E74C8C /* List.Table.DetailedLabelCell.swift in Sources */,
 				D96A4FD7257D96EF00E74C8C /* AccountRegistration.swift in Sources */,
-				D96A4F8F257D96EF00E74C8C /* List.Table.DataSource.AccountRow.swift in Sources */,
 				D96A4F8A257D96EF00E74C8C /* NetworkOperationResultHandler.swift in Sources */,
 				D96A4F6B257D96EF00E74C8C /* Input.Field.IBAN.swift in Sources */,
 				D96A4FC8257D96EF00E74C8C /* Installments.swift in Sources */,
@@ -1657,6 +1664,7 @@
 				D91FC5D126E1381000537DE1 /* Input.Table.LabelViewCell.swift in Sources */,
 				D96A4FE1257D96EF00E74C8C /* DownloadData.swift in Sources */,
 				D96A4F91257D96EF00E74C8C /* List.Table.BorderedCell.swift in Sources */,
+				D9D067B4273AC30A005F0E6B /* List.Table.DataSource.PresetAccountRow.swift in Sources */,
 				D96A4F96257D96EF00E74C8C /* List.Table.Controller.swift in Sources */,
 				D96A4F50257D96EF00E74C8C /* String+characterAt.swift in Sources */,
 				E26E10772636A65B00D76D93 /* PaymentListViewController.ViewManager.swift in Sources */,

@@ -112,6 +112,16 @@ extension List.Table.Controller: UITableViewDelegate {
         view.textLabel?.text = tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: section)
         return view
     }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let title = dataSource.titleForFooter(inSection: section) else {
+            return nil
+        }
+
+        let view = tableView.dequeueReusableHeaderFooterView(List.Table.LabelHeaderFooterView.self)
+        view.label?.text = title
+        return view
+    }
 }
 #endif
 

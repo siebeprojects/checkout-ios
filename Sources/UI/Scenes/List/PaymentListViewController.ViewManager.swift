@@ -65,11 +65,12 @@ extension PaymentListViewController.ViewManager {
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
         methodsTableView.rowHeight = .rowHeight
-        methodsTableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
+//        methodsTableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
         methodsTableView.register(List.Table.SingleLabelCell.self)
         methodsTableView.register(List.Table.DetailedLabelCell.self)
+        methodsTableView.register(List.Table.LabelHeaderFooterView.self)
         view.addSubview(methodsTableView)
 
         let topPadding: CGFloat = 30
