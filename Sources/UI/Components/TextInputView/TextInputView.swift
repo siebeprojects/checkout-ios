@@ -65,9 +65,9 @@ final class TextInputView: UIView {
         return label
     }()
 
-    private let trailingButton: UIButton = {
+    // TODO: This should be private and configured internally
+    let trailingButton: UIButton = {
         let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(trailingButtonAction), for: .touchUpInside)
         button.isHidden = true
         return button
     }()
@@ -85,33 +85,20 @@ final class TextInputView: UIView {
     /// Initializes a `TextInputView`.
     required init() {
         super.init(frame: .zero)
+        textField.delegate = self
         layout()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        textField.delegate = self
         layout()
     }
 }
 
-// MARK: - Configuration
+// MARK: - State
 
 extension TextInputView {
-    /// Configures a `TextInputView` with a given title and placeholder, and an optional button image and delegate.
-    /// - Parameters:
-    ///   - title: The title displayed above the component.
-    ///   - placeholder: The placeholder text displayed inside the component when text is empty.
-    ///   - trailingButtonImage: An optional image for the trailing button. The button is shown or hidden based on this value.
-    ///   - delegate: The delegate of the `TextInputView`.
-    func configure(title: String, placeholder: String, trailingButtonImage: UIImage? = nil) {
-        titleLabel.text = title
-        textField.placeholder = placeholder
-        textField.delegate = self
-
-        trailingButton.setImage(trailingButtonImage, for: .normal)
-        trailingButton.isHidden = trailingButton.currentImage == nil
-    }
-
     /// Switches the `TextInputView` to the given `status`, with an option to animate the change.
     /// - Parameters:
     ///   - status: The status to be displayed.

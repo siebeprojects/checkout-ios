@@ -15,16 +15,16 @@ extension Input.Table {
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            hintButton.setImage(AssetProvider.iconCVVQuestionMark, for: .normal)
-            hintButton.addTarget(self, action: #selector(hintButtonDidTap(button:)), for: .touchUpInside)
-
+            textInputView.trailingButton.setImage(AssetProvider.iconCVVQuestionMark?.withRenderingMode(.alwaysOriginal), for: .normal)
+            textInputView.trailingButton.addTarget(self, action: #selector(hintButtonAction), for: .touchUpInside)
+            textInputView.trailingButton.isHidden = false
         }
 
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
 
-        @objc private func hintButtonDidTap(button: UIButton) {
+        @objc private func hintButtonAction(sender: UIButton) {
             let tooltipVC = TooltipViewController()
 
             // Configure view controller
@@ -45,8 +45,8 @@ extension Input.Table {
             }
 
             if let popoverController = tooltipVC.popoverPresentationController {
-                popoverController.sourceView = button
-                popoverController.sourceRect = button.bounds
+                popoverController.sourceView = sender
+                popoverController.sourceRect = sender.bounds
                 popoverController.permittedArrowDirections = [.up, .down, .right]
             }
 

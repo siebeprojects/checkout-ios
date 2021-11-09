@@ -76,7 +76,8 @@ extension Input.Table.TextFieldController {
         }
 
         textInputView.setStatus(model.isEnabled ? .normal : .disabled)
-        textInputView.configure(title: model.label, placeholder: model.label, trailingButtonImage: nil)
+        textInputView.titleLabel.text = model.label
+        textInputView.textField.placeholder = model.label
 
         if let contentType = model.contentType {
             textInputView.textField.textContentType = contentType
