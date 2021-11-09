@@ -30,34 +30,24 @@ extension Input.Table {
             }
         }
 
-        unowned let textField: MDCTextField
-        fileprivate let materialInputController: MDCTextInputControllerFilled
-        fileprivate let clearButtonController: ClearButtonController
+        unowned let textInputView: TextInputView
 
-        init(textField: MDCTextField) {
-            self.textField = textField
-            materialInputController = .init(textInput: textField)
-            clearButtonController = .init(textField: textField)
-
+        init(textInputView: TextInputView) {
+            self.textInputView = textInputView
             super.init()
 
-            textField.delegate = self
+            textInputView.delegate = self
 
-            textField.leadingUnderlineLabel.numberOfLines = 0
-            textField.leadingUnderlineLabel.lineBreakMode = .byWordWrapping
-
-            textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-            textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
+            textInputView.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+            textInputView.textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
 
             // Theming
-            materialInputController.errorColor = .themedError
-            materialInputController.textInputFont = UIFont.preferredThemeFont(forTextStyle: .body)
-            materialInputController.inlinePlaceholderFont = UIFont.preferredThemeFont(forTextStyle: .body)
+            textInputView.textField.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            textInputView.titleLabel.font = .preferredThemeFont(forTextStyle: .footnote)
+            textInputView.errorLabel.font = .preferredThemeFont(forTextStyle: .caption2)
         }
 
         @objc private func textFieldDidChange(_ textField: UITextField) {
-            clearButtonController.textFieldDidChange()
-
             guard let model = self.model else { return }
 
             let text = textField.text ?? String()
@@ -78,52 +68,45 @@ extension Input.Table {
 }
 
 extension Input.Table.TextFieldController {
-    func setTintColor(to tintColor: UIColor) {
-        materialInputController.activeColor = textField.tintColor
-        materialInputController.floatingPlaceholderActiveColor = textField.tintColor
-        materialInputController.leadingUnderlineLabelTextColor = textField.tintColor
-    }
-
     fileprivate func setModel(to model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
         if let inputFormatter = model.patternFormatter {
-            textField.text = inputFormatter.formatter.format(model.value, addTrailingPattern: false)
+            textInputView.text = inputFormatter.formatter.format(model.value, addTrailingPattern: false)
         } else {
-            textField.text = model.value
+            textInputView.text = model.value
         }
 
-        textField.isEnabled = model.isEnabled
-        materialInputController.placeholderText = model.label
+        textInputView.setStatus(model.isEnabled ? .normal : .disabled)
+        textInputView.configure(title: model.label, placeholder: model.label, trailingButtonImage: nil)
 
         if let contentType = model.contentType {
-            textField.textContentType = contentType
+            textInputView.textField.textContentType = contentType
         }
 
-        textField.keyboardType = model.keyboardType
-        textField.autocapitalizationType = model.autocapitalizationType
-
-        clearButtonController.configure()
+        textInputView.textField.keyboardType = model.keyboardType
+        textInputView.textField.autocapitalizationType = model.autocapitalizationType
     }
 
     func setErrorText(to errorText: String?) {
-        materialInputController.setErrorText(errorText, errorAccessibilityValue: nil)
+        if let error = errorText {
+            textInputView.setStatus(.error(message: error))
+        } else {
+            textInputView.setStatus(.normal)
+        }
     }
 }
 
 // MARK: - UITextFieldDelegate
 
-extension Input.Table.TextFieldController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        guard let model = self.model else { return }
-        materialInputController.setHelperText(model.placeholder, helperAccessibilityLabel: model.placeholder)
+extension Input.Table.TextFieldController: TextInputViewDelegate {
+    func textInputViewDidBeginEditing(_ view: TextInputView) {
         delegate?.textFieldDidBecomeFirstResponder()
     }
 
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        materialInputController.setHelperText(nil, helperAccessibilityLabel: nil)
+    func textInputViewDidEndEditing(_ view: TextInputView) {
         delegate?.textFieldDidEndEditing()
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textInputView(_ view: TextInputView, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let model = self.model else { return false }
 
         // Check if primary action was triggered.
@@ -133,7 +116,7 @@ extension Input.Table.TextFieldController: UITextFieldDelegate {
         }
 
         // Create new full text string (replaced)
-        let originText = textField.text ?? String()
+        let originText = textInputView.text
         let newFullString: String
         if let textRange = Range(range, in: originText) {
             newFullString = originText.replacingCharacters(in: textRange, with: string)
@@ -145,7 +128,7 @@ extension Input.Table.TextFieldController: UITextFieldDelegate {
         let replacedStringWithoutFormatting = model.patternFormatter?.formatter.unformat(newFullString) ?? newFullString
 
         // Validate if input contains only allowed chars
-        guard containsOnlyAllowedCharacters(string: replacedStringWithoutFormatting, allowedKeyBoardType: textField.keyboardType) else {
+        guard containsOnlyAllowedCharacters(string: replacedStringWithoutFormatting, allowedKeyBoardType: textInputView.textField.keyboardType) else {
             return false
         }
 
@@ -159,10 +142,10 @@ extension Input.Table.TextFieldController: UITextFieldDelegate {
 
         if let inputFormatter = model.patternFormatter {
             let formatted = inputFormatter.formatInput(replaceableString: .init(originText: originText, changesRange: range, replacementText: string))
-            textField.apply(formattedValue: formatted)
+            textInputView.textField.apply(formattedValue: formatted)
 
             // We need to call these manually because we're returning false so UIKit won't call that method
-            textFieldDidChange(textField)
+            textFieldDidChange(textInputView.textField)
 
             // We need to return false because we already changed the text via `textField.apply`
             return false
@@ -185,16 +168,16 @@ extension Input.Table.TextFieldController: UITextFieldDelegate {
 extension Input.Table.TextFieldController: SupportsPrimaryAction {
     func setPrimaryAction(to action: PrimaryAction) {
         switch action {
-        case .next: textField.returnKeyType = .next
-        case .done: textField.returnKeyType = .done
+        case .next: textInputView.textField.returnKeyType = .next
+        case .done: textInputView.textField.returnKeyType = .done
         }
 
         // Show input accessory view for number pads with "Next" button
         // We need that because number pads doesn't support display of a return key
-        if textField.keyboardType == .numberPad && UIDevice.current.userInterfaceIdiom != .pad {
-            textField.inputAccessoryView = createAccessoryView(for: action)
+        if textInputView.textField.keyboardType == .numberPad && UIDevice.current.userInterfaceIdiom != .pad {
+            textInputView.textField.inputAccessoryView = createAccessoryView(for: action)
         } else {
-            textField.inputAccessoryView = nil
+            textInputView.textField.inputAccessoryView = nil
         }
     }
 

@@ -29,7 +29,6 @@
 		D91FC5CF26E1381000537DE1 /* Input.Table.CheckboxViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC5C826E1381000537DE1 /* Input.Table.CheckboxViewCell.swift */; };
 		D91FC5D026E1381000537DE1 /* Input.Table.TextFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC5C926E1381000537DE1 /* Input.Table.TextFieldController.swift */; };
 		D91FC5D126E1381000537DE1 /* Input.Table.LabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC5CA26E1381000537DE1 /* Input.Table.LabelViewCell.swift */; };
-		D91FC5D226E1381000537DE1 /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC5CB26E1381000537DE1 /* Input.Table.TextFieldController.ClearButtonController.swift */; };
 		D91FC7FD2687E1090014997B /* Input.ViewController.DeletionAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */; };
 		D91FC802268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */; };
 		D91FC804268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */; };
@@ -275,7 +274,6 @@
 		D91FC5C826E1381000537DE1 /* Input.Table.CheckboxViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.CheckboxViewCell.swift; sourceTree = "<group>"; };
 		D91FC5C926E1381000537DE1 /* Input.Table.TextFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.swift; sourceTree = "<group>"; };
 		D91FC5CA26E1381000537DE1 /* Input.Table.LabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.LabelViewCell.swift; sourceTree = "<group>"; };
-		D91FC5CB26E1381000537DE1 /* Input.Table.TextFieldController.ClearButtonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.Table.TextFieldController.ClearButtonController.swift; sourceTree = "<group>"; };
 		D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.DeletionAlertController.swift; sourceTree = "<group>"; };
 		D91FC801268868CF0014997B /* Input.ModelTransformer.RegistrationOptionsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.RegistrationOptionsBuilder.swift; sourceTree = "<group>"; };
 		D91FC803268869700014997B /* Input.ModelTransformer.ExpirationDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ModelTransformer.ExpirationDateManager.swift; sourceTree = "<group>"; };
@@ -707,7 +705,6 @@
 				D91FC5C826E1381000537DE1 /* Input.Table.CheckboxViewCell.swift */,
 				D91FC5C626E1381000537DE1 /* Input.Table.CVVTextFieldViewCell.swift */,
 				D91FC5CA26E1381000537DE1 /* Input.Table.LabelViewCell.swift */,
-				D91FC5CB26E1381000537DE1 /* Input.Table.TextFieldController.ClearButtonController.swift */,
 				D91FC5C926E1381000537DE1 /* Input.Table.TextFieldController.swift */,
 				D91FC5C726E1381000537DE1 /* Input.Table.TextFieldViewCell.swift */,
 				D96A4E9E257D96EE00E74C8C /* Header */,
@@ -1530,7 +1527,6 @@
 				D9CCE84D26D4BA16001B2498 /* Loggable.swift in Sources */,
 				D96A4FDB257D96EF00E74C8C /* AssetProvider.swift in Sources */,
 				D96A4F4B257D96EF00E74C8C /* ReplaceableString.swift in Sources */,
-				D91FC5D226E1381000537DE1 /* Input.Table.TextFieldController.ClearButtonController.swift in Sources */,
 				D96A4F7B257D96EF00E74C8C /* Input.TextHeader.swift in Sources */,
 				D91FC5D026E1381000537DE1 /* Input.Table.TextFieldController.swift in Sources */,
 				D99FF39D25E7B517005F4097 /* Charge.swift in Sources */,

@@ -54,9 +54,7 @@ extension Input.Table {
         }
 
         override func configure(with model: CellRepresentable & DefinesKeyboardStyle) {
-            textField.rightView = hintButton
-            textField.rightViewMode = .always
-            textField.clearButtonMode = .never
+            textInputView.textField.clearButtonMode = .never
 
             self.model = model
             textFieldController.model = model

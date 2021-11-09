@@ -6,13 +6,12 @@
 
 import UIKit
 
-// TODO: These will be replaced when implemented in the project
 private let titleColor: UIColor = .darkGray
 private let borderColorIdle: UIColor = .gray
 private let borderColorDisabled: UIColor = .lightGray
 private let containerBackgroundColor: UIColor = .white
 private let textColor: UIColor = .black
-private let errorColor: UIColor = .red
+private let errorColor: UIColor = .themedError
 
 /// The text input component.
 final class TextInputView: UIView {
@@ -23,7 +22,8 @@ final class TextInputView: UIView {
         case disabled
     }
 
-    private let titleLabel: UILabel = {
+    // TODO: This should be private and configured internally
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .footnote)
@@ -42,7 +42,7 @@ final class TextInputView: UIView {
         return view
     }()
 
-    // TODO: This should be private
+    // TODO: This should be private and configured internally
     let textField: UITextField = {
         let field = UITextField()
         field.adjustsFontForContentSizeCategory = true
@@ -53,7 +53,8 @@ final class TextInputView: UIView {
         return field
     }()
 
-    private let errorLabel: UILabel = {
+    // TODO: This should be private and configured internally
+    let errorLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .caption2)
@@ -79,17 +80,11 @@ final class TextInputView: UIView {
 
     private var status: Status = .normal
 
-    private weak var delegate: TextInputViewDelegate?
+    weak var delegate: TextInputViewDelegate?
 
-    /// Initializes a `TextInputView` with a given title and placeholder, and an optional button image and delegate.
-    /// - Parameters:
-    ///   - title: The title displayed above the component.
-    ///   - placeholder: The placeholder text displayed inside the component when text is empty.
-    ///   - trailingButtonImage: An optional image for the trailing button. The button is shown or hidden based on this value.
-    ///   - delegate: The delegate of the `TextInputView`.
-    required init(title: String, placeholder: String, trailingButtonImage: UIImage? = nil, delegate: TextInputViewDelegate?) {
+    /// Initializes a `TextInputView`.
+    required init() {
         super.init(frame: .zero)
-        configure(title: title, placeholder: placeholder, trailingButtonImage: trailingButtonImage, delegate: delegate)
         layout()
     }
 
@@ -108,8 +103,7 @@ extension TextInputView {
     ///   - placeholder: The placeholder text displayed inside the component when text is empty.
     ///   - trailingButtonImage: An optional image for the trailing button. The button is shown or hidden based on this value.
     ///   - delegate: The delegate of the `TextInputView`.
-    func configure(title: String, placeholder: String, trailingButtonImage: UIImage? = nil, delegate: TextInputViewDelegate?) {
-        self.delegate = delegate
+    func configure(title: String, placeholder: String, trailingButtonImage: UIImage? = nil) {
         titleLabel.text = title
         textField.placeholder = placeholder
         textField.delegate = self

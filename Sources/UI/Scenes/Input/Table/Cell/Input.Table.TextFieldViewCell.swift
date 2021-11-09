@@ -15,27 +15,27 @@ extension Input.Table {
         weak var delegate: InputCellDelegate?
 
         var model: (TextInputField & DefinesKeyboardStyle)!
-        let textField = MDCTextField()
+        let textInputView = TextInputView()
         let textFieldController: TextFieldController
 
         override init(frame: CGRect) {
-            textFieldController = .init(textField: textField)
+            textFieldController = .init(textInputView: textInputView)
 
             super.init(frame: frame)
 
             textFieldController.delegate = self
 
             // Add the text field to a view
-            contentView.addSubview(textField)
-            textField.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview(textInputView)
+            textInputView.translatesAutoresizingMaskIntoConstraints = false
 
-            let textFieldBottomAnchor = textField.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+            let textFieldBottomAnchor = textInputView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10)
             textFieldBottomAnchor.priority = .defaultHigh
 
             NSLayoutConstraint.activate([
-                textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                textField.topAnchor.constraint(equalTo: contentView.topAnchor),
+                textInputView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                textInputView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                textInputView.topAnchor.constraint(equalTo: contentView.topAnchor),
                 textFieldBottomAnchor
             ])
         }
@@ -44,19 +44,12 @@ extension Input.Table {
             fatalError("init(coder:) has not been implemented")
         }
 
-        override func tintColorDidChange() {
-            super.tintColorDidChange()
-            textField.tintColor = self.tintColor
-            textFieldController.setTintColor(to: tintColor)
-        }
-
         func configureTextField() {
-            textField.rightViewMode = .whileEditing
+
         }
 
         func configure(with model: CellRepresentable & TextInputField & DefinesKeyboardStyle) {
-            textField.rightViewMode = .whileEditing
-            textField.clearButtonMode = .whileEditing
+            textInputView.textField.clearButtonMode = .whileEditing
 
             self.model = model
             textFieldController.model = model
@@ -72,7 +65,7 @@ extension Input.Table.TextFieldViewCell {
 
     override func becomeFirstResponder() -> Bool {
         super.becomeFirstResponder()
-        return textField.becomeFirstResponder()
+        return textInputView.becomeFirstResponder()
     }
 }
 
