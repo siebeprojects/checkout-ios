@@ -22,7 +22,7 @@ extension Input {
 }
 
 extension Input.ImagesHeader: CellRepresentable {
-    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.ImagesView.self }
+    var cellType: (UICollectionViewCell & Dequeueable).Type { Input.Table.ImagesView.self }
 
     func configure(cell: UICollectionViewCell) {
         guard let imagesView = cell as? Input.Table.ImagesView else { return }

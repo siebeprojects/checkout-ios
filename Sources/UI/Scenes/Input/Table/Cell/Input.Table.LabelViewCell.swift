@@ -8,7 +8,7 @@ import UIKit
 
 extension Input.Table {
     /// Cell that represents a text label.
-    class LabelViewCell: UICollectionViewCell, DequeueableCell {
+    class LabelViewCell: UICollectionViewCell, Dequeueable {
         fileprivate let textView: UITextView
 
         override init(frame: CGRect) {

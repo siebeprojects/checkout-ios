@@ -12,7 +12,7 @@ private extension CGFloat {
 }
 
 extension Input.Table {
-    class DetailedTextLogoView: UICollectionViewCell, DequeueableCell {
+    class DetailedTextLogoView: UICollectionViewCell, Dequeueable {
         private let label: UILabel
         private let detailedLabel: UILabel
         private let logoView: UIImageView

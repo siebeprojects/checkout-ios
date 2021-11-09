@@ -31,7 +31,7 @@ extension Input {
 }
 
 extension Input.TextHeader: CellRepresentable {
-    var cellType: (UICollectionViewCell & DequeueableCell).Type {
+    var cellType: (UICollectionViewCell & Dequeueable).Type {
         if detailedLabel == nil {
             return Input.Table.LogoTextView.self
         } else {

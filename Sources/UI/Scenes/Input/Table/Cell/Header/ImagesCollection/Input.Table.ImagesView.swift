@@ -8,7 +8,7 @@
 import UIKit
 
 extension Input.Table {
-    class ImagesView: UICollectionViewCell, DequeueableCell {
+    class ImagesView: UICollectionViewCell, Dequeueable {
         private let collectionView: ImagesCollectionView
         private let collectionViewFlow = UICollectionViewFlowLayout()
         fileprivate let collectionController = ImagesCollectionViewController()

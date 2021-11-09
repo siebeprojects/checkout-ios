@@ -11,7 +11,7 @@ import UIKit
 protocol CellRepresentable: AnyObject {
     var isEnabled: Bool { get set }
 
-    var cellType: (UICollectionViewCell & DequeueableCell).Type { get }
+    var cellType: (UICollectionViewCell & Dequeueable).Type { get }
     func configure(cell: UICollectionViewCell) throws
 }
 
@@ -19,7 +19,7 @@ protocol CellRepresentable: AnyObject {
 
 // If model is `TextInputField` & `DefinesKeyboardStyle`
 extension CellRepresentable where Self: DefinesKeyboardStyle {
-    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.TextFieldViewCell.self }
+    var cellType: (UICollectionViewCell & Dequeueable).Type { Input.Table.TextFieldViewCell.self }
 
     func configure(cell: UICollectionViewCell) throws {
         guard let textFieldCell = cell as? Input.Table.TextFieldViewCell else { throw errorForIncorrectView(cell) }
