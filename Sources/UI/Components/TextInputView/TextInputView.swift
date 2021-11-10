@@ -149,30 +149,18 @@ extension TextInputView {
     private func layout() {
         backgroundColor = .clear
 
-        trailingButton.setContentHuggingPriority(.required, for: .horizontal)
-        trailingButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+        // Add tap gesture to entire view to facilitate interaction
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        addGestureRecognizer(tapGesture)
 
         let textFieldButtonStackView = UIStackView(arrangedSubviews: [textField, trailingButton])
+        textFieldButtonStackView.alignment = .center
+        textFieldButtonStackView.spacing = 4
 
-        textFieldContainerView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: 12, vertical: 0)
+        textFieldContainerView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: 12, vertical: 14)
         textFieldButtonStackView.translatesAutoresizingMaskIntoConstraints = false
         textFieldContainerView.addSubview(textFieldButtonStackView)
         textFieldButtonStackView.fitToSuperview(obeyMargins: true)
-
-        // Give the text field a minimum height to prevent it from shrinking to the trailing button's height
-        let minimumTextFieldHeight: CGFloat = 48
-
-        textFieldButtonStackView.addConstraint(
-            NSLayoutConstraint(
-                item: textFieldButtonStackView,
-                attribute: .height,
-                relatedBy: .greaterThanOrEqual,
-                toItem: nil,
-                attribute: .notAnAttribute,
-                multiplier: 1,
-                constant: minimumTextFieldHeight
-            )
-        )
 
         let stackView = UIStackView(arrangedSubviews: [titleLabel, textFieldContainerView, errorLabel])
         stackView.axis = .vertical
@@ -191,11 +179,15 @@ extension TextInputView {
     }
 
     @discardableResult override func becomeFirstResponder() -> Bool {
-        return textField.becomeFirstResponder()
+        textField.becomeFirstResponder()
     }
 
     @discardableResult override func resignFirstResponder() -> Bool {
         textField.resignFirstResponder()
+    }
+
+    @objc private func tapAction(_ sender: UITapGestureRecognizer) {
+        becomeFirstResponder()
     }
 
     @objc private func trailingButtonAction(_ sender: UIButton) {

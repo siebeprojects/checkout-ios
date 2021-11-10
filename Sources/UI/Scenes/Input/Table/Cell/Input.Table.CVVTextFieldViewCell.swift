@@ -24,7 +24,7 @@ extension Input.Table {
             fatalError("init(coder:) has not been implemented")
         }
 
-        @objc private func hintButtonAction(sender: UIButton) {
+        @objc private func hintButtonAction(_ sender: UIButton) {
             let tooltipVC = TooltipViewController()
 
             // Configure view controller
