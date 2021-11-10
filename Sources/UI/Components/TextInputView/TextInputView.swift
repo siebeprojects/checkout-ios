@@ -124,6 +124,7 @@ extension TextInputView {
         }()
 
         textFieldContainerView.layer.setBorderColor(configuration.borderColor, animated: animated)
+        textFieldContainerView.layer.setBorderWidth(configuration.borderColor == borderColorIdle ? 1 : 2, animated: animated)
         errorLabel.text = configuration.errorMessage
 
         let shouldHideError = configuration.errorMessage.isEmpty

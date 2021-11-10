@@ -8,15 +8,30 @@ import UIKit
 
 extension CALayer {
     func setBorderColor(_ color: UIColor, animated: Bool) {
-        if animated {
-            let animation = CABasicAnimation(keyPath: "borderColor")
-            animation.fromValue = borderColor
-            animation.toValue = color.cgColor
-            animation.duration = Constants.defaultAnimationDuration
+        guard animated else {
             borderColor = color.cgColor
-            add(animation, forKey: "borderColor")
-        } else {
-            borderColor = color.cgColor
+            return
         }
+
+        let animation = CABasicAnimation(keyPath: "borderColor")
+        animation.fromValue = borderColor
+        animation.toValue = color.cgColor
+        animation.duration = Constants.defaultAnimationDuration
+        borderColor = color.cgColor
+        add(animation, forKey: "borderColor")
+    }
+
+    func setBorderWidth(_ width: CGFloat, animated: Bool) {
+        guard animated else {
+            borderWidth = width
+            return
+        }
+
+        let animation = CABasicAnimation(keyPath: "borderWidth")
+        animation.fromValue = borderWidth
+        animation.toValue = width
+        animation.duration = Constants.defaultAnimationDuration
+        borderWidth = width
+        add(animation, forKey: "borderWidth")
     }
 }
