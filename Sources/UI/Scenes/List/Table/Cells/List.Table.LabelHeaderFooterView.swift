@@ -9,10 +9,15 @@ import UIKit
 extension List.Table {
     class LabelHeaderFooterView: UITableViewHeaderFooterView, Dequeueable {
         weak var label: UILabel?
+        private weak var spacer: UIView?
 
         override init(reuseIdentifier: String?) {
             super.init(reuseIdentifier: reuseIdentifier)
-            addLabelView()
+            let labelView = addLabelView()
+            self.label = labelView
+
+            let spacerView = addSpacerView(withTopAnchor: labelView.bottomAnchor)
+            self.spacer = spacerView
         }
 
         @available(*, unavailable)
@@ -20,7 +25,8 @@ extension List.Table {
             fatalError("init(coder:) has not been implemented")
         }
 
-        private func addLabelView() {
+        @discardableResult
+        private func addLabelView() -> UILabel {
             let label = UILabel(frame: .zero)
             label.numberOfLines = 0
             label.font = UIFont.preferredFont(forTextStyle: .caption2).withWeight(.light)
@@ -32,12 +38,28 @@ extension List.Table {
 
             NSLayoutConstraint.activate([
                 label.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
-                label.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
                 label.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
                 label.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             ])
 
-            self.label = label
+            return label
+        }
+
+        private func addSpacerView(withTopAnchor topAnchor: NSLayoutYAxisAnchor) -> UIView {
+            let spacer = UIView(frame: .zero)
+            contentView.addSubview(spacer)
+
+            spacer.translatesAutoresizingMaskIntoConstraints = false
+
+            NSLayoutConstraint.activate([
+                spacer.topAnchor.constraint(equalTo: topAnchor),
+                spacer.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+                spacer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                spacer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+                spacer.heightAnchor.constraint(equalToConstant: .verticalPadding)
+            ])
+
+            return spacer
         }
     }
 }
@@ -49,4 +71,9 @@ private extension UIFont {
         ])
         return UIFont(descriptor: newDescriptor, size: pointSize)
     }
+}
+
+private extension CGFloat {
+    /// Vertical padding after a footer view
+    static var verticalPadding: CGFloat { return 8 }
 }

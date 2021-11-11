@@ -26,7 +26,7 @@ extension List.Table {
 
             NSLayoutConstraint.activate([
                 textLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-                textLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: .topPadding),
+                textLabel.topAnchor.constraint(equalTo: self.topAnchor),
                 textLabel.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
                 textLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
             ])
@@ -36,9 +36,5 @@ extension List.Table {
             fatalError("init(coder:) has not been implemented")
         }
     }
-}
-
-private extension CGFloat {
-    static var topPadding: CGFloat { return 8 }
 }
 #endif
