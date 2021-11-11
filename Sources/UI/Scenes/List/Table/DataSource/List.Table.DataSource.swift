@@ -22,7 +22,8 @@ extension List.Table {
             
             if let presetAccount = presetAccount {
                 let row = PresetAccountRow(account: presetAccount)
-                sections.append(.preset(row: row))
+                let presetSection = Section.preset(row: row, footerText: presetAccount.warningText)
+                sections.append(presetSection)
             }
 
             // Fill accounts
@@ -69,7 +70,7 @@ extension List.Table {
 
         func logo(for indexPath: IndexPath) -> LoadableLogo? {
             switch sections[indexPath.section] {
-            case .preset(let presetRow): return presetRow
+            case .preset(let presetRow, _): return presetRow
             case .accounts(let accountRows): return accountRows[indexPath.row]
             case .networks(let networkRows): return networkRows[indexPath.row] as? LoadableLogo
             }
@@ -77,7 +78,7 @@ extension List.Table {
 
         func model(for indexPath: IndexPath) -> Model {
             switch sections[indexPath.section] {
-            case .preset(let presetRow): return .preset(presetRow.account)
+            case .preset(let presetRow, _): return .preset(presetRow.account)
             case .accounts(let accountRows): return .account(accountRows[indexPath.row].account)
             case .networks(let networkRows): return .network(networkRows[indexPath.row].networks)
             }
@@ -85,7 +86,7 @@ extension List.Table {
 
         func titleForFooter(inSection section: Int) -> String? {
             switch (sections[section], context.listOperationType) {
-            case (.preset, .PRESET): return translationProvider.translation(forKey: "networks.preset.conditional.text")
+            case (.preset(_, let footerText), .PRESET): return footerText
             default: return nil
             }
         }
@@ -133,7 +134,7 @@ extension List.Table.DataSource: UITableViewDataSource {
         let row: DequeuableRow
 
         switch sections[indexPath.section] {
-        case .preset(let presetRow): row = presetRow
+        case .preset(let presetRow, _): row = presetRow
         case .accounts(let rows): row = rows[indexPath.row]
         case .networks(let rows): row = rows[indexPath.row]
         }
@@ -146,7 +147,7 @@ extension List.Table.DataSource: UITableViewDataSource {
 
 extension List.Table.DataSource {
     fileprivate enum Section {
-        case preset(row: PresetAccountRow)
+        case preset(row: PresetAccountRow, footerText: String?)
         case accounts(rows: [RegisteredAccountRow])
         case networks(rows: [NetworkRow])
     }

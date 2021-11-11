@@ -22,7 +22,9 @@ extension UIModel {
                 .init(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator)
             }
 
-            /// Defined in https://optile.atlassian.net/browse/PCX-2012
+            // Registered accounts
+
+            // Defined in https://optile.atlassian.net/browse/PCX-2012
             let isDeletable: Bool = {
                 switch context.listOperationType {
                 case .UPDATE:
@@ -38,11 +40,24 @@ extension UIModel {
                 UIModel.RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator, isDeletable: isDeletable)
             }
 
+            // Preset account
             if let translatedPresetAccount = presetAccount {
-                self.presetAccount = PresetAccount(from: translatedPresetAccount.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: translatedPresetAccount.translator)
+                let warningText: String?
+                if Self.shouldDisplayWarningText(for: translatedPresetAccount.model) {
+                    warningText = translatedPresetAccount.translator.translation(forKey: "networks.preset.conditional.text")
+                } else {
+                    warningText = nil
+                }
+
+                self.presetAccount = PresetAccount(from: translatedPresetAccount.model, warningText: warningText, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: translatedPresetAccount.translator)
             } else {
                 self.presetAccount = nil
             }
+        }
+
+        /// - SeeAlso: Requirements defined in https://optile.atlassian.net/browse/PCX-995
+        private static func shouldDisplayWarningText(for presetAccount: PayoneerCheckout.PresetAccount) -> Bool {
+            return presetAccount.registered == true && presetAccount.autoRegistration == true && presetAccount.allowRecurrence == true
         }
     }
 }

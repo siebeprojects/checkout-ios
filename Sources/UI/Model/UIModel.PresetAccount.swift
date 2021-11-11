@@ -12,12 +12,14 @@ extension UIModel {
         let translation: TranslationProvider
 
         let networkLabel: String
+        let warningText: String?
         let submitButtonLabel: String
         var logo: Loadable<UIImage>?
 
-        init(from apiModel: PayoneerCheckout.PresetAccount, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
+        init(from apiModel: PayoneerCheckout.PresetAccount, warningText: String?, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
             self.apiModel = apiModel
             self.translation = localizer
+            self.warningText = warningText
 
             self.networkLabel = localizer.translation(forKey: "network.label")
             self.submitButtonLabel = localizer.translation(forKey: submitButtonLocalizationKey)
