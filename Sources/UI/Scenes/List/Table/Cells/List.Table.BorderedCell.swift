@@ -83,6 +83,7 @@ extension List.Table.BorderedCell {
             border?.backgroundColor = borderColor
         }
 
+        customAccessoryView.tintColor = borderColor
     }
 
     fileprivate func addBordersViews() {
@@ -166,7 +167,7 @@ extension List.Table.BorderedCell {
         let customAccessoryView = UIImageView(frame: .zero)
         customAccessoryView.contentMode = .scaleAspectFit
         customAccessoryView.image = AssetProvider.disclosureIndicator
-        customAccessoryView.tintColor = .themedTableBorder
+        customAccessoryView.tintColor = borderColor
         self.customAccessoryView = customAccessoryView
         customAccessoryView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(customAccessoryView)
