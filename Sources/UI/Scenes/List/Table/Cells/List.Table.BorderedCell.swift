@@ -17,7 +17,7 @@ extension List.Table {
 
         weak var customAccessoryView: UIView!
         weak var customContentView: UIView!
-        
+
         var borderColor: UIColor = .themedTableBorder {
             didSet { updateBorderAndSeparator() }
         }

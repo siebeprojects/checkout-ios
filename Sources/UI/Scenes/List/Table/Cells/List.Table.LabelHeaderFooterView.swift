@@ -39,7 +39,7 @@ extension List.Table {
             NSLayoutConstraint.activate([
                 label.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
                 label.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-                label.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+                label.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
             ])
 
             return label

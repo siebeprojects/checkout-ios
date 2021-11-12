@@ -19,7 +19,7 @@ extension List.Table {
             self.context = context
 
             var sections = [Section]()
-            
+
             if let presetAccount = presetAccount {
                 let row = PresetAccountRow(account: presetAccount)
                 let presetSection = Section.preset(row: row, footerText: presetAccount.warningText)
