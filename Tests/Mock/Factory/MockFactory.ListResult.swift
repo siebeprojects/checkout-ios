@@ -22,7 +22,7 @@ extension MockFactory.ListResult {
         }
 
         let context = UIModel.PaymentContext(operationType: .CHARGE, extraElements: nil)
-        return UIModel.PaymentSession(networks: translatedNetworks, accounts: nil, context: context, allowDelete: nil)
+        return UIModel.PaymentSession(networks: translatedNetworks, accounts: nil, presetAccount: nil, context: context, allowDelete: nil)
     }
 
     static var listResultData: Data {
