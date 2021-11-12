@@ -36,7 +36,7 @@ final class TextInputView: UIView {
     private let textFieldContainerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 4
-        view.layer.borderWidth = 2
+        view.layer.borderWidth = 1
         view.layer.borderColor = borderColorIdle.cgColor
         view.backgroundColor = containerBackgroundColor
         return view
