@@ -1,62 +1,5 @@
 PODS:
-  - MaterialComponents/AnimationTiming (124.1.1)
-  - MaterialComponents/Availability (124.1.1)
-  - MaterialComponents/Buttons (124.1.1):
-    - MaterialComponents/Elevation
-    - MaterialComponents/Ink
-    - MaterialComponents/private/Math
-    - MaterialComponents/Ripple
-    - MaterialComponents/ShadowElevations
-    - MaterialComponents/ShadowLayer
-    - MaterialComponents/ShapeLibrary
-    - MaterialComponents/Shapes
-    - MaterialComponents/Typography
-    - MDFInternationalization
-    - MDFTextAccessibility
-  - MaterialComponents/Elevation (124.1.1):
-    - MaterialComponents/Availability
-    - MaterialComponents/private/Color
-    - MaterialComponents/private/Math
-  - MaterialComponents/Ink (124.1.1):
-    - MaterialComponents/Availability
-    - MaterialComponents/private/Color
-    - MaterialComponents/private/Math
-  - MaterialComponents/Palettes (124.1.1)
-  - MaterialComponents/private/Application (124.1.1)
-  - MaterialComponents/private/Color (124.1.1):
-    - MaterialComponents/Availability
-  - MaterialComponents/private/Math (124.1.1)
-  - MaterialComponents/Ripple (124.1.1):
-    - MaterialComponents/AnimationTiming
-    - MaterialComponents/Availability
-    - MaterialComponents/private/Color
-    - MaterialComponents/private/Math
-  - MaterialComponents/ShadowElevations (124.1.1)
-  - MaterialComponents/ShadowLayer (124.1.1):
-    - MaterialComponents/ShadowElevations
-  - MaterialComponents/ShapeLibrary (124.1.1):
-    - MaterialComponents/private/Math
-    - MaterialComponents/Shapes
-  - MaterialComponents/Shapes (124.1.1):
-    - MaterialComponents/private/Color
-    - MaterialComponents/private/Math
-    - MaterialComponents/ShadowLayer
-  - MaterialComponents/TextFields (124.1.1):
-    - MaterialComponents/AnimationTiming
-    - MaterialComponents/Buttons
-    - MaterialComponents/Elevation
-    - MaterialComponents/Palettes
-    - MaterialComponents/private/Math
-    - MaterialComponents/Typography
-    - MDFInternationalization
-  - MaterialComponents/Typography (124.1.1):
-    - MaterialComponents/private/Application
-    - MaterialComponents/private/Math
-    - MDFTextAccessibility
-  - MDFInternationalization (2.0.0)
-  - MDFTextAccessibility (2.0.1)
-  - PayoneerCheckout (0.5.0):
-    - MaterialComponents/TextFields (= 124.1.1)
+  - PayoneerCheckout (0.5.0)
   - SwiftLint (0.43.1)
 
 DEPENDENCIES:
@@ -65,9 +8,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - MaterialComponents
-    - MDFInternationalization
-    - MDFTextAccessibility
     - SwiftLint
 
 EXTERNAL SOURCES:
@@ -75,10 +15,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MaterialComponents: b9f58f24bf74588a83b2dce05802a11aaed5257d
-  MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
-  MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
-  PayoneerCheckout: 1c638ab6f8ab1c895ec0e791baca88fc5911d26c
+  PayoneerCheckout: f5c9fa474ddfd9abf34571310280394a6a472d3f
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
 PODFILE CHECKSUM: 70b55256699128e9ac32ddad9f67af80b533eef3

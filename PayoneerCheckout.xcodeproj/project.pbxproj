@@ -16,7 +16,6 @@
 		07D87C2727302ED600AD61C4 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */; };
 		07D87C2B27302FD200AD61C4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2A27302FD200AD61C4 /* Constants.swift */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
-		D171739C205EC3E55EFF56B1 /* Pods_PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1034F946707DF3385D21E705 /* Pods_PayoneerCheckout.framework */; };
 		D90D215B26F9EF2C008925F9 /* Input.Field.Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D215A26F9EF2C008925F9 /* Input.Field.Identifier.swift */; };
 		D918A3F2254F205C005BBA8B /* ListResult.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F1254F205C005BBA8B /* ListResult.json */; };
 		D918A3F5254F2450005BBA8B /* NetworkLocalization.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F4254F2450005BBA8B /* NetworkLocalization.json */; };
@@ -257,9 +256,7 @@
 		07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
 		07D87C2A27302FD200AD61C4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		1034F946707DF3385D21E705 /* Pods_PayoneerCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PayoneerCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AA5EF5833CCFE9360C69E54 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		8077BD8BBF00C6DDCD134FA2 /* Pods-PayoneerCheckout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PayoneerCheckout.release.xcconfig"; path = "Target Support Files/Pods-PayoneerCheckout/Pods-PayoneerCheckout.release.xcconfig"; sourceTree = "<group>"; };
 		8AE876F2AB3608344995F5BC /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BF36E8A2FE025E51C137C45E /* Pods-Payoneer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payoneer.release.xcconfig"; path = "Target Support Files/Pods-Payoneer/Pods-Payoneer.release.xcconfig"; sourceTree = "<group>"; };
 		D90D215A26F9EF2C008925F9 /* Input.Field.Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.Field.Identifier.swift; sourceTree = "<group>"; };
@@ -485,7 +482,6 @@
 		E26E10762636A65B00D76D93 /* PaymentListViewController.ViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListViewController.ViewManager.swift; sourceTree = "<group>"; };
 		E2F3031D2635F8A100A38A97 /* PaymentListViewController.StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListViewController.StateManager.swift; sourceTree = "<group>"; };
 		E918DF5930A18AE9887BB63A /* Pods_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC1CB91EC930B1CBA1398C25 /* Pods-PayoneerCheckout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PayoneerCheckout.debug.xcconfig"; path = "Target Support Files/Pods-PayoneerCheckout/Pods-PayoneerCheckout.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -493,7 +489,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D171739C205EC3E55EFF56B1 /* Pods_PayoneerCheckout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,7 +537,6 @@
 			isa = PBXGroup;
 			children = (
 				E918DF5930A18AE9887BB63A /* Pods_Tests.framework */,
-				1034F946707DF3385D21E705 /* Pods_PayoneerCheckout.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1299,8 +1293,6 @@
 				8AE876F2AB3608344995F5BC /* Pods-Tests.release.xcconfig */,
 				04081EF4F12285ABCF79A364 /* Pods-Payoneer.debug.xcconfig */,
 				BF36E8A2FE025E51C137C45E /* Pods-Payoneer.release.xcconfig */,
-				FC1CB91EC930B1CBA1398C25 /* Pods-PayoneerCheckout.debug.xcconfig */,
-				8077BD8BBF00C6DDCD134FA2 /* Pods-PayoneerCheckout.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1322,7 +1314,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9C95749241C54CA00049AFE /* Build configuration list for PBXNativeTarget "PayoneerCheckout" */;
 			buildPhases = (
-				557A62C15D120866EC5811EF /* [CP] Check Pods Manifest.lock */,
 				D9C95730241C54CA00049AFE /* Headers */,
 				D9C95731241C54CA00049AFE /* Sources */,
 				D9C95732241C54CA00049AFE /* Frameworks */,
@@ -1346,7 +1337,6 @@
 				D9C9573A241C54CA00049AFE /* Sources */,
 				D9C9573B241C54CA00049AFE /* Frameworks */,
 				D9C9573C241C54CA00049AFE /* Resources */,
-				1EF227204CE60BFD93286C89 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1425,45 +1415,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1EF227204CE60BFD93286C89 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		557A62C15D120866EC5811EF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PayoneerCheckout-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A4968BC17107E055E3B2C988 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1870,7 +1821,6 @@
 		};
 		D9C9574A241C54CA00049AFE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC1CB91EC930B1CBA1398C25 /* Pods-PayoneerCheckout.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -1898,7 +1848,6 @@
 		};
 		D9C9574B241C54CA00049AFE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8077BD8BBF00C6DDCD134FA2 /* Pods-PayoneerCheckout.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;

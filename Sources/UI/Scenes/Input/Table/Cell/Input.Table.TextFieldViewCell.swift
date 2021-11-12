@@ -6,7 +6,6 @@
 
 #if canImport(UIKit)
 import UIKit
-import MaterialComponents.MaterialTextFields
 
 extension Input.Table {
     /// Cell that represents all text inputs, contains label and text field.

@@ -5,7 +5,6 @@
 // See the LICENSE file for more information.
 
 import UIKit
-import MaterialComponents.MaterialTextFields
 
 extension Input.Table {
     class CVVTextFieldViewCell: TextFieldViewCell, UIAdaptivePresentationControllerDelegate {
