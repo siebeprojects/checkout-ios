@@ -6,11 +6,11 @@
 
 import UIKit
 
-private let titleColor: UIColor = .darkGray
-private let borderColorIdle: UIColor = .gray
-private let borderColorDisabled: UIColor = .lightGray
-private let containerBackgroundColor: UIColor = .white
-private let textColor: UIColor = .black
+private let titleColor: UIColor = .themedText
+private let borderColorIdle: UIColor = .themedTableBorder
+private let borderColorDisabled: UIColor = borderColorIdle.withAlphaComponent(0.5)
+private let containerBackgroundColor: UIColor = .themedBackground
+private let textColor: UIColor = .themedText
 private let errorColor: UIColor = .themedError
 
 /// The text input component.
