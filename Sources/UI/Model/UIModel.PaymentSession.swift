@@ -57,7 +57,7 @@ extension UIModel {
 
         /// - SeeAlso: Requirements defined in https://optile.atlassian.net/browse/PCX-995
         private static func shouldDisplayWarningText(for presetAccount: PayoneerCheckout.PresetAccount) -> Bool {
-            return presetAccount.registered == true && presetAccount.autoRegistration == true && presetAccount.allowRecurrence == true
+            return presetAccount.registered == false && presetAccount.autoRegistration == false && presetAccount.allowRecurrence == false
         }
     }
 }
