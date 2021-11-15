@@ -103,13 +103,13 @@ extension List.Table {
 
             // Create a view
             if let additionalHeaderText = section.additionalHeaderText {
-                let view = tableView.dequeueReusableHeaderFooterView(List.Table.DetailedHeaderView.self)
+                let view = tableView.dequeueReusableHeaderFooterView(DetailedHeaderView.self)
                 view.primaryLabel.text = translationProvider.translation(forKey: labelTranslationKey)
                 view.secondaryLabel.text = additionalHeaderText
                 return view
             } else {
-                let view = List.Table.SectionHeader(frame: .zero)
-                view.textLabel?.text = translationProvider.translation(forKey: labelTranslationKey)
+                let view = tableView.dequeueReusableHeaderFooterView(LabelHeaderFooterView.self)
+                view.label.text = translationProvider.translation(forKey: labelTranslationKey)
                 return view
             }
         }

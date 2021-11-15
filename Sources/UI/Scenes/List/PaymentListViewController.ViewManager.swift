@@ -65,11 +65,9 @@ extension PaymentListViewController.ViewManager {
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
         methodsTableView.rowHeight = .rowHeight
+        registerViews(in: methodsTableView)
 
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
-        methodsTableView.register(List.Table.SingleLabelCell.self)
-        methodsTableView.register(List.Table.DetailedLabelCell.self)
-        methodsTableView.register(List.Table.DetailedHeaderView.self)
         view.addSubview(methodsTableView)
 
         NSLayoutConstraint.activate([
@@ -85,5 +83,12 @@ extension PaymentListViewController.ViewManager {
         vc.methodsTableView = methodsTableView
 
         return methodsTableView
+    }
+
+    private func registerViews(in tableView: UITableView) {
+        tableView.register(List.Table.SingleLabelCell.self)
+        tableView.register(List.Table.DetailedLabelCell.self)
+        tableView.register(List.Table.DetailedHeaderView.self)
+        tableView.register(List.Table.LabelHeaderFooterView.self)
     }
 }

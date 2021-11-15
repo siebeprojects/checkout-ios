@@ -32,6 +32,7 @@
 		D928CD8525B9F9B300DE602F /* BrowserDataBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */; };
 		D92DD12726FE25D400F4FFF3 /* WritableInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92DD12626FE25D400F4FFF3 /* WritableInputField.swift */; };
 		D934255D26814883008EB74A /* DeregistrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D934255C26814883008EB74A /* DeregistrationData.swift */; };
+		D937C4C52742B9BC00C69B56 /* List.Table.LabelHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D937C4C42742B9BC00C69B56 /* List.Table.LabelHeaderFooterView.swift */; };
 		D9396F42267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */; };
 		D96A4F46257D96EF00E74C8C /* Input.ViewController.StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */; };
 		D96A4F47257D96EF00E74C8C /* Input.NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4E7F257D96EE00E74C8C /* Input.NavigationController.swift */; };
@@ -106,7 +107,6 @@
 		D96A4F94257D96EF00E74C8C /* LoadableLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EDF257D96EE00E74C8C /* LoadableLogo.swift */; };
 		D96A4F95257D96EF00E74C8C /* List.Table.GroupingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE0257D96EE00E74C8C /* List.Table.GroupingService.swift */; };
 		D96A4F96257D96EF00E74C8C /* List.Table.Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE1257D96EE00E74C8C /* List.Table.Controller.swift */; };
-		D96A4F97257D96EF00E74C8C /* List.Table.SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE3257D96EE00E74C8C /* List.Table.SectionHeader.swift */; };
 		D96A4F98257D96EF00E74C8C /* List.Table.TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE4257D96EE00E74C8C /* List.Table.TableView.swift */; };
 		D96A4F99257D96EF00E74C8C /* String+removeCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE6257D96EE00E74C8C /* String+removeCharacters.swift */; };
 		D96A4F9A257D96EF00E74C8C /* Bool+stringValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96A4EE7257D96EE00E74C8C /* Bool+stringValue.swift */; };
@@ -276,6 +276,7 @@
 		D928CD8425B9F9B300DE602F /* BrowserDataBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserDataBuilder.swift; sourceTree = "<group>"; };
 		D92DD12626FE25D400F4FFF3 /* WritableInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritableInputField.swift; sourceTree = "<group>"; };
 		D934255C26814883008EB74A /* DeregistrationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeregistrationData.swift; sourceTree = "<group>"; };
+		D937C4C42742B9BC00C69B56 /* List.Table.LabelHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.LabelHeaderFooterView.swift; sourceTree = "<group>"; };
 		D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.OperationResultHandler.swift; sourceTree = "<group>"; };
 		D96A4E7E257D96EE00E74C8C /* Input.ViewController.StateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.ViewController.StateManager.swift; sourceTree = "<group>"; };
 		D96A4E7F257D96EE00E74C8C /* Input.NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Input.NavigationController.swift; sourceTree = "<group>"; };
@@ -350,7 +351,6 @@
 		D96A4EDF257D96EE00E74C8C /* LoadableLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadableLogo.swift; sourceTree = "<group>"; };
 		D96A4EE0257D96EE00E74C8C /* List.Table.GroupingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.GroupingService.swift; sourceTree = "<group>"; };
 		D96A4EE1257D96EE00E74C8C /* List.Table.Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.Controller.swift; sourceTree = "<group>"; };
-		D96A4EE3257D96EE00E74C8C /* List.Table.SectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.SectionHeader.swift; sourceTree = "<group>"; };
 		D96A4EE4257D96EE00E74C8C /* List.Table.TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.TableView.swift; sourceTree = "<group>"; };
 		D96A4EE6257D96EE00E74C8C /* String+removeCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+removeCharacters.swift"; sourceTree = "<group>"; };
 		D96A4EE7257D96EE00E74C8C /* Bool+stringValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bool+stringValue.swift"; sourceTree = "<group>"; };
@@ -842,6 +842,7 @@
 				D96A4EDC257D96EE00E74C8C /* List.Table.BorderedCell.swift */,
 				D96A4EDD257D96EE00E74C8C /* List.Table.DetailedLabelCell.swift */,
 				D9D067B12739EF04005F0E6B /* List.Table.DetailedHeaderView.swift */,
+				D937C4C42742B9BC00C69B56 /* List.Table.LabelHeaderFooterView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -849,7 +850,6 @@
 		D96A4EE2257D96EE00E74C8C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D96A4EE3257D96EE00E74C8C /* List.Table.SectionHeader.swift */,
 				D96A4EE4257D96EE00E74C8C /* List.Table.TableView.swift */,
 			);
 			path = Views;
@@ -1505,7 +1505,6 @@
 				D96A4FDD257D96EF00E74C8C /* SendRequestOperation.swift in Sources */,
 				D925E95D26D7C846007F8AC2 /* InteractionLocalizer.swift in Sources */,
 				D96A4FCC257D96EF00E74C8C /* ExtraElements.swift in Sources */,
-				D96A4F97257D96EF00E74C8C /* List.Table.SectionHeader.swift in Sources */,
 				D9CCE84D26D4BA16001B2498 /* Loggable.swift in Sources */,
 				D96A4FDB257D96EF00E74C8C /* AssetProvider.swift in Sources */,
 				D96A4F4B257D96EF00E74C8C /* ReplaceableString.swift in Sources */,
@@ -1621,6 +1620,7 @@
 				D96A4F6C257D96EF00E74C8C /* Input.Field.HolderName.swift in Sources */,
 				D96A4F69257D96EF00E74C8C /* Input.Field.Hidden.swift in Sources */,
 				D96A4F9A257D96EF00E74C8C /* Bool+stringValue.swift in Sources */,
+				D937C4C52742B9BC00C69B56 /* List.Table.LabelHeaderFooterView.swift in Sources */,
 				D96A4F99257D96EF00E74C8C /* String+removeCharacters.swift in Sources */,
 				D96A4FB1257D96EF00E74C8C /* PaymentService.swift in Sources */,
 				D96A4F65257D96EF00E74C8C /* Input.Table.DataSource.swift in Sources */,
