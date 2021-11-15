@@ -60,7 +60,7 @@ class CardsTests: NetworksTests {
 
         // Check input fields
         app.alerts.buttons.firstMatch.tap()
-        let nameTextField = app.collectionViews.textFields["Name on card"]
+        let nameTextField = app.collectionViews.textFields["e.g. John Doe"]
         XCTAssert(nameTextField.exists, "Couldn't find holder name input field")
         XCTAssertEqual(nameTextField.value as? String, visa.holderName, "Couldn't find previosly typed holder name")
     }
@@ -140,10 +140,10 @@ class CardsTests: NetworksTests {
 
         // Input
         let collectionViewsQuery = app.collectionViews
-        collectionViewsQuery.textFields["Card Number"].tap()
+        collectionViewsQuery.textFields["13 to 19 digits"].tap()
 
-        let clearButton = app.collectionViews.buttons["iconClear"]
-        let cardNumberTextField = collectionViewsQuery.textFields["Card Number"]
+        let clearButton = app.collectionViews.buttons["Clear text"]
+        let cardNumberTextField = collectionViewsQuery.textFields["13 to 19 digits"]
 
         XCTAssertFalse(clearButton.exists, "Clear button should be hidden")
 
@@ -151,7 +151,7 @@ class CardsTests: NetworksTests {
         XCTAssertTrue(clearButton.exists, "Clear button should be visible")
 
         clearButton.tap()
-        XCTAssertEqual(cardNumberTextField.value as? String, "", "Text wasn't cleared")
+        XCTAssertEqual(cardNumberTextField.value as? String, "13 to 19 digits", "Text wasn't cleared")
         XCTAssertFalse(clearButton.exists, "Clear button should be hidden")
     }
 }
