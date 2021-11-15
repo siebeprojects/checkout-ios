@@ -69,7 +69,7 @@ extension PaymentListViewController.ViewManager {
         methodsTableView.translatesAutoresizingMaskIntoConstraints = false
         methodsTableView.register(List.Table.SingleLabelCell.self)
         methodsTableView.register(List.Table.DetailedLabelCell.self)
-        methodsTableView.register(List.Table.LabelHeaderFooterView.self)
+        methodsTableView.register(List.Table.DetailedHeaderView.self)
         view.addSubview(methodsTableView)
 
         NSLayoutConstraint.activate([

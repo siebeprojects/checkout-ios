@@ -218,7 +218,7 @@
 		D9C861842737D4F8009D4332 /* UIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C861832737D4F8009D4332 /* UIModel.swift */; };
 		D9C9573F241C54CA00049AFE /* PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */; };
 		D9CCE84D26D4BA16001B2498 /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CCE84C26D4BA16001B2498 /* Loggable.swift */; };
-		D9D067B22739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D067B12739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift */; };
+		D9D067B22739EF04005F0E6B /* List.Table.DetailedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D067B12739EF04005F0E6B /* List.Table.DetailedHeaderView.swift */; };
 		D9D067B4273AC30A005F0E6B /* List.Table.DataSource.PresetAccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D067B3273AC30A005F0E6B /* List.Table.DataSource.PresetAccountRow.swift */; };
 		D9D067B6273AC311005F0E6B /* List.Table.DataSource.RegisteredAccountRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D067B5273AC311005F0E6B /* List.Table.DataSource.RegisteredAccountRow.swift */; };
 		D9D9A35825B087860072EE2E /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */; };
@@ -466,7 +466,7 @@
 		D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayoneerCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9CCE84C26D4BA16001B2498 /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
-		D9D067B12739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.LabelHeaderFooterView.swift; sourceTree = "<group>"; };
+		D9D067B12739EF04005F0E6B /* List.Table.DetailedHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.Table.DetailedHeaderView.swift; sourceTree = "<group>"; };
 		D9D067B3273AC30A005F0E6B /* List.Table.DataSource.PresetAccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.PresetAccountRow.swift; sourceTree = "<group>"; };
 		D9D067B5273AC311005F0E6B /* List.Table.DataSource.RegisteredAccountRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.Table.DataSource.RegisteredAccountRow.swift; sourceTree = "<group>"; };
 		D9D9A35725B087860072EE2E /* UserAgentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
@@ -840,8 +840,8 @@
 			children = (
 				D96A4EDB257D96EE00E74C8C /* List.Table.SingleLabelCell.swift */,
 				D96A4EDC257D96EE00E74C8C /* List.Table.BorderedCell.swift */,
-				D9D067B12739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift */,
 				D96A4EDD257D96EE00E74C8C /* List.Table.DetailedLabelCell.swift */,
+				D9D067B12739EF04005F0E6B /* List.Table.DetailedHeaderView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1586,7 +1586,7 @@
 				D96A4FB4257D96EF00E74C8C /* PaymentServiceParsedResponse.swift in Sources */,
 				D96A4F62257D96EF00E74C8C /* Input.Table.ImagesCollectionView.swift in Sources */,
 				D96A4FA7257D96EF00E74C8C /* PaymentSessionProvider.swift in Sources */,
-				D9D067B22739EF04005F0E6B /* List.Table.LabelHeaderFooterView.swift in Sources */,
+				D9D067B22739EF04005F0E6B /* List.Table.DetailedHeaderView.swift in Sources */,
 				D96A4F9B257D96EF00E74C8C /* mergeClosures.swift in Sources */,
 				D96A4FDA257D96EF00E74C8C /* InternalError.swift in Sources */,
 				D96A4F6A257D96EF00E74C8C /* Input.Field.AccountNumber.swift in Sources */,

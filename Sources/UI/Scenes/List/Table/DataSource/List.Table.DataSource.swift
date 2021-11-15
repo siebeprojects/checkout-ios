@@ -22,7 +22,7 @@ extension List.Table {
 
             if let presetAccount = presetAccount {
                 let row = PresetAccountRow(account: presetAccount)
-                let presetSection = Section.preset(row: row, footerText: presetAccount.warningText)
+                let presetSection = Section(rows: .preset(row), additionalHeaderText: presetAccount.warningText)
                 sections.append(presetSection)
             }
 
@@ -34,7 +34,7 @@ extension List.Table {
                     rows.append(row)
                 }
 
-                let accountSection = Section.accounts(rows: rows)
+                let accountSection = Section(rows: .accounts(rows), additionalHeaderText: nil)
                 sections.append(accountSection)
             }
 
@@ -55,12 +55,12 @@ extension List.Table {
                 }
             }
 
-            let networkSection = Section.networks(rows: networkRows)
+            let networkSection = Section(rows: .networks(networkRows), additionalHeaderText: nil)
             sections.append(networkSection)
 
             // Don't display empty sections
             self.sections = sections.filter {
-                switch $0 {
+                switch $0.rows {
                 case .preset: return true
                 case .accounts(let rows): return !rows.isEmpty
                 case .networks(let rows): return !rows.isEmpty
@@ -69,25 +69,48 @@ extension List.Table {
         }
 
         func logo(for indexPath: IndexPath) -> LoadableLogo? {
-            switch sections[indexPath.section] {
-            case .preset(let presetRow, _): return presetRow
+            switch sections[indexPath.section].rows {
+            case .preset(let presetRow): return presetRow
             case .accounts(let accountRows): return accountRows[indexPath.row]
             case .networks(let networkRows): return networkRows[indexPath.row] as? LoadableLogo
             }
         }
 
         func model(for indexPath: IndexPath) -> Model {
-            switch sections[indexPath.section] {
-            case .preset(let presetRow, _): return .preset(presetRow.account)
+            switch sections[indexPath.section].rows {
+            case .preset(let presetRow): return .preset(presetRow.account)
             case .accounts(let accountRows): return .account(accountRows[indexPath.row].account)
             case .networks(let networkRows): return .network(networkRows[indexPath.row].networks)
             }
         }
 
-        func titleForFooter(inSection section: Int) -> String? {
-            switch (sections[section], context.listOperationType) {
-            case (.preset(_, let footerText), .PRESET): return footerText
-            default: return nil
+        func viewForHeaderInSection(_ section: Int, in tableView: UITableView) -> UIView {
+            let section = sections[section]
+            let labelTranslationKey: String
+
+            switch (section.rows, context.listOperationType) {
+            case (.preset, .PRESET): labelTranslationKey = "networks.preset.title"
+            case (.preset, .CHARGE), (.preset, .UPDATE):
+                // Preset account couldn't appear in CHARGE and UPDATE flow
+                labelTranslationKey = ""
+            case (.accounts, .CHARGE): labelTranslationKey = "accounts.title"
+            case (.accounts, .UPDATE): labelTranslationKey = "accounts.update.title"
+            case (.accounts, .PRESET): labelTranslationKey = "accounts.title"
+            case (.networks, .CHARGE): labelTranslationKey = "networks.title"
+            case (.networks, .UPDATE): labelTranslationKey = "networks.update.title"
+            case (.networks, .PRESET): labelTranslationKey = "networks.title"
+            }
+
+            // Create a view
+            if let additionalHeaderText = section.additionalHeaderText {
+                let view = tableView.dequeueReusableHeaderFooterView(List.Table.DetailedHeaderView.self)
+                view.primaryLabel.text = translationProvider.translation(forKey: labelTranslationKey)
+                view.secondaryLabel.text = additionalHeaderText
+                return view
+            } else {
+                let view = List.Table.SectionHeader(frame: .zero)
+                view.textLabel?.text = translationProvider.translation(forKey: labelTranslationKey)
+                return view
             }
         }
     }
@@ -109,32 +132,18 @@ extension List.Table.DataSource: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch sections[section] {
+        switch sections[section].rows {
         case .preset: return 1
         case .accounts(let accounts): return accounts.count
         case .networks(let networks): return networks.count
         }
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch (sections[section], context.listOperationType) {
-        case (.preset, .PRESET): return translationProvider.translation(forKey: "networks.preset.title")
-        // Preset account couldn't appear in CHARGE and UPDATE flow
-        case (.preset, .CHARGE), (.preset, .UPDATE): return ""
-        case (.accounts, .CHARGE): return translationProvider.translation(forKey: "accounts.title")
-        case (.accounts, .UPDATE): return translationProvider.translation(forKey: "accounts.update.title")
-        case (.accounts, .PRESET): return translationProvider.translation(forKey: "accounts.title")
-        case (.networks, .CHARGE): return translationProvider.translation(forKey: "networks.title")
-        case (.networks, .UPDATE): return translationProvider.translation(forKey: "networks.update.title")
-        case (.networks, .PRESET): return translationProvider.translation(forKey: "networks.title")
-        }
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row: DequeuableRow
 
-        switch sections[indexPath.section] {
-        case .preset(let presetRow, _): row = presetRow
+        switch sections[indexPath.section].rows {
+        case .preset(let presetRow): row = presetRow
         case .accounts(let rows): row = rows[indexPath.row]
         case .networks(let rows): row = rows[indexPath.row]
         }
@@ -146,10 +155,15 @@ extension List.Table.DataSource: UITableViewDataSource {
 // MARK: - Table's model
 
 extension List.Table.DataSource {
-    fileprivate enum Section {
-        case preset(row: PresetAccountRow, footerText: String?)
-        case accounts(rows: [RegisteredAccountRow])
-        case networks(rows: [NetworkRow])
+    fileprivate struct Section {
+        let rows: Rows
+        let additionalHeaderText: String?
+    }
+
+    fileprivate enum Rows {
+        case preset(PresetAccountRow)
+        case accounts([RegisteredAccountRow])
+        case networks([NetworkRow])
     }
 }
 
