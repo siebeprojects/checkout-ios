@@ -7,7 +7,7 @@
 import UIKit
 
 private let titleColor: UIColor = .themedText
-private let borderColorIdle: UIColor = .themedTableBorder
+private let borderColorIdle: UIColor = titleColor
 private let borderColorDisabled: UIColor = borderColorIdle.withAlphaComponent(0.5)
 private let containerBackgroundColor: UIColor = .themedBackground
 private let textColor: UIColor = .themedText
