@@ -76,7 +76,10 @@ extension Input.Table.TextFieldController {
 
         textInputView.setStatus(model.isEnabled ? .normal : .disabled)
         textInputView.titleLabel.text = model.label
-        textInputView.textField.placeholder = model.placeholder
+        textInputView.textField.attributedPlaceholder = NSAttributedString(
+            string: model.placeholder,
+            attributes: [.foregroundColor: UIColor.themedDetailedText]
+        )
 
         if let contentType = model.contentType {
             textInputView.textField.textContentType = contentType
