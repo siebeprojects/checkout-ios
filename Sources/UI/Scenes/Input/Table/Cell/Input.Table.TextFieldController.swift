@@ -42,7 +42,7 @@ extension Input.Table {
 
             // Theming
             textInputView.textField.font = UIFont.preferredThemeFont(forTextStyle: .body)
-            textInputView.titleLabel.font = .preferredThemeFont(forTextStyle: .footnote)
+            textInputView.titleLabel.font = .preferredThemeFont(forTextStyle: .footnote).withWeight(.semibold)
             textInputView.errorLabel.font = .preferredThemeFont(forTextStyle: .caption2)
         }
 
@@ -229,5 +229,14 @@ private extension UITextField {
                 self.selectedTextRange = self.textRange(from: cursorLocation, to: cursorLocation)
             }
         }
+    }
+}
+
+extension UIFont {
+    func withWeight(_ weight: UIFont.Weight) -> UIFont {
+        let newDescriptor = fontDescriptor.addingAttributes([
+            .traits: [UIFontDescriptor.TraitKey.weight: weight]
+        ])
+        return UIFont(descriptor: newDescriptor, size: pointSize)
     }
 }
