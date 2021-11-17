@@ -41,7 +41,7 @@ extension Input.Table {
             textInputView.textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
 
             // Theming
-            textInputView.textField.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            textInputView.textField.font = .preferredThemeFont(forTextStyle: .body)
             textInputView.titleLabel.font = .preferredThemeFont(forTextStyle: .footnote).withWeight(.semibold)
             textInputView.errorLabel.font = .preferredThemeFont(forTextStyle: .caption2)
         }
