@@ -16,7 +16,7 @@ extension CALayer {
         let animation = CABasicAnimation(keyPath: "borderColor")
         animation.fromValue = borderColor
         animation.toValue = color.cgColor
-        animation.duration = Constants.defaultAnimationDuration
+        animation.duration = animationDuration
         borderColor = color.cgColor
         add(animation, forKey: "borderColor")
     }
@@ -30,7 +30,7 @@ extension CALayer {
         let animation = CABasicAnimation(keyPath: "borderWidth")
         animation.fromValue = borderWidth
         animation.toValue = width
-        animation.duration = Constants.defaultAnimationDuration
+        animation.duration = animationDuration
         borderWidth = width
         add(animation, forKey: "borderWidth")
     }

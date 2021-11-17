@@ -8,9 +8,11 @@ import UIKit
 
 // MARK: - Animation
 
+let animationDuration: TimeInterval = 0.3
+
 extension UIView {
     func animate(_ animations: @escaping () -> Void, completion: @escaping () -> Void = {}) {
-        animate(withDuration: Constants.defaultAnimationDuration, animations: animations, completion: completion)
+        animate(withDuration: animationDuration, animations: animations, completion: completion)
     }
 
     func animate(
