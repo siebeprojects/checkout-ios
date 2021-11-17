@@ -180,11 +180,11 @@ extension TextInputView {
     }
 
     @discardableResult override func becomeFirstResponder() -> Bool {
-        textField.becomeFirstResponder()
+        return textField.becomeFirstResponder()
     }
 
     @discardableResult override func resignFirstResponder() -> Bool {
-        textField.resignFirstResponder()
+        return textField.resignFirstResponder()
     }
 
     @objc private func tapAction(_ sender: UITapGestureRecognizer) {
