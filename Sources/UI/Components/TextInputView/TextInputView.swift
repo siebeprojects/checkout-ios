@@ -22,11 +22,8 @@ final class TextInputView: UIView {
         case disabled
     }
 
-    // TODO: This should be private and configured internally
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .footnote)
         label.textColor = titleColor
         label.numberOfLines = 0
         label.isUserInteractionEnabled = false
@@ -42,22 +39,15 @@ final class TextInputView: UIView {
         return view
     }()
 
-    // TODO: This should be private and configured internally
     let textField: UITextField = {
         let field = UITextField()
-        field.adjustsFontForContentSizeCategory = true
-        field.font = .preferredFont(forTextStyle: .body)
         field.textColor = textColor
-        field.placeholder = "Placeholder"
         field.clearButtonMode = .never
         return field
     }()
 
-    // TODO: This should be private and configured internally
     let errorLabel: UILabel = {
         let label = UILabel()
-        label.adjustsFontForContentSizeCategory = true
-        label.font = .preferredFont(forTextStyle: .caption2)
         label.textColor = errorColor
         label.numberOfLines = 0
         label.isUserInteractionEnabled = false
@@ -65,7 +55,6 @@ final class TextInputView: UIView {
         return label
     }()
 
-    // TODO: This should be private and configured internally
     let trailingButton: UIButton = {
         let button = UIButton(type: .system)
         button.isHidden = true
