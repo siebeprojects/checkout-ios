@@ -12,6 +12,8 @@ private let borderColorDisabled: UIColor = borderColorIdle.withAlphaComponent(0.
 private let containerBackgroundColor: UIColor = .themedBackground
 private let textColor: UIColor = .themedText
 private let errorColor: UIColor = .themedError
+private let borderWidthIdle: CGFloat = 1
+private let borderWidthHighlighted: CGFloat = 2
 
 /// The text input component.
 final class TextInputView: UIView {
@@ -33,7 +35,7 @@ final class TextInputView: UIView {
     private let textFieldContainerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 4
-        view.layer.borderWidth = 1
+        view.layer.borderWidth = borderWidthIdle
         view.layer.borderColor = borderColorIdle.cgColor
         view.backgroundColor = containerBackgroundColor
         return view
@@ -101,19 +103,31 @@ extension TextInputView {
     private func updateAppearance(animated: Bool) {
         // If a label is in a UIStackView and its text is set to nil, the label is automatically hidden by the UIStackView.
         // This mechanic breaks the show/hide animations being done here, therefore errorMessage can't be optional and an empty string is used instead.
-        let configuration: (borderColor: UIColor, errorMessage: String) = {
+        let configuration: (borderColor: UIColor, borderWidth: CGFloat, errorMessage: String) = {
             switch status {
             case .normal:
-                return (isFirstResponder ? tintColor : borderColorIdle, "")
+                return (
+                    borderColor: isFirstResponder ? tintColor : borderColorIdle,
+                    borderWidth: isFirstResponder ? borderWidthHighlighted : borderWidthIdle,
+                    errorMessage: ""
+                )
             case .error(let message):
-                return (errorColor, message)
+                return (
+                    borderColor: errorColor,
+                    borderWidth: borderWidthHighlighted,
+                    errorMessage: message
+                )
             case .disabled:
-                return (borderColorDisabled, "")
+                return (
+                    borderColor: borderColorDisabled,
+                    borderWidth: borderWidthIdle,
+                    errorMessage: ""
+                )
             }
         }()
 
         textFieldContainerView.layer.setBorderColor(configuration.borderColor, animated: animated)
-        textFieldContainerView.layer.setBorderWidth(configuration.borderColor == borderColorIdle ? 1 : 2, animated: animated)
+        textFieldContainerView.layer.setBorderWidth(configuration.borderWidth, animated: animated)
         errorLabel.text = configuration.errorMessage
 
         let shouldHideError = configuration.errorMessage.isEmpty
