@@ -147,7 +147,11 @@ class PaymentSessionProvider {
     }
 
     private func localize(filteredNetworks: SessionNetworks, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
-        let translationService = DownloadTranslationService(networks: filteredNetworks.applicableNetworks, accounts: filteredNetworks.accountRegistrations, presetAccount: filteredNetworks.presetAccount, sharedTranslation: sharedTranslationProvider)
+        let translationService = DownloadTranslationService(
+            networks: filteredNetworks.applicableNetworks,
+            accounts: filteredNetworks.accountRegistrations,
+            presetAccount: filteredNetworks.presetAccount,
+            sharedTranslation: sharedTranslationProvider)
 
         translationService.localize(using: connection, completion: completion)
     }
