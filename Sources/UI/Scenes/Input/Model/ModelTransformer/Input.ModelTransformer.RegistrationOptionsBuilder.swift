@@ -23,11 +23,10 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
     func createInternalModel(fromRegistration registration: ApplicableNetwork.RegistrationOption, reccurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
         switch listOperationType {
         case .CHARGE, .PRESET:
-            return try createInputFields(forChargeFlowUsingRegistration: registration, recurrence: reccurrence)
+            return try createInputFields(forDefaultFlowUserRegistration: registration, recurrence: reccurrence)
         case .UPDATE:
             return try createInputFields(forUpdateFlowUsingRegistration: registration, reccurrence: reccurrence)
         }
-
     }
 
     private var localizedRegistrationLabel: NSAttributedString {
@@ -35,7 +34,7 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         return NSAttributedString(string: localizedString)
     }
 
-    private func createInputFields(forChargeFlowUsingRegistration registration: ApplicableNetwork.RegistrationOption, recurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
+    private func createInputFields(forDefaultFlowUserRegistration registration: ApplicableNetwork.RegistrationOption, recurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
         switch (registration, recurrence) {
         case (.NONE, .NONE): return [InputField]()
         case (.FORCED, .NONE):
