@@ -20,7 +20,8 @@ class PresetAccount: NSObject, Decodable {
     let emptyForm: Bool
 
     /// Code of button-label for this preset account.
-//    let button: String?
+    /// - WARNING: Out of sync with optile.io's [documentation](https://www.optile.io/reference#operation/getPaymentSession).
+    let button: String?
 
     /// Redirect object to summary page of merchants web-site.
     let redirect: Redirect
