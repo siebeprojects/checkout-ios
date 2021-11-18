@@ -112,7 +112,7 @@ class PaymentSessionProvider {
         completion(.success(listResult))
     }
 
-    private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworks) -> Void)) {
+    private func filterUnsupportedNetworks(listResult: ListResult, completion: ((SessionNetworks) -> Void)) {
         // Filter networks unsupported by any of `PaymentService`
         var filteredPaymentNetworks = listResult.networks.applicable.filter { network in
             paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
@@ -138,16 +138,16 @@ class PaymentSessionProvider {
             filteredRegisteredNetworks = .init()
         }
 
-        let networks = APINetworks(
+        let filteredNetworks = SessionNetworks(
             applicableNetworks: filteredPaymentNetworks,
             accountRegistrations: filteredRegisteredNetworks,
             presetAccount: listResult.presetAccount)
 
-        completion(networks)
+        completion(filteredNetworks)
     }
 
-    private func localize(networks: APINetworks, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
-        let translationService = DownloadTranslationService(networks: networks.applicableNetworks, accounts: networks.accountRegistrations, presetAccount: networks.presetAccount, sharedTranslation: sharedTranslationProvider)
+    private func localize(filteredNetworks: SessionNetworks, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
+        let translationService = DownloadTranslationService(networks: filteredNetworks.applicableNetworks, accounts: filteredNetworks.accountRegistrations, presetAccount: filteredNetworks.presetAccount, sharedTranslation: sharedTranslationProvider)
 
         translationService.localize(using: connection, completion: completion)
     }
@@ -170,7 +170,7 @@ class PaymentSessionProvider {
     }
 }
 
-private struct APINetworks {
+private struct SessionNetworks {
     let applicableNetworks: [ApplicableNetwork]
     let accountRegistrations: [AccountRegistration]
     let presetAccount: PresetAccount?
