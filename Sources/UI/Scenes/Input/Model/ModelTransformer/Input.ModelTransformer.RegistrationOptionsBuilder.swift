@@ -10,9 +10,9 @@ extension Input.ModelTransformer {
     /// Builder responsible for making UI models from registration options.
     class RegistrationOptionsBuilder {
         let translator: TranslationProvider
-        let listOperationType: PaymentSession.Operation
+        let listOperationType: UIModel.PaymentSession.Operation
 
-        init(translator: TranslationProvider, listOperationType: PaymentSession.Operation) {
+        init(translator: TranslationProvider, listOperationType: UIModel.PaymentSession.Operation) {
             self.translator = translator
             self.listOperationType = listOperationType
         }
@@ -22,13 +22,11 @@ extension Input.ModelTransformer {
 extension Input.ModelTransformer.RegistrationOptionsBuilder {
     func createInternalModel(fromRegistration registration: ApplicableNetwork.RegistrationOption, reccurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
         switch listOperationType {
-        // That case applies to PRESET flow as well when it will be supported
-        case .CHARGE:
-            return try createInputFields(forChargeFlowUsingRegistration: registration, recurrence: reccurrence)
+        case .CHARGE, .PRESET:
+            return try createInputFields(forDefaultFlowUserRegistration: registration, recurrence: reccurrence)
         case .UPDATE:
             return try createInputFields(forUpdateFlowUsingRegistration: registration, reccurrence: reccurrence)
         }
-
     }
 
     private var localizedRegistrationLabel: NSAttributedString {
@@ -36,7 +34,7 @@ extension Input.ModelTransformer.RegistrationOptionsBuilder {
         return NSAttributedString(string: localizedString)
     }
 
-    private func createInputFields(forChargeFlowUsingRegistration registration: ApplicableNetwork.RegistrationOption, recurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
+    private func createInputFields(forDefaultFlowUserRegistration registration: ApplicableNetwork.RegistrationOption, recurrence: ApplicableNetwork.RegistrationOption) throws -> [InputField] {
         switch (registration, recurrence) {
         case (.NONE, .NONE): return [InputField]()
         case (.FORCED, .NONE):

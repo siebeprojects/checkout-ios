@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 protocol ListTableControllerDelegate: AnyObject {
-    func didSelect(paymentNetworks: [PaymentNetwork], context: PaymentContext)
-    func didSelect(registeredAccount: RegisteredAccount, context: PaymentContext)
+    func didSelect(paymentNetworks: [UIModel.PaymentNetwork], context: UIModel.PaymentContext)
+    func didSelect(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext)
     func didRefreshRequest()
 
     var downloadProvider: DataDownloadProvider { get }
@@ -30,12 +30,12 @@ extension List.Table {
         fileprivate let isRefreshable: Bool
         fileprivate var refreshControl: UIRefreshControl?
 
-        init(session: PaymentSession, translationProvider: SharedTranslationProvider) throws {
+        init(session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider) throws {
             guard let genericLogo = AssetProvider.iconCard else {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }
 
-            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, translation: translationProvider, genericLogo: genericLogo, context: session.context)
+            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, presetAccount: session.presetAccount, translation: translationProvider, genericLogo: genericLogo, context: session.context)
 
             switch session.context.listOperationType {
             case .UPDATE: isRefreshable = true
@@ -46,6 +46,7 @@ extension List.Table {
         fileprivate func loadLogo(for indexPath: IndexPath) {
             let models: [ContainsLoadableImage]
             switch dataSource.model(for: indexPath) {
+            case .preset(let presetAccount): models = [presetAccount]
             case .account(let account): models = [account]
             case .network(let networks): models = networks
             }
@@ -96,6 +97,9 @@ extension List.Table.Controller: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch dataSource.model(for: indexPath) {
+        case .preset:
+            // TODO: Perform action on selection in other ticket
+            return
         case .account(let account): delegate?.didSelect(registeredAccount: account, context: dataSource.context)
         case .network(let networks): delegate?.didSelect(paymentNetworks: networks, context: dataSource.context)
         }
@@ -104,9 +108,7 @@ extension List.Table.Controller: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = List.Table.SectionHeader(frame: .zero)
-        view.textLabel?.text = tableView.dataSource?.tableView?(tableView, titleForHeaderInSection: section)
-        return view
+        return dataSource.viewForHeaderInSection(section, in: tableView)
     }
 }
 #endif

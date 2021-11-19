@@ -31,7 +31,7 @@ extension Input.Field.Checkbox: WritableInputField {
 }
 
 extension Input.Field.Checkbox: CellRepresentable {
-    var cellType: (UICollectionViewCell & DequeueableCell).Type { Input.Table.CheckboxViewCell.self }
+    var cellType: (UICollectionViewCell & Dequeueable).Type { Input.Table.CheckboxViewCell.self }
 
     func configure(cell: UICollectionViewCell) throws {
         guard let checkboxViewCell = cell as? Input.Table.CheckboxViewCell else { throw errorForIncorrectView(cell) }

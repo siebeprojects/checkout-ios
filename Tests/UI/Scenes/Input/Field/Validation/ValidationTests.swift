@@ -49,7 +49,7 @@ class ValidationTests: XCTestCase {
 
             let inputElement = InputElement(name: inputElementWithRules.name, type: "")
             let applicableNetwork = ApplicableNetwork(code: networkCode, label: "", method: method, grouping: "", registration: .NONE, recurrence: .NONE, redirect: false, inputElements: [inputElement], links: ["operation": URL(string: "https://example.com")!], operationType: "CHARGE")
-            let paymentNetwork = PaymentNetwork(from: applicableNetwork, submitButtonLocalizationKey: "", localizeUsing: translationProvider)
+            let paymentNetwork = UIModel.PaymentNetwork(from: applicableNetwork, submitButtonLocalizationKey: "", localizeUsing: translationProvider)
             let testableInputElement = TestableInputElement(name: inputElementWithRules.name, network: paymentNetwork, testCases: inputElementWithRules.tests)
             networks.append(testableInputElement)
         }
@@ -58,12 +58,12 @@ class ValidationTests: XCTestCase {
     }
 
     private class TestableInputElement {
-        let network: PaymentNetwork
+        let network: UIModel.PaymentNetwork
         let name: String
         let testCases: [MockFactory.Validation.InputElementTestCase]
 
         func test(within activity: XCTActivity) {
-            let context = PaymentContext(operationType: .CHARGE, extraElements: nil)
+            let context = UIModel.PaymentContext(operationType: .CHARGE, extraElements: nil)
             let transformer = Input.ModelTransformer(paymentContext: context)
             let inputNetwork = try! transformer.transform(paymentNetwork: network)
 
@@ -107,7 +107,7 @@ class ValidationTests: XCTestCase {
             }
         }
 
-        init(name: String, network: PaymentNetwork, testCases: [MockFactory.Validation.InputElementTestCase]) {
+        init(name: String, network: UIModel.PaymentNetwork, testCases: [MockFactory.Validation.InputElementTestCase]) {
             self.name = name
             self.network = network
             self.testCases = testCases

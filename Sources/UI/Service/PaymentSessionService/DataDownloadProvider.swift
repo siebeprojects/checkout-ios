@@ -60,14 +60,21 @@ protocol ContainsLoadableImage: AnyObject {
     var loadable: Loadable<UIImage>? { get set }
 }
 
-extension PaymentNetwork: ContainsLoadableImage {
+extension UIModel.PresetAccount: ContainsLoadableImage {
     var loadable: Loadable<UIImage>? {
         get { logo }
         set { logo = newValue }
     }
 }
 
-extension RegisteredAccount: ContainsLoadableImage {
+extension UIModel.PaymentNetwork: ContainsLoadableImage {
+    var loadable: Loadable<UIImage>? {
+        get { logo }
+        set { logo = newValue }
+    }
+}
+
+extension UIModel.RegisteredAccount: ContainsLoadableImage {
     var loadable: Loadable<UIImage>? {
         get { logo }
         set { logo = newValue }

@@ -13,6 +13,7 @@ extension Theme {
             backgroundColor: .white,
             tableBorder: .init(red: 0.56, green: 0.58, blue: 0.60, alpha: 1),
             tableCellSeparator: .init(red: 0.94, green: 0.95, blue: 0.95, alpha: 1),
+            tablePresetBordersColor: .init(red: 0, green: 0.26, blue: 0.67, alpha: 1),
             textColor: .init(red: 0.2, green: 0.2, blue: 0.2, alpha: 1),
             detailTextColor: .init(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.8),
             buttonTextColor: .white,

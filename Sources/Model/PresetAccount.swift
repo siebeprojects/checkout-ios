@@ -20,11 +20,27 @@ class PresetAccount: NSObject, Decodable {
     let emptyForm: Bool
 
     /// Code of button-label for this preset account.
-    let button: String
+    /// - WARNING: Out of sync with optile.io's [documentation](https://www.optile.io/reference#operation/getPaymentSession).
+    let button: String?
 
     /// Redirect object to summary page of merchants web-site.
     let redirect: Redirect
 
+    /// Indicates payment method this preset account belongs to.
+    let operationType: String
+
+    /// The deferred behavior of the payment network. See [Deferred Payments](https://www.optile.io/opg#285066) for more details.
+    let deferral: String?
+
     /// Map of public available contract data from the first possible route for this preset account.
 //    let contractData: String?
+
+    /// Indicates whether this preset account is based on already registered network or not
+    let registered: Bool?
+
+    /// Indicates the end-customer choice for storing his payment method
+    let autoRegistration: Bool?
+
+    /// Indicates the end-customer choice for storing his payment method for recurring charges
+    let allowRecurrence: Bool?
 }

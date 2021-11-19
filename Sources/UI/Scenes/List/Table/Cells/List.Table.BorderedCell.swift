@@ -18,8 +18,12 @@ extension List.Table {
         weak var customAccessoryView: UIView!
         weak var customContentView: UIView!
 
+        var borderColor: UIColor = .themedTableBorder {
+            didSet { updateBorderAndSeparator() }
+        }
+
         var cellIndex: CellIndex = .middle {
-            didSet { cellIndexDidChange() }
+            didSet { updateBorderAndSeparator() }
         }
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -53,11 +57,12 @@ extension List.Table.BorderedCell {
 // MARK: - Views
 
 extension List.Table.BorderedCell {
-    fileprivate func cellIndexDidChange() {
+    fileprivate func updateBorderAndSeparator() {
+        // Update top and bottom borders
         switch cellIndex {
         case .first:
-            topBorder.backgroundColor = .themedTableBorder
-            bottomBorder.backgroundColor = .themedTableBorder
+            topBorder.backgroundColor = borderColor
+            bottomBorder.backgroundColor = borderColor
             bottomBorder.isHidden = true
         case .middle:
             topBorder.backgroundColor = .themedTableCellSeparator
@@ -65,13 +70,20 @@ extension List.Table.BorderedCell {
             bottomBorder.isHidden = true
         case .last:
             topBorder.backgroundColor = .themedTableCellSeparator
-            bottomBorder.backgroundColor = .themedTableBorder
+            bottomBorder.backgroundColor = borderColor
             bottomBorder.isHidden = false
         case .singleCell:
-            topBorder.backgroundColor = .themedTableBorder
-            bottomBorder.backgroundColor = .themedTableBorder
+            topBorder.backgroundColor = borderColor
+            bottomBorder.backgroundColor = borderColor
             bottomBorder.isHidden = false
         }
+
+        // Update left and right borders
+        for border in [leftBorder, rightBorder] {
+            border?.backgroundColor = borderColor
+        }
+
+        customAccessoryView.tintColor = borderColor
     }
 
     fileprivate func addBordersViews() {
@@ -90,7 +102,7 @@ extension List.Table.BorderedCell {
 
         for border in [leftBorder, rightBorder, topBorder, bottomBorder] {
             border.translatesAutoresizingMaskIntoConstraints = false
-            border.backgroundColor = .themedTableBorder
+            border.backgroundColor = borderColor
             contentView.addSubview(border)
         }
 
@@ -155,7 +167,7 @@ extension List.Table.BorderedCell {
         let customAccessoryView = UIImageView(frame: .zero)
         customAccessoryView.contentMode = .scaleAspectFit
         customAccessoryView.image = AssetProvider.disclosureIndicator
-        customAccessoryView.tintColor = .themedTableBorder
+        customAccessoryView.tintColor = borderColor
         self.customAccessoryView = customAccessoryView
         customAccessoryView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(customAccessoryView)

@@ -20,7 +20,7 @@ extension Input {
         }
 
         /// Initializes header with transformed label and detailed label from `maskedAccount` data.
-        convenience init(from registeredAccount: RegisteredAccount) {
+        convenience init(from registeredAccount: UIModel.RegisteredAccount) {
             self.init(logo: registeredAccount.logo?.value, label: registeredAccount.maskedAccountLabel)
 
             if let expiryMonth = registeredAccount.apiModel.maskedAccount.expiryMonth, let expiryYear = registeredAccount.apiModel.maskedAccount.expiryYear {
@@ -31,7 +31,7 @@ extension Input {
 }
 
 extension Input.TextHeader: CellRepresentable {
-    var cellType: (UICollectionViewCell & DequeueableCell).Type {
+    var cellType: (UICollectionViewCell & Dequeueable).Type {
         if detailedLabel == nil {
             return Input.Table.LogoTextView.self
         } else {

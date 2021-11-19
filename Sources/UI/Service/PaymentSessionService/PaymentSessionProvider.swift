@@ -22,7 +22,7 @@ class PaymentSessionProvider {
         self.paymentServicesFactory = paymentServicesFactory
     }
 
-    func loadPaymentSession(completion: @escaping ((Load<PaymentSession, Error>) -> Void)) {
+    func loadPaymentSession(completion: @escaping ((Load<UIModel.PaymentSession, Error>) -> Void)) {
         completion(.loading)
 
         let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
@@ -112,9 +112,7 @@ class PaymentSessionProvider {
         completion(.success(listResult))
     }
 
-    private typealias APINetworksTuple = (applicableNetworks: [ApplicableNetwork], accountRegistrations: [AccountRegistration])
-
-    private func filterUnsupportedNetworks(listResult: ListResult, completion: ((APINetworksTuple) -> Void)) {
+    private func filterUnsupportedNetworks(listResult: ListResult, completion: ((SessionNetworks) -> Void)) {
         // Filter networks unsupported by any of `PaymentService`
         var filteredPaymentNetworks = listResult.networks.applicable.filter { network in
             paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
@@ -140,28 +138,44 @@ class PaymentSessionProvider {
             filteredRegisteredNetworks = .init()
         }
 
-        completion((filteredPaymentNetworks, filteredRegisteredNetworks))
+        let filteredNetworks = SessionNetworks(
+            applicableNetworks: filteredPaymentNetworks,
+            accountRegistrations: filteredRegisteredNetworks,
+            presetAccount: listResult.presetAccount)
+
+        completion(filteredNetworks)
     }
 
-    private func localize(tuple: APINetworksTuple, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
-        let translationService = DownloadTranslationService(networks: tuple.applicableNetworks, accounts: tuple.accountRegistrations, sharedTranslation: sharedTranslationProvider)
+    private func localize(filteredNetworks: SessionNetworks, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
+        let translationService = DownloadTranslationService(
+            networks: filteredNetworks.applicableNetworks,
+            accounts: filteredNetworks.accountRegistrations,
+            presetAccount: filteredNetworks.presetAccount,
+            sharedTranslation: sharedTranslationProvider)
+
         translationService.localize(using: connection, completion: completion)
     }
 
     // MARK: - Synchronous methods
 
-    private func createPaymentSession(from translations: DownloadTranslationService.Translations) throws -> PaymentSession {
+    private func createPaymentSession(from translations: DownloadTranslationService.Translations) throws -> UIModel.PaymentSession {
         guard let operationType = listResult?.operationType else {
             throw InternalError(description: "Operation type or ListResult is not defined")
         }
 
         // PaymentSession.Operation contains only supported operation types by the framework
-        guard let operation = PaymentSession.Operation(rawValue: operationType) else {
+        guard let operation = UIModel.PaymentSession.Operation(rawValue: operationType) else {
             throw InternalError(description: "Operation type is not known or supported: %@", operationType)
         }
 
-        let context = PaymentContext(operationType: operation, extraElements: listResult?.extraElements)
+        let context = UIModel.PaymentContext(operationType: operation, extraElements: listResult?.extraElements)
 
-        return .init(networks: translations.networks, accounts: translations.accounts, context: context, allowDelete: listResult?.allowDelete)
+        return .init(networks: translations.networks, accounts: translations.accounts, presetAccount: translations.presetAccount, context: context, allowDelete: listResult?.allowDelete)
     }
+}
+
+private struct SessionNetworks {
+    let applicableNetworks: [ApplicableNetwork]
+    let accountRegistrations: [AccountRegistration]
+    let presetAccount: PresetAccount?
 }

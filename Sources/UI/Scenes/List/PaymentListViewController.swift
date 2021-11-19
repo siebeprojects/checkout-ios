@@ -84,7 +84,7 @@ extension PaymentListViewController {
         sessionService.loadPaymentSession()
     }
 
-    fileprivate func show(paymentNetworks: [PaymentNetwork], context: PaymentContext, animated: Bool) {
+    fileprivate func show(paymentNetworks: [UIModel.PaymentNetwork], context: UIModel.PaymentContext, animated: Bool) {
         do {
             if #available(iOS 14.0, *) {
                 let paymentNetworkNames = paymentNetworks.map { $0.label }
@@ -102,7 +102,7 @@ extension PaymentListViewController {
         }
     }
 
-    fileprivate func show(registeredAccount: RegisteredAccount, context: PaymentContext, animated: Bool) {
+    fileprivate func show(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext, animated: Bool) {
         do {
             if #available(iOS 14.0, *) {
                 logger.debug("Requested to show a registered account for the network: \(registeredAccount.networkLabel, privacy: .private)")
@@ -123,7 +123,7 @@ extension PaymentListViewController {
 // MARK: - PaymentSessionServiceDelegate
 
 extension PaymentListViewController: PaymentSessionServiceDelegate {
-    func paymentSessionService(loadingDidCompleteWith result: Load<PaymentSession, ErrorInfo>) {
+    func paymentSessionService(loadingDidCompleteWith result: Load<UIModel.PaymentSession, ErrorInfo>) {
         self.title = self.sharedTranslationProvider.translation(forKey: "paymentpage.title")
 
         switch result {
@@ -151,7 +151,7 @@ extension PaymentListViewController: PaymentSessionServiceDelegate {
         }
     }
 
-    func paymentSessionService(shouldSelect network: PaymentNetwork, context: PaymentContext) {
+    func paymentSessionService(shouldSelect network: UIModel.PaymentNetwork, context: UIModel.PaymentContext) {
         DispatchQueue.main.async {
             self.show(paymentNetworks: [network], context: context, animated: false)
         }
@@ -163,11 +163,11 @@ extension PaymentListViewController: PaymentSessionServiceDelegate {
 extension PaymentListViewController: ListTableControllerDelegate {
     var downloadProvider: DataDownloadProvider { sessionService.downloadProvider }
 
-    func didSelect(paymentNetworks: [PaymentNetwork], context: PaymentContext) {
+    func didSelect(paymentNetworks: [UIModel.PaymentNetwork], context: UIModel.PaymentContext) {
         show(paymentNetworks: paymentNetworks, context: context, animated: true)
     }
 
-    func didSelect(registeredAccount: RegisteredAccount, context: PaymentContext) {
+    func didSelect(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext) {
         show(registeredAccount: registeredAccount, context: context, animated: true)
     }
 

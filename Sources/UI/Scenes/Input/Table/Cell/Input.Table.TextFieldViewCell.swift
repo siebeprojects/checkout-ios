@@ -10,7 +10,7 @@ import UIKit
 extension Input.Table {
     /// Cell that represents all text inputs, contains label and text field.
     /// Upon some actions calls `delegate`, don't forget to set it.
-    class TextFieldViewCell: UICollectionViewCell, DequeueableCell, ContainsInputCellDelegate {
+    class TextFieldViewCell: UICollectionViewCell, Dequeueable, ContainsInputCellDelegate {
         weak var delegate: InputCellDelegate?
 
         var model: (TextInputField & DefinesKeyboardStyle)!

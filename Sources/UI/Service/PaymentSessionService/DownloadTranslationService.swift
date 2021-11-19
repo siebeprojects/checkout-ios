@@ -10,23 +10,27 @@ import Foundation
 final class DownloadTranslationService {
     private let networks: [ApplicableNetwork]
     private let accounts: [AccountRegistration]
+    private let presetAccount: PresetAccount?
     private let sharedTranslationProvider: TranslationProvider
 
     private let localizationQueue = OperationQueue()
 
     private var downloadNetworkOperations = [DownloadTranslationOperation<ApplicableNetwork>]()
     private var downloadAccountsOperations = [DownloadTranslationOperation<AccountRegistration>]()
+    private var downloadPresetAccountOperation: DownloadTranslationOperation<PresetAccount>?
 
     // MARK: Output
 
     class Translations {
         fileprivate(set) var networks: [TranslatedModel<ApplicableNetwork>] = .init()
         fileprivate(set) var accounts: [TranslatedModel<AccountRegistration>] = .init()
+        fileprivate(set) var presetAccount: TranslatedModel<PresetAccount>?
     }
 
-    init(networks: [ApplicableNetwork], accounts: [AccountRegistration], sharedTranslation: SharedTranslationProvider) {
+    init(networks: [ApplicableNetwork], accounts: [AccountRegistration], presetAccount: PresetAccount?, sharedTranslation: SharedTranslationProvider) {
         self.networks = networks
         self.accounts = accounts
+        self.presetAccount = presetAccount
         self.sharedTranslationProvider = sharedTranslation
     }
 
@@ -64,6 +68,13 @@ final class DownloadTranslationService {
                 completionOperation.addDependency(downloadTranslation)
                 localizationQueue.addOperation(downloadTranslation)
             }
+
+            if let presetAccount = presetAccount {
+                let downloadTranslation = try DownloadTranslationOperation(for: presetAccount, using: connection)
+                downloadPresetAccountOperation = downloadTranslation
+                completionOperation.addDependency(downloadTranslation)
+                localizationQueue.addOperation(downloadTranslation)
+            }
         } catch {
             localizationQueue.cancelAllOperations()
             completion(.failure(error))
@@ -78,36 +89,37 @@ final class DownloadTranslationService {
         let translations = Translations()
 
         for operation in downloadNetworkOperations {
-            switch operation.result {
-            case .some(.success(let translation)):
-                let combinedProvider = CombinedTranslationProvider(priorityTranslation: translation, otherProvider: sharedTranslationProvider)
-                let translatedNetwork = TranslatedModel(model: operation.model, translator: combinedProvider)
-                translations.networks.append(translatedNetwork)
-            case .some(.failure(let error)):
-                // If translation wasn't downloaded don't proceed anymore, throw an error and exit
-                throw error
-            case .none:
-                // Should never happen, but if...
-                throw InternalError(description: "Download localization operation wasn't completed")
-            }
+            let translatedNetwork = try createTranslatedModel(fromDownloadTranslationResult: operation.result, for: operation.model)
+            translations.networks.append(translatedNetwork)
         }
 
         for operation in downloadAccountsOperations {
-            switch operation.result {
-            case .some(.success(let translation)):
-                let combinedProvider = CombinedTranslationProvider(priorityTranslation: translation, otherProvider: sharedTranslationProvider)
-                let translatedAccount = TranslatedModel(model: operation.model, translator: combinedProvider)
-                translations.accounts.append(translatedAccount)
-            case .some(.failure(let error)):
-                // If translation wasn't downloaded don't proceed anymore, throw an error and exit
-                throw error
-            case .none:
-                // Should never happen, but if...
-                throw InternalError(description: "Download localization operation wasn't completed")
-            }
+            let translatedAccount = try createTranslatedModel(fromDownloadTranslationResult: operation.result, for: operation.model)
+            translations.accounts.append(translatedAccount)
+        }
+
+        if let downloadPresetAccountOperation = downloadPresetAccountOperation {
+            let translatedPresetAccount = try createTranslatedModel(fromDownloadTranslationResult: downloadPresetAccountOperation.result, for: downloadPresetAccountOperation.model)
+            translations.presetAccount = translatedPresetAccount
         }
 
         return translations
+    }
+
+    /// Create `TranslatedModel` from download translation result provided by `DownloadTranslationOperation`
+    private func createTranslatedModel<T>(fromDownloadTranslationResult result: Result<[String: String], Error>?, for model: T) throws -> TranslatedModel<T> {
+        switch result {
+        case .some(.success(let translation)):
+            let combinedProvider = CombinedTranslationProvider(priorityTranslation: translation, otherProvider: sharedTranslationProvider)
+            let translatedNetwork = TranslatedModel(model: model, translator: combinedProvider)
+            return translatedNetwork
+        case .some(.failure(let error)):
+            // If translation wasn't downloaded don't proceed anymore, throw an error and exit
+            throw error
+        case .none:
+            // Should never happen, but if...
+            throw InternalError(description: "Download localization operation wasn't completed")
+        }
     }
 }
 
@@ -138,5 +150,9 @@ extension ApplicableNetwork: Network {
 }
 
 extension AccountRegistration: Network {
+    var localizationURL: URL? { self.links["lang"] }
+}
+
+extension PresetAccount: Network {
     var localizationURL: URL? { self.links["lang"] }
 }

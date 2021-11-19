@@ -9,12 +9,12 @@ import UIKit
 extension List.Table.DataSource {
     /// Row for a combined network, containing primary and secondary labels.
     class GroupedNetworkRow {
-        let networks: [PaymentNetwork]
+        let networks: [UIModel.PaymentNetwork]
 
         private let genericLogo: UIImage
         private var maxDisplayableLogos = 0 // used as a temporary solution, need to clean-up
 
-        init(networks: [PaymentNetwork], genericLogo: UIImage) {
+        init(networks: [UIModel.PaymentNetwork], genericLogo: UIImage) {
             self.networks = networks
             self.genericLogo = genericLogo
         }

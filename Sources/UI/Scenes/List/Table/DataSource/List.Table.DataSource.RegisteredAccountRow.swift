@@ -7,10 +7,10 @@
 import UIKit
 
 extension List.Table.DataSource {
-    class AccountRow {
-        let account: RegisteredAccount
+    class RegisteredAccountRow {
+        let account: UIModel.RegisteredAccount
 
-        init(account: RegisteredAccount) {
+        init(account: UIModel.RegisteredAccount) {
             self.account = account
         }
     }
@@ -18,12 +18,12 @@ extension List.Table.DataSource {
 
 // MARK: Computed variables
 
-extension List.Table.DataSource.AccountRow {
+extension List.Table.DataSource.RegisteredAccountRow {
     var label: String { account.maskedAccountLabel }
     var image: UIImage? { account.logo?.value }
 }
 
-extension List.Table.DataSource.AccountRow: LoadableLogo {
+extension List.Table.DataSource.RegisteredAccountRow: LoadableLogo {
     var logo: Loadable<UIImage>? {
         get { account.logo }
         set { account.logo = newValue }

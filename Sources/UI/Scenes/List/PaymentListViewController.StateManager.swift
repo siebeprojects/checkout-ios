@@ -7,14 +7,14 @@ extension PaymentListViewController {
 
         fileprivate var tableController: List.Table.Controller?
 
-        var viewState: Load<PaymentSession, UIAlertController.AlertError> = .loading {
+        var viewState: Load<UIModel.PaymentSession, UIAlertController.AlertError> = .loading {
             didSet { changeState(to: viewState) }
         }
     }
 }
 
 extension PaymentListViewController.StateManager {
-    fileprivate func changeState(to state: Load<PaymentSession, UIAlertController.AlertError>) {
+    fileprivate func changeState(to state: Load<UIModel.PaymentSession, UIAlertController.AlertError>) {
         switch state {
         case .success(let session):
             do {
@@ -41,7 +41,7 @@ extension PaymentListViewController.StateManager {
         }
     }
 
-    private func showPaymentMethods(for session: PaymentSession?) throws {
+    private func showPaymentMethods(for session: UIModel.PaymentSession?) throws {
         guard let session = session else {
             // Hide payment methods
             vc.methodsTableView?.removeFromSuperview()

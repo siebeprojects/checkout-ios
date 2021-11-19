@@ -26,9 +26,9 @@ extension Input {
     /// Transformer from `List` models to `Input` UI models.
     class ModelTransformer {
         fileprivate let inputFieldFactory = InputElementsTransformer()
-        let paymentContext: PaymentContext
+        let paymentContext: UIModel.PaymentContext
 
-        init(paymentContext: PaymentContext) {
+        init(paymentContext: UIModel.PaymentContext) {
             self.paymentContext = paymentContext
         }
     }
@@ -37,7 +37,7 @@ extension Input {
 extension Input.ModelTransformer {
     private typealias InputSection = Input.Network.UIModel.InputSection
 
-    func transform(registeredAccount: RegisteredAccount) throws -> Input.Network {
+    func transform(registeredAccount: UIModel.RegisteredAccount) throws -> Input.Network {
         let logo = registeredAccount.logo?.value
 
         // Input sections
@@ -88,7 +88,7 @@ extension Input.ModelTransformer {
         )
     }
 
-    func transform(paymentNetwork: PaymentNetwork) throws -> Input.Network {
+    func transform(paymentNetwork: UIModel.PaymentNetwork) throws -> Input.Network {
         let logo = paymentNetwork.logo?.value
 
         // Input fields

@@ -11,7 +11,7 @@ import UIKit
 extension List.Table {
     /// Cell with multiple images, primary and secondary labels.
     /// - Note: set `cellIndex`
-    final class DetailedLabelCell: List.Table.BorderedCell, DequeueableCell {
+    final class DetailedLabelCell: List.Table.BorderedCell, Dequeueable {
         weak var primaryLabel: UILabel?
         weak var secondaryLabel: UILabel?
         weak var logoView: UIImageView?

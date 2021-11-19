@@ -18,7 +18,7 @@ extension List.Table.GroupingService {
         return core.items
     }
 
-    func group(networks: [PaymentNetwork]) -> [[PaymentNetwork]] {
+    func group(networks: [UIModel.PaymentNetwork]) -> [[UIModel.PaymentNetwork]] {
         do {
             let rules = try get()
             let groupedNetworks = networks.grouped(using: rules)
@@ -56,10 +56,10 @@ extension List.Table.GroupingService {
 
 // MARK: - Grouping extension
 
-private extension Sequence where Element == PaymentNetwork {
-    func grouped(using rules: [List.Table.GroupingService.Rule]) -> [[PaymentNetwork]] {
-        var ungroupedNetworks = [PaymentNetwork]()
-        var groupedNetworks = [PaymentNetwork]()
+private extension Sequence where Element == UIModel.PaymentNetwork {
+    func grouped(using rules: [List.Table.GroupingService.Rule]) -> [[UIModel.PaymentNetwork]] {
+        var ungroupedNetworks = [UIModel.PaymentNetwork]()
+        var groupedNetworks = [UIModel.PaymentNetwork]()
 
         for network in self {
             let isGroupingAllowed = (rules.first(withCode: network.applicableNetwork.code) != nil)
