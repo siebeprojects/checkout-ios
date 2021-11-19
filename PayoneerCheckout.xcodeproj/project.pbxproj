@@ -14,6 +14,7 @@
 		07D87C2327302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2227302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift */; };
 		07D87C2527302EC800AD61C4 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */; };
 		07D87C2727302ED600AD61C4 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */; };
+		07FF4BB32747DAF500957035 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FF4BB22747DAF500957035 /* UIFont+Extensions.swift */; };
 		AA144B5943E1616B03AD583E /* Pods_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E918DF5930A18AE9887BB63A /* Pods_Tests.framework */; };
 		D90D215B26F9EF2C008925F9 /* Input.Field.Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90D215A26F9EF2C008925F9 /* Input.Field.Identifier.swift */; };
 		D918A3F2254F205C005BBA8B /* ListResult.json in Resources */ = {isa = PBXBuildFile; fileRef = D918A3F1254F205C005BBA8B /* ListResult.json */; };
@@ -258,6 +259,7 @@
 		07D87C2227302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDirectionalEdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
 		07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
+		07FF4BB22747DAF500957035 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		6AA5EF5833CCFE9360C69E54 /* Pods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.debug.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		8AE876F2AB3608344995F5BC /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BF36E8A2FE025E51C137C45E /* Pods-Payoneer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payoneer.release.xcconfig"; path = "Target Support Files/Pods-Payoneer/Pods-Payoneer.release.xcconfig"; sourceTree = "<group>"; };
@@ -531,11 +533,19 @@
 			children = (
 				07D87C1E27302E9E00AD61C4 /* TextInputView.swift */,
 				07D87C2027302EAF00AD61C4 /* TextInputViewDelegate.swift */,
+			);
+			path = TextInputView;
+			sourceTree = "<group>";
+		};
+		07FF4BB12747DAE600957035 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
 				07D87C2627302ED600AD61C4 /* CALayer+Extensions.swift */,
 				07D87C2227302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift */,
 				07D87C2427302EC800AD61C4 /* UIView+Extensions.swift */,
+				07FF4BB22747DAF500957035 /* UIFont+Extensions.swift */,
 			);
-			path = TextInputView;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		686D71EBAB51C7A0DC05494C /* Frameworks */ = {
@@ -593,6 +603,7 @@
 		D96A4E7B257D96EE00E74C8C /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				07FF4BB12747DAE600957035 /* Extensions */,
 				D96A4E7C257D96EE00E74C8C /* Scenes */,
 				D96A4EE5257D96EE00E74C8C /* Core */,
 				D96A4EEB257D96EE00E74C8C /* ViewControllers */,
@@ -1532,6 +1543,7 @@
 				D9DFE5052720A1C0003E0768 /* ContainsDefaultValue.swift in Sources */,
 				D91A4E3726B8A3450036CAC9 /* Bundle+identifer.swift in Sources */,
 				D96A4FA8257D96EF00E74C8C /* PaymentSessionServiceDelegate.swift in Sources */,
+				07FF4BB32747DAF500957035 /* UIFont+Extensions.swift in Sources */,
 				D96A4FAB257D96EF00E74C8C /* DataDownloadProvider.swift in Sources */,
 				D96A4FB6257D96EF00E74C8C /* Dequeueable.swift in Sources */,
 				D9E380C82671591200622FD0 /* PaymentListViewController.OperationResultHandler.swift in Sources */,
