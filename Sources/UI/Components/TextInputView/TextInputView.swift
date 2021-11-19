@@ -69,18 +69,22 @@ final class TextInputView: UIView {
         set { textField.text = newValue }
     }
 
+    private let shouldAnimate: Bool
+
     private var status: Status = .normal
 
     weak var delegate: TextInputViewDelegate?
 
     /// Initializes a `TextInputView`.
-    required init() {
+    required init(animationsEnabled: Bool) {
+        shouldAnimate = false
         super.init(frame: .zero)
         textField.delegate = self
         layout()
     }
 
     required init?(coder aDecoder: NSCoder) {
+        shouldAnimate = true
         super.init(coder: aDecoder)
         textField.delegate = self
         layout()
@@ -94,10 +98,10 @@ extension TextInputView {
     /// - Parameters:
     ///   - status: The status to be displayed.
     ///   - animated: `true` if you want to animate the change, and `false` if it should be immediate.
-    func setStatus(_ status: Status, animated: Bool = true) {
+    func setStatus(_ status: Status) {
         self.status = status
         isUserInteractionEnabled = status != .disabled
-        updateAppearance(animated: animated)
+        updateAppearance(animated: shouldAnimate)
     }
 
     private func updateAppearance(animated: Bool) {
@@ -206,8 +210,7 @@ extension TextInputView {
 
 extension TextInputView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        let shouldAnimate = textField.frame != .zero // Prevent animation while view is being laid out
-        updateAppearance(animated: shouldAnimate)
+        updateAppearance(animated: shouldAnimate && textField.frame != .zero) // Prevent animation while view is being laid out
         delegate?.textInputViewDidBeginEditing(self)
     }
 
@@ -221,7 +224,7 @@ extension TextInputView: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        updateAppearance(animated: true)
+        updateAppearance(animated: shouldAnimate)
         delegate?.textInputViewDidEndEditing(self)
     }
 }
