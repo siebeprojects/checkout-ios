@@ -101,9 +101,6 @@ extension TextInputView {
     }
 
     private func updateAppearance(animated: Bool) {
-        // Animations are turned off for now so they don't conflict with UICollectionView reload animations.
-        let animated = false
-
         // If a label is in a UIStackView and its text is set to nil, the label is automatically hidden by the UIStackView.
         // This mechanic breaks the show/hide animations being done here, therefore errorMessage can't be optional and an empty string is used instead.
         let configuration: (borderColor: UIColor, borderWidth: CGFloat, errorMessage: String) = {
@@ -142,12 +139,11 @@ extension TextInputView {
             self?.errorLabel.superview?.layoutIfNeeded()
         }
 
-        // Animations are turned off for now so they don't conflict with UICollectionView reload animations.
-//        if animated {
-//            animate(changes)
-//        } else {
+        if animated {
+            animate(changes)
+        } else {
             changes()
-//        }
+        }
     }
 }
 

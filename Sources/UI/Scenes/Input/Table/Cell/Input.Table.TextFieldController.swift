@@ -74,7 +74,8 @@ extension Input.Table.TextFieldController {
             textInputView.text = model.value
         }
 
-        textInputView.setStatus(model.isEnabled ? .normal : .disabled)
+        // Animations are off for now so they don't conflict with UICollectionView reload animations.
+        textInputView.setStatus(model.isEnabled ? .normal : .disabled, animated: false)
         textInputView.titleLabel.text = model.label
         textInputView.textField.attributedPlaceholder = NSAttributedString(
             string: model.placeholder,
@@ -91,9 +92,9 @@ extension Input.Table.TextFieldController {
 
     func setErrorText(to errorText: String?) {
         if let error = errorText {
-            textInputView.setStatus(.error(message: error))
+            textInputView.setStatus(.error(message: error), animated: false)
         } else {
-            textInputView.setStatus(.normal)
+            textInputView.setStatus(.normal, animated: false)
         }
     }
 }
