@@ -161,6 +161,9 @@ extension TextInputView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         addGestureRecognizer(tapGesture)
 
+        // Add padding to match the clear button's padding
+        trailingButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 6.5)
+
         let textFieldButtonStackView = UIStackView(arrangedSubviews: [textField, trailingButton])
         textFieldButtonStackView.alignment = .center
         textFieldButtonStackView.spacing = 4
