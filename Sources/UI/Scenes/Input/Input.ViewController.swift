@@ -79,6 +79,17 @@ extension Input {
             self.title = registeredAccount.translation.translation(forKey: "accounts.form.default.title")
         }
 
+        convenience init(for presetAccount: UIModel.PresetAccount, context: UIModel.PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
+            let transformer = ModelTransformer(paymentContext: context)
+            let network = try transformer.transform(presetAccount: presetAccount)
+            let smartSwitch = try SmartSwitch.Selector(networks: [network])
+            let header = Input.TextHeader(from: presetAccount)
+
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
+
+            self.title = presetAccount.translation.translation(forKey: "accounts.form.default.title")
+        }
+
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }

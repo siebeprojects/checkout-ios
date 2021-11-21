@@ -12,6 +12,7 @@ import UIKit
 protocol ListTableControllerDelegate: AnyObject {
     func didSelect(paymentNetworks: [UIModel.PaymentNetwork], context: UIModel.PaymentContext)
     func didSelect(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext)
+    func didSelect(presetAccount: UIModel.PresetAccount, context: UIModel.PaymentContext)
     func didRefreshRequest()
 
     var downloadProvider: DataDownloadProvider { get }
@@ -97,9 +98,7 @@ extension List.Table.Controller: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch dataSource.model(for: indexPath) {
-        case .preset:
-            // TODO: Perform action on selection in other ticket
-            return
+        case .preset(let presetAccount): delegate?.didSelect(presetAccount: presetAccount, context: dataSource.context)
         case .account(let account): delegate?.didSelect(registeredAccount: account, context: dataSource.context)
         case .network(let networks): delegate?.didSelect(paymentNetworks: networks, context: dataSource.context)
         }
