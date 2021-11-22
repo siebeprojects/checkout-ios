@@ -78,7 +78,7 @@ final class TextInputView: UIView {
     /// Initializes a `TextInputView`.
     /// - Parameter animationsEnabled: `true` if you want to animate appearance changes, and `false` if they should be immediate.
     required init(animationsEnabled: Bool) {
-        shouldAnimate = false
+        shouldAnimate = animationsEnabled
         super.init(frame: .zero)
         textField.delegate = self
         layout()
@@ -215,7 +215,6 @@ extension TextInputView: UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        setStatus(.normal)
         return delegate?.textInputView(self, shouldChangeCharactersIn: range, replacementString: string) ?? true
     }
 

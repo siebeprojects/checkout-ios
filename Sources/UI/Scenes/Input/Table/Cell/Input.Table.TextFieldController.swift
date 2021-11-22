@@ -157,6 +157,11 @@ extension Input.Table.TextFieldController: TextInputViewDelegate {
         }
     }
 
+    func textInputViewShouldReturn(_ view: TextInputView) -> Bool {
+        textFieldPrimaryActionTriggered()
+        return true
+    }
+
     private func containsOnlyAllowedCharacters(string: String, allowedKeyBoardType: UIKeyboardType) -> Bool {
         guard let allowedCharacters = model?.allowedCharacters else {
             return true
