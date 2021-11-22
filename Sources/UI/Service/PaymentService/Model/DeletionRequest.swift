@@ -20,8 +20,8 @@ class DeletionRequest {
 
 extension DeletionRequest: OperationRequest {
     func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
-        let requestBody = DeleteAccount.Body(deleteRegistration: true, deleteRecurrence: true)
-        let request = DeleteAccount(url: accountURL, body: requestBody)
+        let requestBody = NetworkRequest.DeleteAccount.Body(deleteRegistration: true, deleteRecurrence: true)
+        let request = NetworkRequest.DeleteAccount(url: accountURL, body: requestBody)
         let operation = SendRequestOperation(connection: connection, request: request)
         operation.downloadCompletionBlock = completion
         operation.start()
