@@ -68,7 +68,9 @@ extension Input.ViewController.OperationResultHandler: PaymentServiceDelegate {
         default:
             let internalError = InternalError(description: "Unexpected request type, programmatic error")
             let errorInfo = CustomErrorInfo.createClientSideError(from: internalError)
-            delegate?.paymentController(route: .failure(errorInfo), for: request)
+            DispatchQueue.main.async {
+                self.delegate?.paymentController(route: .failure(errorInfo), for: request)
+            }
         }
     }
 }
