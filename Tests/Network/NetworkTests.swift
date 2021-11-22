@@ -9,7 +9,7 @@ import XCTest
 
 final class NetworkTests: XCTestCase {
     func testGetListResult() {
-        let getListResultRequest = GetListResult(url: URL.example)
+        let getListResultRequest = NetworkRequest.GetListResult(url: URL.example)
         let connection = MockConnection(dataSource: MockFactory.ListResult.listResultData)
 
         let promise = expectation(description: "SendRequestOperation completed")
