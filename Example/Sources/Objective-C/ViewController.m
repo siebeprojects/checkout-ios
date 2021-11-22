@@ -5,7 +5,7 @@
 // See the LICENSE file for more information.
 
 #import "ViewController.h"
-#import <PayoneerCheckout/PayoneerCheckout-Swift.h>
+@import PayoneerCheckout;
 
 @interface ViewController ()
 

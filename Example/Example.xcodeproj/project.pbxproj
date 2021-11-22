@@ -29,6 +29,7 @@
 		074E5ECC2707447600E35B24 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
 		074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
 		0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC4274BF25100005D30 /* PayoneerCheckout */; };
+		0767BBC7274BF64500005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC6274BF64500005D30 /* PayoneerCheckout */; };
 		07D1116F270C750E004CC554 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
 		07D11170270C7513004CC554 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
 		07D11171270C7518004CC554 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
@@ -271,6 +272,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0767BBC7274BF64500005D30 /* PayoneerCheckout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,6 +542,9 @@
 			dependencies = (
 			);
 			name = CheckoutObjC;
+			packageProductDependencies = (
+				0767BBC6274BF64500005D30 /* PayoneerCheckout */,
+			);
 			productName = "Checkout-ObjC";
 			productReference = D948523026F2438D00D11DC2 /* CheckoutObjC.app */;
 			productType = "com.apple.product-type.application";
@@ -1242,6 +1247,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		0767BBC4274BF25100005D30 /* PayoneerCheckout */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PayoneerCheckout;
+		};
+		0767BBC6274BF64500005D30 /* PayoneerCheckout */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PayoneerCheckout;
 		};
