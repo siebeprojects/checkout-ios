@@ -20,7 +20,7 @@ enum Loadable<T> {
 extension Loadable where T == UIImage {
     /// Initialize loadable image object, it will be set to `.loaded` if local asset with such identifier exists. Returns `nil` if no local asset was found and URL wasn't specified.
     init?(identifier: String, url: URL?) {
-        if let image = UIImage(named: identifier, in: .module, compatibleWith: nil) {
+        if let image = UIImage(named: identifier, in: .current, compatibleWith: nil) {
             self = .loaded(.success(image))
             return
         }

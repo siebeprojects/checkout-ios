@@ -7,7 +7,15 @@
 import Foundation
 
 extension Bundle {
-    static var frameworkIdentifier: String {
-        return Bundle.module.bundleIdentifier ?? "com.payoneer.checkout"
+    static var current: Bundle {
+#if SWIFT_PACKAGE
+        return .module
+#else
+        return .main
+#endif
+    }
+
+    var frameworkIdentifier: String {
+        return self.bundleIdentifier ?? "com.payoneer.checkout"
     }
 }

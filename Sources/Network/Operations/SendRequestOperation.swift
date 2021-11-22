@@ -87,6 +87,6 @@ class SendRequestOperation<T>: AsynchronousOperation where T: Request {
 @available(iOS 14.0, *)
 private extension Request {
     var logger: Logger {
-        Logger(subsystem: Bundle.frameworkIdentifier + ".network", category: String(describing: Self.self))
+        Logger(subsystem: Bundle.current.frameworkIdentifier + ".network", category: String(describing: Self.self))
     }
 }

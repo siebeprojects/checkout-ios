@@ -18,5 +18,5 @@ extension Loggable {
     var logCategory: String { String(describing: Self.self) }
 
     @available(iOS 14.0, *)
-    var logger: Logger { Logger(subsystem: Bundle.frameworkIdentifier, category: logCategory) }
+    var logger: Logger { Logger(subsystem: Bundle.current.frameworkIdentifier, category: logCategory) }
 }
