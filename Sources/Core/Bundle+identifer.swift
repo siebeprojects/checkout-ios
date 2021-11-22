@@ -8,6 +8,6 @@ import Foundation
 
 extension Bundle {
     static var frameworkIdentifier: String {
-        return Bundle(for: AssetProvider.self).bundleIdentifier ?? "com.payoneer.checkout"
+        return Bundle.module.bundleIdentifier ?? "com.payoneer.checkout"
     }
 }

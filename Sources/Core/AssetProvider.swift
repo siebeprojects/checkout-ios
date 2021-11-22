@@ -12,7 +12,7 @@ import UIKit
 
 final class AssetProvider {
     private static var bundle: Bundle {
-        .init(for: AssetProvider.self)
+        .module
     }
 
     #if canImport(UIKit)

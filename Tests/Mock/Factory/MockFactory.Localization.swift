@@ -34,14 +34,12 @@ extension MockFactory.Localization {
     static var provider: MockTranslationProvider  = { MockTranslationProvider() }()
 
     static var paymentPage: Data {
-        let bundle = Bundle(for: MockTranslationProvider.self)
-        let url = bundle.url(forResource: "CheckoutLocalization", withExtension: "json")!
+        let url = Bundle.module.url(forResource: "CheckoutLocalization", withExtension: "json")!
         return try! Data(contentsOf: url)
     }
 
     static var paymentNetwork: Data {
-        let bundle = Bundle(for: MockTranslationProvider.self)
-        let url = bundle.url(forResource: "NetworkLocalization", withExtension: "json")!
+        let url = Bundle.module.url(forResource: "NetworkLocalization", withExtension: "json")!
         return try! Data(contentsOf: url)
     }
 }
