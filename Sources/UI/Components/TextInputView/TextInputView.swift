@@ -76,6 +76,7 @@ final class TextInputView: UIView {
     weak var delegate: TextInputViewDelegate?
 
     /// Initializes a `TextInputView`.
+    /// - Parameter animationsEnabled: `true` if you want to animate appearance changes, and `false` if they should be immediate.
     required init(animationsEnabled: Bool) {
         shouldAnimate = false
         super.init(frame: .zero)
@@ -97,7 +98,6 @@ extension TextInputView {
     /// Switches the `TextInputView` to the given `status`, with an option to animate the change.
     /// - Parameters:
     ///   - status: The status to be displayed.
-    ///   - animated: `true` if you want to animate the change, and `false` if it should be immediate.
     func setStatus(_ status: Status) {
         self.status = status
         isUserInteractionEnabled = status != .disabled
