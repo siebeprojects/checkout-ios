@@ -5,10 +5,6 @@ use_frameworks!
 
 pod 'SwiftLint'
 
-target 'PayoneerCheckout' do
-  pod 'MaterialComponents/TextFields', '103.1.0'
-end
-
 target 'Tests' do
   inherit! :complete
 end

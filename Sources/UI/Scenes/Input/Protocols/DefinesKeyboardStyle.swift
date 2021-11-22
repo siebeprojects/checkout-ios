@@ -14,7 +14,7 @@ protocol DefinesKeyboardStyle where Self: TextInputField {
     var autocapitalizationType: UITextAutocapitalizationType { get }
 }
 
-extension DefinesKeyboardStyle where Self: TextInputField {
+extension DefinesKeyboardStyle {
     var contentType: UITextContentType? { nil }
     var autocapitalizationType: UITextAutocapitalizationType { .none }
 }

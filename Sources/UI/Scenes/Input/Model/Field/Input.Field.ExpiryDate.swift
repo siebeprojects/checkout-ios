@@ -58,14 +58,12 @@ extension Input.Field.ExpiryDate: TextInputField {
     var maxInputLength: Int? { 4 }
     var allowedCharacters: CharacterSet? { return .decimalDigits }
 
-    // We need to switch placeholder and label for the field
-
     var label: String {
-        translator.translation(forKey: translationPrefix + "placeholder")
+        translator.translation(forKey: translationPrefix + "label")
     }
 
     var placeholder: String {
-        translator.translation(forKey: translationPrefix + "label")
+        translator.translation(forKey: translationPrefix + "placeholder")
     }
 
     private var translationPrefix: String { "account.expiryDate." }

@@ -64,15 +64,6 @@ extension List.Table {
     }
 }
 
-private extension UIFont {
-    func withWeight(_ weight: UIFont.Weight) -> UIFont {
-        let newDescriptor = fontDescriptor.addingAttributes([
-            .traits: [UIFontDescriptor.TraitKey.weight: weight]
-        ])
-        return UIFont(descriptor: newDescriptor, size: pointSize)
-    }
-}
-
 private extension CGFloat {
     /// Vertical padding after a footer view
     static var verticalPadding: CGFloat { return 8 }
