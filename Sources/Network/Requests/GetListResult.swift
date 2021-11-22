@@ -16,8 +16,6 @@ extension NetworkRequest {
     struct GetListResult: GetRequest {
         var url: URL
         let queryItems = [URLQueryItem]()
-
-        // swiftlint:disable:next nesting
         typealias Response = ListResult
 
         /// - Parameter url: `self` link from payment session

@@ -16,8 +16,6 @@ extension NetworkRequest {
     struct DownloadLocalization: GetRequest {
         var url: URL
         let queryItems = [URLQueryItem]()
-
-        // swiftlint:disable:next nesting
         typealias Response = [String: String]
 
         /// - Parameter url: `self` link from payment session
