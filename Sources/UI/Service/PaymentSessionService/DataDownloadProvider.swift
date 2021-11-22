@@ -28,7 +28,7 @@ class DataDownloadProvider {
             }
 
             // Download image
-            let downloadRequest = DownloadData(from: url)
+            let downloadRequest = NetworkRequest.DownloadData(from: url)
             let sendRequestOperation = SendRequestOperation(connection: connection, request: downloadRequest)
             sendRequestOperation.downloadCompletionBlock = {
                 model.loadable = self.createResponse(for: $0)
