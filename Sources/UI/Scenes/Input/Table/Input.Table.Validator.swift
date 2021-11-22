@@ -36,7 +36,7 @@ extension Input.Table.Validator {
             // Update cell's view if cell is on the screen
             if let textFieldViewCell = collectionView.cellForItem(at: indexPath) as? Input.Table.TextFieldViewCell {
                 textFieldViewCell.showValidationResult(for: validatableModel)
-                invalidateLayout(at: [indexPath])
+                invalidateLayout(at: [indexPath], animated: true)
             }
         }
     }
@@ -105,7 +105,8 @@ extension Input.Table.Validator {
         if previousValidationErrorText != validatableRow.validationErrorText, let cell = collectionView.cellForItem(at: indexPath) {
             do {
                 try cellRepresentable.configure(cell: cell)
-                invalidateLayout(at: [indexPath])
+                // We disabled animation because when we show an error text and a cell expanding own's size there is an animation bug: text field occupies the full height and after that returns to an expected size).
+                invalidateLayout(at: [indexPath], animated: false)
             } catch {
                 if #available(iOS 14.0, *) {
                     error.log(to: logger)
@@ -114,15 +115,19 @@ extension Input.Table.Validator {
         }
     }
 
-    /// Invalidates layout at specified index paths with animation.
+    /// Invalidates layout at specified index paths.
     /// Used to update cell's height for displaying multiline error messages.
-    private func invalidateLayout(at indexPaths: [IndexPath]) {
-        let context = UICollectionViewFlowLayoutInvalidationContext()
-        context.invalidateItems(at: indexPaths)
+    private func invalidateLayout(at indexPaths: [IndexPath], animated: Bool) {
+        if animated {
+            let context = UICollectionViewFlowLayoutInvalidationContext()
+            context.invalidateItems(at: indexPaths)
 
-        collectionView.performBatchUpdates({
-            self.collectionView.collectionViewLayout.invalidateLayout(with: context)
-        }, completion: nil)
+            collectionView.performBatchUpdates({
+                self.collectionView.collectionViewLayout.invalidateLayout(with: context)
+            }, completion: nil)
+        } else {
+            self.collectionView.collectionViewLayout.invalidateLayout()
+        }
     }
 }
 
