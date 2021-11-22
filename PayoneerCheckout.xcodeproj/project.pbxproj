@@ -219,6 +219,7 @@
 		D9A9277626822FF000AC67DD /* BodyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A9277526822FF000AC67DD /* BodyEncodable.swift */; };
 		D9B8372125D9158100066EB4 /* Date+fullYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8372025D9158100066EB4 /* Date+fullYear.swift */; };
 		D9B9AD5826FCBE7F005B6A84 /* RegistrationOptionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B9AD5726FCBE7F005B6A84 /* RegistrationOptionsTests.swift */; };
+		D9BD035E274BBC6D00458096 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BD035D274BBC6D00458096 /* NetworkRequest.swift */; };
 		D9C861842737D4F8009D4332 /* UIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C861832737D4F8009D4332 /* UIModel.swift */; };
 		D9C9573F241C54CA00049AFE /* PayoneerCheckout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */; };
 		D9CCE84D26D4BA16001B2498 /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CCE84C26D4BA16001B2498 /* Loggable.swift */; };
@@ -469,6 +470,7 @@
 		D9A9277526822FF000AC67DD /* BodyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyEncodable.swift; sourceTree = "<group>"; };
 		D9B8372025D9158100066EB4 /* Date+fullYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+fullYear.swift"; sourceTree = "<group>"; };
 		D9B9AD5726FCBE7F005B6A84 /* RegistrationOptionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationOptionsTests.swift; sourceTree = "<group>"; };
+		D9BD035D274BBC6D00458096 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		D9C861832737D4F8009D4332 /* UIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIModel.swift; sourceTree = "<group>"; };
 		D9C95735241C54CA00049AFE /* PayoneerCheckout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PayoneerCheckout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9C9573E241C54CA00049AFE /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1106,6 +1108,7 @@
 		D96A4F3D257D96EF00E74C8C /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				D9BD035D274BBC6D00458096 /* NetworkRequest.swift */,
 				D96A4F3E257D96EF00E74C8C /* GetListResult.swift */,
 				D96A4F3F257D96EF00E74C8C /* DownloadLocalization.swift */,
 				D96A4F40257D96EF00E74C8C /* DownloadData.swift */,
@@ -1670,6 +1673,7 @@
 				D96A4FAA257D96EF00E74C8C /* PaymentSessionService.swift in Sources */,
 				D96A4FB5257D96EF00E74C8C /* PaymentRequest.swift in Sources */,
 				D96A4F88257D96EF00E74C8C /* List.Router.swift in Sources */,
+				D9BD035E274BBC6D00458096 /* NetworkRequest.swift in Sources */,
 				D96A4F8E257D96EF00E74C8C /* List.Table.DataSource.GroupedNetworkRow.swift in Sources */,
 				D96A4FD6257D96EF00E74C8C /* SelectOption.swift in Sources */,
 				D96A4FBA257D96EF00E74C8C /* TranslationProvider.swift in Sources */,
