@@ -13,7 +13,6 @@ extension NetworkRequest {
     /// Gets active LIST session details
     ///
     /// Retrieves available payment capabilities for active `LIST` session.
-    /// Response model is `
     struct DownloadData: GetRequest {
         var url: URL
         let queryItems = [URLQueryItem]()
