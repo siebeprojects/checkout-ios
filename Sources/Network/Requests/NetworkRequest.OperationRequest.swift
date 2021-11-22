@@ -9,28 +9,28 @@ import os.log
 
 // MARK: - Request
 
-/// Request for `CHARGE` operation.
-struct Charge: PostRequest {
-    let url: URL
-    let queryItems = [URLQueryItem]()
-    var body: Body? { chargeBody }
-    private let chargeBody: Body
+extension NetworkRequest {
+    /// Request for an operation (`links.operation`).
+    struct Charge: PostRequest {
+        let url: URL
+        let queryItems = [URLQueryItem]()
+        var body: Body? { chargeBody }
+        private let chargeBody: Body
 
-    var operationType: String { url.lastPathComponent }
+        typealias Response = OperationResult
 
-    typealias Response = OperationResult
-
-    /// - Parameter url: value from `links.operation` for charge operation
-    init(from url: URL, body: Body) {
-        self.url = url
-        self.chargeBody = body
+        /// - Parameter url: value from `links.operation` for charge operation
+        init(from url: URL, body: Body) {
+            self.url = url
+            self.chargeBody = body
+        }
     }
 }
 
 @available(iOS 14.0, *)
-extension Charge {
+extension NetworkRequest.Charge {
     func logRequest(to logger: Logger) {
-        logger.notice("[POST] ➡️ Charge request: \(url.absoluteString, privacy: .private)")
+        logger.notice("[POST] ➡️ Operation request: \(url.absoluteString, privacy: .private)")
     }
 
     func logResponse(_ response: OperationResult, to logger: Logger) {
@@ -40,7 +40,7 @@ extension Charge {
 
 // MARK: - Body
 
-extension Charge {
+extension NetworkRequest.Charge {
     struct Body: Encodable {
         var account = [String: String]()
         var autoRegistration: Bool?
