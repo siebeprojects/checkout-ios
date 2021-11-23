@@ -165,19 +165,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		D95651DB23C7D577002AE827 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		0725B42226FCBC9600C607A8 /* UITestsObjC.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITestsObjC.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonTests.swift; sourceTree = "<group>"; };
@@ -575,8 +562,6 @@
 				D9E0AEA9234143BD0021184C /* Sources */,
 				D9E0AEAA234143BD0021184C /* Frameworks */,
 				D9E0AEAB234143BD0021184C /* Resources */,
-				D95651DB23C7D577002AE827 /* Embed Frameworks */,
-				D9E08F3225D1E31B00423ECD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -675,26 +660,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		D9E08F3225D1E31B00423ECD /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which Pods/SwiftLint/swiftlint >/dev/null; then\n  Pods/SwiftLint/swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0725B40126FCBC9600C607A8 /* Sources */ = {
