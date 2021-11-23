@@ -24,12 +24,6 @@ protocol InputPaymentControllerDelegate: AnyObject {
 extension Input.ViewController {
     class OperationResultHandler {
         weak var delegate: InputPaymentControllerDelegate?
-
-        let listOperationType: String
-
-        init(listOperationType: String) {
-            self.listOperationType = listOperationType
-        }
     }
 }
 

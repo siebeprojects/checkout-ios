@@ -15,7 +15,7 @@ extension Input.ViewController {
 
         init(paymentServiceFactory: PaymentServicesFactory, listOperationType: String) {
             self.paymentServiceFactory = paymentServiceFactory
-            self.operationResultHandler = OperationResultHandler(listOperationType: listOperationType)
+            self.operationResultHandler = OperationResultHandler()
         }
     }
 }
