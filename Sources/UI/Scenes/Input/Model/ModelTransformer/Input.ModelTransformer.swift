@@ -73,7 +73,7 @@ extension Input.ModelTransformer {
             isDeletable: false
         )
     }
-    
+
     func transform(registeredAccount: UIModel.RegisteredAccount) throws -> Input.Network {
         let logo = registeredAccount.logo?.value
 

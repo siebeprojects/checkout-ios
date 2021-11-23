@@ -38,7 +38,7 @@ extension Input {
                 detailedLabel = Self.createExpiryLabel(expiryMonth: expiryMonth, expiryYear: expiryYear)
             }
         }
-        
+
         /// - Returns: label with format `MM / YY`
         private static func createExpiryLabel(expiryMonth: Int, expiryYear: Int) -> String {
            return String(format: "%02d", expiryMonth) + " / " + String(expiryYear).suffix(2)
