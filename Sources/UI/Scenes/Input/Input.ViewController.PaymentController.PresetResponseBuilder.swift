@@ -23,7 +23,7 @@ extension Input.ViewController.PaymentController.PresetResponseBuilder {
 
         let operationResult = OperationResult(
             resultInfo: "PresetAccount selected",
-            links: presetAccount.links,
+            links: nil,
             interaction: interaction,
             redirect: presetAccount.redirect,
             providerResponse: nil)
