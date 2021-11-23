@@ -8,13 +8,15 @@ import Foundation
 
 extension Input.ViewController {
     class PaymentController {
+        let paymentContext: UIModel.PaymentContext
         let paymentServiceFactory: PaymentServicesFactory
         let operationResultHandler: OperationResultHandler
 
         weak var delegate: InputPaymentControllerDelegate?
 
-        init(paymentServiceFactory: PaymentServicesFactory, listOperationType: String) {
+        init(paymentServiceFactory: PaymentServicesFactory, paymentContext: UIModel.PaymentContext) {
             self.paymentServiceFactory = paymentServiceFactory
+            self.paymentContext = paymentContext
             self.operationResultHandler = OperationResultHandler()
         }
     }
@@ -36,14 +38,29 @@ extension Input.ViewController.PaymentController {
         service?.send(operationRequest: request)
     }
 
-    func submitPayment(for network: Input.Network) {
-        let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
-        service?.delegate = operationResultHandler
+    func submitOperation(for network: Input.Network) {
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod) else {
+            let internalError = InternalError(description: "Unable to create payment service for network: %@", network.networkCode)
+            let errorInfo = CustomErrorInfo.createClientSideError(from: internalError)
+            delegate?.paymentController(didFailWith: errorInfo, for: nil)
+            return
+        }
+
+        service.delegate = operationResultHandler
 
         do {
             let builder = PaymentRequestBuilder()
             let paymentRequest = try builder.createPaymentRequest(for: network)
-            service?.send(operationRequest: paymentRequest)
+
+            switch network.apiModel {
+            case .preset(let presetAccount):
+                // Manually create a response when submitting for a preset account (https://optile.atlassian.net/browse/PCX-996)
+                let response = PresetResponseBuilder().createResponse(for: presetAccount)
+                operationResultHandler.handle(response: response, for: paymentRequest)
+            default:
+                // Send a network request
+                service.send(operationRequest: paymentRequest)
+            }
         } catch {
             let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
             delegate?.paymentController(didFailWith: errorInfo, for: nil)

@@ -203,6 +203,7 @@
 		D96BB8C7249FEBB400C2AD73 /* MockFactory.Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B6249FEBB400C2AD73 /* MockFactory.Localization.swift */; };
 		D96BB8C8249FEBB400C2AD73 /* MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B7249FEBB400C2AD73 /* MockFactory.swift */; };
 		D96BB8CA249FEBB400C2AD73 /* MockFactory.ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */; };
+		D974CCC0274D54ED009ACA58 /* Input.ViewController.PaymentController.PresetResponseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D974CCBF274D54ED009ACA58 /* Input.ViewController.PaymentController.PresetResponseBuilder.swift */; };
 		D9836FB826D2E526003D751C /* LocalizableInteraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9836FB726D2E526003D751C /* LocalizableInteraction.swift */; };
 		D9861B94257F71BD005DA1A4 /* Result+computedVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9861B93257F71BD005DA1A4 /* Result+computedVariables.swift */; };
 		D988E41526CAD96800A57D8E /* HolderNames.json in Resources */ = {isa = PBXBuildFile; fileRef = D988E41426CAD96800A57D8E /* HolderNames.json */; };
@@ -453,6 +454,7 @@
 		D96BB8B8249FEBB400C2AD73 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D96BB8B9249FEBB400C2AD73 /* MockFactory.ListResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFactory.ListResult.swift; sourceTree = "<group>"; };
 		D96BB8CB249FEBC500C2AD73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D974CCBF274D54ED009ACA58 /* Input.ViewController.PaymentController.PresetResponseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.ViewController.PaymentController.PresetResponseBuilder.swift; sourceTree = "<group>"; };
 		D9836FB726D2E526003D751C /* LocalizableInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizableInteraction.swift; sourceTree = "<group>"; };
 		D9861B93257F71BD005DA1A4 /* Result+computedVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+computedVariables.swift"; sourceTree = "<group>"; };
 		D988E41426CAD96800A57D8E /* HolderNames.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = HolderNames.json; sourceTree = "<group>"; };
@@ -642,6 +644,7 @@
 				D9E9C22126E23BC8006E4B82 /* Input.ViewController.BrowserController.swift */,
 				D91FC7FC2687E1090014997B /* Input.ViewController.DeletionAlertController.swift */,
 				D96A4E91257D96EE00E74C8C /* Input.ViewController.PaymentController.swift */,
+				D974CCBF274D54ED009ACA58 /* Input.ViewController.PaymentController.PresetResponseBuilder.swift */,
 				D9396F41267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift */,
 			);
 			path = Input;
@@ -1526,6 +1529,7 @@
 				D9836FB826D2E526003D751C /* LocalizableInteraction.swift in Sources */,
 				07D87C2727302ED600AD61C4 /* CALayer+Extensions.swift in Sources */,
 				D9396F42267378DA006F6752 /* Input.ViewController.OperationResultHandler.swift in Sources */,
+				D974CCC0274D54ED009ACA58 /* Input.ViewController.PaymentController.PresetResponseBuilder.swift in Sources */,
 				D96A4F56257D96EF00E74C8C /* Input.Table.Controller.swift in Sources */,
 				D96A4F7F257D96EF00E74C8C /* DefinesKeyboardStyle.swift in Sources */,
 				D96A4FB7257D96EF00E74C8C /* PaymentDelegate.swift in Sources */,

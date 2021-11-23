@@ -29,7 +29,7 @@ extension Input {
         }()
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, context: UIModel.PaymentContext) {
-            self.paymentController = .init(paymentServiceFactory: paymentServiceFactory, listOperationType: context.listOperationType.rawValue)
+            self.paymentController = PaymentController(paymentServiceFactory: paymentServiceFactory, paymentContext: context)
             self.networks = smartSwitch.networks
             self.header = header
             self.smartSwitch = smartSwitch
@@ -211,7 +211,7 @@ extension Input.ViewController {
 extension Input.ViewController: InputTableControllerDelegate {
     func submitPayment() {
         stateManager.state = .paymentSubmission
-        paymentController.submitPayment(for: smartSwitch.selected.network)
+        paymentController.submitOperation(for: smartSwitch.selected.network)
     }
 
     // Navigation bar shadow
