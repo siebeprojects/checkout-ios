@@ -27,19 +27,6 @@ jobs:
           ruby-version: '2.7'
           bundler-cache: true
 
-      - name: Cache pods
-        id: cache-pods
-        uses: actions/cache@v2
-        env:
-          cache-name: framework-pods
-        with:
-          path: Pods/
-          key: cache-${{ env.cache-name }}-${{ hashFiles('Podfile.lock') }}
-
-      - name: Install Pods
-        if: steps.cache-pods.outputs.cache-hit != 'true'
-        run: bundle exec pod install --deployment
-
       - name: Run unit tests
         env:
           FASTLANE_SKIP_UPDATE_CHECK: true
@@ -78,21 +65,6 @@ jobs:
           ruby-version: '2.7'
           bundler-cache: true
 
-      - name: Cache pods
-        id: cache-pods
-        uses: actions/cache@v2
-        env:
-          cache-name: example-app-pods
-        with:
-          path: ExampleCheckout/Pods/
-          key: cache-${{ env.cache-name }}-${{ hashFiles('ExampleCheckout/Podfile.lock', 'PayoneerCheckout.xcodeproj/project.pbxproj') }}
-
-      - name: Install Pods
-        if: steps.cache-pods.outputs.cache-hit != 'true'
-        env:
-          project-directory: ExampleCheckout/
-        run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
-
       - name: Install the simulator
         run: |
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
@@ -112,7 +84,7 @@ jobs:
           merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
           merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
           payment-api-list-url: https:/\$()/api.integration.oscato.com/api/lists
-          xcconfig: ExampleCheckout/UITests/Assets/Config.xcconfig
+          xcconfig: Example/UITests/Assets/Config.xcconfig
         run: |
             echo "MERCHANT_CODE=${{ env.merchant-code }}" > ${{ env.xcconfig }}
             echo "MERCHANT_PAYMENT_TOKEN=${{ env.merchant-token }}" >> ${{ env.xcconfig }}
@@ -127,7 +99,7 @@ jobs:
         if: always() && steps.inject-secrets.outcome == 'success'
         id: clear-secrets
         env:
-          xcconfig: ExampleCheckout/UITests/Assets/Config.xcconfig
+          xcconfig: Example/UITests/Assets/Config.xcconfig
         run: rm ${{ env.xcconfig }}
 
       - name: Publish test report
@@ -169,6 +141,6 @@ jobs:
       - name: Lint example applications
         uses: norio-nomura/action-swiftlint@3.2.1
         env:
-          WORKING_DIRECTORY: ExampleCheckout
+          WORKING_DIRECTORY: Example
         with:
           args: --strict
