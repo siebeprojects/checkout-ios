@@ -23,7 +23,7 @@ platform :ios do
       silent: true,
       export_method: "ad-hoc",
       scheme: "Swift",
-      xcodeproj: "./Example/Example.xcodeproj",
+      project: "./Example/Example.xcodeproj",
       output_name: options[:binary]
     )
   end
@@ -42,7 +42,7 @@ platform :ios do
     run_tests(
       scheme: options[:scheme],
       derived_data_path: "/tmp/workspace/derived_data",
-      xcodeproj: "Example/Example.xcodeproj",
+      project: "Example/Example.xcodeproj",
       ensure_devices_found: true,
       number_of_retries: 1,
       output_directory: "./output/scan",
