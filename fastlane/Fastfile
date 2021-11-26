@@ -13,7 +13,10 @@ platform :ios do
     scan(
       output_directory: "./output/scan",
       result_bundle: true,
-      output_types: "junit"
+      output_types: "junit",
+      device: "iPhone 12",
+      scheme: "PayoneerCheckout",
+      package_path: "."
     )
   end
 
