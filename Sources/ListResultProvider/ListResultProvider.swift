@@ -74,7 +74,7 @@ class ListResultProvider {
     }
 
     private func filterUnsupportedNetworks(listResult: ListResult, completion: ((ListResultNetworks) -> Void)) {
-        // Filter networks unsupported by any of `PaymentService`
+        // Filter networks
         var filteredPaymentNetworks = listResult.networks.applicable.filter { network in
             paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
         }
@@ -90,6 +90,7 @@ class ListResultProvider {
             }
         }
 
+        // Filter accounts
         let filteredRegisteredNetworks: [AccountRegistration]
         if let accounts = listResult.accounts {
             filteredRegisteredNetworks = accounts.filter {
@@ -99,10 +100,17 @@ class ListResultProvider {
             filteredRegisteredNetworks = .init()
         }
 
+        // Filter preset account
+        let filteredPresetAccount: PresetAccount? = {
+            guard let presetAccount = listResult.presetAccount else { return nil }
+            guard paymentServicesFactory.isSupported(networkCode: presetAccount.code, paymentMethod: nil) else { return nil }
+            return presetAccount
+        }()
+
         let filteredNetworks = ListResultNetworks.FilteredNetworks(
             applicableNetworks: filteredPaymentNetworks,
             accountRegistrations: filteredRegisteredNetworks,
-            presetAccount: listResult.presetAccount)
+            presetAccount: filteredPresetAccount)
         let networks = ListResultNetworks(listResult: listResult, filteredNetworks: filteredNetworks)
 
         completion(networks)
