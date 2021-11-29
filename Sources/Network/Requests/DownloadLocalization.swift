@@ -9,22 +9,24 @@ import os.log
 
 // MARK: - Request
 
-/// Gets active LIST session details
-///
-/// Retrieves available payment capabilities for active `LIST` session.
-struct DownloadLocalization: GetRequest {
-    var url: URL
-    let queryItems = [URLQueryItem]()
-    typealias Response = [String: String]
+extension NetworkRequest {
+    /// Gets active LIST session details
+    ///
+    /// Retrieves available payment capabilities for active `LIST` session.
+    struct DownloadLocalization: GetRequest {
+        var url: URL
+        let queryItems = [URLQueryItem]()
+        typealias Response = [String: String]
 
-    /// - Parameter url: `self` link from payment session
-    init(from url: URL) {
-        self.url = url
+        /// - Parameter url: `self` link from payment session
+        init(from url: URL) {
+            self.url = url
+        }
     }
 }
 
 @available(iOS 14.0, *)
-extension DownloadLocalization {
+extension NetworkRequest.DownloadLocalization {
     private var localizationName: String {
         url.lastPathComponent.replacingOccurrences(of: ".json", with: "")
     }

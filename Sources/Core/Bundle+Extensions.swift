@@ -7,7 +7,6 @@
 import Foundation
 
 extension Bundle {
-    /// Returns `module` if the SDK is imported via Swift Package Manager, otherwise returns `main` if imported through other means (e.g. CocoaPods).
     static var current: Bundle {
 #if SWIFT_PACKAGE
         return .module

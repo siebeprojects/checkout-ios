@@ -18,7 +18,7 @@ extension MockFactory.Localization {
         private(set) var translations = [[String: String]]()
 
         init() {
-            let downloadLocalizationRequest = DownloadLocalization(from: URL.example)
+            let downloadLocalizationRequest = NetworkRequest.DownloadLocalization(from: URL.example)
             let connection = MockConnection(dataSource: MockFactory.Localization.paymentPage)
             let sendRequestOperation = SendRequestOperation(connection: connection, request: downloadLocalizationRequest)
 

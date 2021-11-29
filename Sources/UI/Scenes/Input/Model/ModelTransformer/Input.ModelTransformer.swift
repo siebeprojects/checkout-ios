@@ -37,6 +37,43 @@ extension Input {
 extension Input.ModelTransformer {
     private typealias InputSection = Input.Network.UIModel.InputSection
 
+    func transform(presetAccount: UIModel.PresetAccount) throws -> Input.Network {
+        let logo = presetAccount.logo?.value
+
+        var sections = Set<InputSection>()
+
+        if let extraElements = paymentContext.extraElements {
+            let extraElementsSections = createInputSections(from: extraElements)
+            sections.formUnion(extraElementsSections)
+        }
+
+        // Operation URL
+        guard let operationURL = presetAccount.apiModel.links["operation"] else {
+            throw InternalError(description: "Incorrect preset account model, operation URL is not present. Links: %@", objects: presetAccount.apiModel.links)
+        }
+
+        let submitButton = Input.Field.Button(label: presetAccount.submitButtonLabel)
+
+        let uiModel = Input.Network.UIModel(
+            networkLabel: presetAccount.networkLabel,
+            maskedAccountLabel: presetAccount.maskedAccountLabel,
+            logo: logo,
+            inputSections: sections,
+            submitButton: submitButton
+        )
+
+        return .init(
+            apiModel: .preset(presetAccount.apiModel),
+            operationURL: operationURL,
+            paymentMethod: presetAccount.apiModel.method,
+            networkCode: presetAccount.apiModel.code,
+            translator: presetAccount.translation,
+            switchRule: nil,
+            uiModel: uiModel,
+            isDeletable: false
+        )
+    }
+
     func transform(registeredAccount: UIModel.RegisteredAccount) throws -> Input.Network {
         let logo = registeredAccount.logo?.value
 

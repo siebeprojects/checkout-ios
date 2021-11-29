@@ -9,23 +9,24 @@ import os.log
 
 // MARK: - Request
 
-/// Gets active LIST session details
-///
-/// Retrieves available payment capabilities for active `LIST` session.
-/// Response model is `
-struct DownloadData: GetRequest {
-    var url: URL
-    let queryItems = [URLQueryItem]()
-    typealias Response = Data
+extension NetworkRequest {
+    /// Gets active LIST session details
+    ///
+    /// Retrieves available payment capabilities for active `LIST` session.
+    struct DownloadData: GetRequest {
+        var url: URL
+        let queryItems = [URLQueryItem]()
+        typealias Response = Data
 
-    /// - Parameter url: `self` link from payment session
-    init(from url: URL) {
-        self.url = url
+        /// - Parameter url: `self` link from payment session
+        init(from url: URL) {
+            self.url = url
+        }
     }
 }
 
 @available(iOS 14.0, *)
-extension DownloadData {
+extension NetworkRequest.DownloadData {
     func logRequest(to logger: Logger) {
         logger.notice("[GET] ➡️ Download data from \(url, privacy: .private)")
     }

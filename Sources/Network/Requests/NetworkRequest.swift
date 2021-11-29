@@ -4,12 +4,6 @@
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
 
-import XCTest
+import Foundation
 
-#if !canImport(ObjectiveC)
-public func allTests() -> [XCTestCaseEntry] {
-    return [
-        testCase(NetworkTests.allTests)
-    ]
-}
-#endif
+enum NetworkRequest {}

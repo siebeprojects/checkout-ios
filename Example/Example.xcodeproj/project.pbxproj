@@ -219,7 +219,6 @@
 		D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectNetworksTests.swift; sourceTree = "<group>"; };
 		D956D28525DEB9E0001A2EAD /* NetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksTests.swift; sourceTree = "<group>"; };
 		D956D28825DEBE23001A2EAD /* CardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTests.swift; sourceTree = "<group>"; };
-		D967A55C25481D29001BBCCA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		D99D048726ADDBE300C027CB /* SepaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepaTests.swift; sourceTree = "<group>"; };
 		D99D048926ADDC7E00C027CB /* Sepa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sepa.swift; sourceTree = "<group>"; };
 		D99E9E09253DAA2700DFF8BD /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -392,7 +391,7 @@
 				D954C00C2696620600714396 /* Model */,
 				D954C00B269661F600714396 /* Protocol */,
 				D9FCC6AA25488A9800E0AF74 /* Helpers */,
-				D9A5FA7E253D8AE3001C71B7 /* Assets */,
+				D9A5FA7E253D8AE3001C71B7 /* Resources */,
 				D912BABF2726C04B0004AFAE /* Abstract */,
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
@@ -428,13 +427,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		D9A5FA7E253D8AE3001C71B7 /* Assets */ = {
+		D9A5FA7E253D8AE3001C71B7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				D9A5FA7F253D8B09001C71B7 /* Transaction.json */,
-				D967A55C25481D29001BBCCA /* Config.xcconfig */,
 			);
-			path = Assets;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D9C6026D2726ECB7007CFD6A /* PaymentService */ = {
@@ -868,7 +866,6 @@
 /* Begin XCBuildConfiguration section */
 		0725B42026FCBC9600C607A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -891,7 +888,6 @@
 		};
 		0725B42126FCBC9600C607A8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -954,7 +950,6 @@
 		};
 		D9A5FA5E253CA701001C71B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -977,7 +972,6 @@
 		};
 		D9A5FA5F253CA701001C71B7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";

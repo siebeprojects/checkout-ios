@@ -20,7 +20,7 @@ class SharedTranslationProvider: TranslationProvider {
     }
 
     func download(from url: URL, using connection: Connection, completion: @escaping ((Error?) -> Void)) {
-        let downloadLocalizationRequest = DownloadLocalization(from: url)
+        let downloadLocalizationRequest = NetworkRequest.DownloadLocalization(from: url)
         let sendRequestOperation = SendRequestOperation(connection: connection, request: downloadLocalizationRequest)
         sendRequestOperation.downloadCompletionBlock = { result in
             switch result {

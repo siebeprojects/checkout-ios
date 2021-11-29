@@ -47,7 +47,7 @@ class PaymentSessionProvider {
     // MARK: - Asynchronous methods
 
     private func getListResult(from url: URL, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
-        let getListResult = GetListResult(url: paymentSessionURL)
+        let getListResult = NetworkRequest.GetListResult(url: paymentSessionURL)
         let getListResultOperation = SendRequestOperation(connection: connection, request: getListResult)
         getListResultOperation.downloadCompletionBlock = { result in
             switch result {

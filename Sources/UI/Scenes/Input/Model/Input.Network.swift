@@ -27,6 +27,7 @@ extension Input {
             switch apiModel {
             case .account(let account): return account.operationType
             case .network(let network): return network.operationType
+            case .preset(let presetAccount): return presetAccount.operationType
             }
         }
 
@@ -47,6 +48,7 @@ extension Input.Network {
     enum APIModel {
         case account(AccountRegistration)
         case network(ApplicableNetwork)
+        case preset(PayoneerCheckout.PresetAccount)
     }
 }
 
@@ -55,6 +57,7 @@ extension Input.Network.APIModel {
         switch self {
         case .account(let account): return account.links
         case .network(let network): return network.links
+        case .preset(let presetAccount): return presetAccount.links
         }
     }
 
@@ -62,6 +65,7 @@ extension Input.Network.APIModel {
         switch self {
         case .account(let account): return account.operationType
         case .network(let network): return network.operationType
+        case .preset(let presetAccount): return presetAccount.operationType
         }
     }
 }

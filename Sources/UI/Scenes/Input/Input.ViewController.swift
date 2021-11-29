@@ -29,7 +29,7 @@ extension Input {
         }()
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, context: UIModel.PaymentContext) {
-            self.paymentController = .init(paymentServiceFactory: paymentServiceFactory, listOperationType: context.listOperationType.rawValue)
+            self.paymentController = PaymentController(paymentServiceFactory: paymentServiceFactory, paymentContext: context)
             self.networks = smartSwitch.networks
             self.header = header
             self.smartSwitch = smartSwitch
@@ -77,6 +77,17 @@ extension Input {
             self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
 
             self.title = registeredAccount.translation.translation(forKey: "accounts.form.default.title")
+        }
+
+        convenience init(for presetAccount: UIModel.PresetAccount, context: UIModel.PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
+            let transformer = ModelTransformer(paymentContext: context)
+            let network = try transformer.transform(presetAccount: presetAccount)
+            let smartSwitch = try SmartSwitch.Selector(networks: [network])
+            let header = Input.TextHeader(from: presetAccount)
+
+            self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
+
+            self.title = presetAccount.translation.translation(forKey: "accounts.form.default.title")
         }
 
         required init?(coder: NSCoder) {
@@ -200,7 +211,7 @@ extension Input.ViewController {
 extension Input.ViewController: InputTableControllerDelegate {
     func submitPayment() {
         stateManager.state = .paymentSubmission
-        paymentController.submitPayment(for: smartSwitch.selected.network)
+        paymentController.submitOperation(for: smartSwitch.selected.network)
     }
 
     // Navigation bar shadow

@@ -38,6 +38,12 @@ extension List.Router {
         present(inputViewController: inputViewController, animated: animated, usingStyle: .bottomSlideIn)
         return inputViewController
     }
+
+    func present(presetAccount: UIModel.PresetAccount, context: UIModel.PaymentContext, animated: Bool) throws -> Input.ViewController {
+        let inputViewController = try Input.ViewController(for: presetAccount, context: context, paymentServiceFactory: paymentServicesFactory)
+        present(inputViewController: inputViewController, animated: animated, usingStyle: .bottomSlideIn)
+        return inputViewController
+    }
 }
 
 private extension List.Router {

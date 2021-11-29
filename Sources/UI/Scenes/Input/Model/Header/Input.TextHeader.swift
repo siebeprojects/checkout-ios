@@ -23,9 +23,25 @@ extension Input {
         convenience init(from registeredAccount: UIModel.RegisteredAccount) {
             self.init(logo: registeredAccount.logo?.value, label: registeredAccount.maskedAccountLabel)
 
-            if let expiryMonth = registeredAccount.apiModel.maskedAccount.expiryMonth, let expiryYear = registeredAccount.apiModel.maskedAccount.expiryYear {
-                detailedLabel = String(format: "%02d", expiryMonth) + " / " + String(expiryYear).suffix(2)
+            let maskedAccount = registeredAccount.apiModel.maskedAccount
+            if let expiryMonth = maskedAccount.expiryMonth, let expiryYear = maskedAccount.expiryYear {
+                detailedLabel = Self.createExpiryLabel(expiryMonth: expiryMonth, expiryYear: expiryYear)
             }
+        }
+
+        /// Initializes header with transformed label and detailed label from `maskedAccount` data.
+        convenience init(from presetAccount: UIModel.PresetAccount) {
+            self.init(logo: presetAccount.logo?.value, label: presetAccount.maskedAccountLabel)
+
+            let maskedAccount = presetAccount.apiModel.maskedAccount
+            if let expiryMonth = maskedAccount?.expiryMonth, let expiryYear = maskedAccount?.expiryYear {
+                detailedLabel = Self.createExpiryLabel(expiryMonth: expiryMonth, expiryYear: expiryYear)
+            }
+        }
+
+        /// - Returns: label with format `MM / YY`
+        private static func createExpiryLabel(expiryMonth: Int, expiryYear: Int) -> String {
+           return String(format: "%02d", expiryMonth) + " / " + String(expiryYear).suffix(2)
         }
     }
 }

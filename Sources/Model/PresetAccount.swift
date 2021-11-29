@@ -26,8 +26,11 @@ class PresetAccount: NSObject, Decodable {
     /// Redirect object to summary page of merchants web-site.
     let redirect: Redirect
 
-    /// Indicates payment method this preset account belongs to.
+    /// Type of operation
     let operationType: String
+
+    /// Indicates payment method this preset account belongs to.
+    let method: String
 
     /// The deferred behavior of the payment network. See [Deferred Payments](https://www.optile.io/opg#285066) for more details.
     let deferral: String?

@@ -115,6 +115,19 @@ extension PaymentListViewController {
         }
     }
 
+    fileprivate func show(presetAccount: UIModel.PresetAccount, context: UIModel.PaymentContext, animated: Bool) {
+        do {
+            if #available(iOS 14.0, *) {
+                logger.debug("Requested to show a preset account for the network: \(presetAccount.networkLabel, privacy: .private)")
+            }
+            let inputViewController = try router.present(presetAccount: presetAccount, context: context, animated: animated)
+            inputViewController.delegate = operationResultHandler
+        } catch {
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            dismiss(with: .failure(errorInfo))
+        }
+    }
+
     @objc fileprivate func cancelButtonDidPress() {
         dismiss(animated: true, completion: nil)
     }
@@ -169,6 +182,10 @@ extension PaymentListViewController: ListTableControllerDelegate {
 
     func didSelect(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext) {
         show(registeredAccount: registeredAccount, context: context, animated: true)
+    }
+
+    func didSelect(presetAccount: UIModel.PresetAccount, context: UIModel.PaymentContext) {
+        show(presetAccount: presetAccount, context: context, animated: true)
     }
 
     func didRefreshRequest() {

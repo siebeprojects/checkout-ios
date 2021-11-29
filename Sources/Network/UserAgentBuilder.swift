@@ -41,7 +41,7 @@ class UserAgentBuilder {
     /// Returns application version string.
     /// Example output: `IOSApp/3.2.1 (bundle.id; Example SDK; 50)`
     private var applicationVersion: String? {
-        guard let applicationInfoDictionary = Bundle.current.infoDictionary else { return nil }
+        guard let applicationInfoDictionary = Bundle.main.infoDictionary else { return nil }
 
         let prefix = "IOSApp"
 
@@ -72,7 +72,7 @@ class UserAgentBuilder {
     private var frameworkVersion: String? {
         let frameworkName = "IOSSDK"
 
-        let infoDictionary = Bundle.current.infoDictionary
+        let infoDictionary = Bundle(for: UserAgentBuilder.self).infoDictionary
         guard let version = infoDictionary?["CFBundleShortVersionString"] as? String else {
             // If version couldn't be obtained don't send framework version
             return nil

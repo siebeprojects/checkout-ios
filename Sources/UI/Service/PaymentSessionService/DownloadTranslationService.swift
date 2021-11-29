@@ -125,7 +125,7 @@ final class DownloadTranslationService {
 
 // MARK: - DownloadTranslationOperation
 
-private class DownloadTranslationOperation<T>: SendRequestOperation<DownloadLocalization> where T: Network {
+private class DownloadTranslationOperation<T>: SendRequestOperation<NetworkRequest.DownloadLocalization> where T: Network {
     let model: T
 
     init(for model: T, using connection: Connection) throws {
@@ -135,7 +135,7 @@ private class DownloadTranslationOperation<T>: SendRequestOperation<DownloadLoca
 
         self.model = model
 
-        let downloadRequest = DownloadLocalization(from: localizationURL)
+        let downloadRequest = NetworkRequest.DownloadLocalization(from: localizationURL)
         super.init(connection: connection, request: downloadRequest)
     }
  }
