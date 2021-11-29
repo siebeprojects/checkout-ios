@@ -23,7 +23,7 @@ class CardNumberMatcherTests: XCTestCase {
     }
 
     private func loadTestCases() throws -> [HolderNameTestCase] {
-        let url = Bundle.current.url(forResource: "HolderNames", withExtension: "json")!
+        let url = Bundle.module.url(forResource: "HolderNames", withExtension: "json")!
         let data = try Data(contentsOf: url)
         return try JSONDecoder().decode([HolderNameTestCase].self, from: data)
     }

@@ -26,7 +26,7 @@ extension MockFactory.ListResult {
     }
 
     static var listResultData: Data {
-        let url = Bundle.current.url(forResource: "ListResult", withExtension: "json")!
+        let url = Bundle.module.url(forResource: "ListResult", withExtension: "json")!
         let jsonData = try! Data(contentsOf: url)
         return jsonData
     }
