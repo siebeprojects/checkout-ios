@@ -219,6 +219,8 @@
 		D9A88E48241C56490043F535 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9A88D92241C55040043F535 /* Media.xcassets */; };
 		D9A9277626822FF000AC67DD /* BodyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A9277526822FF000AC67DD /* BodyEncodable.swift */; };
 		D9B8372125D9158100066EB4 /* Date+fullYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8372025D9158100066EB4 /* Date+fullYear.swift */; };
+		D9B8B93327540E930016FDC7 /* ListResultProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8B93227540E930016FDC7 /* ListResultProvider.swift */; };
+		D9B8B9382754477B0016FDC7 /* ListResultNetworks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B8B9372754477B0016FDC7 /* ListResultNetworks.swift */; };
 		D9B9AD5826FCBE7F005B6A84 /* RegistrationOptionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B9AD5726FCBE7F005B6A84 /* RegistrationOptionsTests.swift */; };
 		D9BD035E274BBC6D00458096 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BD035D274BBC6D00458096 /* NetworkRequest.swift */; };
 		D9C861842737D4F8009D4332 /* UIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C861832737D4F8009D4332 /* UIModel.swift */; };
@@ -471,6 +473,8 @@
 		D9A88D95241C55040043F535 /* validations-default.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "validations-default.json"; sourceTree = "<group>"; };
 		D9A9277526822FF000AC67DD /* BodyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyEncodable.swift; sourceTree = "<group>"; };
 		D9B8372025D9158100066EB4 /* Date+fullYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+fullYear.swift"; sourceTree = "<group>"; };
+		D9B8B93227540E930016FDC7 /* ListResultProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListResultProvider.swift; sourceTree = "<group>"; };
+		D9B8B9372754477B0016FDC7 /* ListResultNetworks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListResultNetworks.swift; sourceTree = "<group>"; };
 		D9B9AD5726FCBE7F005B6A84 /* RegistrationOptionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationOptionsTests.swift; sourceTree = "<group>"; };
 		D9BD035D274BBC6D00458096 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		D9C861832737D4F8009D4332 /* UIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIModel.swift; sourceTree = "<group>"; };
@@ -1247,6 +1251,7 @@
 		D9A88D04241C55040043F535 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D9B8B936275447660016FDC7 /* ListResultProvider */,
 				D9A67987241C6B2F006DC1DF /* Info.plist */,
 				D96A4F34257D96EE00E74C8C /* Core */,
 				D96A4F10257D96EE00E74C8C /* Localization */,
@@ -1282,6 +1287,15 @@
 				D96BB8A0249FEBB400C2AD73 /* UI */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		D9B8B936275447660016FDC7 /* ListResultProvider */ = {
+			isa = PBXGroup;
+			children = (
+				D9B8B93227540E930016FDC7 /* ListResultProvider.swift */,
+				D9B8B9372754477B0016FDC7 /* ListResultNetworks.swift */,
+			);
+			path = ListResultProvider;
 			sourceTree = "<group>";
 		};
 		D9B9AD5626FCAF98005B6A84 /* Model */ = {
@@ -1542,8 +1556,10 @@
 				D96A4FBF257D96EF00E74C8C /* PaymentAmount.swift in Sources */,
 				D96A4F48257D96EF00E74C8C /* InputModifier.swift in Sources */,
 				D96A4FA6257D96EF00E74C8C /* Loadable.swift in Sources */,
+				D9B8B9382754477B0016FDC7 /* ListResultNetworks.swift in Sources */,
 				D96A4F53257D96EF00E74C8C /* Input.SmartSwitch.swift in Sources */,
 				D96A4F55257D96EF00E74C8C /* Input.swift in Sources */,
+				D9B8B93327540E930016FDC7 /* ListResultProvider.swift in Sources */,
 				D96A4FAE257D96EF00E74C8C /* RedirectCallbackHandler.swift in Sources */,
 				D96A4F78257D96EF00E74C8C /* Input.Field.Validation.Luhn.swift in Sources */,
 				07D87C2327302EBF00AD61C4 /* NSDirectionalEdgeInsets+Extensions.swift in Sources */,
@@ -1595,6 +1611,7 @@
 				D96A4F74257D96EF00E74C8C /* Input.Field.BasicText.swift in Sources */,
 				D96A4FDE257D96EF00E74C8C /* HTTPMethod.swift in Sources */,
 				D9E9C22426E23FE3006E4B82 /* ModalPresenter.swift in Sources */,
+				D93C33AC2753869A0028CE55 /* ChargePresetServiceDelegate.swift in Sources */,
 				D96A4F71257D96EF00E74C8C /* Input.Field.ExpiryDate.swift in Sources */,
 				D919CBD226EA5A1300DBB320 /* Input.ModelTransformer.ExtraElementsTransformer.swift in Sources */,
 				D96A4F98257D96EF00E74C8C /* List.Table.TableView.swift in Sources */,

@@ -7,82 +7,60 @@
 import Foundation
 
 class PaymentSessionProvider {
-    private let paymentSessionURL: URL
     private let sharedTranslationProvider: SharedTranslationProvider
-    private let paymentServicesFactory: PaymentServicesFactory
+    private let provider: ListResultProvider
+    private let connection: Connection
+    private let paymentSessionURL: URL
 
-    let connection: Connection
-
-    var listResult: ListResult?
+    private var listResult: ListResult?
 
     init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
         self.sharedTranslationProvider = localizationsProvider
-        self.paymentServicesFactory = paymentServicesFactory
+        self.provider = ListResultProvider(connection: connection, paymentServicesFactory: paymentServicesFactory)
     }
 
-    func loadPaymentSession(completion: @escaping ((Load<UIModel.PaymentSession, Error>) -> Void)) {
-        completion(.loading)
+    func loadPaymentSession(completion: @escaping ((Result<UIModel.PaymentSession, Error>) -> Void)) {
+        provider.fetchListResult(from: paymentSessionURL) { [weak self] result in
+            guard let weakSelf = self else { return }
 
-        let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> downloadSharedLocalization ->> checkInteractionCode ->> filterUnsupportedNetworks ->> localize
+            weakSelf.listResult = weakSelf.provider.listResult
 
-        job(paymentSessionURL) { [weak self] result in
+            switch result {
+            case .success(let listResultNetworks):
+                weakSelf.localize(listResultNetworks: listResultNetworks, completion: completion)
+            case .failure(let error):
+                // Even on a failure we need to try to download shared localization to localize errors
+                if let listResult = weakSelf.provider.listResult {
+                    weakSelf.fetchSharedLocalization(from: listResult) { _ in
+                        completion(.failure(error))
+                    }
+                } else {
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    private func localize(listResultNetworks: ListResultNetworks, completion: @escaping ((Result<UIModel.PaymentSession, Error>) -> Void)) {
+        fetchSharedLocalization(from: listResultNetworks.listResult) { [weak self] result in
             guard let weakSelf = self else { return }
 
             switch result {
-            case .success(let paymentNetworks):
-                do {
-                    let paymentSession = try weakSelf.createPaymentSession(from: paymentNetworks)
-                    completion(.success(paymentSession))
-                } catch {
-                    completion(.failure(error))
-                }
+            case .success:
+                let job = weakSelf.fetchNetworksLocalizations ->> weakSelf.createPaymentSession
+                job(listResultNetworks, completion)
             case .failure(let error):
                 completion(.failure(error))
             }
         }
+
     }
 
     // MARK: - Asynchronous methods
 
-    private func getListResult(from url: URL, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
-        let getListResult = NetworkRequest.GetListResult(url: paymentSessionURL)
-        let getListResultOperation = SendRequestOperation(connection: connection, request: getListResult)
-        getListResultOperation.downloadCompletionBlock = { result in
-            switch result {
-            case .success(let listResult):
-                self.listResult = listResult
-                completion(.success(listResult))
-            case .failure(let error): completion(.failure(error))
-            }
-        }
-        getListResultOperation.start()
-    }
-
-    private func checkIntegrationType(for listResult: ListResult, completion: ((Result<ListResult, Error>) -> Void)) {
-        guard listResult.integrationType == "MOBILE_NATIVE" else {
-            let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
-            let resultInfo = "Integration type is not supported: " + listResult.integrationType
-            let paymentError = CustomErrorInfo(resultInfo: resultInfo, interaction: interaction, underlyingError: nil)
-            completion(.failure(paymentError))
-            return
-        }
-
-        completion(.success(listResult))
-    }
-
-    private func checkOperationType(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
-        guard listResult.operationType != nil else {
-            let error = InternalError(description: "Operation type is not specified")
-            completion(.failure(error))
-            return
-        }
-
-        completion(.success(listResult))
-    }
-
-    private func downloadSharedLocalization(for listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
+    private func fetchSharedLocalization(from listResult: ListResult, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
         guard let localeURL = listResult.links["lang"] else {
                 let error = InternalError(description: "ListResult doesn't contain localization url")
                 completion(.failure(error))
@@ -100,57 +78,11 @@ class PaymentSessionProvider {
         }
     }
 
-    private func checkInteractionCode(listResult: ListResult, completion: ((Result<ListResult, Error>) -> Void)) {
-        guard Interaction.Code(rawValue: listResult.interaction.code) == .some(.PROCEED) else {
-            // If result is not PROCEED, route interaction and resultInfo to a merchant
-            let errorInfo = CustomErrorInfo(resultInfo: listResult.resultInfo, interaction: listResult.interaction, underlyingError: nil)
-            completion(.failure(errorInfo))
-            return
-        }
-
-        // Interaction code is PROCEED, route result
-        completion(.success(listResult))
-    }
-
-    private func filterUnsupportedNetworks(listResult: ListResult, completion: ((SessionNetworks) -> Void)) {
-        // Filter networks unsupported by any of `PaymentService`
-        var filteredPaymentNetworks = listResult.networks.applicable.filter { network in
-            paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
-        }
-
-        // Filter networks with `NONE/NONE` registration options in `UPDATE` flow, more info at: [PCX-1396](https://optile.atlassian.net/browse/PCX-1396) AC #1.a
-        if listResult.operationType == "UPDATE" {
-            filteredPaymentNetworks = filteredPaymentNetworks.filter { network in
-                if case .NONE = network.registration, case .NONE = network.recurrence {
-                    return false
-                } else {
-                    return true
-                }
-            }
-        }
-
-        let filteredRegisteredNetworks: [AccountRegistration]
-        if let accounts = listResult.accounts {
-            filteredRegisteredNetworks = accounts.filter {
-                paymentServicesFactory.isSupported(networkCode: $0.code, paymentMethod: $0.method)
-            }
-        } else {
-            filteredRegisteredNetworks = .init()
-        }
-
-        let filteredNetworks = SessionNetworks(
-            applicableNetworks: filteredPaymentNetworks,
-            accountRegistrations: filteredRegisteredNetworks,
-            presetAccount: listResult.presetAccount)
-
-        completion(filteredNetworks)
-    }
-
-    private func localize(filteredNetworks: SessionNetworks, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
+    private func fetchNetworksLocalizations(filteredNetworks: ListResultNetworks, completion: @escaping (Result<DownloadTranslationService.Translations, Error>) -> Void) {
         let translationService = DownloadTranslationService(
-            networks: filteredNetworks.applicableNetworks,
-            accounts: filteredNetworks.accountRegistrations,
-            presetAccount: filteredNetworks.presetAccount,
+            networks: filteredNetworks.filteredNetworks.applicableNetworks,
+            accounts: filteredNetworks.filteredNetworks.accountRegistrations,
+            presetAccount: filteredNetworks.filteredNetworks.presetAccount,
             sharedTranslation: sharedTranslationProvider)
 
         translationService.localize(using: connection, completion: completion)
@@ -158,24 +90,23 @@ class PaymentSessionProvider {
 
     // MARK: - Synchronous methods
 
-    private func createPaymentSession(from translations: DownloadTranslationService.Translations) throws -> UIModel.PaymentSession {
+    private func createPaymentSession(from translations: DownloadTranslationService.Translations, completion: ((Result<UIModel.PaymentSession, Error>) -> Void)) {
         guard let operationType = listResult?.operationType else {
-            throw InternalError(description: "Operation type or ListResult is not defined")
+            let error = InternalError(description: "Operation type or ListResult is not defined")
+            completion(.failure(error))
+            return
         }
 
         // PaymentSession.Operation contains only supported operation types by the framework
         guard let operation = UIModel.PaymentSession.Operation(rawValue: operationType) else {
-            throw InternalError(description: "Operation type is not known or supported: %@", operationType)
+            let error = InternalError(description: "Operation type is not known or supported: %@", operationType)
+            completion(.failure(error))
+            return
         }
 
         let context = UIModel.PaymentContext(operationType: operation, extraElements: listResult?.extraElements)
 
-        return .init(networks: translations.networks, accounts: translations.accounts, presetAccount: translations.presetAccount, context: context, allowDelete: listResult?.allowDelete)
+        let paymentSession = UIModel.PaymentSession(networks: translations.networks, accounts: translations.accounts, presetAccount: translations.presetAccount, context: context, allowDelete: listResult?.allowDelete)
+        completion(.success(paymentSession))
     }
-}
-
-private struct SessionNetworks {
-    let applicableNetworks: [ApplicableNetwork]
-    let accountRegistrations: [AccountRegistration]
-    let presetAccount: PresetAccount?
 }

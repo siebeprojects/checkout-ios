@@ -136,7 +136,7 @@ extension PaymentListViewController {
 // MARK: - PaymentSessionServiceDelegate
 
 extension PaymentListViewController: PaymentSessionServiceDelegate {
-    func paymentSessionService(loadingDidCompleteWith result: Load<UIModel.PaymentSession, ErrorInfo>) {
+    func paymentSessionService(loadingResultDidChange result: Load<UIModel.PaymentSession, ErrorInfo>) {
         self.title = self.sharedTranslationProvider.translation(forKey: "paymentpage.title")
 
         switch result {
