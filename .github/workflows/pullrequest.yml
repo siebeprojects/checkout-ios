@@ -87,7 +87,7 @@ jobs:
           merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
           merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
           payment-api-list-url: https:/\$()/api.integration.oscato.com/api/lists
-          xcconfig: Example/UITests/Assets/Config.xcconfig
+          xcconfig: Example/UITests/Resources/Config.xcconfig
         run: |
             echo "MERCHANT_CODE=${{ env.merchant-code }}" > ${{ env.xcconfig }}
             echo "MERCHANT_PAYMENT_TOKEN=${{ env.merchant-token }}" >> ${{ env.xcconfig }}
@@ -102,7 +102,7 @@ jobs:
         if: always() && steps.inject-secrets.outcome == 'success'
         id: clear-secrets
         env:
-          xcconfig: Example/UITests/Assets/Config.xcconfig
+          xcconfig: Example/UITests/Resources/Config.xcconfig
         run: rm ${{ env.xcconfig }}
 
       - name: Publish test report
