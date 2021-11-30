@@ -1,0 +1,108 @@
+// Copyright (c) 2021 Payoneer Germany GmbH
+// https://www.payoneer.com
+//
+// This file is open source and available under the MIT license.
+// See the LICENSE file for more information.
+
+import Foundation
+import SafariServices
+
+@objc public class ChargePresetService: NSObject {
+    @objc public weak var delegate: ChargePresetDelegate?
+
+    let connection: Connection
+
+    @objc public override convenience init() {
+        let connection = URLSessionConnection()
+        self.init(connection: connection)
+    }
+
+    internal init(connection: Connection) {
+        self.connection = connection
+        super.init()
+    }
+
+    @objc public func chargePresetAccount(usingListResultURL listResultURL: URL) {
+        getListResult(from: listResultURL) { [weak self] result in
+            switch result {
+            case .success(let listResult):
+                do {
+                    try self?.chargePresetAccount(from: listResult)
+                } catch {
+                    let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+                    let paymentResult = PaymentResult(operationResult: .failure(errorInfo))
+                    DispatchQueue.main.async {
+                        self?.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
+                    }
+                }
+            case .failure(let error):
+                let errorInfo: ErrorInfo = {
+                    if let errorInfo = error as? ErrorInfo { return errorInfo }
+                    return CustomErrorInfo.createClientSideError(from: error)
+                }()
+                let paymentResult = PaymentResult(operationResult: .failure(errorInfo))
+                DispatchQueue.main.async {
+                    self?.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
+                }
+            }
+        }
+    }
+
+    private func getListResult(from url: URL, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
+        let getListResult = NetworkRequest.GetListResult(url: url)
+        let getListResultOperation = SendRequestOperation(connection: connection, request: getListResult)
+        getListResultOperation.downloadCompletionBlock = { result in
+            switch result {
+            case .success(let listResult): completion(.success(listResult))
+            case .failure(let error): completion(.failure(error))
+            }
+        }
+        getListResultOperation.start()
+    }
+
+    /// - Throws: `InternalError`
+    private func chargePresetAccount(from listResult: ListResult) throws {
+        guard let presetAccount = listResult.presetAccount else {
+            let error = InternalError(description: "Payment session doesn't contain preset account")
+            throw error
+        }
+
+        guard
+            let operationType = listResult.operationType,
+            operationType == "PRESET"
+        else {
+            let error = InternalError(description: "List result doesn't contain operation type or operation type is not PRESET")
+            throw error
+        }
+
+        guard let operationURL = presetAccount.links["operation"] else {
+            let error = InternalError(description: "Preset account doesn't contain links.operation property, unable to charge")
+            throw error
+        }
+
+        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType)
+
+        let factory = PaymentServicesFactory(connection: connection)
+        factory.registerServices()
+        guard let paymentService = factory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method) else {
+            let error = InternalError(description: "Network code or payment method is not supported by any of payment services")
+            throw error
+        }
+        paymentService.delegate = self
+        paymentService.send(operationRequest: paymentRequest)
+    }
+}
+
+extension ChargePresetService: PaymentServiceDelegate {
+    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest) {
+        switch response {
+        case .result(let result):
+            let paymentResult = PaymentResult(operationResult: result)
+            DispatchQueue.main.async {
+                self.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
+            }
+        case .redirect(let url):
+            return
+        }
+    }
+}
