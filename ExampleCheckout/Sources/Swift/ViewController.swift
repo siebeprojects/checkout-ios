@@ -12,6 +12,8 @@ class ViewController: UITableViewController {
     @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var sendButton: UIButton!
 
+    private var chargePresetService: ChargePresetService?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +44,25 @@ class ViewController: UITableViewController {
         let viewController = PaymentListViewController(listResultURL: url)
         viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    @IBAction func chargePresetAccount(_ sender: Any) {
+        guard let text = textField.text, let url = URL(string: text) else {
+            print("Invalid URL")
+            textField.text = nil
+            return
+        }
+
+        let service = ChargePresetService()
+        chargePresetService = service
+        service.delegate = self
+        service.chargePresetAccount(usingListResultURL: url)
+    }
+}
+
+extension ViewController: ChargePresetDelegate {
+    func chargePresetService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController?) {
+        self.presentAlert(with: paymentResult)
     }
 }
 
