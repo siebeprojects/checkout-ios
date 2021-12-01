@@ -1,9 +1,6 @@
 name: Unit and UI tests
 
 on:
-  push:
-    branches:
-      - feature/PCX-2363-spm
   pull_request:
     branches-ignore:
       - master
