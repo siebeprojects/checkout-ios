@@ -62,7 +62,17 @@ class ViewController: UITableViewController {
 
 extension ViewController: ChargePresetDelegate {
     func chargePresetService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController?) {
-        self.presentAlert(with: paymentResult)
+        if let viewController = viewController {
+            viewController.dismiss(animated: true, completion: {
+                self.presentAlert(with: paymentResult)
+            })
+        } else {
+            self.presentAlert(with: paymentResult)
+        }
+    }
+
+    func chargePresetService(didRequestPresenting viewController: UIViewController) {
+        self.present(viewController, animated: true, completion: nil)
     }
 }
 

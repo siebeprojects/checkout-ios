@@ -4,13 +4,16 @@
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
 
-import Foundation
+import UIKit
 import SafariServices
 
 @objc public class ChargePresetService: NSObject {
     @objc public weak var delegate: ChargePresetDelegate?
 
-    let connection: Connection
+    private var redirectCallbackHandler: RedirectCallbackHandler?
+    private var paymentService: PaymentService?
+    private let connection: Connection
+    var presentedViewController: UIViewController?
 
     @objc public override convenience init() {
         let connection = URLSessionConnection()
@@ -88,6 +91,7 @@ import SafariServices
             let error = InternalError(description: "Network code or payment method is not supported by any of payment services")
             throw error
         }
+        self.paymentService = paymentService
         paymentService.delegate = self
         paymentService.send(operationRequest: paymentRequest)
     }
@@ -95,14 +99,21 @@ import SafariServices
 
 extension ChargePresetService: PaymentServiceDelegate {
     func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest) {
+        paymentService = nil
+        
         switch response {
         case .result(let result):
             let paymentResult = PaymentResult(operationResult: result)
             DispatchQueue.main.async {
-                self.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
+                self.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: self.presentedViewController)
             }
         case .redirect(let url):
-            return
+            let safariViewController = SFSafariViewController(url: url)
+            self.presentedViewController = safariViewController
+
+            DispatchQueue.main.async {
+                self.delegate?.chargePresetService(didRequestPresenting: safariViewController)
+            }
         }
     }
 }

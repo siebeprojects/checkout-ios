@@ -8,4 +8,5 @@ import UIKit
 
 @objc public protocol ChargePresetDelegate {
     @objc func chargePresetService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController?)
+    @objc func chargePresetService(didRequestPresenting viewController: UIViewController)
 }
