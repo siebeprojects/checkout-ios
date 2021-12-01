@@ -100,7 +100,7 @@ import SafariServices
 extension ChargePresetService: PaymentServiceDelegate {
     func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest) {
         paymentService = nil
-        
+
         switch response {
         case .result(let result):
             let paymentResult = PaymentResult(operationResult: result)
@@ -109,11 +109,22 @@ extension ChargePresetService: PaymentServiceDelegate {
             }
         case .redirect(let url):
             let safariViewController = SFSafariViewController(url: url)
+            safariViewController.delegate = self
             self.presentedViewController = safariViewController
 
             DispatchQueue.main.async {
                 self.delegate?.chargePresetService(didRequestPresenting: safariViewController)
             }
         }
+    }
+}
+
+extension ChargePresetService: SFSafariViewControllerDelegate {
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        NotificationCenter.default.post(
+            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
+            object: nil,
+            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: "PRESET"]
+        )
     }
 }
