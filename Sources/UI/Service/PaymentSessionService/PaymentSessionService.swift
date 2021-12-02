@@ -30,13 +30,11 @@ class PaymentSessionService {
 
     /// - Parameter completion: `LocalizedError` or `NSError` with localized description is always returned if `Load` produced an error.
     func loadPaymentSession() {
-        delegate?.paymentSessionService(loadingStateDidChange: .loading)
-
         paymentSessionProvider.loadPaymentSession { [self, weak delegate, firstSelectedNetwork] result in
             switch result {
             case .success(let session):
                 DispatchQueue.main.async {
-                    delegate?.paymentSessionService(loadingStateDidChange: .success(session))
+                    delegate?.paymentSessionService(didReceiveResult: .success(session))
 
                     if let selectedNetwork = firstSelectedNetwork(session) {
                         delegate?.paymentSessionService(shouldSelect: selectedNetwork, context: session.context)
@@ -50,21 +48,21 @@ class PaymentSessionService {
                 // If server responded with ErrorInfo
                 if let errorInfo = error as? ErrorInfo {
                     DispatchQueue.main.async {
-                        delegate?.paymentSessionService(loadingStateDidChange: .failure(errorInfo))
+                        delegate?.paymentSessionService(didReceiveResult: .failure(errorInfo))
                     }
                 // If it is recoverable error (network error in our case)
                 } else if type(of: self.connection.self).isRecoverableError(error) {
                     let interaction = Interaction(code: .ABORT, reason: .COMMUNICATION_FAILURE)
                     let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
                     DispatchQueue.main.async {
-                        delegate?.paymentSessionService(loadingStateDidChange: .failure(errorInfo))
+                        delegate?.paymentSessionService(didReceiveResult: .failure(errorInfo))
                     }
                 // In all other cases
                 } else {
                     let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
                     let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
                     DispatchQueue.main.async {
-                        delegate?.paymentSessionService(loadingStateDidChange: .failure(errorInfo))
+                        delegate?.paymentSessionService(didReceiveResult: .failure(errorInfo))
                     }
                 }
             }
@@ -79,13 +77,6 @@ class PaymentSessionService {
 
         return nil
     }
-}
-
-/// Enumeration that is used for any object that can't be instantly loaded (e.g. fetched from a network)
-enum Load<Success, ErrorType> where ErrorType: Error {
-    case loading
-    case failure(ErrorType)
-    case success(Success)
 }
 
 extension PaymentSessionService: Loggable {}

@@ -19,7 +19,6 @@ class PaymentSessionServiceTests: XCTestCase {
             XCTAssertEqual(session.networks.count, 5)
             XCTAssertEqual(session.networks[1].label, "Diners Club Localized")
         case .failure(let error): XCTFail(error)
-        case .loading: XCTFail("Shouldn't be loading")
         }
     }
 
@@ -34,18 +33,17 @@ class PaymentSessionServiceTests: XCTestCase {
 
     var loadingPromise: XCTestExpectation!
     var resultPromise: XCTestExpectation!
-    var sessionResult: Load<UIModel.PaymentSession, ErrorInfo>?
+    var sessionResult: Result<UIModel.PaymentSession, ErrorInfo>?
 
-    private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Load<UIModel.PaymentSession, ErrorInfo> {
+    private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Result<UIModel.PaymentSession, ErrorInfo> {
         let connection = MockConnection(dataSource: dataSource)
         let provider = PaymentSessionService(paymentSessionURL: URL.example, connection: connection, localizationProvider: SharedTranslationProvider())
         provider.delegate = self
 
-        loadingPromise = expectation(description: "PaymentSessionProvider: loading")
         resultPromise = expectation(description: "PaymentSessionProvider: completed")
         provider.loadPaymentSession()
 
-        wait(for: [loadingPromise, resultPromise], timeout: 1, enforceOrder: true)
+        wait(for: [resultPromise], timeout: 1)
 
         let attachment = XCTAttachment(subject: sessionResult)
         attachment.name = "LoadPaymentSessionResult"
@@ -62,13 +60,9 @@ class PaymentSessionServiceTests: XCTestCase {
 }
 
 extension PaymentSessionServiceTests: PaymentSessionServiceDelegate {
-    func paymentSessionService(loadingStateDidChange loadingState: Load<UIModel.PaymentSession, ErrorInfo>) {
-        switch loadingState {
-        case .loading: loadingPromise.fulfill()
-        default:
-            sessionResult = loadingState
-            resultPromise.fulfill()
-        }
+    func paymentSessionService(didReceiveResult result: Result<UIModel.PaymentSession, ErrorInfo>) {
+        sessionResult = result
+        resultPromise.fulfill()
     }
 
     func paymentSessionService(shouldSelect network: UIModel.PaymentNetwork, context: UIModel.PaymentContext) {}
