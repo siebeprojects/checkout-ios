@@ -136,10 +136,10 @@ extension PaymentListViewController {
 // MARK: - PaymentSessionServiceDelegate
 
 extension PaymentListViewController: PaymentSessionServiceDelegate {
-    func paymentSessionService(loadingResultDidChange result: Load<UIModel.PaymentSession, ErrorInfo>) {
+    func paymentSessionService(loadingStateDidChange loadingState: Load<UIModel.PaymentSession, ErrorInfo>) {
         self.title = self.sharedTranslationProvider.translation(forKey: "paymentpage.title")
 
-        switch result {
+        switch loadingState {
         case .failure(let errorInfo):
             // If it is a communication failure show an alert with a retry option
             if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: errorInfo.interaction.reason) {

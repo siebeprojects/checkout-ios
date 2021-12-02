@@ -62,11 +62,11 @@ class PaymentSessionServiceTests: XCTestCase {
 }
 
 extension PaymentSessionServiceTests: PaymentSessionServiceDelegate {
-    func paymentSessionService(loadingResultDidChange result: Load<UIModel.PaymentSession, ErrorInfo>) {
-        switch result {
+    func paymentSessionService(loadingStateDidChange loadingState: Load<UIModel.PaymentSession, ErrorInfo>) {
+        switch loadingState {
         case .loading: loadingPromise.fulfill()
         default:
-            sessionResult = result
+            sessionResult = loadingState
             resultPromise.fulfill()
         }
     }
