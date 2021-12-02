@@ -11,7 +11,7 @@ class ListResultProvider {
     private let connection: Connection
 
     /// Could contain list result after running `fetchListResult(from:completion:)`.
-    /// - Note: could containt list result even if `fetchListResult(from:completion:)` produced an error but list result was downloaded successfully.
+    /// - Note: could contain list result even if `fetchListResult(from:completion:)` produced an error but list result was downloaded successfully.
     private(set) var listResult: ListResult?
 
     init(connection: Connection, paymentServicesFactory: PaymentServicesFactory) {
