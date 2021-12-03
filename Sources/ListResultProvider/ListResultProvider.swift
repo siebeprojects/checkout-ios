@@ -103,7 +103,7 @@ class ListResultProvider {
         // Filter preset account
         let filteredPresetAccount: PresetAccount? = {
             guard let presetAccount = listResult.presetAccount else { return nil }
-            guard paymentServicesFactory.isSupported(networkCode: presetAccount.code, paymentMethod: nil) else { return nil }
+            guard paymentServicesFactory.isSupported(networkCode: presetAccount.code, paymentMethod: presetAccount.method) else { return nil }
             return presetAccount
         }()
 
