@@ -13,7 +13,7 @@ import SafariServices
     private var redirectCallbackHandler: RedirectCallbackHandler?
     private var paymentService: PaymentService?
     private let connection: Connection
-    var presentedViewController: UIViewController?
+    private var presentedViewController: UIViewController?
 
     @objc public override convenience init() {
         let connection = URLSessionConnection()
