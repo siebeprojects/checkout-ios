@@ -11,8 +11,23 @@ class ViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var chargePresetAccount: ActivityIndicatableButton!
+
+    fileprivate var isEnabled: Bool = true {
+        didSet {
+            if isEnabled {
+                [sendButton, chargePresetAccount, textField, themeSwitch].forEach { $0?.isEnabled = isEnabled }
+                [sendButton, chargePresetAccount].forEach { $0?.backgroundColor = $0?.backgroundColor?.withAlphaComponent(1) }
+            } else {
+                [sendButton, chargePresetAccount, textField, themeSwitch].forEach { $0?.isEnabled = isEnabled }
+                [sendButton, chargePresetAccount].forEach { $0?.backgroundColor = $0?.backgroundColor?.withAlphaComponent(0.6) }
+            }
+        }
+    }
 
     private var chargePresetService: ChargePresetService?
+
+    // MARK: Overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +35,11 @@ class ViewController: UITableViewController {
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
         }
+
         setTintColor(to: Theme.shared.tintColor)
+
+        // Set title programmaticaly for `ActivityIndicatableButton` from Storyboard's value
+        chargePresetAccount.setTitle(chargePresetAccount.title(for: .normal), for: .normal)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -28,6 +47,8 @@ class ViewController: UITableViewController {
 
         textField.becomeFirstResponder()
     }
+
+    // MARK: Outlets
 
     @IBAction func switchValueDidChange(_ sender: UISwitch) {
         Theme.shared = sender.isOn ? .custom : .standard
@@ -53,6 +74,9 @@ class ViewController: UITableViewController {
             return
         }
 
+        isEnabled = false
+        chargePresetAccount.isLoading = true
+
         let service = ChargePresetService()
         chargePresetService = service
         service.delegate = self
@@ -60,21 +84,7 @@ class ViewController: UITableViewController {
     }
 }
 
-extension ViewController: ChargePresetDelegate {
-    func chargePresetService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController?) {
-        if let viewController = viewController {
-            viewController.dismiss(animated: true, completion: {
-                self.presentAlert(with: paymentResult)
-            })
-        } else {
-            self.presentAlert(with: paymentResult)
-        }
-    }
-
-    func chargePresetService(didRequestPresenting viewController: UIViewController) {
-        self.present(viewController, animated: true, completion: nil)
-    }
-}
+// MARK: - PaymentDelegate
 
 extension ViewController: PaymentDelegate {
     func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController) {
@@ -107,11 +117,33 @@ extension ViewController: PaymentDelegate {
     }
 }
 
+// MARK: - Preset flow
+
+extension ViewController: ChargePresetDelegate {
+    func chargePresetService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController?) {
+        isEnabled = true
+        chargePresetAccount.isLoading = false
+
+        if let viewController = viewController {
+            viewController.dismiss(animated: true, completion: {
+                self.presentAlert(with: paymentResult)
+            })
+        } else {
+            self.presentAlert(with: paymentResult)
+        }
+    }
+
+    func chargePresetService(didRequestPresenting viewController: UIViewController) {
+        self.present(viewController, animated: true, completion: nil)
+    }
+}
+
 private extension ViewController {
     func setTintColor(to color: UIColor) {
         themeSwitch.onTintColor = color
         textField.tintColor = color
         sendButton.backgroundColor = color
+        chargePresetAccount.backgroundColor = color
 
         if #available(iOS 13.0, *) {
             // Change large title's background color
@@ -132,18 +164,4 @@ private extension ViewController {
 
 private struct TextLine {
     let key, description: String
-}
-
-private extension UINavigationController {
-    func popViewController(animated: Bool, completion: @escaping () -> Void) {
-        popViewController(animated: animated)
-
-        if let coordinator = transitionCoordinator, animated {
-            coordinator.animate(alongsideTransition: nil) { _ in
-                completion()
-            }
-        } else {
-            completion()
-        }
-    }
 }
