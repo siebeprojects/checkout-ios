@@ -36,7 +36,7 @@ class ViewController: UITableViewController {
             overrideUserInterfaceStyle = .light
         }
 
-        tintColor = Theme.shared.tintColor
+        setTintColor(to: Theme.shared.tintColor)
 
         // Set title programmaticaly for `ActivityIndicatableButton` from Storyboard's value
         chargePresetAccountButton.setTitle(chargePresetAccountButton.title(for: .normal), for: .normal)
@@ -52,7 +52,7 @@ class ViewController: UITableViewController {
 
     @IBAction func themeSwitchValueDidChange(_ sender: UISwitch) {
         Theme.shared = sender.isOn ? .custom : .standard
-        tintColor = Theme.shared.tintColor
+        setTintColor(to: Theme.shared.tintColor)
     }
 
     @IBAction func showPaymentListDidTap(_ sender: UIButton) {
@@ -131,16 +131,13 @@ extension ViewController: ChargePresetDelegate {
 }
 
 extension ViewController {
-    var tintColor: UIColor {
-        get { view.tintColor }
-        set {
-            view.tintColor = newValue
-            themeSwitch.onTintColor = newValue
-            textField.tintColor = newValue
-            showPaymentListButton.backgroundColor = newValue
-            chargePresetAccountButton.backgroundColor = newValue
-            setNavigationBarColor(to: newValue)
-        }
+    fileprivate func setTintColor(to color: UIColor) {
+        view.tintColor = color
+        themeSwitch.onTintColor = color
+        textField.tintColor = color
+        showPaymentListButton.backgroundColor = color
+        chargePresetAccountButton.backgroundColor = color
+        setNavigationBarColor(to: color)
     }
 
     private func setNavigationBarColor(to color: UIColor) {
