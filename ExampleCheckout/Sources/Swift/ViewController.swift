@@ -15,11 +15,11 @@ class ViewController: UITableViewController {
 
     fileprivate var isEnabled: Bool = true {
         didSet {
+            [showPaymentListButton, chargePresetAccountButton, textField, themeSwitch].forEach { $0?.isEnabled = isEnabled }
+
             if isEnabled {
-                [showPaymentListButton, chargePresetAccountButton, textField, themeSwitch].forEach { $0?.isEnabled = isEnabled }
                 [showPaymentListButton, chargePresetAccountButton].forEach { $0?.backgroundColor = $0?.backgroundColor?.withAlphaComponent(1) }
             } else {
-                [showPaymentListButton, chargePresetAccountButton, textField, themeSwitch].forEach { $0?.isEnabled = isEnabled }
                 [showPaymentListButton, chargePresetAccountButton].forEach { $0?.backgroundColor = $0?.backgroundColor?.withAlphaComponent(0.6) }
             }
         }
