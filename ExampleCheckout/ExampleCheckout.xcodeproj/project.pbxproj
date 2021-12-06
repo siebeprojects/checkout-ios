@@ -125,7 +125,6 @@
 		D9C602722726ECB7007CFD6A /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026F2726ECB7007CFD6A /* Charge.swift */; };
 		D9C602732726ECB7007CFD6A /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026F2726ECB7007CFD6A /* Charge.swift */; };
 		D9D5F36C251265EF00540F62 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D5F36B251265EF00540F62 /* Theme+custom.swift */; };
-		D9D829B825122A73002DE51C /* UIAlertController+unexpectedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D829B725122A73002DE51C /* UIAlertController+unexpectedError.swift */; };
 		D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB0234143BD0021184C /* AppDelegate.swift */; };
 		D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB4234143BD0021184C /* ViewController.swift */; };
 		D9E0AEB8234143BD0021184C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB6234143BD0021184C /* Main.storyboard */; };
@@ -260,7 +259,6 @@
 		D9C6026E2726ECB7007CFD6A /* PaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		D9C6026F2726ECB7007CFD6A /* Charge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Charge.swift; sourceTree = "<group>"; };
 		D9D5F36B251265EF00540F62 /* Theme+custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
-		D9D829B725122A73002DE51C /* UIAlertController+unexpectedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+unexpectedError.swift"; sourceTree = "<group>"; };
 		D9E0AEAD234143BD0021184C /* CheckoutSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckoutSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E0AEB0234143BD0021184C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9E0AEB4234143BD0021184C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -493,7 +491,6 @@
 			children = (
 				D9D5F36B251265EF00540F62 /* Theme+custom.swift */,
 				D9B11DC6275D800300E4774D /* UINavigationController+popViewController.swift */,
-				D9D829B725122A73002DE51C /* UIAlertController+unexpectedError.swift */,
 				D9B11DC8275E277700E4774D /* PaymentResult+debugDescription.swift.swift */,
 			);
 			path = Extension;
@@ -964,7 +961,6 @@
 				D9B11DC7275D800300E4774D /* UINavigationController+popViewController.swift in Sources */,
 				D9B11DC3275D24FF00E4774D /* ActivityIndicatableButton.swift in Sources */,
 				D9B11DC9275E277700E4774D /* PaymentResult+debugDescription.swift.swift in Sources */,
-				D9D829B825122A73002DE51C /* UIAlertController+unexpectedError.swift in Sources */,
 				D9D5F36C251265EF00540F62 /* Theme+custom.swift in Sources */,
 				D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */,
 			);
