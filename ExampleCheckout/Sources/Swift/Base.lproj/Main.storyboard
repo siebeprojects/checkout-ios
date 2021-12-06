@@ -59,7 +59,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Nag-du-UoB">
                                                     <rect key="frame" x="345" y="6.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="switchValueDidChange:" destination="cZc-Vk-m61" eventType="valueChanged" id="gCI-rY-aqe"/>
+                                                        <action selector="themeSwitchValueDidChange:" destination="cZc-Vk-m61" eventType="valueChanged" id="Jm7-YF-Xws"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -97,7 +97,7 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="sendRequest:" destination="cZc-Vk-m61" eventType="touchUpInside" id="PNt-Fx-UtQ"/>
+                                                        <action selector="showPaymentListDidTap:" destination="cZc-Vk-m61" eventType="touchUpInside" id="zd2-sq-tkf"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -130,7 +130,7 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="chargePresetAccount:" destination="cZc-Vk-m61" eventType="touchUpInside" id="EwJ-4l-nal"/>
+                                                        <action selector="chargePresetAccountDidTap:" destination="cZc-Vk-m61" eventType="touchUpInside" id="wHN-eP-TxM"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -152,8 +152,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Checkout" id="WQk-pI-LCg"/>
                     <connections>
-                        <outlet property="chargePresetAccount" destination="CzM-D2-P3a" id="8gQ-uS-ORE"/>
-                        <outlet property="sendButton" destination="kUS-Sa-uvx" id="Egh-Df-hNg"/>
+                        <outlet property="chargePresetAccountButton" destination="CzM-D2-P3a" id="nlT-aI-jD1"/>
+                        <outlet property="showPaymentListButton" destination="kUS-Sa-uvx" id="tp9-um-nAA"/>
                         <outlet property="textField" destination="aV7-RS-uKQ" id="cwJ-N5-0rO"/>
                         <outlet property="themeSwitch" destination="Nag-du-UoB" id="Dwh-mE-5DS"/>
                     </connections>
