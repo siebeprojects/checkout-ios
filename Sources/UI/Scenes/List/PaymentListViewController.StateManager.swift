@@ -7,16 +7,16 @@ extension PaymentListViewController {
 
         fileprivate var tableController: List.Table.Controller?
 
-        var viewState: Load<UIModel.PaymentSession, UIAlertController.AlertError> = .loading {
+        var viewState: ViewState = .loading {
             didSet { changeState(to: viewState) }
         }
     }
 }
 
 extension PaymentListViewController.StateManager {
-    fileprivate func changeState(to state: Load<UIModel.PaymentSession, UIAlertController.AlertError>) {
+    fileprivate func changeState(to state: ViewState) {
         switch state {
-        case .success(let session):
+        case .networksList(let session):
             do {
                 activityIndicator(isActive: false)
                 try showPaymentMethods(for: session)
@@ -80,5 +80,13 @@ extension PaymentListViewController.StateManager {
 
     private func dismissAlertController() {
         vc.errorAlertController?.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension PaymentListViewController.StateManager {
+    enum ViewState {
+        case loading
+        case failure(UIAlertController.AlertError)
+        case networksList(UIModel.PaymentSession)
     }
 }

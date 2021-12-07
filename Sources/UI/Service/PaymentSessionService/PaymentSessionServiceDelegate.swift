@@ -7,6 +7,6 @@
 import Foundation
 
 protocol PaymentSessionServiceDelegate: AnyObject {
-    func paymentSessionService(loadingDidCompleteWith result: Load<UIModel.PaymentSession, ErrorInfo>)
+    func paymentSessionService(didReceiveResult result: Result<UIModel.PaymentSession, ErrorInfo>)
     func paymentSessionService(shouldSelect network: UIModel.PaymentNetwork, context: UIModel.PaymentContext)
 }

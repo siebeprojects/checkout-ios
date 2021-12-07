@@ -38,7 +38,7 @@ final class AssetProvider {
     #endif
 
     static func getGroupingRulesData() throws -> Data {
-        guard let url = Bundle.current.url(forResource: "groups", withExtension: "json") else {
+        guard let url = Bundle.module.url(forResource: "groups", withExtension: "json") else {
             throw InternalError(description: "Unable to build a path for groups.json")
         }
 
@@ -46,7 +46,7 @@ final class AssetProvider {
     }
 
     static func getValidationsData() throws -> Data {
-        guard let url = Bundle.current.url(forResource: "validations", withExtension: "json") else {
+        guard let url = Bundle.module.url(forResource: "validations", withExtension: "json") else {
             throw InternalError(description: "Unable to build a path for validations.json")
         }
 
@@ -54,7 +54,7 @@ final class AssetProvider {
     }
 
     static func getValidationsDefaultData() throws -> Data {
-        guard let url = Bundle.current.url(forResource: "validations-default", withExtension: "json") else {
+        guard let url = Bundle.module.url(forResource: "validations-default", withExtension: "json") else {
             throw InternalError(description: "Unable to build a path for validations-default.json")
         }
 

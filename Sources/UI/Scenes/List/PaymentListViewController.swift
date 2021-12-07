@@ -80,6 +80,7 @@ extension PaymentListViewController {
         if #available(iOS 14.0, *) {
             logger.info("Loading payment session...")
         }
+
         stateManager.viewState = .loading
         sessionService.loadPaymentSession()
     }
@@ -136,7 +137,7 @@ extension PaymentListViewController {
 // MARK: - PaymentSessionServiceDelegate
 
 extension PaymentListViewController: PaymentSessionServiceDelegate {
-    func paymentSessionService(loadingDidCompleteWith result: Load<UIModel.PaymentSession, ErrorInfo>) {
+    func paymentSessionService(didReceiveResult result: Result<UIModel.PaymentSession, ErrorInfo>) {
         self.title = self.sharedTranslationProvider.translation(forKey: "paymentpage.title")
 
         switch result {
@@ -157,10 +158,8 @@ extension PaymentListViewController: PaymentSessionServiceDelegate {
             } else {
                 dismiss(with: .failure(errorInfo))
             }
-        case .loading:
-            stateManager.viewState = .loading
         case .success(let session):
-            stateManager.viewState = .success(session)
+            stateManager.viewState = .networksList(session)
         }
     }
 
