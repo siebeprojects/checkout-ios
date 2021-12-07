@@ -13,9 +13,6 @@ let package = Package(
             name: "PayoneerCheckout",
             targets: ["PayoneerCheckout"])
     ],
-    dependencies: [
-
-    ],
     targets: [
         .target(
             name: "PayoneerCheckout",
