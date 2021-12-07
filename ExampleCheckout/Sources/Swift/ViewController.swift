@@ -131,7 +131,7 @@ extension ViewController: ChargePresetDelegate {
 }
 
 extension ViewController {
-    fileprivate func setTintColor(to color: UIColor) {
+    private func setTintColor(to color: UIColor) {
         view.tintColor = color
         themeSwitch.onTintColor = color
         textField.tintColor = color
