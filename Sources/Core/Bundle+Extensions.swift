@@ -7,7 +7,7 @@
 import Foundation
 
 extension Bundle {
-    /// Returns `module` when the SDK is being imported via SPM. Returns a class-based bundle when being used through other ways (e.g. CocoaPods).
+    /// Returns `module` when the SDK is being imported via SPM. Returns a local-class bundle when being used through other ways (e.g. CocoaPods).
     static var current: Bundle {
 #if SWIFT_PACKAGE
         return .module
