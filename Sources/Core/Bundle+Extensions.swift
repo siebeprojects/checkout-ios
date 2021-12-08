@@ -7,16 +7,16 @@
 import Foundation
 
 extension Bundle {
-    /// Returns `module` when the SDK is being imported via SPM. Returns `main` when being used through other ways (e.g. CocoaPods).
+    /// Returns `module` when the SDK is being imported via SPM. Returns a class-based bundle when being used through other ways (e.g. CocoaPods).
     static var current: Bundle {
 #if SWIFT_PACKAGE
         return .module
 #else
-        return .main
+        return .init(for: AssetProvider.self)
 #endif
     }
 
     var frameworkIdentifier: String {
-        return self.bundleIdentifier ?? "com.payoneer.checkout"
+        return bundleIdentifier ?? "com.payoneer.checkout"
     }
 }
