@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D948522F26F2438D00D11DC2"
-               BuildableName = "CheckoutObjC.app"
-               BlueprintName = "CheckoutObjC"
-               ReferencedContainer = "container:CheckoutExample.xcodeproj">
+               BlueprintIdentifier = "D9E0AEAC234143BD0021184C"
+               BuildableName = "CheckoutSwift.app"
+               BlueprintName = "CheckoutSwift"
+               ReferencedContainer = "container:ExampleCheckout.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,18 +26,23 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "NO">
       <Testables>
          <TestableReference
             skipped = "NO"
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0725B3FC26FCBC9600C607A8"
-               BuildableName = "UITestsObjC.xctest"
-               BlueprintName = "UITestsObjC"
-               ReferencedContainer = "container:CheckoutExample.xcodeproj">
+               BlueprintIdentifier = "D9A5FA55253CA701001C71B7"
+               BuildableName = "UITestsSwift.xctest"
+               BlueprintName = "UITestsSwift"
+               ReferencedContainer = "container:ExampleCheckout.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "NetworksTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
@@ -55,10 +60,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D948522F26F2438D00D11DC2"
-            BuildableName = "CheckoutObjC.app"
-            BlueprintName = "CheckoutObjC"
-            ReferencedContainer = "container:CheckoutExample.xcodeproj">
+            BlueprintIdentifier = "D9E0AEAC234143BD0021184C"
+            BuildableName = "CheckoutSwift.app"
+            BlueprintName = "CheckoutSwift"
+            ReferencedContainer = "container:ExampleCheckout.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,10 +77,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D948522F26F2438D00D11DC2"
-            BuildableName = "CheckoutObjC.app"
-            BlueprintName = "CheckoutObjC"
-            ReferencedContainer = "container:CheckoutExample.xcodeproj">
+            BlueprintIdentifier = "D9E0AEAC234143BD0021184C"
+            BuildableName = "CheckoutSwift.app"
+            BlueprintName = "CheckoutSwift"
+            ReferencedContainer = "container:ExampleCheckout.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
