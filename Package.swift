@@ -16,7 +16,6 @@ let package = Package(
     targets: [
         .target(
             name: "PayoneerCheckout",
-            path: "Sources",
             resources: [
                 .process("Resources")
             ]
@@ -24,7 +23,6 @@ let package = Package(
         .testTarget(
             name: "PayoneerCheckoutTests",
             dependencies: ["PayoneerCheckout"],
-            path: "Tests",
             resources: [
                 .process("Resources")
             ]
