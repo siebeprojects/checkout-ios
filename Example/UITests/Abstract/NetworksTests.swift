@@ -29,7 +29,7 @@ class NetworksTests: XCTestCase {
             // Initial screen
             let tablesQuery = app.tables
             let textField = tablesQuery.textFields.firstMatch
-            let sendRequestButton = tablesQuery.buttons["Send request"]
+            let sendRequestButton = tablesQuery.buttons["Show Payment List"]
 
             let sessionURL = session.links["self"]!
 

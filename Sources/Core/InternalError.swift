@@ -6,7 +6,7 @@
 
 import Foundation
 
-struct InternalError: Error, CustomStringConvertible, CustomDebugStringConvertible {
+struct InternalError: Error, CustomStringConvertible, CustomDebugStringConvertible, LocalizedError {
     var debugDescription: String { return String(format: staticDescription.description, arguments) }
     var description: String {
         var redactedArguments = [CVarArg]()
@@ -17,6 +17,7 @@ struct InternalError: Error, CustomStringConvertible, CustomDebugStringConvertib
         return String(format: staticDescription.description, redactedArguments)
     }
     let callStack: String
+    var errorDescription: String? { return description }
 
     private let staticDescription: StaticString
     private let arguments: [CVarArg]

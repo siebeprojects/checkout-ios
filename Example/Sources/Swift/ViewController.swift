@@ -10,9 +10,23 @@ import PayoneerCheckout
 class ViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var themeSwitch: UISwitch!
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var showPaymentListButton: UIButton!
+    @IBOutlet weak var chargePresetAccountButton: ActivityIndicatableButton!
+
+    fileprivate var isEnabled: Bool = true {
+        didSet {
+            [showPaymentListButton, chargePresetAccountButton, textField, themeSwitch].forEach { $0?.isEnabled = isEnabled }
+
+            let alphaValue = isEnabled ? 1 : 0.6
+            [showPaymentListButton, chargePresetAccountButton].forEach {
+                $0?.backgroundColor = $0?.backgroundColor?.withAlphaComponent(alphaValue)
+            }
+        }
+    }
 
     private var chargePresetService: ChargePresetService?
+
+    // MARK: Overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +34,11 @@ class ViewController: UITableViewController {
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
         }
+
         setTintColor(to: Theme.shared.tintColor)
+
+        // Set title programmaticaly for `ActivityIndicatableButton` from Storyboard's value
+        chargePresetAccountButton.setTitle(chargePresetAccountButton.title(for: .normal), for: .normal)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -29,12 +47,14 @@ class ViewController: UITableViewController {
         textField.becomeFirstResponder()
     }
 
-    @IBAction func switchValueDidChange(_ sender: UISwitch) {
+    // MARK: Outlets
+
+    @IBAction func themeSwitchValueDidChange(_ sender: UISwitch) {
         Theme.shared = sender.isOn ? .custom : .standard
         setTintColor(to: Theme.shared.tintColor)
     }
 
-    @IBAction func sendRequest(_ sender: Any) {
+    @IBAction func showPaymentListDidTap(_ sender: UIButton) {
         guard let text = textField.text, let url = URL(string: text) else {
             print("Invalid URL")
             textField.text = nil
@@ -46,22 +66,54 @@ class ViewController: UITableViewController {
         navigationController?.pushViewController(viewController, animated: true)
     }
 
-    @IBAction func chargePresetAccount(_ sender: Any) {
+    @IBAction func chargePresetAccountDidTap(_ sender: ActivityIndicatableButton) {
         guard let text = textField.text, let url = URL(string: text) else {
             print("Invalid URL")
             textField.text = nil
             return
         }
 
+        // Change UI state to loading
+        isEnabled = false
+        sender.isLoading = true
+
+        // Charge a preset account
         let service = ChargePresetService()
         chargePresetService = service
         service.delegate = self
         service.chargePresetAccount(usingListResultURL: url)
     }
+
+    // MARK: -
+
+    /// Present `UIAlertController` with textual representation of `PaymentResult`
+    func presentAlert(with paymentResult: PaymentResult) {
+        let alert = UIAlertController(title: "Payment result", message: paymentResult.debugDescription, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
+
+// MARK: - PaymentDelegate
+
+extension ViewController: PaymentDelegate {
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController) {
+        navigationController?.popViewController(animated: true, completion: {
+            self.presentAlert(with: paymentResult)
+        })
+    }
+}
+
+// MARK: - Preset flow
 
 extension ViewController: ChargePresetDelegate {
     func chargePresetService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController?) {
+        // Revert UI state back to normal
+        isEnabled = true
+        chargePresetAccountButton.isLoading = false
+
+        // Preset payment result
         if let viewController = viewController {
             viewController.dismiss(animated: true, completion: {
                 self.presentAlert(with: paymentResult)
@@ -72,47 +124,22 @@ extension ViewController: ChargePresetDelegate {
     }
 
     func chargePresetService(didRequestPresenting viewController: UIViewController) {
+        // Preset service requested to show a view controller (in the most cases it is used to show a challenge browser view)
         self.present(viewController, animated: true, completion: nil)
     }
 }
 
-extension ViewController: PaymentDelegate {
-    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController) {
-        navigationController?.popViewController(animated: true, completion: {
-            self.presentAlert(with: paymentResult)
-        })
-    }
-
-    private func presentAlert(with paymentResult: PaymentResult) {
-        let paymentErrorText: String
-
-        if let error = paymentResult.cause {
-            paymentErrorText = "\(error)"
-        } else {
-            paymentErrorText = "n/a"
-        }
-
-        let messageDictionary = [
-            TextLine(key: "ResultInfo", description: paymentResult.resultInfo),
-            TextLine(key: "Interaction code", description: paymentResult.interaction.code),
-            TextLine(key: "Interaction reason", description: paymentResult.interaction.reason),
-            TextLine(key: "Error", description: paymentErrorText)
-        ]
-
-        let message = messageDictionary.map { "\($0.key): \($0.description)" }.joined(separator: "\n")
-        let alert = UIAlertController(title: "Payment result", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        alert.addAction(okAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-}
-
-private extension ViewController {
-    func setTintColor(to color: UIColor) {
+extension ViewController {
+    private func setTintColor(to color: UIColor) {
+        view.tintColor = color
         themeSwitch.onTintColor = color
         textField.tintColor = color
-        sendButton.backgroundColor = color
+        showPaymentListButton.backgroundColor = color
+        chargePresetAccountButton.backgroundColor = color
+        setNavigationBarColor(to: color)
+    }
 
+    private func setNavigationBarColor(to color: UIColor) {
         if #available(iOS 13.0, *) {
             // Change large title's background color
             let navBarAppearance = UINavigationBarAppearance()
@@ -126,24 +153,6 @@ private extension ViewController {
             navigationController?.navigationBar.layoutIfNeeded()
         } else {
             navigationController?.navigationBar.barTintColor = color
-        }
-    }
-}
-
-private struct TextLine {
-    let key, description: String
-}
-
-private extension UINavigationController {
-    func popViewController(animated: Bool, completion: @escaping () -> Void) {
-        popViewController(animated: animated)
-
-        if let coordinator = transitionCoordinator, animated {
-            coordinator.animate(alongsideTransition: nil) { _ in
-                completion()
-            }
-        } else {
-            completion()
         }
     }
 }
