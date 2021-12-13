@@ -117,6 +117,7 @@ extension Transaction {
         private var presetFlowValue: Double? {
             switch self {
             case .proceedOK:       return 1.01
+            case .nonMagicNumber:  return 15
             default: return nil
             }
         }
