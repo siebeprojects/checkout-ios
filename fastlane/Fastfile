@@ -46,6 +46,7 @@ platform :ios do
       scheme: options[:scheme],
       derived_data_path: "/tmp/workspace/derived_data",
       project: "ExampleCheckout/ExampleCheckout.xcodeproj",
+      concurrent_workers: 1,
       ensure_devices_found: true,
       number_of_retries: 1,
       output_directory: "./output/scan",
