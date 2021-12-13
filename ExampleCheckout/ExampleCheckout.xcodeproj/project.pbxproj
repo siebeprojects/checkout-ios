@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,12 +28,16 @@
 		07321F3126EB9EEC00DD2F0E /* DeleteButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */; };
 		074E5ECC2707447600E35B24 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
 		074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
+		0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC4274BF25100005D30 /* PayoneerCheckout */; };
+		0767BBC7274BF64500005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC6274BF64500005D30 /* PayoneerCheckout */; };
 		07D1116F270C750E004CC554 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
 		07D11170270C7513004CC554 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
 		07D11171270C7518004CC554 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
-		28C4BE7B2FCA2C9D7687D6A9 /* Pods_CheckoutObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C7D087B0DBE87C71934507 /* Pods_CheckoutObjC.framework */; };
-		BD79F4E56A42BD139C3D71E5 /* Pods_CheckoutSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FC7D95F029F1FCD72462C2 /* Pods_CheckoutSwift.framework */; };
+		07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */; };
+		07F17FB027634CB8000CB406 /* UINavigationController+popViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAD27634CB8000CB406 /* UINavigationController+popViewController.swift */; };
+		07F17FB127634CB8000CB406 /* PaymentResult+debugDescription.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */; };
+		07F17FB227634CB8000CB406 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAF27634CB8000CB406 /* Theme+custom.swift */; };
 		D912BB2D2726C1B70004AFAE /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB122726C1B60004AFAE /* ExtraElements.swift */; };
 		D912BB2E2726C1B70004AFAE /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB122726C1B60004AFAE /* ExtraElements.swift */; };
 		D912BB2F2726C1B70004AFAE /* _Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB132726C1B60004AFAE /* _Style.swift */; };
@@ -113,9 +117,6 @@
 		D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99E9E09253DAA2700DFF8BD /* NetworkService.swift */; };
 		D9A5FA62253CA8BE001C71B7 /* PaymentSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA61253CA8BE001C71B7 /* PaymentSessionService.swift */; };
 		D9A5FA6C253D8213001C71B7 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA6B253D8213001C71B7 /* Transaction.swift */; };
-		D9B11DC3275D24FF00E4774D /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B11DC2275D24FF00E4774D /* ActivityIndicatableButton.swift */; };
-		D9B11DC7275D800300E4774D /* UINavigationController+popViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B11DC6275D800300E4774D /* UINavigationController+popViewController.swift */; };
-		D9B11DC9275E277700E4774D /* PaymentResult+debugDescription.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B11DC8275E277700E4774D /* PaymentResult+debugDescription.swift.swift */; };
 		D9C602652726CF1F007CFD6A /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C602642726CF1F007CFD6A /* Registration.swift */; };
 		D9C602662726CF1F007CFD6A /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C602642726CF1F007CFD6A /* Registration.swift */; };
 		D9C602682726EA15007CFD6A /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C602672726EA15007CFD6A /* Style.swift */; };
@@ -124,7 +125,6 @@
 		D9C602712726ECB7007CFD6A /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026E2726ECB7007CFD6A /* PaymentService.swift */; };
 		D9C602722726ECB7007CFD6A /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026F2726ECB7007CFD6A /* Charge.swift */; };
 		D9C602732726ECB7007CFD6A /* Charge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C6026F2726ECB7007CFD6A /* Charge.swift */; };
-		D9D5F36C251265EF00540F62 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D5F36B251265EF00540F62 /* Theme+custom.swift */; };
 		D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB0234143BD0021184C /* AppDelegate.swift */; };
 		D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB4234143BD0021184C /* ViewController.swift */; };
 		D9E0AEB8234143BD0021184C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB6234143BD0021184C /* Main.storyboard */; };
@@ -167,34 +167,18 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		D95651DB23C7D577002AE827 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		04FC7D95F029F1FCD72462C2 /* Pods_CheckoutSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CheckoutSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0725B42226FCBC9600C607A8 /* UITestsObjC.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITestsObjC.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonTests.swift; sourceTree = "<group>"; };
 		074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutConfiguration.swift; sourceTree = "<group>"; };
 		074E5ECD270B595500E35B24 /* TransactionSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSettings.swift; sourceTree = "<group>"; };
 		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
-		3C22CD6CD060C1154E4097ED /* Pods-ExampleCheckout.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleCheckout.debug.xcconfig"; path = "Target Support Files/Pods-ExampleCheckout/Pods-ExampleCheckout.debug.xcconfig"; sourceTree = "<group>"; };
-		4908350015424F9C57EC4D90 /* Pods-Example-sdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.release.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.release.xcconfig"; sourceTree = "<group>"; };
-		5A64E6638EAF1E31D0F73F96 /* Pods-Example-sdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example-sdk.debug.xcconfig"; path = "Target Support Files/Pods-Example-sdk/Pods-Example-sdk.debug.xcconfig"; sourceTree = "<group>"; };
-		73AB8AA25A7049EF6F0C595A /* Pods-CheckoutObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CheckoutObjC.release.xcconfig"; path = "Target Support Files/Pods-CheckoutObjC/Pods-CheckoutObjC.release.xcconfig"; sourceTree = "<group>"; };
-		8D43F652FA04CC30B966CAA5 /* Pods-CheckoutObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CheckoutObjC.debug.xcconfig"; path = "Target Support Files/Pods-CheckoutObjC/Pods-CheckoutObjC.debug.xcconfig"; sourceTree = "<group>"; };
-		AABDD5EEB905FBAD81758984 /* Pods-ExampleCheckout.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleCheckout.release.xcconfig"; path = "Target Support Files/Pods-ExampleCheckout/Pods-ExampleCheckout.release.xcconfig"; sourceTree = "<group>"; };
-		B266F4A8303EDD45F5CF141B /* Pods-CheckoutSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CheckoutSwift.debug.xcconfig"; path = "Target Support Files/Pods-CheckoutSwift/Pods-CheckoutSwift.debug.xcconfig"; sourceTree = "<group>"; };
-		BDD551800C1D4648170E22A1 /* Pods-CheckoutSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CheckoutSwift.release.xcconfig"; path = "Target Support Files/Pods-CheckoutSwift/Pods-CheckoutSwift.release.xcconfig"; sourceTree = "<group>"; };
+		07E628F62755359D006575E2 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatableButton.swift; sourceTree = "<group>"; };
+		07F17FAD27634CB8000CB406 /* UINavigationController+popViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+popViewController.swift"; sourceTree = "<group>"; };
+		07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PaymentResult+debugDescription.swift.swift"; sourceTree = "<group>"; };
+		07F17FAF27634CB8000CB406 /* Theme+custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
+		07FF4CA6274BEDA400957035 /* checkout-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "checkout-ios"; path = ..; sourceTree = "<group>"; };
 		D912BB122726C1B60004AFAE /* ExtraElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtraElements.swift; sourceTree = "<group>"; };
 		D912BB132726C1B60004AFAE /* _Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Style.swift; sourceTree = "<group>"; };
 		D912BB142726C1B60004AFAE /* FormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormData.swift; sourceTree = "<group>"; };
@@ -242,7 +226,6 @@
 		D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectNetworksTests.swift; sourceTree = "<group>"; };
 		D956D28525DEB9E0001A2EAD /* NetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksTests.swift; sourceTree = "<group>"; };
 		D956D28825DEBE23001A2EAD /* CardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTests.swift; sourceTree = "<group>"; };
-		D967A55C25481D29001BBCCA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		D99D048726ADDBE300C027CB /* SepaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepaTests.swift; sourceTree = "<group>"; };
 		D99D048926ADDC7E00C027CB /* Sepa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sepa.swift; sourceTree = "<group>"; };
 		D99E9E09253DAA2700DFF8BD /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -251,14 +234,10 @@
 		D9A5FA61253CA8BE001C71B7 /* PaymentSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionService.swift; sourceTree = "<group>"; };
 		D9A5FA6B253D8213001C71B7 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		D9A5FA7F253D8B09001C71B7 /* Transaction.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Transaction.json; sourceTree = "<group>"; };
-		D9B11DC2275D24FF00E4774D /* ActivityIndicatableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatableButton.swift; sourceTree = "<group>"; };
-		D9B11DC6275D800300E4774D /* UINavigationController+popViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+popViewController.swift"; sourceTree = "<group>"; };
-		D9B11DC8275E277700E4774D /* PaymentResult+debugDescription.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentResult+debugDescription.swift.swift"; sourceTree = "<group>"; };
 		D9C602642726CF1F007CFD6A /* Registration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
 		D9C602672726EA15007CFD6A /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		D9C6026E2726ECB7007CFD6A /* PaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		D9C6026F2726ECB7007CFD6A /* Charge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Charge.swift; sourceTree = "<group>"; };
-		D9D5F36B251265EF00540F62 /* Theme+custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
 		D9E0AEAD234143BD0021184C /* CheckoutSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckoutSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E0AEB0234143BD0021184C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9E0AEB4234143BD0021184C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -270,7 +249,6 @@
 		D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		D9E726A9269DBF5700889C64 /* PayPalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalAccount.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
-		E7C7D087B0DBE87C71934507 /* Pods_CheckoutObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CheckoutObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,7 +263,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28C4BE7B2FCA2C9D7687D6A9 /* Pods_CheckoutObjC.framework in Frameworks */,
+				0767BBC7274BF64500005D30 /* PayoneerCheckout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,26 +278,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD79F4E56A42BD139C3D71E5 /* Pods_CheckoutSwift.framework in Frameworks */,
+				0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3C7FB3D9136B07C8DBE90F14 /* Pods */ = {
+		07F17FA927634C98000CB406 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5A64E6638EAF1E31D0F73F96 /* Pods-Example-sdk.debug.xcconfig */,
-				4908350015424F9C57EC4D90 /* Pods-Example-sdk.release.xcconfig */,
-				3C22CD6CD060C1154E4097ED /* Pods-ExampleCheckout.debug.xcconfig */,
-				AABDD5EEB905FBAD81758984 /* Pods-ExampleCheckout.release.xcconfig */,
-				8D43F652FA04CC30B966CAA5 /* Pods-CheckoutObjC.debug.xcconfig */,
-				73AB8AA25A7049EF6F0C595A /* Pods-CheckoutObjC.release.xcconfig */,
-				B266F4A8303EDD45F5CF141B /* Pods-CheckoutSwift.debug.xcconfig */,
-				BDD551800C1D4648170E22A1 /* Pods-CheckoutSwift.release.xcconfig */,
+				07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */,
 			);
-			path = Pods;
+			path = View;
+			sourceTree = "<group>";
+		};
+		07F17FAC27634CB8000CB406 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				07F17FAD27634CB8000CB406 /* UINavigationController+popViewController.swift */,
+				07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */,
+				07F17FAF27634CB8000CB406 /* Theme+custom.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		D912BABF2726C04B0004AFAE /* Abstract */ = {
@@ -397,10 +378,10 @@
 		D948527B26F2479900D11DC2 /* Swift */ = {
 			isa = PBXGroup;
 			children = (
-				D9B11DC5275D7CB300E4774D /* Extension */,
-				D9B11DC4275D250300E4774D /* View */,
 				D9E0AEB0234143BD0021184C /* AppDelegate.swift */,
 				D9E0AEB4234143BD0021184C /* ViewController.swift */,
+				07F17FAC27634CB8000CB406 /* Extension */,
+				07F17FA927634C98000CB406 /* View */,
 				D9E0AEB6234143BD0021184C /* Main.storyboard */,
 				D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */,
 				D9E0AEBE234143BF0021184C /* Info.plist */,
@@ -433,7 +414,7 @@
 				D954C00C2696620600714396 /* Model */,
 				D954C00B269661F600714396 /* Protocol */,
 				D9FCC6AA25488A9800E0AF74 /* Helpers */,
-				D9A5FA7E253D8AE3001C71B7 /* Assets */,
+				D9A5FA7E253D8AE3001C71B7 /* Resources */,
 				D912BABF2726C04B0004AFAE /* Abstract */,
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
@@ -469,31 +450,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		D9A5FA7E253D8AE3001C71B7 /* Assets */ = {
+		D9A5FA7E253D8AE3001C71B7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				07E628F62755359D006575E2 /* Config.xcconfig */,
 				D9A5FA7F253D8B09001C71B7 /* Transaction.json */,
-				D967A55C25481D29001BBCCA /* Config.xcconfig */,
 			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
-		D9B11DC4275D250300E4774D /* View */ = {
-			isa = PBXGroup;
-			children = (
-				D9B11DC2275D24FF00E4774D /* ActivityIndicatableButton.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		D9B11DC5275D7CB300E4774D /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				D9D5F36B251265EF00540F62 /* Theme+custom.swift */,
-				D9B11DC6275D800300E4774D /* UINavigationController+popViewController.swift */,
-				D9B11DC8275E277700E4774D /* PaymentResult+debugDescription.swift.swift */,
-			);
-			path = Extension;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D9C6026D2726ECB7007CFD6A /* PaymentService */ = {
@@ -508,8 +471,6 @@
 		D9D705FC23703B66004000AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E7C7D087B0DBE87C71934507 /* Pods_CheckoutObjC.framework */,
-				04FC7D95F029F1FCD72462C2 /* Pods_CheckoutSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -517,11 +478,11 @@
 		D9E0AEA4234143BD0021184C = {
 			isa = PBXGroup;
 			children = (
+				07FF4CA6274BEDA400957035 /* checkout-ios */,
 				D9E0AEAF234143BD0021184C /* Sources */,
 				D9A5FA57253CA701001C71B7 /* UITests */,
 				D9E0AEAE234143BD0021184C /* Products */,
 				D9D705FC23703B66004000AE /* Frameworks */,
-				3C7FB3D9136B07C8DBE90F14 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -581,17 +542,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D948524826F2438E00D11DC2 /* Build configuration list for PBXNativeTarget "CheckoutObjC" */;
 			buildPhases = (
-				0DB709CD39223F910C5C1BAC /* [CP] Check Pods Manifest.lock */,
 				D948522C26F2438D00D11DC2 /* Sources */,
 				D948522D26F2438D00D11DC2 /* Frameworks */,
 				D948522E26F2438D00D11DC2 /* Resources */,
-				1B5963D8BB4B938E52D3140D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = CheckoutObjC;
+			packageProductDependencies = (
+				0767BBC6274BF64500005D30 /* PayoneerCheckout */,
+			);
 			productName = "Checkout-ObjC";
 			productReference = D948523026F2438D00D11DC2 /* CheckoutObjC.app */;
 			productType = "com.apple.product-type.application";
@@ -619,19 +581,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9E0AEC1234143BF0021184C /* Build configuration list for PBXNativeTarget "CheckoutSwift" */;
 			buildPhases = (
-				D25592E5D3A3C86A4F29E643 /* [CP] Check Pods Manifest.lock */,
 				D9E0AEA9234143BD0021184C /* Sources */,
 				D9E0AEAA234143BD0021184C /* Frameworks */,
 				D9E0AEAB234143BD0021184C /* Resources */,
-				D95651DB23C7D577002AE827 /* Embed Frameworks */,
-				69054DAF21F14C87D1FD1948 /* [CP] Embed Pods Frameworks */,
-				D9E08F3225D1E31B00423ECD /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = CheckoutSwift;
+			packageProductDependencies = (
+				0767BBC4274BF25100005D30 /* PayoneerCheckout */,
+			);
 			productName = Example;
 			productReference = D9E0AEAD234143BD0021184C /* CheckoutSwift.app */;
 			productType = "com.apple.product-type.application";
@@ -643,7 +604,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1310;
 				ORGANIZATIONNAME = "Payoneer Germany GmbH";
 				TargetAttributes = {
 					0725B3FC26FCBC9600C607A8 = {
@@ -721,104 +682,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		0DB709CD39223F910C5C1BAC /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CheckoutObjC-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1B5963D8BB4B938E52D3140D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CheckoutObjC/Pods-CheckoutObjC-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CheckoutObjC/Pods-CheckoutObjC-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CheckoutObjC/Pods-CheckoutObjC-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		69054DAF21F14C87D1FD1948 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CheckoutSwift/Pods-CheckoutSwift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CheckoutSwift/Pods-CheckoutSwift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CheckoutSwift/Pods-CheckoutSwift-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D25592E5D3A3C86A4F29E643 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CheckoutSwift-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D9E08F3225D1E31B00423ECD /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which Pods/SwiftLint/swiftlint >/dev/null; then\n  Pods/SwiftLint/swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0725B40126FCBC9600C607A8 /* Sources */ = {
@@ -958,11 +821,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */,
-				D9B11DC7275D800300E4774D /* UINavigationController+popViewController.swift in Sources */,
-				D9B11DC3275D24FF00E4774D /* ActivityIndicatableButton.swift in Sources */,
-				D9B11DC9275E277700E4774D /* PaymentResult+debugDescription.swift.swift in Sources */,
-				D9D5F36C251265EF00540F62 /* Theme+custom.swift in Sources */,
+				07F17FB227634CB8000CB406 /* Theme+custom.swift in Sources */,
 				D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */,
+				07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */,
+				07F17FB027634CB8000CB406 /* UINavigationController+popViewController.swift in Sources */,
+				07F17FB127634CB8000CB406 /* PaymentResult+debugDescription.swift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1029,7 +892,7 @@
 /* Begin XCBuildConfiguration section */
 		0725B42026FCBC9600C607A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
+			baseConfigurationReference = 07E628F62755359D006575E2 /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1052,7 +915,6 @@
 		};
 		0725B42126FCBC9600C607A8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1075,14 +937,13 @@
 		};
 		D948524626F2438E00D11DC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D43F652FA04CC30B966CAA5 /* Pods-CheckoutObjC.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Sources/Objective-C/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1096,14 +957,13 @@
 		};
 		D948524726F2438E00D11DC2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73AB8AA25A7049EF6F0C595A /* Pods-CheckoutObjC.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Sources/Objective-C/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1117,7 +977,7 @@
 		};
 		D9A5FA5E253CA701001C71B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
+			baseConfigurationReference = 07E628F62755359D006575E2 /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1140,7 +1000,6 @@
 		};
 		D9A5FA5F253CA701001C71B7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D967A55C25481D29001BBCCA /* Config.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1212,7 +1071,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1267,7 +1126,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1279,15 +1138,16 @@
 		};
 		D9E0AEC2234143BF0021184C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B266F4A8303EDD45F5CF141B /* Pods-CheckoutSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = ..;
 				DEVELOPMENT_TEAM = 9FN68XYFY9;
 				INFOPLIST_FILE = Sources/Swift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1302,15 +1162,16 @@
 		};
 		D9E0AEC3234143BF0021184C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDD551800C1D4648170E22A1 /* Pods-CheckoutSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = ..;
 				DEVELOPMENT_TEAM = 9FN68XYFY9;
 				INFOPLIST_FILE = Sources/Swift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1372,6 +1233,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0767BBC4274BF25100005D30 /* PayoneerCheckout */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PayoneerCheckout;
+		};
+		0767BBC6274BF64500005D30 /* PayoneerCheckout */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PayoneerCheckout;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D9E0AEA5234143BD0021184C /* Project object */;
 }

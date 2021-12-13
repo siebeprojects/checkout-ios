@@ -5,7 +5,7 @@
 // See the LICENSE file for more information.
 
 #import <UIKit/UIKit.h>
-#import <PayoneerCheckout/PayoneerCheckout-Swift.h>
+@import PayoneerCheckout;
 
 @interface ViewController: UITableViewController<PaymentDelegate>
 

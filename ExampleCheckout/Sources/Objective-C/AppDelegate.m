@@ -5,7 +5,7 @@
 // See the LICENSE file for more information.
 
 #import "AppDelegate.h"
-#import <PayoneerCheckout/PayoneerCheckout-Swift.h>
+@import PayoneerCheckout;
 
 @interface AppDelegate ()
 

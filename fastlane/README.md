@@ -35,7 +35,7 @@ Upload binary to Browserstack
 ```
 fastlane ios ui_test
 ```
-Run UI tests (Swift)
+Run UI tests
 ### ios submit_to_testflight
 ```
 fastlane ios submit_to_testflight

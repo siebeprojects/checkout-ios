@@ -1,5 +1,3 @@
-example_xcodeproj = "ExampleCheckout/ExampleCheckout.xcodeproj"
-
 default_platform(:ios)
 
 platform :ios do
@@ -15,7 +13,10 @@ platform :ios do
     scan(
       output_directory: "./output/scan",
       result_bundle: true,
-      output_types: "junit"
+      output_types: "junit",
+      device: "iPhone 12",
+      scheme: "PayoneerCheckout",
+      package_path: "."
     )
   end
 
@@ -25,7 +26,7 @@ platform :ios do
       silent: true,
       export_method: "ad-hoc",
       scheme: "Swift",
-      workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace",
+      project: "./ExampleCheckout/ExampleCheckout.xcodeproj",
       output_name: options[:binary]
     )
   end
@@ -44,7 +45,7 @@ platform :ios do
     run_tests(
       scheme: options[:scheme],
       derived_data_path: "/tmp/workspace/derived_data",
-      workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
+      project: "ExampleCheckout/ExampleCheckout.xcodeproj",
       ensure_devices_found: true,
       number_of_retries: 1,
       output_directory: "./output/scan",
@@ -55,18 +56,18 @@ platform :ios do
 
   desc "Submit to TestFlight"
   lane :submit_to_testflight do
-    example_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+    checkout_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     certificate_json = "certificates/itunes_connect/fastlane_api_key.json"
     upload_to_testflight(
       api_key_path: certificate_json,
-      ipa: example_ipa
+      ipa: checkout_ipa
     )
   end
 
   desc "Change version number"
   lane :set_version do |options|
     increment_version_number(version_number: options[:version])
-    increment_version_number(version_number: options[:version], xcodeproj: example_xcodeproj)
+    increment_version_number(version_number: options[:version], xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj")
     version_bump_podspec(version_number: options[:version], path: "PayoneerCheckout.podspec")
   end
 
