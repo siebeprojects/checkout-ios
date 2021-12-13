@@ -18,7 +18,7 @@ class NetworksTests: XCTestCase {
     }
 
     /// Load an app and load networks list from list url.
-    func setupWithPaymentSession(transaction: Transaction) throws {
+    @discardableResult func setupWithPaymentSession(transaction: Transaction) throws -> ListResult {
         try XCTContext.runActivity(named: "Setup with payment session") { _ in
             // Create payment session
             let session = try Self.createPaymentSession(using: transaction)
@@ -32,6 +32,8 @@ class NetworksTests: XCTestCase {
             // Wait for loading completion
             let chooseMethodText = app.tables.staticTexts["Cards"]
             XCTAssert(chooseMethodText.waitForExistence(timeout: .networkTimeout))
+
+            return session
         }
     }
 
