@@ -9,46 +9,45 @@ import XCTest
 class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
 
-    /// Load an app and load networks list from list url.
-    func setupWithPaymentSession(transaction: Transaction) throws {
+    override func setUp() {
         continueAfterFailure = false
+        self.app = XCUIApplication()
+        app.launch()
 
-        self.app = try Self.setupWithPaymentSession(transaction: transaction)
+        super.setUp()
     }
 
     /// Load an app and load networks list from list url.
-    static func setupWithPaymentSession(transaction: Transaction) throws -> XCUIApplication {
-        try XCTContext.runActivity(named: "Start payment session") { _ in
+    func setupWithPaymentSession(transaction: Transaction) throws {
+        try XCTContext.runActivity(named: "Setup with payment session") { _ in
             // Create payment session
-            let session = try createPaymentSession(using: transaction)
+            let session = try Self.createPaymentSession(using: transaction)
 
-            // UI tests must launch the application that they test.
-            let app = XCUIApplication()
-            app.launch()
-
-            // Initial screen
-            let tablesQuery = app.tables
-            let textField = tablesQuery.textFields.firstMatch
-            let sendRequestButton = tablesQuery.buttons["Show Payment List"]
-
-            let sessionURL = session.links["self"]!
-
-            if #available(iOS 15, *) {
-                textField.doubleTap()
-                UIPasteboard.general.string = sessionURL.absoluteString
-                app.menuItems["Paste"].tap()
-                _ = sendRequestButton.waitForExistence(timeout: .uiTimeout)
-            } else {
-                textField.typeText(sessionURL.absoluteString)
-            }
-
+            typeListURL(from: session)
+            
+            let sendRequestButton = app.tables.buttons["Show Payment List"]
+            _ = sendRequestButton.waitForExistence(timeout: .uiTimeout)
             sendRequestButton.tap()
 
             // Wait for loading completion
             let chooseMethodText = app.tables.staticTexts["Cards"]
             XCTAssert(chooseMethodText.waitForExistence(timeout: .networkTimeout))
+        }
+    }
 
-            return app
+    /// Type `links.self` url from `ListResult` in list url text field
+    func typeListURL(from listResult: ListResult) {
+        let tablesQuery = app.tables
+        let textField = tablesQuery.textFields.firstMatch
+
+        let sessionURL = listResult.links["self"]!
+
+        if #available(iOS 15, *) {
+            textField.doubleTap()
+            UIPasteboard.general.string = sessionURL.absoluteString
+            app.menuItems["Paste"].tap()
+        } else {
+            textField.typeText(sessionURL.absoluteString)
         }
     }
 
