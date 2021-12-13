@@ -60,6 +60,7 @@ extension Transaction {
     enum OperationType: String {
         case charge = "CHARGE"
         case update = "UPDATE"
+        case preset = "PRESET"
     }
 }
 
@@ -85,6 +86,7 @@ extension Transaction {
             switch operationType {
             case .charge: return chargeFlowValue
             case .update: return updateFlowValue
+            case .preset: return presetFlowValue
             }
         }
 
@@ -109,6 +111,13 @@ extension Transaction {
             case .tryOtherAccount: return 1.21
             case .nonMagicNumber:  return 15
             case .threeDS2:        return nil
+            }
+        }
+
+        private var presetFlowValue: Double? {
+            switch self {
+            case .proceedOK:       return 1.01
+            default: return nil
             }
         }
     }
