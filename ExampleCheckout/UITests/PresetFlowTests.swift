@@ -100,6 +100,50 @@ class PresetFlowTests: NetworksTests {
             XCTAssert(chargeInteractionResult.contains("OK"))
         }
     }
+
+    /// Test charging `PresetAccount` that requires 3DS2 validation using redirect.
+    func testPresetAndChargeCardWith3DS2() throws {
+        var listResult: ListResult!
+
+        try XCTContext.runActivity(named: "Preset account") { _ in
+            // Create payment session
+            let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .preset))
+            listResult = try setupWithPaymentSession(transaction: transaction)
+
+            // Fill and submit card's data
+            app.tables.staticTexts["Cards"].tap()
+            Visa().submit(in: app.collectionViews)
+
+            // Wait for an alert that account was preset
+            XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+            let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+            XCTAssert(interactionResult.contains("PROCEED"))
+            XCTAssert(interactionResult.contains("OK"))
+        }
+
+        // Close the alert
+        app.alerts.firstMatch.buttons.firstMatch.tap()
+
+        // Charge the preset account
+        XCTContext.runActivity(named: "Charge the preset account") { _ in
+            chargePresetAccount(using: listResult)
+
+            // 3DS challenge
+            let requestChallengeButton = app.webViews.staticTexts["request challenge"]
+            XCTAssertTrue(requestChallengeButton.waitForExistence(timeout: .networkTimeout), "Accept button didn't appear in time")
+            requestChallengeButton.tap()
+
+            let acceptButton = app.webViews.staticTexts["accept"]
+            XCTAssertTrue(acceptButton.waitForExistence(timeout: .networkTimeout), "Accept button didn't appear in time")
+            acceptButton.tap()
+
+            // Assert a result
+            XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+            let chargeInteractionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+            XCTAssert(chargeInteractionResult.contains("PROCEED"))
+            XCTAssert(chargeInteractionResult.contains("OK"))
+        }
+    }
 }
 
 extension PresetFlowTests {
