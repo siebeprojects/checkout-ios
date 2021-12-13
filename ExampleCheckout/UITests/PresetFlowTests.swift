@@ -12,7 +12,7 @@ class PresetFlowTests: NetworksTests {
         let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .preset))
         let listResult = try Self.createPaymentSession(using: transaction)
         typeListURL(from: listResult)
-        chargePresetAccount(using: listResult)
+        chargePresetAccount()
 
         // Assert a result
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -25,12 +25,10 @@ class PresetFlowTests: NetworksTests {
 
     /// Test charging `PresetAccount` when a preset account's object is from a credit card network
     func testPresetWithAccountCard() throws {
-        var listResult: ListResult!
-
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
             let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .preset))
-            listResult = try setupWithPaymentSession(transaction: transaction)
+            try setupWithPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
             app.tables.staticTexts["Cards"].tap()
@@ -48,7 +46,7 @@ class PresetFlowTests: NetworksTests {
 
         // Charge the preset account
         XCTContext.runActivity(named: "Charge the preset account") { _ in
-            chargePresetAccount(using: listResult)
+            chargePresetAccount()
 
             // Assert a result
             XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -60,12 +58,10 @@ class PresetFlowTests: NetworksTests {
 
     /// Test charging `PresetAccount` when the preset account's object is from a redirect network (PayPal)
     func testPresetAndChargePayPal() throws {
-        var listResult: ListResult!
-
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
             let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .nonMagicNumber, operationType: .preset))
-            listResult = try setupWithPaymentSession(transaction: transaction)
+            try setupWithPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
             app.tables.staticTexts["PayPal"].tap()
@@ -86,7 +82,7 @@ class PresetFlowTests: NetworksTests {
 
         // Charge the preset account
         XCTContext.runActivity(named: "Charge the preset account") { _ in
-            chargePresetAccount(using: listResult)
+            chargePresetAccount()
 
             // Accept in a webview
             let button = app.webViews.staticTexts["accept"]
@@ -103,12 +99,10 @@ class PresetFlowTests: NetworksTests {
 
     /// Test charging `PresetAccount` that requires 3DS2 validation using redirect.
     func testPresetAndChargeCardWith3DS2() throws {
-        var listResult: ListResult!
-
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
             let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .preset))
-            listResult = try setupWithPaymentSession(transaction: transaction)
+            try setupWithPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
             app.tables.staticTexts["Cards"].tap()
@@ -126,7 +120,7 @@ class PresetFlowTests: NetworksTests {
 
         // Charge the preset account
         XCTContext.runActivity(named: "Charge the preset account") { _ in
-            chargePresetAccount(using: listResult)
+            chargePresetAccount()
 
             // 3DS challenge
             let requestChallengeButton = app.webViews.staticTexts["request challenge"]
@@ -146,8 +140,8 @@ class PresetFlowTests: NetworksTests {
     }
 }
 
-extension PresetFlowTests {
-    func chargePresetAccount(using listResult: ListResult) {
+private extension PresetFlowTests {
+    func chargePresetAccount() {
         let chargePresetAccountButton = app.tables.buttons["Charge Preset Account"]
         _ = chargePresetAccountButton.waitForExistence(timeout: .uiTimeout)
         chargePresetAccountButton.tap()
