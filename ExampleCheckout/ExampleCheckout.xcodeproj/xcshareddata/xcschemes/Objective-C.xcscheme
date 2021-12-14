@@ -38,6 +38,11 @@
                BlueprintName = "UITestsObjC"
                ReferencedContainer = "container:ExampleCheckout.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "PresetFlowTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
