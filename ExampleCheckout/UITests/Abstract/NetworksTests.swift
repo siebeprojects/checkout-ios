@@ -10,11 +10,11 @@ class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
 
     override func setUp() {
+        super.setUp()
+
         continueAfterFailure = false
         self.app = XCUIApplication()
         app.launch()
-
-        super.setUp()
     }
 
     /// Load an app and load networks list from list url.
