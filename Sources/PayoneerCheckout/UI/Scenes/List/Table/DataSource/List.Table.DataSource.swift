@@ -177,19 +177,22 @@ private protocol NetworkRow: DequeuableRow {
     var networks: [UIModel.PaymentNetwork] { get }
 }
 
-private protocol SingleLabelRow: DequeuableRow {
-    var label: String { get }
+private protocol DetailedLabelRow: DequeuableRow {
+    var primaryLabel: String { get }
+    var secondaryLabel: String? { get }
     var image: UIImage? { get }
     var borderColor: UIColor { get }
 }
 
-extension SingleLabelRow {
+extension DetailedLabelRow {
     func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(List.Table.SingleLabelCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
 
         // Set model
-        cell.networkLabel?.text = label
-        cell.networkLogoView?.image = image
+        cell.primaryLabel?.text = primaryLabel
+        cell.secondaryLabel?.text = secondaryLabel
+        cell.secondaryLabel?.isHidden = secondaryLabel == nil || secondaryLabel?.isEmpty == true
+        cell.logoView?.image = image
         cell.borderColor = self.borderColor
 
         // Set cell position
@@ -211,13 +214,13 @@ extension SingleLabelRow {
 
 // MARK: Extensions to model
 
-extension List.Table.DataSource.PresetAccountRow: SingleLabelRow {
+extension List.Table.DataSource.PresetAccountRow: DetailedLabelRow {
     var borderColor: UIColor { return .tablePresetBordersColor }
 }
-extension List.Table.DataSource.RegisteredAccountRow: SingleLabelRow {
+extension List.Table.DataSource.RegisteredAccountRow: DetailedLabelRow {
     var borderColor: UIColor { return .themedTableBorder }
 }
-extension List.Table.DataSource.SingleNetworkRow: SingleLabelRow, NetworkRow {
+extension List.Table.DataSource.SingleNetworkRow: DetailedLabelRow, NetworkRow {
     var borderColor: UIColor { return .themedTableBorder }
 }
 extension List.Table.DataSource.GroupedNetworkRow: NetworkRow {}

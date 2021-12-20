@@ -32,45 +32,34 @@ extension List.Table {
 
 extension List.Table.DetailedLabelCell {
     fileprivate func addContentViews() {
-        let primaryLabel = UILabel(frame: .zero)
-        primaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        let primaryLabel = UILabel()
         primaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
         primaryLabel.textColor = .themedText
-        customContentView.addSubview(primaryLabel)
         self.primaryLabel = primaryLabel
 
-        let secondaryLabel = UILabel(frame: .zero)
-        secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        let secondaryLabel = UILabel()
         secondaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
         secondaryLabel.textColor = .themedDetailedText
-        customContentView.addSubview(secondaryLabel)
         self.secondaryLabel = secondaryLabel
 
-        let logoView = UIImageView(frame: .zero)
+        let logoView = UIImageView()
         logoView.tintColor = .themedDetailedText
         logoView.contentMode = .scaleAspectFill
-        logoView.translatesAutoresizingMaskIntoConstraints = false
-        customContentView.addSubview(logoView)
+        logoView.addWidthConstraint(.imageWidth)
         self.logoView = logoView
 
-        // Layout
+        customContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
 
-        NSLayoutConstraint.activate([
-            primaryLabel.topAnchor.constraint(greaterThanOrEqualTo: customContentView.layoutMarginsGuide.topAnchor),
-            primaryLabel.bottomAnchor.constraint(equalTo: customContentView.centerYAnchor, constant: .verticalSpacing / -4),
-            primaryLabel.trailingAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.trailingAnchor),
+        let labelsStackView = UIStackView(arrangedSubviews: [primaryLabel, secondaryLabel])
+        labelsStackView.axis = .vertical
+        labelsStackView.spacing = .verticalSpacing
 
-            secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
-            secondaryLabel.topAnchor.constraint(equalTo: customContentView.centerYAnchor, constant: .verticalSpacing / 4),
-            secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: customContentView.layoutMarginsGuide.bottomAnchor),
-            secondaryLabel.trailingAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.trailingAnchor),
-
-            logoView.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor, constant: 2 * CGFloat.defaultSpacing),
-            logoView.topAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.topAnchor),
-            logoView.bottomAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.bottomAnchor),
-            logoView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing),
-            logoView.widthAnchor.constraint(equalToConstant: .imageWidth)
-        ])
+        let stackView = UIStackView(arrangedSubviews: [logoView, labelsStackView])
+        stackView.alignment = .center
+        stackView.spacing = .defaultSpacing * 2
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        customContentView.addSubview(stackView)
+        stackView.fitToSuperview(obeyMargins: true)
     }
 }
 

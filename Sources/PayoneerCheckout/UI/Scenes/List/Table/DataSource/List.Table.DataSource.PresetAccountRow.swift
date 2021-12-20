@@ -19,7 +19,8 @@ extension List.Table.DataSource {
 // MARK: Computed variables
 
 extension List.Table.DataSource.PresetAccountRow {
-    var label: String { account.maskedAccountLabel }
+    var primaryLabel: String { account.maskedAccountLabel }
+    var secondaryLabel: String? { nil }
     var image: UIImage? { account.logo?.value }
 }
 
