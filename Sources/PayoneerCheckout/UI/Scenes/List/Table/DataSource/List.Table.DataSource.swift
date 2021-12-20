@@ -189,10 +189,10 @@ extension DetailedLabelRow {
         let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
 
         // Set model
-        cell.primaryLabel?.text = primaryLabel
-        cell.secondaryLabel?.text = secondaryLabel
-        cell.secondaryLabel?.isHidden = secondaryLabel == nil || secondaryLabel?.isEmpty == true
-        cell.logoView?.image = image
+        cell.primaryLabel.text = primaryLabel
+        cell.secondaryLabel.text = secondaryLabel
+        cell.secondaryLabel.isHidden = secondaryLabel == nil || secondaryLabel?.isEmpty == true
+        cell.logoView.image = image
         cell.borderColor = self.borderColor
 
         // Set cell position

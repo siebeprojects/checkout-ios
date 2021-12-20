@@ -12,9 +12,26 @@ extension List.Table {
     /// Cell with multiple images, primary and secondary labels.
     /// - Note: set `cellIndex`
     final class DetailedLabelCell: List.Table.BorderedCell, Dequeueable {
-        weak var primaryLabel: UILabel?
-        weak var secondaryLabel: UILabel?
-        weak var logoView: UIImageView?
+        let primaryLabel: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            label.textColor = .themedText
+            return label
+        }()
+
+        let secondaryLabel: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
+            label.textColor = .themedDetailedText
+            return label
+        }()
+
+        let logoView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.tintColor = .themedDetailedText
+            imageView.contentMode = .scaleAspectFill
+            return imageView
+        }()
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,23 +49,9 @@ extension List.Table {
 
 extension List.Table.DetailedLabelCell {
     fileprivate func addContentViews() {
-        let primaryLabel = UILabel()
-        primaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
-        primaryLabel.textColor = .themedText
-        self.primaryLabel = primaryLabel
-
-        let secondaryLabel = UILabel()
-        secondaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-        secondaryLabel.textColor = .themedDetailedText
-        self.secondaryLabel = secondaryLabel
-
-        let logoView = UIImageView()
-        logoView.tintColor = .themedDetailedText
-        logoView.contentMode = .scaleAspectFill
-        logoView.addWidthConstraint(.imageWidth)
-        self.logoView = logoView
-
         customContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
+
+        logoView.addWidthConstraint(.imageWidth)
 
         let labelsStackView = UIStackView(arrangedSubviews: [primaryLabel, secondaryLabel])
         labelsStackView.axis = .vertical

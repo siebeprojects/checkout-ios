@@ -73,11 +73,11 @@ extension List.Table.DataSource.GroupedNetworkRow {
         let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
 
         // Set model
-        cell.primaryLabel?.text = primaryLabel
-        cell.secondaryLabel?.text = secondaryLabel
+        cell.primaryLabel.text = primaryLabel
+        cell.secondaryLabel.text = secondaryLabel
 
         // TODO: We agreed to remove multiple images support so that's why we use the first image (it's card's icon). Better to updated model later to fully remove multiple logos support.
-        cell.logoView?.image = logoImages.first
+        cell.logoView.image = logoImages.first
 
         // Set cell position
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
