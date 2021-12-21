@@ -29,7 +29,7 @@ extension List.Table {
         let logoView: UIImageView = {
             let imageView = UIImageView()
             imageView.tintColor = .themedDetailedText
-            imageView.contentMode = .scaleAspectFill
+            imageView.contentMode = .scaleAspectFit
             return imageView
         }()
 
