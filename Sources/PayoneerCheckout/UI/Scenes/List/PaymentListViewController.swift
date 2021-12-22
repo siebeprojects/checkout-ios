@@ -81,7 +81,7 @@ extension PaymentListViewController {
             logger.info("Loading payment session...")
         }
 
-        stateManager.viewState = .loading
+        stateManager.viewState = .listLoading
         sessionService.loadPaymentSession()
     }
 
