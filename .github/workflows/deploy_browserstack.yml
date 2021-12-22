@@ -1,11 +1,8 @@
-name: Publish to Browserstack
+name: Deploy to Browserstack
 
 on:
-  workflow_dispatch:
-    inputs:
-      pull-request-number:
-        description: 'Pull Request’s number (e.g.: 45)'     
-        required: false
+  pull_request:
+    types: [ labeled, synchronize ]
 
 concurrency: 
   group: browserstack-${{ github.head_ref }}
@@ -13,38 +10,21 @@ concurrency:
 
 jobs:
   upload-to-browserstack:
+    if: contains(github.event.pull_request.labels.*.name, 'awaits qa')
     runs-on: macos-latest
-    environment: Browserstack
+    environment: 
+      name: Browserstack
+      url: https://app-live.browserstack.com/
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Get branch name (merge)
-        if: github.event_name != 'pull_request'
-        shell: bash
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
 
       - name: Install the dependencies specified in Gemfile
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
           bundler-cache: true
-
-      - name: Cache pods
-        id: cache-pods
-        uses: actions/cache@v2
-        env:
-          cache-name: example-app-pods
-        with:
-          path: ExampleCheckout/Pods/
-          key: cache-${{ env.cache-name }}-${{ hashFiles('ExampleCheckout/Podfile.lock', 'PayoneerCheckout.xcodeproj/project.pbxproj') }}
-
-      - name: Install Pods
-        if: steps.cache-pods.outputs.cache-hit != 'true'
-        env:
-          project-directory: ExampleCheckout/
-        run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
 
       - name: Install the Apple certificate and provisioning profile
         env:
@@ -92,14 +72,3 @@ jobs:
           BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
           ipa-binary: ExampleCheckout-${{ env.BRANCH_NAME }}.ipa
         run: bundle exec fastlane browserstack binary:${{ env.ipa-binary }}
-
-  apply-label:
-     runs-on: ubuntu-latest
-     needs: upload-to-browserstack
-
-     steps:
-       - uses: actions-ecosystem/action-add-labels@v1
-         if: ${{ github.event.inputs.pull-request-number != '' }}
-         with:
-           labels: awaits qa
-           number: ${{ github.event.inputs.pull-request-number }}
