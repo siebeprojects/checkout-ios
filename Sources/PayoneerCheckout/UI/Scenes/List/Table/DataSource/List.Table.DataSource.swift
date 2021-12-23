@@ -180,6 +180,7 @@ private protocol NetworkRow: DequeuableRow {
 private protocol DetailedLabelRow: DequeuableRow {
     var primaryLabel: String { get }
     var secondaryLabel: String? { get }
+    var isExpired: Bool { get }
     var image: UIImage? { get }
     var borderColor: UIColor { get }
 }
@@ -192,6 +193,7 @@ extension DetailedLabelRow {
         cell.primaryLabel.text = primaryLabel
         cell.secondaryLabel.text = secondaryLabel
         cell.secondaryLabel.isHidden = secondaryLabel == nil || secondaryLabel?.isEmpty == true
+        cell.secondaryLabel.textColor = isExpired ? .themedError : .themedDetailedText
         cell.logoView.image = image
         cell.borderColor = self.borderColor
 
@@ -215,13 +217,19 @@ extension DetailedLabelRow {
 // MARK: Extensions to model
 
 extension List.Table.DataSource.PresetAccountRow: DetailedLabelRow {
-    var borderColor: UIColor { return .tablePresetBordersColor }
+    var secondaryLabel: String? { account.expirationDate }
+    var isExpired: Bool { account.isExpired }
+    var borderColor: UIColor { .tablePresetBordersColor }
 }
 extension List.Table.DataSource.RegisteredAccountRow: DetailedLabelRow {
-    var borderColor: UIColor { return .themedTableBorder }
+    var secondaryLabel: String? { account.expirationDate }
+    var isExpired: Bool { account.isExpired }
+    var borderColor: UIColor { .themedTableBorder }
 }
 extension List.Table.DataSource.SingleNetworkRow: DetailedLabelRow, NetworkRow {
-    var borderColor: UIColor { return .themedTableBorder }
+    var secondaryLabel: String? { nil }
+    var isExpired: Bool { false }
+    var borderColor: UIColor { .themedTableBorder }
 }
 extension List.Table.DataSource.GroupedNetworkRow: NetworkRow {}
 

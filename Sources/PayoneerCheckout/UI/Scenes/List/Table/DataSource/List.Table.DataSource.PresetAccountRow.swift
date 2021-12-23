@@ -20,7 +20,6 @@ extension List.Table.DataSource {
 
 extension List.Table.DataSource.PresetAccountRow {
     var primaryLabel: String { account.maskedAccountLabel }
-    var secondaryLabel: String? { account.expirationDate }
     var image: UIImage? { account.logo?.value }
 }
 

@@ -52,7 +52,24 @@ extension UIModel.RegisteredAccount {
     }
 
     var expirationDate: String? {
-        guard let year = apiModel.maskedAccount.expiryYear, let month = apiModel.maskedAccount.expiryMonth else { return nil }
+        guard let year = apiModel.maskedAccount.expiryYear, let month = apiModel.maskedAccount.expiryMonth else {
+            return nil
+        }
+
         return "\(month)" + "/" + String(year).suffix(2)
+    }
+
+    var isExpired: Bool {
+        guard let year = apiModel.maskedAccount.expiryYear, let month = apiModel.maskedAccount.expiryMonth else {
+            return false
+        }
+
+        let dateComponents = DateComponents(calendar: Calendar.current, timeZone: .current, year: year, month: month)
+
+        guard let expirationDate = Calendar.current.date(from: dateComponents) else {
+            return false
+        }
+
+        return Calendar.current.compare(expirationDate, to: Date(), toGranularity: .month) == .orderedDescending
     }
 }
