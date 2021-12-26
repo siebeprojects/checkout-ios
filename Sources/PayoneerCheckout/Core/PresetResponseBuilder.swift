@@ -6,13 +6,7 @@
 
 import Foundation
 
-extension Input.ViewController.PaymentController {
-    /// Manual response builder for pre-set an already PRESET account
-    /// - SeeAlso: https://optile.atlassian.net/browse/PCX-996
-    struct PresetResponseBuilder {}
-}
-
-extension Input.ViewController.PaymentController.PresetResponseBuilder {
+struct PresetResponseBuilder {
     func createResponse(for presetAccount: PresetAccount) -> Result<OperationResult, ErrorInfo> {
         let interaction: Interaction
 

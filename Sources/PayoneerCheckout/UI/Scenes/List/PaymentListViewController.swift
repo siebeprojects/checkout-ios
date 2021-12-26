@@ -184,7 +184,10 @@ extension PaymentListViewController: ListTableControllerDelegate {
     }
 
     func didSelect(presetAccount: UIModel.PresetAccount, context: UIModel.PaymentContext) {
-        show(presetAccount: presetAccount, context: context, animated: true)
+        // Response for a preset account should be created locally (PCX-996) without displaying input view controller (PCX-2409).
+        let builder = PresetResponseBuilder()
+        let localReponse = builder.createResponse(for: presetAccount.apiModel)
+        dismiss(with: localReponse)
     }
 
     func didRefreshRequest() {
