@@ -9,9 +9,13 @@ import UIKit
 extension List.Table.DataSource {
     class PresetAccountRow {
         let account: UIModel.PresetAccount
+        weak var modalPresenter: ModalPresenter?
+        var translator: TranslationProvider?
 
-        init(account: UIModel.PresetAccount) {
+        init(account: UIModel.PresetAccount, modalPresenter: ModalPresenter?, translator: TranslationProvider?) {
             self.account = account
+            self.modalPresenter = modalPresenter
+            self.translator = translator
         }
     }
 }

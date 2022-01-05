@@ -28,6 +28,10 @@ final class AssetProvider {
         return UIImage(named: "iconClear", in: .current, compatibleWith: nil)
     }
 
+    static var expirationInfo: UIImage? {
+        return UIImage(named: "expirationInfo", in: .current, compatibleWith: nil)
+    }
+
     static var disclosureIndicator: UIImage? {
         if #available(iOS 13.0, *) {
             return UIImage(systemName: "chevron.right")

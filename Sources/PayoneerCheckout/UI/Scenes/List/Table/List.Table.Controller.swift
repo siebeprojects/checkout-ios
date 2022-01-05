@@ -26,6 +26,12 @@ extension List.Table {
 
         weak var delegate: ListTableControllerDelegate?
 
+        weak var modalPresenter: ModalPresenter? {
+            didSet {
+                dataSource.modalPresenter = modalPresenter
+            }
+        }
+
         let dataSource: List.Table.DataSource
 
         fileprivate let isRefreshable: Bool

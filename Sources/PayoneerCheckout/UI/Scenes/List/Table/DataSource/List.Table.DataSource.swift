@@ -13,6 +13,7 @@ extension List.Table {
         private let sections: [Section]
         private let translationProvider: TranslationProvider
         let context: UIModel.PaymentContext
+        weak var modalPresenter: ModalPresenter?
 
         init(networks: [UIModel.PaymentNetwork], accounts: [UIModel.RegisteredAccount]?, presetAccount: UIModel.PresetAccount?, translation: SharedTranslationProvider, genericLogo: UIImage, context: UIModel.PaymentContext) {
             self.translationProvider = translation
@@ -21,7 +22,7 @@ extension List.Table {
             var sections = [Section]()
 
             if let presetAccount = presetAccount {
-                let row = PresetAccountRow(account: presetAccount)
+                let row = PresetAccountRow(account: presetAccount, modalPresenter: modalPresenter, translator: translationProvider)
                 let presetSection = Section(rows: .preset(row), additionalHeaderText: presetAccount.warningText)
                 sections.append(presetSection)
             }
@@ -30,7 +31,7 @@ extension List.Table {
             if let accounts = accounts {
                 var rows = [RegisteredAccountRow]()
                 for account in accounts {
-                    let row = RegisteredAccountRow(account: account)
+                    let row = RegisteredAccountRow(account: account, modalPresenter: modalPresenter, translator: translationProvider)
                     rows.append(row)
                 }
 
@@ -183,11 +184,15 @@ private protocol DetailedLabelRow: DequeuableRow {
     var isExpired: Bool { get }
     var image: UIImage? { get }
     var borderColor: UIColor { get }
+    var modalPresenter: ModalPresenter? { get }
+    var translator: TranslationProvider? { get }
 }
 
 extension DetailedLabelRow {
     func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
+        cell.translator = translator
+        cell.modalPresenter = modalPresenter
 
         // Set model
         cell.primaryLabel.text = primaryLabel
@@ -230,6 +235,8 @@ extension List.Table.DataSource.SingleNetworkRow: DetailedLabelRow, NetworkRow {
     var secondaryLabel: String? { nil }
     var isExpired: Bool { false }
     var borderColor: UIColor { .themedTableBorder }
+    var modalPresenter: ModalPresenter? { nil }
+    var translator: TranslationProvider? { nil }
 }
 extension List.Table.DataSource.GroupedNetworkRow: NetworkRow {}
 
