@@ -10,12 +10,10 @@ extension List.Table.DataSource {
     class RegisteredAccountRow {
         let account: UIModel.RegisteredAccount
         weak var modalPresenter: ModalPresenter?
-        var translator: TranslationProvider?
 
-        init(account: UIModel.RegisteredAccount, modalPresenter: ModalPresenter?, translator: TranslationProvider?) {
+        init(account: UIModel.RegisteredAccount, modalPresenter: ModalPresenter?) {
             self.account = account
             self.modalPresenter = modalPresenter
-            self.translator = translator
         }
     }
 }

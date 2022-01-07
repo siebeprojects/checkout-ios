@@ -6,7 +6,7 @@
 
 import UIKit
 
-@objc public final class PaymentListViewController: UIViewController {
+@objc public final class PaymentListViewController: UIViewController, ModalPresenter {
     weak var methodsTableView: UITableView?
     weak var activityIndicator: UIActivityIndicatorView?
     weak var errorAlertController: UIAlertController?

@@ -15,14 +15,15 @@ extension List.Table {
         let context: UIModel.PaymentContext
         weak var modalPresenter: ModalPresenter?
 
-        init(networks: [UIModel.PaymentNetwork], accounts: [UIModel.RegisteredAccount]?, presetAccount: UIModel.PresetAccount?, translation: SharedTranslationProvider, genericLogo: UIImage, context: UIModel.PaymentContext) {
+        init(networks: [UIModel.PaymentNetwork], accounts: [UIModel.RegisteredAccount]?, presetAccount: UIModel.PresetAccount?, translation: SharedTranslationProvider, genericLogo: UIImage, context: UIModel.PaymentContext, modalPresenter: ModalPresenter?) {
             self.translationProvider = translation
             self.context = context
+            self.modalPresenter = modalPresenter
 
             var sections = [Section]()
 
             if let presetAccount = presetAccount {
-                let row = PresetAccountRow(account: presetAccount, modalPresenter: modalPresenter, translator: translationProvider)
+                let row = PresetAccountRow(account: presetAccount, modalPresenter: modalPresenter)
                 let presetSection = Section(rows: .preset(row), additionalHeaderText: presetAccount.warningText)
                 sections.append(presetSection)
             }
@@ -31,7 +32,7 @@ extension List.Table {
             if let accounts = accounts {
                 var rows = [RegisteredAccountRow]()
                 for account in accounts {
-                    let row = RegisteredAccountRow(account: account, modalPresenter: modalPresenter, translator: translationProvider)
+                    let row = RegisteredAccountRow(account: account, modalPresenter: modalPresenter)
                     rows.append(row)
                 }
 
@@ -226,11 +227,13 @@ extension List.Table.DataSource.PresetAccountRow: DetailedLabelRow {
     var secondaryLabel: String? { account.expirationDate }
     var isExpired: Bool { account.isExpired }
     var borderColor: UIColor { .tablePresetBordersColor }
+    var translator: TranslationProvider? { account.translation }
 }
 extension List.Table.DataSource.RegisteredAccountRow: DetailedLabelRow {
     var secondaryLabel: String? { account.expirationDate }
     var isExpired: Bool { account.isExpired }
     var borderColor: UIColor { .themedTableBorder }
+    var translator: TranslationProvider? { account.translation }
 }
 extension List.Table.DataSource.SingleNetworkRow: DetailedLabelRow, NetworkRow {
     var secondaryLabel: String? { nil }
