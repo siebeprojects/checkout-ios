@@ -7,37 +7,44 @@ extension PaymentListViewController {
 
         fileprivate var tableController: List.Table.Controller?
 
-        var viewState: ViewState = .loading {
-            didSet { changeState(to: viewState) }
+        var viewState: ViewState = .listLoading {
+            didSet { changeState(to: viewState, from: oldValue) }
         }
     }
 }
 
 extension PaymentListViewController.StateManager {
-    fileprivate func changeState(to state: ViewState) {
-        switch state {
-        case .networksList(let session):
+    fileprivate func changeState(to newState: ViewState, from oldState: ViewState) {
+        // Clean UI from old state
+        switch oldState {
+        case .listLoading:
+            setActivityIndicatorState(isActive: false)
+        case .failure:
+            dismissAlertController()
+        case .networksList:
+            // Don't hide network list when switching to the new state
+            break
+        }
+
+        // Perfom needed actions for the new UI state
+        switch newState {
+        case .listLoading:
             do {
-                activityIndicator(isActive: false)
-                try showPaymentMethods(for: session)
-                dismissAlertController()
+                setActivityIndicatorState(isActive: true)
+                try showPaymentMethods(for: nil)
             } catch {
                 let errorInfo = CustomErrorInfo.createClientSideError(from: error)
                 vc.dismiss(with: .failure(errorInfo))
             }
-        case .loading:
+        case .failure(let error):
+            vc.present(error: error)
+        case .networksList(let session):
             do {
-                activityIndicator(isActive: true)
-                try showPaymentMethods(for: nil)
-                dismissAlertController()
+                try showPaymentMethods(for: session)
             } catch {
                 let errorInfo = CustomErrorInfo.createClientSideError(from: error)
                 vc.dismiss(with: .failure(errorInfo))
-           }
-        case .failure(let error):
-            activityIndicator(isActive: true)
-            try? showPaymentMethods(for: nil)
-            vc.present(error: error)
+            }
         }
     }
 
@@ -66,7 +73,7 @@ extension PaymentListViewController.StateManager {
         methodsTableView.invalidateIntrinsicContentSize()
     }
 
-    private func activityIndicator(isActive: Bool) {
+    private func setActivityIndicatorState(isActive: Bool) {
         if isActive == false {
             // Hide activity indicator
             viewManager.removeActivityIndicator()
@@ -85,7 +92,7 @@ extension PaymentListViewController.StateManager {
 
 extension PaymentListViewController.StateManager {
     enum ViewState {
-        case loading
+        case listLoading
         case failure(UIAlertController.AlertError)
         case networksList(UIModel.PaymentSession)
     }

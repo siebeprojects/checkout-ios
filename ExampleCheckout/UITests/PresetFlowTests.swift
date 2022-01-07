@@ -138,6 +138,45 @@ class PresetFlowTests: NetworksTests {
             XCTAssert(chargeInteractionResult.contains("OK"))
         }
     }
+
+    /// Test preset a preset with 1-click
+    func testPresetAPresetAccount() throws {
+        let visa = Visa()
+
+        try XCTContext.runActivity(named: "Preset account") { _ in
+            // Create payment session
+            let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .preset))
+            try setupWithPaymentSession(transaction: transaction)
+
+            // Fill and submit card's data
+            app.tables.staticTexts["Cards"].tap()
+            visa.submit(in: app.collectionViews)
+
+            // Wait for an alert that account was preset
+            XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+            let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+            XCTAssert(interactionResult.contains("PROCEED"))
+            XCTAssert(interactionResult.contains("OK"))
+        }
+
+        // Close the alert
+        app.alerts.firstMatch.buttons.firstMatch.tap()
+
+        // Charge the preset account
+        XCTContext.runActivity(named: "Preset a preset account") { _ in
+            app.tables.buttons["Show Payment List"].tap()
+
+            let visaCell = app.tables.staticTexts[visa.maskedLabel]
+            XCTAssert(visaCell.waitForExistence(timeout: .networkTimeout))
+            visaCell.tap()
+
+            // Assert a result
+            XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+            let chargeInteractionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+            XCTAssert(chargeInteractionResult.contains("PROCEED"))
+            XCTAssert(chargeInteractionResult.contains("OK"))
+        }
+    }
 }
 
 private extension PresetFlowTests {

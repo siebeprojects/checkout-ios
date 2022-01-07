@@ -52,15 +52,8 @@ extension Input.ViewController.PaymentController {
             let builder = PaymentRequestBuilder()
             let paymentRequest = try builder.createPaymentRequest(for: network)
 
-            switch network.apiModel {
-            case .preset(let presetAccount):
-                // Manually create a response when submitting for a preset account (https://optile.atlassian.net/browse/PCX-996)
-                let response = PresetResponseBuilder().createResponse(for: presetAccount)
-                operationResultHandler.handle(response: response, for: paymentRequest)
-            default:
-                // Send a network request
-                service.send(operationRequest: paymentRequest)
-            }
+            // Send a network request
+            service.send(operationRequest: paymentRequest)
         } catch {
             let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
             delegate?.paymentController(didFailWith: errorInfo, for: nil)
