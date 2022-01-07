@@ -195,11 +195,12 @@ extension DetailedLabelRow {
         cell.modalPresenter = modalPresenter
 
         // Set model
+        cell.logoView.image = image
         cell.primaryLabel.text = primaryLabel
         cell.secondaryLabel.text = secondaryLabel
         cell.secondaryLabel.isHidden = secondaryLabel == nil || secondaryLabel?.isEmpty == true
         cell.secondaryLabel.textColor = isExpired ? .themedError : .themedDetailedText
-        cell.logoView.image = image
+        cell.expirationInfoButton.isHidden = isExpired == false
         cell.borderColor = self.borderColor
 
         // Set cell position

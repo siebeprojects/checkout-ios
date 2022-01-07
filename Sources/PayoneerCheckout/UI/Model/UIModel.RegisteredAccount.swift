@@ -64,12 +64,13 @@ extension UIModel.RegisteredAccount {
             return false
         }
 
-        let dateComponents = DateComponents(calendar: Calendar.current, timeZone: .current, year: year, month: month)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yy-MM"
 
-        guard let expirationDate = Calendar.current.date(from: dateComponents) else {
+        guard let expirationDate = dateFormatter.date(from: "\(year)-\(month)") else {
             return false
         }
 
-        return Calendar.current.compare(expirationDate, to: Date(), toGranularity: .month) == .orderedDescending
+        return Calendar.current.compare(expirationDate, to: Date(), toGranularity: .month) == .orderedAscending
     }
 }

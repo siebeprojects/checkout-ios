@@ -37,6 +37,7 @@ extension List.Table {
             let button = UIButton(type: .system)
             button.tintColor = .themedError
             button.setImage(AssetProvider.expirationInfo, for: .normal)
+            button.isHidden = true
             return button
         }()
 
