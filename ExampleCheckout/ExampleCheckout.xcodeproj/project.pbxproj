@@ -26,6 +26,7 @@
 		0725B41B26FCBC9600C607A8 /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
 		0725B41E26FCBC9600C607A8 /* Transaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A5FA7F253D8B09001C71B7 /* Transaction.json */; };
 		07321F3126EB9EEC00DD2F0E /* DeleteButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */; };
+		074DADF12785EAA900F704E7 /* ExpiredCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */; };
 		074E5ECC2707447600E35B24 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
 		074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
 		0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC4274BF25100005D30 /* PayoneerCheckout */; };
@@ -172,6 +173,7 @@
 /* Begin PBXFileReference section */
 		0725B42226FCBC9600C607A8 /* UITestsObjC.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITestsObjC.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonTests.swift; sourceTree = "<group>"; };
+		074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredCardTests.swift; sourceTree = "<group>"; };
 		074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutConfiguration.swift; sourceTree = "<group>"; };
 		074E5ECD270B595500E35B24 /* TransactionSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSettings.swift; sourceTree = "<group>"; };
 		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				D9B0D98327675E6B00DB928D /* PresetFlowTests.swift */,
 				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
+				074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */,
 				07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */,
 				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
@@ -795,6 +798,7 @@
 				D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */,
 				D9C602652726CF1F007CFD6A /* Registration.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,
+				074DADF12785EAA900F704E7 /* ExpiredCardTests.swift in Sources */,
 				D9C602722726ECB7007CFD6A /* Charge.swift in Sources */,
 				D912BB4B2726C1B70004AFAE /* Interaction.swift in Sources */,
 				D9C602682726EA15007CFD6A /* Style.swift in Sources */,

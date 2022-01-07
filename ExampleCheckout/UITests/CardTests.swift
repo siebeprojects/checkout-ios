@@ -116,10 +116,9 @@ class CardsTests: NetworksTests {
         try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        var visa = Visa()
-        // The `ANDROID_TESTING` merchant on Integration has been setup to block the Mastercard number: 5105105105105100
-        visa.number = "5105105105105100"
 
+        // The `ANDROID_TESTING` merchant on Integration has been setup to block the Mastercard number: 5105105105105100
+        let visa = Visa(number: "5105105105105100")
         visa.submit(in: app.collectionViews)
 
         // Check result

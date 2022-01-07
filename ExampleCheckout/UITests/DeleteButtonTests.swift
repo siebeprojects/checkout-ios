@@ -17,6 +17,11 @@ final class DeleteButtonTests: NetworksTests {
         self.customerId = try! PaymentService().registerCustomer()
     }
 
+    override class func tearDown() {
+        self.customerId = nil
+        super.tearDown()
+    }
+
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsTrue_shouldShow() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: true, customerId: Self.customerId))

@@ -7,17 +7,31 @@
 import XCTest
 
 struct Visa: PaymentNetwork {
-    /// Number without spaces
-    var number: String = "4111111111111111"
-
-    /// Date without formatting, e.g.: `1030`
-    var expiryDate: String? = "1030"
-
-    var verificationCode: String? = "111"
-    var holderName: String? = "Test Test"
+    let number: String
+    let expiryDate: String
+    let verificationCode: String
+    let holderName: String
 
     let label: String = "Visa"
     let maskedLabel: String = "Visa •••• 1111"
+
+    /// Initializes a card with optional, overridable values.
+    /// - Parameters:
+    ///   - number: The card number without formatting.
+    ///   - expiryDate: The expiration month and year without formatting (e.g. 1030).
+    ///   - verificationCode: The CVV.
+    ///   - holderName: The name on the card.
+    init(
+        number: String = "4111111111111111",
+        expiryDate: String = "1030",
+        verificationCode: String = "111",
+        holderName: String = "Test Test"
+    ) {
+        self.number = number
+        self.expiryDate = expiryDate
+        self.verificationCode = verificationCode
+        self.holderName = holderName
+    }
 
     func fill(in collectionView: XCUIElementQuery) {
         XCTContext.runActivity(named: "Fill VISA card's data") { _ in
