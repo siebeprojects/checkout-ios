@@ -56,7 +56,7 @@ extension UIModel.RegisteredAccount {
             return nil
         }
 
-        return "\(month)" + "/" + String(year).suffix(2)
+        return "\(month)" + " / " + String(year).suffix(2)
     }
 
     var isExpired: Bool {

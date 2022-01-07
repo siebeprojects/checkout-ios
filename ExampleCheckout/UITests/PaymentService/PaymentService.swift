@@ -9,18 +9,18 @@ import XCTest
 class PaymentService {
     private let networkService = NetworkService()
 
-    func registerCustomer() throws -> String {
+    func registerCustomer(card: Visa = Visa()) throws -> String {
         try XCTContext.runActivity(named: "Register the new customer") { _ in
             let session = try NetworksTests.createPaymentSession(using: Transaction.create(withSettings: TransactionSettings(operationType: .charge)))
             let operationURL = session.networks.applicable[0].links!["operation"]!
-            return try registerCustomer(usingOperationURL: operationURL)
+            return try registerCustomer(usingOperationURL: operationURL, card: card)
         }
     }
     
-    private func registerCustomer(usingOperationURL operationURL: URL) throws -> String {
+    private func registerCustomer(usingOperationURL operationURL: URL, card: Visa) throws -> String {
         var registerCustomerResult: Result<String, Error>?
         let semaphore = DispatchSemaphore(value: 0)
-        registerCustomer(using: operationURL) { result in
+        registerCustomer(using: operationURL, card: card) { result in
             registerCustomerResult = result
             semaphore.signal()
         }
@@ -38,12 +38,12 @@ class PaymentService {
         }
     }
 
-    private func registerCustomer(using operationURL: URL, completion: @escaping ((Result<String, Error>) -> Void)) {
+    private func registerCustomer(using operationURL: URL, card: Visa, completion: @escaping ((Result<String, Error>) -> Void)) {
         var request = URLRequest(url: operationURL)
         request.httpMethod = "POST"
 
         do {
-            request.httpBody = try createBodyForChargeRequest()
+            request.httpBody = try createBodyForChargeRequest(card: card)
         } catch {
             completion(.failure(error))
             return
@@ -69,15 +69,13 @@ class PaymentService {
         }
     }
     
-    private func createBodyForChargeRequest() throws -> Data {
-        let card = Visa()
-
+    private func createBodyForChargeRequest(card: Visa) throws -> Data {
         let account: [String: String] = [
             "number": card.number,
-            "expiryMonth": String(card.expiryDate!.prefix(2)),
-            "expiryYear": String(card.expiryDate!.suffix(2)),
-            "verificationCode": card.verificationCode!,
-            "holderName": card.holderName!
+            "expiryMonth": String(card.expiryDate.prefix(2)),
+            "expiryYear": String(card.expiryDate.suffix(2)),
+            "verificationCode": card.verificationCode,
+            "holderName": card.holderName
         ]
 
         let body = Charge.Body(account: account, autoRegistration: true, allowRecurrence: true)
