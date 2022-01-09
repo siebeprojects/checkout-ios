@@ -28,6 +28,60 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D9B86A2D278B52EB00D61640"
+               BuildableName = "UITestsSwift-CocoaPods.xctest"
+               BlueprintName = "UITestsSwift-CocoaPods"
+               ReferencedContainer = "container:ExampleCheckout.xcodeproj">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "CardsTests/testClearButton()">
+               </Test>
+               <Test
+                  Identifier = "CardsTests/testProceedPending()">
+               </Test>
+               <Test
+                  Identifier = "CardsTests/testRetry()">
+               </Test>
+               <Test
+                  Identifier = "CardsTests/testRiskDetected()">
+               </Test>
+               <Test
+                  Identifier = "CardsTests/testTryOtherAccount()">
+               </Test>
+               <Test
+                  Identifier = "CardsTests/testTryOtherNetwork()">
+               </Test>
+               <Test
+                  Identifier = "DeleteButtonTests">
+               </Test>
+               <Test
+                  Identifier = "ExtraElementsTests">
+               </Test>
+               <Test
+                  Identifier = "NetworksTests">
+               </Test>
+               <Test
+                  Identifier = "PresetFlowTests">
+               </Test>
+               <Test
+                  Identifier = "RedirectNetworksTests">
+               </Test>
+               <Test
+                  Identifier = "SepaTests">
+               </Test>
+               <Test
+                  Identifier = "ThreeDSTests">
+               </Test>
+               <Test
+                  Identifier = "UpdateFlowTests">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

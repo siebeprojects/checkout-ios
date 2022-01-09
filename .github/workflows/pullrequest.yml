@@ -165,7 +165,26 @@ jobs:
           project-directory: ExampleCheckout/
         run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
 
+      - name: Inject secrets
+        id: inject-secrets
+        env:
+          merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
+          merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
+          payment-api-list-url: https:/\$()/api.integration.oscato.com/api/lists
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: |
+            echo "MERCHANT_CODE=${{ env.merchant-code }}" > ${{ env.xcconfig }}
+            echo "MERCHANT_PAYMENT_TOKEN=${{ env.merchant-token }}" >> ${{ env.xcconfig }}
+            echo "PAYMENT_API_LISTURL=${{ env.payment-api-list-url }}" >> ${{ env.xcconfig }}
+
       - name: Run UI tests
         env:
           FASTLANE_SKIP_UPDATE_CHECK: true
-        run: bundle exec fastlane build_example_swift_cocoapods
+        run: bundle exec fastlane ui_test_cocoapods
+
+      - name: Clear secrets
+        if: always() && steps.inject-secrets.outcome == 'success'
+        id: clear-secrets
+        env:
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: rm ${{ env.xcconfig }}

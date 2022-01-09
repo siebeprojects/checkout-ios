@@ -31,16 +31,6 @@ platform :ios do
     )
   end
 
-  desc "Build example app (Swift)"
-  lane :build_example_swift_cocoapods do |options|
-    build_ios_app(
-      silent: true,
-      export_method: "ad-hoc",
-      scheme: "Swift for CocoaPods",
-      workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace"
-    )
-  end
-
   desc "Upload binary to Browserstack"
   lane :browserstack do |options|
     upload_to_browserstack_app_live(
@@ -62,6 +52,15 @@ platform :ios do
       output_directory: "./output/scan",
       output_types: "junit",
       result_bundle: true
+    )
+  end
+
+  desc "Run UI tests for CocoaPods"
+  lane :ui_test_cocoapods do |options|
+    run_tests(
+      scheme: "Swift-CocoaPods"
+      derived_data_path: "/tmp/workspace/derived_data",
+      workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
     )
   end
 
