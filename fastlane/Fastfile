@@ -31,6 +31,16 @@ platform :ios do
     )
   end
 
+  desc "Build example app (Swift)"
+  lane :build_example_swift_cocoapods do |options|
+    build_ios_app(
+      silent: true,
+      export_method: "development",
+      scheme: "Swift for CocoaPods",
+      workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace"
+    )
+  end
+
   desc "Upload binary to Browserstack"
   lane :browserstack do |options|
     upload_to_browserstack_app_live(

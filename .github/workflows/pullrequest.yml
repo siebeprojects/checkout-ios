@@ -144,3 +144,28 @@ jobs:
           WORKING_DIRECTORY: ExampleCheckout
         with:
           args: --strict
+
+### COCOAPODS
+
+  cocoapods-integration:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install the dependencies specified in Gemfile
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Install Pods
+         env:
+           project-directory: ExampleCheckout/
+         run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
+
+      - name: Run UI tests
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: true
+        run: bundle exec fastlane build_example_swift_cocoapods
