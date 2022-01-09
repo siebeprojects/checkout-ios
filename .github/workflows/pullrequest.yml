@@ -161,9 +161,9 @@ jobs:
           bundler-cache: true
 
       - name: Install Pods
-         env:
-           project-directory: ExampleCheckout/
-         run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
+        env:
+          project-directory: ExampleCheckout/
+        run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
 
       - name: Run UI tests
         env:
