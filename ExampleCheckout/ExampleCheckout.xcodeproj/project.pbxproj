@@ -98,6 +98,15 @@
 		D912BB732726C2BD0004AFAE /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB6E2726C2BD0004AFAE /* Customer.swift */; };
 		D912BB742726C2BD0004AFAE /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB6F2726C2BD0004AFAE /* Payment.swift */; };
 		D912BB752726C2BD0004AFAE /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB6F2726C2BD0004AFAE /* Payment.swift */; };
+		D9139ADE278B410800E30155 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB4234143BD0021184C /* ViewController.swift */; };
+		D9139ADF278B410800E30155 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAF27634CB8000CB406 /* Theme+custom.swift */; };
+		D9139AE0278B410800E30155 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB0234143BD0021184C /* AppDelegate.swift */; };
+		D9139AE1278B410800E30155 /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */; };
+		D9139AE2278B410800E30155 /* UINavigationController+popViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAD27634CB8000CB406 /* UINavigationController+popViewController.swift */; };
+		D9139AE3278B410800E30155 /* PaymentResult+debugDescription.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */; };
+		D9139AE7278B410800E30155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */; };
+		D9139AE8278B410800E30155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D92B4D6725F6843A00103C70 /* Assets.xcassets */; };
+		D9139AE9278B410800E30155 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEB6234143BD0021184C /* Main.storyboard */; };
 		D92B4D6825F6843A00103C70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D92B4D6725F6843A00103C70 /* Assets.xcassets */; };
 		D9368BAB26B1CC7F0083E5E3 /* ThreeDSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */; };
 		D948527026F245DF00D11DC2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D948526A26F245DF00D11DC2 /* AppDelegate.m */; };
@@ -211,6 +220,8 @@
 		D912BB6D2726C2BD0004AFAE /* Callback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Callback.swift; sourceTree = "<group>"; };
 		D912BB6E2726C2BD0004AFAE /* Customer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		D912BB6F2726C2BD0004AFAE /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		D9139AED278B410800E30155 /* CheckoutSwift-CocoaPods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CheckoutSwift-CocoaPods.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9139AEE278B410800E30155 /* CheckoutSwift copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "CheckoutSwift copy-Info.plist"; path = "/Users/vasily/Git/checkout-ios/ExampleCheckout/CheckoutSwift copy-Info.plist"; sourceTree = "<absolute>"; };
 		D92B4D6725F6843A00103C70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDSTests.swift; sourceTree = "<group>"; };
 		D948523026F2438D00D11DC2 /* CheckoutObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckoutObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -256,6 +267,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		0725B41C26FCBC9600C607A8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9139AE4278B410800E30155 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -487,6 +505,7 @@
 				D9A5FA57253CA701001C71B7 /* UITests */,
 				D9E0AEAE234143BD0021184C /* Products */,
 				D9D705FC23703B66004000AE /* Frameworks */,
+				D9139AEE278B410800E30155 /* CheckoutSwift copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -497,6 +516,7 @@
 				D9A5FA56253CA701001C71B7 /* UITestsSwift.xctest */,
 				D948523026F2438D00D11DC2 /* CheckoutObjC.app */,
 				0725B42226FCBC9600C607A8 /* UITestsObjC.xctest */,
+				D9139AED278B410800E30155 /* CheckoutSwift-CocoaPods.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -541,6 +561,25 @@
 			productName = UITests;
 			productReference = 0725B42226FCBC9600C607A8 /* UITestsObjC.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		D9139ADB278B410800E30155 /* CheckoutSwift-CocoaPods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D9139AEA278B410800E30155 /* Build configuration list for PBXNativeTarget "CheckoutSwift-CocoaPods" */;
+			buildPhases = (
+				D9139ADD278B410800E30155 /* Sources */,
+				D9139AE4278B410800E30155 /* Frameworks */,
+				D9139AE6278B410800E30155 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CheckoutSwift-CocoaPods";
+			packageProductDependencies = (
+			);
+			productName = Example;
+			productReference = D9139AED278B410800E30155 /* CheckoutSwift-CocoaPods.app */;
+			productType = "com.apple.product-type.application";
 		};
 		D948522F26F2438D00D11DC2 /* CheckoutObjC */ = {
 			isa = PBXNativeTarget;
@@ -644,6 +683,7 @@
 				D948522F26F2438D00D11DC2 /* CheckoutObjC */,
 				D9A5FA55253CA701001C71B7 /* UITestsSwift */,
 				0725B3FC26FCBC9600C607A8 /* UITestsObjC */,
+				D9139ADB278B410800E30155 /* CheckoutSwift-CocoaPods */,
 			);
 		};
 /* End PBXProject section */
@@ -654,6 +694,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				0725B41E26FCBC9600C607A8 /* Transaction.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9139AE6278B410800E30155 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9139AE7278B410800E30155 /* LaunchScreen.storyboard in Resources */,
+				D9139AE8278B410800E30155 /* Assets.xcassets in Resources */,
+				D9139AE9278B410800E30155 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,6 +797,19 @@
 				D9B0D98527675E6B00DB928D /* PresetFlowTests.swift in Sources */,
 				0725B41A26FCBC9600C607A8 /* Sepa.swift in Sources */,
 				0725B41B26FCBC9600C607A8 /* XCTAttachment+subject.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9139ADD278B410800E30155 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9139ADE278B410800E30155 /* ViewController.swift in Sources */,
+				D9139ADF278B410800E30155 /* Theme+custom.swift in Sources */,
+				D9139AE0278B410800E30155 /* AppDelegate.swift in Sources */,
+				D9139AE1278B410800E30155 /* ActivityIndicatableButton.swift in Sources */,
+				D9139AE2278B410800E30155 /* UINavigationController+popViewController.swift in Sources */,
+				D9139AE3278B410800E30155 /* PaymentResult+debugDescription.swift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -938,6 +1001,54 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CheckoutObjC;
+			};
+			name = Release;
+		};
+		D9139AEB278B410800E30155 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = ..;
+				DEVELOPMENT_TEAM = 9FN68XYFY9;
+				INFOPLIST_FILE = "Sources/Swift/CocoaPods-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.payoneer.checkout.examplecheckout-cocoapods";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.payoneer.checkout.examplecheckout";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D9139AEC278B410800E30155 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = ..;
+				DEVELOPMENT_TEAM = 9FN68XYFY9;
+				INFOPLIST_FILE = "Sources/Swift/CocoaPods-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.payoneer.checkout.examplecheckout-cocoapods";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc com.payoneer.checkout.examplecheckout";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1198,6 +1309,15 @@
 			buildConfigurations = (
 				0725B42026FCBC9600C607A8 /* Debug */,
 				0725B42126FCBC9600C607A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D9139AEA278B410800E30155 /* Build configuration list for PBXNativeTarget "CheckoutSwift-CocoaPods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D9139AEB278B410800E30155 /* Debug */,
+				D9139AEC278B410800E30155 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
