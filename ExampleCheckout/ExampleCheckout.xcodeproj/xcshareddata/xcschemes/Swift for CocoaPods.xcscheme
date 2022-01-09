@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D9139ADB278B410800E30155"
-               BuildableName = "CheckoutSwift_CocoaPods.app"
+               BuildableName = "CheckoutSwift-CocoaPods.app"
                BlueprintName = "CheckoutSwift-CocoaPods"
                ReferencedContainer = "container:ExampleCheckout.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D9139ADB278B410800E30155"
-            BuildableName = "CheckoutSwift_CocoaPods.app"
+            BuildableName = "CheckoutSwift-CocoaPods.app"
             BlueprintName = "CheckoutSwift-CocoaPods"
             ReferencedContainer = "container:ExampleCheckout.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D9139ADB278B410800E30155"
-            BuildableName = "CheckoutSwift_CocoaPods.app"
+            BuildableName = "CheckoutSwift-CocoaPods.app"
             BlueprintName = "CheckoutSwift-CocoaPods"
             ReferencedContainer = "container:ExampleCheckout.xcodeproj">
          </BuildableReference>

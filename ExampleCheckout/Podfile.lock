@@ -1,0 +1,16 @@
+PODS:
+  - PayoneerCheckout (0.5.0)
+
+DEPENDENCIES:
+  - PayoneerCheckout (from `../`)
+
+EXTERNAL SOURCES:
+  PayoneerCheckout:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  PayoneerCheckout: 0b9e134b2c76b182ba202bc4caa319a0cb47d092
+
+PODFILE CHECKSUM: 602cfa132a984020aab779dfd263f6446085324f
+
+COCOAPODS: 1.11.2
