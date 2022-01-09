@@ -35,7 +35,7 @@ platform :ios do
   lane :build_example_swift_cocoapods do |options|
     build_ios_app(
       silent: true,
-      export_method: "development",
+      export_method: "ad-hoc",
       scheme: "Swift for CocoaPods",
       workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace"
     )
