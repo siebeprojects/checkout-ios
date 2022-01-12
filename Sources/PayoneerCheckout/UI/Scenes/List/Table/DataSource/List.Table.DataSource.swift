@@ -201,7 +201,9 @@ extension DetailedLabelRow {
         cell.secondaryLabel.text = secondaryLabel
         cell.secondaryLabel.isHidden = secondaryLabel == nil || secondaryLabel?.isEmpty == true
         cell.secondaryLabel.textColor = isExpired ? .themedError : .themedDetailedText
-        cell.expirationInfoButton.isHidden = isExpired == false
+        cell.trailingButton.tintColor = .themedError
+        cell.trailingButton.setImage(AssetProvider.expirationInfo, for: .normal)
+        cell.trailingButton.isHidden = isExpired == false
         cell.borderColor = self.borderColor
 
         // Set cell position

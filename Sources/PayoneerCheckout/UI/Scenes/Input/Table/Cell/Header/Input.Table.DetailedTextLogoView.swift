@@ -6,59 +6,58 @@
 
 import UIKit
 
-private extension CGFloat {
-    static let logoWidth: CGFloat = 40
-    static let imageLabelSpacing: CGFloat = 16
-}
-
 extension Input.Table {
     class DetailedTextLogoView: UICollectionViewCell, Dequeueable {
-        private let label: UILabel
-        private let detailedLabel: UILabel
-        private let logoView: UIImageView
+        let logoView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.tintColor = .themedDetailedText
+            imageView.contentMode = .scaleAspectFit
+            return imageView
+        }()
 
-        override init(frame: CGRect) {
-            label = .init(frame: .zero)
-            detailedLabel = .init(frame: .zero)
-            logoView = .init(frame: .zero)
-
-            super.init(frame: frame)
-
-            // FIXME: Return checkmark
-//            self.accessoryType = .checkmark
-
+        let primaryLabel: UILabel = {
+            let label = UILabel()
             label.font = UIFont.preferredThemeFont(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
-            detailedLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
             label.textColor = .themedText
-            detailedLabel.textColor = .themedText
+            return label
+        }()
 
-            self.addSubview(label)
-            self.addSubview(detailedLabel)
-            self.addSubview(logoView)
+        let secondaryLabel: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
+            label.textColor = .themedDetailedText
+            return label
+        }()
 
-            label.translatesAutoresizingMaskIntoConstraints = false
-            detailedLabel.translatesAutoresizingMaskIntoConstraints = false
+        lazy var trailingButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.isHidden = true
+            button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+            return button
+        }()
 
-            logoView.translatesAutoresizingMaskIntoConstraints = false
-            logoView.contentMode = .scaleAspectFit
-            logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        var translator: TranslationProvider?
+        weak var modalPresenter: ModalPresenter?
 
-            NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: .imageLabelSpacing),
-                label.topAnchor.constraint(equalTo: self.topAnchor),
-                label.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+        override init(frame: CGRect) {
+            super.init(frame: frame)
 
-                detailedLabel.topAnchor.constraint(equalTo: label.bottomAnchor),
-                detailedLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                detailedLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-                detailedLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
 
-                logoView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                logoView.topAnchor.constraint(equalTo: label.topAnchor),
-                logoView.bottomAnchor.constraint(equalTo: detailedLabel.bottomAnchor),
-                logoView.widthAnchor.constraint(equalToConstant: .logoWidth)
-            ])
+            logoView.addWidthConstraint(.imageWidth)
+            trailingButton.setContentHuggingPriority(.required, for: .horizontal)
+
+            let labelsStackView = UIStackView(arrangedSubviews: [primaryLabel, secondaryLabel])
+            labelsStackView.axis = .vertical
+            labelsStackView.spacing = .verticalSpacing
+
+            let stackView = UIStackView(arrangedSubviews: [logoView, labelsStackView, trailingButton])
+            stackView.alignment = .center
+            stackView.spacing = .defaultSpacing * 2
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(stackView)
+            stackView.fitToSuperview(obeyMargins: true)
          }
 
          required init?(coder: NSCoder) {
@@ -67,10 +66,41 @@ extension Input.Table {
     }
 }
 
+// MARK: - Interaction
+
+extension Input.Table.DetailedTextLogoView {
+    @objc private func buttonAction(_ sender: UIButton) {
+        let alert = UIAlertController(
+            title: translator?.translation(forKey: "accounts.expired.badge.title"),
+            message: translator?.translation(forKey: "accounts.expired.badge.text"),
+            preferredStyle: .alert
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: translator?.translation(forKey: "button.ok.label"),
+                style: .cancel
+            )
+        )
+
+        modalPresenter?.present(alert, animated: true, completion: nil)
+    }
+}
+
 extension Input.Table.DetailedTextLogoView {
     func configure(with model: Input.TextHeader) {
         logoView.image = model.logo
-        label.text = model.label
-        detailedLabel.text = model.detailedLabel
+        primaryLabel.text = model.label
+        secondaryLabel.text = model.detailedLabel
+        translator = model.translator
+        modalPresenter = model.modalPresenter
     }
+}
+
+// MARK: - Constants
+
+private extension CGFloat {
+    static var imageWidth: CGFloat { return 50 }
+    static var defaultSpacing: CGFloat { return 8 }
+    static var verticalSpacing: CGFloat { return 4 }
 }

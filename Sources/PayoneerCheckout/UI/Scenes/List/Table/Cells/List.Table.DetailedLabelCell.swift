@@ -22,6 +22,7 @@ extension List.Table {
         let primaryLabel: UILabel = {
             let label = UILabel()
             label.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            label.lineBreakMode = .byTruncatingMiddle
             label.textColor = .themedText
             return label
         }()
@@ -33,11 +34,10 @@ extension List.Table {
             return label
         }()
 
-        let expirationInfoButton: UIButton = {
+        lazy var trailingButton: UIButton = {
             let button = UIButton(type: .system)
-            button.tintColor = .themedError
-            button.setImage(AssetProvider.expirationInfo, for: .normal)
             button.isHidden = true
+            button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
             return button
         }()
 
@@ -59,18 +59,16 @@ extension List.Table {
 
 extension List.Table.DetailedLabelCell {
     fileprivate func addContentViews() {
-
         customContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
 
         logoView.addWidthConstraint(.imageWidth)
-        expirationInfoButton.setContentHuggingPriority(.required, for: .horizontal)
-        expirationInfoButton.addTarget(self, action: #selector(expirationInfoButtonAction), for: .touchUpInside)
+        trailingButton.setContentHuggingPriority(.required, for: .horizontal)
 
         let labelsStackView = UIStackView(arrangedSubviews: [primaryLabel, secondaryLabel])
         labelsStackView.axis = .vertical
         labelsStackView.spacing = .verticalSpacing
 
-        let stackView = UIStackView(arrangedSubviews: [logoView, labelsStackView, expirationInfoButton])
+        let stackView = UIStackView(arrangedSubviews: [logoView, labelsStackView, trailingButton])
         stackView.alignment = .center
         stackView.spacing = .defaultSpacing * 2
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,7 +80,7 @@ extension List.Table.DetailedLabelCell {
 // MARK: - Interaction
 
 extension List.Table.DetailedLabelCell {
-    @objc private func expirationInfoButtonAction(_ sender: UIButton) {
+    @objc private func buttonAction(_ sender: UIButton) {
         let alert = UIAlertController(
             title: translator?.translation(forKey: "accounts.expired.badge.title"),
             message: translator?.translation(forKey: "accounts.expired.badge.text"),

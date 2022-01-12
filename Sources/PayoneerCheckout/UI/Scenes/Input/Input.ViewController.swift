@@ -76,6 +76,9 @@ extension Input {
 
             self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
 
+            header.translator = registeredAccount.translation
+            header.modalPresenter = self
+
             self.title = registeredAccount.translation.translation(forKey: "accounts.form.default.title")
         }
 
@@ -86,6 +89,9 @@ extension Input {
             let header = Input.TextHeader(from: presetAccount)
 
             self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
+
+            header.translator = presetAccount.translation
+            header.modalPresenter = self
 
             self.title = presetAccount.translation.translation(forKey: "accounts.form.default.title")
         }
