@@ -8,14 +8,14 @@ import UIKit
 
 extension Input.Table {
     class DetailedTextLogoView: UICollectionViewCell, Dequeueable {
-        let logoView: UIImageView = {
+        private let logoImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.tintColor = .themedDetailedText
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
 
-        let primaryLabel: UILabel = {
+        private let titleLabel: UILabel = {
             let label = UILabel()
             label.font = UIFont.preferredThemeFont(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
@@ -23,14 +23,14 @@ extension Input.Table {
             return label
         }()
 
-        let secondaryLabel: UILabel = {
+        private let subtitleLabel: UILabel = {
             let label = UILabel()
             label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
             label.textColor = .themedDetailedText
             return label
         }()
 
-        lazy var trailingButton: UIButton = {
+        private lazy var trailingButton: UIButton = {
             let button = UIButton(type: .system)
             button.isHidden = true
             button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
@@ -45,14 +45,14 @@ extension Input.Table {
 
             directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
 
-            logoView.addWidthConstraint(.imageWidth)
+            logoImageView.addWidthConstraint(.imageWidth)
             trailingButton.setContentHuggingPriority(.required, for: .horizontal)
 
-            let labelsStackView = UIStackView(arrangedSubviews: [primaryLabel, secondaryLabel])
+            let labelsStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
             labelsStackView.axis = .vertical
             labelsStackView.spacing = .verticalSpacing
 
-            let stackView = UIStackView(arrangedSubviews: [logoView, labelsStackView, trailingButton])
+            let stackView = UIStackView(arrangedSubviews: [logoImageView, labelsStackView, trailingButton])
             stackView.alignment = .center
             stackView.spacing = .defaultSpacing * 2
             stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,6 +63,29 @@ extension Input.Table {
          required init?(coder: NSCoder) {
              fatalError("init(coder:) has not been implemented")
          }
+    }
+}
+
+// MARK: - Configuration
+
+extension Input.Table.DetailedTextLogoView {
+    func configure(with model: Input.TextHeader) {
+        self.logoImageView.image = model.logo
+        self.titleLabel.text = model.title
+        self.subtitleLabel.text = model.subtitle
+        self.subtitleLabel.isHidden = model.subtitle == nil || model.subtitle?.isEmpty == true
+        self.subtitleLabel.textColor = model.subtitleColor ?? .themedDetailedText
+        self.translator = model.translator
+        self.modalPresenter = model.modalPresenter
+        self.trailingButton.tintColor = model.trailingButtonColor
+
+        if let buttonImage = model.trailingButtonImage {
+            self.trailingButton.setImage(buttonImage, for: .normal)
+            self.trailingButton.isHidden = false
+        } else {
+            self.trailingButton.setImage(nil, for: .normal)
+            self.trailingButton.isHidden = true
+        }
     }
 }
 
@@ -84,16 +107,6 @@ extension Input.Table.DetailedTextLogoView {
         )
 
         modalPresenter?.present(alert, animated: true, completion: nil)
-    }
-}
-
-extension Input.Table.DetailedTextLogoView {
-    func configure(with model: Input.TextHeader) {
-        logoView.image = model.logo
-        primaryLabel.text = model.label
-        secondaryLabel.text = model.detailedLabel
-        translator = model.translator
-        modalPresenter = model.modalPresenter
     }
 }
 

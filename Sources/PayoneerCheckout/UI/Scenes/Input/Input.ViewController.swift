@@ -58,7 +58,7 @@ extension Input {
 
             let header: CellRepresentable
             if paymentNetworks.count == 1, let network = paymentNetworks.first {
-                header = Input.TextHeader(logo: network.logo?.value, label: network.label)
+                header = Input.TextHeader(logo: network.logo?.value, title: network.label)
             } else {
                 header = Input.ImagesHeader(for: networks)
             }

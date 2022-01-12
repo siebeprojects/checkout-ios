@@ -12,14 +12,14 @@ extension List.Table {
     /// Cell with multiple images, primary and secondary labels.
     /// - Note: set `cellIndex`
     final class DetailedLabelCell: List.Table.BorderedCell, Dequeueable {
-        let logoView: UIImageView = {
+        private let logoImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.tintColor = .themedDetailedText
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
 
-        let primaryLabel: UILabel = {
+        private let titleLabel: UILabel = {
             let label = UILabel()
             label.font = UIFont.preferredThemeFont(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
@@ -27,14 +27,14 @@ extension List.Table {
             return label
         }()
 
-        let secondaryLabel: UILabel = {
+        private let subtitleLabel: UILabel = {
             let label = UILabel()
             label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
             label.textColor = .themedDetailedText
             return label
         }()
 
-        lazy var trailingButton: UIButton = {
+        private lazy var trailingButton: UIButton = {
             let button = UIButton(type: .system)
             button.isHidden = true
             button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
@@ -46,7 +46,7 @@ extension List.Table {
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-            addContentViews()
+            layout()
         }
 
         required init?(coder: NSCoder) {
@@ -55,20 +55,52 @@ extension List.Table {
     }
 }
 
-// MARK: - Content views
+// MARK: - Configuration
 
 extension List.Table.DetailedLabelCell {
-    fileprivate func addContentViews() {
+    func configure(
+        logo: UIImage?,
+        title: String,
+        subtitle: String?,
+        subtitleColor: UIColor? = nil,
+        trailingButtonImage: UIImage? = nil,
+        trailingButtonColor: UIColor? = nil,
+        translator: TranslationProvider? = nil,
+        modalPresenter: ModalPresenter? = nil
+    ) {
+        self.logoImageView.image = logo
+        self.titleLabel.text = title
+        self.subtitleLabel.text = subtitle
+        self.subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
+        self.subtitleLabel.textColor = subtitleColor ?? .themedDetailedText
+        self.translator = translator
+        self.modalPresenter = modalPresenter
+        self.trailingButton.tintColor = trailingButtonColor
+
+        if let buttonImage = trailingButtonImage {
+            self.trailingButton.setImage(buttonImage, for: .normal)
+            self.trailingButton.isHidden = false
+        } else {
+            self.trailingButton.setImage(nil, for: .normal)
+            self.trailingButton.isHidden = true
+        }
+    }
+}
+
+// MARK: - Layout
+
+extension List.Table.DetailedLabelCell {
+    private func layout() {
         customContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
 
-        logoView.addWidthConstraint(.imageWidth)
+        logoImageView.addWidthConstraint(.imageWidth)
         trailingButton.setContentHuggingPriority(.required, for: .horizontal)
 
-        let labelsStackView = UIStackView(arrangedSubviews: [primaryLabel, secondaryLabel])
+        let labelsStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         labelsStackView.axis = .vertical
         labelsStackView.spacing = .verticalSpacing
 
-        let stackView = UIStackView(arrangedSubviews: [logoView, labelsStackView, trailingButton])
+        let stackView = UIStackView(arrangedSubviews: [logoImageView, labelsStackView, trailingButton])
         stackView.alignment = .center
         stackView.spacing = .defaultSpacing * 2
         stackView.translatesAutoresizingMaskIntoConstraints = false

@@ -192,19 +192,19 @@ private protocol DetailedLabelRow: DequeuableRow {
 extension DetailedLabelRow {
     func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
-        cell.translator = translator
-        cell.modalPresenter = modalPresenter
 
-        // Set model
-        cell.logoView.image = image
-        cell.primaryLabel.text = primaryLabel
-        cell.secondaryLabel.text = secondaryLabel
-        cell.secondaryLabel.isHidden = secondaryLabel == nil || secondaryLabel?.isEmpty == true
-        cell.secondaryLabel.textColor = isExpired ? .themedError : .themedDetailedText
-        cell.trailingButton.tintColor = .themedError
-        cell.trailingButton.setImage(AssetProvider.expirationInfo, for: .normal)
-        cell.trailingButton.isHidden = isExpired == false
-        cell.borderColor = self.borderColor
+        cell.configure(
+            logo: image,
+            title: primaryLabel,
+            subtitle: secondaryLabel,
+            subtitleColor: isExpired ? .themedError : .themedDetailedText,
+            trailingButtonImage: isExpired ? AssetProvider.expirationInfo : nil,
+            trailingButtonColor: isExpired ? .themedError : nil,
+            translator: translator,
+            modalPresenter: modalPresenter
+        )
+
+        cell.borderColor = borderColor
 
         // Set cell position
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)

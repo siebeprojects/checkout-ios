@@ -62,7 +62,7 @@ extension Input.Table {
 extension Input.Table.LogoTextView {
     func configure(with model: Input.TextHeader) {
         logoView.image = model.logo
-        label.text = model.label
+        label.text = model.title
     }
 }
 #endif
