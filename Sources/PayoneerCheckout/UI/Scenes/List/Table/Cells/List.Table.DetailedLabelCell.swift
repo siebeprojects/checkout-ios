@@ -12,31 +12,30 @@ extension List.Table {
     /// Cell with multiple images, primary and secondary labels.
     /// - Note: set `cellIndex`
     final class DetailedLabelCell: List.Table.BorderedCell, Dequeueable {
-        let primaryLabel: UILabel = {
-            let label = UILabel()
-            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
-            label.textColor = .themedText
-            return label
-        }()
-
-        let secondaryLabel: UILabel = {
-            let label = UILabel()
-            label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-            label.textColor = .themedDetailedText
-            return label
-        }()
-
-        let logoView: UIImageView = {
+        private let logoImageView: UIImageView = {
             let imageView = UIImageView()
             imageView.tintColor = .themedDetailedText
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
 
+        private let titleLabel: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            label.textColor = .themedText
+            return label
+        }()
+
+        private let subtitleLabel: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
+            label.textColor = .themedDetailedText
+            return label
+        }()
+
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-            addContentViews()
+            layout()
         }
 
         required init?(coder: NSCoder) {
@@ -45,19 +44,30 @@ extension List.Table {
     }
 }
 
-// MARK: - Content views
+// MARK: - Configuration
 
 extension List.Table.DetailedLabelCell {
-    fileprivate func addContentViews() {
+    func configure(logo: UIImage?, title: String, subtitle: String?) {
+        logoImageView.image = logo
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
+        subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
+    }
+}
+
+// MARK: - Layout
+
+extension List.Table.DetailedLabelCell {
+    private func layout() {
         customContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
 
-        logoView.addWidthConstraint(.imageWidth)
+        logoImageView.addWidthConstraint(.imageWidth)
 
-        let labelsStackView = UIStackView(arrangedSubviews: [primaryLabel, secondaryLabel])
+        let labelsStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         labelsStackView.axis = .vertical
         labelsStackView.spacing = .verticalSpacing
 
-        let stackView = UIStackView(arrangedSubviews: [logoView, labelsStackView])
+        let stackView = UIStackView(arrangedSubviews: [logoImageView, labelsStackView])
         stackView.alignment = .center
         stackView.spacing = .defaultSpacing * 2
         stackView.translatesAutoresizingMaskIntoConstraints = false

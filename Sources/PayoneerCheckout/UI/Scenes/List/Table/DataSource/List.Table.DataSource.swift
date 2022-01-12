@@ -187,12 +187,7 @@ private protocol DetailedLabelRow: DequeuableRow {
 extension DetailedLabelRow {
     func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
-
-        // Set model
-        cell.primaryLabel.text = primaryLabel
-        cell.secondaryLabel.text = secondaryLabel
-        cell.secondaryLabel.isHidden = secondaryLabel == nil || secondaryLabel?.isEmpty == true
-        cell.logoView.image = image
+        cell.configure(logo: image, title: primaryLabel, subtitle: secondaryLabel)
         cell.borderColor = self.borderColor
 
         // Set cell position
