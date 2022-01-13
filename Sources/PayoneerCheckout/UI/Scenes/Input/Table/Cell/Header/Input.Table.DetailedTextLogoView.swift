@@ -43,7 +43,7 @@ extension Input.Table {
         override init(frame: CGRect) {
             super.init(frame: frame)
 
-            directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
+            directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: .defaultSpacing)
 
             logoImageView.addWidthConstraint(.imageWidth)
             trailingButton.setContentHuggingPriority(.required, for: .horizontal)
