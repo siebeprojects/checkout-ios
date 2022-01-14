@@ -86,4 +86,25 @@ final class PresetAccountTests: XCTestCase {
         let account = UIModel.PresetAccount(from: PresetAccount(expiryMonth: month, expiryYear: year), warningText: nil, submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider())
         XCTAssertFalse(account.isExpired)
     }
+
+    func testIsExpired_whenTwoDigitYearIsMoreThan30YearsAgo_shouldReturnFalse() {
+        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -31, to: Date())!
+        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
+        let account = UIModel.PresetAccount(from: PresetAccount(expiryMonth: 10, expiryYear: Int(year)!), warningText: nil, submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider())
+        XCTAssertFalse(account.isExpired)
+    }
+
+    func testIsExpired_whenTwoDigitYearIs30YearsAgo_shouldReturnTrue() {
+        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -30, to: Date())!
+        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
+        let account = UIModel.PresetAccount(from: PresetAccount(expiryMonth: 10, expiryYear: Int(year)!), warningText: nil, submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider())
+        XCTAssertTrue(account.isExpired)
+    }
+
+    func testIsExpired_whenTwoDigitYearIsLessThan30YearsAgo_shouldReturnTrue() {
+        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -29, to: Date())!
+        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
+        let account = UIModel.PresetAccount(from: PresetAccount(expiryMonth: 10, expiryYear: Int(year)!), warningText: nil, submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider())
+        XCTAssertTrue(account.isExpired)
+    }
 }

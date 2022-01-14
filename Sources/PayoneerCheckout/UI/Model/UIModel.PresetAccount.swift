@@ -62,6 +62,7 @@ extension UIModel.PresetAccount {
 
     var isExpired: Bool {
         let dateFormatter = DateFormatter()
+        dateFormatter.twoDigitStartDate = Calendar.current.date(byAdding: .year, value: -30, to: Date())
         dateFormatter.dateFormat = "MM / yy"
 
         guard let expirationDateString = expirationDate, let expirationDate = dateFormatter.date(from: expirationDateString) else {

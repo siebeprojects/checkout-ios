@@ -48,6 +48,11 @@ final class RegisteredAccountTests: XCTestCase {
         XCTAssertFalse(account.isExpired)
     }
 
+    func testIsExpired_whenMonthIsNotNil_whenYearIs90_shouldReturnFalse() {
+        let account = UIModel.RegisteredAccount(from: AccountRegistration(expiryMonth: 10, expiryYear: 90), submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider(), isDeletable: false)
+        XCTAssertFalse(account.isExpired)
+    }
+
     func testIsExpired_whenDateIsNow_shouldReturnFalse() {
         let month = Calendar.current.component(.month, from: Date())
         let year = Calendar.current.component(.year, from: Date())
@@ -85,5 +90,26 @@ final class RegisteredAccountTests: XCTestCase {
         let year = Calendar.current.component(.year, from: nextYearDate)
         let account = UIModel.RegisteredAccount(from: AccountRegistration(expiryMonth: month, expiryYear: year), submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider(), isDeletable: false)
         XCTAssertFalse(account.isExpired)
+    }
+
+    func testIsExpired_whenTwoDigitYearIsMoreThan30YearsAgo_shouldReturnFalse() {
+        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -31, to: Date())!
+        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
+        let account = UIModel.RegisteredAccount(from: AccountRegistration(expiryMonth: 10, expiryYear: Int(year)!), submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider(), isDeletable: false)
+        XCTAssertFalse(account.isExpired)
+    }
+
+    func testIsExpired_whenTwoDigitYearIs30YearsAgo_shouldReturnTrue() {
+        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -30, to: Date())!
+        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
+        let account = UIModel.RegisteredAccount(from: AccountRegistration(expiryMonth: 10, expiryYear: Int(year)!), submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider(), isDeletable: false)
+        XCTAssertTrue(account.isExpired)
+    }
+
+    func testIsExpired_whenTwoDigitYearIsLessThan30YearsAgo_shouldReturnTrue() {
+        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -29, to: Date())!
+        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
+        let account = UIModel.RegisteredAccount(from: AccountRegistration(expiryMonth: 10, expiryYear: Int(year)!), submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider(), isDeletable: false)
+        XCTAssertTrue(account.isExpired)
     }
 }
