@@ -23,8 +23,13 @@ final class PresetAccountTests: XCTestCase {
         XCTAssertNil(account.expirationDate)
     }
 
-    func testExpirationDate_whenMonthNotNil_whenYearIsNotNil_shouldReturnString() {
+    func testExpirationDate_whenMonthNotNil_whenYearIsFourDigits_shouldReturnString() {
         let account = UIModel.PresetAccount(from: PresetAccount(expiryMonth: 10, expiryYear: 2030), warningText: nil, submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider())
+        XCTAssertEqual(account.expirationDate, "10 / 30")
+    }
+
+    func testExpirationDate_whenMonthNotNil_whenYearIsTwoDigits_shouldReturnString() {
+        let account = UIModel.PresetAccount(from: PresetAccount(expiryMonth: 10, expiryYear: 30), warningText: nil, submitButtonLocalizationKey: "", localizeUsing: MockFactory.Localization.MockTranslationProvider())
         XCTAssertEqual(account.expirationDate, "10 / 30")
     }
 
