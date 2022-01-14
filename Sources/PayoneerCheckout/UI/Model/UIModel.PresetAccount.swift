@@ -61,14 +61,10 @@ extension UIModel.PresetAccount {
     }
 
     var isExpired: Bool {
-        guard let year = apiModel.maskedAccount?.expiryYear, let month = apiModel.maskedAccount?.expiryMonth else {
-            return false
-        }
-
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yy-MM"
+        dateFormatter.dateFormat = "MM / yy"
 
-        guard let expirationDate = dateFormatter.date(from: "\(year)-\(month)") else {
+        guard let expirationDateString = expirationDate, let expirationDate = dateFormatter.date(from: expirationDateString) else {
             return false
         }
 

@@ -43,4 +43,19 @@ class AccountMask: NSObject, Decodable {
 
     /// Account login name.
     let login: String?
+
+    internal init(expiryMonth: Int?, expiryYear: Int?) {
+        self.displayLabel = nil
+        self.holderName = nil
+        self.number = nil
+        self.bankCode = nil
+        self.bankName = nil
+        self.bic = nil
+        self.branch = nil
+        self.city = nil
+        self.expiryMonth = expiryMonth
+        self.expiryYear = expiryYear
+        self.iban = nil
+        self.login = nil
+    }
 }

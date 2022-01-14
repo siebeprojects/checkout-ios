@@ -46,4 +46,19 @@ class PresetAccount: NSObject, Decodable {
 
     /// Indicates the end-customer choice for storing his payment method for recurring charges
     let allowRecurrence: Bool?
+
+    internal init(expiryMonth: Int?, expiryYear: Int?) {
+        self.links = [:]
+        self.code = ""
+        self.maskedAccount = AccountMask(expiryMonth: expiryMonth, expiryYear: expiryYear)
+        self.emptyForm = false
+        self.button = nil
+        self.redirect = Redirect(url: URL(string: "https://")!, method: .GET, parameters: nil, suppressIFrame: nil, displayInPopup: nil, containsAccountPlaceholders: nil, type: nil)
+        self.operationType = ""
+        self.method = ""
+        self.deferral = nil
+        self.registered = nil
+        self.autoRegistration = nil
+        self.allowRecurrence = nil
+    }
 }
