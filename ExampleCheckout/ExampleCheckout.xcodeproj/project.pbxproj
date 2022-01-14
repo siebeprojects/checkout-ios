@@ -804,9 +804,9 @@
 			targets = (
 				D9E0AEAC234143BD0021184C /* CheckoutSwift */,
 				D948522F26F2438D00D11DC2 /* CheckoutObjC */,
+				D9139ADB278B410800E30155 /* CheckoutSwift-CocoaPods */,
 				D9A5FA55253CA701001C71B7 /* UITestsSwift */,
 				0725B3FC26FCBC9600C607A8 /* UITestsObjC */,
-				D9139ADB278B410800E30155 /* CheckoutSwift-CocoaPods */,
 				D9B86A2D278B52EB00D61640 /* UITestsSwift-CocoaPods */,
 			);
 		};
