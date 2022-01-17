@@ -12,14 +12,30 @@ extension List.Table {
     /// Cell with multiple images, primary and secondary labels.
     /// - Note: set `cellIndex`
     final class DetailedLabelCell: List.Table.BorderedCell, Dequeueable {
-        weak var primaryLabel: UILabel?
-        weak var secondaryLabel: UILabel?
-        weak var logoView: UIImageView?
+        private let logoImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.tintColor = .themedDetailedText
+            imageView.contentMode = .scaleAspectFit
+            return imageView
+        }()
+
+        private let titleLabel: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            label.textColor = .themedText
+            return label
+        }()
+
+        private let subtitleLabel: UILabel = {
+            let label = UILabel()
+            label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
+            label.textColor = .themedDetailedText
+            return label
+        }()
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-            addContentViews()
+            layout()
         }
 
         required init?(coder: NSCoder) {
@@ -28,49 +44,35 @@ extension List.Table {
     }
 }
 
-// MARK: - Content views
+// MARK: - Configuration
 
 extension List.Table.DetailedLabelCell {
-    fileprivate func addContentViews() {
-        let primaryLabel = UILabel(frame: .zero)
-        primaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        primaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
-        primaryLabel.textColor = .themedText
-        customContentView.addSubview(primaryLabel)
-        self.primaryLabel = primaryLabel
+    func configure(logo: UIImage?, title: String, subtitle: String?) {
+        logoImageView.image = logo
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
+        subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
+    }
+}
 
-        let secondaryLabel = UILabel(frame: .zero)
-        secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondaryLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-        secondaryLabel.textColor = .themedDetailedText
-        customContentView.addSubview(secondaryLabel)
-        self.secondaryLabel = secondaryLabel
+// MARK: - Layout
 
-        let logoView = UIImageView(frame: .zero)
-        logoView.tintColor = .themedDetailedText
-        logoView.contentMode = .scaleAspectFill
-        logoView.translatesAutoresizingMaskIntoConstraints = false
-        customContentView.addSubview(logoView)
-        self.logoView = logoView
+extension List.Table.DetailedLabelCell {
+    private func layout() {
+        customContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
 
-        // Layout
+        logoImageView.addWidthConstraint(.imageWidth)
 
-        NSLayoutConstraint.activate([
-            primaryLabel.topAnchor.constraint(greaterThanOrEqualTo: customContentView.layoutMarginsGuide.topAnchor),
-            primaryLabel.bottomAnchor.constraint(equalTo: customContentView.centerYAnchor, constant: .verticalSpacing / -4),
-            primaryLabel.trailingAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.trailingAnchor),
+        let labelsStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        labelsStackView.axis = .vertical
+        labelsStackView.spacing = .verticalSpacing
 
-            secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
-            secondaryLabel.topAnchor.constraint(equalTo: customContentView.centerYAnchor, constant: .verticalSpacing / 4),
-            secondaryLabel.bottomAnchor.constraint(greaterThanOrEqualTo: customContentView.layoutMarginsGuide.bottomAnchor),
-            secondaryLabel.trailingAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.trailingAnchor),
-
-            logoView.leadingAnchor.constraint(equalTo: leftBorder.leadingAnchor, constant: 2 * CGFloat.defaultSpacing),
-            logoView.topAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.topAnchor),
-            logoView.bottomAnchor.constraint(equalTo: customContentView.layoutMarginsGuide.bottomAnchor),
-            logoView.trailingAnchor.constraint(equalTo: primaryLabel.leadingAnchor, constant: -2 * CGFloat.defaultSpacing),
-            logoView.widthAnchor.constraint(equalToConstant: .imageWidth)
-        ])
+        let stackView = UIStackView(arrangedSubviews: [logoImageView, labelsStackView])
+        stackView.alignment = .center
+        stackView.spacing = .defaultSpacing * 2
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        customContentView.addSubview(stackView)
+        stackView.fitToSuperview(obeyMargins: true)
     }
 }
 

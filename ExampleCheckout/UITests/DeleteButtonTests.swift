@@ -8,13 +8,18 @@ import XCTest
 
 /// Defined in https://optile.atlassian.net/browse/PCX-2012
 final class DeleteButtonTests: NetworksTests {
-    private static var paymentMethod: PaymentNetwork { Visa() }
+    private static let paymentMethod = Card.visa
 
     static private var customerId: String!
     
     override class func setUp() {
         super.setUp()
-        self.customerId = try! PaymentService().registerCustomer()
+        self.customerId = try! PaymentService().registerCustomer(card: paymentMethod)
+    }
+
+    override class func tearDown() {
+        self.customerId = nil
+        super.tearDown()
     }
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsTrue_shouldShow() throws {

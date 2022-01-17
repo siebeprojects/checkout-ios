@@ -86,7 +86,6 @@ extension PaymentListViewController.ViewManager {
     }
 
     private func registerViews(in tableView: UITableView) {
-        tableView.register(List.Table.SingleLabelCell.self)
         tableView.register(List.Table.DetailedLabelCell.self)
         tableView.register(List.Table.DetailedHeaderView.self)
         tableView.register(List.Table.LabelHeaderFooterView.self)

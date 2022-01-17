@@ -50,4 +50,10 @@ extension UIModel.RegisteredAccount {
             return networkLabel
         }
     }
+
+    /// Formatted expiration date based on data from a masked account. E.g. '10 / 30'.
+    var expirationDate: String? {
+        guard let year = apiModel.maskedAccount.expiryYear, let month = apiModel.maskedAccount.expiryMonth else { return nil }
+        return "\(month)" + " / " + String(year).suffix(2)
+    }
 }

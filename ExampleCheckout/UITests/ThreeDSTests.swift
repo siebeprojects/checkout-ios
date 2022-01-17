@@ -13,7 +13,7 @@ class ThreeDSTests: NetworksTests {
         try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         // Webview
 
@@ -35,7 +35,7 @@ class ThreeDSTests: NetworksTests {
         try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         // Webview
 
@@ -64,7 +64,7 @@ class ThreeDSTests: NetworksTests {
         try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         // Webview
 
