@@ -13,7 +13,7 @@ class UpdateFlowTests: NetworksTests {
         try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
 
@@ -27,7 +27,7 @@ class UpdateFlowTests: NetworksTests {
         try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
 
@@ -61,21 +61,22 @@ class UpdateFlowTests: NetworksTests {
 
 extension UpdateFlowTests {
     func testSaveDeleteNewCardPaymentMethod() throws {
-        let customerId = try PaymentService().registerCustomer()
+        let card = Card.visa
+
+        let customerId = try PaymentService().registerCustomer(card: card)
         let settings = TransactionSettings(operationType: .update, customerId: customerId)
         let transaction = try Transaction.create(withSettings: settings)
         try setupWithPaymentSession(transaction: transaction)
 
-        let visa = Visa()
 
         // Method was saved previously when customer was registered
 
         // Test deletion
         XCTContext.runActivity(named: "Test payment method deletion") { _ in
-            deletePaymentMethod(withLabel: visa.maskedLabel)
+            deletePaymentMethod(withLabel: card.maskedLabel)
             XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
             waitForLoadingCompletion()
-            XCTAssertFalse(app.tables.staticTexts[visa.maskedLabel].exists, "Payment network still exists after deletion")
+            XCTAssertFalse(app.tables.staticTexts[card.maskedLabel].exists, "Payment network still exists after deletion")
         }
     }
 

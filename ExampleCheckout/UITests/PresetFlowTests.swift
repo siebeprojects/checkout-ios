@@ -32,7 +32,7 @@ class PresetFlowTests: NetworksTests {
 
             // Fill and submit card's data
             app.tables.staticTexts["Cards"].tap()
-            Visa().submit(in: app.collectionViews)
+            Card.visa.submit(in: app.collectionViews)
 
             // Wait for an alert that account was preset
             XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -106,7 +106,7 @@ class PresetFlowTests: NetworksTests {
 
             // Fill and submit card's data
             app.tables.staticTexts["Cards"].tap()
-            Visa().submit(in: app.collectionViews)
+            Card.visa.submit(in: app.collectionViews)
 
             // Wait for an alert that account was preset
             XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -141,7 +141,7 @@ class PresetFlowTests: NetworksTests {
 
     /// Test preset a preset with 1-click
     func testPresetAPresetAccount() throws {
-        let visa = Visa()
+        let card = Card.visa
 
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
@@ -150,7 +150,7 @@ class PresetFlowTests: NetworksTests {
 
             // Fill and submit card's data
             app.tables.staticTexts["Cards"].tap()
-            visa.submit(in: app.collectionViews)
+            card.submit(in: app.collectionViews)
 
             // Wait for an alert that account was preset
             XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -166,7 +166,7 @@ class PresetFlowTests: NetworksTests {
         XCTContext.runActivity(named: "Preset a preset account") { _ in
             app.tables.buttons["Show Payment List"].tap()
 
-            let visaCell = app.tables.staticTexts[visa.maskedLabel]
+            let visaCell = app.tables.staticTexts[card.maskedLabel]
             XCTAssert(visaCell.waitForExistence(timeout: .networkTimeout))
             visaCell.tap()
 

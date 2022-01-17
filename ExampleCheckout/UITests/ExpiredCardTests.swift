@@ -11,7 +11,8 @@ final class ExpiredCardTests: NetworksTests {
 
     override class func setUp() {
         super.setUp()
-        self.customerId = try! PaymentService().registerCustomer(card: Visa(expiryDate: "1020"))
+
+        self.customerId = try! PaymentService().registerCustomer(card: Card.visa.overriding(expiryDate: "1020"))
     }
 
     override class func tearDown() {
