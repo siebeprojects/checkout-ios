@@ -37,7 +37,9 @@ final class ExpiredCardTests: NetworksTests {
             try setupWithPaymentSession(transaction: transaction)
 
             for index in 1...3 {
-                XCTAssertFalse(app.cells.element(boundBy: index).staticTexts["10 / 30"].exists)
+                let cell = app.cells.element(boundBy: index)
+                XCTAssertTrue(cell.exists, "Cell with a network doesn't exist, couldn't check absense of expiration date")
+                XCTAssertFalse(cell.staticTexts["10 / 30"].exists)
             }
         }
     }
