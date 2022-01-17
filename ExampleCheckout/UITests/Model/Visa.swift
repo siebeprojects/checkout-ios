@@ -6,31 +6,45 @@
 
 import XCTest
 
-struct Visa: PaymentNetwork {
+struct Card: PaymentNetwork {
     let number: String
     let expiryDate: String
     let verificationCode: String
     let holderName: String
+    let label: String
+    let maskedLabel: String
 
-    let label: String = "Visa"
-    let maskedLabel: String = "Visa •••• 1111"
+    func overriding(number: String? = nil, expiryDate: String? = nil, verificationCode: String? = nil, holderName: String? = nil, label: String? = nil, maskedLabel: String? = nil) -> Card {
+        Card(
+            number: number ?? self.number,
+            expiryDate: expiryDate ?? self.expiryDate,
+            verificationCode: verificationCode ?? self.verificationCode,
+            holderName: holderName ?? self.holderName,
+            label: label ?? self.label,
+            maskedLabel: maskedLabel ?? self.maskedLabel
+        )
+    }
 
-    /// Initializes a card with optional, overridable values.
-    /// - Parameters:
-    ///   - number: The card number without formatting.
-    ///   - expiryDate: The expiration month and year without formatting (e.g. 1030).
-    ///   - verificationCode: The CVV.
-    ///   - holderName: The name on the card.
-    init(
-        number: String = "4111111111111111",
-        expiryDate: String = "1030",
-        verificationCode: String = "111",
-        holderName: String = "Test Test"
-    ) {
-        self.number = number
-        self.expiryDate = expiryDate
-        self.verificationCode = verificationCode
-        self.holderName = holderName
+    static var visa: Card {
+        Card(
+            number: "4111111111111111",
+            expiryDate: "1030",
+            verificationCode: "111",
+            holderName: "Test Test",
+            label: "Visa",
+            maskedLabel: "Visa •••• 1111"
+        )
+    }
+
+    static var mastercard: Card {
+        Card(
+            number: "5555555555554444",
+            expiryDate: "1030",
+            verificationCode: "111",
+            holderName: "Test Test",
+            label: "MasterCard",
+            maskedLabel: "MasterCard •••• 4444"
+        )
     }
 
     func fill(in collectionView: XCUIElementQuery) {

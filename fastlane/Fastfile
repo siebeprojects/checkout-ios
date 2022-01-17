@@ -55,6 +55,15 @@ platform :ios do
     )
   end
 
+  desc "Run UI tests for CocoaPods"
+  lane :ui_test_cocoapods do |options|
+    run_tests(
+      scheme: "Swift-CocoaPods",
+      derived_data_path: "/tmp/workspace/derived_data",
+      workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
+    )
+  end
+
   desc "Submit to TestFlight"
   lane :submit_to_testflight do
     checkout_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
