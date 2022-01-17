@@ -22,7 +22,7 @@
 		0725B41326FCBC9600C607A8 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A5FA6B253D8213001C71B7 /* Transaction.swift */; };
 		0725B41426FCBC9600C607A8 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
 		0725B41626FCBC9600C607A8 /* ThreeDSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */; };
-		0725B41726FCBC9600C607A8 /* Visa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00D2696621600714396 /* Visa.swift */; };
+		0725B41726FCBC9600C607A8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00D2696621600714396 /* Card.swift */; };
 		0725B41A26FCBC9600C607A8 /* Sepa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D048926ADDC7E00C027CB /* Sepa.swift */; };
 		0725B41B26FCBC9600C607A8 /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
 		0725B41E26FCBC9600C607A8 /* Transaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A5FA7F253D8B09001C71B7 /* Transaction.json */; };
@@ -117,7 +117,7 @@
 		D948527926F2466600D11DC2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D948527526F2466600D11DC2 /* LaunchScreen.storyboard */; };
 		D948527A26F2466600D11DC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D948527726F2466600D11DC2 /* Main.storyboard */; };
 		D948527D26F2489D00D11DC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D948527C26F2489D00D11DC2 /* Assets.xcassets */; };
-		D954C00E2696621600714396 /* Visa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00D2696621600714396 /* Visa.swift */; };
+		D954C00E2696621600714396 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00D2696621600714396 /* Card.swift */; };
 		D954C0102696F41000714396 /* TimeInterval+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00F2696F41000714396 /* TimeInterval+timeout.swift */; };
 		D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */; };
 		D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28525DEB9E0001A2EAD /* NetworksTests.swift */; };
@@ -177,7 +177,7 @@
 		D9B86A5F278B52EB00D61640 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
 		D9B86A60278B52EB00D61640 /* FormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB142726C1B60004AFAE /* FormData.swift */; };
 		D9B86A61278B52EB00D61640 /* ThreeDSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */; };
-		D9B86A62278B52EB00D61640 /* Visa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00D2696621600714396 /* Visa.swift */; };
+		D9B86A62278B52EB00D61640 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00D2696621600714396 /* Card.swift */; };
 		D9B86A63278B52EB00D61640 /* SelectOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB2A2726C1B70004AFAE /* SelectOption.swift */; };
 		D9B86A64278B52EB00D61640 /* Sepa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D048926ADDC7E00C027CB /* Sepa.swift */; };
 		D9B86A65278B52EB00D61640 /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB232726C1B70004AFAE /* PaymentMethod.swift */; };
@@ -316,7 +316,7 @@
 		D948527626F2466600D11DC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D948527826F2466600D11DC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D948527C26F2489D00D11DC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D954C00D2696621600714396 /* Visa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visa.swift; sourceTree = "<group>"; };
+		D954C00D2696621600714396 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		D954C00F2696F41000714396 /* TimeInterval+timeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+timeout.swift"; sourceTree = "<group>"; };
 		D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectNetworksTests.swift; sourceTree = "<group>"; };
 		D956D28525DEB9E0001A2EAD /* NetworksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworksTests.swift; sourceTree = "<group>"; };
@@ -522,7 +522,7 @@
 		D954C00C2696620600714396 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D954C00D2696621600714396 /* Visa.swift */,
+				D954C00D2696621600714396 /* Card.swift */,
 				D99D048926ADDC7E00C027CB /* Sepa.swift */,
 				D9E726A9269DBF5700889C64 /* PayPalAccount.swift */,
 			);
@@ -967,7 +967,7 @@
 				D912BB322726C1B70004AFAE /* FormData.swift in Sources */,
 				0725B41426FCBC9600C607A8 /* String+LocalizedError.swift in Sources */,
 				0725B41626FCBC9600C607A8 /* ThreeDSTests.swift in Sources */,
-				0725B41726FCBC9600C607A8 /* Visa.swift in Sources */,
+				0725B41726FCBC9600C607A8 /* Card.swift in Sources */,
 				D912BB5E2726C1B70004AFAE /* SelectOption.swift in Sources */,
 				D912BB502726C1B70004AFAE /* PaymentMethod.swift in Sources */,
 				D912BB5A2726C1B70004AFAE /* AccountMask.swift in Sources */,
@@ -1052,7 +1052,7 @@
 				074E5ECC2707447600E35B24 /* CheckoutConfiguration.swift in Sources */,
 				D912BB312726C1B70004AFAE /* FormData.swift in Sources */,
 				D9368BAB26B1CC7F0083E5E3 /* ThreeDSTests.swift in Sources */,
-				D954C00E2696621600714396 /* Visa.swift in Sources */,
+				D954C00E2696621600714396 /* Card.swift in Sources */,
 				D912BB5D2726C1B70004AFAE /* SelectOption.swift in Sources */,
 				D99D048A26ADDC7E00C027CB /* Sepa.swift in Sources */,
 				D912BB4F2726C1B70004AFAE /* PaymentMethod.swift in Sources */,
@@ -1114,7 +1114,7 @@
 				D9B86A5F278B52EB00D61640 /* CheckoutConfiguration.swift in Sources */,
 				D9B86A60278B52EB00D61640 /* FormData.swift in Sources */,
 				D9B86A61278B52EB00D61640 /* ThreeDSTests.swift in Sources */,
-				D9B86A62278B52EB00D61640 /* Visa.swift in Sources */,
+				D9B86A62278B52EB00D61640 /* Card.swift in Sources */,
 				D9B86A63278B52EB00D61640 /* SelectOption.swift in Sources */,
 				D9B86A64278B52EB00D61640 /* Sepa.swift in Sources */,
 				D9B86A65278B52EB00D61640 /* PaymentMethod.swift in Sources */,
