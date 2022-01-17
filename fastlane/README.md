@@ -26,6 +26,11 @@ Build framework and run tests
 fastlane ios build_example_swift
 ```
 Build example app (Swift)
+### ios build_example_swift_cocoapods
+```
+fastlane ios build_example_swift_cocoapods
+```
+Build example app (Swift)
 ### ios browserstack
 ```
 fastlane ios browserstack
