@@ -50,21 +50,4 @@ class AccountRegistration: NSObject, Decodable {
 
     /// Types of possible operations
     let operationType: String
-
-    internal init(expiryMonth: Int?, expiryYear: Int?) {
-        self.links = [:]
-        self.code = ""
-        self.label = ""
-        self.method = nil
-        self.button = nil
-        self.maskedAccount = AccountMask(expiryMonth: expiryMonth, expiryYear: expiryYear)
-        self.lastSuccessfulChargeAt = nil
-        self.selected = nil
-        self.iFrameHeight = nil
-        self.preferredAt = nil
-        self.createdAt = nil
-        self.emptyForm = nil
-        self.inputElements = nil
-        self.operationType = ""
-    }
 }
