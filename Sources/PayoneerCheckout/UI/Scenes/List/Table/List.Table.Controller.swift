@@ -36,7 +36,15 @@ extension List.Table {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }
 
-            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, presetAccount: session.presetAccount, translation: translationProvider, genericLogo: genericLogo, context: session.context, modalPresenter: modalPresenter)
+            dataSource = .init(
+                networks: session.networks,
+                accounts: session.registeredAccounts,
+                presetAccount: session.presetAccount,
+                translation: translationProvider,
+                genericLogo: genericLogo,
+                context: session.context,
+                modalPresenter: modalPresenter
+            )
 
             switch session.context.listOperationType {
             case .UPDATE: isRefreshable = true

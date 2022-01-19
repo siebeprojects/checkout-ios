@@ -15,7 +15,15 @@ extension List.Table {
         let context: UIModel.PaymentContext
         weak var modalPresenter: ModalPresenter?
 
-        init(networks: [UIModel.PaymentNetwork], accounts: [UIModel.RegisteredAccount]?, presetAccount: UIModel.PresetAccount?, translation: SharedTranslationProvider, genericLogo: UIImage, context: UIModel.PaymentContext, modalPresenter: ModalPresenter?) {
+        init(
+            networks: [UIModel.PaymentNetwork],
+            accounts: [UIModel.RegisteredAccount]?,
+            presetAccount: UIModel.PresetAccount?,
+            translation: SharedTranslationProvider,
+            genericLogo: UIImage,
+            context: UIModel.PaymentContext,
+            modalPresenter: ModalPresenter?
+        ) {
             self.translationProvider = translation
             self.context = context
             self.modalPresenter = modalPresenter
