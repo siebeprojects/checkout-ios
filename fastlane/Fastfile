@@ -76,7 +76,6 @@ platform :ios do
 
   desc "Change version number"
   lane :set_version do |options|
-    increment_version_number(version_number: options[:version])
     increment_version_number(version_number: options[:version], xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj")
     version_bump_podspec(version_number: options[:version], path: "PayoneerCheckout.podspec")
   end
