@@ -45,7 +45,7 @@ jobs:
         env:
           merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
           merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
-          payment-api-list-url: https:/\$()/api.integration.oscato.com/api/lists
+          payment-api-list-url: https:/\$()/api.pi-nightly.integration.oscato.com/api/lists
           xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
         run: |
             echo "MERCHANT_CODE=${{ env.merchant-code }}" > ${{ env.xcconfig }}
