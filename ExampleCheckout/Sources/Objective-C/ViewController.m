@@ -5,13 +5,22 @@
 // See the LICENSE file for more information.
 
 #import "ViewController.h"
-#import <PayoneerCheckout/PayoneerCheckout-Swift.h>
+@import PayoneerCheckout;
 
 @interface ViewController ()
 
 @end
 
 @implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    if (@available(iOS 13.0, *)) {
+        self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+    }
+    [self.urlTextField becomeFirstResponder];
+}
 
 - (IBAction)sendRequest:(UIButton *)sender {
     NSURL *url = [[NSURL alloc] initWithString:self.urlTextField.text];

@@ -9,11 +9,11 @@ import XCTest
 // Flows should follow rules specified in https://optile.atlassian.net/browse/PCX-1396.
 class UpdateFlowTests: NetworksTests {
     func testTryOtherAccount() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .tryOtherAccount, operationType: .update)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherAccount, operationType: .update))
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
 
@@ -23,11 +23,11 @@ class UpdateFlowTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .proceedPending, operationType: .update)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedPending, operationType: .update))
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
 
@@ -38,8 +38,8 @@ class UpdateFlowTests: NetworksTests {
 
     // PayPal returns `PROCEED/OK` when it updated.
     func testProceedOk() throws {
-        let transaction = try Transaction.loadFromTemplate(operationType: .update)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update))
+        try setupWithPaymentSession(transaction: transaction)
 
         let payPal = PayPalAccount()
 
@@ -53,8 +53,7 @@ class UpdateFlowTests: NetworksTests {
         button.tap()
 
         // List of networks
-        waitForLoadingCompletion()
-        XCTAssert(app.tables.staticTexts[payPal.label].exists, "Table with PayPal network is not found")
+        XCTAssert(app.tables.staticTexts[payPal.label].waitForExistence(timeout: .networkTimeout), "Table with PayPal network is not found")
     }
 }
 
@@ -62,32 +61,32 @@ class UpdateFlowTests: NetworksTests {
 
 extension UpdateFlowTests {
     func testSaveDeleteNewCardPaymentMethod() throws {
-        let transaction = try Transaction.loadFromTemplate(operationType: .update)
-        try setupWithPaymentSession(using: transaction)
+        let card = Card.visa
 
-        let visa = Visa()
+        let customerId = try PaymentService().registerCustomer(card: card)
+        let settings = TransactionSettings(operationType: .update, customerId: customerId)
+        let transaction = try Transaction.create(withSettings: settings)
+        try setupWithPaymentSession(transaction: transaction)
 
-        XCTContext.runActivity(named: "Test saving the new payment method") { _ in
-            deleteIfExistsPaymentMethod(withLabel: visa.maskedLabel)
-            submitAndWaitForExistence(forPaymentNetwork: visa)
-        }
+
+        // Method was saved previously when customer was registered
 
         // Test deletion
         XCTContext.runActivity(named: "Test payment method deletion") { _ in
-            deleteIfExistsPaymentMethod(withLabel: visa.maskedLabel)
+            deletePaymentMethod(withLabel: card.maskedLabel)
+            XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
             waitForLoadingCompletion()
-            XCTAssertFalse(app.tables.staticTexts[visa.maskedLabel].exists, "Payment network still exists after deletion")
+            XCTAssertFalse(app.tables.staticTexts[card.maskedLabel].exists, "Payment network still exists after deletion")
         }
     }
 
-    private func deleteIfExistsPaymentMethod(withLabel label: String) {
+    private func deletePaymentMethod(withLabel label: String) {
         XCTContext.runActivity(named: "Delete payment method \(label)") { _ in
-            let savedMethodText = app.tables.staticTexts[label]
-            if savedMethodText.exists {
-                savedMethodText.tap()
-                app.navigationBars.buttons["Delete"].tap()
-                app.alerts.firstMatch.buttons["Delete"].tap()
-            }
+            app.tables.staticTexts[label].tap()
+            app.navigationBars["Payment details"].buttons["Delete"].tap()
+            // Because of some bug iOS 15 doesn't handle alert buttons tap by text, so I tap by index
+            // [0] = Cancel, [1] = Delete
+            app.alerts["Delete payment method"].buttons.allElementsBoundByIndex[1].tap()
         }
     }
 }
@@ -98,12 +97,12 @@ fileprivate extension UpdateFlowTests {
     /// Wait until activity indicator disappears
     func waitForLoadingCompletion() {
         XCTContext.runActivity(named: "Wait for loading completion") { _ in
-            _ = app.activityIndicators.firstMatch.waitForExistence(timeout: 1)
+            _ = app.activityIndicators.firstMatch.waitForExistence(timeout: .uiTimeout)
 
             // Wait until loading indicator will disappear
             let notExists = NSPredicate(format: "exists == 0")
             let activityIndicatorIsFinished = expectation(for: notExists, evaluatedWith: app.activityIndicators.firstMatch, handler: nil)
-            wait(for: [activityIndicatorIsFinished], timeout: 5)
+            wait(for: [activityIndicatorIsFinished], timeout: .uiTimeout)
         }
     }
 

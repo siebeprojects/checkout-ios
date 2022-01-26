@@ -1,5 +1,3 @@
-example_xcodeproj = "ExampleCheckout/ExampleCheckout.xcodeproj"
-
 default_platform(:ios)
 
 platform :ios do
@@ -12,71 +10,73 @@ platform :ios do
 
   desc "Build framework and run tests"
   lane :test do
-    cocoapods
     scan(
       output_directory: "./output/scan",
-      output_types: "junit"
+      result_bundle: true,
+      output_types: "junit",
+      device: "iPhone 12",
+      scheme: "PayoneerCheckout",
+      package_path: "."
     )
   end
 
   desc "Build example app (Swift)"
-  lane :build_example_swift do
-    filename = "ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
-    cocoapods(podfile: "./ExampleCheckout/Podfile")
-    increment_build_number(
-      build_number: ENV["CIRCLE_BUILD_NUM"],
-      xcodeproj: example_xcodeproj
-    )
-    match(type: "adhoc", readonly: is_ci)
+  lane :build_example_swift do |options|
     build_ios_app(
       silent: true,
+      export_method: "ad-hoc",
       scheme: "Swift",
-      workspace: "./ExampleCheckout/ExampleCheckout.xcworkspace",
-      output_directory: "/tmp/workspace/output",
-      output_name: filename,
-      derived_data_path: "/tmp/workspace/derived_data"
+      project: "./ExampleCheckout/ExampleCheckout.xcodeproj",
+      output_name: options[:binary]
     )
   end
 
   desc "Upload binary to Browserstack"
-  lane :browserstack do
-    example_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+  lane :browserstack do |options|
     upload_to_browserstack_app_live(
-      browserstack_username: ENV["BROWSERSTACK_USERNAME"],
-      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
-      file_path: example_ipa
+      browserstack_username: ENV["BROWSERSTACK_USER"],
+      browserstack_access_key: ENV["BROWSERSTACK_KEY"],
+      file_path: options[:binary]
     )
   end
 
-  desc "Run UI tests (Swift)"
-  lane :ui_test do
-    cocoapods(podfile: "./ExampleCheckout/Podfile")
+  desc "Run UI tests"
+  lane :ui_test do |options|
     run_tests(
-      scheme: "Swift",
+      scheme: options[:scheme],
       derived_data_path: "/tmp/workspace/derived_data",
-      workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
-      devices: ["iPhone 12"],
+      project: "ExampleCheckout/ExampleCheckout.xcodeproj",
+      concurrent_workers: 1,
+      ensure_devices_found: true,
+      number_of_retries: 1,
       output_directory: "./output/scan",
       output_types: "junit",
-      result_bundle: true,
-      xcargs: "MERCHANT_CODE=" + ENV["MERCHANT_CODE"] + " MERCHANT_PAYMENT_TOKEN=" + ENV["MERCHANT_PAYMENT_TOKEN"]
+      result_bundle: true
+    )
+  end
+
+  desc "Run UI tests for CocoaPods"
+  lane :ui_test_cocoapods do |options|
+    run_tests(
+      scheme: "Swift-CocoaPods",
+      derived_data_path: "/tmp/workspace/derived_data",
+      workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
     )
   end
 
   desc "Submit to TestFlight"
   lane :submit_to_testflight do
-    example_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
+    checkout_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
     certificate_json = "certificates/itunes_connect/fastlane_api_key.json"
     upload_to_testflight(
       api_key_path: certificate_json,
-      ipa: example_ipa
+      ipa: checkout_ipa
     )
   end
 
   desc "Change version number"
   lane :set_version do |options|
-    increment_version_number(version_number: options[:version])
-    increment_version_number(version_number: options[:version], xcodeproj: example_xcodeproj)
+    increment_version_number(version_number: options[:version], xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj")
     version_bump_podspec(version_number: options[:version], path: "PayoneerCheckout.podspec")
   end
 
@@ -87,7 +87,6 @@ platform :ios do
 
   desc "Deploy"
   lane :deploy do
-    ensure_git_branch(branch: "master")
     ensure_git_status_clean()
 
     version_number = get_version_number()

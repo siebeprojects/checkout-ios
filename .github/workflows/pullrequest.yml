@@ -1,0 +1,190 @@
+name: Unit and UI tests
+
+on:
+  pull_request:
+    branches-ignore:
+      - master
+      - main
+
+concurrency:
+  group: tests-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+
+### UNIT TESTS
+
+  unit-tests:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Install the dependencies specified in Gemfile
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Run unit tests
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: true
+        run: bundle exec fastlane test
+
+      - name: Zip test results
+        if: failure()
+        env:
+          project-name: PayoneerCheckout
+        run: zip -r output/scan/${{ github.sha }}.xcresult.zip output/scan/${{ env.project-name }}.xcresult/
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.sha }}.xcresult.zip
+          path: output/scan/${{ github.sha }}.xcresult.zip/
+          if-no-files-found: error
+          retention-days: 5
+
+### UI TESTS
+
+  ui-tests:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        scheme: [Swift, Objective-C]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install the dependencies specified in Gemfile
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Install the simulator
+        run: |
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          sudo ln -s $XCODE_12_DEVELOPER_DIR/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.5.simruntime
+
+      - name: Set simulators
+        # I use file instead of passing it as a parameter to have an ability to test multiple devices per one run if needed
+        # (it is possible only with Scanfile)
+        env:
+          device: 'iPhone 12 (14.5)'
+        run:
+          echo "devices(['${{ env.device }}'])" >> fastlane/Scanfile
+
+      - name: Inject secrets
+        id: inject-secrets
+        env:
+          merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
+          merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
+          payment-api-list-url: https:/\$()/api.pi-nightly.integration.oscato.com/api/lists
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: |
+            echo "MERCHANT_CODE=${{ env.merchant-code }}" > ${{ env.xcconfig }}
+            echo "MERCHANT_PAYMENT_TOKEN=${{ env.merchant-token }}" >> ${{ env.xcconfig }}
+            echo "PAYMENT_API_LISTURL=${{ env.payment-api-list-url }}" >> ${{ env.xcconfig }}
+
+      - name: Run UI tests
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: true
+        run: bundle exec fastlane ui_test scheme:${{ matrix.scheme }}
+
+      - name: Clear secrets
+        if: always() && steps.inject-secrets.outcome == 'success'
+        id: clear-secrets
+        env:
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: rm ${{ env.xcconfig }}
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v2
+        if: failure() && steps.clear-secrets.outcome == 'success'
+        continue-on-error: true
+        with:
+          report_paths: output/scan/report.junit
+          check_name: UI test report (${{ matrix.scheme }})
+
+      - name: Zip test results
+        id: zip-xcresult
+        if: always()
+        run: zip -r output/scan/${{ matrix.scheme }}.xcresult.zip output/scan/*.xcresult/
+
+      - name: Upload test results
+        if: always() && steps.zip-xcresult.conclusion == 'success'
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.sha }}.xcresult.zip
+          path: output/scan/${{ matrix.scheme }}.xcresult.zip/
+          if-no-files-found: error
+          retention-days: 5
+
+### SWIFT LINT
+
+  swiftlint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Lint the framework
+        uses: norio-nomura/action-swiftlint@3.2.1
+        with:
+          args: --strict
+
+      - name: Lint example applications
+        uses: norio-nomura/action-swiftlint@3.2.1
+        env:
+          WORKING_DIRECTORY: ExampleCheckout
+        with:
+          args: --strict
+
+### COCOAPODS
+
+  cocoapods-integration:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install the dependencies specified in Gemfile
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Install Pods
+        env:
+          project-directory: ExampleCheckout/
+        run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
+
+      - name: Inject secrets
+        id: inject-secrets
+        env:
+          merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
+          merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
+          payment-api-list-url: https:/\$()/api.pi-nightly.integration.oscato.com/api/lists
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: |
+            echo "MERCHANT_CODE=${{ env.merchant-code }}" > ${{ env.xcconfig }}
+            echo "MERCHANT_PAYMENT_TOKEN=${{ env.merchant-token }}" >> ${{ env.xcconfig }}
+            echo "PAYMENT_API_LISTURL=${{ env.payment-api-list-url }}" >> ${{ env.xcconfig }}
+
+      - name: Run UI tests
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: true
+        run: bundle exec fastlane ui_test_cocoapods
+
+      - name: Clear secrets
+        if: always() && steps.inject-secrets.outcome == 'success'
+        id: clear-secrets
+        env:
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: rm ${{ env.xcconfig }}

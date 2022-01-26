@@ -10,55 +10,65 @@ class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
 
     /// Load an app and load networks list from list url.
-    /// - Parameter transaction: if `nil`, default `Transaction` will be used
-    func setupWithPaymentSession(using transaction: Transaction? = nil) throws {
+    func setupWithPaymentSession(transaction: Transaction) throws {
         continueAfterFailure = false
 
-        try XCTContext.runActivity(named: "Setup payment session") { _ in
+        self.app = try Self.setupWithPaymentSession(transaction: transaction)
+    }
+    
+    /// Load an app and load networks list from list url.
+    static func setupWithPaymentSession(transaction: Transaction) throws -> XCUIApplication {
+        try XCTContext.runActivity(named: "Start payment session") { _ in
             // Create payment session
-            let sessionURL: URL
-
-            if let transaction = transaction {
-                sessionURL = try createPaymentSession(using: transaction)
-            } else {
-                sessionURL = try createPaymentSession(using: Transaction.loadFromTemplate())
-            }
+            let sessionURL = try createPaymentSession(using: transaction)
 
             // UI tests must launch the application that they test.
             let app = XCUIApplication()
-            self.app = app
             app.launch()
 
             // Initial screen
             let tablesQuery = app.tables
-            tablesQuery.textFields.firstMatch.typeText(sessionURL.absoluteString)
-            tablesQuery.buttons["Send request"].tap()
+            let textField = tablesQuery.textFields.firstMatch
+            let sendRequestButton = tablesQuery.buttons["Send request"]
+
+            if #available(iOS 15, *) {
+                textField.doubleTap()
+                UIPasteboard.general.string = sessionURL.absoluteString
+                app.menuItems["Paste"].tap()
+                _ = sendRequestButton.waitForExistence(timeout: .uiTimeout)
+            } else {
+                textField.typeText(sessionURL.absoluteString)
+            }
+
+            sendRequestButton.tap()
 
             // Wait for loading completion
             XCTAssert(tablesQuery.firstMatch.waitForExistence(timeout: .networkTimeout))
+            
+            return app
         }
     }
 
-    private func createPaymentSession(using transaction: Transaction) throws -> URL {
-        let sessionExpectation = expectation(description: "Create payment session")
-
+    private static func createPaymentSession(using transaction: Transaction) throws -> URL {
         var createSessionResult: Result<URL, Error>?
 
-        let paymentSessionService = PaymentSessionService()!
-        paymentSessionService.create(using: transaction, completion: { (result) in
-            createSessionResult = result
-            sessionExpectation.fulfill()
-        })
+        let paymentSessionService = try PaymentSessionService()
 
-        wait(for: [sessionExpectation], timeout: .networkTimeout)
+        let semaphore = DispatchSemaphore(value: 0)
+        paymentSessionService.create(using: transaction) { result in
+            createSessionResult = result
+            semaphore.signal()
+        }
+
+        let timeoutResult = semaphore.wait(timeout: .now() + .networkTimeout)
+
+        guard case .success = timeoutResult else {
+            throw "Timeout waiting for payment session service reply. Most likely it's a network timeout error."
+        }
 
         switch createSessionResult {
         case .success(let url): return url
-        case .failure(let error):
-            let attachment = XCTAttachment(subject: error)
-            attachment.name = "LoadPaymentSessionError"
-            add(attachment)
-            throw error
+        case .failure(let error): throw error
         case .none: throw "Create session result wasn't set"
         }
     }

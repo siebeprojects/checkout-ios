@@ -16,8 +16,8 @@ struct Sepa: PaymentNetwork {
 
     func fill(in collectionView: XCUIElementQuery) {
         XCTContext.runActivity(named: "Fill SEPA's data") { _ in
-            tapAndType(text: holderName, in: collectionView.textFields["Account holder name"])
-            tapAndType(text: iban, in: collectionView.textFields["IBAN"])
+            tapAndType(text: holderName, in: collectionView.textFields["e.g. John Doe"])
+            tapAndType(text: iban, in: collectionView.textFields["15-31 characters"])
         }
     }
 }

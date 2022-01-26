@@ -1,15 +1,7 @@
-platform :ios, '12.4'
-use_frameworks!
+platform :ios, '12.0'
 
-def shared_pods
-  pod 'SwiftLint'
+target 'CheckoutSwift-CocoaPods' do
+  use_frameworks!
+
   pod 'PayoneerCheckout', :path => '../'
-end
-
-target 'CheckoutSwift' do
-  shared_pods
-end
-
-target 'CheckoutObjC' do
-  shared_pods
 end

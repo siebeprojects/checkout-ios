@@ -11,11 +11,11 @@ class CardsTests: NetworksTests {
     // MARK: Success Card Payment
 
     func testProceedOk() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .proceedOk, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .charge))
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         // Check result
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -26,11 +26,11 @@ class CardsTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .proceedPending, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedPending, operationType: .charge))
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        Visa().submit(in: app.collectionViews)
+        Card.visa.submit(in: app.collectionViews)
 
         // Check result
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -43,12 +43,12 @@ class CardsTests: NetworksTests {
     // MARK: Retry Card Payment
 
     func testRetry() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .retry, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .retry, operationType: .charge))
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        let visa = Visa()
-        visa.submit(in: app.collectionViews)
+        let card = Card.visa
+        card.submit(in: app.collectionViews)
 
         // Check result
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -60,20 +60,20 @@ class CardsTests: NetworksTests {
 
         // Check input fields
         app.alerts.buttons.firstMatch.tap()
-        let nameTextField = app.collectionViews.textFields["Name on card"]
+        let nameTextField = app.collectionViews.textFields["e.g. John Doe"]
         XCTAssert(nameTextField.exists, "Couldn't find holder name input field")
-        XCTAssertEqual(nameTextField.value as? String, visa.holderName, "Couldn't find previosly typed holder name")
+        XCTAssertEqual(nameTextField.value as? String, card.holderName, "Couldn't find previosly typed holder name")
     }
 
     func testTryOtherNetwork() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .tryOtherNetwork, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
-        let visa = Visa()
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherNetwork, operationType: .charge))
+        try setupWithPaymentSession(transaction: transaction)
+        let card = Card.visa
 
-        XCTAssert(app.tables.staticTexts.contains(text: visa.label))
+        XCTAssert(app.tables.staticTexts.contains(text: card.label))
 
         app.tables.staticTexts["Cards"].tap()
-        visa.submit(in: app.collectionViews)
+        card.submit(in: app.collectionViews)
 
         // Alert
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -84,18 +84,18 @@ class CardsTests: NetworksTests {
         // After TRY_OTHER_NETWORK response cards shouldn't contain Visa payment method
         app.alerts.buttons.firstMatch.tap()
         XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
-        XCTAssertFalse(app.tables.staticTexts.contains(text: visa.label))
+        XCTAssertFalse(app.tables.staticTexts.contains(text: card.label))
     }
 
     func testTryOtherAccount() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .tryOtherAccount, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
-        let visa = Visa()
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherAccount, operationType: .charge))
+        try setupWithPaymentSession(transaction: transaction)
+        let card = Card.visa
 
-        XCTAssert(app.tables.staticTexts.contains(text: visa.label))
+        XCTAssert(app.tables.staticTexts.contains(text: card.label))
 
         app.tables.staticTexts["Cards"].tap()
-        visa.submit(in: app.collectionViews)
+        card.submit(in: app.collectionViews)
 
         // Alert
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -106,21 +106,20 @@ class CardsTests: NetworksTests {
         // After TRY_OTHER_ACCOUNT response, cards should still contain Visa payment method
         app.alerts.buttons.firstMatch.tap()
         XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
-        XCTAssert(app.tables.staticTexts.contains(text: visa.label))
+        XCTAssert(app.tables.staticTexts.contains(text: card.label))
     }
 
     // MARK: Failed Card Payment
 
     func testRiskDetected() throws {
-        let transaction = try Transaction.loadFromTemplate(amount: .nonMagicNumber, operationType: .charge)
-        try setupWithPaymentSession(using: transaction)
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .nonMagicNumber, operationType: .charge))
+        try setupWithPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
-        var visa = Visa()
-        // The `ANDROID_TESTING` merchant on Integration has been setup to block the Mastercard number: 5105105105105100
-        visa.number = "5105105105105100"
 
-        visa.submit(in: app.collectionViews)
+        // The `ANDROID_TESTING` merchant on Integration has been setup to block the Mastercard number: 5105105105105100
+        let card = Card.mastercard.overriding(number: "5105105105105100")
+        card.submit(in: app.collectionViews)
 
         // Check result
         XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
@@ -133,17 +132,17 @@ class CardsTests: NetworksTests {
     // MARK: Interface tests
 
     func testClearButton() throws {
-        try setupWithPaymentSession()
+        try setupWithPaymentSession(transaction: Transaction.create())
 
         // List
         app.tables.staticTexts["Cards"].tap()
 
         // Input
         let collectionViewsQuery = app.collectionViews
-        collectionViewsQuery.textFields["Card Number"].tap()
+        collectionViewsQuery.textFields["13 to 19 digits"].tap()
 
-        let clearButton = app.collectionViews.buttons["iconClear"]
-        let cardNumberTextField = collectionViewsQuery.textFields["Card Number"]
+        let clearButton = app.collectionViews.buttons["Clear text"]
+        let cardNumberTextField = collectionViewsQuery.textFields["13 to 19 digits"]
 
         XCTAssertFalse(clearButton.exists, "Clear button should be hidden")
 
@@ -151,7 +150,7 @@ class CardsTests: NetworksTests {
         XCTAssertTrue(clearButton.exists, "Clear button should be visible")
 
         clearButton.tap()
-        XCTAssertEqual(cardNumberTextField.value as? String, "", "Text wasn't cleared")
+        XCTAssertEqual(cardNumberTextField.value as? String, "13 to 19 digits", "Text wasn't cleared")
         XCTAssertFalse(clearButton.exists, "Clear button should be hidden")
     }
 }
