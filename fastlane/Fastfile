@@ -89,7 +89,7 @@ platform :ios do
   lane :deploy do
     ensure_git_status_clean()
 
-    version_number = get_version_number()
+    version_number = get_version_number(xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj", target: "CheckoutSwift")
     add_git_tag(tag: version_number)
     push_git_tags()
 
