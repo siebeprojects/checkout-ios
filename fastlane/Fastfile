@@ -76,7 +76,6 @@ platform :ios do
 
   desc "Change version number"
   lane :set_version do |options|
-    increment_version_number(version_number: options[:version])
     increment_version_number(version_number: options[:version], xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj")
     version_bump_podspec(version_number: options[:version], path: "PayoneerCheckout.podspec")
   end
@@ -90,7 +89,7 @@ platform :ios do
   lane :deploy do
     ensure_git_status_clean()
 
-    version_number = get_version_number()
+    version_number = get_version_number(xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj", target: "CheckoutSwift")
     add_git_tag(tag: version_number)
     push_git_tags()
 
