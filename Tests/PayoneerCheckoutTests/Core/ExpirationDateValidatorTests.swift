@@ -32,11 +32,6 @@ final class ExpirationDateValidatorTests: XCTestCase {
         }
     }
 
-    func testIsExpired_whenMonthIsNotNil_whenYearIs90_shouldReturnFalse() {
-        let validator = ExpirationDateValidator(month: 10, year: 90)
-        XCTAssertFalse(try validator.isExpired)
-    }
-
     func testIsExpired_whenDateIsNow_shouldReturnFalse() {
         let month = Calendar.current.component(.month, from: Date())
         let year = Calendar.current.component(.year, from: Date())
@@ -79,29 +74,5 @@ final class ExpirationDateValidatorTests: XCTestCase {
 
         let validator = ExpirationDateValidator(month: month, year: year)
         XCTAssertFalse(try validator.isExpired)
-    }
-
-    func testIsExpired_whenTwoDigitYearIsMoreThan30YearsAgo_shouldReturnFalse() {
-        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -31, to: Date())!
-        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
-
-        let validator = ExpirationDateValidator(month: 10, year: Int(year)!)
-        XCTAssertFalse(try validator.isExpired)
-    }
-
-    func testIsExpired_whenTwoDigitYearIs30YearsAgo_shouldReturnTrue() {
-        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -30, to: Date())!
-        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
-
-        let validator = ExpirationDateValidator(month: 10, year: Int(year)!)
-        XCTAssertTrue(try validator.isExpired)
-    }
-
-    func testIsExpired_whenTwoDigitYearIsLessThan30YearsAgo_shouldReturnTrue() {
-        let lowerBoundaryDate = Calendar.current.date(byAdding: .year, value: -29, to: Date())!
-        let year = "\(Calendar.current.component(.year, from: lowerBoundaryDate))".suffix(2)
-
-        let validator = ExpirationDateValidator(month: 10, year: Int(year)!)
-        XCTAssertTrue(try validator.isExpired)
     }
 }

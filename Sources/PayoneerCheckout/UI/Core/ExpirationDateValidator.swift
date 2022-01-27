@@ -20,7 +20,6 @@ struct ExpirationDateValidator {
             guard let month = month, let year = year else { throw ExpirationDateValidatorError.invalidInput }
 
             let dateFormatter = DateFormatter()
-            dateFormatter.twoDigitStartDate = Calendar.current.date(byAdding: .year, value: -30, to: Date())
             dateFormatter.dateFormat = "yy-MM"
 
             let expirationDateString = "\(String(year).suffix(2))-\(month)"
