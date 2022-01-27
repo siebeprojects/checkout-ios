@@ -118,7 +118,8 @@ class CardsTests: NetworksTests {
         app.tables.staticTexts["Cards"].tap()
 
         // The `ANDROID_TESTING` merchant on Integration has been setup to block the Mastercard number: 5105105105105100
-        let card = Card.mastercard.overriding(number: "5105105105105100")
+        var card = Card.mastercard
+        card.number = "5105105105105100"
         card.submit(in: app.collectionViews)
 
         // Check result

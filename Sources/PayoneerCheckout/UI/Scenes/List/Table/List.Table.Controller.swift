@@ -31,12 +31,20 @@ extension List.Table {
         fileprivate let isRefreshable: Bool
         fileprivate var refreshControl: UIRefreshControl?
 
-        init(session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider) throws {
+        init(session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider, modalPresenter: ModalPresenter?) throws {
             guard let genericLogo = AssetProvider.iconCard else {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }
 
-            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, presetAccount: session.presetAccount, translation: translationProvider, genericLogo: genericLogo, context: session.context)
+            dataSource = .init(
+                networks: session.networks,
+                accounts: session.registeredAccounts,
+                presetAccount: session.presetAccount,
+                translation: translationProvider,
+                genericLogo: genericLogo,
+                context: session.context,
+                modalPresenter: modalPresenter
+            )
 
             switch session.context.listOperationType {
             case .UPDATE: isRefreshable = true

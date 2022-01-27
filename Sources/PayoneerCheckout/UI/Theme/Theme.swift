@@ -44,13 +44,13 @@ public extension Theme {
     @objc static var shared: Theme = .standard
 
     @objc static var standard: Theme {
-        let textColor = UIColor(white: 66.0 / 255.0, alpha: 1.0)
-        let detailedTextColor = UIColor(white: 143.0 / 255.0, alpha: 1.0)
-        let tintColor = UIColor(red: 0.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1.0)
-        let border = UIColor(white: 224.0 / 255.0, alpha: 1.0)
-        let presetBorder = UIColor(red: 0.0 / 255.0, green: 137.0 / 255.0, blue: 64.0 / 255.0, alpha: 1)
-        let separator = UIColor(white: 242.0 / 255.0, alpha: 1.0)
-        let errorColor = UIColor(red: 205, green: 0, blue: 0, alpha: 1.0)
+        let textColor = UIColor(white: 66/255, alpha: 1)
+        let detailedTextColor = UIColor(white: 143/255, alpha: 1)
+        let tintColor = UIColor(red: 0, green: 137/255, blue: 64/255, alpha: 1)
+        let border = UIColor(white: 224/255, alpha: 1)
+        let presetBorder = UIColor(red: 0/255, green: 137/255, blue: 64/255, alpha: 1)
+        let separator = UIColor(white: 242/255, alpha: 1)
+        let errorColor = UIColor(red: 183/255, green: 28/255, blue: 28/255, alpha: 1)
 
         let backgroundColor: UIColor
         if #available(iOS 13.0, *) {

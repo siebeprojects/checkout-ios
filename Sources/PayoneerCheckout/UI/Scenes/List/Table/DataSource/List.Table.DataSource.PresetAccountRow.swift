@@ -9,9 +9,11 @@ import UIKit
 extension List.Table.DataSource {
     class PresetAccountRow {
         let account: UIModel.PresetAccount
+        weak var modalPresenter: ModalPresenter?
 
-        init(account: UIModel.PresetAccount) {
+        init(account: UIModel.PresetAccount, modalPresenter: ModalPresenter?) {
             self.account = account
+            self.modalPresenter = modalPresenter
         }
     }
 }
@@ -20,7 +22,6 @@ extension List.Table.DataSource {
 
 extension List.Table.DataSource.PresetAccountRow {
     var primaryLabel: String { account.maskedAccountLabel }
-    var secondaryLabel: String? { account.expirationDate }
     var image: UIImage? { account.logo?.value }
 }
 

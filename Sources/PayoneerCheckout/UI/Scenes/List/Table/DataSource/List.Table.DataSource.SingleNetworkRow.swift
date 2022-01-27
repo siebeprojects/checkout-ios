@@ -19,7 +19,6 @@ extension List.Table.DataSource {
 
 extension List.Table.DataSource.SingleNetworkRow {
     var primaryLabel: String { network.label }
-    var secondaryLabel: String? { nil }
     var image: UIImage? { network.logo?.value }
 }
 

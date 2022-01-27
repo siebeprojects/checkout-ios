@@ -21,6 +21,9 @@ enum TranslationKey: String, CaseIterable {
     case processPendingTitle = "interaction.PROCEED.PENDING.title"
     case processPendingText = "interaction.PROCEED.PENDING.text"
 
+    case accountsExpiredBadgeTitle = "accounts.expired.badge.title"
+    case accountsExpiredBadgeText = "accounts.expired.badge.text"
+
     var localizedString: String {
         switch self {
         case .errorInternetTitle: return "Oops!"
@@ -29,9 +32,10 @@ enum TranslationKey: String, CaseIterable {
         case .cancelLabel: return "Cancel"
         case .accountsUpdateTitle: return "Edit your payment methods"
         case .networksUpdateTitle: return "Add a payment method"
-
         case .processPendingTitle: return "Payment method pending"
         case .processPendingText: return "Please refresh or check back later for updates."
+        case .accountsExpiredBadgeTitle: return "Expired"
+        case .accountsExpiredBadgeText: return "This card is expired. Please update it or use another payment method."
         }
     }
 }

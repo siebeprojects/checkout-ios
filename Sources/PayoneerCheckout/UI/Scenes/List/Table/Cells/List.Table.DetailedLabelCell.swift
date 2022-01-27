@@ -22,6 +22,7 @@ extension List.Table {
         private let titleLabel: UILabel = {
             let label = UILabel()
             label.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            label.lineBreakMode = .byTruncatingMiddle
             label.textColor = .themedText
             return label
         }()
@@ -32,6 +33,16 @@ extension List.Table {
             label.textColor = .themedDetailedText
             return label
         }()
+
+        private lazy var trailingButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.isHidden = true
+            button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+            return button
+        }()
+
+        var translator: TranslationProvider?
+        weak var modalPresenter: ModalPresenter?
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,11 +58,32 @@ extension List.Table {
 // MARK: - Configuration
 
 extension List.Table.DetailedLabelCell {
-    func configure(logo: UIImage?, title: String, subtitle: String?) {
-        logoImageView.image = logo
-        titleLabel.text = title
-        subtitleLabel.text = subtitle
-        subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
+    func configure(
+        logo: UIImage?,
+        title: String,
+        subtitle: String?,
+        subtitleColor: UIColor? = nil,
+        trailingButtonImage: UIImage? = nil,
+        trailingButtonColor: UIColor? = nil,
+        translator: TranslationProvider? = nil,
+        modalPresenter: ModalPresenter? = nil
+    ) {
+        self.logoImageView.image = logo
+        self.titleLabel.text = title
+        self.subtitleLabel.text = subtitle
+        self.subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
+        self.subtitleLabel.textColor = subtitleColor ?? .themedDetailedText
+        self.translator = translator
+        self.modalPresenter = modalPresenter
+        self.trailingButton.tintColor = trailingButtonColor
+
+        if let buttonImage = trailingButtonImage {
+            self.trailingButton.setImage(buttonImage, for: .normal)
+            self.trailingButton.isHidden = false
+        } else {
+            self.trailingButton.setImage(nil, for: .normal)
+            self.trailingButton.isHidden = true
+        }
     }
 }
 
@@ -62,17 +94,39 @@ extension List.Table.DetailedLabelCell {
         customContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(horizontal: .defaultSpacing * 2, vertical: .verticalSpacing)
 
         logoImageView.addWidthConstraint(.imageWidth)
+        trailingButton.setContentHuggingPriority(.required, for: .horizontal)
 
         let labelsStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         labelsStackView.axis = .vertical
         labelsStackView.spacing = .verticalSpacing
 
-        let stackView = UIStackView(arrangedSubviews: [logoImageView, labelsStackView])
+        let stackView = UIStackView(arrangedSubviews: [logoImageView, labelsStackView, trailingButton])
         stackView.alignment = .center
         stackView.spacing = .defaultSpacing * 2
         stackView.translatesAutoresizingMaskIntoConstraints = false
         customContentView.addSubview(stackView)
         stackView.fitToSuperview(obeyMargins: true)
+    }
+}
+
+// MARK: - Interaction
+
+extension List.Table.DetailedLabelCell {
+    @objc private func buttonAction(_ sender: UIButton) {
+        let alert = UIAlertController(
+            title: translator?.translation(forKey: "accounts.expired.badge.title"),
+            message: translator?.translation(forKey: "accounts.expired.badge.text"),
+            preferredStyle: .alert
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: translator?.translation(forKey: "button.ok.label"),
+                style: .cancel
+            )
+        )
+
+        modalPresenter?.present(alert, animated: true, completion: nil)
     }
 }
 
