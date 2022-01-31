@@ -77,14 +77,6 @@ jobs:
           xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
         run: rm ${{ env.xcconfig }}
 
-      - name: Publish test report
-        uses: mikepenz/action-junit-report@v2
-        if: failure() && steps.clear-secrets.outcome == 'success'
-        continue-on-error: true
-        with:
-          report_paths: output/scan/report.junit
-          check_name: UI test report (${{ matrix.scheme }})
-
       - name: Zip test results
         id: zip-xcresult
         if: always()
