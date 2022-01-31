@@ -11,6 +11,7 @@ concurrency:
 
 jobs:
   deploy-to-cocoapods:
+    name: Deploy to CocoaPods
     runs-on: macos-latest
     environment: CocoaPods
 
