@@ -1,4 +1,4 @@
-name: Deploy to Browserstack
+name: Deploy
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   upload-to-browserstack:
-    name: Upload to Browserstack
+    name: Browserstack
     if: contains(github.event.pull_request.labels.*.name, 'awaits qa')
     runs-on: macos-latest
     environment: 
