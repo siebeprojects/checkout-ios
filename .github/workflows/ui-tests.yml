@@ -88,13 +88,13 @@ jobs:
       - name: Zip test results
         id: zip-xcresult
         if: always()
-        run: zip -r output/scan/${{ matrix.scheme }}.xcresult.zip output/scan/*.xcresult/
+        run: zip -r 'output/scan/${{ matrix.scheme }}, ${{ matrix.simulator }}.xcresult.zip' output/scan/*.xcresult/
 
       - name: Upload test results
         if: always() && steps.zip-xcresult.conclusion == 'success'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.sha }}.xcresult.zip
-          path: output/scan/${{ matrix.scheme }}.xcresult.zip/
+          name: '${{ github.ref_name }}-${{ github.run_number }}.xcresult.zip'
+          path: 'output/scan/${{ matrix.scheme }}, ${{ matrix.simulator }}.xcresult.zip/'
           if-no-files-found: error
           retention-days: 5
