@@ -1,0 +1,36 @@
+name: Code styling
+
+on: pull_request
+
+concurrency:
+  group: lint-test-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  lint-framework:
+    name: Lint framework
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Lint the framework
+        uses: norio-nomura/action-swiftlint@3.2.1
+        with:
+          args: --strict
+
+  lint-example:
+    name: Lint ExampleCheckout
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Lint example applications
+        uses: norio-nomura/action-swiftlint@3.2.1
+        env:
+          WORKING_DIRECTORY: ExampleCheckout
+        with:
+          args: --strict

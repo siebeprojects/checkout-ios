@@ -1,0 +1,51 @@
+name: Integration tests
+
+on: pull_request
+
+concurrency:
+  group: integration-tests-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  cocoapods-integration:
+    name: CocoaPods
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install the dependencies specified in Gemfile
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Install Pods
+        env:
+          project-directory: ExampleCheckout/
+        run: bundle exec pod install --deployment --project-directory=${{ env.project-directory }}
+
+      - name: Inject secrets
+        id: inject-secrets
+        env:
+          merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
+          merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
+          payment-api-list-url: https:/\$()/api.pi-nightly.integration.oscato.com/api/lists
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: |
+            echo "MERCHANT_CODE=${{ env.merchant-code }}" > ${{ env.xcconfig }}
+            echo "MERCHANT_PAYMENT_TOKEN=${{ env.merchant-token }}" >> ${{ env.xcconfig }}
+            echo "PAYMENT_API_LISTURL=${{ env.payment-api-list-url }}" >> ${{ env.xcconfig }}
+
+      - name: Run UI tests for CocoaPods
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: true
+        run: bundle exec fastlane ui_test_cocoapods
+
+      - name: Clear secrets
+        if: always() && steps.inject-secrets.outcome == 'success'
+        id: clear-secrets
+        env:
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: rm ${{ env.xcconfig }}

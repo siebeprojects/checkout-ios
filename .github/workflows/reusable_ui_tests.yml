@@ -1,0 +1,92 @@
+name: UI Tests
+
+on:
+  workflow_call:
+    # GitHub actions doesn't support arrays for arguments
+    inputs:
+      simulators:
+        default: '["iPhone 12 (14.5)"]'
+        description: 'Stringified JSON array listing devices'
+        required: false
+        type: string
+      schemes:
+        default: '["Swift"]'
+        description: 'Stringified JSON array listing XCode schemes'
+        required: false
+        type: string
+      install-simulators-command:
+        required: false
+        type: string
+    secrets:
+      MOBILE_MERCHANT_CODE:
+        required: true
+      MOBILE_MERCHANT_PAYMENT_TOKEN:
+        required: true
+
+jobs:
+  ui-tests:
+    name: '${{ matrix.scheme }}, ${{matrix.simulator }}'
+    runs-on: macos-latest
+  
+    strategy:
+      matrix:
+        scheme: ${{fromJson(inputs.schemes)}}
+        simulator: ${{fromJson(inputs.simulators)}}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install the dependencies specified in Gemfile
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Install simulators
+        if: inputs.install-simulators-command != ''
+        run: |
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          ${{ inputs.install-simulators-command }}
+
+      - name: Set simulators
+        run:
+          echo "devices(['${{ matrix.simulator }}'])" >> fastlane/Scanfile
+
+      - name: Inject secrets
+        id: inject-secrets
+        env:
+          merchant-code: ${{ secrets.MOBILE_MERCHANT_CODE }}
+          merchant-token: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
+          payment-api-list-url: https:/\$()/api.pi-nightly.integration.oscato.com/api/lists
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: |
+            echo "MERCHANT_CODE=${{ env.merchant-code }}" > ${{ env.xcconfig }}
+            echo "MERCHANT_PAYMENT_TOKEN=${{ env.merchant-token }}" >> ${{ env.xcconfig }}
+            echo "PAYMENT_API_LISTURL=${{ env.payment-api-list-url }}" >> ${{ env.xcconfig }}
+
+      - name: Run UI tests
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: true
+        run: bundle exec fastlane ui_test scheme:${{ matrix.scheme }}
+
+      - name: Clear secrets
+        if: always() && steps.inject-secrets.outcome == 'success'
+        id: clear-secrets
+        env:
+          xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
+        run: rm ${{ env.xcconfig }}
+
+      - name: Zip test results
+        id: zip-xcresult
+        if: always()
+        run: zip -r 'output/scan/${{ matrix.scheme }}, ${{ matrix.simulator }}.xcresult.zip' output/scan/*.xcresult/
+
+      - name: Upload test results
+        if: always() && steps.zip-xcresult.conclusion == 'success'
+        uses: actions/upload-artifact@v2
+        with:
+          name: '${{ github.ref_name }}-${{ github.run_number }}.xcresult.zip'
+          path: 'output/scan/${{ matrix.scheme }}, ${{ matrix.simulator }}.xcresult.zip/'
+          if-no-files-found: error
+          retention-days: 5
