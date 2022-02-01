@@ -61,9 +61,9 @@ class ViewController: UITableViewController {
             return
         }
 
-        let viewController = PaymentListViewController(listResultURL: url)
-        viewController.delegate = self
-        navigationController?.pushViewController(viewController, animated: true)
+        let paymentListViewController = PaymentListViewController(listResultURL: url)
+        paymentListViewController.delegate = self
+        present(UINavigationController(rootViewController: paymentListViewController), animated: true)
     }
 
     @IBAction func chargePresetAccountDidTap(_ sender: ActivityIndicatableButton) {
@@ -88,8 +88,8 @@ class ViewController: UITableViewController {
 
     /// Present `UIAlertController` with textual representation of `PaymentResult`
     func presentAlert(with paymentResult: PaymentResult) {
-        let alert = UIAlertController(title: "Payment result", message: paymentResult.debugDescription, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        let alert = UIAlertController(title: "Payment Result", message: paymentResult.debugDescription, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
     }
@@ -98,10 +98,10 @@ class ViewController: UITableViewController {
 // MARK: - PaymentDelegate
 
 extension ViewController: PaymentDelegate {
-    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController) {
-        navigationController?.popViewController(animated: true, completion: {
+    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController) {
+        dismiss(animated: true) {
             self.presentAlert(with: paymentResult)
-        })
+        }
     }
 }
 

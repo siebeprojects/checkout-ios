@@ -62,8 +62,9 @@ extension PaymentListViewController {
         viewManager.configureMainView()
         navigationItem.largeTitleDisplayMode = .never
 
-        // If view was presented modally show Cancel button
-        if navigationController == nil {
+        if #available(iOS 13.0, *) {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(cancelButtonDidPress))
+        } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
         }
 

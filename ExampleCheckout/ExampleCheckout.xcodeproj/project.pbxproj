@@ -37,7 +37,6 @@
 		07D11171270C7518004CC554 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */; };
-		07F17FB027634CB8000CB406 /* UINavigationController+popViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAD27634CB8000CB406 /* UINavigationController+popViewController.swift */; };
 		07F17FB127634CB8000CB406 /* PaymentResult+debugDescription.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */; };
 		07F17FB227634CB8000CB406 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAF27634CB8000CB406 /* Theme+custom.swift */; };
 		D912BB2D2726C1B70004AFAE /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB122726C1B60004AFAE /* ExtraElements.swift */; };
@@ -104,7 +103,6 @@
 		D9139ADF278B410800E30155 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAF27634CB8000CB406 /* Theme+custom.swift */; };
 		D9139AE0278B410800E30155 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E0AEB0234143BD0021184C /* AppDelegate.swift */; };
 		D9139AE1278B410800E30155 /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */; };
-		D9139AE2278B410800E30155 /* UINavigationController+popViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAD27634CB8000CB406 /* UINavigationController+popViewController.swift */; };
 		D9139AE3278B410800E30155 /* PaymentResult+debugDescription.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */; };
 		D9139AE7278B410800E30155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */; };
 		D9139AE8278B410800E30155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D92B4D6725F6843A00103C70 /* Assets.xcassets */; };
@@ -266,7 +264,6 @@
 		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
 		07E628F62755359D006575E2 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatableButton.swift; sourceTree = "<group>"; };
-		07F17FAD27634CB8000CB406 /* UINavigationController+popViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+popViewController.swift"; sourceTree = "<group>"; };
 		07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PaymentResult+debugDescription.swift.swift"; sourceTree = "<group>"; };
 		07F17FAF27634CB8000CB406 /* Theme+custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
 		07FF4CA6274BEDA400957035 /* checkout-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "checkout-ios"; path = ..; sourceTree = "<group>"; };
@@ -408,7 +405,6 @@
 		07F17FAC27634CB8000CB406 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				07F17FAD27634CB8000CB406 /* UINavigationController+popViewController.swift */,
 				07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */,
 				07F17FAF27634CB8000CB406 /* Theme+custom.swift */,
 			);
@@ -985,7 +981,6 @@
 				D9139ADF278B410800E30155 /* Theme+custom.swift in Sources */,
 				D9139AE0278B410800E30155 /* AppDelegate.swift in Sources */,
 				D9139AE1278B410800E30155 /* ActivityIndicatableButton.swift in Sources */,
-				D9139AE2278B410800E30155 /* UINavigationController+popViewController.swift in Sources */,
 				D9139AE3278B410800E30155 /* PaymentResult+debugDescription.swift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1133,7 +1128,6 @@
 				07F17FB227634CB8000CB406 /* Theme+custom.swift in Sources */,
 				D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */,
 				07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */,
-				07F17FB027634CB8000CB406 /* UINavigationController+popViewController.swift in Sources */,
 				07F17FB127634CB8000CB406 /* PaymentResult+debugDescription.swift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
