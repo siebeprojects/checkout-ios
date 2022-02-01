@@ -1,4 +1,4 @@
-name: Deploy
+name: Public deployment
 
 on:
   push:

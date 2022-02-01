@@ -1,4 +1,4 @@
-name: Deploy
+name: Internal deployment
 
 on:
   pull_request:
