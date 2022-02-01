@@ -15,6 +15,7 @@ jobs:
     runs-on: macos-latest
     environment: 
       name: Browserstack
+      url: https://app-live.browserstack.com/
 
     steps:
       - name: Checkout repository
