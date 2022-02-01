@@ -11,7 +11,7 @@ on:
         type: string
       schemes:
         default: '["Swift"]'
-        description: 'Stringified JSON array listing XCode schemes'
+        description: 'Stringified JSON array listing Xcode schemes'
         required: false
         type: string
       install-simulators-command:
