@@ -5,7 +5,7 @@ on:
     types: [ labeled, synchronize ]
 
 concurrency: 
-  group: browserstack-${{ github.head_ref }}
+  group: internal-deployment-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF#refs/heads/})"
         id: extract_branch
 
-      - name: Install the dependencies specified in Gemfile
+      - name: Install dependencies specified in Gemfile
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
