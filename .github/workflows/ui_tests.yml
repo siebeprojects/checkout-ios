@@ -1,8 +1,11 @@
 name: UI tests
 
 on:
-   push:
-     branches-ignore: master
+  # I use push instead of pull request because of bug with reusable workflows.
+  # You can't use reusable workflows when action was triggered by pull request.
+  # Discussion: https://github.com/github/feedback/discussions/10679
+  push:
+    branches-ignore: master
 
 concurrency:
   group: ui-tests-${{ github.ref_name }}
