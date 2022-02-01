@@ -1,5 +1,5 @@
-// Copyright (c) 2021 Payoneer Germany GmbH
-// https://www.payoneer.com
+// Copyright (c) 2022 Payoneer Germany GmbH
+// https://www.payoneer.com/
 //
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
@@ -7,11 +7,15 @@
 import UIKit
 import PayoneerCheckout
 
-class ViewController: UITableViewController {
+public final class ViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var themeSwitch: UISwitch!
     @IBOutlet weak var showPaymentListButton: UIButton!
     @IBOutlet weak var chargePresetAccountButton: ActivityIndicatableButton!
+
+    @objc public static func instantiate() -> UIViewController {
+        UIStoryboard(name: "\(ViewController.self)", bundle: Bundle(for: ViewController.self)).instantiateInitialViewController()!
+    }
 
     fileprivate var isEnabled: Bool = true {
         didSet {
@@ -28,7 +32,7 @@ class ViewController: UITableViewController {
 
     // MARK: Overrides
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         if #available(iOS 13.0, *) {
@@ -41,7 +45,7 @@ class ViewController: UITableViewController {
         chargePresetAccountButton.setTitle(chargePresetAccountButton.title(for: .normal), for: .normal)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         textField.becomeFirstResponder()
@@ -98,17 +102,16 @@ class ViewController: UITableViewController {
 // MARK: - PaymentDelegate
 
 extension ViewController: PaymentDelegate {
-    func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController) {
-        navigationController?.popViewController(animated: true, completion: {
-            self.presentAlert(with: paymentResult)
-        })
+    public func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: PaymentListViewController) {
+        navigationController?.popViewController(animated: true)
+        presentAlert(with: paymentResult)
     }
 }
 
 // MARK: - Preset flow
 
 extension ViewController: ChargePresetDelegate {
-    func chargePresetService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController?) {
+    public func chargePresetService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController?) {
         // Revert UI state back to normal
         isEnabled = true
         chargePresetAccountButton.isLoading = false
@@ -123,7 +126,7 @@ extension ViewController: ChargePresetDelegate {
         }
     }
 
-    func chargePresetService(didRequestPresenting viewController: UIViewController) {
+    public func chargePresetService(didRequestPresenting viewController: UIViewController) {
         // Preset service requested to show a view controller (in the most cases it is used to show a challenge browser view)
         self.present(viewController, animated: true, completion: nil)
     }

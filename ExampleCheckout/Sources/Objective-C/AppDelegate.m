@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 #import "AppDelegate.h"
+@import UI;
 @import PayoneerCheckout;
 
 @interface AppDelegate ()
@@ -12,6 +13,14 @@
 @end
 
 @implementation AppDelegate
+
+-(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey,id> *)launchOptions {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[ViewController instantiate]];
+    [self.window makeKeyAndVisible];
+
+    return YES;
+}
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     [NSNotificationCenter.defaultCenter postNotificationName:NSNotification.didReceivePaymentResultURL object:url];
