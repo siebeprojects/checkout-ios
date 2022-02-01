@@ -642,7 +642,8 @@
 			isa = PBXGroup;
 			children = (
 				07FF4CA6274BEDA400957035 /* checkout-ios */,
-				D9E0AEAF234143BD0021184C /* Sources */,
+				D948527B26F2479900D11DC2 /* Swift */,
+				D948523126F2438D00D11DC2 /* Objective-C */,
 				07A202FB27A9354F00961735 /* UI */,
 				D9A5FA57253CA701001C71B7 /* UITests */,
 				D9E0AEAE234143BD0021184C /* Products */,
@@ -663,15 +664,6 @@
 				07A202FA27A9354F00961735 /* UI.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		D9E0AEAF234143BD0021184C /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				D948527B26F2479900D11DC2 /* Swift */,
-				D948523126F2438D00D11DC2 /* Objective-C */,
-			);
-			path = Sources;
 			sourceTree = "<group>";
 		};
 		D9FCC6AA25488A9800E0AF74 /* Helpers */ = {
@@ -1433,7 +1425,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = ..;
 				DEVELOPMENT_TEAM = 9FN68XYFY9;
-				INFOPLIST_FILE = "Sources/Swift/CocoaPods-Info.plist";
+				INFOPLIST_FILE = "Swift/CocoaPods-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1458,7 +1450,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = ..;
 				DEVELOPMENT_TEAM = 9FN68XYFY9;
-				INFOPLIST_FILE = "Sources/Swift/CocoaPods-Info.plist";
+				INFOPLIST_FILE = "Swift/CocoaPods-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1480,7 +1472,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "Sources/Objective-C/Info.plist";
+				INFOPLIST_FILE = "Objective-C/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1504,7 +1496,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "Sources/Objective-C/Info.plist";
+				INFOPLIST_FILE = "Objective-C/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1736,7 +1728,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = ..;
 				DEVELOPMENT_TEAM = 9FN68XYFY9;
-				INFOPLIST_FILE = Sources/Swift/Info.plist;
+				INFOPLIST_FILE = Swift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1761,7 +1753,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = ..;
 				DEVELOPMENT_TEAM = 9FN68XYFY9;
-				INFOPLIST_FILE = Sources/Swift/Info.plist;
+				INFOPLIST_FILE = Swift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
