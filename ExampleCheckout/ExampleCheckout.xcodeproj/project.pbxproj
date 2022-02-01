@@ -32,6 +32,8 @@
 		074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
 		0761538C27A941E100D5C161 /* PaymentResult+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0761538B27A941E100D5C161 /* PaymentResult+Extensions.swift */; };
 		0761538D27A942FA00D5C161 /* ExpiredCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */; };
+		0761538E27A94B8000D5C161 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A202FA27A9354F00961735 /* UI.framework */; platformFilter = ios; };
+		0761538F27A94B8000D5C161 /* UI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07A202FA27A9354F00961735 /* UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC4274BF25100005D30 /* PayoneerCheckout */; };
 		0767BBC7274BF64500005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC6274BF64500005D30 /* PayoneerCheckout */; };
 		07A2030027A9354F00961735 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A202FA27A9354F00961735 /* UI.framework */; };
@@ -217,6 +219,13 @@
 			remoteGlobalIDString = D948522F26F2438D00D11DC2;
 			remoteInfo = CheckoutObjC;
 		};
+		0761539027A94B8000D5C161 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D9E0AEA5234143BD0021184C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 07A202F927A9354F00961735;
+			remoteInfo = UI;
+		};
 		077E5FDA27A83C490073608B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D9E0AEA5234143BD0021184C /* Project object */;
@@ -294,6 +303,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				07A2030A27A9358D00961735 /* UI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0761539227A94B8000D5C161 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0761538F27A94B8000D5C161 /* UI.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +429,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0761538E27A94B8000D5C161 /* UI.framework in Frameworks */,
 				03735F1D43C01A86301CADE3 /* Pods_CheckoutSwift_CocoaPods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -738,10 +759,12 @@
 				D9139AE4278B410800E30155 /* Frameworks */,
 				D9139AE6278B410800E30155 /* Resources */,
 				0C4E9F3C29267BF710BD725A /* [CP] Embed Pods Frameworks */,
+				0761539227A94B8000D5C161 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0761539127A94B8000D5C161 /* PBXTargetDependency */,
 			);
 			name = "CheckoutSwift-CocoaPods";
 			productName = Example;
@@ -1230,6 +1253,12 @@
 			isa = PBXTargetDependency;
 			target = D948522F26F2438D00D11DC2 /* CheckoutObjC */;
 			targetProxy = 0725B40026FCBC9600C607A8 /* PBXContainerItemProxy */;
+		};
+		0761539127A94B8000D5C161 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = 07A202F927A9354F00961735 /* UI */;
+			targetProxy = 0761539027A94B8000D5C161 /* PBXContainerItemProxy */;
 		};
 		077E5FDB27A83C490073608B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
