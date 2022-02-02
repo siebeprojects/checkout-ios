@@ -9,7 +9,7 @@ import UIKit
 // MARK: Initializers
 
 extension Input {
-    class ViewController: SlideInViewController {
+    class ViewController: UIViewController {
         let networks: [Network]
         let header: CellRepresentable
         let tableController = Table.Controller()
@@ -46,7 +46,6 @@ extension Input {
 
             stateManager = .init(viewController: self)
 
-            self.scrollView = collectionView
             tableController.delegate = self
             tableController.modalPresenter = self
         }
@@ -121,9 +120,6 @@ extension Input.ViewController {
 
         configure(collectionView: collectionView)
 
-        collectionView.layoutIfNeeded()
-        setPreferredContentSize()
-
         configureNavigationBar()
 
         tableController.becomeFirstResponder()
@@ -175,16 +171,6 @@ extension Input.ViewController {
     }
 
     fileprivate func configureNavigationBar() {
-        let closeButton: UIBarButtonItem
-
-        if #available(iOS 13.0, *) {
-            closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(dismissView))
-        } else {
-            closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
-        }
-
-        navigationItem.setLeftBarButton(closeButton, animated: false)
-
         if networks.count == 1, let network = networks.first, network.isDeletable {
             navigationItem.setRightBarButton(deleteBarButton, animated: false)
         }
