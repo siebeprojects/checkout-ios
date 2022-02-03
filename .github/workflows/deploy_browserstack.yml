@@ -11,7 +11,7 @@ concurrency:
 jobs:
   build:
     name: Browserstack
-    if: contains(github.event.pull_request.labels.*.name, 'awaits qa')
+    if: contains(github.event.pull_request.labels.*.name, 'awaits QA')
     runs-on: macos-latest
     environment: 
       name: Browserstack
