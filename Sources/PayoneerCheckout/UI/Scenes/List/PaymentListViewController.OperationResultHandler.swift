@@ -19,7 +19,7 @@ extension PaymentListViewController {
 }
 
 extension PaymentListViewController.OperationResultHandler: NetworkOperationResultHandler {
-    func paymentController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for request: OperationRequest?, network: Input.Network) {
+    func paymentListController(didReceiveOperationResult result: Result<OperationResult, ErrorInfo>, for request: OperationRequest?, network: Input.Network) {
         switch request {
         case let deletionRequest as DeletionRequest:
             handle(response: result, for: deletionRequest, network: network)

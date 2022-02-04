@@ -277,14 +277,15 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
 
 extension Input.ViewController: InputPaymentControllerDelegate {
     /// Route result to the next view controller
-    func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
+    func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, forRequest request: OperationRequest) {
         browserController.dismissBrowserViewController()
-        dismiss(animated: true, completion: {
-            self.delegate?.paymentController(didReceiveOperationResult: result, for: request, network: self.smartSwitch.selected.network)
-        })
+
+        navigationController?.popViewController(animated: true)
+
+        delegate?.paymentListController(didReceiveOperationResult: result, for: request, network: smartSwitch.selected.network)
     }
 
-    func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?) {
+    func inputPaymentController(didFailWithError error: ErrorInfo, forRequest request: OperationRequest?) {
         // Try to dismiss safari VC (if exists)
         browserController.dismissBrowserViewController()
 
@@ -297,11 +298,9 @@ extension Input.ViewController: InputPaymentControllerDelegate {
             .init(label: .retry, style: .default) { [submitPayment] _ in
                 submitPayment()
             },
-            .init(label: .cancel, style: .cancel, handler: { [self] _ in
-                dismiss(animated: true) {
-                    self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: request, network: self.smartSwitch.selected.network)
-                }
-            })
+            .init(label: .cancel, style: .cancel) { _ in
+                self.delegate?.paymentListController(didReceiveOperationResult: .failure(error), for: request, network: self.smartSwitch.selected.network)
+            }
         ]
 
         // Show an error
@@ -309,7 +308,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
     }
 
     /// Show an error and return to input fields editing state
-    func paymentController(inputShouldBeChanged error: ErrorInfo) {
+    func inputPaymentController(inputShouldBeChanged error: ErrorInfo) {
         // Try to dismiss safari VC (if exists)
         browserController.dismissBrowserViewController()
 
@@ -328,7 +327,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         stateManager.state = .error(alertError)
     }
 
-    func paymentController(presentURL url: URL) {
+    func inputPaymentController(presentURL url: URL) {
         browserController.presentBrowser(with: url)
     }
 }
