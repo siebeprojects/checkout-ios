@@ -57,8 +57,6 @@ extension PaymentListViewController {
         viewManager.configureMainView()
         navigationItem.largeTitleDisplayMode = .never
 
-        navigationItem.backButtonTitle = ""
-
         if #available(iOS 13.0, *) {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(cancelButtonDidPress))
         } else {
@@ -137,7 +135,7 @@ extension PaymentListViewController {
     }
 
     @objc fileprivate func cancelButtonDidPress() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 }
 

@@ -172,7 +172,7 @@ extension Input.ViewController {
 
     fileprivate func configureNavigationBar() {
         if networks.count == 1, let network = networks.first, network.isDeletable {
-            navigationItem.setRightBarButton(deleteBarButton, animated: false)
+            navigationItem.rightBarButtonItem = deleteBarButton
         }
     }
 }
@@ -191,10 +191,6 @@ extension Input.ViewController {
         }
 
         present(alert.createAlertController(), animated: true, completion: nil)
-    }
-
-    @objc private func dismissView() {
-        dismiss(animated: true, completion: nil)
     }
 }
 

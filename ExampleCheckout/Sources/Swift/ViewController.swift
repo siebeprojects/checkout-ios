@@ -115,9 +115,9 @@ extension ViewController: ChargePresetDelegate {
 
         // Preset payment result
         if let viewController = viewController {
-            viewController.dismiss(animated: true, completion: {
+            viewController.dismiss(animated: true) {
                 self.presentAlert(with: paymentResult)
-            })
+            }
         } else {
             self.presentAlert(with: paymentResult)
         }
