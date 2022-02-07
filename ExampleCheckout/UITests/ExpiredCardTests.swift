@@ -40,8 +40,7 @@ final class ExpiredCardTests: NetworksTests {
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, customerId: Self.validCardCustomerID))
             try setupWithPaymentSession(transaction: transaction)
 
-            let cell = app.cells.element(boundBy: 0)
-
+            let cell = app.tables["paymentlist"].cells.element(boundBy: 0)
             XCTAssertTrue(cell.staticTexts["10 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
 
             for index in 1...3 {
@@ -61,7 +60,7 @@ final class ExpiredCardTests: NetworksTests {
             let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, customerId: Self.expiredCardCustomerID))
             try setupWithPaymentSession(transaction: transaction)
 
-            let cell = app.cells.element(boundBy: 0)
+            let cell = app.tables["paymentlist"].cells.element(boundBy: 0)
 
             XCTAssertTrue(cell.staticTexts["10 / 20"].exists)
 
