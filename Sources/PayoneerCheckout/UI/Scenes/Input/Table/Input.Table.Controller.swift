@@ -78,7 +78,7 @@ extension Input.Table {
             collectionView.bounces = true
             collectionView.dataSource = dataSource
             collectionView.delegate = layoutController
-
+            collectionView.contentInset.top = 16
             collectionView.contentInsetAdjustmentBehavior = .always
 
             if #available(iOS 13.0, *) {

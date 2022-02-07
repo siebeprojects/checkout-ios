@@ -8,49 +8,33 @@
 import UIKit
 
 private extension CGFloat {
-    static let logoWidth: CGFloat = 40
+    static let logoWidth: CGFloat = 52
     static let imageLabelSpacing: CGFloat = 16
 }
 
 extension Input.Table {
     class LogoTextView: UICollectionViewCell, Dequeueable {
-        private let label: UILabel
-        private let logoView: UIImageView
+        private let titleLabel: UILabel = {
+            let titleLabel = UILabel()
+            titleLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            titleLabel.textColor = .themedText
+            titleLabel.lineBreakMode = .byTruncatingMiddle
+            return titleLabel
+        }()
+
+        private let logoImageView = UIImageView()
 
         override init(frame: CGRect) {
-            label = .init(frame: frame)
-            logoView = .init(frame: frame)
-
             super.init(frame: frame)
 
-            // FIXME: Add a checkmark for a view
-//            self.accessoryType = .checkmark
+            logoImageView.addWidthConstraint(.logoWidth)
 
-            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
-
-            self.addSubview(label)
-            self.addSubview(logoView)
-
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.textColor = .themedText
-            label.lineBreakMode = .byTruncatingMiddle
-            logoView.translatesAutoresizingMaskIntoConstraints = false
-            logoView.contentMode = .scaleAspectFit
-
-            logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-
-            NSLayoutConstraint.activate([
-                label.topAnchor.constraint(equalTo: self.topAnchor),
-                label.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                label.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-
-                logoView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                logoView.topAnchor.constraint(equalTo: label.topAnchor),
-                logoView.bottomAnchor.constraint(equalTo: label.bottomAnchor),
-                logoView.widthAnchor.constraint(equalToConstant: .logoWidth),
-
-                label.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: .imageLabelSpacing)
-            ])
+            let stackView = UIStackView(arrangedSubviews: [logoImageView, titleLabel])
+            stackView.alignment = .center
+            stackView.spacing = .imageLabelSpacing
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(stackView)
+            stackView.fitToSuperview(obeyMargins: false)
          }
 
          required init?(coder: NSCoder) {
@@ -61,8 +45,8 @@ extension Input.Table {
 
 extension Input.Table.LogoTextView {
     func configure(with model: Input.TextHeader) {
-        logoView.image = model.logo
-        label.text = model.title
+        logoImageView.image = model.logo
+        titleLabel.text = model.title
     }
 }
 #endif
