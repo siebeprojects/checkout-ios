@@ -75,9 +75,9 @@ extension Input.Table {
         func configure() {
             registerCells()
 
-            collectionView.bounces = true
             collectionView.dataSource = dataSource
             collectionView.delegate = layoutController
+            collectionView.alwaysBounceVertical = true
             collectionView.contentInset.top = 16
             collectionView.contentInsetAdjustmentBehavior = .always
 

@@ -121,8 +121,6 @@ extension Input.ViewController {
         configure(collectionView: collectionView)
 
         configureNavigationBar()
-
-        tableController.becomeFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
