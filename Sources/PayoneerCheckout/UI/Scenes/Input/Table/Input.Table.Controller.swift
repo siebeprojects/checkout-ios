@@ -19,7 +19,6 @@ private extension CGFloat {
 protocol InputTableControllerDelegate: AnyObject {
     func submitPayment()
     func valueDidChange(for field: InputField)
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView)
 }
 
 // MARK: - Input.Table.Controller

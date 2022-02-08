@@ -200,27 +200,6 @@ extension Input.ViewController: InputTableControllerDelegate {
         paymentController.submitOperation(for: smartSwitch.selected.network)
     }
 
-    // Navigation bar shadow
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        // Control behaviour of navigation bar's shadow line
-        guard let navigationController = self.navigationController else { return }
-
-        let yOffset = scrollView.contentOffset.y + scrollView.safeAreaInsets.top
-
-        // If scroll view is on top
-        if yOffset <= 0 {
-            // Hide shadow line
-            navigationController.navigationBar.shadowImage = UIImage()
-            navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        } else {
-            if navigationController.navigationBar.shadowImage != nil {
-                // Show shadow line
-                navigationController.navigationBar.setBackgroundImage(nil, for: .default)
-                navigationController.navigationBar.shadowImage = nil
-            }
-        }
-    }
-
     // MARK: InputFields changes
 
     /// Switch to a new network if needed (based on input field's type and value).

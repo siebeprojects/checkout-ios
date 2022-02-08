@@ -35,12 +35,6 @@ extension Input.Table {
     }
 }
 
-extension Input.Table.LayoutController: UICollectionViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        inputTableControllerDelegate?.scrollViewWillBeginDragging(scrollView)
-    }
-}
-
 extension Input.Table.LayoutController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .zero
