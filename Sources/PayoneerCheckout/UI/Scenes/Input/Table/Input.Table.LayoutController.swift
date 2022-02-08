@@ -41,7 +41,8 @@ extension Input.Table.LayoutController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return .init(top: .sectionSpacing / 2, left: collectionView.layoutMargins.left, bottom: .sectionSpacing / 2, right: collectionView.layoutMargins.right)
+        let topInset = section == 0 ? 20 : .sectionSpacing / 2
+        return .init(top: topInset, left: collectionView.layoutMargins.left, bottom: .sectionSpacing / 2, right: collectionView.layoutMargins.right)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
