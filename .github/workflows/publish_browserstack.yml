@@ -1,11 +1,11 @@
-name: Internal deployment
+name: Publish
 
 on:
   pull_request:
     types: [ labeled, synchronize ]
 
 concurrency: 
-  group: internal-deployment-${{ github.head_ref }}
+  group: internal-publish-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:

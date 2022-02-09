@@ -1,4 +1,4 @@
-name: Public deployment
+name: Publish
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 concurrency: 
-  group: public-deployment-${{ github.head_ref }}
+  group: public-publish-${{ github.head_ref }}
   cancel-in-progress: false
 
 jobs:
