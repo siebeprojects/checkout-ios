@@ -1,16 +1,16 @@
-name: Publish
+name: Publish to BrowserStack
 
 on:
   pull_request:
     types: [ labeled, synchronize ]
 
 concurrency: 
-  group: internal-publish-${{ github.head_ref }}
+  group: publish-browserstack-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
   build:
-    name: Browserstack
+    name: BrowserStack
     if: contains(github.event.pull_request.labels.*.name, 'pending QA')
     runs-on: macos-latest
     environment: 
