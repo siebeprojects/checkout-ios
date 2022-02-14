@@ -15,6 +15,9 @@ private extension CGFloat {
 
     /// Spacing between sections
     static var interitemSpacing: CGFloat { return 20 }
+
+    /// Top inset for the first section
+    static var topInset: CGFloat { return 30 }
 }
 
 extension Input.Table {
@@ -41,8 +44,12 @@ extension Input.Table.LayoutController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let topInset = section == 0 ? 20 : .sectionSpacing / 2
-        return .init(top: topInset, left: collectionView.layoutMargins.left, bottom: .sectionSpacing / 2, right: collectionView.layoutMargins.right)
+        return UIEdgeInsets(
+            top: section == 0 ? .topInset : .sectionSpacing/2,
+            left: collectionView.layoutMargins.left,
+            bottom: .sectionSpacing/2,
+            right: collectionView.layoutMargins.right
+        )
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
