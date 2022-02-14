@@ -78,6 +78,7 @@ extension Input.Table {
             collectionView.delegate = layoutController
             collectionView.alwaysBounceVertical = true
             collectionView.contentInsetAdjustmentBehavior = .always
+            collectionView.keyboardDismissMode = .interactive
 
             if #available(iOS 13.0, *) {
                 collectionView.automaticallyAdjustsScrollIndicatorInsets = true
