@@ -1,16 +1,17 @@
-name: Deploy to Browserstack
+name: Publish to BrowserStack
 
 on:
   pull_request:
     types: [ labeled, synchronize ]
 
 concurrency: 
-  group: browserstack-${{ github.head_ref }}
+  group: publish-browserstack-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
-  upload-to-browserstack:
-    if: contains(github.event.pull_request.labels.*.name, 'awaits qa')
+  build:
+    name: BrowserStack
+    if: contains(github.event.pull_request.labels.*.name, 'pending QA')
     runs-on: macos-latest
     environment: 
       name: Browserstack
@@ -20,7 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install the dependencies specified in Gemfile
+      - name: Get the branch's name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Install dependencies specified in Gemfile
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
@@ -57,7 +63,7 @@ jobs:
 
       - name: Build example application
         env:
-          ipa-binary: ExampleCheckout-${{ env.BRANCH_NAME }}.ipa
+          ipa-binary: ExampleCheckout-${{ github.run_number }}-${{ steps.extract_branch.outputs.branch }}.ipa
         run: bundle exec fastlane build_example_swift binary:${{ env.ipa-binary }}
 
       - name: Clean up keychain and provisioning profile
@@ -70,5 +76,5 @@ jobs:
         env: 
           BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
           BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
-          ipa-binary: ExampleCheckout-${{ env.BRANCH_NAME }}.ipa
+          ipa-binary: ExampleCheckout-${{ github.run_number }}-${{ steps.extract_branch.outputs.branch }}.ipa
         run: bundle exec fastlane browserstack binary:${{ env.ipa-binary }}

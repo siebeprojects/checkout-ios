@@ -1,4 +1,4 @@
-name: Apply labels
+name: Labeling
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   apply_labels:
+    name: Apply GitHub labels
     runs-on: ubuntu-latest
     steps:
       - uses: actions-ecosystem/action-add-labels@v1
