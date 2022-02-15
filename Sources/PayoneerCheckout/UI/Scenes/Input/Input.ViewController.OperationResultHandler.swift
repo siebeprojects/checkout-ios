@@ -10,13 +10,13 @@ import Foundation
 
 protocol InputPaymentControllerDelegate: AnyObject {
     func inputPaymentController(presentURL url: URL)
-    func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, forRequest request: OperationRequest)
+    func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest)
     func inputPaymentController(inputShouldBeChanged error: ErrorInfo)
 
     /// Request is failed and error should be displayed
     /// - Parameters:
     ///   - request: could be `nil` if error was thrown before `OperationRequest` was created or sent
-    func inputPaymentController(didFailWithError error: ErrorInfo, forRequest request: OperationRequest?)
+    func inputPaymentController(didFailWithError error: ErrorInfo, for request: OperationRequest?)
 }
 
 // MARK: - OperationResultHandler
@@ -44,7 +44,7 @@ extension Input.ViewController.OperationResultHandler: PaymentServiceDelegate {
         // Handle internal `COMMUNICATION_FAILURE` error for all flows
         if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: serverResponse.interaction.reason), case let .failure(errorInfo) = serverResponse {
             DispatchQueue.main.async {
-                self.delegate?.inputPaymentController(didFailWithError: errorInfo, forRequest: request)
+                self.delegate?.inputPaymentController(didFailWithError: errorInfo, for: request)
             }
             return
         }
@@ -63,7 +63,7 @@ extension Input.ViewController.OperationResultHandler: PaymentServiceDelegate {
             let internalError = InternalError(description: "Unexpected request type, programmatic error")
             let errorInfo = CustomErrorInfo.createClientSideError(from: internalError)
             DispatchQueue.main.async {
-                self.delegate?.inputPaymentController(route: .failure(errorInfo), forRequest: request)
+                self.delegate?.inputPaymentController(route: .failure(errorInfo), for: request)
             }
         }
     }
@@ -86,7 +86,7 @@ extension Input.ViewController.OperationResultHandler {
         // In other situations route to a parent view
         else {
             DispatchQueue.main.async {
-                self.delegate?.inputPaymentController(route: response, forRequest: request)
+                self.delegate?.inputPaymentController(route: response, for: request)
             }
         }
     }
@@ -96,7 +96,7 @@ extension Input.ViewController.OperationResultHandler {
     /// Flow rules are defined in [PCX-1396](https://optile.atlassian.net/browse/PCX-1396).
     func handle(response: Result<OperationResult, ErrorInfo>, forUpdateRequest request: PaymentRequest) {
         DispatchQueue.main.async {
-            self.delegate?.inputPaymentController(route: response, forRequest: request)
+            self.delegate?.inputPaymentController(route: response, for: request)
         }
     }
 }
@@ -118,7 +118,7 @@ extension Input.ViewController.OperationResultHandler {
         // In other situations route to a parent view
         else {
             DispatchQueue.main.async {
-                self.delegate?.inputPaymentController(route: response, forRequest: request)
+                self.delegate?.inputPaymentController(route: response, for: request)
             }
         }
     }

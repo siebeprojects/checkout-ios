@@ -260,7 +260,7 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
 
 extension Input.ViewController: InputPaymentControllerDelegate {
     /// Route result to the next view controller
-    func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, forRequest request: OperationRequest) {
+    func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
         browserController.dismissBrowserViewController()
 
         navigationController?.popViewController(animated: true)
@@ -268,7 +268,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         delegate?.paymentListController(didReceiveOperationResult: result, for: request, network: smartSwitch.selected.network)
     }
 
-    func inputPaymentController(didFailWithError error: ErrorInfo, forRequest request: OperationRequest?) {
+    func inputPaymentController(didFailWithError error: ErrorInfo, for request: OperationRequest?) {
         // Try to dismiss safari VC (if exists)
         browserController.dismissBrowserViewController()
 
