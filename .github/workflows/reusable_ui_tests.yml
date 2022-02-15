@@ -1,44 +1,57 @@
-name: Unit and UI tests (multiple devices)
+name: UI tests (workflow_call)
 
 on:
-  pull_request:
-    branches:
-      - master
-      - main
-
-concurrency: 
-  group: tests-master-${{ github.head_ref }}
-  cancel-in-progress: true
+  workflow_call:
+    # GitHub actions doesn't support arrays for arguments
+    inputs:
+      simulators:
+        default: '["iPhone 12 (14.5)"]'
+        description: 'Stringified JSON array listing devices'
+        required: false
+        type: string
+      schemes:
+        default: '["Swift"]'
+        description: 'Stringified JSON array listing Xcode schemes'
+        required: false
+        type: string
+      install-simulators-command:
+        required: false
+        type: string
+    secrets:
+      MOBILE_MERCHANT_CODE:
+        required: true
+      MOBILE_MERCHANT_PAYMENT_TOKEN:
+        required: true
 
 jobs:
   ui-tests:
+    name: '${{ matrix.scheme }}, ${{matrix.simulator }}'
     runs-on: macos-latest
+  
     strategy:
       matrix:
-        scheme: [Swift, Objective-C]
-        device: ['iPhone 13 (15.0)', 'iPhone 12 (14.5)', 'iPhone 11 (13.7)']
+        scheme: ${{fromJson(inputs.schemes)}}
+        simulator: ${{fromJson(inputs.simulators)}}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install the dependencies specified in Gemfile
+      - name: Install dependencies specified in Gemfile
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
           bundler-cache: true
 
       - name: Install simulators
+        if: inputs.install-simulators-command != ''
         run: |
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          sudo ln -s $XCODE_12_DEVELOPER_DIR/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.5.simruntime
-          sudo ln -s $XCODE_11_DEVELOPER_DIR/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 13.7.simruntime
+          ${{ inputs.install-simulators-command }}
 
       - name: Set simulators
-        # I use file instead of passing it as a parameter to have an ability to test multiple devices per one run if needed
-        # (it is possible only with Scanfile)
         run:
-          echo "devices(['${{ matrix.device }}'])" >> fastlane/Scanfile
+          echo "devices(['${{ matrix.simulator }}'])" >> fastlane/Scanfile
 
       - name: Inject secrets
         id: inject-secrets
@@ -64,24 +77,16 @@ jobs:
           xcconfig: ExampleCheckout/UITests/Resources/Config.xcconfig
         run: rm ${{ env.xcconfig }}
 
-      - name: Publish test report
-        uses: mikepenz/action-junit-report@v2
-        if: failure() && steps.clear-secrets.outcome == 'success'
-        continue-on-error: true
-        with:
-          report_paths: output/scan/report.junit
-          check_name: UI test report (${{ matrix.scheme }})
-
       - name: Zip test results
         id: zip-xcresult
         if: always()
-        run: zip -r output/scan/${{ matrix.scheme }}.xcresult.zip output/scan/*.xcresult/
+        run: zip -r 'output/scan/${{ matrix.scheme }}, ${{ matrix.simulator }}.xcresult.zip' output/scan/*.xcresult/
 
       - name: Upload test results
         if: always() && steps.zip-xcresult.conclusion == 'success'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ github.sha }}.xcresult.zip
-          path: output/scan/${{ matrix.scheme }}.xcresult.zip/
+          name: '${{ github.ref_name }}-${{ github.run_number }}.xcresult.zip'
+          path: 'output/scan/${{ matrix.scheme }}, ${{ matrix.simulator }}.xcresult.zip/'
           if-no-files-found: error
           retention-days: 5

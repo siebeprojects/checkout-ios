@@ -1,4 +1,4 @@
-name: Release
+name: Publish to CocoaPods
 
 on:
   push:
@@ -6,11 +6,12 @@ on:
       - master
 
 concurrency: 
-  group: deploy-${{ github.head_ref }}
+  group: publish-cocoapods-${{ github.head_ref }}
   cancel-in-progress: false
 
 jobs:
   deploy-to-cocoapods:
+    name: CocoaPods
     runs-on: macos-latest
     environment: CocoaPods
 
@@ -18,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install the dependencies specified in Gemfile
+      - name: Install dependencies specified in Gemfile
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
