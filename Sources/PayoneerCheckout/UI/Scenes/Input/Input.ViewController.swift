@@ -9,7 +9,7 @@ import UIKit
 // MARK: Initializers
 
 extension Input {
-    class ViewController: SlideInViewController {
+    class ViewController: UIViewController {
         let networks: [Network]
         let header: CellRepresentable
         let tableController = Table.Controller()
@@ -46,7 +46,6 @@ extension Input {
 
             stateManager = .init(viewController: self)
 
-            self.scrollView = collectionView
             tableController.delegate = self
             tableController.modalPresenter = self
         }
@@ -121,12 +120,7 @@ extension Input.ViewController {
 
         configure(collectionView: collectionView)
 
-        collectionView.layoutIfNeeded()
-        setPreferredContentSize()
-
         configureNavigationBar()
-
-        tableController.becomeFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -134,6 +128,12 @@ extension Input.ViewController {
 
         addKeyboardFrameChangesObserver()
         browserController.subscribeForNotification()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        tableController.becomeFirstResponder()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -175,18 +175,8 @@ extension Input.ViewController {
     }
 
     fileprivate func configureNavigationBar() {
-        let closeButton: UIBarButtonItem
-
-        if #available(iOS 13.0, *) {
-            closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(dismissView))
-        } else {
-            closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
-        }
-
-        navigationItem.setLeftBarButton(closeButton, animated: false)
-
         if networks.count == 1, let network = networks.first, network.isDeletable {
-            navigationItem.setRightBarButton(deleteBarButton, animated: false)
+            navigationItem.rightBarButtonItem = deleteBarButton
         }
     }
 }
@@ -206,10 +196,6 @@ extension Input.ViewController {
 
         present(alert.createAlertController(), animated: true, completion: nil)
     }
-
-    @objc private func dismissView() {
-        dismiss(animated: true, completion: nil)
-    }
 }
 
 // MARK: - InputTableControllerDelegate
@@ -218,27 +204,6 @@ extension Input.ViewController: InputTableControllerDelegate {
     func submitPayment() {
         stateManager.state = .paymentSubmission
         paymentController.submitOperation(for: smartSwitch.selected.network)
-    }
-
-    // Navigation bar shadow
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        // Control behaviour of navigation bar's shadow line
-        guard let navigationController = self.navigationController else { return }
-
-        let yOffset = scrollView.contentOffset.y + scrollView.safeAreaInsets.top
-
-        // If scroll view is on top
-        if yOffset <= 0 {
-            // Hide shadow line
-            navigationController.navigationBar.shadowImage = UIImage()
-            navigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        } else {
-            if navigationController.navigationBar.shadowImage != nil {
-                // Show shadow line
-                navigationController.navigationBar.setBackgroundImage(nil, for: .default)
-                navigationController.navigationBar.shadowImage = nil
-            }
-        }
     }
 
     // MARK: InputFields changes
@@ -295,14 +260,15 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
 
 extension Input.ViewController: InputPaymentControllerDelegate {
     /// Route result to the next view controller
-    func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
+    func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
         browserController.dismissBrowserViewController()
-        dismiss(animated: true, completion: {
-            self.delegate?.paymentController(didReceiveOperationResult: result, for: request, network: self.smartSwitch.selected.network)
-        })
+
+        navigationController?.popViewController(animated: true)
+
+        delegate?.paymentListController(didReceiveOperationResult: result, for: request, network: smartSwitch.selected.network)
     }
 
-    func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?) {
+    func inputPaymentController(didFailWithError error: ErrorInfo, for request: OperationRequest?) {
         // Try to dismiss safari VC (if exists)
         browserController.dismissBrowserViewController()
 
@@ -315,11 +281,9 @@ extension Input.ViewController: InputPaymentControllerDelegate {
             .init(label: .retry, style: .default) { [submitPayment] _ in
                 submitPayment()
             },
-            .init(label: .cancel, style: .cancel, handler: { [self] _ in
-                dismiss(animated: true) {
-                    self.delegate?.paymentController(didReceiveOperationResult: .failure(error), for: request, network: self.smartSwitch.selected.network)
-                }
-            })
+            .init(label: .cancel, style: .cancel) { _ in
+                self.delegate?.paymentListController(didReceiveOperationResult: .failure(error), for: request, network: self.smartSwitch.selected.network)
+            }
         ]
 
         // Show an error
@@ -327,7 +291,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
     }
 
     /// Show an error and return to input fields editing state
-    func paymentController(inputShouldBeChanged error: ErrorInfo) {
+    func inputPaymentController(inputShouldBeChanged error: ErrorInfo) {
         // Try to dismiss safari VC (if exists)
         browserController.dismissBrowserViewController()
 
@@ -346,7 +310,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         stateManager.state = .error(alertError)
     }
 
-    func paymentController(presentURL url: URL) {
+    func inputPaymentController(presentURL url: URL) {
         browserController.presentBrowser(with: url)
     }
 }

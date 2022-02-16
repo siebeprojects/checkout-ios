@@ -11,10 +11,13 @@ private extension CGFloat {
     static var rowLineSpacing: CGFloat { return 8 }
 
     /// Spacing between sections
-    static var sectionSpacing: CGFloat { return 24 }
+    static var sectionSpacing: CGFloat { return 30 }
 
     /// Spacing between sections
     static var interitemSpacing: CGFloat { return 20 }
+
+    /// Top inset for the first section
+    static var topInset: CGFloat { return 30 }
 }
 
 extension Input.Table {
@@ -35,19 +38,18 @@ extension Input.Table {
     }
 }
 
-extension Input.Table.LayoutController: UICollectionViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        inputTableControllerDelegate?.scrollViewWillBeginDragging(scrollView)
-    }
-}
-
 extension Input.Table.LayoutController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .zero
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return .init(top: .sectionSpacing / 2, left: collectionView.layoutMargins.left, bottom: .sectionSpacing / 2, right: collectionView.layoutMargins.right)
+        return UIEdgeInsets(
+            top: section == 0 ? .topInset : .sectionSpacing/2,
+            left: collectionView.layoutMargins.left,
+            bottom: .sectionSpacing/2,
+            right: collectionView.layoutMargins.right
+        )
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
