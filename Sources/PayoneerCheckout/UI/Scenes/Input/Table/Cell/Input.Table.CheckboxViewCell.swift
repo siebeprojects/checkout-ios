@@ -29,7 +29,7 @@ extension Input.Table {
 
             // Configure a text view
             textView.textColor = .themedText
-            textView.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            textView.font = UIFont.preferredThemeFont(forTextStyle: .subheadline)
             textView.isScrollEnabled = false
             textView.isEditable = false
 
@@ -86,9 +86,11 @@ extension Input.Table.CheckboxViewCell {
         checkbox.isEnabled = model.isEnabled
 
         // Configure text view
-        let mutableString = NSMutableAttributedString(attributedString: model.label)
-        mutableString.addAttributes([.font: UIFont.preferredThemeFont(forTextStyle: .body)], range: NSRange(location: 0, length: mutableString.length))
-        textView.attributedText = mutableString
+        if let font = textView.font {
+            let mutableString = NSMutableAttributedString(attributedString: model.label)
+            mutableString.addAttributes([.font: font], range: NSRange(location: 0, length: mutableString.length))
+            textView.attributedText = mutableString
+        }
     }
 }
 

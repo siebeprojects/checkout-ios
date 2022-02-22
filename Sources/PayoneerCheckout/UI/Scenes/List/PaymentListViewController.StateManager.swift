@@ -86,7 +86,7 @@ extension PaymentListViewController.StateManager {
     }
 
     private func dismissAlertController() {
-        vc.errorAlertController?.dismiss(animated: true, completion: nil)
+        vc.errorAlertController?.dismiss(animated: true)
     }
 }
 

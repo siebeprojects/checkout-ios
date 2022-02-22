@@ -19,7 +19,6 @@ private extension CGFloat {
 protocol InputTableControllerDelegate: AnyObject {
     func submitPayment()
     func valueDidChange(for field: InputField)
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView)
 }
 
 // MARK: - Input.Table.Controller
@@ -75,11 +74,11 @@ extension Input.Table {
         func configure() {
             registerCells()
 
-            collectionView.bounces = true
             collectionView.dataSource = dataSource
             collectionView.delegate = layoutController
-
+            collectionView.alwaysBounceVertical = true
             collectionView.contentInsetAdjustmentBehavior = .always
+            collectionView.keyboardDismissMode = .interactive
 
             if #available(iOS 13.0, *) {
                 collectionView.automaticallyAdjustsScrollIndicatorInsets = true

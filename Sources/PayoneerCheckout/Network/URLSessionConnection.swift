@@ -43,7 +43,7 @@ class URLSessionConnection: Connection {
             return
         }
 
-        // - TODO: Read more about backend's status codes
+        // TODO: Read more about backend's status codes
         guard httpResponse.statusCode >= 200, httpResponse.statusCode < 400 else {
             if let data = data, let backendError = try? JSONDecoder().decode(ErrorInfo.self, from: data) {
                 completionHandler(.failure(backendError))

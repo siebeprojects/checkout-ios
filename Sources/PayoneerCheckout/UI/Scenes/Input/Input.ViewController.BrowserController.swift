@@ -23,12 +23,12 @@ extension Input.ViewController {
         }
 
         func dismissBrowserViewController() {
-            safariViewController?.dismiss(animated: true, completion: nil)
+            safariViewController?.dismiss(animated: true)
         }
 
         /// Present Safari View Controller with redirect URL
         func presentBrowser(with url: URL) {
-            safariViewController?.dismiss(animated: true, completion: nil)
+            safariViewController?.dismiss(animated: true)
 
             // Preset SafariViewController
             let safariVC = SFSafariViewController(url: url)

@@ -13,15 +13,12 @@ import UIKit
 
     let sessionService: PaymentSessionService
     let sharedTranslationProvider: SharedTranslationProvider
-    fileprivate let router: List.Router
 
     @objc public weak var delegate: PaymentDelegate?
 
     let stateManager = StateManager()
     let viewManager = ViewManager()
     fileprivate let operationResultHandler = OperationResultHandler()
-
-    lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
     /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
     @objc public convenience init(listResultURL: URL) {
@@ -34,7 +31,6 @@ import UIKit
     init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
         sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
         self.sharedTranslationProvider = sharedTranslationProvider
-        router = List.Router(paymentServicesFactory: sessionService.paymentServicesFactory)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -42,7 +38,6 @@ import UIKit
         stateManager.vc = self
         operationResultHandler.delegate = self
         sessionService.delegate = self
-        router.rootViewController = self
     }
 
     required init?(coder: NSCoder) {
@@ -59,13 +54,16 @@ extension PaymentListViewController {
         if #available(iOS 13.0, *) {
             overrideUserInterfaceStyle = .light
         }
-        viewManager.configureMainView()
+
         navigationItem.largeTitleDisplayMode = .never
 
-        // If view was presented modally show Cancel button
-        if navigationController == nil {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
+        if #available(iOS 13.0, *) {
+            navigationController?.isModalInPresentation = true
         }
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
+
+        viewManager.configureMainView()
 
         loadPaymentSession()
     }
@@ -91,8 +89,11 @@ extension PaymentListViewController {
                 let paymentNetworkNames = paymentNetworks.map { $0.label }
                 logger.info("Requested to show payment networks: \(paymentNetworkNames, privacy: .private)")
             }
-            let inputViewController = try router.present(paymentNetworks: paymentNetworks, context: context, animated: animated)
+
+            let inputViewController = try Input.ViewController(for: paymentNetworks, context: context, paymentServiceFactory: sessionService.paymentServicesFactory)
             inputViewController.delegate = operationResultHandler
+            show(inputViewController, sender: nil)
+
         } catch {
             if let errorInfo = error as? ErrorInfo {
                 dismiss(with: .failure(errorInfo))
@@ -103,13 +104,16 @@ extension PaymentListViewController {
         }
     }
 
-    fileprivate func show(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext, animated: Bool) {
+    fileprivate func show(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext) {
         do {
             if #available(iOS 14.0, *) {
                 logger.debug("Requested to show a registered account for the network: \(registeredAccount.networkLabel, privacy: .private)")
             }
-            let inputViewController = try router.present(registeredAccount: registeredAccount, context: context, animated: animated)
+
+            let inputViewController = try Input.ViewController(for: registeredAccount, context: context, paymentServiceFactory: sessionService.paymentServicesFactory)
             inputViewController.delegate = operationResultHandler
+            show(inputViewController, sender: nil)
+
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
             dismiss(with: .failure(errorInfo))
@@ -121,8 +125,11 @@ extension PaymentListViewController {
             if #available(iOS 14.0, *) {
                 logger.debug("Requested to show a preset account for the network: \(presetAccount.networkLabel, privacy: .private)")
             }
-            let inputViewController = try router.present(presetAccount: presetAccount, context: context, animated: animated)
+
+            let inputViewController = try Input.ViewController(for: presetAccount, context: context, paymentServiceFactory: sessionService.paymentServicesFactory)
             inputViewController.delegate = operationResultHandler
+            show(inputViewController, sender: nil)
+
         } catch {
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
             dismiss(with: .failure(errorInfo))
@@ -130,7 +137,7 @@ extension PaymentListViewController {
     }
 
     @objc fileprivate func cancelButtonDidPress() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 }
 
@@ -180,7 +187,7 @@ extension PaymentListViewController: ListTableControllerDelegate {
     }
 
     func didSelect(registeredAccount: UIModel.RegisteredAccount, context: UIModel.PaymentContext) {
-        show(registeredAccount: registeredAccount, context: context, animated: true)
+        show(registeredAccount: registeredAccount, context: context)
     }
 
     func didSelect(presetAccount: UIModel.PresetAccount, context: UIModel.PaymentContext) {
