@@ -32,6 +32,9 @@
 		074E5ECE270B595500E35B24 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
 		0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC4274BF25100005D30 /* PayoneerCheckout */; };
 		0767BBC7274BF64500005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC6274BF64500005D30 /* PayoneerCheckout */; };
+		07C8A1CF27CCC3A10034274D /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8A1CE27CCC3A10034274D /* NavigationTests.swift */; };
+		07C8A1D027CCC3A30034274D /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8A1CE27CCC3A10034274D /* NavigationTests.swift */; };
+		07C8A1D127CCC3A30034274D /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8A1CE27CCC3A10034274D /* NavigationTests.swift */; };
 		07D1116F270C750E004CC554 /* TransactionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECD270B595500E35B24 /* TransactionSettings.swift */; };
 		07D11170270C7513004CC554 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
 		07D11171270C7518004CC554 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
@@ -261,6 +264,7 @@
 		074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredCardTests.swift; sourceTree = "<group>"; };
 		074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutConfiguration.swift; sourceTree = "<group>"; };
 		074E5ECD270B595500E35B24 /* TransactionSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSettings.swift; sourceTree = "<group>"; };
+		07C8A1CE27CCC3A10034274D /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
 		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
 		07E628F62755359D006575E2 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatableButton.swift; sourceTree = "<group>"; };
@@ -533,6 +537,7 @@
 				D9FCC6AA25488A9800E0AF74 /* Helpers */,
 				D9A5FA7E253D8AE3001C71B7 /* Resources */,
 				D912BABF2726C04B0004AFAE /* Abstract */,
+				07C8A1CE27CCC3A10034274D /* NavigationTests.swift */,
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				D9B0D98327675E6B00DB928D /* PresetFlowTests.swift */,
 				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
@@ -966,6 +971,7 @@
 				0725B41726FCBC9600C607A8 /* Card.swift in Sources */,
 				D912BB5E2726C1B70004AFAE /* SelectOption.swift in Sources */,
 				D912BB502726C1B70004AFAE /* PaymentMethod.swift in Sources */,
+				07C8A1D127CCC3A30034274D /* NavigationTests.swift in Sources */,
 				D912BB5A2726C1B70004AFAE /* AccountMask.swift in Sources */,
 				D9B0D98527675E6B00DB928D /* PresetFlowTests.swift in Sources */,
 				0725B41A26FCBC9600C607A8 /* Sepa.swift in Sources */,
@@ -1003,6 +1009,7 @@
 				D954C0102696F41000714396 /* TimeInterval+timeout.swift in Sources */,
 				D912BB412726C1B70004AFAE /* Networks.swift in Sources */,
 				D912BB2F2726C1B70004AFAE /* _Style.swift in Sources */,
+				07C8A1CF27CCC3A10034274D /* NavigationTests.swift in Sources */,
 				D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */,
 				D912BB5F2726C1B70004AFAE /* PaymentAmount.swift in Sources */,
 				D912BB392726C1B70004AFAE /* InputElement.swift in Sources */,
@@ -1113,6 +1120,7 @@
 				D9B86A63278B52EB00D61640 /* SelectOption.swift in Sources */,
 				D9B86A64278B52EB00D61640 /* Sepa.swift in Sources */,
 				D9B86A65278B52EB00D61640 /* PaymentMethod.swift in Sources */,
+				07C8A1D027CCC3A30034274D /* NavigationTests.swift in Sources */,
 				D9B86A66278B52EB00D61640 /* AccountMask.swift in Sources */,
 				D9B86A67278B52EB00D61640 /* PresetFlowTests.swift in Sources */,
 				D9B86A68278B52EB00D61640 /* XCTAttachment+subject.swift in Sources */,
