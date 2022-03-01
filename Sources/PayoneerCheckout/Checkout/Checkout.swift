@@ -6,17 +6,14 @@
 
 import UIKit
 
-public typealias CheckoutResultBlock = (_ result: CheckoutResult) -> Void
-
-/// <#Description#>
+/// The entrypoint for interacting with the SDK. It has a 1:1 relationship with a payment session and is responsible for managing the checkout UI.
 @objc public class Checkout: NSObject {
     private let configuration: CheckoutConfiguration
     private weak var presenter: UIViewController?
 
-    /// <#Description#>
+    /// Initializes a `Checkout` with the given configuration.
     /// - Parameters:
-    ///   - configuration: <#configuration description#>
-    ///   - delegate: <#delegate description#>
+    ///   - configuration: The configuration object to be used.
     @objc public init(configuration: CheckoutConfiguration) {
         self.configuration = configuration
     }
@@ -25,21 +22,29 @@ public typealias CheckoutResultBlock = (_ result: CheckoutResult) -> Void
 // MARK: - Operations
 
 @objc public extension Checkout {
-    /// <#Description#>
-    /// - Parameter presenter: <#presenter description#>
-    /// - Parameter completion: <#completion description#>
-    func presentPaymentList(from presenter: UIViewController, _ completion: CheckoutResultBlock) {
+    /// Presents the checkout UI.
+    /// - Parameters:
+    ///   - presenter: The view controller that will present the checkout UI.
+    ///   - completion: The block to execute after the operation is complete and the UI is dismissed.
+    ///
+    ///     This completion block takes the following parameter:
+    ///   - result: An object containing relevant information about the result of the operation.
+    func presentPaymentList(from presenter: UIViewController, _ completion: (_ result: CheckoutResult) -> Void) {
 
     }
 
-    /// <#Description#>
-    /// - Parameter completion: <#completion description#>
-    func chargePresetAccount(_ completion: CheckoutResultBlock) {
+    /// Charges a preset account.
+    /// - Parameters:
+    ///   - completion: The block to execute after the operation is complete. It includes an object with relevant information about the result of the operation.
+    ///
+    ///     This completion block takes the following parameter:
+    ///   - result: An object containing relevant information about the result of the operation.
+    func chargePresetAccount(_ completion: (_ result: CheckoutResult) -> Void) {
 
     }
 
-    /// <#Description#>
-    /// - Parameter completion: <#completion description#>
+    /// Dismisses the UI presented by the `Checkout` object.
+    /// - Parameter completion: The block to execute after the UI is dismissed. You may specify nil for this parameter.
     func dismiss(_ completion: (() -> Void)? = nil) {
         presenter?.dismiss(animated: true, completion: completion)
     }

@@ -6,7 +6,7 @@
 
 import Foundation
 
-/// <#Description#>
+/// An object containing relevant information about the result of a checkout operation.
 @objc public class CheckoutResult: NSObject {
 
 }
