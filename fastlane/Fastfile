@@ -55,15 +55,6 @@ platform :ios do
     )
   end
 
-  desc "Run UI tests for CocoaPods"
-  lane :ui_test_cocoapods do |options|
-    run_tests(
-      scheme: "Swift-CocoaPods",
-      derived_data_path: "/tmp/workspace/derived_data",
-      workspace: "ExampleCheckout/ExampleCheckout.xcworkspace",
-    )
-  end
-
   desc "Submit to TestFlight"
   lane :submit_to_testflight do
     checkout_ipa = "/tmp/workspace/output/ExampleCheckout-" + ENV["CIRCLE_BRANCH"].to_s + ".ipa"
@@ -77,12 +68,6 @@ platform :ios do
   desc "Change version number"
   lane :set_version do |options|
     increment_version_number(version_number: options[:version], xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj")
-    version_bump_podspec(version_number: options[:version], path: "PayoneerCheckout.podspec")
-  end
-
-  desc "Validate framework for CocoaPods"
-  lane :lib_lint do
-    pod_lib_lint(allow_warnings: true)
   end
 
   desc "Deploy"
