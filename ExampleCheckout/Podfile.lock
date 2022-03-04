@@ -1,5 +1,7 @@
 PODS:
-  - PayoneerCheckout (0.6.0)
+  - PayoneerCheckout (0.6.0):
+    - PayoneerCheckout/Risk (= 0.6.0)
+  - PayoneerCheckout/Risk (0.6.0)
 
 DEPENDENCIES:
   - PayoneerCheckout (from `../`)
@@ -9,7 +11,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  PayoneerCheckout: 696347bfaafc84c8c962d766d0d5d91761ea5fa6
+  PayoneerCheckout: 5a3027ceda6df465357f02d0efb03873b805e367
 
 PODFILE CHECKSUM: 602cfa132a984020aab779dfd263f6446085324f
 

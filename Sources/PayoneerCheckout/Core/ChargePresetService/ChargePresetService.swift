@@ -7,6 +7,10 @@
 import UIKit
 import SafariServices
 
+#if canImport(Risk)
+import Risk
+#endif
+
 @objc public class ChargePresetService: NSObject {
     @objc public weak var delegate: ChargePresetDelegate?
 
@@ -14,6 +18,8 @@ import SafariServices
     private var paymentService: PaymentService?
     private let connection: Connection
     private var presentedViewController: UIViewController?
+
+    public let riskRegistry = RiskProviderRegistry()
 
     @objc public override convenience init() {
         let connection = URLSessionConnection()
@@ -26,16 +32,22 @@ import SafariServices
     }
 
     @objc public func chargePresetAccount(usingListResultURL listResultURL: URL) {
-        getListResult(from: listResultURL) { [weak self] result in
+        getListResult(from: listResultURL) { result in
             switch result {
             case .success(let listResult):
                 do {
-                    try self?.chargePresetAccount(from: listResult)
+                    var riskService = RiskService(registry: self.riskRegistry)
+
+                    if let riskProviders = listResult.riskProviders {
+                        riskService.loadRiskProviders(using: riskProviders)
+                    }
+
+                    try self.chargePresetAccount(from: listResult, riskService: riskService)
                 } catch {
                     let errorInfo = CustomErrorInfo.createClientSideError(from: error)
                     let paymentResult = PaymentResult(operationResult: .failure(errorInfo))
                     DispatchQueue.main.async {
-                        self?.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
+                        self.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
                     }
                 }
             case .failure(let error):
@@ -45,7 +57,7 @@ import SafariServices
                 }()
                 let paymentResult = PaymentResult(operationResult: .failure(errorInfo))
                 DispatchQueue.main.async {
-                    self?.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
+                    self.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
                 }
             }
         }
@@ -64,7 +76,7 @@ import SafariServices
     }
 
     /// - Throws: `InternalError`
-    private func chargePresetAccount(from listResult: ListResult) throws {
+    private func chargePresetAccount(from listResult: ListResult, riskService: RiskService) throws {
         guard let presetAccount = listResult.presetAccount else {
             let error = InternalError(description: "Payment session doesn't contain preset account")
             throw error
@@ -83,7 +95,9 @@ import SafariServices
             throw error
         }
 
-        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType)
+        let riskData = riskService.collectRiskData()
+
+        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType, providerRequests: riskData)
 
         let factory = PaymentServicesFactory(connection: connection)
         factory.registerServices()

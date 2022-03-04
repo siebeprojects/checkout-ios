@@ -13,4 +13,11 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Sources/PayoneerCheckout/**/*.swift'
   s.resources = ['Sources/PayoneerCheckout/Resources/*']
+
+  s.default_subspec = 'Risk'
+
+  s.subspec 'Risk' do |ss|
+    ss.source_files = 'Sources/Risk/**/*.swift'
+  end
+
 end

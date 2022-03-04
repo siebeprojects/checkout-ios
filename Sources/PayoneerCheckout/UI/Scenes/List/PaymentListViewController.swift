@@ -6,6 +6,10 @@
 
 import UIKit
 
+#if canImport(Risk)
+import Risk
+#endif
+
 @objc public final class PaymentListViewController: UIViewController, ModalPresenter {
     weak var methodsTableView: UITableView?
     weak var activityIndicator: UIActivityIndicatorView?
@@ -23,6 +27,8 @@ import UIKit
 
     lazy private(set) var slideInPresentationManager = SlideInPresentationManager()
 
+    public let riskRegistry = RiskProviderRegistry()
+
     /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
     @objc public convenience init(listResultURL: URL) {
         let sharedTranslationProvider = SharedTranslationProvider()
@@ -32,7 +38,7 @@ import UIKit
     }
 
     init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
-        sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
+        sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider, riskRegistry: riskRegistry)
         self.sharedTranslationProvider = sharedTranslationProvider
         router = List.Router(paymentServicesFactory: sessionService.paymentServicesFactory)
 

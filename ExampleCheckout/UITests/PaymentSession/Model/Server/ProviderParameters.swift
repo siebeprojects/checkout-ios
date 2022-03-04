@@ -10,6 +10,9 @@ public class ProviderParameters: NSObject, Decodable {
     /// The code of payment provider
     let providerCode: String
 
+    /// The type of provider
+    let providerType: String?
+
     /// An array of parameters
     let parameters: [Parameter]
 }

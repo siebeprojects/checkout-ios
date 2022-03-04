@@ -6,7 +6,7 @@
 
 import Foundation
 
-public class Parameter: NSObject, Decodable {
+public class Parameter: NSObject, Codable {
     /// Parameter name.
     public let name: String
 

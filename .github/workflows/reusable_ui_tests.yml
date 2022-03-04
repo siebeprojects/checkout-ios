@@ -86,7 +86,7 @@ jobs:
         if: always() && steps.zip-xcresult.conclusion == 'success'
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ github.ref_name }}-${{ github.run_number }}.xcresult.zip'
+          name: '${{ github.run_number }}.xcresult.zip'
           path: 'output/scan/${{ matrix.scheme }}, ${{ matrix.simulator }}.xcresult.zip/'
           if-no-files-found: error
           retention-days: 5

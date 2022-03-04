@@ -6,6 +6,10 @@
 
 import Foundation
 
+#if canImport(Risk)
+import Risk
+#endif
+
 /// Service that fetches and stores PaymentSession.
 /// Used by `PaymentListViewController`
 class PaymentSessionService {
@@ -18,11 +22,11 @@ class PaymentSessionService {
 
     weak var delegate: PaymentSessionServiceDelegate?
 
-    init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider) {
+    init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider, riskRegistry: RiskProviderRegistry) {
         self.connection = connection
         paymentServicesFactory = .init(connection: connection)
         downloadProvider = .init(connection: connection)
-        paymentSessionProvider = .init(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider)
+        paymentSessionProvider = .init(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider, riskRegistry: riskRegistry)
         self.localizationProvider = localizationProvider
 
         paymentServicesFactory.registerServices()

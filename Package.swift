@@ -16,16 +16,22 @@ let package = Package(
     targets: [
         .target(
             name: "PayoneerCheckout",
+            dependencies: ["Risk"],
+            resources: [
+                .process("Resources")
+            ]
+        ),
+        .target(name: "Risk"),
+        .testTarget(
+            name: "PayoneerCheckoutTests",
+            dependencies: ["PayoneerCheckout", "Risk"],
             resources: [
                 .process("Resources")
             ]
         ),
         .testTarget(
-            name: "PayoneerCheckoutTests",
-            dependencies: ["PayoneerCheckout"],
-            resources: [
-                .process("Resources")
-            ]
+            name: "RiskTests",
+            dependencies: ["Risk"]
         )
     ]
 )
