@@ -62,7 +62,8 @@ extension PaymentListViewController {
         }
 
         if #available(iOS 13.0, *) {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark")?.applyingSymbolConfiguration(UIImage.SymbolConfiguration(weight: .semibold)), style: .plain, target: self, action: #selector(closeButtonAction))
+            let closeButtonImage = UIImage(systemName: "xmark")?.applyingSymbolConfiguration(UIImage.SymbolConfiguration(weight: .semibold))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action: #selector(closeButtonAction))
         } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeButtonAction))
         }
