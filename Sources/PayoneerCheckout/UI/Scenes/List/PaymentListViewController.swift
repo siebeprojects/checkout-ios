@@ -61,7 +61,12 @@ extension PaymentListViewController {
             navigationController?.isModalInPresentation = true
         }
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidPress))
+        if #available(iOS 13.0, *) {
+            let closeButtonImage = UIImage(systemName: "xmark")?.applyingSymbolConfiguration(UIImage.SymbolConfiguration(weight: .semibold))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: closeButtonImage, style: .plain, target: self, action: #selector(closeButtonAction))
+        } else {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(closeButtonAction))
+        }
 
         viewManager.configureMainView()
 
@@ -136,7 +141,7 @@ extension PaymentListViewController {
         }
     }
 
-    @objc fileprivate func cancelButtonDidPress() {
+    @objc private func closeButtonAction() {
         dismiss(animated: true)
     }
 }
