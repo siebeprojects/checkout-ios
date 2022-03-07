@@ -20,18 +20,18 @@ extension List.Table {
         }()
 
         private let titleLabel: UILabel = {
-            let label = UILabel()
-            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
-            label.lineBreakMode = .byTruncatingMiddle
-            label.textColor = .themedText
-            return label
+            let titleLabel = UILabel()
+            titleLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            titleLabel.lineBreakMode = .byTruncatingMiddle
+            titleLabel.textColor = .themedText
+            return titleLabel
         }()
 
         private let subtitleLabel: UILabel = {
-            let label = UILabel()
-            label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-            label.textColor = .themedDetailedText
-            return label
+            let titleLabel = UILabel()
+            titleLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
+            titleLabel.textColor = .themedDetailedText
+            return titleLabel
         }()
 
         private lazy var trailingButton: UIButton = {

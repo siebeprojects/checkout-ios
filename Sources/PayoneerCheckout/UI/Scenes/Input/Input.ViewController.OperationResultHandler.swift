@@ -9,14 +9,14 @@ import Foundation
 // MARK: - Delegate
 
 protocol InputPaymentControllerDelegate: AnyObject {
-    func paymentController(presentURL url: URL)
-    func paymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest)
-    func paymentController(inputShouldBeChanged error: ErrorInfo)
+    func inputPaymentController(presentURL url: URL)
+    func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest)
+    func inputPaymentController(inputShouldBeChanged error: ErrorInfo)
 
     /// Request is failed and error should be displayed
     /// - Parameters:
     ///   - request: could be `nil` if error was thrown before `OperationRequest` was created or sent
-    func paymentController(didFailWith error: ErrorInfo, for request: OperationRequest?)
+    func inputPaymentController(didFailWithError error: ErrorInfo, for request: OperationRequest?)
 }
 
 // MARK: - OperationResultHandler
@@ -34,7 +34,7 @@ extension Input.ViewController.OperationResultHandler: PaymentServiceDelegate {
         switch response {
         case .redirect(let url):
             DispatchQueue.main.async {
-                self.delegate?.paymentController(presentURL: url)
+                self.delegate?.inputPaymentController(presentURL: url)
             }
             return
         case .result(let result):
@@ -44,7 +44,7 @@ extension Input.ViewController.OperationResultHandler: PaymentServiceDelegate {
         // Handle internal `COMMUNICATION_FAILURE` error for all flows
         if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: serverResponse.interaction.reason), case let .failure(errorInfo) = serverResponse {
             DispatchQueue.main.async {
-                self.delegate?.paymentController(didFailWith: errorInfo, for: request)
+                self.delegate?.inputPaymentController(didFailWithError: errorInfo, for: request)
             }
             return
         }
@@ -63,7 +63,7 @@ extension Input.ViewController.OperationResultHandler: PaymentServiceDelegate {
             let internalError = InternalError(description: "Unexpected request type, programmatic error")
             let errorInfo = CustomErrorInfo.createClientSideError(from: internalError)
             DispatchQueue.main.async {
-                self.delegate?.paymentController(route: .failure(errorInfo), for: request)
+                self.delegate?.inputPaymentController(route: .failure(errorInfo), for: request)
             }
         }
     }
@@ -79,14 +79,14 @@ extension Input.ViewController.OperationResultHandler {
             let errorInfo = ErrorInfo(resultInfo: response.resultInfo, interaction: interaction)
 
             DispatchQueue.main.async {
-                self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
+                self.delegate?.inputPaymentController(inputShouldBeChanged: errorInfo)
             }
         }
 
         // In other situations route to a parent view
         else {
             DispatchQueue.main.async {
-                self.delegate?.paymentController(route: response, for: request)
+                self.delegate?.inputPaymentController(route: response, for: request)
             }
         }
     }
@@ -96,7 +96,7 @@ extension Input.ViewController.OperationResultHandler {
     /// Flow rules are defined in [PCX-1396](https://optile.atlassian.net/browse/PCX-1396).
     func handle(response: Result<OperationResult, ErrorInfo>, forUpdateRequest request: PaymentRequest) {
         DispatchQueue.main.async {
-            self.delegate?.paymentController(route: response, for: request)
+            self.delegate?.inputPaymentController(route: response, for: request)
         }
     }
 }
@@ -111,14 +111,14 @@ extension Input.ViewController.OperationResultHandler {
             let errorInfo = ErrorInfo(resultInfo: response.resultInfo, interaction: interaction)
 
             DispatchQueue.main.async {
-                self.delegate?.paymentController(inputShouldBeChanged: errorInfo)
+                self.delegate?.inputPaymentController(inputShouldBeChanged: errorInfo)
             }
         }
 
         // In other situations route to a parent view
         else {
             DispatchQueue.main.async {
-                self.delegate?.paymentController(route: response, for: request)
+                self.delegate?.inputPaymentController(route: response, for: request)
             }
         }
     }

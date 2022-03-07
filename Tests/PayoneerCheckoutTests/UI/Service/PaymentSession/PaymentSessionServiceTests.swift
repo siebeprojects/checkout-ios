@@ -9,8 +9,7 @@ import Risk
 @testable import PayoneerCheckout
 
 class PaymentSessionServiceTests: XCTestCase {
-    // TODO:
-    // Write a test if payment network doesn't contain language URL or download failed
+    // TODO: Write a test if payment network doesn't contain language URL or download failed
 
     func testValid() {
         let result = syncLoadPaymentSession(using: PaymentSessionDataSource())

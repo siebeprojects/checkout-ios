@@ -34,7 +34,7 @@ extension Input.ViewController.PaymentController {
         guard let selfLink = network.apiModel.links?["self"] else {
             let error = InternalError(description: "API model doesn't contain links.self property")
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-            delegate?.paymentController(didFailWith: errorInfo, for: nil)
+            delegate?.inputPaymentController(didFailWithError: errorInfo, for: nil)
             return
         }
 
@@ -46,7 +46,7 @@ extension Input.ViewController.PaymentController {
         guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod) else {
             let internalError = InternalError(description: "Unable to create payment service for network: %@", network.networkCode)
             let errorInfo = CustomErrorInfo.createClientSideError(from: internalError)
-            delegate?.paymentController(didFailWith: errorInfo, for: nil)
+            delegate?.inputPaymentController(didFailWithError: errorInfo, for: nil)
             return
         }
 
@@ -60,7 +60,7 @@ extension Input.ViewController.PaymentController {
             service.send(operationRequest: paymentRequest)
         } catch {
             let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
-            delegate?.paymentController(didFailWith: errorInfo, for: nil)
+            delegate?.inputPaymentController(didFailWithError: errorInfo, for: nil)
             return
         }
     }
