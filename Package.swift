@@ -11,7 +11,10 @@ let package = Package(
     products: [
         .library(
             name: "PayoneerCheckout",
-            targets: ["PayoneerCheckout"])
+            targets: ["PayoneerCheckout"]),
+        .library(
+            name: "IovationRiskProvider",
+            targets: ["IovationRiskProvider"])
     ],
     targets: [
         .target(
@@ -22,16 +25,16 @@ let package = Package(
             ]
         ),
         .target(name: "Risk"),
+        .target(
+            name: "IovationRiskProvider",
+            dependencies: ["Risk", "FraudForce"]),
+        .binaryTarget(name: "FraudForce", path: "Sources/FraudForce/FraudForce.xcframework"),
         .testTarget(
             name: "PayoneerCheckoutTests",
             dependencies: ["PayoneerCheckout", "Risk"],
             resources: [
                 .process("Resources")
             ]
-        ),
-        .testTarget(
-            name: "RiskTests",
-            dependencies: ["Risk"]
         )
     ]
 )

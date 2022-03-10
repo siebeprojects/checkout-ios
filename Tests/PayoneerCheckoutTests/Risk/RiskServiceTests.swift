@@ -64,7 +64,7 @@ final class RiskServiceTests: XCTestCase {
             XCTAssertEqual(riskData.count, 1, "Risk data should contain only one ProviderParameters, even provider failed to initialize or wasn't found")
             XCTAssertEqual(riskData[0].providerCode, InitializationBrokenRiskProvider.code)
             XCTAssertEqual(riskData[0].providerType, InitializationBrokenRiskProvider.type)
-            XCTAssertTrue(riskData[0].parameters.isEmpty, "Risk data should be empty because risk provider was failed to initialize or wasn't found")
+            XCTAssertTrue(riskData[0].parameters!.isEmpty, "Risk data should be empty because risk provider was failed to initialize or wasn't found")
         }
     }
 
@@ -105,9 +105,9 @@ final class RiskServiceTests: XCTestCase {
             XCTAssertEqual(riskData[0].providerType, providerParameters.providerType)
 
             // Test parameter
-            XCTAssertEqual(riskData[0].parameters.count, 1, "Risk data should contain only one parameter")
-            XCTAssertEqual(riskData[0].parameters[0].name, WorkingRiskProvider.riskData.first!.key)
-            XCTAssertEqual(riskData[0].parameters[0].value, WorkingRiskProvider.riskData.first!.value)
+            XCTAssertEqual(riskData[0].parameters?.count, 1, "Risk data should contain only one parameter")
+            XCTAssertEqual(riskData[0].parameters?[0].name, WorkingRiskProvider.riskData.first!.key)
+            XCTAssertEqual(riskData[0].parameters?[0].value, WorkingRiskProvider.riskData.first!.value)
         }
     }
 }

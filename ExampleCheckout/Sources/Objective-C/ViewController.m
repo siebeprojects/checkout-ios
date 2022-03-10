@@ -6,6 +6,7 @@
 
 #import "ViewController.h"
 @import PayoneerCheckout;
+@import IovationRiskProvider;
 
 @interface ViewController ()
 
@@ -27,6 +28,8 @@
 
     PaymentListViewController *paymentListViewController = [[PaymentListViewController alloc] initWithListResultURL:url];
     paymentListViewController.delegate = self;
+    RiskProviderRegistry *registry = [paymentListViewController riskRegistry];
+    [registry registerWithAnyProvider:[IovationRiskProvider class] error:NULL];
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:paymentListViewController] animated:YES completion:nil];
 }
 

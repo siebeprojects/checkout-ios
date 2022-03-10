@@ -50,7 +50,8 @@ extension RiskService {
         }
 
         // Load a provider
-        let parametersDictionary = Dictionary(uniqueKeysWithValues: providerParameters.parameters.map {
+        let parameters = providerParameters.parameters ?? []
+        let parametersDictionary = Dictionary(uniqueKeysWithValues: parameters.map {
             ($0.name, $0.value)
         })
 

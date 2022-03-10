@@ -24,7 +24,7 @@ final class RiskProviderResponderTests: XCTestCase {
 
         XCTAssertEqual(providerParameters.providerCode, providerParameters.providerCode)
         XCTAssertEqual(providerParameters.providerType, providerParameters.providerType)
-        XCTAssertTrue(providerParameters.parameters.isEmpty)
+        XCTAssertTrue(providerParameters.parameters!.isEmpty)
     }
 
     /// Test `ProviderParameters` when risk provider failed to collect risk data.
@@ -37,7 +37,7 @@ final class RiskProviderResponderTests: XCTestCase {
 
         XCTAssertEqual(providerParameters.providerCode, TestRiskProvider.code)
         XCTAssertEqual(providerParameters.providerType, TestRiskProvider.type)
-        XCTAssertTrue(providerParameters.parameters.isEmpty)
+        XCTAssertTrue(providerParameters.parameters!.isEmpty)
     }
 
     /// Test when risk data was successfully collected by provider.
@@ -61,9 +61,9 @@ final class RiskProviderResponderTests: XCTestCase {
             Parameter(name: "blackbox2", value: "blackbox 2")
         ]
 
-        XCTAssertEqual(providerParameters.parameters.count, 2)
-        XCTAssertTrue(contains(parameter: expectedParameters[0], in: providerParameters.parameters))
-        XCTAssertTrue(contains(parameter: expectedParameters[1], in: providerParameters.parameters))
+        XCTAssertEqual(providerParameters.parameters?.count, 2)
+        XCTAssertTrue(contains(parameter: expectedParameters[0], in: providerParameters.parameters!))
+        XCTAssertTrue(contains(parameter: expectedParameters[1], in: providerParameters.parameters!))
     }
 
     private func contains(parameter: Parameter, in parameters: [Parameter]) -> Bool {
@@ -80,7 +80,7 @@ final class RiskProviderResponderTests: XCTestCase {
         let responder = RiskProviderDataCollector(riskProvider: provider)
         let providerParameters = responder.getProvidersParameters()
 
-        XCTAssertTrue(providerParameters.parameters.isEmpty)
+        XCTAssertTrue(providerParameters.parameters!.isEmpty)
     }
 }
 

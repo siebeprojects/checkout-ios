@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import XCTest
+import PayoneerCheckout
 import Risk
 
 class RiskProvidersRegistryTests: XCTestCase {
