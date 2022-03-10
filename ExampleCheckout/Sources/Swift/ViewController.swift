@@ -6,6 +6,7 @@
 
 import UIKit
 import PayoneerCheckout
+import IovationRiskProvider
 
 class ViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
@@ -62,6 +63,7 @@ class ViewController: UITableViewController {
         }
 
         let paymentListViewController = PaymentListViewController(listResultURL: url)
+        paymentListViewController.riskRegistry.register(provider: IovationRiskProvider.self)
         paymentListViewController.delegate = self
         present(UINavigationController(rootViewController: paymentListViewController), animated: true)
     }
@@ -80,6 +82,7 @@ class ViewController: UITableViewController {
         // Charge a preset account
         let service = ChargePresetService()
         chargePresetService = service
+        service.riskRegistry.register(provider: IovationRiskProvider.self)
         service.delegate = self
         service.chargePresetAccount(usingListResultURL: url)
     }

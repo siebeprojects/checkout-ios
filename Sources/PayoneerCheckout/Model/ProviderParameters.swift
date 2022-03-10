@@ -6,10 +6,19 @@
 
 import Foundation
 
-public class ProviderParameters: NSObject, Decodable {
+public class ProviderParameters: NSObject, Codable {
     /// The code of payment provider
     let providerCode: String
 
+    /// The type of provider
+    let providerType: String?
+
     /// An array of parameters
-    let parameters: [Parameter]
+    let parameters: [Parameter]?
+
+    init(providerCode: String, providerType: String?, parameters: [Parameter]?) {
+        self.providerCode = providerCode
+        self.providerType = providerType
+        self.parameters = parameters
+    }
 }

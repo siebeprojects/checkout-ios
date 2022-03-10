@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Risk
 
 extension Input.ViewController {
     class PaymentController {
@@ -49,7 +50,7 @@ extension Input.ViewController.PaymentController {
         service.delegate = operationResultHandler
 
         do {
-            let builder = PaymentRequestBuilder()
+            let builder = PaymentRequestBuilder(riskService: paymentContext.riskService)
             let paymentRequest = try builder.createPaymentRequest(for: network)
 
             // Send a network request
@@ -65,11 +66,15 @@ extension Input.ViewController.PaymentController {
 // MARK: - PaymentRequestBuilder
 
 private struct PaymentRequestBuilder: Loggable {
+    let riskService: RiskService
+
     /// Create a payment request with data from `Input.Network`
     ///
     /// - Warning: extra elements section will be ignored (to be implemented)
     func createPaymentRequest(for network: Input.Network) throws -> PaymentRequest {
-        var paymentRequest = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.operationType)
+        let riskData = riskService.collectRiskData()
+
+        var paymentRequest = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.operationType, providerRequests: riskData)
 
         if let inputElementsSection = network.uiModel.inputSections[.inputElements] {
             paymentRequest.inputFields = try createDictionary(forInputElementsFields: inputElementsSection.inputFields)
