@@ -5,10 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
-
-#if canImport(Risk)
 import Risk
-#endif
 
 /// Service that fetches and stores PaymentSession.
 /// Used by `PaymentListViewController`

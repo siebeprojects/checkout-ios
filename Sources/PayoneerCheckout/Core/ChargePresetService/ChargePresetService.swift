@@ -6,10 +6,7 @@
 
 import UIKit
 import SafariServices
-
-#if canImport(Risk)
 import Risk
-#endif
 
 @objc public class ChargePresetService: NSObject {
     @objc public weak var delegate: ChargePresetDelegate?

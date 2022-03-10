@@ -5,10 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
-
-#if canImport(Risk)
 import Risk
-#endif
 
 class PaymentSessionProvider {
     private let sharedTranslationProvider: SharedTranslationProvider

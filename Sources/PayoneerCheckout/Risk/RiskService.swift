@@ -5,10 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
-
-#if canImport(Risk)
 import Risk
-#endif
 
 // TODO: `RiskService` could be moved to `Risk` module when network models will be extracted to a separate module
 
