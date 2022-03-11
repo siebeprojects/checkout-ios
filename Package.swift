@@ -22,19 +22,20 @@ let package = Package(
             dependencies: ["Risk"],
             resources: [
                 .process("Resources")
-            ]
-        ),
-        .target(name: "Risk"),
+            ]),
+        .target(
+            name: "Risk"),
         .target(
             name: "IovationRiskProvider",
             dependencies: ["Risk", "FraudForce"]),
-        .binaryTarget(name: "FraudForce", path: "Sources/FraudForce/FraudForce.xcframework"),
+        .binaryTarget(
+            name: "FraudForce",
+            path: "Sources/FraudForce/FraudForce.xcframework"),
         .testTarget(
             name: "PayoneerCheckoutTests",
             dependencies: ["PayoneerCheckout", "Risk"],
             resources: [
                 .process("Resources")
-            ]
-        )
+            ])
     ]
 )
