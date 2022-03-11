@@ -38,7 +38,6 @@
 		07D11171270C7518004CC554 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */; };
-		07F17FB127634CB8000CB406 /* PaymentResult+debugDescription.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */; };
 		07F17FB227634CB8000CB406 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAF27634CB8000CB406 /* Theme+custom.swift */; };
 		D912BB2D2726C1B70004AFAE /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB122726C1B60004AFAE /* ExtraElements.swift */; };
 		D912BB2E2726C1B70004AFAE /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB122726C1B60004AFAE /* ExtraElements.swift */; };
@@ -181,7 +180,6 @@
 		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
 		07E628F62755359D006575E2 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatableButton.swift; sourceTree = "<group>"; };
-		07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PaymentResult+debugDescription.swift.swift"; sourceTree = "<group>"; };
 		07F17FAF27634CB8000CB406 /* Theme+custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
 		07FF4CA6274BEDA400957035 /* checkout-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "checkout-ios"; path = ..; sourceTree = "<group>"; };
 		D912BB122726C1B60004AFAE /* ExtraElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtraElements.swift; sourceTree = "<group>"; };
@@ -302,7 +300,6 @@
 		07F17FAC27634CB8000CB406 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				07F17FAE27634CB8000CB406 /* PaymentResult+debugDescription.swift.swift */,
 				07F17FAF27634CB8000CB406 /* Theme+custom.swift */,
 			);
 			path = Extension;
@@ -829,7 +826,6 @@
 				07F17FB227634CB8000CB406 /* Theme+custom.swift in Sources */,
 				D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */,
 				07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */,
-				07F17FB127634CB8000CB406 /* PaymentResult+debugDescription.swift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

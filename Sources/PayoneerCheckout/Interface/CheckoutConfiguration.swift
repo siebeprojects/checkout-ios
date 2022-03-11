@@ -18,8 +18,8 @@ import Foundation
     /// - Parameters:
     ///   - listURL: The URL contained in `links.self` on the response object from a create payment session request.
     ///   - appearance: The appearance settings to be used in the checkout UI. If not specified, a default appearance will be used.
-    @objc public init(listURL: URL, appearance: CheckoutAppearance = CheckoutAppearance()) {
+    @objc public init(listURL: URL, appearance: CheckoutAppearance? = nil) {
         self.listURL = listURL
-        self.appearance = appearance
+        self.appearance = appearance ?? CheckoutAppearance()
     }
 }
