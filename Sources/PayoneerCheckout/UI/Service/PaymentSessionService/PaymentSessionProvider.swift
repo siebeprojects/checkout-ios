@@ -5,20 +5,23 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Risk
 
 class PaymentSessionProvider {
     private let sharedTranslationProvider: SharedTranslationProvider
     private let provider: ListResultProvider
     private let connection: Connection
     private let paymentSessionURL: URL
+    let riskRegistry: RiskProviderRegistry
 
     private var listResult: ListResult?
 
-    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider) {
+    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider, riskRegistry: RiskProviderRegistry) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
         self.sharedTranslationProvider = localizationsProvider
         self.provider = ListResultProvider(connection: connection, paymentServicesFactory: paymentServicesFactory)
+        self.riskRegistry = riskRegistry
     }
 
     func loadPaymentSession(completion: @escaping ((Result<UIModel.PaymentSession, Error>) -> Void)) {
@@ -104,7 +107,15 @@ class PaymentSessionProvider {
             return
         }
 
-        let context = UIModel.PaymentContext(operationType: operation, extraElements: listResult?.extraElements)
+        // Load risks service
+        var riskService = RiskService(registry: riskRegistry)
+
+        if let riskProviders = listResult?.riskProviders {
+            riskService.loadRiskProviders(using: riskProviders)
+        }
+
+        // Create a global payment context
+        let context = UIModel.PaymentContext(operationType: operation, extraElements: listResult?.extraElements, riskService: riskService)
 
         let paymentSession = UIModel.PaymentSession(networks: translations.networks, accounts: translations.accounts, presetAccount: translations.presetAccount, context: context, allowDelete: listResult?.allowDelete)
         completion(.success(paymentSession))

@@ -11,10 +11,12 @@ extension UIModel {
     class PaymentContext {
         let listOperationType: UIModel.PaymentSession.Operation
         let extraElements: ExtraElements?
+        let riskService: RiskService
 
-        init(operationType: UIModel.PaymentSession.Operation, extraElements: ExtraElements?) {
+        init(operationType: UIModel.PaymentSession.Operation, extraElements: ExtraElements?, riskService: RiskService) {
             self.listOperationType = operationType
             self.extraElements = extraElements
+            self.riskService = riskService
         }
     }
 }

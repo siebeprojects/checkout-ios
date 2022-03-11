@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Risk
 
 final class PaymentListViewController: UIViewController, ModalPresenter {
     weak var methodsTableView: UITableView?
@@ -15,6 +16,7 @@ final class PaymentListViewController: UIViewController, ModalPresenter {
     let sharedTranslationProvider: SharedTranslationProvider
 
     private weak var delegate: PaymentDelegate?
+    private let riskRegistry = RiskProviderRegistry()
 
     let stateManager = StateManager()
     let viewManager = ViewManager()
@@ -29,7 +31,12 @@ final class PaymentListViewController: UIViewController, ModalPresenter {
     }
 
     init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider, delegate: PaymentDelegate) {
-        self.sessionService = PaymentSessionService(paymentSessionURL: listResultURL, connection: connection, localizationProvider: sharedTranslationProvider)
+        self.sessionService = PaymentSessionService(
+            paymentSessionURL: listResultURL,
+            connection: connection,
+            localizationProvider: sharedTranslationProvider,
+            riskRegistry: riskRegistry
+        )
         self.sharedTranslationProvider = sharedTranslationProvider
         self.delegate = delegate
 

@@ -5,11 +5,13 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Risk
 
 final class ChargePresetService: NSObject {
     private var redirectCallbackHandler: RedirectCallbackHandler?
     private var paymentService: PaymentService?
     private let connection: Connection = URLSessionConnection()
+    private let riskRegistry = RiskProviderRegistry()
 
     private var completionBlock: ((_ result: CheckoutResult) -> Void)?
     private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
@@ -22,7 +24,13 @@ final class ChargePresetService: NSObject {
             switch result {
             case .success(let listResult):
                 do {
-                    try self?.chargePresetAccount(from: listResult)
+                    var riskService = RiskService(registry: self.riskRegistry)
+
+                    if let riskProviders = listResult.riskProviders {
+                        riskService.loadRiskProviders(using: riskProviders)
+                    }
+
+                    try self?.chargePresetAccount(from: listResult, riskService: riskService)
                 } catch {
                     let errorInfo = CustomErrorInfo.createClientSideError(from: error)
                     let result = CheckoutResult(operationResult: .failure(errorInfo))
@@ -63,7 +71,7 @@ final class ChargePresetService: NSObject {
     }
 
     /// - Throws: `InternalError`
-    private func chargePresetAccount(from listResult: ListResult) throws {
+    private func chargePresetAccount(from listResult: ListResult, riskService: RiskService) throws {
         guard let presetAccount = listResult.presetAccount else {
             let error = InternalError(description: "Payment session doesn't contain preset account")
             throw error
@@ -82,7 +90,9 @@ final class ChargePresetService: NSObject {
             throw error
         }
 
-        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType)
+        let riskData = riskService.collectRiskData()
+
+        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType, providerRequests: riskData)
 
         let factory = PaymentServicesFactory(connection: connection)
         factory.registerServices()

@@ -47,4 +47,7 @@ class ListResult: NSObject, Decodable {
 
     /// Defines what integration scenario this payment session is initialized for, default is `DISPLAY_NATIVE`.
     let integrationType: String
+
+    /// List of risk providers
+    let riskProviders: [ProviderParameters]?
 }

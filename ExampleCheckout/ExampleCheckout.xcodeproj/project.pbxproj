@@ -101,6 +101,7 @@
 		D912BB752726C2BD0004AFAE /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB6F2726C2BD0004AFAE /* Payment.swift */; };
 		D92B4D6825F6843A00103C70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D92B4D6725F6843A00103C70 /* Assets.xcassets */; };
 		D9368BAB26B1CC7F0083E5E3 /* ThreeDSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */; };
+		D94036B327D644BA00B0A534 /* IovationRiskProvider in Frameworks */ = {isa = PBXBuildFile; productRef = D94036B227D644BA00B0A534 /* IovationRiskProvider */; };
 		D948527026F245DF00D11DC2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D948526A26F245DF00D11DC2 /* AppDelegate.m */; };
 		D948527126F245DF00D11DC2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D948526C26F245DF00D11DC2 /* ViewController.m */; };
 		D948527226F245DF00D11DC2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D948526D26F245DF00D11DC2 /* main.m */; };
@@ -112,6 +113,7 @@
 		D956D28325DEB9C2001A2EAD /* RedirectNetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28225DEB9C2001A2EAD /* RedirectNetworksTests.swift */; };
 		D956D28625DEB9E0001A2EAD /* NetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28525DEB9E0001A2EAD /* NetworksTests.swift */; };
 		D956D28925DEBE23001A2EAD /* CardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28825DEBE23001A2EAD /* CardTests.swift */; };
+		D96187CC27D63EFC0030D4E4 /* IovationRiskProvider in Frameworks */ = {isa = PBXBuildFile; productRef = D96187CB27D63EFC0030D4E4 /* IovationRiskProvider */; };
 		D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D048726ADDBE300C027CB /* SepaTests.swift */; };
 		D99D048A26ADDC7E00C027CB /* Sepa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99D048926ADDC7E00C027CB /* Sepa.swift */; };
 		D99E9E07253D9F3400DFF8BD /* Transaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D9A5FA7F253D8B09001C71B7 /* Transaction.json */; };
@@ -268,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0767BBC7274BF64500005D30 /* PayoneerCheckout in Frameworks */,
+				D94036B327D644BA00B0A534 /* IovationRiskProvider in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */,
+				D96187CC27D63EFC0030D4E4 /* IovationRiskProvider in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +415,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		D96187CA27D63EFC0030D4E4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D9A5FA57253CA701001C71B7 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,6 +491,7 @@
 				D9E0AEAF234143BD0021184C /* Sources */,
 				D9A5FA57253CA701001C71B7 /* UITests */,
 				D9E0AEAE234143BD0021184C /* Products */,
+				D96187CA27D63EFC0030D4E4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -550,6 +562,7 @@
 			name = CheckoutObjC;
 			packageProductDependencies = (
 				0767BBC6274BF64500005D30 /* PayoneerCheckout */,
+				D94036B227D644BA00B0A534 /* IovationRiskProvider */,
 			);
 			productName = "Checkout-ObjC";
 			productReference = D948523026F2438D00D11DC2 /* CheckoutObjC.app */;
@@ -589,6 +602,7 @@
 			name = CheckoutSwift;
 			packageProductDependencies = (
 				0767BBC4274BF25100005D30 /* PayoneerCheckout */,
+				D96187CB27D63EFC0030D4E4 /* IovationRiskProvider */,
 			);
 			productName = Example;
 			productReference = D9E0AEAD234143BD0021184C /* CheckoutSwift.app */;
@@ -1244,6 +1258,14 @@
 		0767BBC6274BF64500005D30 /* PayoneerCheckout */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PayoneerCheckout;
+		};
+		D94036B227D644BA00B0A534 /* IovationRiskProvider */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IovationRiskProvider;
+		};
+		D96187CB27D63EFC0030D4E4 /* IovationRiskProvider */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IovationRiskProvider;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

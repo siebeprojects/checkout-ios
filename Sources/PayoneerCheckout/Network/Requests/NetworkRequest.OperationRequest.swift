@@ -45,12 +45,15 @@ extension NetworkRequest.Charge {
         var account = [String: String]()
         var autoRegistration: Bool?
         var allowRecurrence: Bool?
+        var providerRequests: [ProviderParameters]?
+
         let browserData: BrowserData
 
-        init(account: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?) {
+        init(account: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?, providerRequests: [ProviderParameters]?) {
             self.account = account
             self.autoRegistration = autoRegistration
             self.allowRecurrence = allowRecurrence
+            self.providerRequests = providerRequests
             self.browserData = BrowserDataBuilder.build()
         }
     }

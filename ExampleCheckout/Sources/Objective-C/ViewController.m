@@ -6,6 +6,7 @@
 
 #import "ViewController.h"
 @import PayoneerCheckout;
+@import IovationRiskProvider;
 
 @interface ViewController ()
 
@@ -25,6 +26,9 @@
 - (IBAction)sendRequest:(UIButton *)sender {
     NSURL *url = [[NSURL alloc] initWithString:self.urlTextField.text];
 
+    RiskProviderRegistry *registry = [paymentListViewController riskRegistry];
+    [registry registerWithAnyProvider:[IovationRiskProvider class] error:NULL];
+    
     CheckoutConfiguration *configuration = [[CheckoutConfiguration alloc] initWithListURL:url appearance:NULL];
 
     Checkout *checkout = [[Checkout alloc] initWithConfiguration:configuration];
