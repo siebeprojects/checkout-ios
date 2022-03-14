@@ -14,7 +14,7 @@ import SafariServices
     private var paymentListViewController: UIViewController?
     private var paymentCompletionBlock: ((_ result: CheckoutResult) -> Void)?
 
-    private lazy var chargePresetService = ChargePresetService()
+    private lazy var chargePresetService = ChargePresetService(riskProviders: configuration.riskProviders)
 
     /// Initializes a `Checkout` with the given configuration.
     /// - Parameters:
@@ -38,7 +38,7 @@ import SafariServices
         self.presenter?.dismiss(animated: false)
         self.presenter = presenter
         self.paymentCompletionBlock = completion
-        self.paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, delegate: self)
+        self.paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, riskProviders: configuration.riskProviders, delegate: self)
 
         // Customize view controller
 

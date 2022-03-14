@@ -5,6 +5,11 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Risk
+
+enum CheckoutConfigurationError: Error {
+    case invalidRiskProviderType
+}
 
 /// A configuration object that defines the parameters for a `Checkout`.
 @objc public class CheckoutConfiguration: NSObject {
@@ -14,12 +19,32 @@ import Foundation
     /// The appearance settings to be used in the checkout UI. If not specified, a default appearance will be used.
     public let appearance: CheckoutAppearance
 
+    /// The risk providers that will be loaded and used to collect data for risk analysis.
+    public let riskProviders: [RiskProvider.Type]
+
     /// Initializes a configuration object with the given parameters.
     /// - Parameters:
     ///   - listURL: The URL contained in `links.self` on the response object from a create payment session request.
     ///   - appearance: The appearance settings to be used in the checkout UI. If not specified, a default appearance will be used.
-    @objc public init(listURL: URL, appearance: CheckoutAppearance? = nil) {
+    ///   - riskProviders: An array of risk provider types.
+    public init(listURL: URL, appearance: CheckoutAppearance? = nil, riskProviders: [RiskProvider.Type] = []) {
         self.listURL = listURL
         self.appearance = appearance ?? CheckoutAppearance()
+        self.riskProviders = riskProviders
+    }
+
+    /// Initializes a configuration object with the given parameters. Objective-C compatible.
+    /// - Parameters:
+    ///   - listURL: The URL contained in `links.self` on the response object from a create payment session request.
+    ///   - appearance: The appearance settings to be used in the checkout UI. If not specified, a default appearance will be used.
+    ///   - riskProviders: An array of risk provider types.
+    @objc public init(listURL: URL, appearance: CheckoutAppearance? = nil, riskProviders: [AnyClass] = []) throws {
+        guard let riskProviders = riskProviders as? [RiskProvider.Type] else {
+            throw CheckoutConfigurationError.invalidRiskProviderType
+        }
+
+        self.listURL = listURL
+        self.appearance = appearance ?? CheckoutAppearance()
+        self.riskProviders = riskProviders
     }
 }

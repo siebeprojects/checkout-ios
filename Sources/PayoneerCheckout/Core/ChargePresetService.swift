@@ -11,10 +11,14 @@ final class ChargePresetService: NSObject {
     private var redirectCallbackHandler: RedirectCallbackHandler?
     private var paymentService: PaymentService?
     private let connection: Connection = URLSessionConnection()
-    private let riskRegistry = RiskProviderRegistry()
+    private let riskProviders: [RiskProvider.Type]
 
     private var completionBlock: ((_ result: CheckoutResult) -> Void)?
     private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
+
+    init(riskProviders: [RiskProvider.Type]) {
+        self.riskProviders = riskProviders
+    }
 
     func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void) {
         self.completionBlock = completion
@@ -24,7 +28,7 @@ final class ChargePresetService: NSObject {
             switch result {
             case .success(let listResult):
                 do {
-                    var riskService = RiskService(registry: self.riskRegistry)
+                    var riskService = RiskService(providers: self?.riskProviders ?? [])
 
                     if let riskProviders = listResult.riskProviders {
                         riskService.loadRiskProviders(using: riskProviders)

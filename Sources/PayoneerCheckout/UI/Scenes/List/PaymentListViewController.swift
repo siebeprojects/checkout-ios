@@ -16,26 +16,25 @@ final class PaymentListViewController: UIViewController, ModalPresenter {
     let sharedTranslationProvider: SharedTranslationProvider
 
     private weak var delegate: PaymentDelegate?
-    private let riskRegistry = RiskProviderRegistry()
 
     let stateManager = StateManager()
     let viewManager = ViewManager()
     private let operationResultHandler = OperationResultHandler()
 
     /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
-    convenience init(listResultURL: URL, delegate: PaymentDelegate) {
+    convenience init(listResultURL: URL, riskProviders: [RiskProvider.Type], delegate: PaymentDelegate) {
         let sharedTranslationProvider = SharedTranslationProvider()
         let connection = URLSessionConnection()
 
-        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider, delegate: delegate)
+        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider, riskProviders: riskProviders, delegate: delegate)
     }
 
-    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider, delegate: PaymentDelegate) {
+    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider, riskProviders: [RiskProvider.Type], delegate: PaymentDelegate) {
         self.sessionService = PaymentSessionService(
             paymentSessionURL: listResultURL,
             connection: connection,
             localizationProvider: sharedTranslationProvider,
-            riskRegistry: riskRegistry
+            riskProviders: riskProviders
         )
         self.sharedTranslationProvider = sharedTranslationProvider
         self.delegate = delegate

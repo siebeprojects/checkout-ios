@@ -12,16 +12,16 @@ class PaymentSessionProvider {
     private let provider: ListResultProvider
     private let connection: Connection
     private let paymentSessionURL: URL
-    let riskRegistry: RiskProviderRegistry
+    private let riskProviders: [RiskProvider.Type]
 
     private var listResult: ListResult?
 
-    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider, riskRegistry: RiskProviderRegistry) {
+    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider, riskProviders: [RiskProvider.Type]) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
         self.sharedTranslationProvider = localizationsProvider
         self.provider = ListResultProvider(connection: connection, paymentServicesFactory: paymentServicesFactory)
-        self.riskRegistry = riskRegistry
+        self.riskProviders = riskProviders
     }
 
     func loadPaymentSession(completion: @escaping ((Result<UIModel.PaymentSession, Error>) -> Void)) {
@@ -108,7 +108,7 @@ class PaymentSessionProvider {
         }
 
         // Load risks service
-        var riskService = RiskService(registry: riskRegistry)
+        var riskService = RiskService(providers: riskProviders)
 
         if let riskProviders = listResult?.riskProviders {
             riskService.loadRiskProviders(using: riskProviders)
