@@ -25,11 +25,8 @@
 
 - (IBAction)sendRequest:(UIButton *)sender {
     NSURL *url = [[NSURL alloc] initWithString:self.urlTextField.text];
-
-    RiskProviderRegistry *registry = [paymentListViewController riskRegistry];
-    [registry registerWithAnyProvider:[IovationRiskProvider class] error:NULL];
     
-    CheckoutConfiguration *configuration = [[CheckoutConfiguration alloc] initWithListURL:url appearance:NULL];
+    CheckoutConfiguration *configuration = [[CheckoutConfiguration alloc] initWithListURL:url appearance:NULL riskProviderClasses:@[[IovationRiskProvider class]] error:NULL];
 
     Checkout *checkout = [[Checkout alloc] initWithConfiguration:configuration];
     [checkout presentPaymentListFrom:self completion:^(CheckoutResult * _Nonnull result) {

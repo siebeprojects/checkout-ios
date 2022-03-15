@@ -21,9 +21,7 @@ class ViewController: UITableViewController {
             return nil
         }
 
-        riskRegistry.register(provider: IovationRiskProvider.self)
-
-        let configuration = CheckoutConfiguration(listURL: url)
+        let configuration = CheckoutConfiguration(listURL: url, riskProviders: [IovationRiskProvider.self])
         return Checkout(configuration: configuration)
     }()
 }
