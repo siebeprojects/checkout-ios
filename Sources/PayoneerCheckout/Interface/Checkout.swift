@@ -71,7 +71,11 @@ import SafariServices
     /// Dismisses the UI presented by the `Checkout` object.
     /// - Parameter completion: The block to execute after the UI is dismissed. You may specify nil for this parameter.
     func dismiss(_ completion: (() -> Void)? = nil) {
-        presenter?.dismiss(animated: true, completion: completion)
+        if let presenter = presenter {
+            presenter.dismiss(animated: true, completion: completion)
+        } else {
+            completion?()
+        }
     }
 }
 
