@@ -13,7 +13,6 @@ import SafariServices
     private weak var presenter: UIViewController?
     private var paymentListViewController: UIViewController?
     private var paymentCompletionBlock: ((_ result: CheckoutResult) -> Void)?
-
     private lazy var chargePresetService = ChargePresetService(riskProviders: configuration.riskProviders)
 
     /// Initializes a `Checkout` with the given configuration.

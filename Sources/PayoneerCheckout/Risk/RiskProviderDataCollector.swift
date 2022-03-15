@@ -62,7 +62,7 @@ struct RiskProviderDataCollector {
 
 extension RiskProviderDataCollector: Loggable {
     @available(iOS 14, *)
-    private func log(riskError: RiskProviderResponderError) {
+    private func log(riskError: RiskProviderDataCollectorError) {
         switch riskError {
         case .riskDataCollectionFailed(let error):
             logger.critical("Unable to collect risk data from risk provider \(code, privacy: .private(mask: .hash)): \(error.localizedDescription, privacy: .private)")
@@ -70,6 +70,6 @@ extension RiskProviderDataCollector: Loggable {
     }
 }
 
-enum RiskProviderResponderError: Error {
+enum RiskProviderDataCollectorError: Error {
     case riskDataCollectionFailed(underlyingError: Error)
 }
