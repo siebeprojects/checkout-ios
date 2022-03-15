@@ -17,6 +17,7 @@ class PaymentServicesFactory {
     /// Register all known services
     func registerServices() {
         register(paymentService: BasicPaymentService.self)
+        register(paymentService: BraintreePaymentService.self)
     }
 
     private func register(paymentService: PaymentService.Type) {

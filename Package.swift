@@ -16,10 +16,13 @@ let package = Package(
             name: "IovationRiskProvider",
             targets: ["IovationRiskProvider"])
     ],
+    dependencies: [
+        .package(url: "https://github.com/braintree/braintree_ios", from: "5.7.0"),
+    ],
     targets: [
         .target(
             name: "PayoneerCheckout",
-            dependencies: ["Risk"],
+            dependencies: ["Risk", .product(name: "BraintreeApplePay", package: "braintree_ios")],
             resources: [
                 .process("Resources")
             ]

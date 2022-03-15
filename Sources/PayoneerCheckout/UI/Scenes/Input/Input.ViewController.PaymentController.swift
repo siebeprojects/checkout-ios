@@ -51,10 +51,10 @@ extension Input.ViewController.PaymentController {
 
         do {
             let builder = PaymentRequestBuilder(riskService: paymentContext.riskService)
-            let paymentRequest = try builder.createPaymentRequest(for: network)
+            let operationRequest = try builder.createOperationRequest(for: network)
 
             // Send a network request
-            service.send(operationRequest: paymentRequest)
+            service.send(operationRequest: operationRequest)
         } catch {
             let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR), underlyingError: error)
             delegate?.inputPaymentController(didFailWithError: errorInfo, for: nil)
@@ -68,10 +68,37 @@ extension Input.ViewController.PaymentController {
 private struct PaymentRequestBuilder: Loggable {
     let riskService: RiskService
 
+    func createOperationRequest(for network: Input.Network) throws -> OperationRequest {
+        if shouldCallOnSelect(for: network) {
+            return try createOnSelectRequest(for: network)
+        } else {
+            return try createPaymentRequest(for: network)
+        }
+    }
+
+    private func shouldCallOnSelect(for network: Input.Network) -> Bool {
+        if case let .network(applicableNetwork) = network.apiModel {
+            return applicableNetwork.links?["onSelect"] != nil
+        }
+
+        return false
+    }
+
+    private func createOnSelectRequest(for network: Input.Network) throws -> OnSelectRequest {
+        guard
+            case let .network(applicableNetwork) = network.apiModel,
+            let onSelectURL = applicableNetwork.links?["onSelect"]
+        else {
+            throw InternalError(description: "Programmatic error, unable to get onSelect URL")
+        }
+
+        return OnSelectRequest(operationURL: onSelectURL, operationType: network.operationType)
+    }
+
     /// Create a payment request with data from `Input.Network`
     ///
     /// - Warning: extra elements section will be ignored (to be implemented)
-    func createPaymentRequest(for network: Input.Network) throws -> PaymentRequest {
+    private func createPaymentRequest(for network: Input.Network) throws -> PaymentRequest {
         let riskData = riskService.collectRiskData()
 
         var paymentRequest = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.operationType, providerRequests: riskData)
