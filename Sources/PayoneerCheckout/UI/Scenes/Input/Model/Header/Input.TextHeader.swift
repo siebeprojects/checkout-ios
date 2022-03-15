@@ -34,7 +34,7 @@ extension Input {
                 logo: registeredAccount.logo?.value,
                 title: registeredAccount.maskedAccountLabel,
                 subtitle: registeredAccount.expirationDate,
-                subtitleColor: registeredAccount.isExpired ? .themedError : .themedDetailedText,
+                subtitleColor: registeredAccount.isExpired ? .themedError : .themedText,
                 trailingButtonImage: registeredAccount.isExpired ? AssetProvider.expirationInfo : nil,
                 trailingButtonColor: registeredAccount.isExpired ? .themedError : nil
             )
@@ -46,7 +46,7 @@ extension Input {
                 logo: presetAccount.logo?.value,
                 title: presetAccount.maskedAccountLabel,
                 subtitle: presetAccount.expirationDate,
-                subtitleColor: presetAccount.isExpired ? .themedError : .themedDetailedText,
+                subtitleColor: presetAccount.isExpired ? .themedError : .themedText,
                 trailingButtonImage: presetAccount.isExpired ? AssetProvider.expirationInfo : nil,
                 trailingButtonColor: presetAccount.isExpired ? .themedError : nil
             )

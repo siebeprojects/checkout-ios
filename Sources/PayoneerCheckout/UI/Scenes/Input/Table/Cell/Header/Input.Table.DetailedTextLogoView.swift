@@ -26,7 +26,7 @@ extension Input.Table {
         private let subtitleLabel: UILabel = {
             let label = UILabel()
             label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-            label.textColor = .themedDetailedText
+            label.textColor = .themedText
             return label
         }()
 
@@ -74,7 +74,7 @@ extension Input.Table.DetailedTextLogoView {
         self.titleLabel.text = model.title
         self.subtitleLabel.text = model.subtitle
         self.subtitleLabel.isHidden = model.subtitle == nil || model.subtitle?.isEmpty == true
-        self.subtitleLabel.textColor = model.subtitleColor ?? .themedDetailedText
+        self.subtitleLabel.textColor = model.subtitleColor ?? .themedText
         self.translator = model.translator
         self.modalPresenter = model.modalPresenter
         self.trailingButton.tintColor = model.trailingButtonColor
