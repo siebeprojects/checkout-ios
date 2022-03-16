@@ -94,7 +94,7 @@ import Risk
 
         let riskData = riskService.collectRiskData()
 
-        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType, providerRequests: riskData)
+        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType, providerRequest: nil, providerRequests: riskData)
 
         let factory = PaymentServicesFactory(connection: connection)
         factory.registerServices()
@@ -109,6 +109,9 @@ import Risk
 }
 
 extension ChargePresetService: PaymentServiceDelegate {
+    // FIXME: Changed this
+    var paymentViewController: UIViewController? { return nil }
+
     func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest) {
         paymentService = nil
 

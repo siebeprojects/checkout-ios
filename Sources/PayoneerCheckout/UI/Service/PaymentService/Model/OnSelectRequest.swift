@@ -9,6 +9,9 @@ import Foundation
 struct OnSelectRequest {
     let operationURL: URL
     let operationType: String
+
+    // TODO: Temporarly solution, could be implemented in another way
+    let paymentRequest: PaymentRequest
 }
 
 extension OnSelectRequest: OperationRequest {

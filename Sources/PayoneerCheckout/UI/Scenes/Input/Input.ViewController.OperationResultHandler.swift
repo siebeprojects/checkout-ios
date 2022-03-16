@@ -5,10 +5,12 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import UIKit
 
 // MARK: - Delegate
 
 protocol InputPaymentControllerDelegate: AnyObject {
+    // TODO: Probably we should return enum with something like `next step` value to support chaining request -> web view -> ... -> response
     func inputPaymentController(presentURL url: URL)
     func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest)
     func inputPaymentController(inputShouldBeChanged error: ErrorInfo)
@@ -24,6 +26,7 @@ protocol InputPaymentControllerDelegate: AnyObject {
 extension Input.ViewController {
     class OperationResultHandler {
         weak var delegate: InputPaymentControllerDelegate?
+        weak var paymentViewController: UIViewController?
     }
 }
 

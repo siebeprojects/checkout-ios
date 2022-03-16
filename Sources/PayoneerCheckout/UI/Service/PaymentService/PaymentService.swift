@@ -18,5 +18,7 @@ protocol PaymentService: AnyObject {
 }
 
 protocol PaymentServiceDelegate: AnyObject {
+    var paymentViewController: UIViewController? { get }
+
     func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest)
 }

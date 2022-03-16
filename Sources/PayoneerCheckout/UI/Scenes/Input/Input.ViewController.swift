@@ -41,6 +41,7 @@ extension Input {
             browserController.presenter = self
             paymentController.delegate = self
             paymentController.operationResultHandler.delegate = self
+            paymentController.operationResultHandler.paymentViewController = self
 
             tableController.setModel(network: smartSwitch.selected.network, header: header)
 

@@ -14,12 +14,13 @@ struct PaymentRequest {
     var autoRegistration: Bool?
     var allowRecurrence: Bool?
     let operationType: String
+    var providerRequest: ProviderParameters?
     let providerRequests: [ProviderParameters]?
 }
 
 extension PaymentRequest: OperationRequest {
     func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
-        let chargeRequestBody = NetworkRequest.Charge.Body(account: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence, providerRequests: providerRequests)
+        let chargeRequestBody = NetworkRequest.Charge.Body(account: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence, providerRequest: providerRequest, providerRequests: providerRequests)
         let chargeRequest = NetworkRequest.Charge(from: operationURL, body: chargeRequestBody)
         let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
         chargeOperation.downloadCompletionBlock = completion

@@ -18,3 +18,10 @@ public class Parameter: NSObject, Codable {
         self.value = value
     }
 }
+
+extension Sequence where Element == Parameter {
+    /// Returns a value for parameter with specified name
+    subscript(name: String) -> String? {
+        return first(where: { $0.name == name })?.value
+    }
+}

@@ -13,6 +13,8 @@ extension Input.ViewController {
         let paymentServiceFactory: PaymentServicesFactory
         let operationResultHandler: OperationResultHandler
 
+        private var paymentService: PaymentService?
+
         weak var delegate: InputPaymentControllerDelegate?
 
         init(paymentServiceFactory: PaymentServicesFactory, paymentContext: UIModel.PaymentContext) {
@@ -26,6 +28,7 @@ extension Input.ViewController {
 extension Input.ViewController.PaymentController {
     func delete(network: Input.Network) {
         let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        self.paymentService = service
         service?.delegate = operationResultHandler
 
         guard let selfLink = network.apiModel.links?["self"] else {
@@ -47,6 +50,7 @@ extension Input.ViewController.PaymentController {
             return
         }
 
+        self.paymentService = service
         service.delegate = operationResultHandler
 
         do {
@@ -92,7 +96,9 @@ private struct PaymentRequestBuilder: Loggable {
             throw InternalError(description: "Programmatic error, unable to get onSelect URL")
         }
 
-        return OnSelectRequest(operationURL: onSelectURL, operationType: network.operationType)
+        let paymentRequest = try createPaymentRequest(for: network)
+        
+        return OnSelectRequest(operationURL: onSelectURL, operationType: network.operationType, paymentRequest: paymentRequest)
     }
 
     /// Create a payment request with data from `Input.Network`
@@ -101,7 +107,7 @@ private struct PaymentRequestBuilder: Loggable {
     private func createPaymentRequest(for network: Input.Network) throws -> PaymentRequest {
         let riskData = riskService.collectRiskData()
 
-        var paymentRequest = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.operationType, providerRequests: riskData)
+        var paymentRequest = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.operationType, providerRequest: nil, providerRequests: riskData)
 
         if let inputElementsSection = network.uiModel.inputSections[.inputElements] {
             paymentRequest.inputFields = try createDictionary(forInputElementsFields: inputElementsSection.inputFields)
