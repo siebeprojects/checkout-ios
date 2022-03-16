@@ -32,11 +32,6 @@ extension List.Table.DataSource.GroupedNetworkRow {
         return firstNetwork.translation.translation(forKey: "groups.cards.title")
     }
 
-    private var secondaryLabel: String {
-        let labels = networks.map { $0.label }
-        return labels.joined(separator: " / ")
-    }
-
     private var logoImages: [UIImage] {
         if networks.count > maxDisplayableLogos {
             return [genericLogo]
