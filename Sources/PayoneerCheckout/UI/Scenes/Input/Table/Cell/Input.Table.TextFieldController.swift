@@ -41,9 +41,9 @@ extension Input.Table {
             textInputView.textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
 
             // Theming
-            textInputView.textField.font = .preferredThemeFont(forTextStyle: .body)
-            textInputView.titleLabel.font = .preferredThemeFont(forTextStyle: .footnote).withWeight(.semibold)
-            textInputView.errorLabel.font = .preferredThemeFont(forTextStyle: .caption2)
+            textInputView.textField.font = Fonts.mainFont(forTextStyle: .body)
+            textInputView.titleLabel.font = Fonts.mainFont(forTextStyle: .footnote, weight: .semibold)
+            textInputView.errorLabel.font = Fonts.mainFont(forTextStyle: .caption2)
         }
 
         @objc private func textFieldDidChange(_ textField: UITextField) {
@@ -78,7 +78,7 @@ extension Input.Table.TextFieldController {
         textInputView.titleLabel.text = model.label
         textInputView.textField.attributedPlaceholder = NSAttributedString(
             string: model.placeholder,
-            attributes: [.foregroundColor: UIColor.themedDetailedText]
+            attributes: [.foregroundColor: CheckoutAppearance.shared.secondaryTextColor]
         )
 
         if let contentType = model.contentType {

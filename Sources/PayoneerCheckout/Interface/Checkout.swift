@@ -20,6 +20,7 @@ import SafariServices
     ///   - configuration: The configuration object to be used.
     @objc public init(configuration: CheckoutConfiguration) {
         self.configuration = configuration
+        CheckoutAppearance.shared = configuration.appearance
     }
 }
 
@@ -38,8 +39,6 @@ import SafariServices
         self.presenter = presenter
         self.paymentCompletionBlock = completion
         self.paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, riskProviders: configuration.riskProviders, delegate: self)
-
-        // Customize view controller
 
         let navigationController = UINavigationController(rootViewController: self.paymentListViewController!)
 

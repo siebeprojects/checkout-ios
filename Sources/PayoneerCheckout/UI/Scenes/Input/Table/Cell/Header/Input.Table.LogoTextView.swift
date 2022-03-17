@@ -16,8 +16,8 @@ extension Input.Table {
     class LogoTextView: UICollectionViewCell, Dequeueable {
         private let titleLabel: UILabel = {
             let titleLabel = UILabel()
-            titleLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
-            titleLabel.textColor = .themedText
+            titleLabel.font = Fonts.mainFont(forTextStyle: .body)
+            titleLabel.textColor = CheckoutAppearance.shared.primaryTextColor
             titleLabel.lineBreakMode = .byTruncatingMiddle
             return titleLabel
         }()

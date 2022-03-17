@@ -14,23 +14,23 @@ extension List.Table {
     final class DetailedLabelCell: List.Table.BorderedCell, Dequeueable {
         private let logoImageView: UIImageView = {
             let imageView = UIImageView()
-            imageView.tintColor = .themedDetailedText
+            imageView.tintColor = CheckoutAppearance.shared.secondaryTextColor
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
 
         private let titleLabel: UILabel = {
             let titleLabel = UILabel()
-            titleLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            titleLabel.font = Fonts.mainFont(forTextStyle: .body)
             titleLabel.lineBreakMode = .byTruncatingMiddle
-            titleLabel.textColor = .themedText
+            titleLabel.textColor = CheckoutAppearance.shared.primaryTextColor
             return titleLabel
         }()
 
         private let subtitleLabel: UILabel = {
             let titleLabel = UILabel()
-            titleLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-            titleLabel.textColor = .themedDetailedText
+            titleLabel.font = Fonts.mainFont(forTextStyle: .footnote)
+            titleLabel.textColor = CheckoutAppearance.shared.secondaryTextColor
             return titleLabel
         }()
 
@@ -72,7 +72,7 @@ extension List.Table.DetailedLabelCell {
         self.titleLabel.text = title
         self.subtitleLabel.text = subtitle
         self.subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
-        self.subtitleLabel.textColor = subtitleColor ?? .themedDetailedText
+        self.subtitleLabel.textColor = subtitleColor ?? CheckoutAppearance.shared.secondaryTextColor
         self.translator = translator
         self.modalPresenter = modalPresenter
         self.trailingButton.tintColor = trailingButtonColor

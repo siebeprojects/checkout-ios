@@ -16,7 +16,7 @@ extension Input.Table {
         var model: (TextInputField & DefinesKeyboardStyle)!
 
         // Animations are off for now so they don't conflict with UICollectionView reload animations.
-        let textInputView = TextInputView(animationsEnabled: false)
+        let textInputView = TextInputView(appearance: .shared, animationsEnabled: false)
         let textFieldController: TextFieldController
 
         override init(frame: CGRect) {

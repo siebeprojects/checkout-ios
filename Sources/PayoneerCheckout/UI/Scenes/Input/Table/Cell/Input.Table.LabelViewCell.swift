@@ -17,8 +17,8 @@ extension Input.Table {
             super.init(frame: frame)
 
             // Configure a text view
-            textView.textColor = .themedText
-            textView.font = UIFont.preferredThemeFont(forTextStyle: .subheadline)
+            textView.textColor = CheckoutAppearance.shared.primaryTextColor
+            textView.font = Fonts.mainFont(forTextStyle: .subheadline)
             textView.isScrollEnabled = false
             textView.isEditable = false
 

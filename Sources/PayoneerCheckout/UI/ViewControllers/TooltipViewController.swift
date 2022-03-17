@@ -57,12 +57,12 @@ class TooltipViewController: UIViewController {
         detailLabel.numberOfLines = 0
         detailLabel.textAlignment = .center
         detailLabel.lineBreakMode = .byWordWrapping
-        detailLabel.font = .preferredThemeFont(forTextStyle: .body)
+        detailLabel.font = Fonts.mainFont(forTextStyle: .body)
 
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.font = .preferredThemeFont(forTextStyle: .headline)
+        titleLabel.font = Fonts.mainFont(forTextStyle: .headline)
 
         // Add custom views in view hierarchy
         for customView in [imageView, titleLabel, detailLabel] {

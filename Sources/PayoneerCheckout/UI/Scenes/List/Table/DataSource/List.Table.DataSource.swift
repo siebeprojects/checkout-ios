@@ -13,6 +13,7 @@ extension List.Table {
         private let sections: [Section]
         private let translationProvider: TranslationProvider
         let context: UIModel.PaymentContext
+        let tintColor: UIColor
         weak var modalPresenter: ModalPresenter?
 
         init(
@@ -22,16 +23,18 @@ extension List.Table {
             translation: SharedTranslationProvider,
             genericLogo: UIImage,
             context: UIModel.PaymentContext,
+            tintColor: UIColor,
             modalPresenter: ModalPresenter?
         ) {
             self.translationProvider = translation
             self.context = context
+            self.tintColor = tintColor
             self.modalPresenter = modalPresenter
 
             var sections = [Section]()
 
             if let presetAccount = presetAccount {
-                let row = PresetAccountRow(account: presetAccount, modalPresenter: modalPresenter)
+                let row = PresetAccountRow(account: presetAccount, tintColor: tintColor, modalPresenter: modalPresenter)
                 let presetSection = Section(rows: .preset(row), additionalHeaderText: presetAccount.warningText)
                 sections.append(presetSection)
             }
@@ -205,9 +208,9 @@ extension DetailedLabelRow {
             logo: image,
             title: primaryLabel,
             subtitle: secondaryLabel,
-            subtitleColor: isExpired ? .themedError : .themedDetailedText,
+            subtitleColor: isExpired ? CheckoutAppearance.shared.errorColor : CheckoutAppearance.shared.secondaryTextColor,
             trailingButtonImage: isExpired ? AssetProvider.expirationInfo : nil,
-            trailingButtonColor: isExpired ? .themedError : nil,
+            trailingButtonColor: isExpired ? CheckoutAppearance.shared.errorColor : nil,
             translator: translator,
             modalPresenter: modalPresenter
         )
@@ -236,19 +239,19 @@ extension DetailedLabelRow {
 extension List.Table.DataSource.PresetAccountRow: DetailedLabelRow {
     var secondaryLabel: String? { account.expirationDate }
     var isExpired: Bool { account.isExpired }
-    var borderColor: UIColor { .tablePresetBordersColor }
+    var borderColor: UIColor { CheckoutAppearance.shared.accentColor ?? tintColor }
     var translator: TranslationProvider? { account.translation }
 }
 extension List.Table.DataSource.RegisteredAccountRow: DetailedLabelRow {
     var secondaryLabel: String? { account.expirationDate }
     var isExpired: Bool { account.isExpired }
-    var borderColor: UIColor { .themedTableBorder }
+    var borderColor: UIColor { CheckoutAppearance.shared.borderColor }
     var translator: TranslationProvider? { account.translation }
 }
 extension List.Table.DataSource.SingleNetworkRow: DetailedLabelRow, NetworkRow {
     var secondaryLabel: String? { nil }
     var isExpired: Bool { false }
-    var borderColor: UIColor { .themedTableBorder }
+    var borderColor: UIColor { CheckoutAppearance.shared.borderColor }
     var modalPresenter: ModalPresenter? { nil }
     var translator: TranslationProvider? { nil }
 }

@@ -48,7 +48,7 @@ extension Input.Table {
 
         override init(frame: CGRect) {
             button = .init(frame: .zero)
-            button.setTitleColor(.themedButtonTextColor, for: .normal)
+            button.setTitleColor(CheckoutAppearance.shared.buttonTitleColor, for: .normal)
             button.layer.cornerRadius = .cornerRadius
             button.clipsToBounds = true
 
@@ -97,7 +97,7 @@ extension Input.Table.ButtonCell {
             string: model.label,
             attributes: [
                 .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize, weight: .semibold),
-                .foregroundColor: UIColor.themedButtonTextColor
+                .foregroundColor: CheckoutAppearance.shared.buttonTitleColor
             ]
         )
 

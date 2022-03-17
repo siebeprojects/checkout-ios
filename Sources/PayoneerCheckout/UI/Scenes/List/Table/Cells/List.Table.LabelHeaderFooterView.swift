@@ -25,9 +25,9 @@ extension List.Table {
         private func addSubviews() {
             let label = UILabel(frame: .zero)
             self.label = label
-            label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
+            label.font = Fonts.mainFont(forTextStyle: .footnote)
             label.numberOfLines = 0
-            label.textColor = Theme.shared.textColor
+            label.textColor = CheckoutAppearance.shared.primaryTextColor
             label.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview(label)
         }

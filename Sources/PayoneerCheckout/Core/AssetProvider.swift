@@ -15,6 +15,18 @@ enum Colors {
     static let border = UIColor(named: "Border", in: .current, compatibleWith: nil)!
 }
 
+enum Fonts {
+    static func mainFont(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
+        .preferredFont(forTextStyle: textStyle)
+    }
+
+    static func mainFont(forTextStyle textStyle: UIFont.TextStyle, weight: UIFont.Weight) -> UIFont {
+        let font = mainFont(forTextStyle: textStyle)
+        let descriptor = font.fontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: weight]])
+        return UIFont(descriptor: descriptor, size: font.pointSize)
+    }
+}
+
 enum AssetProvider {
     #if canImport(UIKit)
     static let iconCard = UIImage(named: "iconCard", in: .current, compatibleWith: nil)
