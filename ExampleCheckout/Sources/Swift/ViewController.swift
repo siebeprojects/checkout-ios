@@ -41,10 +41,6 @@ extension ViewController {
 // MARK: - Interaction
 
 extension ViewController {
-    @IBAction private func themeSwitchValueDidChange(_ sender: UISwitch) {
-//        checkout = nil
-    }
-
     @IBAction private func showPaymentListDidTap(_ sender: UIButton) {
         guard let text = textField.text, let url = URL(string: text) else {
             print("Invalid URL")
@@ -71,7 +67,6 @@ extension ViewController {
         let configuration = CheckoutConfiguration(listURL: url, appearance: appearance, riskProviders: [IovationRiskProvider.self])
         checkout = Checkout(configuration: configuration)
 
-        themeSwitch.isEnabled = false
         chargePresetAccountButton.isEnabled = true
 
         checkout?.presentPaymentList(from: self) { result in
