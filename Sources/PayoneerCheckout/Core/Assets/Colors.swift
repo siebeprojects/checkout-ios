@@ -10,7 +10,6 @@ enum Colors {
     static let primaryText = UIColor(named: "PrimaryText", in: .current, compatibleWith: nil)!
     static let secondaryText = UIColor(named: "SecondaryText", in: .current, compatibleWith: nil)!
     static let background = UIColor(named: "Background", in: .current, compatibleWith: nil)!
-    static let accent = UIColor(named: "Accent", in: .current, compatibleWith: nil)!
     static let error = UIColor(named: "Error", in: .current, compatibleWith: nil)!
     static let border = UIColor(named: "Border", in: .current, compatibleWith: nil)!
 }

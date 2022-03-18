@@ -155,7 +155,6 @@ extension Input.ViewController {
 
 extension Input.ViewController {
     fileprivate func configure(collectionView: UICollectionView) {
-        collectionView.tintColor = view.tintColor
         collectionView.backgroundColor = CheckoutAppearance.shared.backgroundColor
         collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
         collectionView.preservesSuperviewLayoutMargins = true

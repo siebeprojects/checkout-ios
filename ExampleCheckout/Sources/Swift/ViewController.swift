@@ -14,16 +14,7 @@ class ViewController: UITableViewController {
     @IBOutlet private var showPaymentListButton: UIButton!
     @IBOutlet private var chargePresetAccountButton: ActivityIndicatableButton!
 
-    private lazy var checkout: Checkout? = {
-        guard let text = textField.text, let url = URL(string: text) else {
-            print("Invalid URL")
-            textField.text = nil
-            return nil
-        }
-
-        let configuration = CheckoutConfiguration(listURL: url, riskProviders: [IovationRiskProvider.self])
-        return Checkout(configuration: configuration)
-    }()
+    private var checkout: Checkout?
 }
 
 // MARK: - Lifecycle
@@ -36,9 +27,8 @@ extension ViewController {
             overrideUserInterfaceStyle = .light
         }
 
-        setTintColor(to: Theme.shared.tintColor)
-
         chargePresetAccountButton.setTitle(chargePresetAccountButton.title(for: .normal), for: .normal)
+        chargePresetAccountButton.isEnabled = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -52,20 +42,49 @@ extension ViewController {
 
 extension ViewController {
     @IBAction private func themeSwitchValueDidChange(_ sender: UISwitch) {
-        Theme.shared = sender.isOn ? .custom : .standard
-        setTintColor(to: Theme.shared.tintColor)
+//        checkout = nil
     }
 
     @IBAction private func showPaymentListDidTap(_ sender: UIButton) {
+        guard let text = textField.text, let url = URL(string: text) else {
+            print("Invalid URL")
+            textField.text = nil
+            return
+        }
+
+        let appearance: CheckoutAppearance? = {
+            if themeSwitch.isOn {
+                return CheckoutAppearance(
+                    primaryTextColor: .black,
+                    secondaryTextColor: .darkGray,
+                    backgroundColor: .white,
+                    accentColor: .orange,
+                    errorColor: .red,
+                    borderColor: .lightGray,
+                    buttonTitleColor: .white
+                )
+            }
+
+            return nil
+        }()
+
+        let configuration = CheckoutConfiguration(listURL: url, appearance: appearance, riskProviders: [IovationRiskProvider.self])
+        checkout = Checkout(configuration: configuration)
+
+        themeSwitch.isEnabled = false
+        chargePresetAccountButton.isEnabled = true
+
         checkout?.presentPaymentList(from: self) { result in
             self.presentAlert(with: result)
         }
     }
 
     @IBAction private func chargePresetAccountDidTap(_ sender: ActivityIndicatableButton) {
+        guard let checkout = checkout else { return }
+
         startLoading()
 
-        checkout?.chargePresetAccount { result in
+        checkout.chargePresetAccount { result in
             self.stopLoading()
             self.presentAlert(with: result)
         }
@@ -107,32 +126,6 @@ extension ViewController {
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
-    }
-
-    private func setTintColor(to color: UIColor) {
-        view.tintColor = color
-        themeSwitch.onTintColor = color
-        textField.tintColor = color
-        showPaymentListButton.backgroundColor = color
-        chargePresetAccountButton.backgroundColor = color
-        setNavigationBarColor(to: color)
-    }
-
-    private func setNavigationBarColor(to color: UIColor) {
-        if #available(iOS 13.0, *) {
-            // Change large title's background color
-            let navBarAppearance = UINavigationBarAppearance()
-            navBarAppearance.configureWithOpaqueBackground()
-            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-            navBarAppearance.backgroundColor = color
-            navigationController?.navigationBar.standardAppearance = navBarAppearance
-            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-            navigationController?.navigationBar.setNeedsLayout()
-            navigationController?.navigationBar.layoutIfNeeded()
-        } else {
-            navigationController?.navigationBar.barTintColor = color
-        }
     }
 
     private func description(forResult result: CheckoutResult) -> String {

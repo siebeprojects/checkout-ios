@@ -11,10 +11,6 @@ extension PaymentListViewController {
 
 extension PaymentListViewController.ViewManager {
     func configureMainView() {
-        if let accentColor = CheckoutAppearance.shared.accentColor {
-            view.tintColor = accentColor
-        }
-        
         view.backgroundColor = CheckoutAppearance.shared.backgroundColor
     }
 

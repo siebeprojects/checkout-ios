@@ -38,7 +38,6 @@
 		07D11171270C7518004CC554 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
 		07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */; };
-		07F17FB227634CB8000CB406 /* Theme+custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F17FAF27634CB8000CB406 /* Theme+custom.swift */; };
 		D912BB2D2726C1B70004AFAE /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB122726C1B60004AFAE /* ExtraElements.swift */; };
 		D912BB2E2726C1B70004AFAE /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB122726C1B60004AFAE /* ExtraElements.swift */; };
 		D912BB2F2726C1B70004AFAE /* _Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB132726C1B60004AFAE /* _Style.swift */; };
@@ -182,7 +181,6 @@
 		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
 		07E628F62755359D006575E2 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatableButton.swift; sourceTree = "<group>"; };
-		07F17FAF27634CB8000CB406 /* Theme+custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+custom.swift"; sourceTree = "<group>"; };
 		07FF4CA6274BEDA400957035 /* checkout-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "checkout-ios"; path = ..; sourceTree = "<group>"; };
 		D912BB122726C1B60004AFAE /* ExtraElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtraElements.swift; sourceTree = "<group>"; };
 		D912BB132726C1B60004AFAE /* _Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Style.swift; sourceTree = "<group>"; };
@@ -301,14 +299,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		07F17FAC27634CB8000CB406 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				07F17FAF27634CB8000CB406 /* Theme+custom.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
 		D912BABF2726C04B0004AFAE /* Abstract */ = {
 			isa = PBXGroup;
 			children = (
@@ -387,7 +377,6 @@
 			children = (
 				D9E0AEB0234143BD0021184C /* AppDelegate.swift */,
 				D9E0AEB4234143BD0021184C /* ViewController.swift */,
-				07F17FAC27634CB8000CB406 /* Extension */,
 				07F17FA927634C98000CB406 /* View */,
 				D9E0AEB6234143BD0021184C /* Main.storyboard */,
 				D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */,
@@ -837,7 +826,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */,
-				07F17FB227634CB8000CB406 /* Theme+custom.swift in Sources */,
 				D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */,
 				07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */,
 			);

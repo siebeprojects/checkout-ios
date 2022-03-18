@@ -21,7 +21,7 @@ extension Input.Table {
         private func setActivityIndicator(isAnimating: Bool) {
             if isAnimating {
                 button.setAttributedTitle(nil, for: .normal)
-                button.backgroundColor = button.tintColor.withAlphaComponent(0.6)
+                button.backgroundColor = contentView.tintColor.withAlphaComponent(0.6)
 
                 let activityIndicator = UIActivityIndicatorView(style: .white)
                 activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +34,7 @@ extension Input.Table {
 
                 activityIndicator.startAnimating()
             } else {
-                button.backgroundColor = button.tintColor
+                button.backgroundColor = contentView.tintColor
 
                 activityIndicator?.stopAnimating()
                 activityIndicator?.removeFromSuperview()
@@ -86,7 +86,7 @@ extension Input.Table {
 extension Input.Table.ButtonCell {
     func configure(with model: Input.Field.Button) {
         self.model = model
-        button.backgroundColor = button.tintColor
+        button.backgroundColor = contentView.tintColor
         updateButtonTitle(model: model)
         setActivityIndicator(isAnimating: model.isActivityIndicatorAnimating)
         button.isEnabled = model.isEnabled

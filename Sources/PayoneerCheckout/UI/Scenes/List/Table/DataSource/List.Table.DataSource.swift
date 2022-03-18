@@ -239,7 +239,7 @@ extension DetailedLabelRow {
 extension List.Table.DataSource.PresetAccountRow: DetailedLabelRow {
     var secondaryLabel: String? { account.expirationDate }
     var isExpired: Bool { account.isExpired }
-    var borderColor: UIColor { CheckoutAppearance.shared.accentColor ?? tintColor }
+    var borderColor: UIColor { tintColor }
     var translator: TranslationProvider? { account.translation }
 }
 extension List.Table.DataSource.RegisteredAccountRow: DetailedLabelRow {

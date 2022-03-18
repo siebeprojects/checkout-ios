@@ -42,6 +42,10 @@ import SafariServices
 
         let navigationController = UINavigationController(rootViewController: self.paymentListViewController!)
 
+        if let customAccentColor = configuration.appearance.accentColor {
+            navigationController.view.tintColor = customAccentColor
+        }
+
         presenter.present(navigationController, animated: true, completion: nil)
     }
 

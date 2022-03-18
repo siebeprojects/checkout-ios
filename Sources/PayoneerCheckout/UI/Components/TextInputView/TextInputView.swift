@@ -100,13 +100,14 @@ extension TextInputView {
         // If a label is in a UIStackView and its text is set to nil, the label is automatically hidden by the UIStackView.
         // This mechanic breaks the show/hide animations being done here, therefore errorMessage can't be optional and an empty string is used instead.
         let configuration: (borderColor: UIColor, borderWidth: CGFloat, errorMessage: String) = {
+            let borderColorIdle: UIColor = appearance.primaryTextColor
             let borderWidthIdle: CGFloat = 1
             let borderWidthHighlighted: CGFloat = 2
 
             switch status {
             case .normal:
                 return (
-                    borderColor: isFirstResponder ? tintColor : appearance.borderColor,
+                    borderColor: isFirstResponder ? tintColor : borderColorIdle,
                     borderWidth: isFirstResponder ? borderWidthHighlighted : borderWidthIdle,
                     errorMessage: ""
                 )
@@ -118,7 +119,7 @@ extension TextInputView {
                 )
             case .disabled:
                 return (
-                    borderColor: appearance.borderColor.withAlphaComponent(0.5),
+                    borderColor: borderColorIdle.withAlphaComponent(0.5),
                     borderWidth: borderWidthIdle,
                     errorMessage: ""
                 )
