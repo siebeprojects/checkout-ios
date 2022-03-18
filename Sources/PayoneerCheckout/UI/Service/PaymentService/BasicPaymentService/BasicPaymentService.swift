@@ -10,6 +10,9 @@ import SafariServices
 class BasicPaymentService: PaymentService {
     // MARK: - Static methods
     static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
+        // Temporarily support all networks for testing purposes.
+        return true
+
         if let paymentMethod = paymentMethod {
             if isSupported(method: paymentMethod) { return true }
         }
