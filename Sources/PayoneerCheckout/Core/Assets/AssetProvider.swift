@@ -6,27 +6,6 @@
 
 import UIKit
 
-enum Colors {
-    static let primaryText = UIColor(named: "PrimeryText", in: .current, compatibleWith: nil)!
-    static let secondaryText = UIColor(named: "SecondaryText", in: .current, compatibleWith: nil)!
-    static let background = UIColor(named: "Background", in: .current, compatibleWith: nil)!
-    static let accent = UIColor(named: "Accent", in: .current, compatibleWith: nil)!
-    static let error = UIColor(named: "Error", in: .current, compatibleWith: nil)!
-    static let border = UIColor(named: "Border", in: .current, compatibleWith: nil)!
-}
-
-enum Fonts {
-    static func mainFont(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
-        .preferredFont(forTextStyle: textStyle)
-    }
-
-    static func mainFont(forTextStyle textStyle: UIFont.TextStyle, weight: UIFont.Weight) -> UIFont {
-        let font = mainFont(forTextStyle: textStyle)
-        let descriptor = font.fontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: weight]])
-        return UIFont(descriptor: descriptor, size: font.pointSize)
-    }
-}
-
 enum AssetProvider {
     #if canImport(UIKit)
     static let iconCard = UIImage(named: "iconCard", in: .current, compatibleWith: nil)
