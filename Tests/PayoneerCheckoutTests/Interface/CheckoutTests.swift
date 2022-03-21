@@ -78,4 +78,42 @@ final class CheckoutTests: XCTestCase {
         checkout.presentPaymentList(from: MockPresenter(), completion: { _ in })
         XCTAssertEqual(checkout.paymentListViewController?.navigationController?.view.tintColor, customAccentColor)
     }
+
+    func testChargePresetAccount() {
+
+    }
+
+    func testDismiss_shouldCallCompletion() {
+        var completionCalled = false
+        let completion = { completionCalled = true }
+        checkout.dismiss(completion)
+        XCTAssertTrue(completionCalled)
+    }
+
+    func testDismiss_shouldCallPresenterDismiss() {
+        let firstPresenter = MockPresenter()
+        checkout.presentPaymentList(from: firstPresenter, completion: { _ in })
+        checkout.dismiss()
+        XCTAssertTrue(firstPresenter.dismissCalled)
+    }
+
+    func testPaymentServiceDidReceiveResult_shouldCallDismiss() {
+        let presenter = MockPresenter()
+        checkout.presentPaymentList(from: presenter, completion: { _ in })
+        checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
+        XCTAssertTrue(presenter.dismissCalled)
+    }
+
+    func testPaymentServiceDidReceiveResult_shouldCallCompletionBlock() {
+        var completionCalled = false
+        checkout.presentPaymentList(from: MockPresenter(), completion: { _ in completionCalled = true })
+        checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
+        XCTAssertTrue(completionCalled)
+    }
+
+    func testPaymentServiceDidReceiveResult_shouldNullifyCompletionBlock() {
+        checkout.presentPaymentList(from: MockPresenter(), completion: { _ in })
+        checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
+        XCTAssertNil(checkout.paymentCompletionBlock)
+    }
 }

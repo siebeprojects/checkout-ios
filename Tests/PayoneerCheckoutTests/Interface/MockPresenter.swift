@@ -18,5 +18,6 @@ final class MockPresenter: UIViewController {
 
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         dismissCalled = true
+        completion?()
     }
 }
