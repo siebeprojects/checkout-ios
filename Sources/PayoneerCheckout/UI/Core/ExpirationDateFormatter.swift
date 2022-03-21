@@ -17,7 +17,7 @@ struct ExpirationDateFormatter {
     var text: String {
         get throws {
             guard let month = month, let year = year else { throw ExpirationDateFormatterError.invalidInput }
-            return "\(String(format: "%02d", month))" + " / " + String(year).suffix(2)
+            return String(format: "%02d", month) + " / " + String(year).suffix(2)
         }
     }
 }
