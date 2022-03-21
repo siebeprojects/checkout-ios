@@ -7,14 +7,18 @@
 import Foundation
 import Risk
 
-final class ChargePresetService: NSObject {
+protocol ChargePresetServiceProtocol {
+    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void)
+}
+
+final class ChargePresetService: ChargePresetServiceProtocol {
     private var redirectCallbackHandler: RedirectCallbackHandler?
     private var paymentService: PaymentService?
     private let connection: Connection = URLSessionConnection()
     private let riskProviders: [RiskProvider.Type]
 
-    private var completionBlock: ((_ result: CheckoutResult) -> Void)?
-    private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
+    private(set) var completionBlock: ((_ result: CheckoutResult) -> Void)?
+    private(set) var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
 
     init(riskProviders: [RiskProvider.Type]) {
         self.riskProviders = riskProviders

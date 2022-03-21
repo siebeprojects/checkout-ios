@@ -9,17 +9,24 @@ import SafariServices
 
 /// The entrypoint for interacting with the SDK. It has a 1:1 relationship with a payment session and is responsible for managing the checkout UI.
 @objc public class Checkout: NSObject {
-    let configuration: CheckoutConfiguration
+    private let configuration: CheckoutConfiguration
     private(set) weak var presenter: UIViewController?
     private(set) var paymentListViewController: UIViewController?
     private(set) var paymentCompletionBlock: ((_ result: CheckoutResult) -> Void)?
-    private(set) lazy var chargePresetService = ChargePresetService(riskProviders: configuration.riskProviders)
+    private let chargePresetService: ChargePresetServiceProtocol
 
     /// Initializes a `Checkout` with the given configuration.
     /// - Parameters:
     ///   - configuration: The configuration object to be used.
     @objc public init(configuration: CheckoutConfiguration) {
         self.configuration = configuration
+        self.chargePresetService = ChargePresetService(riskProviders: configuration.riskProviders)
+        CheckoutAppearance.shared = configuration.appearance
+    }
+
+    init(configuration: CheckoutConfiguration, chargePresetService: ChargePresetServiceProtocol) {
+        self.configuration = configuration
+        self.chargePresetService = chargePresetService
         CheckoutAppearance.shared = configuration.appearance
     }
 }

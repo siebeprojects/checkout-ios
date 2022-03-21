@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class MockPresenter: UIViewController {
+final class MockCheckoutPresenter: UIViewController {
     private(set) var presentCalled = false
     private(set) var dismissCalled = false
     private(set) var presented: UIViewController?

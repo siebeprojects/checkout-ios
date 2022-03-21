@@ -5,11 +5,13 @@
 // See the LICENSE file for more information.
 
 import XCTest
+import SafariServices
 @testable import PayoneerCheckout
 
 private let customAccentColor: UIColor = .blue
 
 final class CheckoutTests: XCTestCase {
+    private var mockChargePresetService: MockChargePresetService!
     private var checkout: Checkout!
 
     override func setUp() {
@@ -31,12 +33,15 @@ final class CheckoutTests: XCTestCase {
             riskProviders: []
         )
 
-        checkout = Checkout(configuration: configuration)
+        mockChargePresetService = MockChargePresetService()
+
+        checkout = Checkout(configuration: configuration, chargePresetService: mockChargePresetService)
     }
 
     override func tearDown() {
-        CheckoutAppearance.shared = nil
+        mockChargePresetService = nil
         checkout = nil
+        CheckoutAppearance.shared = nil
 
         super.tearDown()
     }
@@ -46,41 +51,63 @@ final class CheckoutTests: XCTestCase {
     }
 
     func testPresentPayment_shouldSetPresenter() {
-        let presenter = MockPresenter()
+        let presenter = MockCheckoutPresenter()
         checkout.presentPaymentList(from: presenter, completion: { _ in })
         XCTAssertEqual(checkout.presenter, presenter)
     }
 
     func testPresentPayment_shouldSetCompletionBlock() {
-        checkout.presentPaymentList(from: MockPresenter(), completion: { _ in })
+        checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in })
         XCTAssertTrue(checkout.paymentCompletionBlock != nil)
     }
 
     func testPresentPayment_shouldSetPaymentListViewController() {
-        checkout.presentPaymentList(from: MockPresenter(), completion: { _ in })
+        checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in })
         XCTAssertTrue(checkout.paymentListViewController != nil)
     }
 
     func testPresentPayment_whenSubsequentCall_shouldCallDismiss() {
-        let firstPresenter = MockPresenter()
+        let firstPresenter = MockCheckoutPresenter()
         checkout.presentPaymentList(from: firstPresenter, completion: { _ in })
-        checkout.presentPaymentList(from: MockPresenter(), completion: { _ in })
+        checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in })
         XCTAssertTrue(firstPresenter.dismissCalled)
     }
 
     func testPresentPayment_shouldPresentNavigationController() {
-        let presenter = MockPresenter()
+        let presenter = MockCheckoutPresenter()
         checkout.presentPaymentList(from: presenter, completion: { _ in })
         XCTAssertEqual(presenter.presented, checkout.paymentListViewController?.navigationController)
     }
 
     func testPresentPayment_whenCustomAccentColor_shouldSetTintColor() {
-        checkout.presentPaymentList(from: MockPresenter(), completion: { _ in })
+        checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in })
         XCTAssertEqual(checkout.paymentListViewController?.navigationController?.view.tintColor, customAccentColor)
     }
 
-    func testChargePresetAccount() {
+    func testChargePresetAccount_whenCompletion_shouldCallDismiss() {
+        mockChargePresetService.result = .completion
 
+        let presenter = MockCheckoutPresenter()
+        checkout.presentPaymentList(from: presenter, completion: { _ in })
+        checkout.chargePresetAccount(completion: { _ in })
+        XCTAssertTrue(presenter.dismissCalled)
+    }
+
+    func testChargePresetAccount_whenCompletion_shouldCallCompletion() {
+        mockChargePresetService.result = .completion
+
+        var completionCalled = false
+        checkout.chargePresetAccount(completion: { _ in completionCalled = true })
+        XCTAssertTrue(completionCalled)
+    }
+
+    func testChargePresetAccount_whenAuthenticationChallenge_shouldCallPresent() {
+        mockChargePresetService.result = .authenticationChallenge
+
+        let presenter = MockCheckoutPresenter()
+        checkout.presentPaymentList(from: presenter, completion: { _ in })
+        checkout.chargePresetAccount(completion: { _ in })
+        XCTAssertTrue(presenter.presentCalled)
     }
 
     func testDismiss_shouldCallCompletion() {
@@ -91,14 +118,14 @@ final class CheckoutTests: XCTestCase {
     }
 
     func testDismiss_shouldCallPresenterDismiss() {
-        let firstPresenter = MockPresenter()
+        let firstPresenter = MockCheckoutPresenter()
         checkout.presentPaymentList(from: firstPresenter, completion: { _ in })
         checkout.dismiss()
         XCTAssertTrue(firstPresenter.dismissCalled)
     }
 
     func testPaymentServiceDidReceiveResult_shouldCallDismiss() {
-        let presenter = MockPresenter()
+        let presenter = MockCheckoutPresenter()
         checkout.presentPaymentList(from: presenter, completion: { _ in })
         checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         XCTAssertTrue(presenter.dismissCalled)
@@ -106,14 +133,30 @@ final class CheckoutTests: XCTestCase {
 
     func testPaymentServiceDidReceiveResult_shouldCallCompletionBlock() {
         var completionCalled = false
-        checkout.presentPaymentList(from: MockPresenter(), completion: { _ in completionCalled = true })
+        checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in completionCalled = true })
         checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         XCTAssertTrue(completionCalled)
     }
 
     func testPaymentServiceDidReceiveResult_shouldNullifyCompletionBlock() {
-        checkout.presentPaymentList(from: MockPresenter(), completion: { _ in })
+        checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in })
         checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         XCTAssertNil(checkout.paymentCompletionBlock)
+    }
+
+    func testSafariViewControllerDidFinish_shouldPostFailureNotification() {
+        var notificationPosted = false
+
+        NotificationCenter.default.addObserver(
+            forName: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
+            object: nil,
+            queue: .main
+        ) { _ in
+            notificationPosted = true
+        }
+
+        checkout.safariViewControllerDidFinish(SFSafariViewController(url: URL(string: "https://")!))
+
+        XCTAssertTrue(notificationPosted)
     }
 }
