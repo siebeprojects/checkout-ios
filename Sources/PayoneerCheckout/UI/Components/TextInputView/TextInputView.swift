@@ -6,6 +6,15 @@
 
 import UIKit
 
+private let titleColor: UIColor = CheckoutAppearance.shared.primaryTextColor
+private let borderColorIdle: UIColor = CheckoutAppearance.shared.primaryTextColor
+private let borderColorDisabled: UIColor = CheckoutAppearance.shared.primaryTextColor.withAlphaComponent(0.5)
+private let containerBackgroundColor: UIColor = CheckoutAppearance.shared.backgroundColor
+private let textColor: UIColor = CheckoutAppearance.shared.primaryTextColor
+private let errorColor: UIColor = CheckoutAppearance.shared.errorColor
+private let borderWidthIdle: CGFloat = 1
+private let borderWidthHighlighted: CGFloat = 2
+
 /// The text input component.
 final class TextInputView: UIView {
     /// The different possible statuses of the component.
@@ -17,6 +26,7 @@ final class TextInputView: UIView {
 
     let titleLabel: UILabel = {
         let label = UILabel()
+        label.textColor = titleColor
         label.numberOfLines = 0
         label.isUserInteractionEnabled = false
         return label
@@ -25,17 +35,22 @@ final class TextInputView: UIView {
     private let textFieldContainerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 4
+        view.layer.borderWidth = borderWidthIdle
+        view.layer.borderColor = borderColorIdle.cgColor
+        view.backgroundColor = containerBackgroundColor
         return view
     }()
 
     let textField: UITextField = {
         let field = UITextField()
+        field.textColor = textColor
         field.clearButtonMode = .never
         return field
     }()
 
     let errorLabel: UILabel = {
         let label = UILabel()
+        label.textColor = errorColor
         label.numberOfLines = 0
         label.isUserInteractionEnabled = false
         label.isHidden = true
@@ -58,23 +73,22 @@ final class TextInputView: UIView {
 
     private var status: Status = .normal
 
-    private let appearance: CheckoutAppearance
-
     weak var delegate: TextInputViewDelegate?
 
     /// Initializes a `TextInputView`.
     /// - Parameter animationsEnabled: `true` if you want to animate appearance changes, and `false` if they should be immediate.
-    required init(appearance: CheckoutAppearance, animationsEnabled: Bool) {
-        self.appearance = appearance
+    required init(animationsEnabled: Bool) {
         shouldAnimate = animationsEnabled
         super.init(frame: .zero)
-        updateAppearance(animated: false)
         textField.delegate = self
         layout()
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder aDecoder: NSCoder) {
+        shouldAnimate = true
+        super.init(coder: aDecoder)
+        textField.delegate = self
+        layout()
     }
 }
 
@@ -91,19 +105,9 @@ extension TextInputView {
     }
 
     private func updateAppearance(animated: Bool) {
-        // Static appearance
-        titleLabel.textColor = appearance.primaryTextColor
-        textFieldContainerView.backgroundColor = appearance.backgroundColor
-        textField.textColor = appearance.primaryTextColor
-        errorLabel.textColor = appearance.errorColor
-
         // If a label is in a UIStackView and its text is set to nil, the label is automatically hidden by the UIStackView.
         // This mechanic breaks the show/hide animations being done here, therefore errorMessage can't be optional and an empty string is used instead.
         let configuration: (borderColor: UIColor, borderWidth: CGFloat, errorMessage: String) = {
-            let borderColorIdle: UIColor = appearance.primaryTextColor
-            let borderWidthIdle: CGFloat = 1
-            let borderWidthHighlighted: CGFloat = 2
-
             switch status {
             case .normal:
                 return (
@@ -113,13 +117,13 @@ extension TextInputView {
                 )
             case .error(let message):
                 return (
-                    borderColor: appearance.errorColor,
+                    borderColor: errorColor,
                     borderWidth: borderWidthHighlighted,
                     errorMessage: message
                 )
             case .disabled:
                 return (
-                    borderColor: borderColorIdle.withAlphaComponent(0.5),
+                    borderColor: borderColorDisabled,
                     borderWidth: borderWidthIdle,
                     errorMessage: ""
                 )
