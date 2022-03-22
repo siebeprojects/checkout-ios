@@ -32,6 +32,11 @@ extension List.Table.DataSource.GroupedNetworkRow {
         return firstNetwork.translation.translation(forKey: "groups.cards.title")
     }
 
+    private var secondaryLabel: String {
+        let labels = networks.map { $0.label }
+        return labels.joined(separator: " / ")
+    }
+
     private var logoImages: [UIImage] {
         if networks.count > maxDisplayableLogos {
             return [genericLogo]
@@ -68,7 +73,7 @@ extension List.Table.DataSource.GroupedNetworkRow {
         let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
 
         // TODO: We agreed to remove multiple images support so that's why we use the first image (it's card's icon). Better to updated model later to fully remove multiple logos support.
-        cell.configure(logo: logoImages.first, title: primaryLabel)
+        cell.configure(logo: logoImages.first, title: primaryLabel, subtitle: secondaryLabel)
 
         // Set cell position
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)

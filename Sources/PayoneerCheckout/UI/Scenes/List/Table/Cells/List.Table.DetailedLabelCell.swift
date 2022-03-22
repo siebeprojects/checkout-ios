@@ -61,7 +61,7 @@ extension List.Table.DetailedLabelCell {
     func configure(
         logo: UIImage?,
         title: String,
-        subtitle: String? = nil,
+        subtitle: String?,
         subtitleColor: UIColor? = nil,
         trailingButtonImage: UIImage? = nil,
         trailingButtonColor: UIColor? = nil,
