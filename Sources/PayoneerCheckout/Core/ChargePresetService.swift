@@ -17,8 +17,8 @@ final class ChargePresetService: ChargePresetServiceProtocol {
     private let connection: Connection = URLSessionConnection()
     private let riskProviders: [RiskProvider.Type]
 
-    private(set) var completionBlock: ((_ result: CheckoutResult) -> Void)?
-    private(set) var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
+    private var completionBlock: ((_ result: CheckoutResult) -> Void)?
+    private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
 
     init(riskProviders: [RiskProvider.Type]) {
         self.riskProviders = riskProviders
