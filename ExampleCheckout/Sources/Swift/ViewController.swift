@@ -28,7 +28,6 @@ extension ViewController {
         }
 
         chargePresetAccountButton.setTitle(chargePresetAccountButton.title(for: .normal), for: .normal)
-        chargePresetAccountButton.isEnabled = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -42,32 +41,7 @@ extension ViewController {
 
 extension ViewController {
     @IBAction private func showPaymentListDidTap(_ sender: UIButton) {
-        guard let text = textField.text, let url = URL(string: text) else {
-            print("Invalid URL")
-            textField.text = nil
-            return
-        }
-
-        let appearance: CheckoutAppearance? = {
-            if themeSwitch.isOn {
-                return CheckoutAppearance(
-                    primaryTextColor: .black,
-                    secondaryTextColor: .darkGray,
-                    backgroundColor: .white,
-                    accentColor: .orange,
-                    errorColor: .red,
-                    borderColor: .lightGray,
-                    buttonTitleColor: .white
-                )
-            }
-
-            return nil
-        }()
-
-        let configuration = CheckoutConfiguration(listURL: url, appearance: appearance, riskProviders: [IovationRiskProvider.self])
-        checkout = Checkout(configuration: configuration)
-
-        chargePresetAccountButton.isEnabled = true
+        startNewCheckout()
 
         checkout?.presentPaymentList(from: self) { result in
             self.presentAlert(with: result)
@@ -75,11 +49,13 @@ extension ViewController {
     }
 
     @IBAction private func chargePresetAccountDidTap(_ sender: ActivityIndicatableButton) {
-        guard let checkout = checkout else { return }
+        if checkout == nil {
+            startNewCheckout()
+        }
 
         startLoading()
 
-        checkout.chargePresetAccount { result in
+        checkout?.chargePresetAccount { result in
             self.stopLoading()
             self.presentAlert(with: result)
         }
@@ -115,6 +91,35 @@ extension ViewController {
 // MARK: - Helpers
 
 extension ViewController {
+    private func startNewCheckout() {
+        guard let text = textField.text, let url = URL(string: text) else {
+            print("Invalid URL")
+            textField.text = nil
+            return
+        }
+
+        let appearance: CheckoutAppearance? = {
+            if themeSwitch.isOn {
+                return CheckoutAppearance(
+                    primaryTextColor: .black,
+                    secondaryTextColor: .darkGray,
+                    backgroundColor: .white,
+                    accentColor: .orange,
+                    errorColor: .red,
+                    borderColor: .lightGray,
+                    buttonTitleColor: .white
+                )
+            }
+
+            return nil
+        }()
+
+        let configuration = CheckoutConfiguration(listURL: url, appearance: appearance, riskProviders: [IovationRiskProvider.self])
+        checkout = Checkout(configuration: configuration)
+
+        chargePresetAccountButton.isEnabled = true
+    }
+
     /// Present `UIAlertController` with textual representation of `CheckoutResult`
     private func presentAlert(with result: CheckoutResult) {
         let alert = UIAlertController(title: "Payment Result", message: description(forResult: result), preferredStyle: .alert)

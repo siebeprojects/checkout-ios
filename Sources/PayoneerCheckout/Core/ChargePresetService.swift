@@ -71,8 +71,10 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         let getListResultOperation = SendRequestOperation(connection: connection, request: getListResult)
         getListResultOperation.downloadCompletionBlock = { result in
             switch result {
-            case .success(let listResult): completion(.success(listResult))
-            case .failure(let error): completion(.failure(error))
+            case .success(let listResult):
+                completion(.success(listResult))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
         getListResultOperation.start()
