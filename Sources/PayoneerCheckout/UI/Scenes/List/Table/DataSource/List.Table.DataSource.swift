@@ -205,7 +205,7 @@ extension DetailedLabelRow {
             logo: image,
             title: primaryLabel,
             subtitle: secondaryLabel,
-            subtitleColor: isExpired ? .themedError : .themedDetailedText,
+            subtitleColor: isExpired ? .themedError : .themedText,
             trailingButtonImage: isExpired ? AssetProvider.expirationInfo : nil,
             trailingButtonColor: isExpired ? .themedError : nil,
             translator: translator,
