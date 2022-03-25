@@ -51,7 +51,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use a custom theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWh-lG-Xg0">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Custom appearance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWh-lG-Xg0">
                                                     <rect key="frame" x="20" y="13.5" width="309" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
@@ -151,9 +151,9 @@
                     <navigationItem key="navigationItem" title="Checkout" id="WQk-pI-LCg"/>
                     <connections>
                         <outlet property="chargePresetAccountButton" destination="CzM-D2-P3a" id="nlT-aI-jD1"/>
+                        <outlet property="customAppearanceSwitch" destination="Nag-du-UoB" id="Dwh-mE-5DS"/>
                         <outlet property="showPaymentListButton" destination="kUS-Sa-uvx" id="tp9-um-nAA"/>
                         <outlet property="textField" destination="aV7-RS-uKQ" id="cwJ-N5-0rO"/>
-                        <outlet property="themeSwitch" destination="Nag-du-UoB" id="Dwh-mE-5DS"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wsj-G2-baI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -182,7 +182,7 @@
     </scenes>
     <resources>
         <namedColor name="AccentColor">
-            <color red="0.0" green="0.53725490196078429" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.53725490196078429" blue="0.25098039215686274" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

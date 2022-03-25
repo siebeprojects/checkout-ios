@@ -10,7 +10,7 @@ import IovationRiskProvider
 
 class ViewController: UITableViewController {
     @IBOutlet private var textField: UITextField!
-    @IBOutlet private var themeSwitch: UISwitch!
+    @IBOutlet private var customAppearanceSwitch: UISwitch!
     @IBOutlet private var showPaymentListButton: UIButton!
     @IBOutlet private var chargePresetAccountButton: ActivityIndicatableButton!
 
@@ -76,7 +76,7 @@ extension ViewController {
     }
 
     private func toggleControls(enabled: Bool) {
-        [showPaymentListButton, chargePresetAccountButton, textField, themeSwitch].forEach {
+        [showPaymentListButton, chargePresetAccountButton, textField, customAppearanceSwitch].forEach {
             $0?.isEnabled = enabled
         }
 
@@ -99,7 +99,7 @@ extension ViewController {
         }
 
         let appearance: CheckoutAppearance? = {
-            if themeSwitch.isOn {
+            if customAppearanceSwitch.isOn {
                 return CheckoutAppearance(
                     primaryTextColor: .black,
                     secondaryTextColor: .darkGray,
