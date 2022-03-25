@@ -20,10 +20,10 @@ final class ExpiredCardTests: NetworksTests {
         super.setUp()
 
         var validCard = Card.visa
-        validCard.expiryDate = "10" + twoDigitNextYear
+        validCard.expiryDate = "03" + twoDigitNextYear
 
         var expiredCard = Card.visa
-        expiredCard.expiryDate = "1020"
+        expiredCard.expiryDate = "0320"
 
         self.validCardCustomerID = try! PaymentService().registerCustomer(card: validCard)
         self.expiredCardCustomerID = try! PaymentService().registerCustomer(card: expiredCard)
@@ -41,17 +41,17 @@ final class ExpiredCardTests: NetworksTests {
             try setupWithPaymentSession(transaction: transaction)
 
             let cell = app.tables["paymentlist"].cells.element(boundBy: 0)
-            XCTAssertTrue(cell.staticTexts["10 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
+            XCTAssertTrue(cell.staticTexts["03 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
 
             for index in 1...3 {
                 let cell = app.cells.element(boundBy: index)
                 XCTAssertTrue(cell.exists, "Cell with a network doesn't exist, couldn't check absense of expiration date")
-                XCTAssertFalse(cell.staticTexts["10 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
+                XCTAssertFalse(cell.staticTexts["03 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
             }
 
             cell.tap()
 
-            XCTAssertTrue(app.collectionViews.staticTexts["10 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
+            XCTAssertTrue(app.collectionViews.staticTexts["03 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
         }
     }
 
@@ -62,7 +62,7 @@ final class ExpiredCardTests: NetworksTests {
 
             let cell = app.tables["paymentlist"].cells.element(boundBy: 0)
 
-            XCTAssertTrue(cell.staticTexts["10 / 20"].exists)
+            XCTAssertTrue(cell.staticTexts["03 / 20"].exists)
 
             cell.buttons["expirationInfo"].tap()
 

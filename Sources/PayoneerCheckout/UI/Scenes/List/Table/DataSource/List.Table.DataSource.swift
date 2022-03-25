@@ -208,7 +208,7 @@ extension DetailedLabelRow {
             logo: image,
             title: primaryLabel,
             subtitle: secondaryLabel,
-            subtitleColor: isExpired ? CheckoutAppearance.shared.errorColor : CheckoutAppearance.shared.secondaryTextColor,
+            subtitleColor: isExpired ? CheckoutAppearance.shared.errorColor : CheckoutAppearance.shared.primaryTextColor,
             trailingButtonImage: isExpired ? AssetProvider.expirationInfo : nil,
             trailingButtonColor: isExpired ? CheckoutAppearance.shared.errorColor : nil,
             translator: translator,

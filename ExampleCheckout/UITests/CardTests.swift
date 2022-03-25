@@ -70,8 +70,6 @@ class CardsTests: NetworksTests {
         try setupWithPaymentSession(transaction: transaction)
         let card = Card.visa
 
-        XCTAssert(app.tables.staticTexts.contains(text: card.label))
-
         app.tables.staticTexts["Cards"].tap()
         card.submit(in: app.collectionViews)
 
@@ -84,15 +82,12 @@ class CardsTests: NetworksTests {
         // After TRY_OTHER_NETWORK response cards shouldn't contain Visa payment method
         app.alerts.buttons.firstMatch.tap()
         XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
-        XCTAssertFalse(app.tables.staticTexts.contains(text: card.label))
     }
 
     func testTryOtherAccount() throws {
         let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherAccount, operationType: .charge))
         try setupWithPaymentSession(transaction: transaction)
         let card = Card.visa
-
-        XCTAssert(app.tables.staticTexts.contains(text: card.label))
 
         app.tables.staticTexts["Cards"].tap()
         card.submit(in: app.collectionViews)
@@ -106,7 +101,6 @@ class CardsTests: NetworksTests {
         // After TRY_OTHER_ACCOUNT response, cards should still contain Visa payment method
         app.alerts.buttons.firstMatch.tap()
         XCTAssert(app.tables.staticTexts["Cards"].waitForExistence(timeout: .networkTimeout))
-        XCTAssert(app.tables.staticTexts.contains(text: card.label))
     }
 
     // MARK: Failed Card Payment

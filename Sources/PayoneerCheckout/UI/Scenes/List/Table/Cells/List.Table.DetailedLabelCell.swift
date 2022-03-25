@@ -30,7 +30,7 @@ extension List.Table {
         private let subtitleLabel: UILabel = {
             let titleLabel = UILabel()
             titleLabel.font = Fonts.mainFont(forTextStyle: .footnote)
-            titleLabel.textColor = CheckoutAppearance.shared.secondaryTextColor
+            titleLabel.textColor = CheckoutAppearance.shared.primaryTextColor
             return titleLabel
         }()
 
@@ -72,7 +72,7 @@ extension List.Table.DetailedLabelCell {
         self.titleLabel.text = title
         self.subtitleLabel.text = subtitle
         self.subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
-        self.subtitleLabel.textColor = subtitleColor ?? CheckoutAppearance.shared.secondaryTextColor
+        self.subtitleLabel.textColor = subtitleColor ?? CheckoutAppearance.shared.primaryTextColor
         self.translator = translator
         self.modalPresenter = modalPresenter
         self.trailingButton.tintColor = trailingButtonColor
