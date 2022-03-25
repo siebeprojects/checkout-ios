@@ -107,6 +107,7 @@ extension Checkout: SFSafariViewControllerDelegate {
         NotificationCenter.default.post(
             name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
             object: nil,
+            // User info key is `PRESET` because delegate could be called only by `authenticationChallengeReceived` closure in PRESET flow
             userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: "PRESET"]
         )
     }
