@@ -41,13 +41,12 @@ final class CheckoutTests: XCTestCase {
     override func tearDown() {
         mockChargePresetService = nil
         checkout = nil
-        CheckoutAppearance.shared = nil
 
         super.tearDown()
     }
 
-    func testInit_shouldStartAppearanceSingleton() {
-        XCTAssertTrue(CheckoutAppearance.shared != nil)
+    func testInit_shouldSetAppearanceSingleton() {
+        XCTAssertTrue(CheckoutAppearance.shared == checkout.configuration.appearance)
     }
 
     func testPresentPayment_shouldSetPresenter() {

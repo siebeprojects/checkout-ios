@@ -17,7 +17,7 @@ import UIKit
     public let buttonTitleColor: UIColor
 
     /// The shared singleton appearance object. Initialized by `Checkout`.
-    static var shared: CheckoutAppearance!
+    static var shared: CheckoutAppearance = .default
 
     public static var `default`: CheckoutAppearance {
         CheckoutAppearance(
