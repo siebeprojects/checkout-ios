@@ -19,22 +19,34 @@ import UIKit
     /// The shared singleton appearance object. Initialized by `Checkout`.
     static var shared: CheckoutAppearance!
 
+    public static var `default`: CheckoutAppearance {
+        CheckoutAppearance(
+            primaryTextColor: Colors.primaryText,
+            secondaryTextColor: Colors.secondaryText,
+            backgroundColor: Colors.background,
+            accentColor: nil,
+            errorColor: Colors.error,
+            borderColor: Colors.border,
+            buttonTitleColor: .white
+        )
+    }
+
     /// Initializes a `CheckoutAppearance` with the given parameters.
     @objc public init(
-        primaryTextColor: UIColor? = nil,
-        secondaryTextColor: UIColor? = nil,
-        backgroundColor: UIColor? = nil,
-        accentColor: UIColor? = nil,
-        errorColor: UIColor? = nil,
-        borderColor: UIColor? = nil,
-        buttonTitleColor: UIColor? = nil
+        primaryTextColor: UIColor = CheckoutAppearance.default.primaryTextColor,
+        secondaryTextColor: UIColor = CheckoutAppearance.default.secondaryTextColor,
+        backgroundColor: UIColor = CheckoutAppearance.default.backgroundColor,
+        accentColor: UIColor? = CheckoutAppearance.default.accentColor,
+        errorColor: UIColor = CheckoutAppearance.default.errorColor,
+        borderColor: UIColor = CheckoutAppearance.default.borderColor,
+        buttonTitleColor: UIColor = CheckoutAppearance.default.buttonTitleColor
     ) {
-        self.primaryTextColor = primaryTextColor ?? Colors.primaryText
-        self.secondaryTextColor = secondaryTextColor ?? Colors.secondaryText
-        self.backgroundColor = backgroundColor ?? Colors.background
+        self.primaryTextColor = primaryTextColor
+        self.secondaryTextColor = secondaryTextColor
+        self.backgroundColor = backgroundColor
         self.accentColor = accentColor
-        self.errorColor = errorColor ?? Colors.error
-        self.borderColor = borderColor ?? Colors.border
-        self.buttonTitleColor = buttonTitleColor ?? .white
+        self.errorColor = errorColor
+        self.borderColor = borderColor
+        self.buttonTitleColor = buttonTitleColor
     }
 }

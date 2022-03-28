@@ -98,23 +98,24 @@ extension ViewController {
             return
         }
 
-        let appearance: CheckoutAppearance? = {
-            if customAppearanceSwitch.isOn {
-                return CheckoutAppearance(
-                    primaryTextColor: .black,
-                    secondaryTextColor: .darkGray,
-                    backgroundColor: .white,
-                    accentColor: .orange,
-                    errorColor: .red,
-                    borderColor: .lightGray,
-                    buttonTitleColor: .white
-                )
-            }
+        let customAppearance = CheckoutAppearance(
+            primaryTextColor: .black,
+            secondaryTextColor: .darkGray,
+            backgroundColor: .white,
+            accentColor: .orange,
+            errorColor: .red,
+            borderColor: .lightGray,
+            buttonTitleColor: .white
+        )
 
-            return nil
-        }()
+        let appearance: CheckoutAppearance = customAppearanceSwitch.isOn ? customAppearance : .default
 
-        let configuration = CheckoutConfiguration(listURL: url, appearance: appearance, riskProviders: [IovationRiskProvider.self])
+        let configuration = CheckoutConfiguration(
+            listURL: url,
+            appearance: appearance,
+            riskProviders: [IovationRiskProvider.self]
+        )
+
         checkout = Checkout(configuration: configuration)
 
         chargePresetAccountButton.isEnabled = true
