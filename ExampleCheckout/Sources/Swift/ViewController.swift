@@ -55,7 +55,7 @@ extension ViewController {
 
         startLoading()
 
-        checkout?.chargePresetAccount { result in
+        checkout?.chargePresetAccount(from: self) { result in
             self.stopLoading()
             self.presentAlert(with: result)
         }

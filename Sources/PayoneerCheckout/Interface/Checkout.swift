@@ -42,12 +42,13 @@ import SafariServices
     ///     This completion block takes the following parameter:
     ///   - result: An object containing relevant information about the result of the operation.
     func presentPaymentList(from presenter: UIViewController, completion: @escaping (_ result: CheckoutResult) -> Void) {
-        self.presenter?.dismiss(animated: false)
+        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, riskProviders: configuration.riskProviders, delegate: self)
+
         self.presenter = presenter
         self.paymentCompletionBlock = completion
-        self.paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, riskProviders: configuration.riskProviders, delegate: self)
+        self.paymentListViewController = paymentListViewController
 
-        let navigationController = UINavigationController(rootViewController: self.paymentListViewController!)
+        let navigationController = UINavigationController(rootViewController: paymentListViewController)
 
         if let customAccentColor = configuration.appearance.accentColor {
             navigationController.view.tintColor = customAccentColor
@@ -62,7 +63,9 @@ import SafariServices
     ///
     ///     This completion block takes the following parameter:
     ///   - result: An object containing relevant information about the result of the operation.
-    func chargePresetAccount(completion: @escaping (_ result: CheckoutResult) -> Void) {
+    func chargePresetAccount(from presenter: UIViewController, completion: @escaping (_ result: CheckoutResult) -> Void) {
+        self.presenter = presenter
+
         chargePresetService.chargePresetAccount(
             usingListResultURL: configuration.listURL,
             completion: { [weak self] result in

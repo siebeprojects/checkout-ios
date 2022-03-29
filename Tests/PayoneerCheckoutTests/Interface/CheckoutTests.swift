@@ -65,13 +65,6 @@ final class CheckoutTests: XCTestCase {
         XCTAssertTrue(checkout.paymentListViewController != nil)
     }
 
-    func testPresentPayment_whenSubsequentCall_shouldCallDismiss() {
-        let firstPresenter = MockCheckoutPresenter()
-        checkout.presentPaymentList(from: firstPresenter, completion: { _ in })
-        checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in })
-        XCTAssertTrue(firstPresenter.dismissCalled)
-    }
-
     func testPresentPayment_shouldPresentNavigationController() {
         let presenter = MockCheckoutPresenter()
         checkout.presentPaymentList(from: presenter, completion: { _ in })
