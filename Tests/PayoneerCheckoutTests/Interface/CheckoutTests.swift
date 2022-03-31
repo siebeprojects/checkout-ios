@@ -80,8 +80,7 @@ final class CheckoutTests: XCTestCase {
         mockChargePresetService.result = .completion
 
         let presenter = MockCheckoutPresenter()
-        checkout.presentPaymentList(from: presenter, completion: { _ in })
-        checkout.chargePresetAccount(completion: { _ in })
+        checkout.chargePresetAccount(from: presenter, completion: { _ in })
         XCTAssertTrue(presenter.dismissCalled)
     }
 
@@ -89,7 +88,7 @@ final class CheckoutTests: XCTestCase {
         mockChargePresetService.result = .completion
 
         var completionCalled = false
-        checkout.chargePresetAccount(completion: { _ in completionCalled = true })
+        checkout.chargePresetAccount(from: MockCheckoutPresenter(), completion: { _ in completionCalled = true })
         XCTAssertTrue(completionCalled)
     }
 
@@ -97,8 +96,7 @@ final class CheckoutTests: XCTestCase {
         mockChargePresetService.result = .authenticationChallenge
 
         let presenter = MockCheckoutPresenter()
-        checkout.presentPaymentList(from: presenter, completion: { _ in })
-        checkout.chargePresetAccount(completion: { _ in })
+        checkout.chargePresetAccount(from: presenter, completion: { _ in })
         XCTAssertTrue(presenter.presentCalled)
     }
 
