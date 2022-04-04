@@ -28,7 +28,7 @@ class PresetFlowTests: NetworksTests {
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
             let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .preset))
-            try setupWithPaymentSession(transaction: transaction)
+            try setupPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
             app.tables.staticTexts["Cards"].tap()
@@ -61,7 +61,7 @@ class PresetFlowTests: NetworksTests {
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
             let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .nonMagicNumber, operationType: .preset))
-            try setupWithPaymentSession(transaction: transaction)
+            try setupPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
             app.tables.staticTexts["PayPal"].tap()
@@ -102,7 +102,7 @@ class PresetFlowTests: NetworksTests {
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
             let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .preset))
-            try setupWithPaymentSession(transaction: transaction)
+            try setupPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
             app.tables.staticTexts["Cards"].tap()
@@ -146,7 +146,7 @@ class PresetFlowTests: NetworksTests {
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
             let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .preset))
-            try setupWithPaymentSession(transaction: transaction)
+            try setupPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
             app.tables.staticTexts["Cards"].tap()

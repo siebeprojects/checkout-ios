@@ -9,7 +9,7 @@ import XCTest
 final class ExtraElementsTests: NetworksTests {
     func testExtraElements_whenNone_shouldNotDisplay() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try setupWithPaymentSession(transaction: Transaction.create())
+            try setupPaymentSession(transaction: Transaction.create())
             app.staticTexts["Cards"].tap()
             XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.textViews["Top Element Number 1 with invalid link"].exists)
@@ -19,7 +19,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenTopAndBottom_shouldDisplayBoth() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
+            try setupPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
             app.tables.staticTexts["Cards"].tap()
             XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertTrue(app.textViews["Top Element Number 1 with invalid link"].exists)
@@ -29,7 +29,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenTop_shouldDisplayTop() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTop)))
+            try setupPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTop)))
             app.tables.staticTexts["Cards"].tap()
             XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertTrue(app.textViews["Top Element Number 1 with invalid link"].exists)
@@ -39,7 +39,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenBottom_shouldDisplayBottom() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsBottom)))
+            try setupPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsBottom)))
             app.tables.staticTexts["Cards"].tap()
             XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.textViews["Top Element Number 1 with invalid link"].exists)
@@ -49,7 +49,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenContainsCheckbox_shouldNotDisplay() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
+            try setupPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
             app.tables.staticTexts["Cards"].tap()
             XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             XCTAssertFalse(app.textViews["Top Element Number 2 with a Checkbox view"].exists)
@@ -59,7 +59,7 @@ final class ExtraElementsTests: NetworksTests {
 
     func testExtraElements_whenContainsLink_shouldOpenSafari() throws {
         try XCTContext.runActivity(named: "Open payment form") { _ in
-            try setupWithPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
+            try setupPaymentSession(transaction: Transaction.create(withSettings: TransactionSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsTopBottom)))
             app.staticTexts["Cards"].tap()
             XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
             app.textViews.firstMatch.links["Number 1"].tap()

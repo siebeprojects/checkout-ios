@@ -9,7 +9,7 @@ import XCTest
 class SepaTests: NetworksTests {
     func testSuccessPayment() throws {
         let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .charge))
-        try setupWithPaymentSession(transaction: transaction)
+        try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["SEPA"].tap()
         Sepa().submit(in: app.collectionViews)

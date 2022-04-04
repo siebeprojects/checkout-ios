@@ -18,7 +18,7 @@ class NetworksTests: XCTestCase {
     }
 
     /// Load an app and load networks list from list url.
-    @discardableResult func setupWithPaymentSession(transaction: Transaction) throws -> ListResult {
+    @discardableResult func setupPaymentSession(transaction: Transaction) throws -> ListResult {
         try XCTContext.runActivity(named: "Setup with payment session") { _ in
             // Create payment session
             let session = try Self.createPaymentSession(using: transaction)

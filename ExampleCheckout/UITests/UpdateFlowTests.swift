@@ -10,7 +10,7 @@ import XCTest
 class UpdateFlowTests: NetworksTests {
     func testTryOtherAccount() throws {
         let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherAccount, operationType: .update))
-        try setupWithPaymentSession(transaction: transaction)
+        try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Card.visa.submit(in: app.collectionViews)
@@ -24,7 +24,7 @@ class UpdateFlowTests: NetworksTests {
 
     func testProceedPending() throws {
         let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedPending, operationType: .update))
-        try setupWithPaymentSession(transaction: transaction)
+        try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
         Card.visa.submit(in: app.collectionViews)
@@ -39,7 +39,7 @@ class UpdateFlowTests: NetworksTests {
     // PayPal returns `PROCEED/OK` when it updated.
     func testProceedOk() throws {
         let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update))
-        try setupWithPaymentSession(transaction: transaction)
+        try setupPaymentSession(transaction: transaction)
 
         let payPal = PayPalAccount()
 
@@ -66,7 +66,7 @@ extension UpdateFlowTests {
         let customerId = try PaymentService().registerCustomer(card: card)
         let settings = TransactionSettings(operationType: .update, customerId: customerId)
         let transaction = try Transaction.create(withSettings: settings)
-        try setupWithPaymentSession(transaction: transaction)
+        try setupPaymentSession(transaction: transaction)
 
 
         // Method was saved previously when customer was registered
