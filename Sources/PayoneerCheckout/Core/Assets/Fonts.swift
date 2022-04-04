@@ -6,7 +6,7 @@
 
 import UIKit
 
-fileprivate enum Fonts {
+private enum Fonts {
     static func mainFont(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
         .preferredFont(forTextStyle: textStyle)
     }

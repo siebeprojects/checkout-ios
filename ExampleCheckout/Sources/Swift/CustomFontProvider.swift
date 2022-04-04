@@ -11,25 +11,24 @@ private let regularFontName = "Rubik-Regular"
 private let boldFontName = "Rubik-Bold"
 
 final class CustomFontProvider: CheckoutFontProviderProtocol {
-    func font(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
-        let customFont: UIFont? = {
-            switch textStyle {
-            case .largeTitle:  return UIFont(name: regularFontName, size: 34)!
-            case .title1:      return UIFont(name: regularFontName, size: 28)!
-            case .title2:      return UIFont(name: regularFontName, size: 22)!
-            case .title3:      return UIFont(name: regularFontName, size: 20)!
-            case .headline:    return UIFont(name: boldFontName, size: 17)
-            case .body:        return UIFont(name: regularFontName, size: 17)!
-            case .callout:     return UIFont(name: regularFontName, size: 16)!
-            case .subheadline: return UIFont(name: regularFontName, size: 15)!
-            case .footnote:    return UIFont(name: regularFontName, size: 13)!
-            case .caption1:    return UIFont(name: regularFontName, size: 12)!
-            case .caption2:    return UIFont(name: regularFontName, size: 11)!
-            default:           return nil
-            }
-        }()
+    private let fontVariants: [UIFont.TextStyle: UIFont] = [
+        .largeTitle: UIFont(name: regularFontName, size: 34)!,
+        .title1: UIFont(name: regularFontName, size: 28)!,
+        .title2: UIFont(name: regularFontName, size: 22)!,
+        .title3: UIFont(name: regularFontName, size: 20)!,
+        .headline: UIFont(name: boldFontName, size: 17)!,
+        .body: UIFont(name: regularFontName, size: 17)!,
+        .callout: UIFont(name: regularFontName, size: 16)!,
+        .subheadline: UIFont(name: regularFontName, size: 15)!,
+        .footnote: UIFont(name: regularFontName, size: 13)!,
+        .caption1: UIFont(name: regularFontName, size: 12)!,
+        .caption2: UIFont(name: regularFontName, size: 11)!
+    ]
 
-        guard let customFont = customFont else { return .preferredFont(forTextStyle: textStyle) }
+    func font(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
+        guard let customFont = fontVariants[textStyle] else {
+            return .preferredFont(forTextStyle: textStyle)
+        }
 
         return UIFontMetrics(forTextStyle: textStyle).scaledFont(for: customFont)
     }
