@@ -39,11 +39,6 @@ extension Input.Table {
 
             textInputView.textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             textInputView.textField.addTarget(self, action: #selector(textFieldPrimaryActionTriggered), for: .primaryActionTriggered)
-
-            // Theming
-            textInputView.textField.font = Fonts.mainFont(forTextStyle: .body)
-            textInputView.titleLabel.font = Fonts.mainFont(forTextStyle: .footnote, weight: .semibold)
-            textInputView.errorLabel.font = Fonts.mainFont(forTextStyle: .caption2)
         }
 
         @objc private func textFieldDidChange(_ textField: UITextField) {

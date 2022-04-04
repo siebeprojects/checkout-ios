@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		070CAE9327D2284A00DE9706 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CAE9227D2284A00DE9706 /* NavigationTests.swift */; };
 		070CAE9427D2284A00DE9706 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CAE9227D2284A00DE9706 /* NavigationTests.swift */; };
+		0720167527FAE4FE00800598 /* CustomFontProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0720167427FAE4FE00800598 /* CustomFontProvider.swift */; };
+		0720167827FAF31D00800598 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0720167627FAF31D00800598 /* Rubik-Bold.ttf */; };
+		0720167927FAF31D00800598 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0720167727FAF31D00800598 /* Rubik-Regular.ttf */; };
 		0725B40226FCBC9600C607A8 /* TimeInterval+timeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D954C00F2696F41000714396 /* TimeInterval+timeout.swift */; };
 		0725B40326FCBC9600C607A8 /* NetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28525DEB9E0001A2EAD /* NetworksTests.swift */; };
 		0725B40826FCBC9600C607A8 /* CardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D956D28825DEBE23001A2EAD /* CardTests.swift */; };
@@ -173,6 +176,9 @@
 
 /* Begin PBXFileReference section */
 		070CAE9227D2284A00DE9706 /* NavigationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTests.swift; path = UITests/NavigationTests.swift; sourceTree = SOURCE_ROOT; };
+		0720167427FAE4FE00800598 /* CustomFontProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontProvider.swift; sourceTree = "<group>"; };
+		0720167627FAF31D00800598 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
+		0720167727FAF31D00800598 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		0725B42226FCBC9600C607A8 /* UITestsObjC.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITestsObjC.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonTests.swift; sourceTree = "<group>"; };
 		074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredCardTests.swift; sourceTree = "<group>"; };
@@ -291,14 +297,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		07F17FA927634C98000CB406 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		D912BABF2726C04B0004AFAE /* Abstract */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,11 +375,14 @@
 			children = (
 				D9E0AEB0234143BD0021184C /* AppDelegate.swift */,
 				D9E0AEB4234143BD0021184C /* ViewController.swift */,
-				07F17FA927634C98000CB406 /* View */,
+				0720167427FAE4FE00800598 /* CustomFontProvider.swift */,
+				07F17FAA27634C98000CB406 /* ActivityIndicatableButton.swift */,
 				D9E0AEB6234143BD0021184C /* Main.storyboard */,
 				D9E0AEBB234143BF0021184C /* LaunchScreen.storyboard */,
 				D9E0AEBE234143BF0021184C /* Info.plist */,
 				D92B4D6725F6843A00103C70 /* Assets.xcassets */,
+				0720167627FAF31D00800598 /* Rubik-Bold.ttf */,
+				0720167727FAF31D00800598 /* Rubik-Regular.ttf */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
@@ -675,6 +676,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0720167927FAF31D00800598 /* Rubik-Regular.ttf in Resources */,
+				0720167827FAF31D00800598 /* Rubik-Bold.ttf in Resources */,
 				D9E0AEBD234143BF0021184C /* LaunchScreen.storyboard in Resources */,
 				D92B4D6825F6843A00103C70 /* Assets.xcassets in Resources */,
 				D9E0AEB8234143BD0021184C /* Main.storyboard in Resources */,
@@ -825,6 +828,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0720167527FAE4FE00800598 /* CustomFontProvider.swift in Sources */,
 				D9E0AEB5234143BD0021184C /* ViewController.swift in Sources */,
 				D9E0AEB1234143BD0021184C /* AppDelegate.swift in Sources */,
 				07F17FAB27634C98000CB406 /* ActivityIndicatableButton.swift in Sources */,

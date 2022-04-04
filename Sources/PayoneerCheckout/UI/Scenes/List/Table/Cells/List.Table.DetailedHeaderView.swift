@@ -26,15 +26,16 @@ extension List.Table {
         private func addSubviews() {
             let primaryLabel = UILabel(frame: .zero)
             self.primaryLabel = primaryLabel
-            primaryLabel.font = Fonts.mainFont(forTextStyle: .footnote)
+            primaryLabel.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .footnote)
 
             let secondaryLabel = UILabel(frame: .zero)
             self.secondaryLabel = secondaryLabel
-            secondaryLabel.font = Fonts.mainFont(forTextStyle: .caption2, weight: .light)
+            secondaryLabel.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .caption2)
 
             for label in [primaryLabel, secondaryLabel] {
                 label.numberOfLines = 0
                 label.textColor = CheckoutAppearance.shared.primaryTextColor
+                label.adjustsFontForContentSizeCategory = true
 
                 label.translatesAutoresizingMaskIntoConstraints = false
                 contentView.addSubview(label)

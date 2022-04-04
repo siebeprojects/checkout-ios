@@ -6,14 +6,22 @@
 
 import UIKit
 
-enum Fonts {
+fileprivate enum Fonts {
     static func mainFont(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
         .preferredFont(forTextStyle: textStyle)
     }
 
-    static func mainFont(forTextStyle textStyle: UIFont.TextStyle, weight: UIFont.Weight) -> UIFont {
-        let font = mainFont(forTextStyle: textStyle)
-        let descriptor = font.fontDescriptor.addingAttributes([.traits: [UIFontDescriptor.TraitKey.weight: weight]])
-        return UIFont(descriptor: descriptor, size: font.pointSize)
+    static func mainFont(ofSize fontSize: CGFloat, weight: UIFont.Weight) -> UIFont {
+        .systemFont(ofSize: fontSize, weight: weight)
+    }
+}
+
+final class DefaultFontProvider: CheckoutFontProviderProtocol {
+    func font(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
+        return Fonts.mainFont(forTextStyle: textStyle)
+    }
+
+    func font(ofSize fontSize: CGFloat, weight: UIFont.Weight) -> UIFont {
+        return Fonts.mainFont(ofSize: fontSize, weight: weight)
     }
 }

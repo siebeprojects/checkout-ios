@@ -105,7 +105,8 @@ extension ViewController {
             accentColor: .orange,
             errorColor: .red,
             borderColor: .lightGray,
-            buttonTitleColor: .white
+            buttonTitleColor: .white,
+            fontProvider: CustomFontProvider()
         )
 
         let appearance: CheckoutAppearance = customAppearanceSwitch.isOn ? customAppearance : .default

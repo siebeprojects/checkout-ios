@@ -29,9 +29,10 @@ extension Input.Table {
 
             // Configure a text view
             textView.textColor = CheckoutAppearance.shared.primaryTextColor
-            textView.font = Fonts.mainFont(forTextStyle: .subheadline)
+            textView.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .subheadline)
             textView.isScrollEnabled = false
             textView.isEditable = false
+            textView.adjustsFontForContentSizeCategory = true
 
             textView.textContainerInset = .zero
             textView.textContainer.lineFragmentPadding = 0

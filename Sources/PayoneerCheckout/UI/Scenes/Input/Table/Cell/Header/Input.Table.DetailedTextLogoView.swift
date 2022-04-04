@@ -17,16 +17,18 @@ extension Input.Table {
 
         private let titleLabel: UILabel = {
             let label = UILabel()
-            label.font = Fonts.mainFont(forTextStyle: .body)
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
             label.textColor = CheckoutAppearance.shared.primaryTextColor
+            label.adjustsFontForContentSizeCategory = true
             return label
         }()
 
         private let subtitleLabel: UILabel = {
             let label = UILabel()
-            label.font = Fonts.mainFont(forTextStyle: .footnote)
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .footnote)
             label.textColor = CheckoutAppearance.shared.primaryTextColor
+            label.adjustsFontForContentSizeCategory = true
             return label
         }()
 

@@ -96,7 +96,7 @@ extension Input.Table.ButtonCell {
         let attributedString = NSAttributedString(
             string: model.label,
             attributes: [
-                .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize, weight: .semibold),
+                .font: CheckoutAppearance.shared.fontProvider.font(ofSize: UIFont.buttonFontSize, weight: .semibold),
                 .foregroundColor: CheckoutAppearance.shared.buttonTitleColor
             ]
         )

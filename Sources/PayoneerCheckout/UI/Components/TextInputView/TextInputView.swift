@@ -12,6 +12,9 @@ private let borderColorDisabled: UIColor = CheckoutAppearance.shared.primaryText
 private let containerBackgroundColor: UIColor = CheckoutAppearance.shared.backgroundColor
 private let textColor: UIColor = CheckoutAppearance.shared.primaryTextColor
 private let errorColor: UIColor = CheckoutAppearance.shared.errorColor
+private let titleFont: UIFont = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .footnote)
+private let textFont: UIFont = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .body)
+private let errorFont: UIFont = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .caption2)
 private let borderWidthIdle: CGFloat = 1
 private let borderWidthHighlighted: CGFloat = 2
 
@@ -26,9 +29,11 @@ final class TextInputView: UIView {
 
     let titleLabel: UILabel = {
         let label = UILabel()
+        label.font = titleFont
         label.textColor = titleColor
         label.numberOfLines = 0
         label.isUserInteractionEnabled = false
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
@@ -43,17 +48,21 @@ final class TextInputView: UIView {
 
     let textField: UITextField = {
         let field = UITextField()
+        field.font = textFont
         field.textColor = textColor
         field.clearButtonMode = .never
+        field.adjustsFontForContentSizeCategory = true
         return field
     }()
 
     let errorLabel: UILabel = {
         let label = UILabel()
+        label.font = errorFont
         label.textColor = errorColor
         label.numberOfLines = 0
         label.isUserInteractionEnabled = false
         label.isHidden = true
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 

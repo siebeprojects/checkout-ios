@@ -15,11 +15,12 @@ import UIKit
     public let errorColor: UIColor
     public let borderColor: UIColor
     public let buttonTitleColor: UIColor
+    public let fontProvider: CheckoutFontProviderProtocol
 
     /// The shared singleton appearance object. Initialized by `Checkout`.
     static var shared: CheckoutAppearance = .default
 
-    public static var `default`: CheckoutAppearance {
+    @objc public static var `default`: CheckoutAppearance {
         CheckoutAppearance(
             primaryTextColor: Colors.primaryText,
             secondaryTextColor: Colors.secondaryText,
@@ -39,7 +40,8 @@ import UIKit
         accentColor: UIColor? = CheckoutAppearance.default.accentColor,
         errorColor: UIColor = CheckoutAppearance.default.errorColor,
         borderColor: UIColor = CheckoutAppearance.default.borderColor,
-        buttonTitleColor: UIColor = CheckoutAppearance.default.buttonTitleColor
+        buttonTitleColor: UIColor = CheckoutAppearance.default.buttonTitleColor,
+        fontProvider: CheckoutFontProviderProtocol? = nil
     ) {
         self.primaryTextColor = primaryTextColor
         self.secondaryTextColor = secondaryTextColor
@@ -48,5 +50,6 @@ import UIKit
         self.errorColor = errorColor
         self.borderColor = borderColor
         self.buttonTitleColor = buttonTitleColor
+        self.fontProvider = fontProvider ?? DefaultFontProvider()
     }
 }
