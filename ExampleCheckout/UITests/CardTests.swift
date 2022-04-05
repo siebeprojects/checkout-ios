@@ -171,12 +171,120 @@ class CardsTests: NetworksTests {
         XCTAssertTrue(interactionResult.contains("SYSTEM_FAILURE"))
     }
 
-    func testGETRedirectTESTPSP() throws {
+    func testGETRedirectTESTPSPAccept() throws {
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .charge))
+        try setupPaymentSession(transaction: transaction)
 
+        var card = Card.visa
+        card.number = "4111111111111400"
+
+        app.tables.staticTexts["Cards"].tap()
+        card.submit(in: app.collectionViews)
+
+        // Webview
+
+        let button = app.webViews.staticTexts["accept payment"]
+        XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        button.tap()
+
+        // Alert
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        XCTAssert(interactionResult.contains("PROCEED"))
+        XCTAssert(interactionResult.contains("OK"))
     }
 
-    func testPOSTRedirectTESTPSP() throws {
+    func testGETRedirectTESTPSPAbort() throws {
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .charge))
+        try setupPaymentSession(transaction: transaction)
 
+        var card = Card.visa
+        card.number = "4111111111111400"
+
+        app.tables.staticTexts["Cards"].tap()
+        card.submit(in: app.collectionViews)
+
+        // Webview
+
+        let challengeButton = app.webViews.staticTexts["request challenge"]
+        XCTAssertTrue(challengeButton.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        challengeButton.tap()
+
+        let acceptButton = app.webViews.staticTexts["abort"]
+        XCTAssertTrue(acceptButton.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        acceptButton.tap()
+
+        // Alert
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let alertTitle = app.alerts.firstMatch.staticTexts.element(boundBy: 0).label
+        let expectedTitle = "Payment interrupted"
+        XCTAssertEqual(alertTitle, expectedTitle)
+
+        let alertText = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        let expectedText = "Please try again."
+        XCTAssertEqual(alertText, expectedText)
+    }
+
+    func testPOSTRedirectTESTPSPAccept() throws {
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .charge))
+        try setupPaymentSession(transaction: transaction)
+
+        var card = Card.visa
+        card.number = "4111111111111418"
+
+        app.tables.staticTexts["Cards"].tap()
+        card.submit(in: app.collectionViews)
+
+        // Webview
+
+        let button = app.webViews.staticTexts["accept payment"]
+        XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        button.tap()
+
+        // Alert
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        XCTAssert(interactionResult.contains("PROCEED"))
+        XCTAssert(interactionResult.contains("OK"))
+    }
+
+    func testPOSTRedirectTESTPSPAbort() throws {
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .charge))
+        try setupPaymentSession(transaction: transaction)
+
+        var card = Card.visa
+        card.number = "4111111111111418"
+
+        app.tables.staticTexts["Cards"].tap()
+        card.submit(in: app.collectionViews)
+
+        // Webview
+
+        let challengeButton = app.webViews.staticTexts["request challenge"]
+        XCTAssertTrue(challengeButton.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        challengeButton.tap()
+
+        let acceptButton = app.webViews.staticTexts["abort"]
+        XCTAssertTrue(acceptButton.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        acceptButton.tap()
+
+        // Alert
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let alertTitle = app.alerts.firstMatch.staticTexts.element(boundBy: 0).label
+        let expectedTitle = "Payment interrupted"
+        XCTAssertEqual(alertTitle, expectedTitle)
+
+        let alertText = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        let expectedText = "Please try again."
+        XCTAssertEqual(alertText, expectedText)
     }
 }
 
