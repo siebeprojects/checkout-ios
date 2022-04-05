@@ -148,6 +148,36 @@ class CardsTests: NetworksTests {
         XCTAssertEqual(cardNumberTextField.value as? String, "13 to 19 digits", "Text wasn't cleared")
         XCTAssertFalse(clearButton.exists, "Clear button should be hidden")
     }
+
+    func testFailUpdateSavedAccount() throws {
+        var card = Card.visa
+        card.number = "4111111111111111"
+
+        let customerID = try PaymentService().registerCustomer(card: card)
+
+        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .forceFail, operationType: .update, customerId: customerID))
+        try setupPaymentSession(transaction: transaction)
+
+        app.tables.staticTexts[card.maskedLabel].tap()
+
+        app.collectionViews.textFields["MM / YY"].typeText("1032")
+        app.collectionViews.textFields["3 digits"].typeText(card.verificationCode)
+        app.collectionViews.buttons.firstMatch.tap()
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        XCTAssertTrue(interactionResult.contains("ABORT"))
+        XCTAssertTrue(interactionResult.contains("SYSTEM_FAILURE"))
+    }
+
+    func testGETRedirectTESTPSP() throws {
+
+    }
+
+    func testPOSTRedirectTESTPSP() throws {
+
+    }
 }
 
 fileprivate extension XCUIElementQuery {

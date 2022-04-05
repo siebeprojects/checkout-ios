@@ -78,6 +78,7 @@ extension Transaction {
         case tryOtherNetwork
         case nonMagicNumber
         case threeDS2
+        case forceFail
 
         /// Get the amount value for the magic number.
         ///
@@ -99,6 +100,7 @@ extension Transaction {
             case .tryOtherAccount: return 1.21
             case .nonMagicNumber:  return 15
             case .threeDS2:        return 1.23
+            case .forceFail:       return 8.27
             }
         }
 
@@ -111,6 +113,7 @@ extension Transaction {
             case .tryOtherAccount: return 1.21
             case .nonMagicNumber:  return 15
             case .threeDS2:        return nil
+            case .forceFail:       return 8.27
             }
         }
 

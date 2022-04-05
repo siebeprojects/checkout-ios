@@ -68,7 +68,6 @@ extension UpdateFlowTests {
         let transaction = try Transaction.create(withSettings: settings)
         try setupPaymentSession(transaction: transaction)
 
-
         // Method was saved previously when customer was registered
 
         // Test deletion
