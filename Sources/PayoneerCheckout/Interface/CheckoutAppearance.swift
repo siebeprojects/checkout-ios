@@ -38,12 +38,12 @@ import UIKit
     /// The default appearance used if no custom appearance is set.
     @objc public static var `default`: CheckoutAppearance {
         CheckoutAppearance(
-            primaryTextColor: Colors.primaryText,
-            secondaryTextColor: Colors.secondaryText,
-            backgroundColor: Colors.background,
+            primaryTextColor: AssetProvider.primaryTextColor,
+            secondaryTextColor: AssetProvider.secondaryTextColor,
+            backgroundColor: AssetProvider.backgroundColor,
             accentColor: nil,
-            errorColor: Colors.error,
-            borderColor: Colors.border,
+            errorColor: AssetProvider.errorColor,
+            borderColor: AssetProvider.borderColor,
             buttonTitleColor: .white
         )
     }
@@ -57,7 +57,7 @@ import UIKit
     ///   - errorColor: The color used to indicate errors. It's used in text fields.
     ///   - borderColor: The color of the borders and row separators on the payment list screen.
     ///   - buttonTitleColor: The color of the primary button's title.
-    ///   - fontProvider: An object responsible for providing the different variations of a custom font. If `nil`, the default system font will be used.
+    ///   - fontProvider: An object responsible for providing the different variations of a custom font. If not specified, the default system font will be used.
     @objc public init(
         primaryTextColor: UIColor = CheckoutAppearance.default.primaryTextColor,
         secondaryTextColor: UIColor = CheckoutAppearance.default.secondaryTextColor,
@@ -66,7 +66,7 @@ import UIKit
         errorColor: UIColor = CheckoutAppearance.default.errorColor,
         borderColor: UIColor = CheckoutAppearance.default.borderColor,
         buttonTitleColor: UIColor = CheckoutAppearance.default.buttonTitleColor,
-        fontProvider: CheckoutFontProvider? = nil
+        fontProvider: CheckoutFontProvider = CheckoutDefaultFontProvider()
     ) {
         self.primaryTextColor = primaryTextColor
         self.secondaryTextColor = secondaryTextColor
@@ -75,6 +75,6 @@ import UIKit
         self.errorColor = errorColor
         self.borderColor = borderColor
         self.buttonTitleColor = buttonTitleColor
-        self.fontProvider = fontProvider ?? DefaultFontProvider()
+        self.fontProvider = fontProvider
     }
 }

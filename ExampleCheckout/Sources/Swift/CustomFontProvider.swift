@@ -37,8 +37,10 @@ final class CustomFontProvider: CheckoutFontProvider {
         switch weight {
         case .ultraLight, .thin, .light, .regular:
             return UIFont(name: regularFontName, size: fontSize)!
+
         case .medium, .semibold, .bold, .heavy, .black:
             return UIFont(name: boldFontName, size: fontSize)!
+
         default:
             return .systemFont(ofSize: fontSize, weight: weight)
         }

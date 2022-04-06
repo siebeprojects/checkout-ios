@@ -8,6 +8,12 @@ import UIKit
 
 enum AssetProvider {
     #if canImport(UIKit)
+    static let primaryTextColor = UIColor(named: "PrimaryText", in: .current, compatibleWith: nil)!
+    static let secondaryTextColor = UIColor(named: "SecondaryText", in: .current, compatibleWith: nil)!
+    static let backgroundColor = UIColor(named: "Background", in: .current, compatibleWith: nil)!
+    static let errorColor = UIColor(named: "Error", in: .current, compatibleWith: nil)!
+    static let borderColor = UIColor(named: "Border", in: .current, compatibleWith: nil)!
+
     static let iconCard = UIImage(named: "iconCard", in: .current, compatibleWith: nil)
     static let iconCVVQuestionMark = UIImage(named: "iconCVVQuestionMark", in: .current, compatibleWith: nil)
     static let cvvCard = UIImage(named: "cvvCard", in: .current, compatibleWith: nil)
