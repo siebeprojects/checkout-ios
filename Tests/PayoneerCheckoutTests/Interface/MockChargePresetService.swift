@@ -6,6 +6,7 @@
 
 import Foundation
 @testable import PayoneerCheckout
+import Networking
 
 final class MockChargePresetService: ChargePresetServiceProtocol {
     enum Result {

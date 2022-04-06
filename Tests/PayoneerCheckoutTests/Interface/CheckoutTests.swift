@@ -7,6 +7,7 @@
 import XCTest
 import SafariServices
 @testable import PayoneerCheckout
+import Networking
 
 private let customAccentColor: UIColor = .blue
 
