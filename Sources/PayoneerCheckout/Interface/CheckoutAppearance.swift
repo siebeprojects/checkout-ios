@@ -30,7 +30,8 @@ import UIKit
     public let buttonTitleColor: UIColor
 
     /// An object responsible for providing the different variations of a custom font. If `nil`, the default system font will be used.
-    public let fontProvider: CheckoutFontProviderProtocol
+    /// An object responsible for providing the different variations of a custom font.
+    public let fontProvider: CheckoutFontProvider
 
     /// The shared singleton appearance object. Initialized by `Checkout`.
     static var shared: CheckoutAppearance = .default
@@ -66,7 +67,7 @@ import UIKit
         errorColor: UIColor = CheckoutAppearance.default.errorColor,
         borderColor: UIColor = CheckoutAppearance.default.borderColor,
         buttonTitleColor: UIColor = CheckoutAppearance.default.buttonTitleColor,
-        fontProvider: CheckoutFontProviderProtocol? = nil
+        fontProvider: CheckoutFontProvider? = nil
     ) {
         self.primaryTextColor = primaryTextColor
         self.secondaryTextColor = secondaryTextColor

@@ -7,7 +7,7 @@
 import UIKit
 
 /// The protocol used to create a custom font provider.
-@objc public protocol CheckoutFontProviderProtocol {
+@objc public protocol CheckoutFontProvider {
     /// Returns an instance of the custom font for the specified text style with scaling for the user's selected content size category.
     /// - Returns: The custom font associated with the specified text style.
     func font(forTextStyle textStyle: UIFont.TextStyle) -> UIFont

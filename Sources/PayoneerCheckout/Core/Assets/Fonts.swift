@@ -16,7 +16,7 @@ private enum Fonts {
     }
 }
 
-final class DefaultFontProvider: CheckoutFontProviderProtocol {
+final class DefaultFontProvider: CheckoutFontProvider {
     func font(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
         return Fonts.mainFont(forTextStyle: textStyle)
     }

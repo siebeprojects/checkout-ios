@@ -10,7 +10,7 @@ import PayoneerCheckout
 private let regularFontName = "Rubik-Regular"
 private let boldFontName = "Rubik-Bold"
 
-final class CustomFontProvider: CheckoutFontProviderProtocol {
+final class CustomFontProvider: CheckoutFontProvider {
     private let fontVariants: [UIFont.TextStyle: UIFont] = [
         .largeTitle: UIFont(name: regularFontName, size: 34)!,
         .title1: UIFont(name: regularFontName, size: 28)!,
