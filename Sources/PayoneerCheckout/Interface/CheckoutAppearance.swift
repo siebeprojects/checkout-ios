@@ -29,7 +29,6 @@ import UIKit
     /// The color of the primary button's title.
     public let buttonTitleColor: UIColor
 
-    /// An object responsible for providing the different variations of a custom font. If `nil`, the default system font will be used.
     /// An object responsible for providing the different variations of a custom font.
     public let fontProvider: CheckoutFontProvider
 

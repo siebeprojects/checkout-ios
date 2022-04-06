@@ -59,11 +59,12 @@ import SafariServices
 
     /// Charges a preset account.
     /// - Parameters:
+    ///   - presenter: The view controller that will present any additional UI in case it's required for the operation to be completed (e.g. A web browser for 3-D Secure authentication).
     ///   - completion: The block to execute after the operation is complete. It includes an object with relevant information about the result of the operation.
     ///
     ///     This completion block takes the following parameter:
     ///   - result: An object containing relevant information about the result of the operation.
-    func chargePresetAccount(from presenter: UIViewController, completion: @escaping (_ result: CheckoutResult) -> Void) {
+    func chargePresetAccount(presenter: UIViewController, completion: @escaping (_ result: CheckoutResult) -> Void) {
         self.presenter = presenter
 
         chargePresetService.chargePresetAccount(
