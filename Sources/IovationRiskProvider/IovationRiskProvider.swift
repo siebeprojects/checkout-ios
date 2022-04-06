@@ -5,8 +5,8 @@
 // See the LICENSE file for more information.
 
 import Foundation
-import FraudForce
 import Risk
+import FraudForce
 
 @objc final public class IovationRiskProvider: NSObject, RiskProvider {
     public static var code: String { "IOVATION" }

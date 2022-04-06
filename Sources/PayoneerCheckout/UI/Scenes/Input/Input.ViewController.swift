@@ -115,8 +115,6 @@ extension Input.ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.tintColor = .themedTint
-
         tableController.collectionView = self.collectionView
         tableController.configure()
 
@@ -159,8 +157,7 @@ extension Input.ViewController {
 
 extension Input.ViewController {
     fileprivate func configure(collectionView: UICollectionView) {
-        collectionView.tintColor = view.tintColor
-        collectionView.backgroundColor = .themedBackground
+        collectionView.backgroundColor = CheckoutAppearance.shared.backgroundColor
         collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
         collectionView.preservesSuperviewLayoutMargins = true
 

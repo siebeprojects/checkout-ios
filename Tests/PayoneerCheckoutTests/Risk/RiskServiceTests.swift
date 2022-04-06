@@ -12,10 +12,7 @@ import Networking
 final class RiskServiceTests: XCTestCase {
     /// Test risk service if provider failed to initialize
     func testRiskProviderFailedInit() throws {
-        let registry = RiskProviderRegistry()
-        registry.register(provider: InitializationBrokenRiskProvider.self)
-
-        var riskService = RiskService(registry: registry)
+        var riskService = RiskService(providers: [InitializationBrokenRiskProvider.self])
         let providerParameters = ProviderParameters(
                 providerCode: InitializationBrokenRiskProvider.code,
                 providerType: InitializationBrokenRiskProvider.type,
@@ -28,8 +25,7 @@ final class RiskServiceTests: XCTestCase {
 
     /// Test risk service if provider wasn't found.
     func testProviderNotFound() throws {
-        let registry = RiskProviderRegistry()
-        var service = RiskService(registry: registry)
+        var service = RiskService(providers: [])
         let providerParameters = ProviderParameters(
             providerCode: InitializationBrokenRiskProvider.code,
             providerType: InitializationBrokenRiskProvider.type,
@@ -71,9 +67,7 @@ final class RiskServiceTests: XCTestCase {
 
     /// Test if risk provider successfully initialized.
     func testSuccessfullRiskProvider() throws {
-        let registry = RiskProviderRegistry()
-        registry.register(provider: WorkingRiskProvider.self)
-        var service = RiskService(registry: registry)
+        var service = RiskService(providers: [WorkingRiskProvider.self])
         let providerParameters = ProviderParameters(
             providerCode: WorkingRiskProvider.code,
             providerType: WorkingRiskProvider.type,

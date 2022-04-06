@@ -9,19 +9,19 @@ import XCTest
 import Risk
 import Networking
 
-final class RiskProviderResponderTests: XCTestCase {
+final class RiskProviderDataCollectorTests: XCTestCase {
     /// Default value for `riskProvider` is `nil`, this test checks that it wasn't changed.
     func testNoRiskProviderInitializer() {
-        let emptyResponder = RiskProviderDataCollector(code: "emptyRiskProviderResponder", type: "emptyRiskProviderResponderType")
-        XCTAssertNil(emptyResponder.riskProvider)
+        let emptyDataCollector = RiskProviderDataCollector(code: "emptyCode", type: "emptyType")
+        XCTAssertNil(emptyDataCollector.riskProvider)
     }
 
     // MARK: - Test `getProvidersParameters()`
 
     /// Tests for `ProviderParameters` if risk provider is `nil`.
     func testNoRiskProviderProviderParameters() {
-        let emptyResponder = RiskProviderDataCollector(code: "emptyRiskProviderResponder", type: "emptyRiskProviderResponderType", riskProvider: nil)
-        let providerParameters = emptyResponder.getProvidersParameters()
+        let emptyDataCollector = RiskProviderDataCollector(code: "emptyCode", type: "emptyType", riskProvider: nil)
+        let providerParameters = emptyDataCollector.getProvidersParameters()
 
         XCTAssertEqual(providerParameters.providerCode, providerParameters.providerCode)
         XCTAssertEqual(providerParameters.providerType, providerParameters.providerType)
@@ -31,10 +31,10 @@ final class RiskProviderResponderTests: XCTestCase {
     /// Test `ProviderParameters` when risk provider failed to collect risk data.
     func testRisksCollectionError() {
         let provider = TestRiskProvider(collectRiskDataBlock: {
-            throw RiskProviderResponderError.riskDataCollectionFailed(underlyingError: "")
+            throw RiskProviderDataCollectorError.riskDataCollectionFailed(underlyingError: "")
         })
-        let responder = RiskProviderDataCollector(riskProvider: provider)
-        let providerParameters = responder.getProvidersParameters()
+        let dataCollector = RiskProviderDataCollector(riskProvider: provider)
+        let providerParameters = dataCollector.getProvidersParameters()
 
         XCTAssertEqual(providerParameters.providerCode, TestRiskProvider.code)
         XCTAssertEqual(providerParameters.providerType, TestRiskProvider.type)
@@ -50,8 +50,8 @@ final class RiskProviderResponderTests: XCTestCase {
                 "blackbox2": "blackbox 2"
             ]
         })
-        let responder = RiskProviderDataCollector(riskProvider: provider)
-        let providerParameters = responder.getProvidersParameters()
+        let dataCollector = RiskProviderDataCollector(riskProvider: provider)
+        let providerParameters = dataCollector.getProvidersParameters()
 
         XCTAssertEqual(providerParameters.providerCode, TestRiskProvider.code)
         XCTAssertEqual(providerParameters.providerType, TestRiskProvider.type)
@@ -78,8 +78,8 @@ final class RiskProviderResponderTests: XCTestCase {
         let provider = TestRiskProvider(collectRiskDataBlock: {
             return nil
         })
-        let responder = RiskProviderDataCollector(riskProvider: provider)
-        let providerParameters = responder.getProvidersParameters()
+        let dataCollector = RiskProviderDataCollector(riskProvider: provider)
+        let providerParameters = dataCollector.getProvidersParameters()
 
         XCTAssertTrue(providerParameters.parameters!.isEmpty)
     }

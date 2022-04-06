@@ -38,7 +38,7 @@ class PaymentSessionServiceTests: XCTestCase {
 
     private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Result<UIModel.PaymentSession, ErrorInfo> {
         let connection = MockConnection(dataSource: dataSource)
-        let provider = PaymentSessionService(paymentSessionURL: URL.example, connection: connection, localizationProvider: SharedTranslationProvider(), riskRegistry: RiskProviderRegistry())
+        let provider = PaymentSessionService(paymentSessionURL: URL.example, connection: connection, localizationProvider: SharedTranslationProvider(), riskProviders: [])
         provider.delegate = self
 
         resultPromise = expectation(description: "PaymentSessionProvider: completed")

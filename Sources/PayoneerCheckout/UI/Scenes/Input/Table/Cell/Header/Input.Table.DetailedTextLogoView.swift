@@ -10,23 +10,25 @@ extension Input.Table {
     class DetailedTextLogoView: UICollectionViewCell, Dequeueable {
         private let logoImageView: UIImageView = {
             let imageView = UIImageView()
-            imageView.tintColor = .themedDetailedText
+            imageView.tintColor = CheckoutAppearance.shared.secondaryTextColor
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
 
         private let titleLabel: UILabel = {
             let label = UILabel()
-            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .body)
             label.lineBreakMode = .byTruncatingMiddle
-            label.textColor = .themedText
+            label.textColor = CheckoutAppearance.shared.primaryTextColor
+            label.adjustsFontForContentSizeCategory = true
             return label
         }()
 
         private let subtitleLabel: UILabel = {
             let label = UILabel()
-            label.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-            label.textColor = .themedText
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .footnote)
+            label.textColor = CheckoutAppearance.shared.primaryTextColor
+            label.adjustsFontForContentSizeCategory = true
             return label
         }()
 
@@ -74,7 +76,7 @@ extension Input.Table.DetailedTextLogoView {
         self.titleLabel.text = model.title
         self.subtitleLabel.text = model.subtitle
         self.subtitleLabel.isHidden = model.subtitle == nil || model.subtitle?.isEmpty == true
-        self.subtitleLabel.textColor = model.subtitleColor ?? .themedText
+        self.subtitleLabel.textColor = model.subtitleColor ?? CheckoutAppearance.shared.primaryTextColor
         self.translator = model.translator
         self.modalPresenter = model.modalPresenter
         self.trailingButton.tintColor = model.trailingButtonColor

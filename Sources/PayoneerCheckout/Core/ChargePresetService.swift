@@ -4,48 +4,50 @@
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
 
-import UIKit
-import SafariServices
+import Foundation
 import Risk
 import Networking
 
-@objc public class ChargePresetService: NSObject {
-    @objc public weak var delegate: ChargePresetDelegate?
+protocol ChargePresetServiceProtocol {
+    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void)
+}
 
+final class ChargePresetService: ChargePresetServiceProtocol {
     private var redirectCallbackHandler: RedirectCallbackHandler?
     private var paymentService: PaymentService?
-    private let connection: Connection
-    private var presentedViewController: UIViewController?
+    private let connection: Connection = URLSessionConnection()
+    private let riskProviders: [RiskProvider.Type]
 
-    public let riskRegistry = RiskProviderRegistry()
+    private var completionBlock: ((_ result: CheckoutResult) -> Void)?
+    private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
 
-    @objc public override convenience init() {
-        let connection = URLSessionConnection()
-        self.init(connection: connection)
+    init(riskProviders: [RiskProvider.Type]) {
+        self.riskProviders = riskProviders
     }
 
-    internal init(connection: Connection) {
-        self.connection = connection
-        super.init()
-    }
+    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void) {
+        self.completionBlock = completion
+        self.authenticationChallengeReceivedBlock = authenticationChallengeReceived
 
-    @objc public func chargePresetAccount(usingListResultURL listResultURL: URL) {
-        getListResult(from: listResultURL) { result in
+        getListResult(from: listResultURL) { [weak self] result in
             switch result {
             case .success(let listResult):
                 do {
-                    var riskService = RiskService(registry: self.riskRegistry)
+                    var riskService = RiskService(providers: self?.riskProviders ?? [])
 
                     if let riskProviders = listResult.riskProviders {
                         riskService.loadRiskProviders(using: riskProviders)
                     }
 
-                    try self.chargePresetAccount(from: listResult, riskService: riskService)
+                    try self?.chargePresetAccount(from: listResult, riskService: riskService)
                 } catch {
                     let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-                    let paymentResult = PaymentResult(operationResult: .failure(errorInfo))
+                    let result = CheckoutResult(operationResult: .failure(errorInfo))
+
                     DispatchQueue.main.async {
-                        self.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
+                        self?.completionBlock?(result)
+                        self?.completionBlock = nil
+                        self?.authenticationChallengeReceivedBlock = nil
                     }
                 }
             case .failure(let error):
@@ -53,9 +55,13 @@ import Networking
                     if let errorInfo = error as? ErrorInfo { return errorInfo }
                     return CustomErrorInfo.createClientSideError(from: error)
                 }()
-                let paymentResult = PaymentResult(operationResult: .failure(errorInfo))
+
+                let result = CheckoutResult(operationResult: .failure(errorInfo))
+
                 DispatchQueue.main.async {
-                    self.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: nil)
+                    self?.completionBlock?(result)
+                    self?.completionBlock = nil
+                    self?.authenticationChallengeReceivedBlock = nil
                 }
             }
         }
@@ -66,8 +72,10 @@ import Networking
         let getListResultOperation = SendRequestOperation(connection: connection, request: getListResult)
         getListResultOperation.downloadCompletionBlock = { result in
             switch result {
-            case .success(let listResult): completion(.success(listResult))
-            case .failure(let error): completion(.failure(error))
+            case .success(let listResult):
+                completion(.success(listResult))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
         getListResultOperation.start()
@@ -115,28 +123,18 @@ extension ChargePresetService: PaymentServiceDelegate {
 
         switch response {
         case .result(let result):
-            let paymentResult = PaymentResult(operationResult: result)
-            DispatchQueue.main.async {
-                self.delegate?.chargePresetService(didReceivePaymentResult: paymentResult, viewController: self.presentedViewController)
+            let result = CheckoutResult(operationResult: result)
+
+            DispatchQueue.main.async { [weak self] in
+                self?.completionBlock?(result)
+                self?.completionBlock = nil
+                self?.authenticationChallengeReceivedBlock = nil
             }
         case .redirect(let url):
-            let safariViewController = SFSafariViewController(url: url)
-            safariViewController.delegate = self
-            self.presentedViewController = safariViewController
-
-            DispatchQueue.main.async {
-                self.delegate?.chargePresetService(didRequestPresenting: safariViewController)
+            DispatchQueue.main.async { [weak self] in
+                self?.authenticationChallengeReceivedBlock?(url)
+                self?.authenticationChallengeReceivedBlock = nil
             }
         }
-    }
-}
-
-extension ChargePresetService: SFSafariViewControllerDelegate {
-    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.default.post(
-            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
-            object: nil,
-            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: "PRESET"]
-        )
     }
 }

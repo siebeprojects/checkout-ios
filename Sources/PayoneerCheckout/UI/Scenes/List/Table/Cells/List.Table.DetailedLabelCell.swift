@@ -14,24 +14,26 @@ extension List.Table {
     final class DetailedLabelCell: List.Table.BorderedCell, Dequeueable {
         private let logoImageView: UIImageView = {
             let imageView = UIImageView()
-            imageView.tintColor = .themedDetailedText
+            imageView.tintColor = CheckoutAppearance.shared.secondaryTextColor
             imageView.contentMode = .scaleAspectFit
             return imageView
         }()
 
         private let titleLabel: UILabel = {
-            let titleLabel = UILabel()
-            titleLabel.font = UIFont.preferredThemeFont(forTextStyle: .body)
-            titleLabel.lineBreakMode = .byTruncatingMiddle
-            titleLabel.textColor = .themedText
-            return titleLabel
+            let label = UILabel()
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .body)
+            label.lineBreakMode = .byTruncatingMiddle
+            label.textColor = CheckoutAppearance.shared.primaryTextColor
+            label.adjustsFontForContentSizeCategory = true
+            return label
         }()
 
         private let subtitleLabel: UILabel = {
-            let titleLabel = UILabel()
-            titleLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-            titleLabel.textColor = .themedText
-            return titleLabel
+            let label = UILabel()
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .footnote)
+            label.textColor = CheckoutAppearance.shared.primaryTextColor
+            label.adjustsFontForContentSizeCategory = true
+            return label
         }()
 
         private lazy var trailingButton: UIButton = {
@@ -72,7 +74,7 @@ extension List.Table.DetailedLabelCell {
         self.titleLabel.text = title
         self.subtitleLabel.text = subtitle
         self.subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
-        self.subtitleLabel.textColor = subtitleColor ?? .themedText
+        self.subtitleLabel.textColor = subtitleColor ?? CheckoutAppearance.shared.primaryTextColor
         self.translator = translator
         self.modalPresenter = modalPresenter
         self.trailingButton.tintColor = trailingButtonColor

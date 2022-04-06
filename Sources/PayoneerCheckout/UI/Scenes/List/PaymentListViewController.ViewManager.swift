@@ -11,7 +11,7 @@ extension PaymentListViewController {
 
 extension PaymentListViewController.ViewManager {
     func configureMainView() {
-        view.backgroundColor = .themedBackground
+        view.backgroundColor = CheckoutAppearance.shared.backgroundColor
     }
 
     /// Add and activate an activity indicator

@@ -9,7 +9,7 @@ import Risk
 import Logging
 import Networking
 
-@objc public final class PaymentListViewController: UIViewController, ModalPresenter {
+final class PaymentListViewController: UIViewController, ModalPresenter {
     weak var methodsTableView: UITableView?
     weak var activityIndicator: UIActivityIndicatorView?
     weak var errorAlertController: UIAlertController?
@@ -17,29 +17,29 @@ import Networking
     let sessionService: PaymentSessionService
     let sharedTranslationProvider: SharedTranslationProvider
 
-    @objc public weak var delegate: PaymentDelegate?
-    @objc public let riskRegistry = RiskProviderRegistry()
+    private weak var delegate: PaymentDelegate?
 
     let stateManager = StateManager()
     let viewManager = ViewManager()
-    fileprivate let operationResultHandler = OperationResultHandler()
+    private let operationResultHandler = OperationResultHandler()
 
     /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
-    @objc public convenience init(listResultURL: URL) {
+    convenience init(listResultURL: URL, riskProviders: [RiskProvider.Type], delegate: PaymentDelegate) {
         let sharedTranslationProvider = SharedTranslationProvider()
         let connection = URLSessionConnection()
 
-        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider)
+        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider, riskProviders: riskProviders, delegate: delegate)
     }
 
-    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider) {
-        sessionService = PaymentSessionService(
+    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider, riskProviders: [RiskProvider.Type], delegate: PaymentDelegate) {
+        self.sessionService = PaymentSessionService(
             paymentSessionURL: listResultURL,
             connection: connection,
             localizationProvider: sharedTranslationProvider,
-            riskRegistry: riskRegistry
+            riskProviders: riskProviders
         )
         self.sharedTranslationProvider = sharedTranslationProvider
+        self.delegate = delegate
 
         super.init(nibName: nil, bundle: nil)
 
@@ -57,7 +57,7 @@ import Networking
 // MARK: - Overrides
 
 extension PaymentListViewController {
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         if #available(iOS 13.0, *) {
@@ -82,7 +82,7 @@ extension PaymentListViewController {
         loadPaymentSession()
     }
 
-    public override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         methodsTableView?.reloadData()
     }
 }
@@ -233,8 +233,8 @@ extension PaymentListViewController: OperationResultHandlerDelegate {
             }
         }
 
-        let paymentResult = PaymentResult(operationResult: result)
-        delegate?.paymentService(didReceivePaymentResult: paymentResult, viewController: self)
+        let result = CheckoutResult(operationResult: result)
+        delegate?.paymentService(didReceiveResult: result)
     }
 }
 

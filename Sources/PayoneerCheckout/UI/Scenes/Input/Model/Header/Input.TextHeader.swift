@@ -34,9 +34,9 @@ extension Input {
                 logo: registeredAccount.logo?.value,
                 title: registeredAccount.maskedAccountLabel,
                 subtitle: registeredAccount.expirationDate,
-                subtitleColor: registeredAccount.isExpired ? .themedError : .themedText,
+                subtitleColor: registeredAccount.isExpired ? CheckoutAppearance.shared.errorColor : CheckoutAppearance.shared.primaryTextColor,
                 trailingButtonImage: registeredAccount.isExpired ? AssetProvider.expirationInfo : nil,
-                trailingButtonColor: registeredAccount.isExpired ? .themedError : nil
+                trailingButtonColor: registeredAccount.isExpired ? CheckoutAppearance.shared.errorColor : nil
             )
         }
 
@@ -46,9 +46,9 @@ extension Input {
                 logo: presetAccount.logo?.value,
                 title: presetAccount.maskedAccountLabel,
                 subtitle: presetAccount.expirationDate,
-                subtitleColor: presetAccount.isExpired ? .themedError : .themedText,
+                subtitleColor: presetAccount.isExpired ? CheckoutAppearance.shared.errorColor : CheckoutAppearance.shared.primaryTextColor,
                 trailingButtonImage: presetAccount.isExpired ? AssetProvider.expirationInfo : nil,
-                trailingButtonColor: presetAccount.isExpired ? .themedError : nil
+                trailingButtonColor: presetAccount.isExpired ? CheckoutAppearance.shared.errorColor : nil
             )
         }
     }

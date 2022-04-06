@@ -30,13 +30,14 @@ let package = Package(
         .target(
             name: "IovationRiskProvider",
             dependencies: ["Risk", "FraudForce"]),
-        .binaryTarget(name: "FraudForce", path: "Sources/FraudForce/FraudForce.xcframework"),
+        .binaryTarget(
+            name: "FraudForce",
+            path: "Sources/FraudForce/FraudForce.xcframework"),
         .testTarget(
             name: "PayoneerCheckoutTests",
             dependencies: ["PayoneerCheckout", "Risk", "Networking"],
             resources: [
                 .process("Resources")
-            ]
-        )
+            ])
     ]
 )
