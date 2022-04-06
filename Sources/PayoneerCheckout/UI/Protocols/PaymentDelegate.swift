@@ -8,9 +8,9 @@ import Foundation
 import UIKit
 
 /// A protocol used to implement event handling for payment service events.
-@objc public protocol PaymentDelegate: AnyObject {
+protocol PaymentDelegate: AnyObject {
     /// Method is called when payment result was received, you should handle a payment result and dismiss a view manually
     /// - Parameters:
     ///   - viewController: payment view controller, it should be dismissed
-    @objc func paymentService(didReceivePaymentResult paymentResult: PaymentResult, viewController: UIViewController)
+    func paymentService(didReceiveResult result: CheckoutResult)
 }

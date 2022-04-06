@@ -18,7 +18,7 @@ extension List.Table {
         weak var customAccessoryView: UIView!
         weak var customContentView: UIView!
 
-        var borderColor: UIColor = .themedTableBorder {
+        var borderColor: UIColor = CheckoutAppearance.shared.borderColor {
             didSet { updateBorderAndSeparator() }
         }
 
@@ -65,11 +65,11 @@ extension List.Table.BorderedCell {
             bottomBorder.backgroundColor = borderColor
             bottomBorder.isHidden = true
         case .middle:
-            topBorder.backgroundColor = .themedTableCellSeparator
-            bottomBorder.backgroundColor = .themedTableCellSeparator
+            topBorder.backgroundColor = CheckoutAppearance.shared.borderColor
+            bottomBorder.backgroundColor = CheckoutAppearance.shared.borderColor
             bottomBorder.isHidden = true
         case .last:
-            topBorder.backgroundColor = .themedTableCellSeparator
+            topBorder.backgroundColor = CheckoutAppearance.shared.borderColor
             bottomBorder.backgroundColor = borderColor
             bottomBorder.isHidden = false
         case .singleCell:
@@ -135,7 +135,7 @@ extension List.Table.BorderedCell {
         self.selectedBackgroundView = selectedBackgroundView
 
         let viewWithPaddings = UIView(frame: .zero)
-        viewWithPaddings.backgroundColor = .themedTableCellSeparator
+        viewWithPaddings.backgroundColor = CheckoutAppearance.shared.borderColor
         selectedBackgroundView.addSubview(viewWithPaddings)
 
         viewWithPaddings.translatesAutoresizingMaskIntoConstraints = false

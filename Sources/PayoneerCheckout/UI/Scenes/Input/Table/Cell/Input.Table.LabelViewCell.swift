@@ -17,10 +17,11 @@ extension Input.Table {
             super.init(frame: frame)
 
             // Configure a text view
-            textView.textColor = .themedText
-            textView.font = UIFont.preferredThemeFont(forTextStyle: .subheadline)
+            textView.textColor = CheckoutAppearance.shared.primaryTextColor
+            textView.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .subheadline)
             textView.isScrollEnabled = false
             textView.isEditable = false
+            textView.adjustsFontForContentSizeCategory = true
 
             textView.textContainerInset = .zero
             textView.textContainer.lineFragmentPadding = 0

@@ -10,8 +10,7 @@ import Risk
 extension UIModel.PaymentContext {
     /// Init with empty risk service
     convenience init(operationType: UIModel.PaymentSession.Operation, extraElements: ExtraElements?) {
-        let registry = RiskProviderRegistry()
-        let riskService = RiskService(registry: registry)
+        let riskService = RiskService(providers: [])
         self.init(operationType: operationType, extraElements: extraElements, riskService: riskService)
     }
 }

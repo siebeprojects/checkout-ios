@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Payoneer Germany GmbH
+// Copyright (c) 2022 Payoneer Germany GmbH
 // https://www.payoneer.com
 //
 // This file is open source and available under the MIT license.
@@ -6,8 +6,8 @@
 
 import Foundation
 
-/// Class contains payment result, `operationResult` or `errorInfo` is always present (one of them).
-@objc public class PaymentResult: NSObject {
+/// An object containing relevant information about the result of a checkout operation.
+@objc public class CheckoutResult: NSObject {
     @objc public var operationResult: OperationResult? {
         guard case let .success(unwrappedOperationResult) = result else {
             return nil

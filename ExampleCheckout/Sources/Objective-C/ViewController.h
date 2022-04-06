@@ -7,7 +7,7 @@
 #import <UIKit/UIKit.h>
 @import PayoneerCheckout;
 
-@interface ViewController: UITableViewController<PaymentDelegate>
+@interface ViewController: UITableViewController
 
 @property (weak, nonatomic) IBOutlet UITextField *urlTextField;
 - (IBAction)sendRequest:(UIButton *)sender;

@@ -49,6 +49,7 @@ class NetworksTests: XCTestCase {
             UIPasteboard.general.string = sessionURL.absoluteString
             app.menuItems["Paste"].tap()
         } else {
+            print(sessionURL.absoluteURL)
             textField.typeText(sessionURL.absoluteString)
         }
     }
