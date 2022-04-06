@@ -6,6 +6,8 @@
 
 import UIKit
 import Risk
+import Logging
+import Networking
 
 @objc public final class PaymentListViewController: UIViewController, ModalPresenter {
     weak var methodsTableView: UITableView?
@@ -241,5 +243,5 @@ extension CGFloat {
 }
 
 extension PaymentListViewController: Loggable {
-    var logCategory: String { "ListScene" }
+    public var logCategory: String { "ListScene" }
 }

@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 /// Provider is used to keep globally shared translations: built-in local translation and remote shared translation.
 class SharedTranslationProvider: TranslationProvider {

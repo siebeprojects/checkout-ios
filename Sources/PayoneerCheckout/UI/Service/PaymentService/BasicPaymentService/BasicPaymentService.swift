@@ -6,6 +6,8 @@
 
 import Foundation
 import SafariServices
+import Networking
+import Logging
 
 class BasicPaymentService: PaymentService {
     // MARK: - Static methods

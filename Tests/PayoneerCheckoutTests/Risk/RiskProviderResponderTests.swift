@@ -7,6 +7,7 @@
 import XCTest
 @testable import PayoneerCheckout
 import Risk
+import Networking
 
 final class RiskProviderResponderTests: XCTestCase {
     /// Default value for `riskProvider` is `nil`, this test checks that it wasn't changed.

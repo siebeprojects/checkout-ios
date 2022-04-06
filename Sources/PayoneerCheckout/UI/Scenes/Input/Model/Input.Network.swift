@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Networking
 
 extension Input {
     class Network {
@@ -48,7 +49,7 @@ extension Input.Network {
     enum APIModel {
         case account(AccountRegistration)
         case network(ApplicableNetwork)
-        case preset(PayoneerCheckout.PresetAccount)
+        case preset(Networking.PresetAccount)
     }
 }
 

@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Networking
 
 extension UIModel {
     final class RegisteredAccount {

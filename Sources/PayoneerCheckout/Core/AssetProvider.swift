@@ -9,40 +9,40 @@ import UIKit
 final class AssetProvider {
     #if canImport(UIKit)
     static var iconCard: UIImage? {
-        return UIImage(named: "iconCard", in: .current, compatibleWith: nil)
+        return UIImage(named: "iconCard", in: .module, compatibleWith: nil)
     }
 
     static var iconCVVQuestionMark: UIImage? {
-        return UIImage(named: "iconCVVQuestionMark", in: .current, compatibleWith: nil)
+        return UIImage(named: "iconCVVQuestionMark", in: .module, compatibleWith: nil)
     }
 
     static var cvvCard: UIImage? {
-        return UIImage(named: "cvvCard", in: .current, compatibleWith: nil)
+        return UIImage(named: "cvvCard", in: .module, compatibleWith: nil)
     }
 
     static var cvvAMEX: UIImage? {
-        return UIImage(named: "cvvAMEX", in: .current, compatibleWith: nil)
+        return UIImage(named: "cvvAMEX", in: .module, compatibleWith: nil)
     }
 
     static var iconClear: UIImage? {
-        return UIImage(named: "iconClear", in: .current, compatibleWith: nil)
+        return UIImage(named: "iconClear", in: .module, compatibleWith: nil)
     }
 
     static var expirationInfo: UIImage? {
-        return UIImage(named: "expirationInfo", in: .current, compatibleWith: nil)
+        return UIImage(named: "expirationInfo", in: .module, compatibleWith: nil)
     }
 
     static var disclosureIndicator: UIImage? {
         if #available(iOS 13.0, *) {
             return UIImage(systemName: "chevron.right")
         } else {
-            return UIImage(named: "disclosureIndicator", in: .current, compatibleWith: nil)
+            return UIImage(named: "disclosureIndicator", in: .module, compatibleWith: nil)
         }
     }
     #endif
 
     static func getGroupingRulesData() throws -> Data {
-        guard let url = Bundle.current.url(forResource: "groups", withExtension: "json") else {
+        guard let url = Bundle.module.url(forResource: "groups", withExtension: "json") else {
             throw InternalError(description: "Unable to build a path for groups.json")
         }
 
@@ -50,7 +50,7 @@ final class AssetProvider {
     }
 
     static func getValidationsData() throws -> Data {
-        guard let url = Bundle.current.url(forResource: "validations", withExtension: "json") else {
+        guard let url = Bundle.module.url(forResource: "validations", withExtension: "json") else {
             throw InternalError(description: "Unable to build a path for validations.json")
         }
 
@@ -58,7 +58,7 @@ final class AssetProvider {
     }
 
     static func getValidationsDefaultData() throws -> Data {
-        guard let url = Bundle.current.url(forResource: "validations-default", withExtension: "json") else {
+        guard let url = Bundle.module.url(forResource: "validations-default", withExtension: "json") else {
             throw InternalError(description: "Unable to build a path for validations-default.json")
         }
 

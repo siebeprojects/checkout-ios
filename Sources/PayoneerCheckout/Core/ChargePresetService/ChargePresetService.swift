@@ -7,6 +7,7 @@
 import UIKit
 import SafariServices
 import Risk
+import Networking
 
 @objc public class ChargePresetService: NSObject {
     @objc public weak var delegate: ChargePresetDelegate?

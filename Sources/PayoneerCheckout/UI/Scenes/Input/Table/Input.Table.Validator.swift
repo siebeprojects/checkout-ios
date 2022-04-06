@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Logging
 
 extension Input.Table {
     class Validator {

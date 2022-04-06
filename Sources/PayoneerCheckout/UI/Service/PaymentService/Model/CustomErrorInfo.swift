@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 /// Class is used when you need to create a custom `ErrorInfo` to keep track what error cause creation of local error info
 final class CustomErrorInfo: ErrorInfo {

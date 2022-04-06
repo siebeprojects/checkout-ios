@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 struct PresetResponseBuilder {
     func createResponse(for presetAccount: PresetAccount) -> Result<OperationResult, ErrorInfo> {

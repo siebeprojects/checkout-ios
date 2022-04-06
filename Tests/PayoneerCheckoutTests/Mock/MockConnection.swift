@@ -6,6 +6,7 @@
 
 import Foundation
 @testable import PayoneerCheckout
+import Networking
 
 class MockConnection: Connection {
     private let serialQueue = DispatchQueue(label: "Mock connection serial queue")

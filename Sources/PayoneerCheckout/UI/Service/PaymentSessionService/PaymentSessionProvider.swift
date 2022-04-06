@@ -6,6 +6,7 @@
 
 import Foundation
 import Risk
+import Networking
 
 class PaymentSessionProvider {
     private let sharedTranslationProvider: SharedTranslationProvider

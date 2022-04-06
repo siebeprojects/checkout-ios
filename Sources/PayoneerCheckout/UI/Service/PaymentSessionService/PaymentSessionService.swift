@@ -6,6 +6,8 @@
 
 import Foundation
 import Risk
+import Networking
+import Logging
 
 /// Service that fetches and stores PaymentSession.
 /// Used by `PaymentListViewController`

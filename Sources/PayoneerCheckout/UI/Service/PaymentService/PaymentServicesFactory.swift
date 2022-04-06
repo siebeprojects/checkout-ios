@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 class PaymentServicesFactory {
     var services: [PaymentService.Type] = .init()

@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 extension Input.ModelTransformer {
     class InputElementsTransformer {}

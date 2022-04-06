@@ -19,11 +19,13 @@ let package = Package(
     targets: [
         .target(
             name: "PayoneerCheckout",
-            dependencies: ["Risk"],
+            dependencies: ["Risk", "Networking", "Logging"],
             resources: [
                 .process("Resources")
             ]
         ),
+        .target(name: "Networking", dependencies: ["Logging"]),
+        .target(name: "Logging"),
         .target(name: "Risk"),
         .target(
             name: "IovationRiskProvider",
@@ -31,7 +33,7 @@ let package = Package(
         .binaryTarget(name: "FraudForce", path: "Sources/FraudForce/FraudForce.xcframework"),
         .testTarget(
             name: "PayoneerCheckoutTests",
-            dependencies: ["PayoneerCheckout", "Risk"],
+            dependencies: ["PayoneerCheckout", "Risk", "Networking"],
             resources: [
                 .process("Resources")
             ]

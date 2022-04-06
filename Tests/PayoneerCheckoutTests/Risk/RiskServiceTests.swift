@@ -7,6 +7,7 @@
 import XCTest
 @testable import PayoneerCheckout
 import Risk
+import Networking
 
 final class RiskServiceTests: XCTestCase {
     /// Test risk service if provider failed to initialize

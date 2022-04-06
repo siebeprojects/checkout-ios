@@ -7,6 +7,7 @@
 import XCTest
 import Risk
 @testable import PayoneerCheckout
+import Networking
 
 class PaymentSessionServiceTests: XCTestCase {
     // TODO: Write a test if payment network doesn't contain language URL or download failed

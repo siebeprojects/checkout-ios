@@ -6,6 +6,8 @@
 
 import Foundation
 import Risk
+import Networking
+import Logging
 
 extension Input.ViewController {
     class PaymentController {

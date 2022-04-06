@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 extension Result where Success: OperationResult, Failure: ErrorInfo {
     var interaction: Interaction {

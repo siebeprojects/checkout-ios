@@ -6,6 +6,7 @@
 
 import Foundation
 @testable import PayoneerCheckout
+import Networking
 
 extension MockFactory {
     class Localization {

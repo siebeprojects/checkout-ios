@@ -78,7 +78,7 @@ class PaymentService {
             "holderName": card.holderName
         ]
 
-        let body = Charge.Body(account: account, autoRegistration: true, allowRecurrence: true)
+        let body = Charge.Body(account: account, autoRegistration: true, allowRecurrence: false)
         return try JSONEncoder().encode(body)
     }
 

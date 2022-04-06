@@ -6,6 +6,8 @@
 
 import Foundation
 import Risk
+import Networking
+import Logging
 
 // TODO: `RiskService` could be moved to `Risk` module when network models will be extracted to a separate module
 

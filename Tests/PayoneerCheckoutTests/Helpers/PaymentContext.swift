@@ -6,6 +6,7 @@
 
 import Risk
 @testable import PayoneerCheckout
+import Networking
 
 extension UIModel.PaymentContext {
     /// Init with empty risk service

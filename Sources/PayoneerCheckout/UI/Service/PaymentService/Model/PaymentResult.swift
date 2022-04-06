@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 /// Class contains payment result, `operationResult` or `errorInfo` is always present (one of them).
 @objc public class PaymentResult: NSObject {

@@ -6,6 +6,7 @@
 
 import UIKit
 import SafariServices
+import Networking
 
 protocol PaymentService: AnyObject {
     /// Returns whether the service can make payments

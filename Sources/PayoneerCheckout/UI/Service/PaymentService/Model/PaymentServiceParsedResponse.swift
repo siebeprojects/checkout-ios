@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 enum PaymentServiceParsedResponse {
     case result(Result<OperationResult, ErrorInfo>)
