@@ -34,12 +34,12 @@ class PaymentSessionService {
         self.merchantPaymentToken = merchantPaymentToken
     }
 
-    func create(using transaction: Transaction, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
+    func create(with settings: ListSettings, completion: @escaping ((Result<ListResult, Error>) -> Void)) {
         var httpRequest = URLRequest(url: url)
 
         // Body
         httpRequest.httpMethod = "POST"
-        httpRequest.httpBody = try! JSONEncoder().encode(transaction)
+        httpRequest.httpBody = try! JSONEncoder().encode(settings)
 
         // Authorization
         let authField = createAuthorizationHeaderString(name: merchantCode, password: merchantPaymentToken)

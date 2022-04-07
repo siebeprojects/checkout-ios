@@ -11,8 +11,8 @@ class CardsTests: NetworksTests {
     // MARK: Success Card Payment
 
     func testProceedOk() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .charge))
-        try setupWithPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(magicNumber: .proceedOK, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
 
         app.tables.staticTexts["Cards"].tap()
         Card.visa.submit(in: app.collectionViews)
@@ -26,8 +26,8 @@ class CardsTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedPending, operationType: .charge))
-        try setupWithPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(magicNumber: .proceedPending, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
 
         app.tables.staticTexts["Cards"].tap()
         Card.visa.submit(in: app.collectionViews)
@@ -43,8 +43,8 @@ class CardsTests: NetworksTests {
     // MARK: Retry Card Payment
 
     func testRetry() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .retry, operationType: .charge))
-        try setupWithPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(magicNumber: .retry, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
 
         app.tables.staticTexts["Cards"].tap()
         let card = Card.visa
@@ -66,8 +66,8 @@ class CardsTests: NetworksTests {
     }
 
     func testTryOtherNetwork() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherNetwork, operationType: .charge))
-        try setupWithPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(magicNumber: .tryOtherNetwork, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
         let card = Card.visa
 
         app.tables.staticTexts["Cards"].tap()
@@ -85,8 +85,8 @@ class CardsTests: NetworksTests {
     }
 
     func testTryOtherAccount() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherAccount, operationType: .charge))
-        try setupWithPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(magicNumber: .tryOtherAccount, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
         let card = Card.visa
 
         app.tables.staticTexts["Cards"].tap()
@@ -106,8 +106,8 @@ class CardsTests: NetworksTests {
     // MARK: Failed Card Payment
 
     func testRiskDetected() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .nonMagicNumber, operationType: .charge))
-        try setupWithPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(magicNumber: .nonMagicNumber, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
 
         app.tables.staticTexts["Cards"].tap()
 
@@ -127,7 +127,7 @@ class CardsTests: NetworksTests {
     // MARK: Interface tests
 
     func testClearButton() throws {
-        try setupWithPaymentSession(transaction: Transaction.create())
+        try setupPaymentSession(with: ListSettings())
 
         // List
         app.tables.staticTexts["Cards"].tap()
@@ -147,6 +147,144 @@ class CardsTests: NetworksTests {
         clearButton.tap()
         XCTAssertEqual(cardNumberTextField.value as? String, "13 to 19 digits", "Text wasn't cleared")
         XCTAssertFalse(clearButton.exists, "Clear button should be hidden")
+    }
+
+    func testFailUpdateSavedAccount() throws {
+        var card = Card.visa
+        card.number = "4111111111111111"
+
+        let customerID = try PaymentService().registerCustomer(card: card)
+
+        let listSettings = try ListSettings(magicNumber: .forceFail, operationType: .update, customerId: customerID)
+        try setupPaymentSession(with: listSettings)
+
+        app.tables.staticTexts[card.maskedLabel].tap()
+
+        app.collectionViews.textFields["MM / YY"].typeText("1032")
+        app.collectionViews.textFields["3 digits"].typeText(card.verificationCode)
+        app.collectionViews.buttons.firstMatch.tap()
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        XCTAssertTrue(interactionResult.contains("ABORT"))
+        XCTAssertTrue(interactionResult.contains("SYSTEM_FAILURE"))
+    }
+
+    func testGETRedirectTESTPSPAccept() throws {
+        let listSettings = try ListSettings(magicNumber: .threeDS2, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
+
+        var card = Card.visa
+        card.number = "4111111111111400"
+
+        app.tables.staticTexts["Cards"].tap()
+        card.submit(in: app.collectionViews)
+
+        // Webview
+
+        let button = app.webViews.staticTexts["accept payment"]
+        XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        button.tap()
+
+        // Alert
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        XCTAssert(interactionResult.contains("PROCEED"))
+        XCTAssert(interactionResult.contains("OK"))
+    }
+
+    func testGETRedirectTESTPSPAbort() throws {
+        let listSettings = try ListSettings(magicNumber: .threeDS2, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
+
+        var card = Card.visa
+        card.number = "4111111111111400"
+
+        app.tables.staticTexts["Cards"].tap()
+        card.submit(in: app.collectionViews)
+
+        // Webview
+
+        let challengeButton = app.webViews.staticTexts["request challenge"]
+        XCTAssertTrue(challengeButton.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        challengeButton.tap()
+
+        let acceptButton = app.webViews.staticTexts["abort"]
+        XCTAssertTrue(acceptButton.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        acceptButton.tap()
+
+        // Alert
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let alertTitle = app.alerts.firstMatch.staticTexts.element(boundBy: 0).label
+        let expectedTitle = "Payment interrupted"
+        XCTAssertEqual(alertTitle, expectedTitle)
+
+        let alertText = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        let expectedText = "Please try again."
+        XCTAssertEqual(alertText, expectedText)
+    }
+
+    func testPOSTRedirectTESTPSPAccept() throws {
+        let listSettings = try ListSettings(magicNumber: .threeDS2, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
+
+        var card = Card.visa
+        card.number = "4111111111111418"
+
+        app.tables.staticTexts["Cards"].tap()
+        card.submit(in: app.collectionViews)
+
+        // Webview
+
+        let button = app.webViews.staticTexts["accept payment"]
+        XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        button.tap()
+
+        // Alert
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        XCTAssert(interactionResult.contains("PROCEED"))
+        XCTAssert(interactionResult.contains("OK"))
+    }
+
+    func testPOSTRedirectTESTPSPAbort() throws {
+        let listSettings = try ListSettings(magicNumber: .threeDS2, operationType: .charge)
+        try setupPaymentSession(with: listSettings)
+
+        var card = Card.visa
+        card.number = "4111111111111418"
+
+        app.tables.staticTexts["Cards"].tap()
+        card.submit(in: app.collectionViews)
+
+        // Webview
+
+        let challengeButton = app.webViews.staticTexts["request challenge"]
+        XCTAssertTrue(challengeButton.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        challengeButton.tap()
+
+        let acceptButton = app.webViews.staticTexts["abort"]
+        XCTAssertTrue(acceptButton.waitForExistence(timeout: .networkTimeout), "Button didn't appear in time")
+        acceptButton.tap()
+
+        // Alert
+
+        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+
+        let alertTitle = app.alerts.firstMatch.staticTexts.element(boundBy: 0).label
+        let expectedTitle = "Payment interrupted"
+        XCTAssertEqual(alertTitle, expectedTitle)
+
+        let alertText = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+        let expectedText = "Please try again."
+        XCTAssertEqual(alertText, expectedText)
     }
 }
 

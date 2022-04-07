@@ -12,7 +12,10 @@ struct Card: PaymentNetwork {
     var verificationCode: String
     var holderName: String
     var label: String
-    var maskedLabel: String
+
+    var maskedLabel: String {
+        "\(label) •••• \(number.suffix(4))"
+    }
 
     static var visa: Card {
         Card(
@@ -20,8 +23,7 @@ struct Card: PaymentNetwork {
             expiryDate: "1030",
             verificationCode: "111",
             holderName: "Test Test",
-            label: "Visa",
-            maskedLabel: "Visa •••• 1111"
+            label: "Visa"
         )
     }
 
@@ -31,8 +33,7 @@ struct Card: PaymentNetwork {
             expiryDate: "1030",
             verificationCode: "111",
             holderName: "Test Test",
-            label: "MasterCard",
-            maskedLabel: "MasterCard •••• 4444"
+            label: "MasterCard"
         )
     }
 
