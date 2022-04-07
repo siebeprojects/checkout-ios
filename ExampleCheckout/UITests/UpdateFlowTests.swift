@@ -9,7 +9,7 @@ import XCTest
 // Flows should follow rules specified in https://optile.atlassian.net/browse/PCX-1396.
 class UpdateFlowTests: NetworksTests {
     func testTryOtherAccount() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherAccount, operationType: .update))
+        let transaction = try Transaction(magicNumber: .tryOtherAccount, operationType: .update)
         try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
@@ -23,7 +23,7 @@ class UpdateFlowTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedPending, operationType: .update))
+        let transaction = try Transaction(magicNumber: .proceedPending, operationType: .update)
         try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
@@ -38,7 +38,7 @@ class UpdateFlowTests: NetworksTests {
 
     // PayPal returns `PROCEED/OK` when it updated.
     func testProceedOk() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update))
+        let transaction = try Transaction(operationType: .update)
         try setupPaymentSession(transaction: transaction)
 
         let payPal = PayPalAccount()
@@ -64,8 +64,7 @@ extension UpdateFlowTests {
         let card = Card.visa
 
         let customerId = try PaymentService().registerCustomer(card: card)
-        let settings = TransactionSettings(operationType: .update, customerId: customerId)
-        let transaction = try Transaction.create(withSettings: settings)
+        let transaction = try Transaction(operationType: .update, customerId: customerId)
         try setupPaymentSession(transaction: transaction)
 
         // Method was saved previously when customer was registered

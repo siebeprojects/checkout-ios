@@ -8,7 +8,7 @@ import XCTest
 
 final class NavigationTests: NetworksTests {
     func testClose() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings())
+        let transaction = try Transaction()
         try setupPaymentSession(transaction: transaction)
 
         let closeButton = app.buttons["Close"]

@@ -11,7 +11,7 @@ class PaymentService {
 
     func registerCustomer(card: Card) throws -> String {
         try XCTContext.runActivity(named: "Register the new customer") { _ in
-            let session = try NetworksTests.createPaymentSession(using: Transaction.create(withSettings: TransactionSettings(operationType: .charge)))
+            let session = try NetworksTests.createPaymentSession(using: Transaction(operationType: .charge))
             let operationURL = session.networks.applicable[0].links!["operation"]!
             return try registerCustomer(usingOperationURL: operationURL, card: card)
         }

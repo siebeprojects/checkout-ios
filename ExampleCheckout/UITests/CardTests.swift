@@ -11,7 +11,7 @@ class CardsTests: NetworksTests {
     // MARK: Success Card Payment
 
     func testProceedOk() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .proceedOK, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
@@ -26,7 +26,7 @@ class CardsTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedPending, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .proceedPending, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
@@ -43,7 +43,7 @@ class CardsTests: NetworksTests {
     // MARK: Retry Card Payment
 
     func testRetry() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .retry, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .retry, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
@@ -66,7 +66,7 @@ class CardsTests: NetworksTests {
     }
 
     func testTryOtherNetwork() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherNetwork, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .tryOtherNetwork, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
         let card = Card.visa
 
@@ -85,7 +85,7 @@ class CardsTests: NetworksTests {
     }
 
     func testTryOtherAccount() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .tryOtherAccount, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .tryOtherAccount, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
         let card = Card.visa
 
@@ -106,7 +106,7 @@ class CardsTests: NetworksTests {
     // MARK: Failed Card Payment
 
     func testRiskDetected() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .nonMagicNumber, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .nonMagicNumber, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts["Cards"].tap()
@@ -127,7 +127,7 @@ class CardsTests: NetworksTests {
     // MARK: Interface tests
 
     func testClearButton() throws {
-        try setupPaymentSession(transaction: Transaction.create())
+        try setupPaymentSession(transaction: Transaction())
 
         // List
         app.tables.staticTexts["Cards"].tap()
@@ -155,7 +155,7 @@ class CardsTests: NetworksTests {
 
         let customerID = try PaymentService().registerCustomer(card: card)
 
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .forceFail, operationType: .update, customerId: customerID))
+        let transaction = try Transaction(magicNumber: .forceFail, operationType: .update, customerId: customerID)
         try setupPaymentSession(transaction: transaction)
 
         app.tables.staticTexts[card.maskedLabel].tap()
@@ -172,7 +172,7 @@ class CardsTests: NetworksTests {
     }
 
     func testGETRedirectTESTPSPAccept() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .threeDS2, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
 
         var card = Card.visa
@@ -197,7 +197,7 @@ class CardsTests: NetworksTests {
     }
 
     func testGETRedirectTESTPSPAbort() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .threeDS2, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
 
         var card = Card.visa
@@ -230,7 +230,7 @@ class CardsTests: NetworksTests {
     }
 
     func testPOSTRedirectTESTPSPAccept() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .threeDS2, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
 
         var card = Card.visa
@@ -255,7 +255,7 @@ class CardsTests: NetworksTests {
     }
 
     func testPOSTRedirectTESTPSPAbort() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .charge))
+        let transaction = try Transaction(magicNumber: .threeDS2, operationType: .charge)
         try setupPaymentSession(transaction: transaction)
 
         var card = Card.visa

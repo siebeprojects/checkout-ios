@@ -24,7 +24,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsTrue_shouldShow() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: true, customerId: Self.customerId))
+            let transaction = try Transaction(operationType: .update, allowDelete: true, customerId: Self.customerId)
             try setupPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
@@ -35,7 +35,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsFalse_shouldHide() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: false, customerId: Self.customerId))
+            let transaction = try Transaction(operationType: .update, allowDelete: false, customerId: Self.customerId)
             try setupPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
@@ -46,7 +46,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenUpdateFlow_whenAllowDeleteIsNil_shouldShow() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: nil, customerId: Self.customerId))
+            let transaction = try Transaction(operationType: .update, allowDelete: nil, customerId: Self.customerId)
             try setupPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
@@ -57,7 +57,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsTrue_shouldShow() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: true, customerId: Self.customerId))
+            let transaction = try Transaction(operationType: .charge, allowDelete: true, customerId: Self.customerId)
             try setupPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
@@ -68,7 +68,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsFalse_shouldHide() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: false, customerId: Self.customerId))
+            let transaction = try Transaction(operationType: .charge, allowDelete: false, customerId: Self.customerId)
             try setupPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()
@@ -79,7 +79,7 @@ final class DeleteButtonTests: NetworksTests {
 
     func testDeleteButton_whenChargeFlow_whenAllowDeleteIsNil_shouldHide() throws {
         try XCTContext.runActivity(named: "Delete the payment method") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .charge, allowDelete: nil, customerId: Self.customerId))
+            let transaction = try Transaction(operationType: .charge, allowDelete: nil, customerId: Self.customerId)
             try setupPaymentSession(transaction: transaction)
 
             app.tables.staticTexts[Self.paymentMethod.maskedLabel].firstMatch.tap()

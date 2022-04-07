@@ -12,7 +12,7 @@ struct Transaction: Codable {
     let transactionId: String
     let country: String
     let callback: Callback
-    var customer: Customer
+    let customer: Customer
     let payment: Payment
     let style: Style
     let operationType: String
@@ -20,30 +20,34 @@ struct Transaction: Codable {
     let division: String?
     let checkoutConfigurationName: String?
 
-    static func create(withSettings settings: TransactionSettings = TransactionSettings()) throws -> Transaction {
+    init(
+        magicNumber: Transaction.MagicNumber = .nonMagicNumber,
+        operationType: Transaction.OperationType = .charge,
+        division: String? = nil,
+        checkoutConfiguration: CheckoutConfiguration? = nil,
+        allowDelete: Bool? = nil,
+        customerId: String? = nil
+    ) throws {
         let template = try Transaction.createFromTemplate()
 
-        let amount = try XCTUnwrap(settings.magicNumber.value(for: settings.operationType), "Specified magic number is not supported for that operation type")
+        let amount = try XCTUnwrap(magicNumber.value(for: operationType), "Specified magic number is not supported for that operation type")
 
-        var transaction = Transaction(
-            integration: template.integration,
-            transactionId: String(Date().timeIntervalSince1970),
-            country: template.country,
-            callback: template.callback,
-            customer: template.customer,
-            payment: Payment(reference: template.payment.reference, amount: amount, currency: template.payment.currency),
-            style: template.style,
-            operationType: settings.operationType.rawValue,
-            allowDelete: settings.allowDelete,
-            division: settings.division,
-            checkoutConfigurationName: settings.checkoutConfiguration?.name
-        )
+        self.integration = template.integration
+        self.transactionId = String(Date().timeIntervalSince1970)
+        self.country = template.country
+        self.callback = template.callback
+        self.payment = Payment(reference: template.payment.reference, amount: amount, currency: template.payment.currency)
+        self.style = template.style
+        self.operationType = operationType.rawValue
+        self.allowDelete = allowDelete
+        self.division = division
+        self.checkoutConfigurationName = checkoutConfiguration?.name
 
-        if let customerId = settings.customerId {
-            transaction.customer.registration = Registration(id: customerId)
+        if let customerId = customerId {
+            self.customer = Customer(number: template.customer.number, email: template.customer.email, registration: Registration(id: customerId))
+        } else {
+            self.customer = template.customer
         }
-
-        return transaction
     }
 
     private static func createFromTemplate() throws -> Transaction {

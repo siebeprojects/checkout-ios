@@ -9,7 +9,7 @@ import XCTest
 class PresetFlowTests: NetworksTests {
     /// Test charging `PresetAccount` when the list does not have a preset account set
     func testNoPresetAccountSet() throws {
-        let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .preset))
+        let transaction = try Transaction(magicNumber: .proceedOK, operationType: .preset)
         let listResult = try Self.createPaymentSession(using: transaction)
         typeListURL(from: listResult)
         chargePresetAccount()
@@ -27,7 +27,7 @@ class PresetFlowTests: NetworksTests {
     func testPresetWithAccountCard() throws {
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
-            let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .preset))
+            let transaction = try Transaction(magicNumber: .proceedOK, operationType: .preset)
             try setupPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
@@ -60,7 +60,7 @@ class PresetFlowTests: NetworksTests {
     func testPresetAndChargePayPal() throws {
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
-            let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .nonMagicNumber, operationType: .preset))
+            let transaction = try Transaction(magicNumber: .nonMagicNumber, operationType: .preset)
             try setupPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
@@ -101,7 +101,7 @@ class PresetFlowTests: NetworksTests {
     func testPresetAndChargeCardWith3DS2() throws {
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
-            let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .threeDS2, operationType: .preset))
+            let transaction = try Transaction(magicNumber: .threeDS2, operationType: .preset)
             try setupPaymentSession(transaction: transaction)
 
             // Fill and submit card's data
@@ -145,7 +145,7 @@ class PresetFlowTests: NetworksTests {
 
         try XCTContext.runActivity(named: "Preset account") { _ in
             // Create payment session
-            let transaction = try Transaction.create(withSettings: TransactionSettings(magicNumber: .proceedOK, operationType: .preset))
+            let transaction = try Transaction(magicNumber: .proceedOK, operationType: .preset)
             try setupPaymentSession(transaction: transaction)
 
             // Fill and submit card's data

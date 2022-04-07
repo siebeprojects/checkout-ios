@@ -13,5 +13,5 @@ struct Customer: Codable {
     /// Customer e-mail address. It is highly recommended to provide it, since it is a mandatory information for some PSP and often used by advanced risk management.
     let email: String?
 
-    var registration: Registration?
+    let registration: Registration?
 }
