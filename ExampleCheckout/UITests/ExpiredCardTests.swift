@@ -37,8 +37,8 @@ final class ExpiredCardTests: NetworksTests {
 
     func testExpirationDate_whenValidCard_shouldShow() throws {
         try XCTContext.runActivity(named: "Show card expiration date") { _ in
-            let transaction = try Transaction(operationType: .update, customerId: Self.validCardCustomerID)
-            try setupPaymentSession(transaction: transaction)
+            let listSettings = try ListSettings(operationType: .update, customerId: Self.validCardCustomerID)
+            try setupPaymentSession(with: listSettings)
 
             let cell = app.tables["paymentlist"].cells.element(boundBy: 0)
             XCTAssertTrue(cell.staticTexts["03 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
@@ -57,8 +57,8 @@ final class ExpiredCardTests: NetworksTests {
 
     func testPaymentList_whenExpiredCard_shouldShowExpirationDate_shouldShowExpirationInfoAlert() throws {
         try XCTContext.runActivity(named: "Highlight card expiration date") { _ in
-            let transaction = try Transaction(operationType: .update, customerId: Self.expiredCardCustomerID)
-            try setupPaymentSession(transaction: transaction)
+            let listSettings = try ListSettings(operationType: .update, customerId: Self.expiredCardCustomerID)
+            try setupPaymentSession(with: listSettings)
 
             let cell = app.tables["paymentlist"].cells.element(boundBy: 0)
 

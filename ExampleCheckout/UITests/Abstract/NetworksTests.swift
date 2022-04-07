@@ -18,10 +18,10 @@ class NetworksTests: XCTestCase {
     }
 
     /// Load an app and load networks list from list url.
-    @discardableResult func setupPaymentSession(transaction: Transaction) throws -> ListResult {
+    @discardableResult func setupPaymentSession(with listSettings: ListSettings) throws -> ListResult {
         try XCTContext.runActivity(named: "Setup with payment session") { _ in
             // Create payment session
-            let session = try Self.createPaymentSession(using: transaction)
+            let session = try Self.createPaymentSession(with: listSettings)
 
             typeListURL(from: session)
             
@@ -54,13 +54,13 @@ class NetworksTests: XCTestCase {
         }
     }
 
-    static func createPaymentSession(using transaction: Transaction) throws -> ListResult {
+    static func createPaymentSession(with settings: ListSettings) throws -> ListResult {
         var createSessionResult: Result<ListResult, Error>?
 
         let paymentSessionService = try PaymentSessionService()
 
         let semaphore = DispatchSemaphore(value: 0)
-        paymentSessionService.create(using: transaction) { result in
+        paymentSessionService.create(with: settings) { result in
             createSessionResult = result
             semaphore.signal()
         }

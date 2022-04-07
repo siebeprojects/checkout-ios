@@ -9,8 +9,8 @@ import XCTest
 // Flows should follow rules specified in https://optile.atlassian.net/browse/PCX-1396.
 class UpdateFlowTests: NetworksTests {
     func testTryOtherAccount() throws {
-        let transaction = try Transaction(magicNumber: .tryOtherAccount, operationType: .update)
-        try setupPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(magicNumber: .tryOtherAccount, operationType: .update)
+        try setupPaymentSession(with: listSettings)
 
         app.tables.staticTexts["Cards"].tap()
         Card.visa.submit(in: app.collectionViews)
@@ -23,8 +23,8 @@ class UpdateFlowTests: NetworksTests {
     }
 
     func testProceedPending() throws {
-        let transaction = try Transaction(magicNumber: .proceedPending, operationType: .update)
-        try setupPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(magicNumber: .proceedPending, operationType: .update)
+        try setupPaymentSession(with: listSettings)
 
         app.tables.staticTexts["Cards"].tap()
         Card.visa.submit(in: app.collectionViews)
@@ -38,8 +38,8 @@ class UpdateFlowTests: NetworksTests {
 
     // PayPal returns `PROCEED/OK` when it updated.
     func testProceedOk() throws {
-        let transaction = try Transaction(operationType: .update)
-        try setupPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(operationType: .update)
+        try setupPaymentSession(with: listSettings)
 
         let payPal = PayPalAccount()
 
@@ -64,8 +64,8 @@ extension UpdateFlowTests {
         let card = Card.visa
 
         let customerId = try PaymentService().registerCustomer(card: card)
-        let transaction = try Transaction(operationType: .update, customerId: customerId)
-        try setupPaymentSession(transaction: transaction)
+        let listSettings = try ListSettings(operationType: .update, customerId: customerId)
+        try setupPaymentSession(with: listSettings)
 
         // Method was saved previously when customer was registered
 

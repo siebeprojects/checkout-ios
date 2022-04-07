@@ -10,17 +10,17 @@ class NetworksTests: XCTestCase {
     private(set) var app: XCUIApplication!
 
     /// Load an app and load networks list from list url.
-    func setupWithPaymentSession(transaction: Transaction) throws {
+    func setupWithPaymentSession(settings: ListSettings) throws {
         continueAfterFailure = false
 
-        self.app = try Self.setupWithPaymentSession(transaction: transaction)
+        self.app = try Self.setupWithPaymentSession(settings: settings)
     }
     
     /// Load an app and load networks list from list url.
-    static func setupWithPaymentSession(transaction: Transaction) throws -> XCUIApplication {
+    private static func setupWithPaymentSession(settings: ListSettings) throws -> XCUIApplication {
         try XCTContext.runActivity(named: "Start payment session") { _ in
             // Create payment session
-            let sessionURL = try createPaymentSession(using: transaction)
+            let sessionURL = try createPaymentSession(with: settings)
 
             // UI tests must launch the application that they test.
             let app = XCUIApplication()
@@ -49,7 +49,7 @@ class NetworksTests: XCTestCase {
         }
     }
 
-    private static func createPaymentSession(using transaction: Transaction) throws -> URL {
+    private static func createPaymentSession(with settings: listSettings) throws -> URL {
         var createSessionResult: Result<URL, Error>?
 
         let paymentSessionService = try PaymentSessionService()

@@ -7,7 +7,7 @@
 import Foundation
 import XCTest
 
-struct Transaction: Codable {
+struct ListSettings: Codable {
     let integration: String
     let transactionId: String
     let country: String
@@ -21,14 +21,14 @@ struct Transaction: Codable {
     let checkoutConfigurationName: String?
 
     init(
-        magicNumber: Transaction.MagicNumber = .nonMagicNumber,
-        operationType: Transaction.OperationType = .charge,
+        magicNumber: ListSettings.MagicNumber = .nonMagicNumber,
+        operationType: ListSettings.OperationType = .charge,
         division: String? = nil,
         checkoutConfiguration: CheckoutConfiguration? = nil,
         allowDelete: Bool? = nil,
         customerId: String? = nil
     ) throws {
-        let template = try Transaction.createFromTemplate()
+        let template = try ListSettings.createFromTemplate()
 
         let amount = try XCTUnwrap(magicNumber.value(for: operationType), "Specified magic number is not supported for that operation type")
 
@@ -50,17 +50,17 @@ struct Transaction: Codable {
         }
     }
 
-    private static func createFromTemplate() throws -> Transaction {
+    private static func createFromTemplate() throws -> ListSettings {
         let bundle = Bundle(for: NetworksTests.self)
-        let url = bundle.url(forResource: "Transaction", withExtension: "json")!
+        let url = bundle.url(forResource: "ListSettings", withExtension: "json")!
         let data = try Data(contentsOf: url)
-        return try JSONDecoder().decode(Transaction.self, from: data)
+        return try JSONDecoder().decode(ListSettings.self, from: data)
     }
 }
 
 // MARK: - OperationType
 
-extension Transaction {
+extension ListSettings {
     enum OperationType: String {
         case charge = "CHARGE"
         case update = "UPDATE"
@@ -70,7 +70,7 @@ extension Transaction {
 
 // MARK: - Magic numbers
 
-extension Transaction {
+extension ListSettings {
     /// The Payment Gateway enables you to test the "happy path" (a success is returned) as well as negative responses (e.g. denials). To test different cases you should use magic numbers as an amount value.
     ///
     /// Full list of magic numbers: https://www.optile.io/opg#293524
@@ -87,7 +87,7 @@ extension Transaction {
         /// Get the amount value for the magic number.
         ///
         /// Each operation type may have different amount for the same magic number.
-        func value(for operationType: Transaction.OperationType) -> Double? {
+        func value(for operationType: ListSettings.OperationType) -> Double? {
             switch operationType {
             case .charge: return chargeFlowValue
             case .update: return updateFlowValue
