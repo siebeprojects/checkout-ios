@@ -11,12 +11,9 @@ import Risk
 
 /// Service responsible for collecting data from all registered risk providers and returning response in required format for API.
 struct RiskService {
-    private let registry: RiskProviderRegistry
-    private(set) var dataCollectors = [RiskProviderDataCollector]()
+    let providers: [RiskProvider.Type]
 
-    init(registry: RiskProviderRegistry) {
-        self.registry = registry
-    }
+    private(set) var dataCollectors = [RiskProviderDataCollector]()
 }
 
 // MARK: - Load risk providers
@@ -64,7 +61,7 @@ extension RiskService {
     }
 
     private func lookUp(providerCode: String, providerType: String?) -> RiskProvider.Type? {
-        return registry.registeredProviders.first {
+        return providers.first {
             $0.code == providerCode && $0.type == providerType
         }
     }
