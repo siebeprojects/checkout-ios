@@ -5,8 +5,7 @@
 // See the LICENSE file for more information.
 
 #import "ViewController.h"
-@import PayoneerCheckout;
-@import IovationRiskProvider;
+#import "CheckoutObjC-Swift.h"
 
 @interface ViewController ()
 
@@ -20,36 +19,23 @@
     if (@available(iOS 13.0, *)) {
         self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
     }
+
     [self.urlTextField becomeFirstResponder];
 }
 
 - (IBAction)sendRequest:(UIButton *)sender {
     NSURL *url = [[NSURL alloc] initWithString:self.urlTextField.text];
-    
-    CheckoutConfiguration *configuration = [[CheckoutConfiguration alloc] initWithListURL:url appearance:[CheckoutAppearance default] riskProviderClasses:@[[IovationRiskProvider class]] error:NULL];
 
-    Checkout *checkout = [[Checkout alloc] initWithConfiguration:configuration];
-    [checkout presentPaymentListFrom:self completion:^(CheckoutResult * _Nonnull result) {
+    Checkout *checkout = [[Checkout alloc] init];
+
+    [checkout presentPaymentListFrom:self listURL:url completion:^(CheckoutResult * _Nonnull result) {
         [self presentAlertWithResult:result];
     }];
 }
 
 - (void)presentAlertWithResult:(CheckoutResult * _Nonnull)result {
-    NSString *resultInfo = [NSString stringWithFormat:@"ResultInfo: %@", result.resultInfo];
-    NSString *interactionCode = [NSString stringWithFormat:@"Interaction code: %@", result.interaction.code];
-    NSString *interactionReason = [NSString stringWithFormat:@"Interaction reason: %@", result.interaction.reason];
-
-    // Construct error message
-    NSString *paymentErrorText = @"Error: n/a";
-
-    if (result.cause != nil) {
-        paymentErrorText = [NSString stringWithFormat:@"Error: %@", result.cause];
-    }
-
-    NSString *message = [NSString stringWithFormat:@"%@\n%@\n%@\n%@", resultInfo, interactionCode, interactionReason, paymentErrorText];
-
     [self dismissViewControllerAnimated:YES completion:^{
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"Payment Result" message: message preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"Payment Result" message: result.text preferredStyle: UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle: @"OK" style: UIAlertActionStyleDefault handler: nil];
         [alertController addAction: okAction];
         [self presentViewController:alertController animated:true completion:nil];
