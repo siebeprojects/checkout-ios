@@ -1,5 +1,7 @@
-With Payoneer’s Checkout SDK for iOS-based devices you can accept payments in your native shop application and provide a professional checkout experience. You can render a payment page which renders the payment method scene and user interactions, and takes over all communication with the Open Payment Gateway (OPG), all at a minimum effort for you and your team, and without requiring a high level of PCI-DSS compliance.
+With Payoneer’s Checkout SDK for iOS you can accept payments in your app and provide a complete checkout experience. The SDK takes care of the entire payment flow and handles all communication with the Open Payment Gateway (OPG) with minimum effort from you and your team, and without requiring a high level of PCI-DSS compliance.
 
-For information about integrating the Checkout SDK into your native application, visit [optile.io](https://www.optile.io/sdks)
+For information about integrating the Checkout SDK into your app, visit the [documentation portal](https://orchestrationdocs.payoneer.com/docs/checkout-ios-sdk).
 
-<img src="docs/payment_methods.png" width="33%"/> <img src="docs/card.png" width="33%"/> <img src="docs/sepa.png" width="33%"/> 
+<img width="30%" src="docs/list.png">
+<img width="30%" src="docs/card.png">
+<img width="30%" src="docs/sepa.png">
