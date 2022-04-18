@@ -21,7 +21,7 @@ class ListResultProvider {
     }
 
     func fetchListResult(from paymentSessionURL: URL, completion: @escaping ((Result<ListResultNetworks, Error>) -> Void)) {
-        let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> checkInteractionCode ->> filterUnsupportedNetworks
+        let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> checkInteractionCode ->> filterUnsupportedNetworks ->> isEmpty
 
         job(paymentSessionURL) { completion($0) }
     }
@@ -115,5 +115,19 @@ class ListResultProvider {
         let networks = ListResultNetworks(listResult: listResult, filteredNetworks: filteredNetworks)
 
         completion(networks)
+    }
+
+    func isEmpty(_ listResultNetworks: ListResultNetworks, completion: ((Result<ListResultNetworks, Error>) -> Void)) {
+
+        if
+            listResultNetworks.filteredNetworks.applicableNetworks.isEmpty &&
+            listResultNetworks.filteredNetworks.accountRegistrations.isEmpty &&
+            listResultNetworks.filteredNetworks.presetAccount == nil
+        {
+            let error = InternalError(description: "List result after filtering doesn't contain any networks. Please check that you loaded needed payment services.")
+            completion(.failure(error))
+        } else {
+            completion(.success(listResultNetworks))
+        }
     }
 }
