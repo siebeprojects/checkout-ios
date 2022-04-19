@@ -62,14 +62,8 @@ final class RiskProviderDataCollectorTests: XCTestCase {
         ]
 
         XCTAssertEqual(providerParameters.parameters?.count, 2)
-        XCTAssertTrue(contains(parameter: expectedParameters[0], in: providerParameters.parameters!))
-        XCTAssertTrue(contains(parameter: expectedParameters[1], in: providerParameters.parameters!))
-    }
-
-    private func contains(parameter: Parameter, in parameters: [Parameter]) -> Bool {
-        return parameters.contains {
-            $0.name == parameter.name && $0.value == parameter.value
-        }
+        XCTAssertTrue(providerParameters.parameters!.contains(expectedParameters[0]))
+        XCTAssertTrue(providerParameters.parameters!.contains(expectedParameters[1]))
     }
 
     /// Test if provider collected risk data but provider shouldn't return anything.
