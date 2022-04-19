@@ -26,6 +26,12 @@ import FraudForce
     }
 
     public func collectRiskData() throws -> [String: String?]? {
-        return ["blackbox": FraudForce.blackbox()]
+        let data = FraudForce.blackbox()
+
+        guard data.isEmpty == false else {
+            throw RiskProviderError.externalFailure(reason: "Empty blackbox received from Iovation risk provider")
+        }
+
+        return ["blackbox": data]
     }
 }

@@ -34,29 +34,30 @@ struct RiskProviderDataCollector {
 
     /// Collect risk data and return it in `ProviderParameters` format.
     /// If risk provider wasn't initialized and an error occured during data collection return will have empty `parameters` array.
-        guard let riskProvider = riskProvider else {
-            return ProviderParameters(providerCode: code, providerType: type, parameters: [Parameter]())
-        }
     func getProviderParameters() -> ProviderParameters {
-
-        let collectedData: [String: String?]?
-
-        do {
-            collectedData = try riskProvider.collectRiskData()
-        } catch {
-            collectedData = nil
-
-            if #available(iOS 14.0, *) {
-                log(riskError: .riskDataCollectionFailed(underlyingError: error))
+        let parameters: [Parameter] = {
+            guard let riskProvider = riskProvider else {
+                return []
             }
-        }
 
-        let parameters = collectedData?.map {
-            Parameter(name: $0.key, value: $0.value)
-        } ?? [Parameter]()
+            do {
+                let collectedData = try riskProvider.collectRiskData()
+                return collectedData?.map { Parameter(name: $0.key, value: $0.value) } ?? []
 
-        let providerParameters = ProviderParameters(providerCode: code, providerType: type, parameters: parameters)
-        return providerParameters
+            } catch {
+                if #available(iOS 14.0, *) {
+                    log(riskError: .riskDataCollectionFailed(underlyingError: error))
+                }
+
+                guard let providerError = error as? RiskProviderError else {
+                    return []
+                }
+
+                return [Parameter(name: providerError.name, value: providerError.reason)]
+            }
+        }()
+
+        return ProviderParameters(providerCode: code, providerType: type, parameters: parameters)
     }
 }
 

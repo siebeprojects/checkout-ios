@@ -16,7 +16,7 @@ public class ProviderParameters: NSObject, Codable {
     /// An array of parameters
     let parameters: [Parameter]?
 
-    init(providerCode: String, providerType: String?, parameters: [Parameter]?) {
+    init(providerCode: String, providerType: String?, parameters: [Parameter]) {
         self.providerCode = providerCode
         self.providerType = providerType
         self.parameters = parameters
