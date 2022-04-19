@@ -14,6 +14,7 @@ protocol RequestSenderDelegate: AnyObject {
     func requestSender(presentationRequestReceivedFor viewController: UIViewController)
 }
 
+/// This class is responsible for sending operation and deletion requests to payment services, preparing models for payments service.
 class RequestSender {
     private let paymentServiceFactory: PaymentServicesFactory
     let riskService: RiskService

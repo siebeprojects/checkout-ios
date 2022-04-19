@@ -21,7 +21,7 @@ class ListResultProvider {
     }
 
     func fetchListResult(from paymentSessionURL: URL, completion: @escaping ((Result<ListResultNetworks, Error>) -> Void)) {
-        let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> checkInteractionCode ->> filterUnsupportedNetworks ->> isEmpty
+        let job = getListResult ->> checkIntegrationType ->> checkOperationType ->> checkInteractionCode ->> filterUnsupportedNetworks ->> requireNotEmpty
 
         job(paymentSessionURL) { completion($0) }
     }
@@ -117,8 +117,7 @@ class ListResultProvider {
         completion(networks)
     }
 
-    func isEmpty(_ listResultNetworks: ListResultNetworks, completion: ((Result<ListResultNetworks, Error>) -> Void)) {
-
+    private func requireNotEmpty(_ listResultNetworks: ListResultNetworks, completion: ((Result<ListResultNetworks, Error>) -> Void)) {
         if
             listResultNetworks.filteredNetworks.applicableNetworks.isEmpty &&
             listResultNetworks.filteredNetworks.accountRegistrations.isEmpty &&
