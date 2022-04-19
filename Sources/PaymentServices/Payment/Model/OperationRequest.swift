@@ -5,13 +5,16 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 @objc public class OperationRequest: NSObject {
-    public init(networkInformation: NetworkInformation, form: Form?) {
+    public init(networkInformation: NetworkInformation, form: Form?, riskData: [ProviderParameters]?) {
         self.networkInformation = networkInformation
         self.form = form
+        self.riskData = riskData
     }
 
     public let networkInformation: NetworkInformation
     public let form: Form?
+    public let riskData: [ProviderParameters]?
 }

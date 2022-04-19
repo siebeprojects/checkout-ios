@@ -138,8 +138,9 @@ private struct PaymentRequestBuilder: Loggable {
 
         let form = Form(inputFields: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence)
 
+        let riskData = riskService.collectRiskData()
 
-        let operationRequest = OperationRequest(networkInformation: networkInformation, form: form)
+        let operationRequest = OperationRequest(networkInformation: networkInformation, form: form, riskData: riskData)
 
         return operationRequest
     }

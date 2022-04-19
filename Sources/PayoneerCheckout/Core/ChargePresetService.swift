@@ -70,7 +70,6 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         getListResultOperation.start()
     }
 
-    /// - Throws: `InternalError`
     private func chargePresetAccount(from listResult: ListResult, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void) throws {
         guard let presetAccount = listResult.presetAccount else {
             let error = InternalError(description: "Payment session doesn't contain preset account")
@@ -82,8 +81,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             throw error
         }
 
-        /**
-        // Risk
+        // Collect risk data
         let riskService: RiskService = {
             var service = RiskService(providers: riskProviders)
             service.loadRiskProviders(using: listResult.riskProviders ?? [])
@@ -91,7 +89,6 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         }()
 
         let riskData = riskService.collectRiskData()
-        */
 
         // Find payment service
         guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method)
@@ -105,7 +102,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
 
         // Prepare OperationRequest
         let networkInformation = NetworkInformation(networkCode: presetAccount.code, paymentMethod: presetAccount.method, operationType: operationType, links: presetAccount.links)
-        let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil)
+        let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil, riskData: riskData)
 
         // Send request
         service.send(operationRequest: operationRequest, completion: { result, error in
