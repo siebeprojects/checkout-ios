@@ -26,3 +26,16 @@ public enum RiskProviderError: Error {
         }
     }
 }
+
+// MARK: - Equatable
+
+extension RiskProviderError: Equatable {
+    public static func == (lhs: RiskProviderError, rhs: RiskProviderError) -> Bool {
+        switch (lhs, rhs) {
+        case (.internalFailure, .internalFailure), (.externalFailure, .externalFailure):
+            return true
+        case (.internalFailure, .externalFailure), (.externalFailure, .internalFailure):
+            return false
+        }
+    }
+}

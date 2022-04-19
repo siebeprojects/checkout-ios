@@ -29,9 +29,7 @@ final class RiskProviderDataCollectorTests: XCTestCase {
 
     /// Test `ProviderParameters` when risk provider failed to collect risk data.
     func testRisksCollectionError() {
-        let provider = TestRiskProvider(collectRiskDataBlock: {
-            throw RiskProviderDataCollectorError.riskDataCollectionFailed(underlyingError: "")
-        })
+        let provider = TestRiskProvider(error: RiskProviderDataCollectorError.riskDataCollectionFailed(underlyingError: ""))
         let dataCollector = RiskProviderDataCollector(riskProvider: provider)
         let providerParameters = dataCollector.getProviderParameters()
 
@@ -42,13 +40,11 @@ final class RiskProviderDataCollectorTests: XCTestCase {
 
     /// Test when risk data was successfully collected by provider.
     func testSuccessfulRiskCollection() {
-        let provider = TestRiskProvider(collectRiskDataBlock: {
+        let provider = TestRiskProvider(data: [
             // Return ordered dictionary
-            return [
-                "blackbox": "blackbox 1",
-                "blackbox2": "blackbox 2"
-            ]
-        })
+            "blackbox": "blackbox 1",
+            "blackbox2": "blackbox 2"
+        ])
         let dataCollector = RiskProviderDataCollector(riskProvider: provider)
         let providerParameters = dataCollector.getProviderParameters()
 
@@ -66,29 +62,35 @@ final class RiskProviderDataCollectorTests: XCTestCase {
         XCTAssertTrue(providerParameters.parameters!.contains(expectedParameters[1]))
     }
 
-    /// Test if provider collected risk data but provider shouldn't return anything.
-    func testEmptyRisksData() {
-        let provider = TestRiskProvider(collectRiskDataBlock: {
-            return nil
-        })
-        let dataCollector = RiskProviderDataCollector(riskProvider: provider)
-        let providerParameters = dataCollector.getProviderParameters()
+    func testRiskProvider_whenDataIsEmpty_shouldThrowExternalError() {
+        let provider = TestRiskProvider(data: [:])
 
-        XCTAssertTrue(providerParameters.parameters!.isEmpty)
+        XCTAssertThrowsError(try provider.collectRiskData()) { error in
+            XCTAssertEqual(error as? RiskProviderError, RiskProviderError.externalFailure(reason: ""))
+        }
     }
 }
 
 private struct TestRiskProvider: RiskProvider {
-    static var code: String { "testRiskProvider" }
-    static var type: String? { "TEST_PROVIDER" }
+    static let code: String = "testRiskProvider"
+    static let type: String? = "TEST_PROVIDER"
 
-    fileprivate var collectRiskDataBlock: (() throws -> [String : String?]?)?
+    fileprivate var data: [String: String?]?
+    fileprivate var error: Error?
 
-    static func load(withParameters parameters: [String : String?]) throws -> TestRiskProvider {
+    static func load(withParameters parameters: [String: String?]) throws -> TestRiskProvider {
         return TestRiskProvider()
     }
 
-    func collectRiskData() throws -> [String : String?]? {
-        return try collectRiskDataBlock?()
+    func collectRiskData() throws -> [String: String?]? {
+        if let error = error {
+            throw error
+        }
+
+        guard data?.isEmpty == false else {
+            throw RiskProviderError.externalFailure(reason: "Data collection failed")
+        }
+
+        return data
     }
 }

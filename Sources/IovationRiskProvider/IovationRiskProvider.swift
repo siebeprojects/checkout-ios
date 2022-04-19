@@ -9,8 +9,8 @@ import Risk
 import FraudForce
 
 @objc final public class IovationRiskProvider: NSObject, RiskProvider {
-    public static let code = "IOVATION"
-    public static let type = "RISK_DATA_PROVIDER"
+    public static let code: String = "IOVATION"
+    public static let type: String? = "RISK_DATA_PROVIDER"
 
     private static var current: IovationRiskProvider?
 
