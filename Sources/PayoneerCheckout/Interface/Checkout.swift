@@ -42,7 +42,7 @@ import SafariServices
     ///     This completion block takes the following parameter:
     ///   - result: An object containing relevant information about the result of the operation.
     func presentPaymentList(from presenter: UIViewController, completion: @escaping (_ result: CheckoutResult) -> Void) {
-        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, riskProviders: configuration.riskProviders, delegate: self)
+        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, paymentServices: configuration.paymentServices, riskProviders: configuration.riskProviders, delegate: self)
 
         self.presenter = presenter
         self.paymentCompletionBlock = completion
@@ -74,10 +74,8 @@ import SafariServices
                     completion(result)
                 }
             },
-            authenticationChallengeReceived: { [weak self] url in
-                let safariViewController = SFSafariViewController(url: url)
-                safariViewController.delegate = self
-                self?.presenter?.present(safariViewController, animated: true, completion: nil)
+            presentationRequest: { [weak self] viewControllerToPresent in
+                self?.presenter?.present(viewControllerToPresent, animated: true)
             }
         )
     }
@@ -101,18 +99,5 @@ extension Checkout: PaymentDelegate {
             self?.paymentCompletionBlock?(result)
             self?.paymentCompletionBlock = nil
         }
-    }
-}
-
-// MARK: - SFSafariViewControllerDelegate
-
-extension Checkout: SFSafariViewControllerDelegate {
-    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.default.post(
-            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
-            object: nil,
-            // User info key is `PRESET` because delegate could be called only by `authenticationChallengeReceived` closure in PRESET flow
-            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: "PRESET"]
-        )
     }
 }

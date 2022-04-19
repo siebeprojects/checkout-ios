@@ -19,11 +19,13 @@ extension Input {
 
         let collectionView: UICollectionView
         fileprivate private(set) var stateManager: StateManager!
-        fileprivate let paymentController: PaymentController!
 
-        fileprivate let browserController: BrowserController
+        private let browserController: BrowserController
 
-        weak var delegate: NetworkOperationResultHandler?
+        private let requestSender: RequestSender
+        private let requestResultHandler = RequestResultHandler()
+
+        weak var listRequestResultHandler: PaymentListViewController.RequestResultHandler?
 
         lazy var activityIndicatorView: UIActivityIndicatorView = { UIActivityIndicatorView(style: .gray) }()
         lazy var deleteBarButton: UIBarButtonItem = {
@@ -31,18 +33,17 @@ extension Input {
         }()
 
         private init(header: CellRepresentable, smartSwitch: SmartSwitch.Selector, paymentServiceFactory: PaymentServicesFactory, context: UIModel.PaymentContext) {
-            self.paymentController = PaymentController(paymentServiceFactory: paymentServiceFactory, paymentContext: context)
+            self.requestSender = RequestSender(paymentServiceFactory: paymentServiceFactory, riskService: context.riskService)
             self.networks = smartSwitch.networks
             self.header = header
             self.smartSwitch = smartSwitch
-            self.browserController = BrowserController(smartSwitch: smartSwitch)
+            self.browserController = BrowserController()
             self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 0), collectionViewLayout: tableController.layoutController.flowLayout)
 
             super.init(nibName: nil, bundle: nil)
 
-            browserController.presenter = self
-            paymentController.delegate = self
-            paymentController.operationResultHandler.delegate = self
+            requestSender.delegate = requestResultHandler
+            requestResultHandler.delegate = self
 
             tableController.setModel(network: smartSwitch.selected.network, header: header)
 
@@ -190,7 +191,7 @@ extension Input.ViewController {
         var alert = DeletionAlert(translator: translator, accountLabel: accountLabel)
         alert.setDeleteAction { _ in
             self.stateManager.state = .deletion
-            self.paymentController.delete(network: self.smartSwitch.selected.network)
+            self.requestSender.delete(network: self.smartSwitch.selected.network)
         }
 
         present(alert.createAlertController(), animated: true, completion: nil)
@@ -202,7 +203,7 @@ extension Input.ViewController {
 extension Input.ViewController: InputTableControllerDelegate {
     func submitPayment() {
         stateManager.state = .paymentSubmission
-        paymentController.submitOperation(for: smartSwitch.selected.network)
+        requestSender.submitOperation(for: smartSwitch.selected.network)
     }
 
     // MARK: InputFields changes
@@ -257,20 +258,15 @@ extension Input.ViewController: ModifableInsetsOnKeyboardFrameChanges {
 
 // MARK: - InputPaymentControllerDelegate
 
-extension Input.ViewController: InputPaymentControllerDelegate {
+extension Input.ViewController: InputRequestResultHandlerDelegate {
     /// Route result to the next view controller
-    func inputPaymentController(route result: Result<OperationResult, ErrorInfo>, for request: OperationRequest) {
-        browserController.dismissBrowserViewController()
-
+    func requestHandler(route result: Result<OperationResult, ErrorInfo>, forRequestType requestType: RequestSender.RequestType) {
         navigationController?.popViewController(animated: true)
 
-        delegate?.paymentListController(didReceiveOperationResult: result, for: request, network: smartSwitch.selected.network)
+        listRequestResultHandler?.requestHandler(didReceiveOperationResult: result, forRequestType: requestType)
     }
 
-    func inputPaymentController(didFailWithError error: ErrorInfo, for request: OperationRequest?) {
-        // Try to dismiss safari VC (if exists)
-        browserController.dismissBrowserViewController()
-
+    func requestHandler(communicationFailedWith error: ErrorInfo, forRequestType requestType: RequestSender.RequestType) {
         // Construct error
         let translator = smartSwitch.selected.network.translation
         var alertError = UIAlertController.AlertError(for: error, translator: translator)
@@ -281,7 +277,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
                 submitPayment()
             },
             .init(label: .cancel, style: .cancel) { _ in
-                self.delegate?.paymentListController(didReceiveOperationResult: .failure(error), for: request, network: self.smartSwitch.selected.network)
+                self.listRequestResultHandler?.requestHandler(didReceiveOperationResult: .failure(error), forRequestType: requestType)
             }
         ]
 
@@ -290,10 +286,7 @@ extension Input.ViewController: InputPaymentControllerDelegate {
     }
 
     /// Show an error and return to input fields editing state
-    func inputPaymentController(inputShouldBeChanged error: ErrorInfo) {
-        // Try to dismiss safari VC (if exists)
-        browserController.dismissBrowserViewController()
-
+    func requestHandler(inputShouldBeChanged error: ErrorInfo) {
         // Construct error
         let translator = smartSwitch.selected.network.translation
         var alertError = UIAlertController.AlertError(for: error, translator: translator)
@@ -309,8 +302,8 @@ extension Input.ViewController: InputPaymentControllerDelegate {
         stateManager.state = .error(alertError)
     }
 
-    func inputPaymentController(presentURL url: URL) {
-        browserController.presentBrowser(with: url)
+    func requestHandler(present viewControllerToPresent: UIViewController) {
+        present(viewControllerToPresent, animated: true)
     }
 }
 

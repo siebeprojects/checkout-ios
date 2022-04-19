@@ -16,6 +16,10 @@ struct RiskService {
     let providers: [RiskProvider.Type]
 
     private(set) var dataCollectors = [RiskProviderDataCollector]()
+
+    init(providers: [RiskProvider.Type]) {
+        self.providers = providers
+    }
 }
 
 // MARK: - Load risk providers

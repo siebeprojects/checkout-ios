@@ -7,28 +7,25 @@
 import Foundation
 import Risk
 import Networking
+import UIKit
+import Payment
 
 protocol ChargePresetServiceProtocol {
-    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void)
+    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void)
 }
 
 final class ChargePresetService: ChargePresetServiceProtocol {
-    private var redirectCallbackHandler: RedirectCallbackHandler?
-    private var paymentService: PaymentService?
+    private let paymentServiceFactory: PaymentServicesFactory
+
     private let connection: Connection = URLSessionConnection()
     private let riskProviders: [RiskProvider.Type]
 
-    private var completionBlock: ((_ result: CheckoutResult) -> Void)?
-    private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
-
     init(riskProviders: [RiskProvider.Type]) {
         self.riskProviders = riskProviders
+        self.paymentServiceFactory = PaymentServicesFactory(connection: connection)
     }
 
-    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void) {
-        self.completionBlock = completion
-        self.authenticationChallengeReceivedBlock = authenticationChallengeReceived
-
+    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void) {
         getListResult(from: listResultURL) { [weak self] result in
             switch result {
             case .success(let listResult):
@@ -39,16 +36,12 @@ final class ChargePresetService: ChargePresetServiceProtocol {
                         riskService.loadRiskProviders(using: riskProviders)
                     }
 
-                    try self?.chargePresetAccount(from: listResult, riskService: riskService)
+                    try self?.chargePresetAccount(from: listResult, completion: completion, presentationRequest: presentationRequest)
                 } catch {
                     let errorInfo = CustomErrorInfo.createClientSideError(from: error)
                     let result = CheckoutResult(operationResult: .failure(errorInfo))
 
-                    DispatchQueue.main.async {
-                        self?.completionBlock?(result)
-                        self?.completionBlock = nil
-                        self?.authenticationChallengeReceivedBlock = nil
-                    }
+                    DispatchQueue.main.async { completion(result) }
                 }
             case .failure(let error):
                 let errorInfo: ErrorInfo = {
@@ -58,11 +51,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
 
                 let result = CheckoutResult(operationResult: .failure(errorInfo))
 
-                DispatchQueue.main.async {
-                    self?.completionBlock?(result)
-                    self?.completionBlock = nil
-                    self?.authenticationChallengeReceivedBlock = nil
-                }
+                DispatchQueue.main.async { completion(result) }
             }
         }
     }
@@ -82,59 +71,64 @@ final class ChargePresetService: ChargePresetServiceProtocol {
     }
 
     /// - Throws: `InternalError`
-    private func chargePresetAccount(from listResult: ListResult, riskService: RiskService) throws {
+    private func chargePresetAccount(from listResult: ListResult, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void) throws {
         guard let presetAccount = listResult.presetAccount else {
             let error = InternalError(description: "Payment session doesn't contain preset account")
             throw error
         }
 
-        guard
-            let operationType = listResult.operationType,
-            operationType == "PRESET"
-        else {
+        guard let operationType = listResult.operationType, operationType == "PRESET" else {
             let error = InternalError(description: "List result doesn't contain operation type or operation type is not PRESET")
             throw error
         }
 
-        guard let operationURL = presetAccount.links["operation"] else {
-            let error = InternalError(description: "Preset account doesn't contain links.operation property, unable to charge")
-            throw error
-        }
+        /**
+        // Risk
+        let riskService: RiskService = {
+            var service = RiskService(providers: riskProviders)
+            service.loadRiskProviders(using: listResult.riskProviders ?? [])
+            return service
+        }()
 
         let riskData = riskService.collectRiskData()
+        */
 
-        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType, providerRequests: riskData)
-
-        let factory = PaymentServicesFactory(connection: connection)
-        factory.registerServices()
-        guard let paymentService = factory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method) else {
-            let error = InternalError(description: "Network code or payment method is not supported by any of payment services")
-            throw error
+        // Find payment service
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method)
+        else {
+            let error = InternalError(description: "Payment service for preset account wasn't found")
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            let result = CheckoutResult(operationResult: .failure(errorInfo))
+            DispatchQueue.main.async { completion(result) }
+            return
         }
-        self.paymentService = paymentService
-        paymentService.delegate = self
-        paymentService.send(operationRequest: paymentRequest)
+
+        // Prepare OperationRequest
+        let networkInformation = NetworkInformation(networkCode: presetAccount.code, paymentMethod: presetAccount.method, operationType: operationType, links: presetAccount.links)
+        let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil)
+
+        // Send request
+        service.send(operationRequest: operationRequest, completion: { result, error in
+            let operationResult = convertToResult(object: result, error: error)
+            let checkoutResult = CheckoutResult(operationResult: operationResult)
+            DispatchQueue.main.async { completion(checkoutResult) }
+        }, presentationRequest: presentationRequest)
     }
-}
 
-extension ChargePresetService: PaymentServiceDelegate {
-    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest) {
-        paymentService = nil
-
-        switch response {
-        case .result(let result):
-            let result = CheckoutResult(operationResult: result)
-
-            DispatchQueue.main.async { [weak self] in
-                self?.completionBlock?(result)
-                self?.completionBlock = nil
-                self?.authenticationChallengeReceivedBlock = nil
-            }
-        case .redirect(let url):
-            DispatchQueue.main.async { [weak self] in
-                self?.authenticationChallengeReceivedBlock?(url)
-                self?.authenticationChallengeReceivedBlock = nil
-            }
+    /// Converts object and error optionals to `Result` with a defined state.
+    private func convertToResult<T>(object: T?, error: Error?) -> Result <T, ErrorInfo> {
+        if let errorInfo = error as? ErrorInfo {
+            return .failure(errorInfo)
+        } else if let error = error {
+            return .failure(CustomErrorInfo.createClientSideError(from: error))
         }
+
+        guard let object = object else {
+            let error = InternalError(description: "Malformed response: both data and error objects are nil")
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            return .failure(errorInfo)
+        }
+
+        return .success(object)
     }
 }

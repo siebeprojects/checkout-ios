@@ -15,13 +15,7 @@ extension Input.ViewController {
         weak var presenter: ModalPresenter?
         weak var safariViewController: SFSafariViewController?
 
-        let smartSwitch: Input.SmartSwitch.Selector
-
-        fileprivate var notificationSubscriptionToken: NSObjectProtocol?
-
-        init(smartSwitch: Input.SmartSwitch.Selector) {
-            self.smartSwitch = smartSwitch
-        }
+        private var notificationSubscriptionToken: NSObjectProtocol?
 
         func dismissBrowserViewController() {
             safariViewController?.dismiss(animated: true)
@@ -33,7 +27,6 @@ extension Input.ViewController {
 
             // Preset SafariViewController
             let safariVC = SFSafariViewController(url: url)
-            safariVC.delegate = self
             self.safariViewController = safariVC
             presenter?.present(safariVC, animated: true, completion: nil)
         }
@@ -59,20 +52,6 @@ extension Input.ViewController.BrowserController {
         }
 
         presentBrowser(with: url)
-    }
-}
-
-// MARK: - SFSafariViewControllerDelegate
-
-extension Input.ViewController.BrowserController: SFSafariViewControllerDelegate {
-    /// SafariViewController was closed by Done button
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        let operationType = smartSwitch.selected.network.operationType
-        NotificationCenter.default.post(
-            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
-            object: nil,
-            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: operationType]
-        )
     }
 }
 

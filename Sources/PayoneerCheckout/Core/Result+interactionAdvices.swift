@@ -15,6 +15,7 @@ extension Result where Success: OperationResult, Failure: ErrorInfo {
         }
     }
 
+    /// Descriptive information that complements the interaction advice.
     var resultInfo: String {
         switch self {
         case .success(let operationResult): return operationResult.resultInfo

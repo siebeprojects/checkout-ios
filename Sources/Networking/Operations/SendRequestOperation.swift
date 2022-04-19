@@ -49,20 +49,27 @@ open class SendRequestOperation<T>: AsynchronousOperation where T: Request {
             request.logRequest()
         }
 
-        connection.send(request: urlRequest) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let decodedResponse = try self.request.decodeResponse(with: data)
-                    if #available(iOS 14.0, *) {
-                        self.request.logResponse(decodedResponse)
-                    }
-                    self.finish(with: .success(decodedResponse))
-                } catch {
-                    if #available(iOS 14.0, *) { self.log(error: error) }
-                    self.finish(with: .failure(error))
+        connection.send(request: urlRequest) { (data, error) in
+            if let error = error {
+                if #available(iOS 14.0, *) { self.log(error: error) }
+                self.finish(with: .failure(error))
+                return
+            }
+
+            guard let data = data else {
+                let error = NetworkError(description: "Response doesn't contain data and error")
+                if #available(iOS 14.0, *) { self.log(error: error) }
+                self.finish(with: .failure(error))
+                return
+            }
+
+            do {
+                let decodedResponse = try self.request.decodeResponse(with: data)
+                if #available(iOS 14.0, *) {
+                    self.request.logResponse(decodedResponse)
                 }
-            case .failure(let error):
+                self.finish(with: .success(decodedResponse))
+            } catch {
                 if #available(iOS 14.0, *) { self.log(error: error) }
                 self.finish(with: .failure(error))
             }

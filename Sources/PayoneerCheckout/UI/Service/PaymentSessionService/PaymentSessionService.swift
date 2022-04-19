@@ -8,6 +8,7 @@ import Foundation
 import Risk
 import Networking
 import Logging
+import Payment
 
 /// Service that fetches and stores PaymentSession.
 /// Used by `PaymentListViewController`
@@ -21,14 +22,13 @@ class PaymentSessionService {
 
     weak var delegate: PaymentSessionServiceDelegate?
 
-    init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider, riskProviders: [RiskProvider.Type]) {
+    init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider, paymentServices: [PaymentService.Type], riskProviders: [RiskProvider.Type]) {
         self.connection = connection
         paymentServicesFactory = .init(connection: connection)
+        paymentServicesFactory.services = paymentServices
         downloadProvider = .init(connection: connection)
         paymentSessionProvider = .init(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider, riskProviders: riskProviders)
         self.localizationProvider = localizationProvider
-
-        paymentServicesFactory.registerServices()
     }
 
     /// - Parameter completion: `LocalizedError` or `NSError` with localized description is always returned if `Load` produced an error.
