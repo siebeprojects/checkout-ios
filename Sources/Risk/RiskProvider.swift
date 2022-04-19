@@ -16,7 +16,7 @@ public protocol RiskProvider {
     /// - Parameters:
     ///   * parameters: Information required to initialize the risk provider.
     /// - Returns: An instance of the risk provider.
-    static func load(using parameters: [String: String?]) throws -> Self
+    static func load(withParameters parameters: [String: String?]) throws -> Self
 
     /// Collects the relevant data for a risk assessment.
     /// - Returns: A dictionary containing relevant data that will be sent to a server.

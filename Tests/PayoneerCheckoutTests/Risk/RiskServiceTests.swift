@@ -112,7 +112,7 @@ private struct InitializationBrokenRiskProvider: RiskProvider {
 
     static var initializationError: Error { "Initialization failed" }
 
-    static func load(using parameters: [String : String?]) throws -> Self {
+    static func load(withParameters parameters: [String : String?]) throws -> Self {
         throw initializationError
     }
 
@@ -127,7 +127,7 @@ private struct WorkingRiskProvider: RiskProvider {
 
     static var riskData: [String: String?] { ["testKey": "testValue"] }
 
-    static func load(using parameters: [String : String?]) throws -> Self {
+    static func load(withParameters parameters: [String : String?]) throws -> Self {
         return .init()
     }
 

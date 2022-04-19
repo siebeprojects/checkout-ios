@@ -9,17 +9,17 @@ import Risk
 import FraudForce
 
 @objc final public class IovationRiskProvider: NSObject, RiskProvider {
-    public static var code: String { "IOVATION" }
-    public static var type: String? { "RISK_DATA_PROVIDER" }
+    public static let code = "IOVATION"
+    public static let type = "RISK_DATA_PROVIDER"
 
-    private static var shared: IovationRiskProvider?
+    private static var current: IovationRiskProvider?
 
-    public static func load(using parameters: [String: String?]) throws -> IovationRiskProvider {
-        if let existingProvider = IovationRiskProvider.shared {
+    public static func load(withParameters parameters: [String: String?]) throws -> IovationRiskProvider {
+        if let existingProvider = IovationRiskProvider.current {
             return existingProvider
         } else {
             let provider = IovationRiskProvider()
-            IovationRiskProvider.shared = provider
+            IovationRiskProvider.current = provider
             FraudForce.start()
             return provider
         }

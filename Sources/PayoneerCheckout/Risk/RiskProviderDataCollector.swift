@@ -21,7 +21,7 @@ struct RiskProviderDataCollector {
     /// - Parameters:
     ///   - code: risk provider's code
     ///   - type: risk provider's type
-    ///   - riskProvider: risk provider (if exists), if no risk provider a default response will be returned (see `getProvidersParameters()`)
+    ///   - riskProvider: risk provider (if exists), if no risk provider a default response will be returned (see `getProviderParameters`)
     init(code: String, type: String?, riskProvider: RiskProvider? = nil) {
         self.code = code
         self.type = type
@@ -34,10 +34,10 @@ struct RiskProviderDataCollector {
 
     /// Collect risk data and return it in `ProviderParameters` format.
     /// If risk provider wasn't initialized and an error occured during data collection return will have empty `parameters` array.
-    func getProvidersParameters() -> ProviderParameters {
         guard let riskProvider = riskProvider else {
             return ProviderParameters(providerCode: code, providerType: type, parameters: [Parameter]())
         }
+    func getProviderParameters() -> ProviderParameters {
 
         let collectedData: [String: String?]?
 

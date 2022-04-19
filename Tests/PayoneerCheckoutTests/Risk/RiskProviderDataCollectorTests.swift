@@ -15,12 +15,12 @@ final class RiskProviderDataCollectorTests: XCTestCase {
         XCTAssertNil(emptyDataCollector.riskProvider)
     }
 
-    // MARK: - Test `getProvidersParameters()`
+    // MARK: - Test `getProviderParameters()`
 
     /// Tests for `ProviderParameters` if risk provider is `nil`.
     func testNoRiskProviderProviderParameters() {
         let emptyDataCollector = RiskProviderDataCollector(code: "emptyCode", type: "emptyType", riskProvider: nil)
-        let providerParameters = emptyDataCollector.getProvidersParameters()
+        let providerParameters = emptyDataCollector.getProviderParameters()
 
         XCTAssertEqual(providerParameters.providerCode, providerParameters.providerCode)
         XCTAssertEqual(providerParameters.providerType, providerParameters.providerType)
@@ -33,7 +33,7 @@ final class RiskProviderDataCollectorTests: XCTestCase {
             throw RiskProviderDataCollectorError.riskDataCollectionFailed(underlyingError: "")
         })
         let dataCollector = RiskProviderDataCollector(riskProvider: provider)
-        let providerParameters = dataCollector.getProvidersParameters()
+        let providerParameters = dataCollector.getProviderParameters()
 
         XCTAssertEqual(providerParameters.providerCode, TestRiskProvider.code)
         XCTAssertEqual(providerParameters.providerType, TestRiskProvider.type)
@@ -50,7 +50,7 @@ final class RiskProviderDataCollectorTests: XCTestCase {
             ]
         })
         let dataCollector = RiskProviderDataCollector(riskProvider: provider)
-        let providerParameters = dataCollector.getProvidersParameters()
+        let providerParameters = dataCollector.getProviderParameters()
 
         XCTAssertEqual(providerParameters.providerCode, TestRiskProvider.code)
         XCTAssertEqual(providerParameters.providerType, TestRiskProvider.type)
@@ -78,7 +78,7 @@ final class RiskProviderDataCollectorTests: XCTestCase {
             return nil
         })
         let dataCollector = RiskProviderDataCollector(riskProvider: provider)
-        let providerParameters = dataCollector.getProvidersParameters()
+        let providerParameters = dataCollector.getProviderParameters()
 
         XCTAssertTrue(providerParameters.parameters!.isEmpty)
     }
@@ -90,7 +90,7 @@ private struct TestRiskProvider: RiskProvider {
 
     fileprivate var collectRiskDataBlock: (() throws -> [String : String?]?)?
 
-    static func load(using parameters: [String : String?]) throws -> TestRiskProvider {
+    static func load(withParameters parameters: [String : String?]) throws -> TestRiskProvider {
         return TestRiskProvider()
     }
 

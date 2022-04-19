@@ -50,7 +50,7 @@ extension RiskService {
         })
 
         do {
-            return try providerType.load(using: parametersDictionary)
+            return try providerType.load(withParameters: parametersDictionary)
         } catch {
             if #available(iOS 14, *) {
                 log(riskError: .initializationFailed(underlyingError: error), forProviderCode: providerParameters.providerCode)
@@ -73,7 +73,7 @@ extension RiskService {
     /// - Returns: risk data packed in provider parameters or `nil` if no risk data should be returned (in case if provider doesn't provide it).
     func collectRiskData() -> [ProviderParameters]? {
         let data: [ProviderParameters] = dataCollectors.map {
-            $0.getProvidersParameters()
+            $0.getProviderParameters()
         }
 
         return data.isEmpty ? nil : data
