@@ -1,0 +1,43 @@
+name: Unit tests
+on: pull_request
+
+concurrency:
+  group: unit-tests-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: Test framework
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Install the dependencies specified in Gemfile
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Run unit tests
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: true
+        run: bundle exec fastlane test
+
+      - name: Zip test results
+        if: failure()
+        env:
+          project-name: PayoneerCheckout
+        run: zip -r output/scan/${{ github.sha }}.xcresult.zip output/scan/${{ env.project-name }}.xcresult/
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.sha }}.xcresult.zip
+          path: output/scan/${{ github.sha }}.xcresult.zip/
+          if-no-files-found: error
+          retention-days: 5

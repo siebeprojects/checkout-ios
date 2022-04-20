@@ -47,14 +47,6 @@ Upload binary to Browserstack
 
 Run UI tests
 
-### ios ui_test_cocoapods
-
-```sh
-[bundle exec] fastlane ios ui_test_cocoapods
-```
-
-Run UI tests for CocoaPods
-
 ### ios submit_to_testflight
 
 ```sh
@@ -70,14 +62,6 @@ Submit to TestFlight
 ```
 
 Change version number
-
-### ios lib_lint
-
-```sh
-[bundle exec] fastlane ios lib_lint
-```
-
-Validate framework for CocoaPods
 
 ### ios deploy
 

@@ -6,59 +6,60 @@
 
 import UIKit
 
-private extension CGFloat {
-    static let logoWidth: CGFloat = 40
-    static let imageLabelSpacing: CGFloat = 16
-}
-
 extension Input.Table {
     class DetailedTextLogoView: UICollectionViewCell, Dequeueable {
-        private let label: UILabel
-        private let detailedLabel: UILabel
-        private let logoView: UIImageView
+        private let logoImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.tintColor = CheckoutAppearance.shared.secondaryTextColor
+            imageView.contentMode = .scaleAspectFit
+            return imageView
+        }()
+
+        private let titleLabel: UILabel = {
+            let label = UILabel()
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .body)
+            label.lineBreakMode = .byTruncatingMiddle
+            label.textColor = CheckoutAppearance.shared.primaryTextColor
+            label.adjustsFontForContentSizeCategory = true
+            return label
+        }()
+
+        private let subtitleLabel: UILabel = {
+            let label = UILabel()
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .footnote)
+            label.textColor = CheckoutAppearance.shared.primaryTextColor
+            label.adjustsFontForContentSizeCategory = true
+            return label
+        }()
+
+        private lazy var trailingButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.isHidden = true
+            button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+            return button
+        }()
+
+        var translator: TranslationProvider?
+        weak var modalPresenter: ModalPresenter?
 
         override init(frame: CGRect) {
-            label = .init(frame: .zero)
-            detailedLabel = .init(frame: .zero)
-            logoView = .init(frame: .zero)
-
             super.init(frame: frame)
 
-            // FIXME: Return checkmark
-//            self.accessoryType = .checkmark
+            directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: .defaultSpacing)
 
-            label.font = UIFont.preferredThemeFont(forTextStyle: .body)
-            label.lineBreakMode = .byTruncatingMiddle
-            detailedLabel.font = UIFont.preferredThemeFont(forTextStyle: .footnote)
-            label.textColor = .themedText
-            detailedLabel.textColor = .themedText
+            logoImageView.addWidthConstraint(.imageWidth)
+            trailingButton.setContentHuggingPriority(.required, for: .horizontal)
 
-            self.addSubview(label)
-            self.addSubview(detailedLabel)
-            self.addSubview(logoView)
+            let labelsStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+            labelsStackView.axis = .vertical
+            labelsStackView.spacing = .verticalSpacing
 
-            label.translatesAutoresizingMaskIntoConstraints = false
-            detailedLabel.translatesAutoresizingMaskIntoConstraints = false
-
-            logoView.translatesAutoresizingMaskIntoConstraints = false
-            logoView.contentMode = .scaleAspectFit
-            logoView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-
-            NSLayoutConstraint.activate([
-                label.leadingAnchor.constraint(equalTo: logoView.trailingAnchor, constant: .imageLabelSpacing),
-                label.topAnchor.constraint(equalTo: self.topAnchor),
-                label.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-
-                detailedLabel.topAnchor.constraint(equalTo: label.bottomAnchor),
-                detailedLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                detailedLabel.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-                detailedLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-
-                logoView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                logoView.topAnchor.constraint(equalTo: label.topAnchor),
-                logoView.bottomAnchor.constraint(equalTo: detailedLabel.bottomAnchor),
-                logoView.widthAnchor.constraint(equalToConstant: .logoWidth)
-            ])
+            let stackView = UIStackView(arrangedSubviews: [logoImageView, labelsStackView, trailingButton])
+            stackView.alignment = .center
+            stackView.spacing = .defaultSpacing * 2
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(stackView)
+            stackView.fitToSuperview(obeyMargins: true)
          }
 
          required init?(coder: NSCoder) {
@@ -67,10 +68,54 @@ extension Input.Table {
     }
 }
 
+// MARK: - Configuration
+
 extension Input.Table.DetailedTextLogoView {
     func configure(with model: Input.TextHeader) {
-        logoView.image = model.logo
-        label.text = model.label
-        detailedLabel.text = model.detailedLabel
+        self.logoImageView.image = model.logo
+        self.titleLabel.text = model.title
+        self.subtitleLabel.text = model.subtitle
+        self.subtitleLabel.isHidden = model.subtitle == nil || model.subtitle?.isEmpty == true
+        self.subtitleLabel.textColor = model.subtitleColor ?? CheckoutAppearance.shared.primaryTextColor
+        self.translator = model.translator
+        self.modalPresenter = model.modalPresenter
+        self.trailingButton.tintColor = model.trailingButtonColor
+
+        if let buttonImage = model.trailingButtonImage {
+            self.trailingButton.setImage(buttonImage, for: .normal)
+            self.trailingButton.isHidden = false
+        } else {
+            self.trailingButton.setImage(nil, for: .normal)
+            self.trailingButton.isHidden = true
+        }
     }
+}
+
+// MARK: - Interaction
+
+extension Input.Table.DetailedTextLogoView {
+    @objc private func buttonAction(_ sender: UIButton) {
+        let alert = UIAlertController(
+            title: translator?.translation(forKey: "accounts.expired.badge.title"),
+            message: translator?.translation(forKey: "accounts.expired.badge.text"),
+            preferredStyle: .alert
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: translator?.translation(forKey: "button.ok.label"),
+                style: .cancel
+            )
+        )
+
+        modalPresenter?.present(alert, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Constants
+
+private extension CGFloat {
+    static var imageWidth: CGFloat { return 50 }
+    static var defaultSpacing: CGFloat { return 8 }
+    static var verticalSpacing: CGFloat { return 4 }
 }

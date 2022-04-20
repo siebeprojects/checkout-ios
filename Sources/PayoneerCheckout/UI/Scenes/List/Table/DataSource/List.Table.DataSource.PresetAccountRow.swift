@@ -9,9 +9,13 @@ import UIKit
 extension List.Table.DataSource {
     class PresetAccountRow {
         let account: UIModel.PresetAccount
+        let tintColor: UIColor
+        weak var modalPresenter: ModalPresenter?
 
-        init(account: UIModel.PresetAccount) {
+        init(account: UIModel.PresetAccount, tintColor: UIColor, modalPresenter: ModalPresenter?) {
             self.account = account
+            self.tintColor = tintColor
+            self.modalPresenter = modalPresenter
         }
     }
 }
@@ -20,7 +24,6 @@ extension List.Table.DataSource {
 
 extension List.Table.DataSource.PresetAccountRow {
     var primaryLabel: String { account.maskedAccountLabel }
-    var secondaryLabel: String? { account.expirationDate }
     var image: UIImage? { account.logo?.value }
 }
 

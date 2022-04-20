@@ -13,15 +13,28 @@ extension List.Table {
         private let sections: [Section]
         private let translationProvider: TranslationProvider
         let context: UIModel.PaymentContext
+        let tintColor: UIColor
+        weak var modalPresenter: ModalPresenter?
 
-        init(networks: [UIModel.PaymentNetwork], accounts: [UIModel.RegisteredAccount]?, presetAccount: UIModel.PresetAccount?, translation: SharedTranslationProvider, genericLogo: UIImage, context: UIModel.PaymentContext) {
+        init(
+            networks: [UIModel.PaymentNetwork],
+            accounts: [UIModel.RegisteredAccount]?,
+            presetAccount: UIModel.PresetAccount?,
+            translation: SharedTranslationProvider,
+            genericLogo: UIImage,
+            context: UIModel.PaymentContext,
+            tintColor: UIColor,
+            modalPresenter: ModalPresenter?
+        ) {
             self.translationProvider = translation
             self.context = context
+            self.tintColor = tintColor
+            self.modalPresenter = modalPresenter
 
             var sections = [Section]()
 
             if let presetAccount = presetAccount {
-                let row = PresetAccountRow(account: presetAccount)
+                let row = PresetAccountRow(account: presetAccount, tintColor: tintColor, modalPresenter: modalPresenter)
                 let presetSection = Section(rows: .preset(row), additionalHeaderText: presetAccount.warningText)
                 sections.append(presetSection)
             }
@@ -30,7 +43,7 @@ extension List.Table {
             if let accounts = accounts {
                 var rows = [RegisteredAccountRow]()
                 for account in accounts {
-                    let row = RegisteredAccountRow(account: account)
+                    let row = RegisteredAccountRow(account: account, modalPresenter: modalPresenter)
                     rows.append(row)
                 }
 
@@ -180,15 +193,29 @@ private protocol NetworkRow: DequeuableRow {
 private protocol DetailedLabelRow: DequeuableRow {
     var primaryLabel: String { get }
     var secondaryLabel: String? { get }
+    var isExpired: Bool { get }
     var image: UIImage? { get }
     var borderColor: UIColor { get }
+    var modalPresenter: ModalPresenter? { get }
+    var translator: TranslationProvider? { get }
 }
 
 extension DetailedLabelRow {
     func dequeueConfiguredReusableCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(List.Table.DetailedLabelCell.self, for: indexPath)
-        cell.configure(logo: image, title: primaryLabel, subtitle: secondaryLabel)
-        cell.borderColor = self.borderColor
+
+        cell.configure(
+            logo: image,
+            title: primaryLabel,
+            subtitle: secondaryLabel,
+            subtitleColor: isExpired ? CheckoutAppearance.shared.errorColor : CheckoutAppearance.shared.primaryTextColor,
+            trailingButtonImage: isExpired ? AssetProvider.expirationInfo : nil,
+            trailingButtonColor: isExpired ? CheckoutAppearance.shared.errorColor : nil,
+            translator: translator,
+            modalPresenter: modalPresenter
+        )
+
+        cell.borderColor = borderColor
 
         // Set cell position
         let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
@@ -210,13 +237,23 @@ extension DetailedLabelRow {
 // MARK: Extensions to model
 
 extension List.Table.DataSource.PresetAccountRow: DetailedLabelRow {
-    var borderColor: UIColor { return .tablePresetBordersColor }
+    var secondaryLabel: String? { account.expirationDate }
+    var isExpired: Bool { account.isExpired }
+    var borderColor: UIColor { tintColor }
+    var translator: TranslationProvider? { account.translation }
 }
 extension List.Table.DataSource.RegisteredAccountRow: DetailedLabelRow {
-    var borderColor: UIColor { return .themedTableBorder }
+    var secondaryLabel: String? { account.expirationDate }
+    var isExpired: Bool { account.isExpired }
+    var borderColor: UIColor { CheckoutAppearance.shared.borderColor }
+    var translator: TranslationProvider? { account.translation }
 }
 extension List.Table.DataSource.SingleNetworkRow: DetailedLabelRow, NetworkRow {
-    var borderColor: UIColor { return .themedTableBorder }
+    var secondaryLabel: String? { nil }
+    var isExpired: Bool { false }
+    var borderColor: UIColor { CheckoutAppearance.shared.borderColor }
+    var modalPresenter: ModalPresenter? { nil }
+    var translator: TranslationProvider? { nil }
 }
 extension List.Table.DataSource.GroupedNetworkRow: NetworkRow {}
 

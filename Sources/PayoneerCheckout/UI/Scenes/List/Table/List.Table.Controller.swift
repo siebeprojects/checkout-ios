@@ -20,9 +20,7 @@ protocol ListTableControllerDelegate: AnyObject {
 
 extension List.Table {
     final class Controller: NSObject {
-        weak var tableView: UITableView? {
-            didSet { updateRefreshControl() }
-        }
+        private let tableView: UITableView
 
         weak var delegate: ListTableControllerDelegate?
 
@@ -31,17 +29,30 @@ extension List.Table {
         fileprivate let isRefreshable: Bool
         fileprivate var refreshControl: UIRefreshControl?
 
-        init(session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider) throws {
+        init(tableView: UITableView, session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider, modalPresenter: ModalPresenter?) throws {
             guard let genericLogo = AssetProvider.iconCard else {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }
 
-            dataSource = .init(networks: session.networks, accounts: session.registeredAccounts, presetAccount: session.presetAccount, translation: translationProvider, genericLogo: genericLogo, context: session.context)
+            dataSource = .init(
+                networks: session.networks,
+                accounts: session.registeredAccounts,
+                presetAccount: session.presetAccount,
+                translation: translationProvider,
+                genericLogo: genericLogo,
+                context: session.context,
+                tintColor: tableView.tintColor,
+                modalPresenter: modalPresenter
+            )
 
             switch session.context.listOperationType {
             case .UPDATE: isRefreshable = true
             default: isRefreshable = false
             }
+
+            self.tableView = tableView
+            super.init()
+            updateRefreshControl()
         }
 
         fileprivate func loadLogo(for indexPath: IndexPath) {
@@ -74,7 +85,7 @@ extension List.Table.Controller {
 
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
-        tableView?.addSubview(refreshControl)
+        tableView.addSubview(refreshControl)
         self.refreshControl = refreshControl
     }
 

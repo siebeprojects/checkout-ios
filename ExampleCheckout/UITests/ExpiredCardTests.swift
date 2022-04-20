@@ -7,47 +7,76 @@
 import XCTest
 
 final class ExpiredCardTests: NetworksTests {
-    static private var customerId: String!
+    static private var validCardCustomerID: String!
+    static private var expiredCardCustomerID: String!
+
+    private class var twoDigitNextYear: String {
+        let nextYearDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())!
+        let nextYear = Calendar.current.component(.year, from: nextYearDate)
+        return String(String(nextYear).suffix(2))
+    }
 
     override class func setUp() {
         super.setUp()
 
-        self.customerId = try! PaymentService().registerCustomer(card: Card.visa.overriding(expiryDate: "1020"))
+        var validCard = Card.visa
+        validCard.expiryDate = "03" + twoDigitNextYear
+
+        var expiredCard = Card.visa
+        expiredCard.expiryDate = "0320"
+
+        self.validCardCustomerID = try! PaymentService().registerCustomer(card: validCard)
+        self.expiredCardCustomerID = try! PaymentService().registerCustomer(card: expiredCard)
     }
 
     override class func tearDown() {
-        self.customerId = nil
+        self.validCardCustomerID = nil
+        self.expiredCardCustomerID = nil
         super.tearDown()
     }
 
-    func testPaymentList_whenCard_shouldShowExpirationDate() throws {
+    func testExpirationDate_whenValidCard_shouldShow() throws {
         try XCTContext.runActivity(named: "Show card expiration date") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: true, customerId: Self.customerId))
-            try setupWithPaymentSession(transaction: transaction)
+            let listSettings = try ListSettings(operationType: .update, customerId: Self.validCardCustomerID)
+            try setupPaymentSession(with: listSettings)
 
-            XCTAssertTrue(app.cells.element(boundBy: 0).staticTexts["10 / 20"].exists)
-        }
-    }
-
-    func testPaymentList_whenNotCard_shouldNotShowExpirationDate() throws {
-        try XCTContext.runActivity(named: "Show card expiration date") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: true, customerId: Self.customerId))
-            try setupWithPaymentSession(transaction: transaction)
+            let cell = app.tables["paymentlist"].cells.element(boundBy: 0)
+            XCTAssertTrue(cell.staticTexts["03 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
 
             for index in 1...3 {
-                XCTAssertFalse(app.cells.element(boundBy: index).staticTexts["10 / 20"].exists)
+                let cell = app.cells.element(boundBy: index)
+                XCTAssertTrue(cell.exists, "Cell with a network doesn't exist, couldn't check absense of expiration date")
+                XCTAssertFalse(cell.staticTexts["03 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
             }
+
+            cell.tap()
+
+            XCTAssertTrue(app.collectionViews.staticTexts["03 / \(ExpiredCardTests.twoDigitNextYear)"].exists)
         }
     }
 
-    func testPaymentDetails_whenCard_shouldShowExpirationDate() throws {
-        try XCTContext.runActivity(named: "Show card expiration date") { _ in
-            let transaction = try Transaction.create(withSettings: TransactionSettings(operationType: .update, allowDelete: true, customerId: Self.customerId))
-            try setupWithPaymentSession(transaction: transaction)
+    func testPaymentList_whenExpiredCard_shouldShowExpirationDate_shouldShowExpirationInfoAlert() throws {
+        try XCTContext.runActivity(named: "Highlight card expiration date") { _ in
+            let listSettings = try ListSettings(operationType: .update, customerId: Self.expiredCardCustomerID)
+            try setupPaymentSession(with: listSettings)
 
-            app.cells.element(boundBy: 0).tap()
+            let cell = app.tables["paymentlist"].cells.element(boundBy: 0)
 
-            XCTAssertTrue(app.collectionViews.staticTexts["10 / 20"].exists)
+            XCTAssertTrue(cell.staticTexts["03 / 20"].exists)
+
+            cell.buttons["expirationInfo"].tap()
+
+            let alert = app.alerts.firstMatch
+
+            XCTAssertTrue(alert.exists)
+
+            alert.scrollViews.otherElements.buttons["OK"].tap()
+
+            cell.tap()
+
+            app.collectionViews.buttons["expirationInfo"].tap()
+
+            XCTAssertTrue(app.alerts.firstMatch.exists)
         }
     }
 }

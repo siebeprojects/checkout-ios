@@ -7,22 +7,14 @@
 import XCTest
 
 struct Card: PaymentNetwork {
-    let number: String
-    let expiryDate: String
-    let verificationCode: String
-    let holderName: String
-    let label: String
-    let maskedLabel: String
+    var number: String
+    var expiryDate: String
+    var verificationCode: String
+    var holderName: String
+    var label: String
 
-    func overriding(number: String? = nil, expiryDate: String? = nil, verificationCode: String? = nil, holderName: String? = nil, label: String? = nil, maskedLabel: String? = nil) -> Card {
-        Card(
-            number: number ?? self.number,
-            expiryDate: expiryDate ?? self.expiryDate,
-            verificationCode: verificationCode ?? self.verificationCode,
-            holderName: holderName ?? self.holderName,
-            label: label ?? self.label,
-            maskedLabel: maskedLabel ?? self.maskedLabel
-        )
+    var maskedLabel: String {
+        "\(label) •••• \(number.suffix(4))"
     }
 
     static var visa: Card {
@@ -31,8 +23,7 @@ struct Card: PaymentNetwork {
             expiryDate: "1030",
             verificationCode: "111",
             holderName: "Test Test",
-            label: "Visa",
-            maskedLabel: "Visa •••• 1111"
+            label: "Visa"
         )
     }
 
@@ -42,8 +33,7 @@ struct Card: PaymentNetwork {
             expiryDate: "1030",
             verificationCode: "111",
             holderName: "Test Test",
-            label: "MasterCard",
-            maskedLabel: "MasterCard •••• 4444"
+            label: "MasterCard"
         )
     }
 

@@ -11,7 +11,7 @@ extension PaymentListViewController {
 
 extension PaymentListViewController.ViewManager {
     func configureMainView() {
-        view.backgroundColor = .themedBackground
+        view.backgroundColor = CheckoutAppearance.shared.backgroundColor
     }
 
     /// Add and activate an activity indicator
@@ -62,6 +62,7 @@ extension PaymentListViewController.ViewManager {
     /// Add methods UITableView to view and assign it to `self.methodsTableView`
     func addMethodsTableView() -> UITableView {
         let methodsTableView = List.Table.TableView(frame: CGRect.zero, style: .grouped)
+        methodsTableView.accessibilityIdentifier = "paymentlist"
         methodsTableView.separatorStyle = .none
         methodsTableView.backgroundColor = .clear
         methodsTableView.rowHeight = .rowHeight

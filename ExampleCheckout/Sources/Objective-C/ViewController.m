@@ -6,8 +6,11 @@
 
 #import "ViewController.h"
 @import PayoneerCheckout;
+@import IovationRiskProvider;
 
 @interface ViewController ()
+
+@property (retain, nonatomic) Checkout *checkout;
 
 @end
 
@@ -24,35 +27,35 @@
 
 - (IBAction)sendRequest:(UIButton *)sender {
     NSURL *url = [[NSURL alloc] initWithString:self.urlTextField.text];
+    
+    CheckoutConfiguration *configuration = [[CheckoutConfiguration alloc] initWithListURL:url appearance:[CheckoutAppearance default] riskProviderClasses:@[[IovationRiskProvider class]] error:NULL];
 
-    PaymentListViewController *paymentListViewController = [[PaymentListViewController alloc] initWithListResultURL:url];
-    paymentListViewController.delegate = self;
-    [self.navigationController pushViewController:paymentListViewController animated:true];
+    self.checkout = [[Checkout alloc] initWithConfiguration:configuration];
+    [self.checkout presentPaymentListFrom:self completion:^(CheckoutResult * _Nonnull result) {
+        [self presentAlertWithResult:result];
+    }];
 }
 
-#pragma mark - PaymentDelegate
-
-- (void)paymentServiceWithDidReceivePaymentResult:(PaymentResult * _Nonnull)paymentResult viewController:(PaymentListViewController * _Nonnull)viewController {
-    [self.navigationController popViewControllerAnimated:true];
-
-    NSString *resultInfo = [NSString stringWithFormat:@"ResultInfo: %@", paymentResult.resultInfo];
-    NSString *interactionCode = [NSString stringWithFormat:@"Interaction code: %@", paymentResult.interaction.code];
-    NSString *interactionReason = [NSString stringWithFormat:@"Interaction reason: %@", paymentResult.interaction.reason];
+- (void)presentAlertWithResult:(CheckoutResult * _Nonnull)result {
+    NSString *resultInfo = [NSString stringWithFormat:@"ResultInfo: %@", result.resultInfo];
+    NSString *interactionCode = [NSString stringWithFormat:@"Interaction code: %@", result.interaction.code];
+    NSString *interactionReason = [NSString stringWithFormat:@"Interaction reason: %@", result.interaction.reason];
 
     // Construct error message
     NSString *paymentErrorText = @"Error: n/a";
 
-    if (paymentResult.cause != nil) {
-        paymentErrorText = [NSString stringWithFormat:@"Error: %@", paymentResult.cause];
+    if (result.cause != nil) {
+        paymentErrorText = [NSString stringWithFormat:@"Error: %@", result.cause];
     }
 
     NSString *message = [NSString stringWithFormat:@"%@\n%@\n%@\n%@", resultInfo, interactionCode, interactionReason, paymentErrorText];
 
-    // Present alert
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"Payment result" message: message preferredStyle: UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle: @"Ok" style: UIAlertActionStyleDefault handler: nil];
-    [alertController addAction: okAction];
-    [self presentViewController:alertController animated:true completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"Payment Result" message: message preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle: @"OK" style: UIAlertActionStyleDefault handler: nil];
+        [alertController addAction: okAction];
+        [self presentViewController:alertController animated:true completion:nil];
+    }];
 }
 
 @end

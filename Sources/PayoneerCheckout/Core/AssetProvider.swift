@@ -6,27 +6,20 @@
 
 import UIKit
 
-final class AssetProvider {
+enum AssetProvider {
     #if canImport(UIKit)
-    static var iconCard: UIImage? {
-        return UIImage(named: "iconCard", in: .current, compatibleWith: nil)
-    }
+    static let primaryTextColor = UIColor(named: "PrimaryText", in: .current, compatibleWith: nil)!
+    static let secondaryTextColor = UIColor(named: "SecondaryText", in: .current, compatibleWith: nil)!
+    static let backgroundColor = UIColor(named: "Background", in: .current, compatibleWith: nil)!
+    static let errorColor = UIColor(named: "Error", in: .current, compatibleWith: nil)!
+    static let borderColor = UIColor(named: "Border", in: .current, compatibleWith: nil)!
 
-    static var iconCVVQuestionMark: UIImage? {
-        return UIImage(named: "iconCVVQuestionMark", in: .current, compatibleWith: nil)
-    }
-
-    static var cvvCard: UIImage? {
-        return UIImage(named: "cvvCard", in: .current, compatibleWith: nil)
-    }
-
-    static var cvvAMEX: UIImage? {
-        return UIImage(named: "cvvAMEX", in: .current, compatibleWith: nil)
-    }
-
-    static var iconClear: UIImage? {
-        return UIImage(named: "iconClear", in: .current, compatibleWith: nil)
-    }
+    static let iconCard = UIImage(named: "iconCard", in: .current, compatibleWith: nil)
+    static let iconCVVQuestionMark = UIImage(named: "iconCVVQuestionMark", in: .current, compatibleWith: nil)
+    static let cvvCard = UIImage(named: "cvvCard", in: .current, compatibleWith: nil)
+    static let cvvAMEX = UIImage(named: "cvvAMEX", in: .current, compatibleWith: nil)
+    static let iconClear = UIImage(named: "iconClear", in: .current, compatibleWith: nil)
+    static let expirationInfo = UIImage(named: "expirationInfo", in: .current, compatibleWith: nil)
 
     static var disclosureIndicator: UIImage? {
         if #available(iOS 13.0, *) {
