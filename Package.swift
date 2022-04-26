@@ -28,10 +28,7 @@ let package = Package(
         .target(name: "Logging"),
 
         // Payment Services
-        .target(
-            name: "Payment",
-            dependencies: ["Networking"],
-            path: "Sources/PaymentServices/Payment"),
+        .target(name: "Payment", dependencies: ["Networking"]),
 
         // Risk
         .target(name: "Risk"),
