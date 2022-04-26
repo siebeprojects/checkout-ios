@@ -20,11 +20,11 @@ enum CheckoutConfigurationError: Error {
     /// The appearance settings to be used in the checkout UI. If not specified, a default appearance will be used.
     public let appearance: CheckoutAppearance
 
-    /// Payment services will be loaded and used to process payments.
+    /// The payment services to be loaded and used to process payments.
     /// - Note: A network will be displayed in the list only if at least one of the services supports processing payments for that network
     public let paymentServices: [PaymentService.Type]
 
-    /// Risk providers will be loaded and used to collect data for risk analysis.
+    /// The risk providers to be loaded and used to collect data for risk analysis.
     public let riskProviders: [RiskProvider.Type]
 
     /// Initializes a configuration object with the given parameters.
