@@ -32,7 +32,6 @@ let package = Package(
             name: "Payment",
             dependencies: ["Networking"],
             path: "Sources/PaymentServices/Payment"),
-            path: "Sources/PaymentServices/DefaultPaymentService"),
 
         // Risk
         .target(name: "Risk"),
