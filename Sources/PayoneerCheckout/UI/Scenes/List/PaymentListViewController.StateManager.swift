@@ -1,4 +1,5 @@
 import UIKit
+import Networking
 
 extension PaymentListViewController {
     class StateManager {
