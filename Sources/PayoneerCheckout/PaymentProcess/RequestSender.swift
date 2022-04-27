@@ -48,9 +48,11 @@ extension RequestSender {
         }
 
         // Delete account
-        service.delete(accountUsing: accountURL, completion: { operationResult, error in
-            let deletionResult = convertToResult(object: operationResult, error: error)
-            self.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
+        service.delete(accountUsing: accountURL, completion: { [weak self] operationResult, error in
+            guard let weakSelf = self else { return }
+            
+            let deletionResult = weakSelf.convertToResult(object: operationResult, error: error)
+            weakSelf.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
         }, presentationRequest: {
             delegate?.requestSender(presentationRequestReceivedFor: $0)
         })
@@ -80,10 +82,12 @@ extension RequestSender {
         }
 
         // Send operation request
-        service.send(operationRequest: operationRequest, completion: { operationResult, error in
-            let operationResult = convertToResult(object: operationResult, error: error)
-            delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
-        }, presentationRequest: {
+        service.send(operationRequest: operationRequest, completion: { [weak self] operationResult, error in
+            guard let weakSelf = self else { return }
+
+            let operationResult = weakSelf.convertToResult(object: operationResult, error: error)
+            weakSelf.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
+        }, presentationRequest: { [delegate] in
             delegate?.requestSender(presentationRequestReceivedFor: $0)
         })
     }

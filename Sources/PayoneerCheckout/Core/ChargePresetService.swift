@@ -20,9 +20,10 @@ final class ChargePresetService: ChargePresetServiceProtocol {
     private let connection: Connection = URLSessionConnection()
     private let riskProviders: [RiskProvider.Type]
 
-    init(riskProviders: [RiskProvider.Type]) {
-        self.riskProviders = riskProviders
+    init(paymentServices: [PaymentService.Type], riskProviders: [RiskProvider.Type]) {
         self.paymentServiceFactory = PaymentServicesFactory(connection: connection)
+        self.paymentServiceFactory.services = paymentServices
+        self.riskProviders = riskProviders
     }
 
     func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void) {
@@ -105,8 +106,9 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil, riskData: riskData)
 
         // Send request
-        service.send(operationRequest: operationRequest, completion: { result, error in
-            let operationResult = convertToResult(object: result, error: error)
+        service.send(operationRequest: operationRequest, completion: { [weak self] result, error in
+            guard let operationResult = self?.convertToResult(object: result, error: error) else { return }
+
             let checkoutResult = CheckoutResult(operationResult: operationResult)
             DispatchQueue.main.async { completion(checkoutResult) }
         }, presentationRequest: presentationRequest)

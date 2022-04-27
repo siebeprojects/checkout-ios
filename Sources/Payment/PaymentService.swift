@@ -15,8 +15,8 @@ import UIKit
     /// Returns whether the service can make payments
     static func isSupported(networkCode: String, paymentMethod: String?) -> Bool
 
-    func send(operationRequest: OperationRequest, completion: CompletionBlock, presentationRequest: PresentationBlock)
-    func delete(accountUsing accountURL: URL, completion: CompletionBlock, presentationRequest: PresentationBlock)
+    func send(operationRequest: OperationRequest, completion: @escaping CompletionBlock, presentationRequest: PresentationBlock)
+    func delete(accountUsing accountURL: URL, completion: @escaping CompletionBlock, presentationRequest: PresentationBlock)
 
     init(connection: Connection)
 }

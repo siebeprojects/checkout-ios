@@ -5,25 +5,24 @@
 // See the LICENSE file for more information.
 
 import Foundation
-import Networking
 
 /// Class is used when you need to create a custom `ErrorInfo` to keep track what error cause creation of local error info
-final class CustomErrorInfo: ErrorInfo {
+public final class CustomErrorInfo: ErrorInfo {
     /// Underlying error that caused payment error
-    let underlyingError: Error?
+    public let underlyingError: Error?
 
-    init(resultInfo: String, interaction: Interaction, underlyingError: Error? = nil) {
+    public init(resultInfo: String, interaction: Interaction, underlyingError: Error? = nil) {
         self.underlyingError = underlyingError
         super.init(resultInfo: resultInfo, interaction: interaction)
     }
 
     @available(*, unavailable)
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         fatalError("Can't be inited from decoder")
     }
 
     /// Create an instance with `ABORT` and `CLIENTSIDE_ERROR` Interaction
-    static func createClientSideError(from error: Error) -> CustomErrorInfo {
+    public static func createClientSideError(from error: Error) -> CustomErrorInfo {
         let interaction = Interaction(code: .ABORT, reason: .CLIENTSIDE_ERROR)
         return .init(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
     }
