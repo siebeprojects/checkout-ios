@@ -21,7 +21,6 @@ enum CheckoutConfigurationError: Error {
     public let appearance: CheckoutAppearance
 
     /// The payment services to be loaded and used to process payments.
-    /// - Note: A network will be displayed in the list only if at least one of the services supports processing payments for that network
     public let paymentServices: [PaymentService.Type]
 
     /// The risk providers to be loaded and used to collect data for risk analysis.
