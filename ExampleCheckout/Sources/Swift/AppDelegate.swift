@@ -12,6 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
 //        NotificationCenter.default.post(name: .didReceivePaymentResultURL, object: url)
+        
         return true
     }
 }
