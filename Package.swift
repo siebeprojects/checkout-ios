@@ -19,7 +19,7 @@ let package = Package(
     targets: [
         .target(
             name: "PayoneerCheckout",
-            dependencies: ["Risk", "Networking", "Logging", "Payment", "DefaultPaymentService"],
+            dependencies: ["Risk", "Networking", "Logging", "Payment", "BasicPaymentService"],
             resources: [
                 .process("Resources")
             ]
@@ -30,9 +30,9 @@ let package = Package(
         // Payment Services
         .target(name: "Payment", dependencies: ["Networking"]),
         .target(
-            name: "DefaultPaymentService",
+            name: "BasicPaymentService",
             dependencies: ["Networking", "Payment"],
-            path: "Sources/PaymentServices/DefaultPaymentService"),
+            path: "Sources/PaymentServices/BasicPaymentService"),
 
         // Risk
         .target(name: "Risk"),
