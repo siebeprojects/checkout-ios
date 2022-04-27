@@ -31,7 +31,7 @@ public extension NetworkRequest {
         public typealias Response = OperationResult
 
         /// - Parameter url: value from `links.accounts[X].self`
-        public init(url: URL, body: Body) {
+        public init(url: URL, body: Body? = nil) {
             self.url = url
             self.body = body
         }

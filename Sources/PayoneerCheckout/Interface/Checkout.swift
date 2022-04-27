@@ -20,7 +20,7 @@ import SafariServices
     ///   - configuration: The configuration object to be used.
     @objc public init(configuration: CheckoutConfiguration) {
         self.configuration = configuration
-        self.chargePresetService = ChargePresetService(riskProviders: configuration.riskProviders)
+        self.chargePresetService = ChargePresetService(paymentServices: configuration.paymentServices, riskProviders: configuration.riskProviders)
         CheckoutAppearance.shared = configuration.appearance
     }
 

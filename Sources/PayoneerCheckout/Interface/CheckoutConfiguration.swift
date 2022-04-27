@@ -7,6 +7,7 @@
 import Foundation
 import Risk
 import Payment
+import DefaultPaymentService
 
 enum CheckoutConfigurationError: Error {
     case invalidRiskProviderType
@@ -35,7 +36,8 @@ enum CheckoutConfigurationError: Error {
     public init(listURL: URL, appearance: CheckoutAppearance = .default, paymentServices: [PaymentService.Type] = [], riskProviders: [RiskProvider.Type] = []) {
         self.listURL = listURL
         self.appearance = appearance
-        self.paymentServices = paymentServices
+        // `DefaultPaymentService` should be always loaded by default
+        self.paymentServices = paymentServices + [DefaultPaymentService.self]
         self.riskProviders = riskProviders
     }
 

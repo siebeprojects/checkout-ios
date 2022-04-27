@@ -11,7 +11,7 @@ import Logging
 
 public extension NetworkRequest {
     /// Request for an operation (`links.operation`).
-    struct Charge: PostRequest {
+    struct Operation: PostRequest {
         public let url: URL
         public let queryItems = [URLQueryItem]()
         public var body: Body? { chargeBody }
@@ -28,7 +28,7 @@ public extension NetworkRequest {
 }
 
 @available(iOS 14.0, *)
-extension NetworkRequest.Charge: Loggable {
+extension NetworkRequest.Operation: Loggable {
     public func logRequest() {
         logger.notice("[POST] ➡️ Operation request: \(url.absoluteString, privacy: .private)")
     }
@@ -40,7 +40,7 @@ extension NetworkRequest.Charge: Loggable {
 
 // MARK: - Body
 
-public extension NetworkRequest.Charge {
+public extension NetworkRequest.Operation {
     struct Body: Encodable {
         var account = [String: String]()
         var autoRegistration: Bool?
