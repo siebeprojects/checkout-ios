@@ -51,7 +51,7 @@ extension RequestSender {
         service.delete(accountUsing: accountURL, completion: { [weak self] operationResult, error in
             guard let weakSelf = self else { return }
             
-            let deletionResult = weakSelf.convertToResult(object: operationResult, error: error)
+            let deletionResult = weakSelf.convertToResult(object: operationResult, error: error, operationType: network.operationType)
             weakSelf.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
         }, presentationRequest: {
             delegate?.requestSender(presentationRequestReceivedFor: $0)
@@ -85,24 +85,42 @@ extension RequestSender {
         service.send(operationRequest: operationRequest, completion: { [weak self] operationResult, error in
             guard let weakSelf = self else { return }
 
-            let operationResult = weakSelf.convertToResult(object: operationResult, error: error)
+            let operationResult = weakSelf.convertToResult(object: operationResult, error: error, operationType: network.operationType)
             weakSelf.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
         }, presentationRequest: { [delegate] in
             delegate?.requestSender(presentationRequestReceivedFor: $0)
         })
     }
 
+    /// Find appropriate interaction code for specified operation type.
+    private func getFailureInteractionCode(forOperationType operationType: String?) -> Interaction.Code {
+        switch operationType {
+        case "PRESET", "UPDATE", "ACTIVATION": return .ABORT
+        default:
+            // "CHARGE", "PAYOUT" and other operation types
+            return .VERIFY
+        }
+    }
+
+    private func createErrorInfo(from error: Error, forOperationType operationType: String?) -> CustomErrorInfo {
+        let code = getFailureInteractionCode(forOperationType: operationType)
+        let interaction = Interaction(code: code, reason: .CLIENTSIDE_ERROR)
+        let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
+        return errorInfo
+    }
+
     /// Converts object and error optionals to `Result` with a defined state.
-    private func convertToResult<T>(object: T?, error: Error?) -> Result <T, ErrorInfo> {
+    private func convertToResult(object: OperationResult?, error: Error?, operationType: String?) -> Result <OperationResult, ErrorInfo> {
         if let errorInfo = error as? ErrorInfo {
             return .failure(errorInfo)
         } else if let error = error {
-            return .failure(CustomErrorInfo.createClientSideError(from: error))
+            let errorInfo = createErrorInfo(from: error, forOperationType: operationType)
+            return .failure(errorInfo)
         }
 
         guard let object = object else {
             let error = RequestSenderError.malformedResponseBlock
-            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            let errorInfo = createErrorInfo(from: error, forOperationType: operationType)
             return .failure(errorInfo)
         }
 

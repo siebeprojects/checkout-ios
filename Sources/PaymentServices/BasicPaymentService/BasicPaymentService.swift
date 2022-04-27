@@ -21,16 +21,6 @@ import UIKit
         return false
     }
 
-    /// Find appropriate interaction code for specified operation type.
-    static func getFailureInteractionCode(forOperationType operationType: String?) -> Interaction.Code {
-        switch operationType {
-        case "PRESET", "UPDATE", "ACTIVATION": return .ABORT
-        default:
-            // "CHARGE", "PAYOUT" and other operation types
-            return .VERIFY
-        }
-    }
-
     private static func isSupported(method: String) -> Bool {
         let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
         guard let paymentMethod = PaymentMethod(rawValue: method) else {
