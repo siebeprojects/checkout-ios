@@ -9,7 +9,7 @@ import Networking
 import Payment
 import UIKit
 
-@objc public class DefaultPaymentService: NSObject, PaymentService {
+@objc public class BasicPaymentService: NSObject, PaymentService {
     // MARK: - Static methods
     public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
         if let paymentMethod = paymentMethod {
