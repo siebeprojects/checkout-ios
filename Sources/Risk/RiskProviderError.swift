@@ -22,7 +22,7 @@ public enum RiskProviderError: Error {
     public var reason: String {
         switch self {
         case .internalFailure(let reason), .externalFailure(let reason):
-            return reason
+            return String(reason.prefix(2000))
         }
     }
 }
