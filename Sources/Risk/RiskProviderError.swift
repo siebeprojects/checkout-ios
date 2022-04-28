@@ -7,8 +7,8 @@
 import Foundation
 
 public enum RiskProviderError: Error {
-    case internalFailure(reason: String)
-    case externalFailure(reason: String)
+    case internalFailure(reason: String, providerCode: String, providerType: String?)
+    case externalFailure(reason: String, providerCode: String, providerType: String?)
 
     public var name: String {
         switch self {
@@ -21,8 +21,22 @@ public enum RiskProviderError: Error {
 
     public var reason: String {
         switch self {
-        case .internalFailure(let reason), .externalFailure(let reason):
+        case .internalFailure(let reason, _, _), .externalFailure(let reason, _, _):
             return String(reason.prefix(2000))
+        }
+    }
+
+    public var providerCode: String {
+        switch self {
+        case .internalFailure(_, let providerCode, _), .externalFailure(_, let providerCode, _):
+            return providerCode
+        }
+    }
+
+    public var providerType: String? {
+        switch self {
+        case .internalFailure(_, _, let providerType), .externalFailure(_, _, let providerType):
+            return providerType
         }
     }
 }

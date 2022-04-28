@@ -29,7 +29,11 @@ import FraudForce
         let data = FraudForce.blackbox()
 
         guard data.isEmpty == false else {
-            throw RiskProviderError.externalFailure(reason: "Empty blackbox received from Iovation risk provider")
+            throw RiskProviderError.externalFailure(
+                reason: "Empty blackbox received from Iovation risk provider",
+                providerCode: IovationRiskProvider.code,
+                providerType: IovationRiskProvider.type
+            )
         }
 
         return ["blackbox": data]

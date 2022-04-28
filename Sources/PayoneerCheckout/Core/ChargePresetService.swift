@@ -14,7 +14,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
     private var redirectCallbackHandler: RedirectCallbackHandler?
     private var paymentService: PaymentService?
     private let connection: Connection = URLSessionConnection()
-    private let riskService: RiskService
+    private var riskService: RiskService
 
     private var completionBlock: ((_ result: CheckoutResult) -> Void)?
     private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?

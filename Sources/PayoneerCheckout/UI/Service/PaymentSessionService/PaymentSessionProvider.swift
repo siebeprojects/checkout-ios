@@ -11,7 +11,7 @@ class PaymentSessionProvider {
     private let provider: ListResultProvider
     private let connection: Connection
     private let paymentSessionURL: URL
-    private let riskService: RiskService
+    private var riskService: RiskService
 
     private var listResult: ListResult?
 
