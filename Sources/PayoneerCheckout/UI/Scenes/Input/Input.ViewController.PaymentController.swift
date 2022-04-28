@@ -5,7 +5,6 @@
 // See the LICENSE file for more information.
 
 import Foundation
-import Risk
 
 extension Input.ViewController {
     class PaymentController {
