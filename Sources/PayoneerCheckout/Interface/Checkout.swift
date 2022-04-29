@@ -28,9 +28,9 @@ import SafariServices
     }
 
     /// Alternative initializer for testing purposes.
-    init(configuration: CheckoutConfiguration, riskService: RiskService, chargePresetService: ChargePresetServiceProtocol) {
+    init(configuration: CheckoutConfiguration, chargePresetService: ChargePresetServiceProtocol) {
         self.configuration = configuration
-        self.riskService = riskService
+        self.riskService = RiskService(providers: configuration.riskProviders)
         self.chargePresetService = chargePresetService
         CheckoutAppearance.shared = configuration.appearance
     }
