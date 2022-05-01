@@ -48,14 +48,12 @@ extension RequestSender {
         }
 
         // Delete account
-        service.delete(accountUsing: accountURL, completion: { [weak self] operationResult, error in
+        service.delete(accountUsing: accountURL) { [weak self] operationResult, error in
             guard let weakSelf = self else { return }
             
             let deletionResult = weakSelf.convertToResult(object: operationResult, error: error, operationType: network.operationType)
             weakSelf.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
-        }, presentationRequest: {
-            delegate?.requestSender(presentationRequestReceivedFor: $0)
-        })
+        }
     }
 
     func submitOperation(for network: Input.Network) {

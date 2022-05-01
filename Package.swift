@@ -29,9 +29,10 @@ let package = Package(
 
         // Payment Services
         .target(name: "Payment", dependencies: ["Networking"]),
+        .target(name: "Redirection", dependencies: ["Networking"]),
         .target(
             name: "BasicPaymentService",
-            dependencies: ["Networking", "Payment"],
+            dependencies: ["Networking", "Payment", "Redirection"],
             path: "Sources/PaymentServices/BasicPaymentService"),
 
         // Risk

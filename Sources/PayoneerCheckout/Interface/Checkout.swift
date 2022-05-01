@@ -6,6 +6,7 @@
 
 import UIKit
 import SafariServices
+import Networking
 
 /// The entrypoint for interacting with the SDK. It has a 1:1 relationship with a payment session and is responsible for managing the checkout UI.
 @objc public class Checkout: NSObject {
@@ -18,16 +19,22 @@ import SafariServices
     /// Initializes a `Checkout` with the given configuration.
     /// - Parameters:
     ///   - configuration: The configuration object to be used.
-    @objc public init(configuration: CheckoutConfiguration) {
-        self.configuration = configuration
-        self.chargePresetService = ChargePresetService(paymentServices: configuration.paymentServices, riskProviders: configuration.riskProviders)
-        CheckoutAppearance.shared = configuration.appearance
+    @objc public convenience init(configuration: CheckoutConfiguration) {
+        let chargePresetService = ChargePresetService(paymentServices: configuration.paymentServices, riskProviders: configuration.riskProviders)
+        self.init(configuration: configuration, chargePresetService: chargePresetService)
     }
 
     init(configuration: CheckoutConfiguration, chargePresetService: ChargePresetServiceProtocol) {
         self.configuration = configuration
         self.chargePresetService = chargePresetService
         CheckoutAppearance.shared = configuration.appearance
+    }
+}
+
+@objc public extension Checkout {
+    /// Handles callback when application was reopened with custom url scheme.
+    static func handle(callbackURL: URL) {
+        NotificationCenter.default.post(name: .didReceiveCallbackFromURL, object: nil, userInfo: ["url": callbackURL])
     }
 }
 
