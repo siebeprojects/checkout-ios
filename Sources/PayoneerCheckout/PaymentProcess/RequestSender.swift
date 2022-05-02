@@ -52,7 +52,10 @@ extension RequestSender {
             guard let weakSelf = self else { return }
             
             let deletionResult = weakSelf.convertToResult(object: operationResult, error: error, operationType: network.operationType)
-            weakSelf.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
+
+            DispatchQueue.main.async {
+                weakSelf.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
+            }
         }
     }
 
@@ -84,9 +87,14 @@ extension RequestSender {
             guard let weakSelf = self else { return }
 
             let operationResult = weakSelf.convertToResult(object: operationResult, error: error, operationType: network.operationType)
-            weakSelf.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
-        }, presentationRequest: { [delegate] in
-            delegate?.requestSender(presentationRequestReceivedFor: $0)
+
+            DispatchQueue.main.async {
+                weakSelf.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
+            }
+        }, presentationRequest: { [weak delegate] viewControllerToPresent in
+            DispatchQueue.main.async {
+                delegate?.requestSender(presentationRequestReceivedFor: viewControllerToPresent)
+            }
         })
     }
 

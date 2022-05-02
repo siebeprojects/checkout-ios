@@ -82,7 +82,9 @@ import Networking
                 }
             },
             presentationRequest: { [weak self] viewControllerToPresent in
-                self?.presenter?.present(viewControllerToPresent, animated: true)
+                DispatchQueue.main.async {
+                    self?.presenter?.present(viewControllerToPresent, animated: true)
+                }
             }
         )
     }
