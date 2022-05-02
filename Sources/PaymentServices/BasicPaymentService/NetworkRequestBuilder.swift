@@ -18,7 +18,8 @@ struct NetworkRequestBuilder {
             account: operationRequest.form?.inputFields ?? [:],
             autoRegistration: operationRequest.form?.autoRegistration,
             allowRecurrence: operationRequest.form?.allowRecurrence,
-            providerRequests: operationRequest.riskData)
+            providerRequests: operationRequest.riskData
+        )
         let networkRequest = NetworkRequest.Operation(from: operationURL, body: body)
         return networkRequest
     }
