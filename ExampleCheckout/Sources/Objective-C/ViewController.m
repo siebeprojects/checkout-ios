@@ -9,6 +9,8 @@
 
 @interface ViewController ()
 
+@property (retain, nonatomic) Checkout *checkout;
+
 @end
 
 @implementation ViewController
@@ -27,8 +29,8 @@
     
     CheckoutConfiguration *configuration = [[CheckoutConfiguration alloc] initWithListURL:url appearance:[CheckoutAppearance default] riskProviderClasses:@[] error:NULL];
 
-    Checkout *checkout = [[Checkout alloc] initWithConfiguration:configuration];
-    [checkout presentPaymentListFrom:self completion:^(CheckoutResult * _Nonnull result) {
+    self.checkout = [[Checkout alloc] initWithConfiguration:configuration];
+    [self.checkout presentPaymentListFrom:self completion:^(CheckoutResult * _Nonnull result) {
         [self presentAlertWithResult:result];
     }];
 }
