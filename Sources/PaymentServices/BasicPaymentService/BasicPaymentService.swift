@@ -12,27 +12,13 @@ import UIKit
 @objc public class BasicPaymentService: NSObject, PaymentService {
     // MARK: - Static methods
     public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        if let paymentMethod = paymentMethod {
-            if isSupported(method: paymentMethod) { return true }
+        if let methodString = paymentMethod, let method = PaymentMethod(rawValue: methodString) {
+            let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
+            return supportedMethods.contains(method)
+        } else {
+            let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
+            return supportedCodes.contains(networkCode)
         }
-
-        if isSupported(code: networkCode) { return true }
-
-        return false
-    }
-
-    private static func isSupported(method: String) -> Bool {
-        let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
-        guard let paymentMethod = PaymentMethod(rawValue: method) else {
-            return false
-        }
-
-        return supportedMethods.contains(paymentMethod)
-    }
-
-    private static func isSupported(code: String) -> Bool {
-        let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
-        return supportedCodes.contains(code)
     }
 
     // MARK: -
