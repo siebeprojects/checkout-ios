@@ -123,4 +123,50 @@ final class RiskServiceTests: XCTestCase {
             )
         )
     }
+
+    func testCollectRiskData_whenMultipleProviders_shouldReturnMultipleParameters() {
+        let provider1Type = LoadSuccessRiskProvider.self
+        let provider2Type = LoadSuccessDataCollectionFailRiskProvider.self
+
+        var service = RiskService(providers: [provider1Type, provider2Type])
+
+        let provider1Parameters = ProviderParameters(
+            providerCode: provider1Type.code,
+            providerType: provider1Type.type,
+            parameters: []
+        )
+
+        let provider2Parameters = ProviderParameters(
+            providerCode: provider2Type.code,
+            providerType: provider2Type.type,
+            parameters: []
+        )
+
+        service.loadRiskProviders(withParameters: [provider1Parameters, provider2Parameters])
+
+        let data = service.collectRiskData()
+
+        XCTAssertEqual(data.count, 2)
+        XCTAssertEqual(
+            data.first,
+            ProviderParameters(
+                providerCode: provider1Type.code,
+                providerType: provider1Type.type,
+                parameters: [Parameter(name: "key", value: "value")]
+            )
+        )
+        XCTAssertEqual(
+            data.last,
+            ProviderParameters(
+                providerCode: provider2Type.code,
+                providerType: provider2Type.type,
+                parameters: [
+                    Parameter(
+                        name: provider2Type.dataCollectionError.name,
+                        value: provider2Type.dataCollectionError.reason
+                    )
+                ]
+            )
+        )
+    }
 }
