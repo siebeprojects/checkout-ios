@@ -17,10 +17,10 @@ class RedirectCallbackHandler {
     }
 
     func addObserver(completion: ((Result<OperationResult, Error>) -> Void)?) {
-        self.completionBlock = completion
-
         // Remove observers to avoid duplicate completion calls if `addObservers()` were accidentally called twice
         removeObserver()
+
+        self.completionBlock = completion
 
         // Received payment result notification
         receivePaymentNotificationToken = NotificationCenter.default.addObserver(forName: openAppWithURLNotificationName, object: nil, queue: .main) { [removeObserver] notification in

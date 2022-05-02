@@ -19,15 +19,21 @@ public class RedirectController: NSObject {
     }
 
     public func createSafariController(presentingURL url: URL, completion: @escaping ((Result<OperationResult, Error>) -> Void)) -> SFSafariViewController {
-        callbackHandler.addObserver { [weak self] callbackResult in
-            completion(callbackResult)
-            self?.completionBlock = nil
-        }
         self.completionBlock = completion
 
         let viewController = SFSafariViewController(url: url)
         self.viewController = viewController
         viewController.delegate = self
+
+        callbackHandler.addObserver { callbackResult in
+            // We should capture self (don't mark self as weak) to ensure that class won't be deallocated and delegate will be called if user clicks "Done" button.
+            viewController.dismiss(animated: true) {
+                completion(callbackResult)
+                self.completionBlock = nil
+                self.viewController = nil
+            }
+        }
+
         return viewController
     }
 }
