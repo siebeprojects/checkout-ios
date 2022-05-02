@@ -24,8 +24,7 @@ class PaymentSessionService {
 
     init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider, paymentServices: [PaymentService.Type], riskProviders: [RiskProvider.Type]) {
         self.connection = connection
-        paymentServicesFactory = .init(connection: connection)
-        paymentServicesFactory.services = paymentServices
+        paymentServicesFactory = .init(connection: connection, services: paymentServices)
         downloadProvider = .init(connection: connection)
         paymentSessionProvider = .init(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider, riskProviders: riskProviders)
         self.localizationProvider = localizationProvider
