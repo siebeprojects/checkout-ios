@@ -6,6 +6,7 @@
 
 import Foundation
 
+// Defined in https://optile.atlassian.net/browse/PCX-2999
 private let errorStringMaximumLength = 2000
 
 public enum RiskProviderError: Error {
