@@ -77,8 +77,10 @@ import Networking
         chargePresetService.chargePresetAccount(
             usingListResultURL: configuration.listURL,
             completion: { [weak self] result in
-                self?.dismiss {
-                    completion(result)
+                DispatchQueue.main.async {
+                    self?.dismiss {
+                        completion(result)
+                    }
                 }
             },
             presentationRequest: { [weak self] viewControllerToPresent in
