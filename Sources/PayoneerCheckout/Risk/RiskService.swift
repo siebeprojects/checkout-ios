@@ -18,7 +18,7 @@ struct RiskService {
     let providers: [RiskProvider.Type]
 
     private(set) var loadedProviders: [RiskProvider] = []
-    private(set) var providerErrors: [RiskProviderError] = []
+    private(set) var loadErrors: [RiskProviderError] = []
 
     init(providers: [RiskProvider.Type]) {
         self.providers = providers
@@ -30,7 +30,7 @@ struct RiskService {
 extension RiskService {
     mutating func loadRiskProviders(withParameters providerParameters: [ProviderParameters]) {
         loadedProviders = []
-        providerErrors = []
+        loadErrors = []
 
         for parameters in providerParameters {
             do {
@@ -42,7 +42,7 @@ extension RiskService {
                     log(riskError: .providerNotFound, forProviderCode: parameters.providerCode)
                 }
 
-                providerErrors.append(providerError)
+                loadErrors.append(providerError)
 
             } catch {
                 if #available(iOS 14, *) {
@@ -52,7 +52,8 @@ extension RiskService {
         }
     }
 
-    mutating func collectRiskData() -> [ProviderParameters] {
+    func collectRiskData() -> [ProviderParameters] {
+        var dataCollectionErrors: [RiskProviderError] = []
         var providerParametersToSend: [ProviderParameters] = []
 
         /// Loop through loaded providers and transform the collected data into `ProviderParameters`. In case a provider error is thrown, it's stored in the `providerErrors` instance variable.
@@ -77,17 +78,28 @@ extension RiskService {
                 }
 
                 if let providerError = error as? RiskProviderError {
-                    providerErrors.append(providerError)
+                    dataCollectionErrors.append(providerError)
                 }
             }
         }
 
-        /// Loop through stored provider errors and transform them into `ProviderParameters`.
-        for error in providerErrors {
+        /// Loop through stored load errors and transform them into `ProviderParameters`.
+        for loadError in loadErrors {
             let providerParameters = ProviderParameters(
-                providerCode: error.providerCode,
-                providerType: error.providerType,
-                parameters: [Parameter(name: error.name, value: error.reason)]
+                providerCode: loadError.providerCode,
+                providerType: loadError.providerType,
+                parameters: [Parameter(name: loadError.name, value: loadError.reason)]
+            )
+
+            providerParametersToSend.append(providerParameters)
+        }
+
+        /// Loop through data collection errors and transform them into `ProviderParameters`.
+        for dataCollectionError in dataCollectionErrors {
+            let providerParameters = ProviderParameters(
+                providerCode: dataCollectionError.providerCode,
+                providerType: dataCollectionError.providerType,
+                parameters: [Parameter(name: dataCollectionError.name, value: dataCollectionError.reason)]
             )
 
             providerParametersToSend.append(providerParameters)

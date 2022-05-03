@@ -65,7 +65,7 @@ extension Input.ViewController.PaymentController {
 // MARK: - PaymentRequestBuilder
 
 private struct PaymentRequestBuilder: Loggable {
-    var riskService: RiskService
+    let riskService: RiskService
 
     /// Create a payment request with data from `Input.Network`
     ///
