@@ -46,7 +46,7 @@ final class RiskServiceTests: XCTestCase {
 
         XCTAssertEqual(service.loadedProviders.count, 0)
         XCTAssertEqual(service.loadErrors.count, 1)
-        XCTAssertEqual(service.loadErrors.first, .externalFailure(reason: "", providerCode: "", providerType: ""))
+        XCTAssertEqual(service.loadErrors.first, .externalFailure(reason: "", providerCode: providerType.code, providerType: providerType.type))
     }
 
     func testLoadRiskProviders_whenProviderNotFound_shouldStoreInternalError() {
@@ -57,7 +57,7 @@ final class RiskServiceTests: XCTestCase {
 
         XCTAssertEqual(service.loadedProviders.count, 0)
         XCTAssertEqual(service.loadErrors.count, 1)
-        XCTAssertEqual(service.loadErrors.first, .internalFailure(reason: "", providerCode: "", providerType: ""))
+        XCTAssertEqual(service.loadErrors.first, .internalFailure(reason: "Failed to load risk provider (code: ) (type: -)", providerCode: "", providerType: nil))
     }
 
     func testLoadRiskProviders_whenLoadSucceeds_shouldStoreLoadedProvider() {

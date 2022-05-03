@@ -6,9 +6,10 @@
 
 import Foundation
 
+// Defined in https://optile.atlassian.net/browse/PCX-2999
 private let errorStringMaximumLength = 2000
 
-public enum RiskProviderError: Error {
+public enum RiskProviderError: Error, Equatable {
     case internalFailure(reason: String, providerCode: String, providerType: String?)
     case externalFailure(reason: String, providerCode: String, providerType: String?)
 
@@ -39,19 +40,6 @@ public enum RiskProviderError: Error {
         switch self {
         case .internalFailure(_, _, let providerType), .externalFailure(_, _, let providerType):
             return providerType
-        }
-    }
-}
-
-// MARK: - Equatable
-
-extension RiskProviderError: Equatable {
-    public static func == (lhs: RiskProviderError, rhs: RiskProviderError) -> Bool {
-        switch (lhs, rhs) {
-        case (.internalFailure, .internalFailure), (.externalFailure, .externalFailure):
-            return true
-        case (.internalFailure, .externalFailure), (.externalFailure, .internalFailure):
-            return false
         }
     }
 }
