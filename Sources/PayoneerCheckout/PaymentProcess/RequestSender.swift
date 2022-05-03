@@ -48,15 +48,14 @@ extension RequestSender {
         }
 
         // Delete account
-        service.delete(accountUsing: accountURL) { [weak self] operationResult, error in
-            guard let weakSelf = self else { return }
+        service.delete(accountUsing: accountURL, completion: { [weak self] operationResult, error in
+            guard let self = self else { return }
             
-            let deletionResult = weakSelf.convertToResult(object: operationResult, error: error, operationType: network.operationType)
-
+            let deletionResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
             DispatchQueue.main.async {
-                weakSelf.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
+                self.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
             }
-        }
+        })
     }
 
     func submitOperation(for network: Input.Network) {
@@ -84,12 +83,12 @@ extension RequestSender {
 
         // Send operation request
         service.send(operationRequest: operationRequest, completion: { [weak self] operationResult, error in
-            guard let weakSelf = self else { return }
+            guard let self = self else { return }
 
-            let operationResult = weakSelf.convertToResult(object: operationResult, error: error, operationType: network.operationType)
+            let operationResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
 
             DispatchQueue.main.async {
-                weakSelf.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
+                self.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
             }
         }, presentationRequest: { [weak delegate] viewControllerToPresent in
             DispatchQueue.main.async {

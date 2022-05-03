@@ -7,13 +7,17 @@
 import Foundation
 import Networking
 import Payment
+import BasicPaymentService
 
 class PaymentServicesFactory {
-    var services: [PaymentService.Type] = .init()
+    private let services: [PaymentService.Type]
     private let connection: Connection
 
-    init(connection: Connection) {
+    init(connection: Connection, services: [PaymentService.Type]) {
         self.connection = connection
+        
+        // `BasicPaymentService` should be always loaded by default
+        self.services = services + [BasicPaymentService.self]
     }
 
     /// Lookup for appropriate payment service and create an instance if found

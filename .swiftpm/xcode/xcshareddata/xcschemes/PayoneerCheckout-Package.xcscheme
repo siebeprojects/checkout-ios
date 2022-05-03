@@ -244,6 +244,7 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+<<<<<<< HEAD
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
@@ -272,6 +273,8 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+=======
+>>>>>>> applepay/PCX-2930-framework
       </BuildActionEntries>
    </BuildAction>
    <TestAction

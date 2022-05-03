@@ -21,8 +21,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
     private let riskProviders: [RiskProvider.Type]
 
     init(paymentServices: [PaymentService.Type], riskProviders: [RiskProvider.Type]) {
-        self.paymentServiceFactory = PaymentServicesFactory(connection: connection)
-        self.paymentServiceFactory.services = paymentServices
+        self.paymentServiceFactory = PaymentServicesFactory(connection: connection, services: paymentServices)
         self.riskProviders = riskProviders
     }
 
