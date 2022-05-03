@@ -81,4 +81,3 @@ private extension String {
     static var interactionCodeKey: String { "interactionCode" }
     static var interactionReasonKey: String { "interactionReason" }
 }
-

@@ -15,7 +15,7 @@ class PaymentServicesFactory {
 
     init(connection: Connection, services: [PaymentService.Type]) {
         self.connection = connection
-        
+
         // `BasicPaymentService` should be always loaded by default
         self.services = services + [BasicPaymentService.self]
     }

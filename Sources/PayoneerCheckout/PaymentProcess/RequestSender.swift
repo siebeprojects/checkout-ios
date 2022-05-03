@@ -50,7 +50,7 @@ extension RequestSender {
         // Delete account
         service.delete(accountUsing: accountURL, completion: { [weak self] operationResult, error in
             guard let self = self else { return }
-            
+
             let deletionResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
             DispatchQueue.main.async {
                 self.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
@@ -153,7 +153,6 @@ private struct PaymentRequestBuilder: Loggable {
 
             return try createDictionary(forInputElementsFields: inputElementsSection.inputFields)
         }()
-
 
         let autoRegistration, allowRecurrence: Bool?
         (autoRegistration, allowRecurrence) = {

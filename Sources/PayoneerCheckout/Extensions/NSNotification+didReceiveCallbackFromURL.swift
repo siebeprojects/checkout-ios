@@ -9,4 +9,3 @@ import Foundation
 extension NSNotification.Name {
     static let didReceiveCallbackFromURL = NSNotification.Name(rawValue: "PayoneerCheckoutDidReceiveCallbackFromURL")
 }
-
