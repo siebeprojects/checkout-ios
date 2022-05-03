@@ -36,8 +36,7 @@ enum CheckoutConfigurationError: Error {
     public init(listURL: URL, appearance: CheckoutAppearance = .default, paymentServices: [PaymentService.Type] = [], riskProviders: [RiskProvider.Type] = []) {
         self.listURL = listURL
         self.appearance = appearance
-        // `BasicPaymentService` should be always loaded by default
-        self.paymentServices = paymentServices + [BasicPaymentService.self]
+        self.paymentServices = paymentServices
         self.riskProviders = riskProviders
     }
 
