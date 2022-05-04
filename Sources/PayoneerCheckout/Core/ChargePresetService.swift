@@ -5,7 +5,6 @@
 // See the LICENSE file for more information.
 
 import Foundation
-import Risk
 
 protocol ChargePresetServiceProtocol {
     func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void)
@@ -15,13 +14,13 @@ final class ChargePresetService: ChargePresetServiceProtocol {
     private var redirectCallbackHandler: RedirectCallbackHandler?
     private var paymentService: PaymentService?
     private let connection: Connection = URLSessionConnection()
-    private let riskProviders: [RiskProvider.Type]
+    private var riskService: RiskService
 
     private var completionBlock: ((_ result: CheckoutResult) -> Void)?
     private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
 
-    init(riskProviders: [RiskProvider.Type]) {
-        self.riskProviders = riskProviders
+    init(riskService: RiskService) {
+        self.riskService = riskService
     }
 
     func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void) {
@@ -32,13 +31,11 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             switch result {
             case .success(let listResult):
                 do {
-                    var riskService = RiskService(providers: self?.riskProviders ?? [])
-
-                    if let riskProviders = listResult.riskProviders {
-                        riskService.loadRiskProviders(using: riskProviders)
+                    if let riskProviderParameters = listResult.riskProviders {
+                        self?.riskService.loadRiskProviders(withParameters: riskProviderParameters)
                     }
 
-                    try self?.chargePresetAccount(from: listResult, riskService: riskService)
+                    try self?.chargePresetAccount(from: listResult)
                 } catch {
                     let errorInfo = CustomErrorInfo.createClientSideError(from: error)
                     let result = CheckoutResult(operationResult: .failure(errorInfo))
@@ -81,7 +78,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
     }
 
     /// - Throws: `InternalError`
-    private func chargePresetAccount(from listResult: ListResult, riskService: RiskService) throws {
+    private func chargePresetAccount(from listResult: ListResult) throws {
         guard let presetAccount = listResult.presetAccount else {
             let error = InternalError(description: "Payment session doesn't contain preset account")
             throw error

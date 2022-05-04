@@ -13,6 +13,8 @@ import SafariServices
     private(set) weak var presenter: UIViewController?
     private(set) var paymentListViewController: UIViewController?
     private(set) var paymentCompletionBlock: ((_ result: CheckoutResult) -> Void)?
+
+    private let riskService: RiskService
     private let chargePresetService: ChargePresetServiceProtocol
 
     /// Initializes a `Checkout` with the given configuration.
@@ -20,12 +22,15 @@ import SafariServices
     ///   - configuration: The configuration object to be used.
     @objc public init(configuration: CheckoutConfiguration) {
         self.configuration = configuration
-        self.chargePresetService = ChargePresetService(riskProviders: configuration.riskProviders)
+        self.riskService = RiskService(providers: configuration.riskProviders)
+        self.chargePresetService = ChargePresetService(riskService: riskService)
         CheckoutAppearance.shared = configuration.appearance
     }
 
+    /// Alternative initializer for testing purposes.
     init(configuration: CheckoutConfiguration, chargePresetService: ChargePresetServiceProtocol) {
         self.configuration = configuration
+        self.riskService = RiskService(providers: configuration.riskProviders)
         self.chargePresetService = chargePresetService
         CheckoutAppearance.shared = configuration.appearance
     }
@@ -42,7 +47,7 @@ import SafariServices
     ///     This completion block takes the following parameter:
     ///   - result: An object containing relevant information about the result of the operation.
     func presentPaymentList(from presenter: UIViewController, completion: @escaping (_ result: CheckoutResult) -> Void) {
-        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, riskProviders: configuration.riskProviders, delegate: self)
+        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, riskService: riskService, delegate: self)
 
         self.presenter = presenter
         self.paymentCompletionBlock = completion

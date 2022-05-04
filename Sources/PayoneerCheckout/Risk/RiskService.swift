@@ -7,85 +7,130 @@
 import Foundation
 import Risk
 
-// TODO: `RiskService` could be moved to `Risk` module when network models will be extracted to a separate module
+enum RiskServiceError: Error {
+    case providerNotFound
+    case initializationFailed(underlyingError: Error)
+    case dataCollectionFailed(underlyingError: Error)
+}
 
 /// Service responsible for collecting data from all registered risk providers and returning response in required format for API.
 struct RiskService {
     let providers: [RiskProvider.Type]
 
-    private(set) var dataCollectors = [RiskProviderDataCollector]()
+    private(set) var loadedProviders: [RiskProvider] = []
+    private(set) var loadErrors: [RiskProviderError] = []
+
+    init(providers: [RiskProvider.Type]) {
+        self.providers = providers
+    }
 }
 
-// MARK: - Load risk providers
+// MARK: - Operations
 
 extension RiskService {
-    mutating func loadRiskProviders(using providerParameters: [ProviderParameters]) {
-        dataCollectors = .init()
+    mutating func loadRiskProviders(withParameters providerParameters: [ProviderParameters]) {
+        loadedProviders = []
+        loadErrors = []
 
         for parameters in providerParameters {
-            guard let provider = loadRiskProvider(using: parameters) else {
-                if #available(iOS 14.0, *) {
+            do {
+                let provider = try loadProvider(for: parameters)
+                loadedProviders.append(provider)
+
+            } catch let providerError as RiskProviderError {
+                if #available(iOS 14, *) {
                     log(riskError: .providerNotFound, forProviderCode: parameters.providerCode)
                 }
 
-                let dataCollector = RiskProviderDataCollector(code: parameters.providerCode, type: parameters.providerType)
-                dataCollectors.append(dataCollector)
-                continue
-            }
+                loadErrors.append(providerError)
 
-            let dataCollector = RiskProviderDataCollector(riskProvider: provider)
-            dataCollectors.append(dataCollector)
+            } catch {
+                if #available(iOS 14, *) {
+                    log(riskError: .initializationFailed(underlyingError: error), forProviderCode: parameters.providerCode)
+                }
+            }
         }
     }
 
-    private func loadRiskProvider(using providerParameters: ProviderParameters) -> RiskProvider? {
-        guard let providerType = lookUp(providerCode: providerParameters.providerCode, providerType: providerParameters.providerType) else {
-            return nil
-        }
+    func collectRiskData() -> [ProviderParameters] {
+        var dataCollectionErrors: [RiskProviderError] = []
+        var providerParametersToSend: [ProviderParameters] = []
 
-        // Load a provider
-        let parameters = providerParameters.parameters ?? []
-        let parametersDictionary = Dictionary(uniqueKeysWithValues: parameters.map {
-            ($0.name, $0.value)
-        })
+        /// Loop through loaded providers and transform the collected data into `ProviderParameters`. In case a provider error is thrown, it's stored in the `providerErrors` instance variable.
+        for provider in loadedProviders {
+            let code = Swift.type(of: provider).code
+            let type = Swift.type(of: provider).type
 
-        do {
-            return try providerType.load(using: parametersDictionary)
-        } catch {
-            if #available(iOS 14, *) {
-                log(riskError: .initializationFailed(underlyingError: error), forProviderCode: providerParameters.providerCode)
+            do {
+                let collectedData = try provider.collectRiskData()
+
+                let providerParameters = ProviderParameters(
+                    providerCode: code,
+                    providerType: type,
+                    parameters: collectedData?.map { Parameter(name: $0.key, value: $0.value) } ?? []
+                )
+
+                providerParametersToSend.append(providerParameters)
+
+            } catch {
+                if #available(iOS 14.0, *) {
+                    log(riskError: .dataCollectionFailed(underlyingError: error), forProviderCode: code)
+                }
+
+                if let providerError = error as? RiskProviderError {
+                    dataCollectionErrors.append(providerError)
+                }
             }
-
-            return nil
         }
-    }
 
-    private func lookUp(providerCode: String, providerType: String?) -> RiskProvider.Type? {
-        return providers.first {
-            $0.code == providerCode && $0.type == providerType
+        /// Loop through stored load errors and transform them into `ProviderParameters`.
+        for loadError in loadErrors {
+            let providerParameters = ProviderParameters(
+                providerCode: loadError.providerCode,
+                providerType: loadError.providerType,
+                parameters: [Parameter(name: loadError.name, value: loadError.reason)]
+            )
+
+            providerParametersToSend.append(providerParameters)
         }
+
+        /// Loop through data collection errors and transform them into `ProviderParameters`.
+        for dataCollectionError in dataCollectionErrors {
+            let providerParameters = ProviderParameters(
+                providerCode: dataCollectionError.providerCode,
+                providerType: dataCollectionError.providerType,
+                parameters: [Parameter(name: dataCollectionError.name, value: dataCollectionError.reason)]
+            )
+
+            providerParametersToSend.append(providerParameters)
+        }
+
+        return providerParametersToSend
     }
 }
 
-// MARK: - Risk data
+// MARK: - Helpers
 
 extension RiskService {
-    /// - Returns: risk data packed in provider parameters or `nil` if no risk data should be returned (in case if provider doesn't provide it).
-    func collectRiskData() -> [ProviderParameters]? {
-        let data: [ProviderParameters] = dataCollectors.map {
-            $0.getProvidersParameters()
+    private func loadProvider(for providerParameters: ProviderParameters) throws -> RiskProvider {
+        guard let matchingProvider = providers.first(where: { $0.code == providerParameters.providerCode && $0.type == providerParameters.providerType }) else {
+            throw RiskProviderError.internalFailure(
+                reason: "Failed to load risk provider (code: \(providerParameters.providerCode)) (type: \(providerParameters.providerType ?? "-"))",
+                providerCode: providerParameters.providerCode,
+                providerType: providerParameters.providerType
+            )
         }
 
-        return data.isEmpty ? nil : data
+        let parametersDictionary: [String: String?] = {
+            let params = providerParameters.parameters ?? []
+            return Dictionary(uniqueKeysWithValues: params.map { ($0.name, $0.value) })
+        }()
+
+        return try matchingProvider.load(withParameters: parametersDictionary)
     }
 }
 
 // MARK: - Loggable
-
-private enum RiskServiceError: Error {
-    case providerNotFound
-    case initializationFailed(underlyingError: Error)
-}
 
 extension RiskService: Loggable {
     @available(iOS 14, macOS 11.0, *)
@@ -93,8 +138,10 @@ extension RiskService: Loggable {
         switch riskError {
         case .providerNotFound:
             logger.critical("Unable to find a requested risk provider \(providerCode, privacy: .private(mask: .hash)): \(riskError.localizedDescription, privacy: .private)")
-        case .initializationFailed(let initError):
-            logger.critical("Failed to initialize the risk provider \(providerCode, privacy: .private(mask: .hash)): \(initError.localizedDescription, privacy: .private)")
+        case .initializationFailed(let error):
+            logger.critical("Failed to initialize the risk provider \(providerCode, privacy: .private(mask: .hash)): \(error.localizedDescription, privacy: .private)")
+        case .dataCollectionFailed(let error):
+            logger.critical("Unable to collect risk data from risk provider \(providerCode, privacy: .private(mask: .hash)): \(error.localizedDescription, privacy: .private)")
         }
     }
 }

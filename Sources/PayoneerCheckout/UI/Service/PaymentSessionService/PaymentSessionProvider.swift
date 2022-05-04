@@ -5,23 +5,22 @@
 // See the LICENSE file for more information.
 
 import Foundation
-import Risk
 
 class PaymentSessionProvider {
     private let sharedTranslationProvider: SharedTranslationProvider
     private let provider: ListResultProvider
     private let connection: Connection
     private let paymentSessionURL: URL
-    private let riskProviders: [RiskProvider.Type]
+    private var riskService: RiskService
 
     private var listResult: ListResult?
 
-    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider, riskProviders: [RiskProvider.Type]) {
+    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider, riskService: RiskService) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
         self.sharedTranslationProvider = localizationsProvider
         self.provider = ListResultProvider(connection: connection, paymentServicesFactory: paymentServicesFactory)
-        self.riskProviders = riskProviders
+        self.riskService = riskService
     }
 
     func loadPaymentSession(completion: @escaping ((Result<UIModel.PaymentSession, Error>) -> Void)) {
@@ -107,11 +106,8 @@ class PaymentSessionProvider {
             return
         }
 
-        // Load risks service
-        var riskService = RiskService(providers: riskProviders)
-
-        if let riskProviders = listResult?.riskProviders {
-            riskService.loadRiskProviders(using: riskProviders)
+        if let riskProviderParameters = listResult?.riskProviders {
+            riskService.loadRiskProviders(withParameters: riskProviderParameters)
         }
 
         // Create a global payment context

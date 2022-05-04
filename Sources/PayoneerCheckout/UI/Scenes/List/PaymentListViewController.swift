@@ -5,7 +5,6 @@
 // See the LICENSE file for more information.
 
 import UIKit
-import Risk
 
 final class PaymentListViewController: UIViewController, ModalPresenter {
     weak var methodsTableView: UITableView?
@@ -22,19 +21,19 @@ final class PaymentListViewController: UIViewController, ModalPresenter {
     private let operationResultHandler = OperationResultHandler()
 
     /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
-    convenience init(listResultURL: URL, riskProviders: [RiskProvider.Type], delegate: PaymentDelegate) {
+    convenience init(listResultURL: URL, riskService: RiskService, delegate: PaymentDelegate) {
         let sharedTranslationProvider = SharedTranslationProvider()
         let connection = URLSessionConnection()
 
-        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider, riskProviders: riskProviders, delegate: delegate)
+        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider, riskService: riskService, delegate: delegate)
     }
 
-    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider, riskProviders: [RiskProvider.Type], delegate: PaymentDelegate) {
+    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider, riskService: RiskService, delegate: PaymentDelegate) {
         self.sessionService = PaymentSessionService(
             paymentSessionURL: listResultURL,
             connection: connection,
             localizationProvider: sharedTranslationProvider,
-            riskProviders: riskProviders
+            riskService: riskService
         )
         self.sharedTranslationProvider = sharedTranslationProvider
         self.delegate = delegate

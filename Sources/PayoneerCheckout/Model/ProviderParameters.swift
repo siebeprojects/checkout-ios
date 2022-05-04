@@ -16,9 +16,22 @@ public class ProviderParameters: NSObject, Codable {
     /// An array of parameters
     let parameters: [Parameter]?
 
-    init(providerCode: String, providerType: String?, parameters: [Parameter]?) {
+    init(providerCode: String, providerType: String?, parameters: [Parameter]) {
         self.providerCode = providerCode
         self.providerType = providerType
         self.parameters = parameters
+    }
+}
+
+// MARK: - Equatable
+
+extension ProviderParameters {
+    public static func == (lhs: ProviderParameters, rhs: ProviderParameters) -> Bool {
+        lhs.providerCode == rhs.providerCode && lhs.providerType == rhs.providerType && lhs.parameters == rhs.parameters
+    }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let parameters = object as? ProviderParameters else { return false }
+        return self == parameters
     }
 }
