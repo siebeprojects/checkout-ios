@@ -7,7 +7,7 @@
 import Foundation
 import Networking
 
-class RedirectCallbackHandler {
+final class RedirectCallbackHandler {
     private let constants = Constant()
 
     private let openAppWithURLNotificationName: NSNotification.Name
