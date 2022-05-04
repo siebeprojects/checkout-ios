@@ -44,36 +44,30 @@ final class RedirectCallbackHandler {
     private func handle(receivedURL: URL) {
         guard
             let components = URLComponents(url: receivedURL, resolvingAgainstBaseURL: false),
-            var queryItems = components.queryItems?.asDictionary,
-            let interactionCode = queryItems[constants.interactionCodeKey],
-            let interactionReason = queryItems[constants.interactionReasonKey]
+            let queryItems = components.queryItems,
+            let interactionCode = queryItems.first(
+                where: { $0.name == constants.interactionCodeKey }
+            )?.name,
+            let interactionReason = queryItems.first(
+                where: { $0.name == constants.interactionReasonKey }
+            )?.name
         else {
             completionBlock?(.failure(RedirectError.missingOperationResult))
             return
         }
 
-        queryItems.removeValue(forKey: constants.interactionCodeKey)
-        queryItems.removeValue(forKey: constants.interactionReasonKey)
+        let queryItemsSlice = queryItems.drop {
+            [constants.interactionCodeKey, constants.interactionReasonKey].contains($0.name)
+        }
 
         let interaction = Interaction(code: interactionCode, reason: interactionReason)
-        let parameters: [Parameter] = queryItems.map { .init(name: $0.key, value: $0.value) }
+
+        let parameters: [Parameter] = queryItemsSlice.map { .init(name: $0.name, value: $0.value) }
         let redirect = Redirect(url: receivedURL, method: .GET, parameters: parameters)
 
         let operationResult = OperationResult(resultInfo: "OperationResult received from the mobile-redirect webapp", links: nil, interaction: interaction, redirect: redirect)
 
         completionBlock?(.success(operationResult))
-    }
-}
-
-private extension Sequence where Element == URLQueryItem {
-    var asDictionary: [String: String] {
-        var dict = [String: String]()
-        for queryItem in self {
-            guard let value = queryItem.value else { continue }
-            dict[queryItem.name] = value
-        }
-
-        return dict
     }
 }
 
