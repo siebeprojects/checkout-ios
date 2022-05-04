@@ -61,7 +61,6 @@ final class RedirectCallbackHandler {
         }
 
         let interaction = Interaction(code: interactionCode, reason: interactionReason)
-
         let parameters: [Parameter] = queryItemsSlice.map { .init(name: $0.name, value: $0.value) }
         let redirect = Redirect(url: receivedURL, method: .GET, parameters: parameters)
 
