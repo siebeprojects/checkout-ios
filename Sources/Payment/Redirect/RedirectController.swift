@@ -41,7 +41,7 @@ public class RedirectController: NSObject {
 extension RedirectController: SFSafariViewControllerDelegate {
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         callbackHandler.removeObserver()
-        completionBlock?(.failure(RedirectionError.missingOperationResult))
+        completionBlock?(.failure(RedirectError.missingOperationResult))
         completionBlock = nil
     }
 }

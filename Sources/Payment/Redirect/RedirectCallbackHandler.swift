@@ -48,7 +48,7 @@ final class RedirectCallbackHandler {
             let interactionCode = queryItems[constants.interactionCodeKey],
             let interactionReason = queryItems[constants.interactionReasonKey]
         else {
-            completionBlock?(.failure(RedirectionError.missingOperationResult))
+            completionBlock?(.failure(RedirectError.missingOperationResult))
             return
         }
 

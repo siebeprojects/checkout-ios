@@ -6,6 +6,6 @@
 
 import Foundation
 
-enum RedirectionError: LocalizedError {
+enum RedirectError: LocalizedError {
     case missingOperationResult
 }
