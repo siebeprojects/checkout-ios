@@ -75,7 +75,8 @@ import Redirection
             } else {
                 completion(operationResult, nil)
             }
-        case .failure(let error): completion(nil, error)
+        case .failure(let error):
+            completion(nil, error)
         }
     }
 
