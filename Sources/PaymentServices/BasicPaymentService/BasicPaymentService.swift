@@ -19,11 +19,11 @@ import Redirection
     public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
         if let methodString = paymentMethod, let method = PaymentMethod(rawValue: methodString) {
             let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
-            return supportedMethods.contains(method)
-        } else {
-            let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
-            return supportedCodes.contains(networkCode)
+            if supportedMethods.contains(method) { return true }
         }
+
+        let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
+        return supportedCodes.contains(networkCode)
     }
 
     // MARK: - Initializer
