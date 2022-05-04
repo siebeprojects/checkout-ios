@@ -19,14 +19,14 @@ struct RedirectURLBuilder {
         switch redirect.method {
         case .GET:
             guard let components = URLComponents(url: redirect.url, resolvingAgainstBaseURL: false) else {
-                throw BuilderError(errorDescription: "Redirect object contains invalid url")
+                throw RedirectURLBuilderError(errorDescription: "Redirect object contains invalid url")
             }
 
             return try create(from: components, replacingQueryItemsWith: redirect.parameters)
         case .POST:
             // For POST redirect we return it is `GET` redirects.
             guard let redirectURL = links?["redirect"] else {
-                throw BuilderError(errorDescription: "OperationResult links doesn't contain redirect property which is mandatory if redirect method is POST")
+                throw RedirectURLBuilderError(errorDescription: "OperationResult links doesn't contain redirect property which is mandatory if redirect method is POST")
             }
 
             return redirectURL
@@ -48,13 +48,13 @@ struct RedirectURLBuilder {
         }
 
         guard let url = components.url else {
-            throw BuilderError(errorDescription: "Unable to build redirect URL from components")
+            throw RedirectURLBuilderError(errorDescription: "Unable to build redirect URL from components")
         }
 
         return url
     }
 }
 
-private struct BuilderError: LocalizedError {
+private struct RedirectURLBuilderError: LocalizedError {
     var errorDescription: String?
 }
