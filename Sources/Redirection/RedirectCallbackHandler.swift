@@ -8,6 +8,8 @@ import Foundation
 import Networking
 
 class RedirectCallbackHandler {
+    private let constants = Constant()
+
     private let openAppWithURLNotificationName: NSNotification.Name
     private var completionBlock: ((Result<OperationResult, Error>) -> Void)?
     private var receivePaymentNotificationToken: NSObjectProtocol?
@@ -43,15 +45,15 @@ class RedirectCallbackHandler {
         guard
             let components = URLComponents(url: receivedURL, resolvingAgainstBaseURL: false),
             var queryItems = components.queryItems?.asDictionary,
-            let interactionCode = queryItems[.interactionCodeKey],
-            let interactionReason = queryItems[.interactionReasonKey]
+            let interactionCode = queryItems[constants.interactionCodeKey],
+            let interactionReason = queryItems[constants.interactionReasonKey]
         else {
             completionBlock?(.failure(RedirectionError.missingOperationResult))
             return
         }
 
-        queryItems.removeValue(forKey: .interactionCodeKey)
-        queryItems.removeValue(forKey: .interactionReasonKey)
+        queryItems.removeValue(forKey: constants.interactionCodeKey)
+        queryItems.removeValue(forKey: constants.interactionReasonKey)
 
         let interaction = Interaction(code: interactionCode, reason: interactionReason)
         let parameters: [Parameter] = queryItems.map { .init(name: $0.key, value: $0.value) }
@@ -77,7 +79,7 @@ private extension Sequence where Element == URLQueryItem {
 
 // MARK: - Constants
 
-private extension String {
-    static var interactionCodeKey: String { "interactionCode" }
-    static var interactionReasonKey: String { "interactionReason" }
+private struct Constant {
+    let interactionCodeKey = "interactionCode"
+    let interactionReasonKey = "interactionReason"
 }
