@@ -38,6 +38,8 @@ public class RedirectController: NSObject {
     }
 }
 
+// MARK: - SFSafariViewControllerDelegate
+
 extension RedirectController: SFSafariViewControllerDelegate {
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         callbackHandler.removeObserver()
