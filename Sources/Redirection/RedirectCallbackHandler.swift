@@ -25,10 +25,10 @@ final class RedirectCallbackHandler {
         self.completionBlock = completion
 
         // Received payment result notification
-        receivePaymentNotificationToken = NotificationCenter.default.addObserver(forName: openAppWithURLNotificationName, object: nil, queue: .main) { [removeObserver] notification in
+        receivePaymentNotificationToken = NotificationCenter.default.addObserver(forName: openAppWithURLNotificationName, object: nil, queue: .main) { [weak self] notification in
             guard let url = notification.userInfo?["url"] as? URL else { return }
-            self.handle(receivedURL: url)
-            removeObserver()
+            self?.handle(receivedURL: url)
+            self?.removeObserver()
         }
     }
 
