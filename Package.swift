@@ -33,7 +33,7 @@ let package = Package(
             path: "Sources/FraudForce/FraudForce.xcframework"),
         .testTarget(
             name: "PayoneerCheckoutTests",
-            dependencies: ["PayoneerCheckout", "Risk"],
+            dependencies: ["PayoneerCheckout", "Risk", "IovationRiskProvider"],
             resources: [
                 .process("Resources")
             ])
