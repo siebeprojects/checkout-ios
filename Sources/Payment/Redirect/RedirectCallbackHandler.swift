@@ -7,9 +7,16 @@
 import Foundation
 import Networking
 
-final class RedirectCallbackHandler {
-    private let constants = Constant()
+// MARK: Constants
 
+private enum Constant {
+    static let interactionCodeKey = "interactionCode"
+    static let interactionReasonKey = "interactionReason"
+}
+
+// MARK: -
+
+final class RedirectCallbackHandler {
     private let openAppWithURLNotificationName: NSNotification.Name
     private var completionBlock: ((Result<OperationResult, Error>) -> Void)?
     private var receivePaymentNotificationToken: NSObjectProtocol?
@@ -46,10 +53,10 @@ final class RedirectCallbackHandler {
             let components = URLComponents(url: receivedURL, resolvingAgainstBaseURL: false),
             let queryItems = components.queryItems,
             let interactionCode = queryItems.first(
-                where: { $0.name == constants.interactionCodeKey }
+                where: { $0.name == Constant.interactionCodeKey }
             )?.name,
             let interactionReason = queryItems.first(
-                where: { $0.name == constants.interactionReasonKey }
+                where: { $0.name == Constant.interactionReasonKey }
             )?.name
         else {
             completionBlock?(.failure(RedirectError.missingOperationResult))
@@ -57,7 +64,7 @@ final class RedirectCallbackHandler {
         }
 
         let queryItemsSlice = queryItems.drop {
-            [constants.interactionCodeKey, constants.interactionReasonKey].contains($0.name)
+            [Constant.interactionCodeKey, Constant.interactionReasonKey].contains($0.name)
         }
 
         let interaction = Interaction(code: interactionCode, reason: interactionReason)
@@ -68,11 +75,4 @@ final class RedirectCallbackHandler {
 
         completionBlock?(.success(operationResult))
     }
-}
-
-// MARK: - Constants
-
-private struct Constant {
-    let interactionCodeKey = "interactionCode"
-    let interactionReasonKey = "interactionReason"
 }
