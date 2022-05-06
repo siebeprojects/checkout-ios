@@ -6,6 +6,10 @@
 
 import Foundation
 
-extension NSNotification.Name {
-    static let didReceiveCallbackFromURL = NSNotification.Name(rawValue: "PayoneerCheckoutDidReceiveCallbackFromURL")
+public extension NSNotification.Name {
+    static let didReceivePaymentResultURL = NSNotification.Name(rawValue: "BasicPaymentServiceDidReceivePaymentResultURL")
+}
+
+@objc public extension NSNotification {
+    @objc static let didReceivePaymentResultURL = Notification.Name.didReceivePaymentResultURL
 }

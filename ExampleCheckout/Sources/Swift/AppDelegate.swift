@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         if isPayoneerCheckout(callbackURL: url) {
-            Checkout.handle(callbackURL: url)
+            NotificationCenter.default.post(name: .didReceivePaymentResultURL, object: url)
         }
 
         return true

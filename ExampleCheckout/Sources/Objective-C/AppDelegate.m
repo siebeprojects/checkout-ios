@@ -14,7 +14,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-//    [NSNotificationCenter.defaultCenter postNotificationName:NSNotification.didReceivePaymentResultURL object:url];
+    [NSNotificationCenter.defaultCenter postNotificationName:NSNotification.didReceivePaymentResultURL object:url];
     return YES;
 }
 

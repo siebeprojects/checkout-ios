@@ -31,13 +31,6 @@ import Networking
     }
 }
 
-@objc public extension Checkout {
-    /// Handles callback when application was reopened with custom url scheme.
-    static func handle(callbackURL: URL) {
-        NotificationCenter.default.post(name: .didReceiveCallbackFromURL, object: nil, userInfo: ["url": callbackURL])
-    }
-}
-
 // MARK: - Operations
 
 @objc public extension Checkout {
