@@ -54,10 +54,10 @@ final class RedirectCallbackHandler {
             let queryItems = components.queryItems,
             let interactionCode = queryItems.first(
                 where: { $0.name == Constant.interactionCodeKey }
-            )?.name,
+            )?.value,
             let interactionReason = queryItems.first(
                 where: { $0.name == Constant.interactionReasonKey }
-            )?.name
+            )?.value
         else {
             completionBlock?(.failure(RedirectError.missingOperationResult))
             return
