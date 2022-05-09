@@ -11,5 +11,5 @@ public extension NSNotification.Name {
 }
 
 @objc public extension NSNotification {
-    @objc static let didReceivePaymentResultURL = Notification.Name.didReceivePaymentResultURL
+    static let didReceivePaymentResultURL = Notification.Name.didReceivePaymentResultURL
 }
