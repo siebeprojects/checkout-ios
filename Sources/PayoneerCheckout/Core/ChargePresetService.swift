@@ -36,7 +36,11 @@ final class ChargePresetService: ChargePresetServiceProtocol {
 
                     try self?.chargePresetAccount(
                         from: listResult,
-                        completion: completion,
+                        completion: { result in
+                            DispatchQueue.main.async {
+                                completion(result)
+                            }
+                        },
                         presentationRequest: { viewControllerToPresent in
                             DispatchQueue.main.async {
                                 presentationRequest(viewControllerToPresent)
@@ -98,7 +102,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             let error = InternalError(description: "Payment service for preset account wasn't found")
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
             let result = CheckoutResult(operationResult: .failure(errorInfo))
-            DispatchQueue.main.async { completion(result) }
+            completion(result)
             return
         }
 
