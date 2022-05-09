@@ -1,5 +1,7 @@
 included:
-  - Sources
+  - Sources/
+excluded:
+  - Sources/FraudForce/
 line_length:
   warning: 230
   error: 300
