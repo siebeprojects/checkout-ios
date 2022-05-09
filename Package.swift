@@ -46,7 +46,7 @@ let package = Package(
         // Tests
         .testTarget(
             name: "PayoneerCheckoutTests",
-            dependencies: ["PayoneerCheckout", "Risk", "Networking"],
+            dependencies: ["PayoneerCheckout", "Risk", "Networking", "IovationRiskProvider"],
             resources: [
                 .process("Resources")
             ])

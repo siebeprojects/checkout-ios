@@ -16,9 +16,9 @@ public enum RiskProviderError: Error, Equatable {
     public var name: String {
         switch self {
         case .internalFailure:
-            return "riskProviderInternalError"
+            return "riskPluginInternalError"
         case .externalFailure:
-            return "riskProviderExternalError"
+            return "riskPluginExternalError"
         }
     }
 
