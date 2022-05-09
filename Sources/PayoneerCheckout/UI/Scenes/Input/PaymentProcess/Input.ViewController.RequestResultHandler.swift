@@ -16,17 +16,13 @@ extension Input.ViewController {
 
 extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
     func requestSender(presentationRequestReceivedFor viewControllerToPresent: UIViewController) {
-        DispatchQueue.main.async {
-            self.delegate?.requestHandler(present: viewControllerToPresent)
-        }
+        self.delegate?.requestHandler(present: viewControllerToPresent)
     }
 
     func requestSender(didReceiveResult result: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
         // Handle internal `COMMUNICATION_FAILURE` error for all flows
         if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: result.interaction.reason), case let .failure(errorInfo) = result {
-            DispatchQueue.main.async {
-                self.delegate?.requestHandler(communicationFailedWith: errorInfo, forRequestType: requestType)
-            }
+            self.delegate?.requestHandler(communicationFailedWith: errorInfo, forRequestType: requestType)
             return
         }
 
@@ -51,16 +47,12 @@ extension Input.ViewController.RequestResultHandler {
             let interaction = LocalizableInteraction.create(fromInteraction: operationResponse.interaction, flow: .charge)
             let errorInfo = ErrorInfo(resultInfo: operationResponse.resultInfo, interaction: interaction)
 
-            DispatchQueue.main.async {
-                self.delegate?.requestHandler(inputShouldBeChanged: errorInfo)
-            }
+            self.delegate?.requestHandler(inputShouldBeChanged: errorInfo)
         }
 
         // In other situations route to a parent view
         else {
-            DispatchQueue.main.async {
-                self.delegate?.requestHandler(route: operationResponse, forRequestType: requestType)
-            }
+            self.delegate?.requestHandler(route: operationResponse, forRequestType: requestType)
         }
     }
 
@@ -68,9 +60,7 @@ extension Input.ViewController.RequestResultHandler {
     ///
     /// Flow rules are defined in [PCX-1396](https://optile.atlassian.net/browse/PCX-1396).
     private func handle(updateResponse: Result<OperationResult, ErrorInfo>) {
-        DispatchQueue.main.async {
-            self.delegate?.requestHandler(route: updateResponse, forRequestType: .operation(type: "UPDATE"))
-        }
+        self.delegate?.requestHandler(route: updateResponse, forRequestType: .operation(type: "UPDATE"))
     }
 }
 
@@ -83,16 +73,12 @@ extension Input.ViewController.RequestResultHandler {
             let interaction = LocalizableInteraction.create(fromInteraction: deletionResponse.interaction, flow: .delete)
             let errorInfo = ErrorInfo(resultInfo: deletionResponse.resultInfo, interaction: interaction)
 
-            DispatchQueue.main.async {
-                self.delegate?.requestHandler(inputShouldBeChanged: errorInfo)
-            }
+            self.delegate?.requestHandler(inputShouldBeChanged: errorInfo)
         }
 
         // In other situations route to a parent view
         else {
-            DispatchQueue.main.async {
-                self.delegate?.requestHandler(route: deletionResponse, forRequestType: .deletion)
-            }
+            self.delegate?.requestHandler(route: deletionResponse, forRequestType: .deletion)
         }
     }
 }

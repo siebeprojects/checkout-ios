@@ -4,31 +4,37 @@
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
 
-import Foundation
+import UIKit
 import Networking
 import Payment
-import UIKit
 
-@objc public class BasicPaymentService: NSObject, PaymentService {
+@objc final public class BasicPaymentService: NSObject, PaymentService {
+    private let supportedRedirectTypes = ["PROVIDER", "3DS2-HANDLER"]
+    private let redirectController: RedirectController
+    private let connection: Connection
+
     // MARK: - Static methods
+
     public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
         if let methodString = paymentMethod, let method = PaymentMethod(rawValue: methodString) {
             let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
-            return supportedMethods.contains(method)
-        } else {
-            let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
-            return supportedCodes.contains(networkCode)
+            if supportedMethods.contains(method) { return true }
         }
+
+        let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
+        return supportedCodes.contains(networkCode)
     }
 
-    // MARK: -
-    let connection: Connection
+    // MARK: - Initializer
 
-    required public init(connection: Connection) {
+    public init(connection: Connection, openAppWithURLNotificationName: NSNotification.Name) {
         self.connection = connection
+        self.redirectController = RedirectController(openAppWithURLNotificationName: openAppWithURLNotificationName)
     }
 
-    public func send(operationRequest: OperationRequest, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: (UIViewController) -> Void) {
+    // MARK: - Send operation
+
+    public func send(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
         let networkRequest: NetworkRequest.Operation
         do {
             networkRequest = try NetworkRequestBuilder().create(from: operationRequest)
@@ -38,16 +44,44 @@ import UIKit
         }
 
         let operation = SendRequestOperation(connection: connection, request: networkRequest)
-        operation.downloadCompletionBlock = { result in
-            switch result {
-            case .success(let operationResult): completion(operationResult, nil)
-            case .failure(let error): completion(nil, error)
-            }
+        operation.downloadCompletionBlock = { [operationResponseHandler] result in
+            operationResponseHandler(result, completion, presentationRequest)
         }
         operation.start()
     }
 
-    public func delete(accountUsing accountURL: URL, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: (UIViewController) -> Void) {
+    private func operationResponseHandler(requestResult: Result<OperationResult, Error>, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
+        switch requestResult {
+        case .success(let operationResult):
+            let redirectParser = RedirectResponseParser(supportedRedirectTypes: supportedRedirectTypes)
+            let redirectURL: URL?
+            do {
+                redirectURL = try redirectParser.getRedirect(from: operationResult)
+            } catch {
+                completion(nil, error)
+                return
+            }
+
+            if let redirectURL = redirectURL {
+                let viewControllerToPresent = redirectController.createSafariController(presentingURL: redirectURL) {
+                    // Presentation completed, route the final result
+                    switch $0 {
+                    case .success(let operationResult): completion(operationResult, nil)
+                    case .failure(let error): completion(nil, error)
+                    }
+                }
+                presentationRequest(viewControllerToPresent)
+            } else {
+                completion(operationResult, nil)
+            }
+        case .failure(let error):
+            completion(nil, error)
+        }
+    }
+
+    // MARK: - Deletion
+
+    public func delete(accountUsing accountURL: URL, completion: @escaping (OperationResult?, Error?) -> Void) {
         let deletionRequest = NetworkRequest.DeleteAccount(url: accountURL)
         let operation = SendRequestOperation(connection: connection, request: deletionRequest)
         operation.downloadCompletionBlock = { result in
@@ -59,4 +93,3 @@ import UIKit
         operation.start()
     }
 }
-

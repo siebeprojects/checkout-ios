@@ -15,7 +15,7 @@ class PaymentServicesFactory {
 
     init(connection: Connection, services: [PaymentService.Type]) {
         self.connection = connection
-        
+
         // `BasicPaymentService` should be always loaded by default
         self.services = services + [BasicPaymentService.self]
     }
@@ -23,7 +23,7 @@ class PaymentServicesFactory {
     /// Lookup for appropriate payment service and create an instance if found
     func createPaymentService(forNetworkCode networkCode: String, paymentMethod: String?) -> PaymentService? {
         for service in services where service.isSupported(networkCode: networkCode, paymentMethod: paymentMethod) {
-            return service.init(connection: connection)
+            return service.init(connection: connection, openAppWithURLNotificationName: .didReceivePaymentResultURL)
         }
 
         return nil

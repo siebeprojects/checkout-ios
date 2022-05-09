@@ -109,7 +109,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             guard let operationResult = self?.convertToResult(object: result, error: error) else { return }
 
             let checkoutResult = CheckoutResult(operationResult: operationResult)
-            DispatchQueue.main.async { completion(checkoutResult) }
+            completion(checkoutResult)
         }, presentationRequest: presentationRequest)
     }
 

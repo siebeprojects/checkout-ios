@@ -42,6 +42,7 @@ extension Input {
 
             super.init(nibName: nil, bundle: nil)
 
+            browserController.presenter = self
             requestSender.delegate = requestResultHandler
             requestResultHandler.delegate = self
 

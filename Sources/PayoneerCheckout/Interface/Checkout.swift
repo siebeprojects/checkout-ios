@@ -6,6 +6,7 @@
 
 import UIKit
 import SafariServices
+import Networking
 
 /// The entrypoint for interacting with the SDK. It has a 1:1 relationship with a payment session and is responsible for managing the checkout UI.
 @objc public class Checkout: NSObject {
@@ -18,10 +19,9 @@ import SafariServices
     /// Initializes a `Checkout` with the given configuration.
     /// - Parameters:
     ///   - configuration: The configuration object to be used.
-    @objc public init(configuration: CheckoutConfiguration) {
-        self.configuration = configuration
-        self.chargePresetService = ChargePresetService(paymentServices: configuration.paymentServices, riskProviders: configuration.riskProviders)
-        CheckoutAppearance.shared = configuration.appearance
+    @objc public convenience init(configuration: CheckoutConfiguration) {
+        let chargePresetService = ChargePresetService(paymentServices: configuration.paymentServices, riskProviders: configuration.riskProviders)
+        self.init(configuration: configuration, chargePresetService: chargePresetService)
     }
 
     init(configuration: CheckoutConfiguration, chargePresetService: ChargePresetServiceProtocol) {
@@ -70,12 +70,16 @@ import SafariServices
         chargePresetService.chargePresetAccount(
             usingListResultURL: configuration.listURL,
             completion: { [weak self] result in
-                self?.dismiss {
-                    completion(result)
+                DispatchQueue.main.async {
+                    self?.dismiss {
+                        completion(result)
+                    }
                 }
             },
             presentationRequest: { [weak self] viewControllerToPresent in
-                self?.presenter?.present(viewControllerToPresent, animated: true)
+                DispatchQueue.main.async {
+                    self?.presenter?.present(viewControllerToPresent, animated: true)
+                }
             }
         )
     }

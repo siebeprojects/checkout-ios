@@ -20,6 +20,7 @@ struct NetworkRequestBuilder {
             allowRecurrence: operationRequest.form?.allowRecurrence,
             providerRequests: operationRequest.riskData
         )
+
         let networkRequest = NetworkRequest.Operation(from: operationURL, body: body)
         return networkRequest
     }

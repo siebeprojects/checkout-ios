@@ -50,11 +50,11 @@ extension RequestSender {
         // Delete account
         service.delete(accountUsing: accountURL, completion: { [weak self] operationResult, error in
             guard let self = self else { return }
-            
+
             let deletionResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
-            self.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
-        }, presentationRequest: {
-            delegate?.requestSender(presentationRequestReceivedFor: $0)
+            DispatchQueue.main.async {
+                self.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
+            }
         })
     }
 
@@ -86,9 +86,14 @@ extension RequestSender {
             guard let self = self else { return }
 
             let operationResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
-            self.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
-        }, presentationRequest: { [delegate] in
-            delegate?.requestSender(presentationRequestReceivedFor: $0)
+
+            DispatchQueue.main.async {
+                self.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
+            }
+        }, presentationRequest: { [weak delegate] viewControllerToPresent in
+            DispatchQueue.main.async {
+                delegate?.requestSender(presentationRequestReceivedFor: viewControllerToPresent)
+            }
         })
     }
 
@@ -148,7 +153,6 @@ private struct PaymentRequestBuilder: Loggable {
 
             return try createDictionary(forInputElementsFields: inputElementsSection.inputFields)
         }()
-
 
         let autoRegistration, allowRecurrence: Bool?
         (autoRegistration, allowRecurrence) = {
