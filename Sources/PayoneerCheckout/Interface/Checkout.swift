@@ -14,18 +14,24 @@ import Networking
     private(set) weak var presenter: UIViewController?
     private(set) var paymentListViewController: UIViewController?
     private(set) var paymentCompletionBlock: ((_ result: CheckoutResult) -> Void)?
+
+    private let riskService: RiskService
     private let chargePresetService: ChargePresetServiceProtocol
 
     /// Initializes a `Checkout` with the given configuration.
     /// - Parameters:
     ///   - configuration: The configuration object to be used.
-    @objc public convenience init(configuration: CheckoutConfiguration) {
-        let chargePresetService = ChargePresetService(paymentServices: configuration.paymentServices, riskProviders: configuration.riskProviders)
-        self.init(configuration: configuration, chargePresetService: chargePresetService)
+    @objc public init(configuration: CheckoutConfiguration) {
+        self.configuration = configuration
+        self.riskService = RiskService(providers: configuration.riskProviders)
+        self.chargePresetService = ChargePresetService(paymentServices: configuration.paymentServices, riskService: self.riskService)
+        CheckoutAppearance.shared = configuration.appearance
     }
 
+    /// Alternative initializer for testing purposes.
     init(configuration: CheckoutConfiguration, chargePresetService: ChargePresetServiceProtocol) {
         self.configuration = configuration
+        self.riskService = RiskService(providers: configuration.riskProviders)
         self.chargePresetService = chargePresetService
         CheckoutAppearance.shared = configuration.appearance
     }
@@ -42,7 +48,7 @@ import Networking
     ///     This completion block takes the following parameter:
     ///   - result: An object containing relevant information about the result of the operation.
     func presentPaymentList(from presenter: UIViewController, completion: @escaping (_ result: CheckoutResult) -> Void) {
-        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, paymentServices: configuration.paymentServices, riskProviders: configuration.riskProviders, delegate: self)
+        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, paymentServices: configuration.paymentServices, riskService: riskService, delegate: self)
 
         self.presenter = presenter
         self.paymentCompletionBlock = completion

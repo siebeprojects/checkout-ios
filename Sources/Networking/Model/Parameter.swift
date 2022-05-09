@@ -18,3 +18,16 @@ public class Parameter: NSObject, Codable {
         self.value = value
     }
 }
+
+// MARK: - Equatable
+
+extension Parameter {
+    public static func == (lhs: Parameter, rhs: Parameter) -> Bool {
+        lhs.name == rhs.name && lhs.value == rhs.value
+    }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let parameter = object as? Parameter else { return false }
+        return self == parameter
+    }
+}

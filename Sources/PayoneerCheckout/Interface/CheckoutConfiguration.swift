@@ -45,7 +45,7 @@ enum CheckoutConfigurationError: Error {
     ///   - listURL: The URL contained in `links.self` on the response object from a create payment session request.
     ///   - appearance: The appearance settings to be used in the checkout UI. If not specified, a default appearance will be used.
     ///   - riskProviderClasses: An array of risk provider types.
-    @objc public convenience init(listURL: URL, appearance: CheckoutAppearance = .default, riskProviderClasses: [AnyClass] = []) throws {
+    @objc public convenience init(listURL: URL, appearance: CheckoutAppearance, riskProviderClasses: [AnyClass]) throws {
         guard let riskProviders = riskProviderClasses as? [RiskProvider.Type] else {
             throw CheckoutConfigurationError.invalidRiskProviderType
         }

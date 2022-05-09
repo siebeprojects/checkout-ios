@@ -6,9 +6,10 @@
 
 #import "ViewController.h"
 @import PayoneerCheckout;
-@import IovationRiskProvider;
 
 @interface ViewController ()
+
+@property (retain, nonatomic) Checkout *checkout;
 
 @end
 
@@ -26,10 +27,10 @@
 - (IBAction)sendRequest:(UIButton *)sender {
     NSURL *url = [[NSURL alloc] initWithString:self.urlTextField.text];
     
-    CheckoutConfiguration *configuration = [[CheckoutConfiguration alloc] initWithListURL:url appearance:[CheckoutAppearance default] riskProviderClasses:@[[IovationRiskProvider class]] error:NULL];
+    CheckoutConfiguration *configuration = [[CheckoutConfiguration alloc] initWithListURL:url appearance:[CheckoutAppearance default] riskProviderClasses:@[] error:NULL];
 
-    Checkout *checkout = [[Checkout alloc] initWithConfiguration:configuration];
-    [checkout presentPaymentListFrom:self completion:^(CheckoutResult * _Nonnull result) {
+    self.checkout = [[Checkout alloc] initWithConfiguration:configuration];
+    [self.checkout presentPaymentListFrom:self completion:^(CheckoutResult * _Nonnull result) {
         [self presentAlertWithResult:result];
     }];
 }

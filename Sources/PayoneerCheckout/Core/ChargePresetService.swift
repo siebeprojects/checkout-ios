@@ -18,11 +18,11 @@ final class ChargePresetService: ChargePresetServiceProtocol {
     private let paymentServiceFactory: PaymentServicesFactory
 
     private let connection: Connection = URLSessionConnection()
-    private let riskProviders: [RiskProvider.Type]
+    private var riskService: RiskService
 
-    init(paymentServices: [PaymentService.Type], riskProviders: [RiskProvider.Type]) {
+    init(paymentServices: [PaymentService.Type], riskService: RiskService) {
         self.paymentServiceFactory = PaymentServicesFactory(connection: connection, services: paymentServices)
-        self.riskProviders = riskProviders
+        self.riskService = riskService
     }
 
     func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void) {
@@ -30,10 +30,8 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             switch result {
             case .success(let listResult):
                 do {
-                    var riskService = RiskService(providers: self?.riskProviders ?? [])
-
-                    if let riskProviders = listResult.riskProviders {
-                        riskService.loadRiskProviders(using: riskProviders)
+                    if let riskProviderParameters = listResult.riskProviders {
+                        self?.riskService.loadRiskProviders(withParameters: riskProviderParameters)
                     }
 
                     try self?.chargePresetAccount(from: listResult, completion: completion, presentationRequest: presentationRequest)
@@ -80,13 +78,6 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             let error = InternalError(description: "List result doesn't contain operation type or operation type is not PRESET")
             throw error
         }
-
-        // Collect risk data
-        let riskService: RiskService = {
-            var service = RiskService(providers: riskProviders)
-            service.loadRiskProviders(using: listResult.riskProviders ?? [])
-            return service
-        }()
 
         let riskData = riskService.collectRiskData()
 

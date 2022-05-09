@@ -22,11 +22,11 @@ class PaymentSessionService {
 
     weak var delegate: PaymentSessionServiceDelegate?
 
-    init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider, paymentServices: [PaymentService.Type], riskProviders: [RiskProvider.Type]) {
+    init(paymentSessionURL: URL, connection: Connection, localizationProvider: SharedTranslationProvider, paymentServices: [PaymentService.Type], riskService: RiskService) {
         self.connection = connection
         paymentServicesFactory = .init(connection: connection, services: paymentServices)
         downloadProvider = .init(connection: connection)
-        paymentSessionProvider = .init(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider, riskProviders: riskProviders)
+        paymentSessionProvider = .init(paymentSessionURL: paymentSessionURL, connection: connection, paymentServicesFactory: paymentServicesFactory, localizationsProvider: localizationProvider, riskService: riskService)
         self.localizationProvider = localizationProvider
     }
 

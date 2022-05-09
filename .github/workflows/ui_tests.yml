@@ -12,8 +12,7 @@ jobs:
     name: Single device
     uses: ./.github/workflows/reusable_ui_tests.yml
     with:
-      install-simulators-command: >-
-        sudo ln -s $XCODE_12_DEVELOPER_DIR/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.5.simruntime
+      simulators: '["iPhone 13 (15.2)"]'
     secrets:
       MOBILE_MERCHANT_CODE: ${{ secrets.MOBILE_MERCHANT_CODE }}
       MOBILE_MERCHANT_PAYMENT_TOKEN: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
