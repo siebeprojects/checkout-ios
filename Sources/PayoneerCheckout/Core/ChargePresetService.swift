@@ -34,12 +34,21 @@ final class ChargePresetService: ChargePresetServiceProtocol {
                         self?.riskService.loadRiskProviders(withParameters: riskProviderParameters)
                     }
 
-                    try self?.chargePresetAccount(from: listResult, completion: completion, presentationRequest: presentationRequest)
+                    try self?.chargePresetAccount(
+                        from: listResult,
+                        completion: completion,
+                        presentationRequest: { viewControllerToPresent in
+                            DispatchQueue.main.async {
+                                presentationRequest(viewControllerToPresent)
+                            }
+                        })
                 } catch {
                     let errorInfo = CustomErrorInfo.createClientSideError(from: error)
                     let result = CheckoutResult(operationResult: .failure(errorInfo))
 
-                    DispatchQueue.main.async { completion(result) }
+                    DispatchQueue.main.async {
+                        completion(result)
+                    }
                 }
             case .failure(let error):
                 let errorInfo: ErrorInfo = {
@@ -49,7 +58,9 @@ final class ChargePresetService: ChargePresetServiceProtocol {
 
                 let result = CheckoutResult(operationResult: .failure(errorInfo))
 
-                DispatchQueue.main.async { completion(result) }
+                DispatchQueue.main.async {
+                    completion(result)
+                }
             }
         }
     }
@@ -96,12 +107,16 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil, riskData: riskData)
 
         // Send request
-        service.send(operationRequest: operationRequest, completion: { [weak self] result, error in
-            guard let operationResult = self?.convertToResult(object: result, error: error) else { return }
+        service.send(
+            operationRequest: operationRequest,
+            completion: { [weak self] result, error in
+                guard let operationResult = self?.convertToResult(object: result, error: error) else { return }
 
-            let checkoutResult = CheckoutResult(operationResult: operationResult)
-            completion(checkoutResult)
-        }, presentationRequest: presentationRequest)
+                let checkoutResult = CheckoutResult(operationResult: operationResult)
+                completion(checkoutResult)
+            },
+            presentationRequest: presentationRequest
+        )
     }
 
     /// Converts object and error optionals to `Result` with a defined state.
