@@ -30,7 +30,7 @@ import FraudForce
 
         guard data.isEmpty == false else {
             throw RiskProviderError.externalFailure(
-                reason: "Empty blackbox received from Iovation risk provider. An empty blackbox indicates there is a problem with the integration of the SDK or that the protection offered by the system may have been compromised."
+                reason: "Empty blackbox received from Iovation risk provider. An empty blackbox indicates there is a problem with the integration of the SDK or that the protection offered by the system may have been compromised.",
                 providerCode: IovationRiskProvider.code,
                 providerType: IovationRiskProvider.type
             )
