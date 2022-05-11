@@ -18,7 +18,7 @@ public extension GetRequest {
 
     func build() throws -> URLRequest {
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            throw NetworkError(description: "Internal error, incorrect GetRequest URL")
+            throw NetworkingError(description: "Internal error, incorrect GetRequest URL")
         }
 
         if !queryItems.isEmpty {
@@ -26,7 +26,7 @@ public extension GetRequest {
         }
 
         guard let url = components.url else {
-            throw NetworkError(description: "Internal error, unable to create API request URL")
+            throw NetworkingError(description: "Internal error, unable to create API request URL")
         }
 
         var urlRequest = URLRequest(url: url)

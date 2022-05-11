@@ -36,7 +36,7 @@ public protocol Request {
 public extension Request where Response == Data {
     func decodeResponse(with data: Data?) throws -> Response {
         guard let data = data else {
-            let error = NetworkError(description: "Server returned no data")
+            let error = NetworkingError(description: "Server returned no data")
             throw error
         }
 
@@ -47,7 +47,7 @@ public extension Request where Response == Data {
 public extension Request where Response: Decodable {
     func decodeResponse(with data: Data?) throws -> Response {
         guard let data = data else {
-            let error = NetworkError(description: "Server returned no data")
+            let error = NetworkingError(description: "Server returned no data")
             throw error
         }
 
@@ -66,7 +66,7 @@ fileprivate extension Request {
     /// Generic URL request containing only URL and QueryItems
     func buildGenericRequest() throws -> URLRequest {
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            throw NetworkError(description: "Internal error, incorrect PostRequest URL: %@", url.absoluteString)
+            throw NetworkingError(description: "Internal error, incorrect PostRequest URL: %@", url.absoluteString)
         }
 
         if !queryItems.isEmpty {
@@ -74,7 +74,7 @@ fileprivate extension Request {
         }
 
         guard let url = components.url else {
-            throw NetworkError(description: "Internal error, unable to create API request URL from URLComponents")
+            throw NetworkingError(description: "Internal error, unable to create API request URL from URLComponents")
         }
 
         var urlRequest = URLRequest(url: url)

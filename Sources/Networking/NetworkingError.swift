@@ -7,7 +7,7 @@
 import Foundation
 import Logging
 
-struct NetworkError: Error, CustomStringConvertible, CustomDebugStringConvertible, LocalizedError {
+struct NetworkingError: Error, CustomStringConvertible, CustomDebugStringConvertible, LocalizedError {
     var debugDescription: String { return String(format: staticDescription.description, arguments) }
     var description: String {
         var redactedArguments = [CVarArg]()
@@ -49,4 +49,4 @@ struct NetworkError: Error, CustomStringConvertible, CustomDebugStringConvertibl
     }
 }
 
-extension NetworkError: Loggable {}
+extension NetworkingError: Loggable {}

@@ -33,14 +33,14 @@ public class URLSessionConnection: Connection {
         }
 
         guard let response = response else {
-            let error = NetworkError(description: "Incorrect completion from a URLSession, we have no error and no response")
+            let error = NetworkingError(description: "Incorrect completion from a URLSession, we have no error and no response")
             completionHandler(nil, error)
             return
         }
 
         // We expect HTTP response
         guard let httpResponse = response as? HTTPURLResponse else {
-            let error = NetworkError(description: "Unexpected server response (receive a non-HTTP response)")
+            let error = NetworkingError(description: "Unexpected server response (receive a non-HTTP response)")
             completionHandler(nil, error)
             return
         }
@@ -50,7 +50,7 @@ public class URLSessionConnection: Connection {
             if let data = data, let backendError = try? JSONDecoder().decode(ErrorInfo.self, from: data) {
                 completionHandler(nil, backendError)
             } else {
-                let error = NetworkError(description: "Non-OK response from a server")
+                let error = NetworkingError(description: "Non-OK response from a server")
                 completionHandler(nil, error)
             }
 

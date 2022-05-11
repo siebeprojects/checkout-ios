@@ -57,7 +57,7 @@ open class SendRequestOperation<T>: AsynchronousOperation where T: Request {
             }
 
             guard let data = data else {
-                let error = NetworkError(description: "Response doesn't contain data and error")
+                let error = NetworkingError(description: "Response doesn't contain data and error")
                 if #available(iOS 14.0, *) { self.log(error: error) }
                 self.finish(with: .failure(error))
                 return
