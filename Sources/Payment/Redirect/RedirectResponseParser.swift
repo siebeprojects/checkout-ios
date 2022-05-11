@@ -28,7 +28,9 @@ public struct RedirectResponseParser {
             let redirect = operationResult.redirect,
             let redirectType = redirect.type,
             supportedRedirectTypes.contains(redirectType)
-        else { return nil }
+        else {
+            return nil
+        }
 
         let urlBuilder = RedirectURLBuilder(redirect: redirect, links: operationResult.links)
         return try urlBuilder.createRedirectURL()
