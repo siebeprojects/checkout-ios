@@ -49,6 +49,9 @@ let package = Package(
             dependencies: ["PayoneerCheckout", "Risk", "Networking", "IovationRiskProvider"],
             resources: [
                 .process("Resources")
-            ])
+            ]),
+        .testTarget(
+            name: "PaymentTests",
+            dependencies: ["Payment", "Networking"])
     ]
 )
