@@ -16,6 +16,7 @@ jobs:
   delete:
     name: 'Remove applications'
     runs-on: ubuntu-latest
+    environment: Browserstack
   
     steps:
       - name: Checkout repository
