@@ -37,7 +37,7 @@ jobs:
         run: echo "::set-output name=binary-name::${{ steps.branch.outputs.safe-branch-name }}${{ env.file-extension }}"
 
   cleanup:
-    name: 'Cleanup old binaries'
+    name: Cleanup old binaries
     needs: create-ids
     runs-on: ubuntu-latest
     environment: Browserstack
@@ -62,7 +62,7 @@ jobs:
         run: python .github/scripts/browserstack_delete.py ${{ needs.create-ids.outputs.custom-id }}
 
   build:
-    name: BrowserStack
+    name: Build & upload
     needs: 
       - create-ids
       - cleanup
