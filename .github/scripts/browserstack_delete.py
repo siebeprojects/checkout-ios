@@ -16,6 +16,7 @@ def main():
         # First argument from command line is custom_id for Browserstack
         custom_id = sys.argv[1]
         recent_uploads = get_recent_uploads(custom_id)
+
         for app in recent_uploads:
             delete(app)
 
@@ -39,6 +40,9 @@ def delete(app):
         Parameters:
         app: application json object from Browserstack recent_apps call
     """
+
+    if not isinstance(app, dict):
+        return
 
     app_id = app['app_id']
     app_name = app['app_name']
