@@ -36,7 +36,8 @@ platform :ios do
     upload_to_browserstack_app_live(
       browserstack_username: ENV["BROWSERSTACK_USER"],
       browserstack_access_key: ENV["BROWSERSTACK_KEY"],
-      file_path: options[:binary]
+      file_path: options[:binary],
+      custom_id: options[:custom_id]
     )
   end
 
