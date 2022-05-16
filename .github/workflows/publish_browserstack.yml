@@ -1,7 +1,6 @@
 name: Publish to BrowserStack
 
-on:
-  pull_request:
+on: pull_request
 
 concurrency: 
   group: publish-browserstack-${{ github.head_ref }}
