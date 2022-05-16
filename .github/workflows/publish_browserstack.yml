@@ -18,7 +18,7 @@ jobs:
         id: slugify
         run: |
           echo -n "::set-output name=custom-id::iOS_"
-          echo "${{ github.head_ref }}" | sed "s/[^[:alnum:]-]/_/g"
+          echo ${{ github.head_ref }} | sed "s/[^[:alnum:]-]/_/g"
 
   cleanup:
     name: Cleanup
