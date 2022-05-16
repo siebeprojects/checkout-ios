@@ -10,8 +10,8 @@ session = requests.Session()
 
 def main():
     try:
-        session.auth = (os.environ['BROWSERSTACK_USER'],
-                        os.environ['BROWSERSTACK_KEY'])
+        session.auth = (os.getenv('BROWSERSTACK_USER'),
+                        os.getenv('BROWSERSTACK_KEY'))
 
         # First argument from command line is custom_id for Browserstack
         custom_id = sys.argv[1]
