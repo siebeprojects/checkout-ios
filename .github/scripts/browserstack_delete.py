@@ -48,7 +48,7 @@ def delete(app):
     app_id = app['app_id']
     app_name = app['app_name']
     delete_url = urllib.parse.urljoin(
-        'https://api-cloud.browserstack.com/app-live/app/delet/', app_id)
+        'https://api-cloud.browserstack.com/app-live/app/delete/', app_id)
     print(f'* Deleting {app_name}…')
 
     deletion_result = session.delete(delete_url)
