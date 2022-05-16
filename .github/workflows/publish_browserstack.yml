@@ -95,6 +95,8 @@ jobs:
           BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
           BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
         run: |
-          bundle exec fastlane browserstack \
-          binary:${{ needs.create-custom-id.outputs.custom-id }}.ipa \
-          custom_id:${{ needs.create-custom-id.outputs.custom-id }}
+          curl \
+          -u "${BROWSERSTACK_USER}:${BROWSERSTACK_KEY}" \
+          -X POST "https://api-cloud.browserstack.com/app-live/upload" \
+          -F "file=@${{ needs.create-custom-id.outputs.custom-id }}.ipa" \
+          -F "data={\"custom_id\": \"${{ needs.create-custom-id.outputs.custom-id }}\"}"
