@@ -1,0 +1,33 @@
+name: Browserstack cleanup
+
+on:
+  workflow_call:
+    inputs:
+      custom-id:
+        required: true
+        type: string
+    secrets:
+      BROWSERSTACK_USER:
+        required: true
+      BROWSERSTACK_KEY:
+        required: true
+
+jobs:
+  delete:
+    name: 'Delete applications'
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Delete binaries from Browserstack
+        env:
+          BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
+          BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
+        run: python .github/scripts/browserstack_delete.py ${{ inputs.custom-id }}
