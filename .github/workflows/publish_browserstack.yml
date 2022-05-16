@@ -20,8 +20,8 @@ jobs:
           echo -n "::set-output name=custom-id::iOS_"
           echo "${{ github.head_ref }}" | sed "s/[^[:alnum:]-]/_/g"
 
-  remove-old-binaries:
-    name: Remove old binaries
+  cleanup:
+    name: Cleanup
     uses: ./.github/workflows/browserstack_cleanup.yml
     needs: create-custom-id
     with:
@@ -34,7 +34,7 @@ jobs:
     name: BrowserStack
     needs: 
       - create-custom-id
-      - remove-old-binaries
+      - cleanup
     runs-on: macos-latest
     environment: 
       name: Browserstack

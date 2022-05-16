@@ -14,7 +14,7 @@ on:
 
 jobs:
   delete:
-    name: 'Delete applications'
+    name: 'Remove applications'
     runs-on: ubuntu-latest
   
     steps:
