@@ -37,14 +37,29 @@ jobs:
         run: echo "::set-output name=binary-name::${{ steps.branch.outputs.safe-branch-name }}${{ env.file-extension }}"
 
   cleanup:
-    name: Cleanup
-    uses: ./.github/workflows/browserstack_cleanup.yml
+    name: 'Cleanup old binaries'
     needs: create-ids
-    with:
-      custom-id: ${{ needs.create-ids.outputs.custom-id }}
-    secrets:
-      BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
-      BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
+    runs-on: ubuntu-latest
+    environment: Browserstack
+  
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r .github/scripts/requirements.txt
+
+      - name: Delete binaries from Browserstack
+        env:
+          BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
+          BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
+        run: python .github/scripts/browserstack_delete.py ${{ needs.create-ids.outputs.custom-id }}
 
   build:
     name: BrowserStack
