@@ -3,8 +3,6 @@ import urllib.parse
 import sys
 import os
 
-# Browserstack API: https://www.browserstack.com/app-live/rest-api
-
 session = requests.Session()
 
 
@@ -15,6 +13,9 @@ def main():
 
         # First argument from command line is custom_id for Browserstack
         custom_id = sys.argv[1]
+
+        print(f'Deleting binaries with custom id: {custom_id}')
+
         recent_uploads = get_recent_uploads(custom_id)
 
         for app in recent_uploads:
