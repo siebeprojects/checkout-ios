@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Logging
 
 struct InternalError: Error, CustomStringConvertible, CustomDebugStringConvertible, LocalizedError {
     var debugDescription: String { return String(format: staticDescription.description, arguments) }

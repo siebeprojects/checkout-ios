@@ -6,6 +6,7 @@
 
 import Foundation
 @testable import PayoneerCheckout
+import Networking
 
 extension MockFactory {
     class ListResult {
@@ -15,7 +16,7 @@ extension MockFactory {
 
 extension MockFactory.ListResult {
     static var paymentSession: UIModel.PaymentSession {
-        let listResult = try! JSONDecoder().decode(PayoneerCheckout.ListResult.self, from: listResultData)
+        let listResult = try! JSONDecoder().decode(Networking.ListResult.self, from: listResultData)
 
         let translatedNetworks = listResult.networks.applicable.map {
             TranslatedModel(model: $0, translator: MockFactory.Localization.provider)

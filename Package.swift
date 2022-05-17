@@ -14,28 +14,44 @@ let package = Package(
             targets: ["PayoneerCheckout"]),
         .library(
             name: "IovationRiskProvider",
-            targets: ["IovationRiskProvider"])
+            targets: ["IovationRiskProvider"]),
     ],
     targets: [
         .target(
             name: "PayoneerCheckout",
-            dependencies: ["Risk"],
+            dependencies: ["Risk", "Networking", "Logging", "Payment", "BasicPaymentService"],
             resources: [
                 .process("Resources")
-            ]),
+            ]
+        ),
+        .target(name: "Networking", dependencies: ["Logging"]),
+        .target(name: "Logging"),
+
+        // Payment Services
+        .target(name: "Payment", dependencies: ["Networking"]),
         .target(
-            name: "Risk"),
+            name: "BasicPaymentService",
+            dependencies: ["Networking", "Payment"],
+            path: "Sources/PaymentServices/BasicPaymentService"),
+
+        // Risk
+        .target(name: "Risk"),
         .target(
             name: "IovationRiskProvider",
             dependencies: ["Risk", "FraudForce"]),
         .binaryTarget(
             name: "FraudForce",
             path: "Sources/FraudForce/FraudForce.xcframework"),
+
+        // Tests
         .testTarget(
             name: "PayoneerCheckoutTests",
-            dependencies: ["PayoneerCheckout", "Risk", "IovationRiskProvider"],
+            dependencies: ["PayoneerCheckout", "Risk", "Networking", "IovationRiskProvider"],
             resources: [
                 .process("Resources")
-            ])
+            ]),
+        .testTarget(
+            name: "PaymentTests",
+            dependencies: ["Payment", "Networking"])
     ]
 )

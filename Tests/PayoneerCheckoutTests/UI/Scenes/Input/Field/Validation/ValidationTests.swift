@@ -6,6 +6,7 @@
 
 import XCTest
 @testable import PayoneerCheckout
+import Networking
 
 class ValidationTests: XCTestCase {
     private let translationProvider = KeysOnlyTranslationProvider()

@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 protocol PaymentSessionServiceDelegate: AnyObject {
     func paymentSessionService(didReceiveResult result: Result<UIModel.PaymentSession, ErrorInfo>)

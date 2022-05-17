@@ -7,6 +7,8 @@
 import XCTest
 import Risk
 @testable import PayoneerCheckout
+import Networking
+import BasicPaymentService
 
 class PaymentSessionServiceTests: XCTestCase {
     // TODO: Write a test if payment network doesn't contain language URL or download failed
@@ -37,7 +39,7 @@ class PaymentSessionServiceTests: XCTestCase {
 
     private func syncLoadPaymentSession(using dataSource: MockDataSource) -> Result<UIModel.PaymentSession, ErrorInfo> {
         let connection = MockConnection(dataSource: dataSource)
-        let provider = PaymentSessionService(paymentSessionURL: URL.example, connection: connection, localizationProvider: SharedTranslationProvider(), riskService: RiskService(providers: []))
+        let provider = PaymentSessionService(paymentSessionURL: URL.example, connection: connection, localizationProvider: SharedTranslationProvider(), paymentServices: [BasicPaymentService.self], riskService: RiskService(providers: []))
         provider.delegate = self
 
         resultPromise = expectation(description: "PaymentSessionProvider: completed")

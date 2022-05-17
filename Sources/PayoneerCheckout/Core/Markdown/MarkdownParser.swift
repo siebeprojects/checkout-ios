@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Logging
 
 /// Regular expressions used by `MarkdownParser`.
 private let textExpression = "\\[(?<text>[^\\]]*)\\]"

@@ -7,6 +7,7 @@
 import XCTest
 import SafariServices
 @testable import PayoneerCheckout
+import Networking
 
 private let customAccentColor: UIColor = .blue
 
@@ -132,21 +133,5 @@ final class CheckoutTests: XCTestCase {
         checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in })
         checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         XCTAssertNil(checkout.paymentCompletionBlock)
-    }
-
-    func testSafariViewControllerDidFinish_shouldPostFailureNotification() {
-        var notificationPosted = false
-
-        NotificationCenter.default.addObserver(
-            forName: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
-            object: nil,
-            queue: .main
-        ) { _ in
-            notificationPosted = true
-        }
-
-        checkout.safariViewControllerDidFinish(SFSafariViewController(url: URL(string: "https://")!))
-
-        XCTAssertTrue(notificationPosted)
     }
 }

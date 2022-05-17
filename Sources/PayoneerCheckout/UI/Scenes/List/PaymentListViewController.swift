@@ -5,6 +5,10 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Risk
+import Logging
+import Networking
+import Payment
 
 final class PaymentListViewController: UIViewController, ModalPresenter {
     weak var methodsTableView: UITableView?
@@ -18,31 +22,33 @@ final class PaymentListViewController: UIViewController, ModalPresenter {
 
     let stateManager = StateManager()
     let viewManager = ViewManager()
-    private let operationResultHandler = OperationResultHandler()
+    private let requestResultHandler: RequestResultHandler
 
     /// - Parameter listResultURL: URL that you receive after executing *Create new payment session request* request. Needed URL will be specified in `links.self`
-    convenience init(listResultURL: URL, riskService: RiskService, delegate: PaymentDelegate) {
+    convenience init(listResultURL: URL, paymentServices: [PaymentService.Type], riskService: RiskService, delegate: PaymentDelegate) {
         let sharedTranslationProvider = SharedTranslationProvider()
         let connection = URLSessionConnection()
 
-        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider, riskService: riskService, delegate: delegate)
+        self.init(listResultURL: listResultURL, connection: connection, sharedTranslationProvider: sharedTranslationProvider, paymentServices: paymentServices, riskService: riskService, delegate: delegate)
     }
 
-    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider, riskService: RiskService, delegate: PaymentDelegate) {
+    init(listResultURL: URL, connection: Connection, sharedTranslationProvider: SharedTranslationProvider, paymentServices: [PaymentService.Type], riskService: RiskService, delegate: PaymentDelegate) {
         self.sessionService = PaymentSessionService(
             paymentSessionURL: listResultURL,
             connection: connection,
             localizationProvider: sharedTranslationProvider,
+            paymentServices: paymentServices,
             riskService: riskService
         )
         self.sharedTranslationProvider = sharedTranslationProvider
         self.delegate = delegate
+        self.requestResultHandler = RequestResultHandler(localizer: sharedTranslationProvider)
 
         super.init(nibName: nil, bundle: nil)
 
         viewManager.vc = self
         stateManager.vc = self
-        operationResultHandler.delegate = self
+        requestResultHandler.delegate = self
         sessionService.delegate = self
     }
 
@@ -102,7 +108,7 @@ extension PaymentListViewController {
             }
 
             let inputViewController = try Input.ViewController(for: paymentNetworks, context: context, paymentServiceFactory: sessionService.paymentServicesFactory)
-            inputViewController.delegate = operationResultHandler
+            inputViewController.listRequestResultHandler = requestResultHandler
             show(inputViewController, sender: nil)
 
         } catch {
@@ -122,7 +128,7 @@ extension PaymentListViewController {
             }
 
             let inputViewController = try Input.ViewController(for: registeredAccount, context: context, paymentServiceFactory: sessionService.paymentServicesFactory)
-            inputViewController.delegate = operationResultHandler
+            inputViewController.listRequestResultHandler = requestResultHandler
             show(inputViewController, sender: nil)
 
         } catch {
@@ -138,7 +144,7 @@ extension PaymentListViewController {
             }
 
             let inputViewController = try Input.ViewController(for: presetAccount, context: context, paymentServiceFactory: sessionService.paymentServicesFactory)
-            inputViewController.delegate = operationResultHandler
+            inputViewController.listRequestResultHandler = requestResultHandler
             show(inputViewController, sender: nil)
 
         } catch {
@@ -216,7 +222,7 @@ extension PaymentListViewController: ListTableControllerDelegate {
 // MARK: - NetworkOperationResultHandler
 
 // Received response from InputViewController
-extension PaymentListViewController: OperationResultHandlerDelegate {
+extension PaymentListViewController: ListRequestResultHandlerDelegate {
     func present(error: UIAlertController.AlertError) {
         let alertController = error.createAlertController(translator: sharedTranslationProvider)
         present(alertController, animated: true, completion: nil)
@@ -240,5 +246,5 @@ extension CGFloat {
 }
 
 extension PaymentListViewController: Loggable {
-    var logCategory: String { "ListScene" }
+    public var logCategory: String { "ListScene" }
 }

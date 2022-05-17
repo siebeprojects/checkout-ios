@@ -5,10 +5,11 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Networking
 
 extension UIModel {
     final class PresetAccount {
-        let apiModel: PayoneerCheckout.PresetAccount
+        let apiModel: Networking.PresetAccount
         let translation: TranslationProvider
 
         let networkLabel: String
@@ -16,7 +17,7 @@ extension UIModel {
         let submitButtonLabel: String
         var logo: Loadable<UIImage>?
 
-        init(from apiModel: PayoneerCheckout.PresetAccount, warningText: String?, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
+        init(from apiModel: Networking.PresetAccount, warningText: String?, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
             self.apiModel = apiModel
             self.translation = localizer
             self.warningText = warningText

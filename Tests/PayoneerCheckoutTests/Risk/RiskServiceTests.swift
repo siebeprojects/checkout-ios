@@ -7,6 +7,7 @@
 import XCTest
 @testable import PayoneerCheckout
 import Risk
+import Networking
 
 final class RiskServiceTests: XCTestCase {
     func testLoadRiskProviders_whenCalled_shouldResetLoadedProviders() {

@@ -5,13 +5,22 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import PayoneerCheckout
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        NotificationCenter.default.post(name: .didReceivePaymentResultURL, object: url)
+        if isPayoneerCheckout(callbackURL: url) {
+            NotificationCenter.default.post(name: .didReceivePaymentResultURL, object: url)
+        }
+
         return true
+    }
+
+    private func isPayoneerCheckout(callbackURL url: URL) -> Bool {
+        let payoneerCheckoutScheme = "com.payoneer.checkout.examplecheckout.mobileredirect"
+        return url.scheme == payoneerCheckoutScheme
     }
 }

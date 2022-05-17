@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 /// An object containing relevant information about the result of a checkout operation.
 @objc public class CheckoutResult: NSObject {

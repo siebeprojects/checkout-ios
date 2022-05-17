@@ -6,6 +6,7 @@
 
 import XCTest
 @testable import PayoneerCheckout
+import Networking
 
 class RegistrationOptionsTests: XCTestCase {
     private let localizationProvider = MockFactory.Localization.provider

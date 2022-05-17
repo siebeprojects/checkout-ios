@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 extension UIModel {
     /// Global properties that may be useful but not directly related to applicable network or registered account.
