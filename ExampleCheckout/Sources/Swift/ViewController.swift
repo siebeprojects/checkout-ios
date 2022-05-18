@@ -6,6 +6,7 @@
 
 import UIKit
 import PayoneerCheckout
+import IovationRiskProvider
 
 class ViewController: UITableViewController {
     @IBOutlet private var textField: UITextField!
@@ -112,7 +113,8 @@ extension ViewController {
 
         let configuration = CheckoutConfiguration(
             listURL: url,
-            appearance: appearance
+            appearance: appearance,
+            riskProviders: [IovationRiskProvider.self]
         )
 
         checkout = Checkout(configuration: configuration)
