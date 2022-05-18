@@ -31,15 +31,6 @@ platform :ios do
     )
   end
 
-  desc "Upload binary to Browserstack"
-  lane :browserstack do |options|
-    upload_to_browserstack_app_live(
-      browserstack_username: ENV["BROWSERSTACK_USER"],
-      browserstack_access_key: ENV["BROWSERSTACK_KEY"],
-      file_path: options[:binary]
-    )
-  end
-
   desc "Run UI tests"
   lane :ui_test do |options|
     run_tests(
