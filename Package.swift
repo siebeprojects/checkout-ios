@@ -15,27 +15,37 @@ let package = Package(
         .library(
             name: "IovationRiskProvider",
             targets: ["IovationRiskProvider"]),
+        .library(
+            name: "ApplePayBraintreePaymentService",
+            targets: ["ApplePayBraintreePaymentService"])
     ],
     targets: [
         .target(
             name: "PayoneerCheckout",
             dependencies: ["Risk", "Networking", "Logging", "Payment", "BasicPaymentService"],
-            resources: [
-                .process("Resources")
-            ]
-        ),
-        .target(name: "Networking", dependencies: ["Logging"]),
-        .target(name: "Logging"),
+            resources: [.process("Resources")]),
+        .target(
+            name: "Networking",
+            dependencies: ["Logging"]),
+        .target(
+            name: "Logging"),
 
         // Payment Services
-        .target(name: "Payment", dependencies: ["Networking"]),
+        .target(
+            name: "Payment",
+            dependencies: ["Networking"]),
         .target(
             name: "BasicPaymentService",
             dependencies: ["Networking", "Payment"],
             path: "Sources/PaymentServices/BasicPaymentService"),
+        .target(
+            name: "ApplePayBraintreePaymentService",
+            dependencies: ["Payment"],
+            path: "Sources/PaymentServices/ApplePayBraintreePaymentService"),
 
         // Risk
-        .target(name: "Risk"),
+        .target(
+            name: "Risk"),
         .target(
             name: "IovationRiskProvider",
             dependencies: ["Risk", "FraudForce"]),
@@ -47,9 +57,7 @@ let package = Package(
         .testTarget(
             name: "PayoneerCheckoutTests",
             dependencies: ["PayoneerCheckout", "Risk", "Networking", "IovationRiskProvider"],
-            resources: [
-                .process("Resources")
-            ]),
+            resources: [.process("Resources")]),
         .testTarget(
             name: "PaymentTests",
             dependencies: ["Payment", "Networking"])
