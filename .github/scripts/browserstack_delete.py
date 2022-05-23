@@ -26,8 +26,7 @@ def delete_recent_apps(custom_id: str):
     print(f'Deleting binaries with custom_id {custom_id}')
 
     recent_uploads = get_recent_uploads(custom_id)
-
-    if recent_uploads["message"] is not None:
+    if isinstance(recent_uploads, dict) and recent_uploads["message"] is not None:
         if recent_uploads["message"] == "No results found":
             print("Nothing to delete")
             return
