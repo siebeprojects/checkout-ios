@@ -3,10 +3,13 @@ name: Security scan
 on:
   pull_request:
     paths:
-      - .github/scripts
+      - ".github/scripts/**"
   push:
+    branches:
+      - master
+      - develop
     paths:
-      - .github/scripts
+      - ".github/scripts/**"
 
 concurrency: 
   group: security-${{ github.head_ref }}
