@@ -6,7 +6,7 @@ event_name=$1
 head_ref=$2
 ref=$3
 
-if [ "$event_name" = "pull_request" ]
+if [ $event_name = "pull_request" ]
 then
     branch_name=$head_ref
 else

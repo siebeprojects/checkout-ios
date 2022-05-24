@@ -2,9 +2,11 @@ name: Security scan
 
 on:
   pull_request:
+    paths:
+      - .github/scripts
   push:
-    branches:
-      - PCX-2892-browserstack-master-develop
+    paths:
+      - .github/scripts
 
 concurrency: 
   group: security-${{ github.head_ref }}
@@ -19,13 +21,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@master
+      - name: Installs Rust toolchain
+        uses: actions-rs/toolchain@v1
         with:
-          ignore_paths: Sources/FraudForce
+          profile: minimal
+          toolchain: stable
+          override: true
 
+      - name: Install dependecies
+        run: cargo install shellcheck-sarif sarif-fmt
+
+      - name: Analyze shell scripts
+        run: shellcheck -f json .github/scripts/get_branch_name.sh | shellcheck-sarif | tee
+          results.sarif | sarif-fmt
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
 
   codeql:
+    name: CodeQL
     runs-on: ubuntu-latest
 
     permissions:
@@ -35,11 +51,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Initialize CodeQL
+      - name: Initialize CodeQL for Python
         uses: github/codeql-action/init@v2
         with:
           languages: python
           config-file: ./.github/codeql/python-config.yml
 
-      - name: Perform CodeQL Analysis
+      - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v2
