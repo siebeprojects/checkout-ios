@@ -6,6 +6,7 @@ on:
     branches:
       - master
       - develop
+      - branchtest
 
 concurrency: 
   group: publish-browserstack-${{ github.head_ref }}
