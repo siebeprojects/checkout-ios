@@ -26,7 +26,7 @@ jobs:
       # Replace all non-alphanumeric characters with _
       - name: Create safe branch name
         id: branch
-        run: bash .github/scripts/get_branch_name.sh "${{ github.event_type }}" "${{ github.head_ref }}" "${{ github.ref_name }}"
+        run: bash .github/scripts/get_branch_name.sh "${{ github.event_name }}" "${{ github.head_ref }}" "${{ github.ref_name }}"
 
       # Custom id: add iOS_ prefix to safe branch name
       - name: Create custom_id
