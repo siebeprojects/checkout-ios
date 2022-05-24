@@ -82,7 +82,7 @@ extension RequestSender {
         }
 
         // Send operation request
-        service.send(operationRequest: operationRequest, completion: { [weak self] operationResult, error in
+        service.processPayment(operationRequest: operationRequest, completion: { [weak self] operationResult, error in
             guard let self = self else { return }
 
             let operationResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
