@@ -6,7 +6,6 @@ on:
     branches:
       - master
       - develop
-      - PCX-2892-browserstack-master-develop
 
 concurrency: 
   group: publish-browserstack-${{ github.head_ref }}
