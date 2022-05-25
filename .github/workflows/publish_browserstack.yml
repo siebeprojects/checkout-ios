@@ -42,15 +42,21 @@ jobs:
           file-extension: .ipa
         run: echo "::set-output name=binary-name::${{ steps.branch.outputs.safe-branch-name }}${{ env.file-extension }}"
 
-  cleanup:
-    name: Cleanup old binaries
+  build-and-upload:
+    name: Build & upload
     needs: create-ids
-    runs-on: ubuntu-latest
-    environment: Browserstack
-  
+    runs-on: macos-latest
+    environment: 
+      name: Browserstack
+      url: https://app-live.browserstack.com/
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      # Cleanup
 
       - name: Install Python
         uses: actions/setup-python@v3
@@ -67,21 +73,7 @@ jobs:
           BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
         run: python .github/scripts/browserstack_delete.py ${{ needs.create-ids.outputs.custom-id }}
 
-  build:
-    name: Build & upload
-    needs: 
-      - create-ids
-      - cleanup
-    runs-on: macos-latest
-    environment: 
-      name: Browserstack
-      url: https://app-live.browserstack.com/
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          submodules: true
+      # Build
 
       - name: Install dependencies specified in Gemfile
         uses: ruby/setup-ruby@v1
@@ -126,6 +118,8 @@ jobs:
         run: |
           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+
+      # Upload to Browserstack
 
       - name: Upload to BrowserStack
         env: 
