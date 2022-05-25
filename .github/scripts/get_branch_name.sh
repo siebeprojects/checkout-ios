@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Format: get_branch_name.sh <github.event_name> <github.head_ref> <github.ref_name>
+# Usage: get_branch_name.sh <github.event_name> <github.head_ref> <github.ref_name>
 
 event_name=$1
 head_ref=$2
