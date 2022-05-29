@@ -2,7 +2,9 @@ name: Cleanup Browserstack
 
 on:
   pull_request:
-    types: [ closed ]
+    types: 
+      - converted_to_draft
+      - closed
 
 jobs:
   create-ids:
