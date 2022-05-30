@@ -11,7 +11,7 @@ import Logging
 
 public extension NetworkRequest {
     /// Request for an operation (`links.operation`).
-    struct Operation: PostRequest {
+    struct Charge: PostRequest {
         public let url: URL
         public let queryItems = [URLQueryItem]()
         public var body: Body? { chargeBody }
@@ -28,7 +28,7 @@ public extension NetworkRequest {
 }
 
 @available(iOS 14.0, *)
-extension NetworkRequest.Operation: Loggable {
+extension NetworkRequest.Charge: Loggable {
     public func logRequest() {
         logger.notice("[POST] ➡️ Operation request: \(url.absoluteString, privacy: .private)")
     }
@@ -40,19 +40,21 @@ extension NetworkRequest.Operation: Loggable {
 
 // MARK: - Body
 
-public extension NetworkRequest.Operation {
+public extension NetworkRequest.Charge {
     struct Body: Encodable {
         var account = [String: String]()
         var autoRegistration: Bool?
         var allowRecurrence: Bool?
+        var providerRequest: ProviderParameters?
         var providerRequests: [ProviderParameters]?
 
         let browserData: BrowserData
 
-        public init(account: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?, providerRequests: [ProviderParameters]?) {
+        public init(account: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?, providerRequest: ProviderParameters?, providerRequests: [ProviderParameters]?) {
             self.account = account
             self.autoRegistration = autoRegistration
             self.allowRecurrence = allowRecurrence
+            self.providerRequest = providerRequest
             self.providerRequests = providerRequests
             self.browserData = BrowserDataBuilder.build()
         }

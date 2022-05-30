@@ -34,8 +34,8 @@ import Payment
 
     // MARK: - Send operation
 
-    public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
-        let networkRequest: NetworkRequest.Operation
+    public func processPayment(operationRequest: OperationRequest, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: @escaping (UIViewController) -> Void) {
+        let networkRequest: NetworkRequest.Charge
         do {
             networkRequest = try NetworkRequestBuilder().create(from: operationRequest)
         } catch {
@@ -50,7 +50,7 @@ import Payment
         operation.start()
     }
 
-    private func operationResponseHandler(requestResult: Result<OperationResult, Error>, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
+    private func operationResponseHandler(requestResult: Result<OperationResult, Error>, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: @escaping (UIViewController) -> Void) {
         switch requestResult {
         case .success(let operationResult):
             let redirectParser = RedirectResponseParser(supportedRedirectTypes: supportedRedirectTypes)

@@ -35,3 +35,42 @@ extension NetworkRequest.GetListResult: Loggable {
         logger.notice("[GET] ✅ \(response.resultInfo, privacy: .private)")
     }
 }
+
+
+
+
+
+// TODO: Temp
+
+public extension NetworkRequest {
+    struct OnSelectRequest: PostRequest {
+        public var url: URL
+        public let body: EmptyObject? = EmptyObject()
+        public let queryItems: [URLQueryItem] = []
+
+        public typealias Response = OperationResult
+
+        /// - Parameter url: `self` link from payment session
+        public init(url: URL) {
+            self.url = url
+        }
+    }
+}
+
+public extension NetworkRequest.OnSelectRequest {
+    struct EmptyObject: Encodable {
+        fileprivate init() {}
+    }
+}
+
+
+@available(iOS 14.0, *)
+extension NetworkRequest.OnSelectRequest: Loggable {
+    public func logRequest() {
+        logger.notice("[POST] ➡️ OnSelect call")
+    }
+
+    public func logResponse(_ response: Response) {
+        logger.notice("[POST] ✅ \(response.resultInfo, privacy: .private)")
+    }
+}

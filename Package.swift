@@ -17,7 +17,10 @@ let package = Package(
             targets: ["IovationRiskProvider"]),
         .library(
             name: "ApplePayBraintreePaymentService",
-            targets: ["ApplePayBraintreePaymentService"])
+            targets: ["ApplePayBraintreePaymentService"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/braintree/braintree_ios", from: "5.7.0"),
     ],
     targets: [
         .target(
@@ -40,7 +43,7 @@ let package = Package(
             path: "Sources/PaymentServices/BasicPaymentService"),
         .target(
             name: "ApplePayBraintreePaymentService",
-            dependencies: ["Payment"],
+            dependencies: ["PayoneerCheckout", "Networking", "Payment", .product(name: "BraintreeApplePay", package: "braintree_ios")],
             path: "Sources/PaymentServices/ApplePayBraintreePaymentService"),
 
         // Risk

@@ -9,14 +9,11 @@ import Networking
 import UIKit
 
 @objc public protocol PaymentService: AnyObject {
-    typealias CompletionBlock = (OperationResult?, Error?) -> Void
-    typealias PresentationBlock = (UIViewController) -> Void
-
     /// Returns whether the service can make payments
     static func isSupported(networkCode: String, paymentMethod: String?) -> Bool
 
-    func processPayment(operationRequest: OperationRequest, completion: @escaping CompletionBlock, presentationRequest: @escaping PresentationBlock)
-    func delete(accountUsing accountURL: URL, completion: @escaping CompletionBlock)
+    func processPayment(operationRequest: OperationRequest, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: @escaping (UIViewController) -> Void)
+    func delete(accountUsing accountURL: URL, completion: @escaping (OperationResult?, Error?) -> Void)
 
     init(connection: Connection, openAppWithURLNotificationName: NSNotification.Name)
 }
