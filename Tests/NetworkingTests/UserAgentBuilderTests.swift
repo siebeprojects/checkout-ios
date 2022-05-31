@@ -16,5 +16,4 @@ public class UserAgentBuilderTests: XCTestCase {
         let stringMatchesRegex = userAgentValue.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
         XCTAssert(stringMatchesRegex)
     }
-
 }

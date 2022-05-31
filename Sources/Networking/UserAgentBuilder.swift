@@ -80,7 +80,6 @@ class UserAgentBuilder {
         return output
     }
 
-
     /// Get version number specified in `Resources/version.json` file. Returns `nil` if version couldn't be obtained.
     private func getVersionNumber() -> String? {
         guard
