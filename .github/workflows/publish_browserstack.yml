@@ -2,6 +2,12 @@ name: Publish to BrowserStack
 
 on:
   pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
   push:
     branches:
       - master
@@ -15,6 +21,7 @@ jobs:
   create-ids:
     name: Create app identifiers
     runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
     outputs:
       custom-id: ${{ steps.custom-id.outputs.custom-id }}
       binary-name: ${{ steps.binary-name.outputs.binary-name }}
