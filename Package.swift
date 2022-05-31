@@ -24,7 +24,12 @@ let package = Package(
                 .process("Resources")
             ]
         ),
-        .target(name: "Networking", dependencies: ["Logging"]),
+        .target(
+            name: "Networking",
+            dependencies: ["Logging"],
+            resources: [
+                .process("Resources")
+            ]),
         .target(name: "Logging"),
 
         // Payment Services

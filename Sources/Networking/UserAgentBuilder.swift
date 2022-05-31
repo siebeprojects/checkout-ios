@@ -5,14 +5,19 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Foundation
 
 class UserAgentBuilder {
     init() {}
 
     /// Create a version string that should be used as user-agent header's value
-    /// Output format: `IOSApp/<App versionNumber> (App identifier; App name; App buildNumber) IOSPlatform/<major.minor.patch OS version> (Device model)`
+    /// Output format: `IOSSDK/<SDK versionNumber> IOSApp/<App versionNumber> (App identifier; App name; App buildNumber) IOSPlatform/<major.minor.patch OS version> (Device model)`
     func createUserAgentValue() -> String {
         var outputSlices = [String]()
+
+        if let frameworkVersion = self.frameworkVersion {
+            outputSlices.append(frameworkVersion)
+        }
 
         if let applicationVersion = applicationVersion {
             outputSlices.append(applicationVersion)
@@ -20,7 +25,8 @@ class UserAgentBuilder {
 
         outputSlices.append(platformVersion)
 
-        return outputSlices.joined(separator: " ")
+        let outputString = outputSlices.joined(separator: " ")
+        return outputString
     }
 
     /// Returns platform version.
@@ -63,4 +69,33 @@ class UserAgentBuilder {
 
         return outputValue
     }
+
+    /// Returns framework version, e.g.: `IOSSDK/1.2.3`
+    private var frameworkVersion: String? {
+        let frameworkName = "IOSSDK"
+
+        guard let version = getVersionNumber() else { return nil }
+
+        let output = frameworkName + "/" + version
+        return output
+    }
+
+
+    /// Get version number specified in `Resources/version.json` file. Returns `nil` if version couldn't be obtained.
+    private func getVersionNumber() -> String? {
+        guard
+            let url = Bundle.module.url(forResource: "version", withExtension: "json"),
+            let data = try? Data(contentsOf: url),
+            let versionContainer = try? JSONDecoder().decode(VersionContainer.self, from: data)
+        else {
+            return nil
+        }
+
+        return versionContainer.version
+    }
+}
+
+/// Scheme for `version.json` file.
+private struct VersionContainer: Decodable {
+    let version: String
 }
