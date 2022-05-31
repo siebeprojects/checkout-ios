@@ -57,6 +57,9 @@ let package = Package(
             ]),
         .testTarget(
             name: "PaymentTests",
-            dependencies: ["Payment", "Networking"])
+            dependencies: ["Payment", "Networking"]),
+        .testTarget(
+            name: "NetworkingTests",
+            dependencies: ["Networking"])
     ]
 )
