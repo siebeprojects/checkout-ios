@@ -5,27 +5,35 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Foundation
+import Logging
 
-class UserAgentBuilder {
+class UserAgentBuilder: Loggable {
     init() {}
 
     /// Create a version string that should be used as user-agent header's value
-    /// Output format: `IOSApp/<App versionNumber> (App identifier; App name; App buildNumber) IOSPlatform/<major.minor.patch OS version> (Device model)`
+    /// Output format: `IOSSDK/<SDK versionNumber> IOSApp/<App versionNumber> (App identifier; App name; App buildNumber) IOSPlatform/<major.minor.patch OS version> (Device model)`
     func createUserAgentValue() -> String {
         var outputSlices = [String]()
 
-        if let applicationVersion = applicationVersion {
-            outputSlices.append(applicationVersion)
+        do {
+            try outputSlices.append(getFrameworkVersion())
+            try outputSlices.append(getApplicationVersion())
+        } catch {
+            if #available(iOS 14.0, *) {
+                error.log(to: logger, level: .info)
+            }
         }
 
-        outputSlices.append(platformVersion)
+        outputSlices.append(getPlatformVersion())
 
-        return outputSlices.joined(separator: " ")
+        let outputString = outputSlices.joined(separator: " ")
+        return outputString
     }
 
     /// Returns platform version.
     /// Example: `IOSPlatform/14.2.0 (iPhone)`
-    private var platformVersion: String {
+    private func getPlatformVersion() -> String {
         let prefix = "IOSPlatform"
 
         let version = UIDevice.current.systemVersion
@@ -36,14 +44,16 @@ class UserAgentBuilder {
 
     /// Returns application version string.
     /// Example output: `IOSApp/3.2.1 (bundle.id; Example SDK; 50)`
-    private var applicationVersion: String? {
-        guard let applicationInfoDictionary = Bundle.main.infoDictionary else { return nil }
+    private func getApplicationVersion() throws -> String {
+        guard let applicationInfoDictionary = Bundle.main.infoDictionary else {
+            throw NetworkingError(description: "Unable to read application's Info.plist")
+        }
 
         let prefix = "IOSApp"
 
         guard let applicationVersion = applicationInfoDictionary["CFBundleShortVersionString"] as? String else {
             // Don't return application version if we can't get a version number
-            return nil
+            throw NetworkingError(description: "Couldn't obtain application's version number (CFBundleShortVersionString)")
         }
 
         // Detailed information in brackets
@@ -63,4 +73,29 @@ class UserAgentBuilder {
 
         return outputValue
     }
+
+    /// Returns framework version, e.g.: `IOSSDK/1.2.3`
+    private func getFrameworkVersion() throws -> String {
+        let frameworkName = "IOSSDK"
+        let version = try getVersionNumber()
+        let output = frameworkName + "/" + version
+        return output
+    }
+
+    /// Get version number specified in `Resources/version.json` file. Returns `nil` if version couldn't be obtained.
+    private func getVersionNumber() throws -> String {
+        guard let url = Bundle.module.url(forResource: "version", withExtension: "json") else {
+            throw NetworkingError(description: "Unable to build url for version.json")
+        }
+
+        let data = try Data(contentsOf: url)
+        let versionContainer = try JSONDecoder().decode(VersionContainer.self, from: data)
+
+        return versionContainer.version
+    }
+}
+
+/// Scheme for `version.json` file.
+private struct VersionContainer: Decodable {
+    let version: String
 }

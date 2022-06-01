@@ -24,7 +24,12 @@ let package = Package(
                 .process("Resources")
             ]
         ),
-        .target(name: "Networking", dependencies: ["Logging"]),
+        .target(
+            name: "Networking",
+            dependencies: ["Logging"],
+            resources: [
+                .process("Resources")
+            ]),
         .target(name: "Logging"),
 
         // Payment Services
@@ -52,6 +57,9 @@ let package = Package(
             ]),
         .testTarget(
             name: "PaymentTests",
-            dependencies: ["Payment", "Networking"])
+            dependencies: ["Payment", "Networking"]),
+        .testTarget(
+            name: "NetworkingTests",
+            dependencies: ["Networking"])
     ]
 )
