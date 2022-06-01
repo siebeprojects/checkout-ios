@@ -11,6 +11,7 @@
 		070CAE9427D2284A00DE9706 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CAE9227D2284A00DE9706 /* NavigationTests.swift */; };
 		07103F6827FEFFA700098942 /* ListSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07103F6727FEFFA700098942 /* ListSettings.swift */; };
 		07103F6927FEFFA700098942 /* ListSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07103F6727FEFFA700098942 /* ListSettings.swift */; };
+		071467B628478FB2007344D3 /* ApplePayBraintreePaymentService in Frameworks */ = {isa = PBXBuildFile; productRef = 071467B528478FB2007344D3 /* ApplePayBraintreePaymentService */; };
 		0720167527FAE4FE00800598 /* CustomFontProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0720167427FAE4FE00800598 /* CustomFontProvider.swift */; };
 		0720167827FAF31D00800598 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0720167627FAF31D00800598 /* Rubik-Bold.ttf */; };
 		0720167927FAF31D00800598 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0720167727FAF31D00800598 /* Rubik-Regular.ttf */; };
@@ -285,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */,
+				071467B628478FB2007344D3 /* ApplePayBraintreePaymentService in Frameworks */,
 				074E02B928351DEB00C24AF2 /* IovationRiskProvider in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -586,6 +588,7 @@
 			packageProductDependencies = (
 				0767BBC4274BF25100005D30 /* PayoneerCheckout */,
 				074E02B828351DEB00C24AF2 /* IovationRiskProvider */,
+				071467B528478FB2007344D3 /* ApplePayBraintreePaymentService */,
 			);
 			productName = Example;
 			productReference = D9E0AEAD234143BD0021184C /* CheckoutSwift.app */;
@@ -1234,6 +1237,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		071467B528478FB2007344D3 /* ApplePayBraintreePaymentService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ApplePayBraintreePaymentService;
+		};
 		074E02B828351DEB00C24AF2 /* IovationRiskProvider */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = IovationRiskProvider;
