@@ -39,15 +39,16 @@ jobs:
       - name: Create custom_id
         id: custom-id
         env:
-          prefix: iOS_
+          prefix: iOS-Checkout-
         run: echo "::set-output name=custom-id::${{ env.prefix }}${{ steps.branch.outputs.safe-branch-name }}"
 
       # Binary name: add .ipa suffix to safe branch name
       - name: Create binary name
         id: binary-name
         env:
+          prefix: Checkout-
           file-extension: .ipa
-        run: echo "::set-output name=binary-name::${{ steps.branch.outputs.safe-branch-name }}${{ env.file-extension }}"
+        run: echo "::set-output name=binary-name::${{ env.prefix }}${{ steps.branch.outputs.safe-branch-name }}${{ env.file-extension }}"
 
   build-and-upload:
     name: Build & upload
