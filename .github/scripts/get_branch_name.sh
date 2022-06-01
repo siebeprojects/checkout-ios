@@ -14,4 +14,4 @@ else
 fi
 
 echo -n "::set-output name=safe-branch-name::"
-echo "${branch_name/[^[:alnum:]-]/_}"
+echo "${branch_name/[^[:alnum:]-]/-}"
