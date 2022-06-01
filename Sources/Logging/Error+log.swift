@@ -8,10 +8,10 @@ import Foundation
 import os.log
 
 @available(iOS 14.0, *)
-extension Error {
-    func log(to logger: Logger) {
+public extension Error {
+    func log(to logger: Logger, level: OSLogType = .error) {
         var text = String()
         dump(self, to: &text)
-        logger.error("\(text)")
+        logger.log(level: level, "\(text)")
     }
 }
