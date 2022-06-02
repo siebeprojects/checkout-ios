@@ -7,14 +7,57 @@
 import Foundation
 import Networking
 
-@objc public class OperationRequest: NSObject {
-    public init(networkInformation: NetworkInformation, form: Form?, riskData: [ProviderParameters]?) {
-        self.networkInformation = networkInformation
-        self.form = form
-        self.riskData = riskData
+public protocol OperationRequest {
+    var operationType: String { get }
+    func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void))
+}
+
+public struct PaymentRequest: OperationRequest {
+    /// Payment network code.
+    let networkCode: String
+    let operationURL: URL
+    var inputFields: [String: String] = [:]
+    var autoRegistration: Bool?
+    var allowRecurrence: Bool?
+    public let operationType: String
+    var providerRequest: ProviderParameters?
+    let providerRequests: [ProviderParameters]?
+
+    public init(networkCode: String, operationURL: URL, inputFields: [String : String] = [:], autoRegistration: Bool? = nil, allowRecurrence: Bool? = nil, operationType: String, providerRequest: ProviderParameters? = nil, providerRequests: [ProviderParameters]?) {
+        self.networkCode = networkCode
+        self.operationURL = operationURL
+        self.inputFields = inputFields
+        self.autoRegistration = autoRegistration
+        self.allowRecurrence = allowRecurrence
+        self.operationType = operationType
+        self.providerRequest = providerRequest
+        self.providerRequests = providerRequests
     }
 
-    public let networkInformation: NetworkInformation
-    public let form: Form?
-    public let riskData: [ProviderParameters]?
+    public func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
+        let chargeRequestBody = NetworkRequest.Charge.Body(account: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence, providerRequest: providerRequest, providerRequests: providerRequests)
+        let chargeRequest = NetworkRequest.Charge(from: operationURL, body: chargeRequestBody)
+        let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
+        chargeOperation.downloadCompletionBlock = completion
+        chargeOperation.start()
+    }
+}
+
+public struct OnSelectRequest: OperationRequest {
+    let operationURL: URL
+    public let operationType: String
+    let paymentRequest: PaymentRequest
+
+    public init(operationURL: URL, operationType: String, paymentRequest: PaymentRequest) {
+        self.operationURL = operationURL
+        self.operationType = operationType
+        self.paymentRequest = paymentRequest
+    }
+
+    public func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
+        let onSelectRequest = NetworkRequest.OnSelectRequest(url: operationURL)
+        let operation = SendRequestOperation(connection: connection, request: onSelectRequest)
+        operation.downloadCompletionBlock = completion
+        operation.start()
+    }
 }

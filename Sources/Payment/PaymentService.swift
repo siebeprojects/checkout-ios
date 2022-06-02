@@ -8,7 +8,7 @@ import Foundation
 import Networking
 import UIKit
 
-@objc public protocol PaymentService: AnyObject {
+public protocol PaymentService: AnyObject {
     /// Returns whether the service can make payments
     static func isSupported(networkCode: String, paymentMethod: String?) -> Bool
 

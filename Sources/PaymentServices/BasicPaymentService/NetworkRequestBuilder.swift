@@ -8,31 +8,31 @@ import Foundation
 import Payment
 import Networking
 
-struct NetworkRequestBuilder {
-    func create(from operationRequest: OperationRequest) throws -> NetworkRequest.Charge {
-        guard let operationURL = operationRequest.networkInformation.links["operation"] else {
-            throw NetworkRequestBuilderError.missingOperationLink
-        }
-
-        let body = NetworkRequest.Charge.Body(
-            account: operationRequest.form?.inputFields ?? [:],
-            autoRegistration: operationRequest.form?.autoRegistration,
-            allowRecurrence: operationRequest.form?.allowRecurrence,
-            providerRequest: nil,
-            providerRequests: operationRequest.riskData
-        )
-
-        let networkRequest = NetworkRequest.Charge(from: operationURL, body: body)
-        return networkRequest
-    }
-}
-
-private enum NetworkRequestBuilderError: LocalizedError {
-    case missingOperationLink
-
-    var errorDescription: String? {
-        switch self {
-        case .missingOperationLink: return "OperationRequest doesn't contain links.operations which is mandatory"
-        }
-    }
-}
+//struct NetworkRequestBuilder {
+//    func create(from operationRequest: OperationRequest) throws -> NetworkRequest.Charge {
+//        guard let operationURL = operationRequest.networkInformation.links["operation"] else {
+//            throw NetworkRequestBuilderError.missingOperationLink
+//        }
+//
+//        let body = NetworkRequest.Charge.Body(
+//            account: operationRequest.form?.inputFields ?? [:],
+//            autoRegistration: operationRequest.form?.autoRegistration,
+//            allowRecurrence: operationRequest.form?.allowRecurrence,
+//            providerRequest: nil,
+//            providerRequests: operationRequest.riskData
+//        )
+//
+//        let networkRequest = NetworkRequest.Charge(from: operationURL, body: body)
+//        return networkRequest
+//    }
+//}
+//
+//private enum NetworkRequestBuilderError: LocalizedError {
+//    case missingOperationLink
+//
+//    var errorDescription: String? {
+//        switch self {
+//        case .missingOperationLink: return "OperationRequest doesn't contain links.operations which is mandatory"
+//        }
+//    }
+//}

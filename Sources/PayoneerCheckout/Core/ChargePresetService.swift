@@ -106,13 +106,17 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             return
         }
 
-        // Prepare OperationRequest
-        let networkInformation = NetworkInformation(networkCode: presetAccount.code, paymentMethod: presetAccount.method, operationType: operationType, links: presetAccount.links)
-        let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil, riskData: riskData)
+        guard let operationURL = presetAccount.links["operation"] else {
+            let error = InternalError(description: "Preset account doesn't contain links.operation property, unable to charge")
+            throw error
+        }
+
+        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType, providerRequests: riskData)
+        let onSelectRequest = OnSelectRequest(operationURL: operationURL, operationType: operationType, paymentRequest: paymentRequest)
 
         // Send request
         service.processPayment(
-            operationRequest: operationRequest,
+            operationRequest: onSelectRequest,
             completion: { [weak self] result, error in
                 guard let operationResult = self?.convertToResult(object: result, error: error) else { return }
 

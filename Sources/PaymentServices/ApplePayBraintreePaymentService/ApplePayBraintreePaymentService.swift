@@ -12,44 +12,6 @@ import PassKit
 import BraintreeApplePay
 import os.log
 
-protocol OperationRequest {
-    var operationType: String { get }
-    func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void))
-}
-
-struct PaymentRequest: OperationRequest {
-    /// Payment network code.
-    let networkCode: String
-    let operationURL: URL
-    var inputFields: [String: String] = [:]
-    var autoRegistration: Bool?
-    var allowRecurrence: Bool?
-    let operationType: String
-    var providerRequest: ProviderParameters?
-    let providerRequests: [ProviderParameters]?
-
-    func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
-        let chargeRequestBody = NetworkRequest.Charge.Body(account: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence, providerRequest: providerRequest, providerRequests: providerRequests)
-        let chargeRequest = NetworkRequest.Charge(from: operationURL, body: chargeRequestBody)
-        let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
-        chargeOperation.downloadCompletionBlock = completion
-        chargeOperation.start()
-    }
-}
-
-struct OnSelectRequest: OperationRequest {
-    let operationURL: URL
-    let operationType: String
-    let paymentRequest: PaymentRequest
-
-    func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
-        let onSelectRequest = NetworkRequest.OnSelectRequest(url: operationURL)
-        let operation = SendRequestOperation(connection: connection, request: onSelectRequest)
-        operation.downloadCompletionBlock = completion
-        operation.start()
-    }
-}
-
 
 
 
@@ -74,18 +36,27 @@ struct OnSelectRequest: OperationRequest {
         }
 
         onSelectRequest.send(using: connection) { result in
-//            guard let tokenizationKey = operationResult.providerResponse?.parameters?["braintreeJsAuthorisation"] else {
-//                throw InternalError(description: "OperationResult doesn't contain braintreeJsAuthorisation")
-//            }
-//
-//            guard let braintreeClient = BTAPIClient(authorization: tokenizationKey) else {
-//                throw InternalError(description: "Unable to initialize Braintree client, tokenization key could be incorrect")
-//            }
+            switch result {
+            case .success(let operationResult):
+                print(operationResult)
 
-//            print(tokenizationKey)
-//            print(braintreeClient)
+                guard let tokenizationKey = operationResult.providerResponse?.parameters?.first(where: { $0.name == "braintreeJsAuthorisation" })?.value else {
+                    print("OperationResult doesn't contain braintreeJsAuthorisation")
+                    return
+                }
 
-            print(result)
+                guard let braintreeClient = BTAPIClient(authorization: tokenizationKey) else {
+                    print("Unable to initialize Braintree client, tokenization key could be incorrect")
+                    return
+                }
+
+                print(tokenizationKey)
+
+                print("SUCCESS")
+
+            case .failure(let error):
+                print(error)
+            }
         }
 
 //        BTAPIClient(authorization: <#T##String#>)
