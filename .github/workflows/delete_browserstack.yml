@@ -1,0 +1,56 @@
+name: Cleanup Browserstack
+
+on:
+  pull_request:
+    types: 
+      - converted_to_draft
+      - closed
+
+jobs:
+  create-ids:
+    name: Create app identifiers
+    runs-on: ubuntu-latest
+    outputs:
+      custom-id: ${{ steps.custom-id.outputs.custom-id }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Replace all non-alphanumeric characters with _
+      - name: Create safe branch name
+        id: branch
+        run: bash .github/scripts/get_branch_name.sh "${{ github.event_name }}" "${{ github.head_ref }}" "${{ github.ref_name }}"
+
+      # Custom id: add iOS_ prefix to safe branch name
+      - name: Create custom_id
+        id: custom-id
+        env:
+          prefix: iOS-Checkout-
+        run: echo "::set-output name=custom-id::${{ env.prefix }}${{ steps.branch.outputs.safe-branch-name }}"
+
+  delete:
+    name: Delete binaries
+    needs: create-ids
+    runs-on: macos-latest
+    environment: 
+      name: Browserstack
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r .github/scripts/requirements.txt
+
+      - name: Delete binaries from Browserstack
+        env:
+          BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
+          BROWSERSTACK_KEY: ${{ secrets.BROWSERSTACK_KEY }}
+        run: python .github/scripts/browserstack_delete.py ${{ needs.create-ids.outputs.custom-id }}

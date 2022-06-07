@@ -6,47 +6,52 @@
 
 import Foundation
 import Risk
+import Networking
+import UIKit
+import Payment
 
 protocol ChargePresetServiceProtocol {
-    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void)
+    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void)
 }
 
 final class ChargePresetService: ChargePresetServiceProtocol {
-    private var redirectCallbackHandler: RedirectCallbackHandler?
-    private var paymentService: PaymentService?
+    private let paymentServiceFactory: PaymentServicesFactory
+
     private let connection: Connection = URLSessionConnection()
-    private let riskProviders: [RiskProvider.Type]
+    private var riskService: RiskService
 
-    private var completionBlock: ((_ result: CheckoutResult) -> Void)?
-    private var authenticationChallengeReceivedBlock: ((_ url: URL) -> Void)?
-
-    init(riskProviders: [RiskProvider.Type]) {
-        self.riskProviders = riskProviders
+    init(paymentServices: [PaymentService.Type], riskService: RiskService) {
+        self.paymentServiceFactory = PaymentServicesFactory(connection: connection, services: paymentServices)
+        self.riskService = riskService
     }
 
-    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (_ url: URL) -> Void) {
-        self.completionBlock = completion
-        self.authenticationChallengeReceivedBlock = authenticationChallengeReceived
-
+    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void) {
         getListResult(from: listResultURL) { [weak self] result in
             switch result {
             case .success(let listResult):
                 do {
-                    var riskService = RiskService(providers: self?.riskProviders ?? [])
-
-                    if let riskProviders = listResult.riskProviders {
-                        riskService.loadRiskProviders(using: riskProviders)
+                    if let riskProviderParameters = listResult.riskProviders {
+                        self?.riskService.loadRiskProviders(withParameters: riskProviderParameters)
                     }
 
-                    try self?.chargePresetAccount(from: listResult, riskService: riskService)
+                    try self?.chargePresetAccount(
+                        from: listResult,
+                        completion: { result in
+                            DispatchQueue.main.async {
+                                completion(result)
+                            }
+                        },
+                        presentationRequest: { viewControllerToPresent in
+                            DispatchQueue.main.async {
+                                presentationRequest(viewControllerToPresent)
+                            }
+                        })
                 } catch {
                     let errorInfo = CustomErrorInfo.createClientSideError(from: error)
                     let result = CheckoutResult(operationResult: .failure(errorInfo))
 
                     DispatchQueue.main.async {
-                        self?.completionBlock?(result)
-                        self?.completionBlock = nil
-                        self?.authenticationChallengeReceivedBlock = nil
+                        completion(result)
                     }
                 }
             case .failure(let error):
@@ -58,9 +63,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
                 let result = CheckoutResult(operationResult: .failure(errorInfo))
 
                 DispatchQueue.main.async {
-                    self?.completionBlock?(result)
-                    self?.completionBlock = nil
-                    self?.authenticationChallengeReceivedBlock = nil
+                    completion(result)
                 }
             }
         }
@@ -80,60 +83,60 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         getListResultOperation.start()
     }
 
-    /// - Throws: `InternalError`
-    private func chargePresetAccount(from listResult: ListResult, riskService: RiskService) throws {
+    private func chargePresetAccount(from listResult: ListResult, completion: @escaping (_ result: CheckoutResult) -> Void, presentationRequest: @escaping (_ viewControllerToPresent: UIViewController) -> Void) throws {
         guard let presetAccount = listResult.presetAccount else {
             let error = InternalError(description: "Payment session doesn't contain preset account")
             throw error
         }
 
-        guard
-            let operationType = listResult.operationType,
-            operationType == "PRESET"
-        else {
+        guard let operationType = listResult.operationType, operationType == "PRESET" else {
             let error = InternalError(description: "List result doesn't contain operation type or operation type is not PRESET")
-            throw error
-        }
-
-        guard let operationURL = presetAccount.links["operation"] else {
-            let error = InternalError(description: "Preset account doesn't contain links.operation property, unable to charge")
             throw error
         }
 
         let riskData = riskService.collectRiskData()
 
-        let paymentRequest = PaymentRequest(networkCode: presetAccount.code, operationURL: operationURL, operationType: operationType, providerRequests: riskData)
-
-        let factory = PaymentServicesFactory(connection: connection)
-        factory.registerServices()
-        guard let paymentService = factory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method) else {
-            let error = InternalError(description: "Network code or payment method is not supported by any of payment services")
-            throw error
+        // Find payment service
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method)
+        else {
+            let error = InternalError(description: "Payment service for preset account wasn't found")
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            let result = CheckoutResult(operationResult: .failure(errorInfo))
+            completion(result)
+            return
         }
-        self.paymentService = paymentService
-        paymentService.delegate = self
-        paymentService.send(operationRequest: paymentRequest)
+
+        // Prepare OperationRequest
+        let networkInformation = NetworkInformation(networkCode: presetAccount.code, paymentMethod: presetAccount.method, operationType: operationType, links: presetAccount.links)
+        let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil, riskData: riskData)
+
+        // Send request
+        service.send(
+            operationRequest: operationRequest,
+            completion: { [weak self] result, error in
+                guard let operationResult = self?.convertToResult(object: result, error: error) else { return }
+
+                let checkoutResult = CheckoutResult(operationResult: operationResult)
+                completion(checkoutResult)
+            },
+            presentationRequest: presentationRequest
+        )
     }
-}
 
-extension ChargePresetService: PaymentServiceDelegate {
-    func paymentService(didReceiveResponse response: PaymentServiceParsedResponse, for request: OperationRequest) {
-        paymentService = nil
-
-        switch response {
-        case .result(let result):
-            let result = CheckoutResult(operationResult: result)
-
-            DispatchQueue.main.async { [weak self] in
-                self?.completionBlock?(result)
-                self?.completionBlock = nil
-                self?.authenticationChallengeReceivedBlock = nil
-            }
-        case .redirect(let url):
-            DispatchQueue.main.async { [weak self] in
-                self?.authenticationChallengeReceivedBlock?(url)
-                self?.authenticationChallengeReceivedBlock = nil
-            }
+    /// Converts object and error optionals to `Result` with a defined state.
+    private func convertToResult<T>(object: T?, error: Error?) -> Result <T, ErrorInfo> {
+        if let errorInfo = error as? ErrorInfo {
+            return .failure(errorInfo)
+        } else if let error = error {
+            return .failure(CustomErrorInfo.createClientSideError(from: error))
         }
+
+        guard let object = object else {
+            let error = InternalError(description: "Malformed response: both data and error objects are nil")
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            return .failure(errorInfo)
+        }
+
+        return .success(object)
     }
 }

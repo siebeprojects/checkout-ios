@@ -5,6 +5,8 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
+import Logging
 
 extension Input.ModelTransformer {
     struct ExtraElementsTransformer {

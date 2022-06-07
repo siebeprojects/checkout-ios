@@ -95,9 +95,7 @@ extension Input.Table {
             // I disable animation for iOS 12 and lower because it cause animation bugs (it's related to dynamic cell size calculations) and animation for that block is not important.
             // Radar: http://www.openradar.me/23728611
             // Article describing the same situation: https://jakubturek.com/uicollectionview-self-sizing-cells-animation/
-            if #available(iOS 13, *) {
-                // Everything is okay, nothing to disable
-            } else {
+            if #available(iOS 13, *) {} else {
                 UIView.setAnimationsEnabled(false)
             }
 
@@ -105,9 +103,7 @@ extension Input.Table {
                 let diff = DataSource.Diff(old: oldModel, new: newModel)
                 diff.applyChanges(for: collectionView)
             }, completion: { _ in
-                if #available(iOS 13, *) {
-                    // Animations weren't disabled, skip it
-                } else {
+                if #available(iOS 13, *) {} else {
                     UIView.setAnimationsEnabled(true)
                 }
             })

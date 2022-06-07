@@ -4,8 +4,9 @@
 // This file is open source and available under the MIT license.
 // See the LICENSE file for more information.
 
-import Foundation
+import UIKit
 @testable import PayoneerCheckout
+import Networking
 
 final class MockChargePresetService: ChargePresetServiceProtocol {
     enum Result {
@@ -15,12 +16,12 @@ final class MockChargePresetService: ChargePresetServiceProtocol {
 
     var result: MockChargePresetService.Result = .completion
 
-    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (CheckoutResult) -> Void, authenticationChallengeReceived: @escaping (URL) -> Void) {
+    func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (CheckoutResult) -> Void, presentationRequest: @escaping (UIViewController) -> Void) {
         switch result {
         case .completion:
             completion(CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         case .authenticationChallenge:
-            authenticationChallengeReceived(URL(string: "https://")!)
+            presentationRequest(UIViewController())
         }
     }
 }

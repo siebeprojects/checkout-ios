@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 /// Service responsible for localization file downloads and model localizations
 final class DownloadTranslationService {

@@ -6,6 +6,7 @@
 
 import XCTest
 @testable import PayoneerCheckout
+import Networking
 
 final class NetworkTests: XCTestCase {
     func testGetListResult() {

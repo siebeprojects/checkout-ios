@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Logging
 
 protocol TranslationProvider: Loggable {
     var translations: [[String: String]] { get }

@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import UIKit
+import Networking
 
 extension UIAlertController {
     /// Error with title and message, prefer using it in `UIAlertViewController`

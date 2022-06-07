@@ -6,37 +6,38 @@
 
 import Foundation
 import Risk
+import Networking
 
 class PaymentSessionProvider {
     private let sharedTranslationProvider: SharedTranslationProvider
     private let provider: ListResultProvider
     private let connection: Connection
     private let paymentSessionURL: URL
-    private let riskProviders: [RiskProvider.Type]
+    private var riskService: RiskService
 
     private var listResult: ListResult?
 
-    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider, riskProviders: [RiskProvider.Type]) {
+    init(paymentSessionURL: URL, connection: Connection, paymentServicesFactory: PaymentServicesFactory, localizationsProvider: SharedTranslationProvider, riskService: RiskService) {
         self.paymentSessionURL = paymentSessionURL
         self.connection = connection
         self.sharedTranslationProvider = localizationsProvider
         self.provider = ListResultProvider(connection: connection, paymentServicesFactory: paymentServicesFactory)
-        self.riskProviders = riskProviders
+        self.riskService = riskService
     }
 
     func loadPaymentSession(completion: @escaping ((Result<UIModel.PaymentSession, Error>) -> Void)) {
         provider.fetchListResult(from: paymentSessionURL) { [weak self] result in
-            guard let weakSelf = self else { return }
+            guard let self = self else { return }
 
-            weakSelf.listResult = weakSelf.provider.listResult
+            self.listResult = self.provider.listResult
 
             switch result {
             case .success(let listResultNetworks):
-                weakSelf.localize(listResultNetworks: listResultNetworks, completion: completion)
+                self.localize(listResultNetworks: listResultNetworks, completion: completion)
             case .failure(let error):
                 // Even on a failure we need to try to download shared localization to localize errors
-                if let listResult = weakSelf.provider.listResult {
-                    weakSelf.fetchSharedLocalization(from: listResult) { _ in
+                if let listResult = self.provider.listResult {
+                    self.fetchSharedLocalization(from: listResult) { _ in
                         completion(.failure(error))
                     }
                 } else {
@@ -48,11 +49,11 @@ class PaymentSessionProvider {
 
     private func localize(listResultNetworks: ListResultNetworks, completion: @escaping ((Result<UIModel.PaymentSession, Error>) -> Void)) {
         fetchSharedLocalization(from: listResultNetworks.listResult) { [weak self] result in
-            guard let weakSelf = self else { return }
+            guard let self = self else { return }
 
             switch result {
             case .success:
-                let job = weakSelf.fetchNetworksLocalizations ->> weakSelf.createPaymentSession
+                let job = self.fetchNetworksLocalizations ->> self.createPaymentSession
                 job(listResultNetworks, completion)
             case .failure(let error):
                 completion(.failure(error))
@@ -107,11 +108,8 @@ class PaymentSessionProvider {
             return
         }
 
-        // Load risks service
-        var riskService = RiskService(providers: riskProviders)
-
-        if let riskProviders = listResult?.riskProviders {
-            riskService.loadRiskProviders(using: riskProviders)
+        if let riskProviderParameters = listResult?.riskProviders {
+            riskService.loadRiskProviders(withParameters: riskProviderParameters)
         }
 
         // Create a global payment context

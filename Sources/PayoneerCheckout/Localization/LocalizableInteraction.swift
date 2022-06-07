@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 /// `Interaction` with flow that could be used for localization purposes later.
 ///

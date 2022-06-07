@@ -6,6 +6,7 @@
 
 import UIKit
 import SafariServices
+import Networking
 
 /// The entrypoint for interacting with the SDK. It has a 1:1 relationship with a payment session and is responsible for managing the checkout UI.
 @objc public class Checkout: NSObject {
@@ -13,6 +14,8 @@ import SafariServices
     private(set) weak var presenter: UIViewController?
     private(set) var paymentListViewController: UIViewController?
     private(set) var paymentCompletionBlock: ((_ result: CheckoutResult) -> Void)?
+
+    private let riskService: RiskService
     private let chargePresetService: ChargePresetServiceProtocol
 
     /// Initializes a `Checkout` with the given configuration.
@@ -20,12 +23,15 @@ import SafariServices
     ///   - configuration: The configuration object to be used.
     @objc public init(configuration: CheckoutConfiguration) {
         self.configuration = configuration
-        self.chargePresetService = ChargePresetService(riskProviders: configuration.riskProviders)
+        self.riskService = RiskService(providers: configuration.riskProviders)
+        self.chargePresetService = ChargePresetService(paymentServices: configuration.paymentServices, riskService: self.riskService)
         CheckoutAppearance.shared = configuration.appearance
     }
 
+    /// Alternative initializer for testing purposes.
     init(configuration: CheckoutConfiguration, chargePresetService: ChargePresetServiceProtocol) {
         self.configuration = configuration
+        self.riskService = RiskService(providers: configuration.riskProviders)
         self.chargePresetService = chargePresetService
         CheckoutAppearance.shared = configuration.appearance
     }
@@ -42,7 +48,7 @@ import SafariServices
     ///     This completion block takes the following parameter:
     ///   - result: An object containing relevant information about the result of the operation.
     func presentPaymentList(from presenter: UIViewController, completion: @escaping (_ result: CheckoutResult) -> Void) {
-        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, riskProviders: configuration.riskProviders, delegate: self)
+        let paymentListViewController = PaymentListViewController(listResultURL: configuration.listURL, paymentServices: configuration.paymentServices, riskService: riskService, delegate: self)
 
         self.presenter = presenter
         self.paymentCompletionBlock = completion
@@ -74,10 +80,8 @@ import SafariServices
                     completion(result)
                 }
             },
-            authenticationChallengeReceived: { [weak self] url in
-                let safariViewController = SFSafariViewController(url: url)
-                safariViewController.delegate = self
-                self?.presenter?.present(safariViewController, animated: true, completion: nil)
+            presentationRequest: { [weak self] viewControllerToPresent in
+                self?.presenter?.present(viewControllerToPresent, animated: true)
             }
         )
     }
@@ -101,18 +105,5 @@ extension Checkout: PaymentDelegate {
             self?.paymentCompletionBlock?(result)
             self?.paymentCompletionBlock = nil
         }
-    }
-}
-
-// MARK: - SFSafariViewControllerDelegate
-
-extension Checkout: SFSafariViewControllerDelegate {
-    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        NotificationCenter.default.post(
-            name: RedirectCallbackHandler.didFailReceivingPaymentResultURLNotification,
-            object: nil,
-            // User info key is `PRESET` because delegate could be called only by `authenticationChallengeReceived` closure in PRESET flow
-            userInfo: [RedirectCallbackHandler.operationTypeUserInfoKey: "PRESET"]
-        )
     }
 }

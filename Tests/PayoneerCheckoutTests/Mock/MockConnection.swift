@@ -6,6 +6,7 @@
 
 import Foundation
 @testable import PayoneerCheckout
+import Networking
 
 class MockConnection: Connection {
     private let serialQueue = DispatchQueue(label: "Mock connection serial queue")
@@ -16,12 +17,15 @@ class MockConnection: Connection {
         self.dataSource = dataSource
     }
 
-    func send(request: URLRequest, completionHandler: @escaping ((Result<Data?, Error>) -> Void)) {
+    func send(request: URLRequest, completionHandler: @escaping ((Data?, Error?) -> Void)) {
         serialQueue.sync(flags: .barrier) {
             self.requestedURL = request.url!
         }
 
-        completionHandler(dataSource.fakeData(for: request))
+        switch dataSource.fakeData(for: request) {
+        case .success(let data): completionHandler(data, nil)
+        case .failure(let error): completionHandler(nil, error)
+        }
     }
 
     func cancel() {}

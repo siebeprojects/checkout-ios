@@ -5,6 +5,7 @@
 // See the LICENSE file for more information.
 
 import Foundation
+import Networking
 
 extension UIModel {
     final class PaymentSession {
@@ -13,7 +14,7 @@ extension UIModel {
         let presetAccount: PresetAccount?
         let context: PaymentContext
 
-        init(networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?, presetAccount: TranslatedModel<PayoneerCheckout.PresetAccount>?, context: PaymentContext, allowDelete: Bool?) {
+        init(networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?, presetAccount: TranslatedModel<Networking.PresetAccount>?, context: PaymentContext, allowDelete: Bool?) {
             self.context = context
 
             let buttonLocalizationKey = "button.operation." + context.listOperationType.rawValue.uppercased() + ".label"
@@ -56,7 +57,7 @@ extension UIModel {
         }
 
         /// - SeeAlso: Requirements defined in https://optile.atlassian.net/browse/PCX-995
-        private static func shouldDisplayWarningText(for presetAccount: PayoneerCheckout.PresetAccount) -> Bool {
+        private static func shouldDisplayWarningText(for presetAccount: Networking.PresetAccount) -> Bool {
             return presetAccount.registered == false && presetAccount.autoRegistration == false && presetAccount.allowRecurrence == false
         }
     }
