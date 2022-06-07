@@ -56,11 +56,6 @@ platform :ios do
     )
   end
 
-  desc "Change version number"
-  lane :set_version do |options|
-    increment_version_number(version_number: options[:version], xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj")
-  end
-
   desc "Deploy"
   lane :deploy do
     ensure_git_status_clean()
