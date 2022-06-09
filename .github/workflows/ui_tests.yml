@@ -8,7 +8,7 @@ concurrency:
 
 jobs:
   ui-tests-single-device:
-    if: github.ref != 'refs/heads/develop'
+    if: github.base_ref != 'master'
     name: Single device
     uses: ./.github/workflows/reusable_ui_tests.yml
     with:
@@ -18,7 +18,7 @@ jobs:
       MOBILE_MERCHANT_PAYMENT_TOKEN: ${{ secrets.MOBILE_MERCHANT_PAYMENT_TOKEN }}
 
   ui-tests-multiple-devices:
-    if: github.ref == 'refs/heads/develop'
+    if: github.base_ref == 'master'
     name: Multiple devices
     uses: ./.github/workflows/reusable_ui_tests.yml
     with:
