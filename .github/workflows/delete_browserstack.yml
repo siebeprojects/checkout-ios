@@ -9,6 +9,8 @@ on:
 jobs:
   create-ids:
     name: Create app identifiers
+    # Don't clean binaries for PRs where head (from) branch is develop or master to avoid double deletion
+    if: github.head_ref != 'develop' && github.head_ref != 'master'
     runs-on: ubuntu-latest
     outputs:
       custom-id: ${{ steps.custom-id.outputs.custom-id }}
