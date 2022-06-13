@@ -20,7 +20,7 @@ let package = Package(
             targets: ["ApplePayBraintreePaymentService"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/braintree/braintree_ios", from: "5.7.0"),
+        .package(url: "https://github.com/braintree/braintree_ios", from: "5.10.0"),
     ],
     targets: [
         .target(
