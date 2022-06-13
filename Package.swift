@@ -26,12 +26,17 @@ let package = Package(
         .target(
             name: "PayoneerCheckout",
             dependencies: ["Risk", "Networking", "Logging", "Payment", "BasicPaymentService"],
-            resources: [.process("Resources")]),
+            resources: [
+                .process("Resources")
+            ]
+        ),
         .target(
             name: "Networking",
-            dependencies: ["Logging"]),
-        .target(
-            name: "Logging"),
+            dependencies: ["Logging"],
+            resources: [
+                .process("Resources")
+            ]),
+        .target(name: "Logging"),
 
         // Payment Services
         .target(
@@ -47,8 +52,7 @@ let package = Package(
             path: "Sources/PaymentServices/ApplePayBraintreePaymentService"),
 
         // Risk
-        .target(
-            name: "Risk"),
+        .target(name: "Risk"),
         .target(
             name: "IovationRiskProvider",
             dependencies: ["Risk", "FraudForce"]),
@@ -63,6 +67,9 @@ let package = Package(
             resources: [.process("Resources")]),
         .testTarget(
             name: "PaymentTests",
-            dependencies: ["Payment", "Networking"])
+            dependencies: ["Payment", "Networking"]),
+        .testTarget(
+            name: "NetworkingTests",
+            dependencies: ["Networking"])
     ]
 )

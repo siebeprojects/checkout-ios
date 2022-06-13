@@ -31,15 +31,6 @@ platform :ios do
     )
   end
 
-  desc "Upload binary to Browserstack"
-  lane :browserstack do |options|
-    upload_to_browserstack_app_live(
-      browserstack_username: ENV["BROWSERSTACK_USER"],
-      browserstack_access_key: ENV["BROWSERSTACK_KEY"],
-      file_path: options[:binary]
-    )
-  end
-
   desc "Run UI tests"
   lane :ui_test do |options|
     run_tests(
@@ -63,11 +54,6 @@ platform :ios do
       api_key_path: certificate_json,
       ipa: checkout_ipa
     )
-  end
-
-  desc "Change version number"
-  lane :set_version do |options|
-    increment_version_number(version_number: options[:version], xcodeproj: "ExampleCheckout/ExampleCheckout.xcodeproj")
   end
 
   desc "Deploy"
