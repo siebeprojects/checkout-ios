@@ -5,15 +5,8 @@
 // See the LICENSE file for more information.
 
 import UIKit
-import PayoneerCheckout
 import Networking
 import Payment
-import PassKit
-import BraintreeApplePay
-import os.log
-
-
-
 
 @objc final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
     let redirectController: RedirectController
@@ -25,80 +18,48 @@ import os.log
     }
 
     public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        true
+        return networkCode == "APPLEPAY" && paymentMethod == "WALLET"
     }
+
+    // MARK: Process payment
 
     public func processPayment(operationRequest: Payment.OperationRequest, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: @escaping (UIViewController) -> Void) {
         guard let onSelectRequest = operationRequest as? OnSelectRequest else {
-            let error = CustomErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: ""))
+            let error = PaymentError(errorDescription: "Programmatic error: input parameter should be of OnSelectRequest type")
             completion(nil, error)
             return
         }
 
-        onSelectRequest.send(using: connection) { result in
-            switch result {
-            case .success(let operationResult):
-                print(operationResult)
-
-                guard let tokenizationKey = operationResult.providerResponse?.parameters?.first(where: { $0.name == "braintreeJsAuthorisation" })?.value else {
-                    print("OperationResult doesn't contain braintreeJsAuthorisation")
+        // Create Braintree API Client
+        let braintreeFabric = BraintreeClientFabric(connection: connection, onSelectRequest: onSelectRequest)
+        braintreeFabric.createBraintreeClient { braintreeCreationResult in
+            switch braintreeCreationResult {
+            case .success(let fabricResponse):
+                guard let providerResponse = fabricResponse.onSelectResult.providerResponse else {
+                    let error = PaymentError(errorDescription: "Response from a server doesn't contain providerResponse that is required to make onSelect call")
+                    completion(nil, error)
                     return
                 }
 
-                guard let braintreeClient = BTAPIClient(authorization: tokenizationKey) else {
-                    print("Unable to initialize Braintree client, tokenization key could be incorrect")
-                    return
+                // Create `PKPaymentRequest`
+                let paymentRequestFabric = PaymentRequestFabric(providerResponse: providerResponse, braintreeClient: fabricResponse.braintreeClient)
+                paymentRequestFabric.createPaymentRequest { paymentRequestCreationResult in
+                    switch paymentRequestCreationResult {
+                    case .success(let paymentRequest):
+                        // FIXME: Not yet implemented
+                        print(paymentRequest)
+                        completion(nil, nil)
+                    case .failure(let paymentRequestCreationError):
+                        completion(nil, paymentRequestCreationError)
+                    }
                 }
-
-                print(tokenizationKey)
-
-                print("SUCCESS")
-
-            case .failure(let error):
-                print(error)
+            case .failure(let braintreeCreationError):
+                completion(nil, braintreeCreationError)
             }
         }
-
-//        BTAPIClient(authorization: <#T##String#>)
-//
-//        let applePayClient = BTApplePayClient(apiClient: braintreeClient)
-//
-//        applePayClient.paymentRequest { (paymentRequest, error) in
-//            if let error = error {
-//                completion(.failure(error))
-//                return
-//            }
-//
-//            guard let paymentRequest = paymentRequest else {
-//                let error = InternalError(description: "Error in Braintree framework: undefined state, payment request and error are nil")
-//                completion(.failure(error))
-//                return
-//            }
-//
-//            // Overwrite properties filled by Braintree if they're present in OperationResult
-//            if let appleMerchantId = self.operationResult.providerResponse?.parameters?["appleMerchantId"] {
-//                paymentRequest.merchantIdentifier = appleMerchantId
-//            }
-//
-//            if let currencyCode = self.operationResult.providerResponse?.parameters?["currencyCode"] {
-//                paymentRequest.currencyCode = currencyCode
-//            }
-//
-//            // Create summary items
-//            guard let summaryAmountString = self.operationResult.providerResponse?.parameters?["amountInMajorUnits"] else {
-//                let error = InternalError(description: "amountInMajorUnits is not present in onSelect operation result, couldn't create PKPaymentRequest")
-//                completion(.failure(error))
-//                return
-//            }
-//
-//            let summaryAmountDecimal = NSDecimalNumber(string: summaryAmountString)
-//
-//            paymentRequest.paymentSummaryItems = [PKPaymentSummaryItem(label: "Total", amount: summaryAmountDecimal)]
-//            paymentRequest.merchantCapabilities = .capability3DS
-//
-//            completion(.success(paymentRequest))
-//        }
     }
+
+    // MARK: Delete
 
     public func delete(accountUsing accountURL: URL, completion: @escaping (OperationResult?, Error?) -> Void) {
         let deletionRequest = NetworkRequest.DeleteAccount(url: accountURL)
