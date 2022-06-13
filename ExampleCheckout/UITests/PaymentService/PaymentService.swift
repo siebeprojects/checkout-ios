@@ -96,11 +96,3 @@ class PaymentService {
         return customerRegistrationParameter.value!
     }
 }
-
-private extension Array where Self.Element == Parameter {
-    subscript(name: String) -> Parameter? {
-        get {
-            return self.first(where: { $0.name == name })
-        }
-    }
-}
