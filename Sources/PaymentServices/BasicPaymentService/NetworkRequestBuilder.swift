@@ -22,7 +22,7 @@ struct NetworkRequestBuilder {
             providerRequest: nil,
             providerRequests: operationRequest.riskData
         )
-        
+
         return networkRequest
     }
 }
