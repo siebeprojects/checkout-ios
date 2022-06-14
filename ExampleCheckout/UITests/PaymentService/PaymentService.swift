@@ -93,6 +93,6 @@ class PaymentService {
             throw "There is no customerRegistrationId parameter inside Redirect object"
         }
 
-        return customerRegistrationParameter.value!
+        return customerRegistrationParameter
     }
 }
