@@ -70,25 +70,19 @@ extension RequestSender {
             return
         }
 
-        let paymentRequest = PaymentRequest(networkCode: network.networkCode, operationURL: network.operationURL, operationType: network.operationType, providerRequests: nil)
+        let operationRequest: OperationRequest
 
-        let onSelectURL: URL? = {
-            switch network.apiModel {
-            case .network(let applicableNetwork):
-                return applicableNetwork.links?["onSelect"]
-            default:
-                return nil
-            }
-        }()
-
-        guard let onSelectURL = onSelectURL else {
+        do {
+            let builder = PaymentRequestBuilder(riskService: riskService)
+            operationRequest = try builder.createPaymentRequest(for: network)
+        } catch {
+            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+            delegate?.requestSender(didReceiveResult: .failure(errorInfo), for: requestType)
             return
         }
 
-        let onSelectRequest = OnSelectRequest(operationURL: onSelectURL, operationType: network.operationType, paymentRequest: paymentRequest)
-
         // Send operation request
-        service.processPayment(operationRequest: onSelectRequest, completion: { [weak self] operationResult, error in
+        service.processPayment(operationRequest: operationRequest, completion: { [weak self] operationResult, error in
             guard let self = self else { return }
 
             let operationResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
@@ -151,9 +145,31 @@ private struct PaymentRequestBuilder: Loggable {
         // Network information
         let networkInformation = NetworkInformation(networkCode: network.networkCode, paymentMethod: network.paymentMethod, operationType: network.operationType, links: network.apiModel.links ?? [:])
 
+        // Form
+        let inputFields: [String: String] = try {
+            guard let inputElementsSection = network.uiModel.inputSections[.inputElements] else {
+                return [:]
+            }
+
+            return try createDictionary(forInputElementsFields: inputElementsSection.inputFields)
+        }()
+
+        let autoRegistration, allowRecurrence: Bool?
+        (autoRegistration, allowRecurrence) = {
+            guard let registrationSection = network.uiModel.inputSections[.registration] else {
+                return (nil, nil)
+            }
+
+            return createRegistrationOptions(forRegistrationFields: registrationSection.inputFields)
+        }()
+
+        let form = Form(inputFields: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence)
+
         let riskData = riskService.collectRiskData()
 
-        return PaymentRequest(networkCode: networkInformation.networkCode, operationURL: network.operationURL, operationType: network.operationType, providerRequests: riskData)
+        let operationRequest = OperationRequest(networkInformation: networkInformation, form: form, riskData: riskData)
+
+        return operationRequest
     }
 
     private func createDictionary(forInputElementsFields inputFields: [InputField]) throws -> [String: String] {

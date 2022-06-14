@@ -7,6 +7,7 @@
 import UIKit
 import Networking
 import Payment
+import BraintreeApplePay
 
 @objc final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
     let redirectController: RedirectController
@@ -23,38 +24,67 @@ import Payment
 
     // MARK: Process payment
 
-    public func processPayment(operationRequest: Payment.OperationRequest, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: @escaping (UIViewController) -> Void) {
-        guard let onSelectRequest = operationRequest as? OnSelectRequest else {
-            let error = PaymentError(errorDescription: "Programmatic error: input parameter should be of OnSelectRequest type")
+    public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
+        // OnSelect
+        let onSelectRequest: NetworkRequest.Operation
+        do {
+            onSelectRequest = try NetworkRequestBuilder().create(from: operationRequest)
+        } catch {
             completion(nil, error)
             return
         }
 
-        // Create Braintree API Client
-        let braintreeFabric = BraintreeClientFabric(connection: connection, onSelectRequest: onSelectRequest)
-        braintreeFabric.createBraintreeClient { braintreeCreationResult in
-            switch braintreeCreationResult {
-            case .success(let fabricResponse):
-                guard let providerResponse = fabricResponse.onSelectResult.providerResponse else {
-                    let error = PaymentError(errorDescription: "Response from a server doesn't contain providerResponse that is required to make onSelect call")
-                    completion(nil, error)
-                    return
-                }
+        let onSelectOperation = SendRequestOperation(connection: connection, request: onSelectRequest)
+        onSelectOperation.downloadCompletionBlock = { onSelectRequestResult in
+            // Unpack OperationResult
+            let onSelectResult: OperationResult
 
-                // Create `PKPaymentRequest`
-                let paymentRequestFabric = PaymentRequestFabric(providerResponse: providerResponse, braintreeClient: fabricResponse.braintreeClient)
-                paymentRequestFabric.createPaymentRequest { paymentRequestCreationResult in
-                    switch paymentRequestCreationResult {
-                    case .success(let paymentRequest):
-                        // FIXME: Not yet implemented
-                        print(paymentRequest)
-                        completion(nil, nil)
-                    case .failure(let paymentRequestCreationError):
-                        completion(nil, paymentRequestCreationError)
-                    }
+            switch onSelectRequestResult {
+            case .success(let operationResult):
+                onSelectResult = operationResult
+            case .failure(let error):
+                completion(nil, error)
+                return
+            }
+
+            // Process OperationResult
+            self.handle(onSelectResult: onSelectResult) { handleResult in
+                switch handleResult {
+                case .success(let operationResult): completion(operationResult, nil)
+                case .failure(let error): completion(nil, error)
                 }
-            case .failure(let braintreeCreationError):
-                completion(nil, braintreeCreationError)
+            }
+        }
+        onSelectOperation.start()
+    }
+
+    private func handle(onSelectResult: OperationResult, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
+        let braintreeClient: BTAPIClient
+
+        do {
+            braintreeClient = try BraintreeClientFabric().createBraintreeClient(onSelectResult: onSelectResult)
+        } catch {
+            completion(.failure(error))
+            return
+        }
+
+        guard let providerResponse = onSelectResult.providerResponse else {
+            let error = PaymentError(errorDescription: "Response from a server doesn't contain providerResponse which is required to create PKPaymentRequest")
+            completion(.failure(error))
+            return
+        }
+
+        // Create `PKPaymentRequest`
+        let paymentRequestFabric = PaymentRequestFabric(providerResponse: providerResponse, braintreeClient: braintreeClient)
+        paymentRequestFabric.createPaymentRequest { paymentRequestCreationResult in
+            switch paymentRequestCreationResult {
+            case .success(let paymentRequest):
+                // FIXME: Not yet implemented
+                print(paymentRequest)
+                let notImplementedError = PaymentError(errorDescription: "FIXME: Flow is not yet implemented")
+                completion(.failure(notImplementedError))
+            case .failure(let paymentRequestCreationError):
+                completion(.failure(paymentRequestCreationError))
             }
         }
     }

@@ -34,23 +34,23 @@ import Payment
 
     // MARK: - Send operation
 
-    public func processPayment(operationRequest: OperationRequest, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: @escaping (UIViewController) -> Void) {
-//        let networkRequest: NetworkRequest.Charge
-//        do {
-//            networkRequest = try NetworkRequestBuilder().create(from: operationRequest)
-//        } catch {
-//            completion(nil, error)
-//            return
-//        }
-//
-//        let operation = SendRequestOperation(connection: connection, request: networkRequest)
-//        operation.downloadCompletionBlock = { [operationResponseHandler] result in
-//            operationResponseHandler(result, completion, presentationRequest)
-//        }
-//        operation.start()
+    public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
+        let networkRequest: NetworkRequest.Operation
+        do {
+            networkRequest = try NetworkRequestBuilder().create(from: operationRequest)
+        } catch {
+            completion(nil, error)
+            return
+        }
+
+        let operation = SendRequestOperation(connection: connection, request: networkRequest)
+        operation.downloadCompletionBlock = { [operationResponseHandler] result in
+            operationResponseHandler(result, completion, presentationRequest)
+        }
+        operation.start()
     }
 
-    private func operationResponseHandler(requestResult: Result<OperationResult, Error>, completion: @escaping (OperationResult?, Error?) -> Void, presentationRequest: @escaping (UIViewController) -> Void) {
+    private func operationResponseHandler(requestResult: Result<OperationResult, Error>, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
         switch requestResult {
         case .success(let operationResult):
             let redirectParser = RedirectResponseParser(supportedRedirectTypes: supportedRedirectTypes)
