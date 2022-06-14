@@ -10,8 +10,8 @@ import Networking
 
 struct NetworkRequestBuilder {
     func create(from operationRequest: OperationRequest) throws -> NetworkRequest.Operation {
-        guard let onSelectURL = operationRequest.networkInformation.links["onselect"] else {
-            throw PaymentError(errorDescription: "OperationRequest doesn't contain links.onselect which is mandatory")
+        guard let onSelectURL = operationRequest.networkInformation.links["onSelect"] else {
+            throw PaymentError(errorDescription: "OperationRequest doesn't contain links.onSelect which is mandatory")
         }
 
         let networkRequest = NetworkRequest.Operation(
