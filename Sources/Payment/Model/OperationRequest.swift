@@ -35,8 +35,8 @@ public struct PaymentRequest: OperationRequest {
     }
 
     public func send(using connection: Connection, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
-        let chargeRequestBody = NetworkRequest.Charge.Body(account: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence, providerRequest: providerRequest, providerRequests: providerRequests)
-        let chargeRequest = NetworkRequest.Charge(from: operationURL, body: chargeRequestBody)
+        let chargeRequestBody = NetworkRequest.Operation.Body(account: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence, providerRequest: providerRequest, providerRequests: providerRequests)
+        let chargeRequest = NetworkRequest.Operation(from: operationURL, body: chargeRequestBody)
         let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
         chargeOperation.downloadCompletionBlock = completion
         chargeOperation.start()
