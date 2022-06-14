@@ -62,7 +62,7 @@ import BraintreeApplePay
         let braintreeClient: BTAPIClient
 
         do {
-            braintreeClient = try BraintreeClientFabric().createBraintreeClient(onSelectResult: onSelectResult)
+            braintreeClient = try BraintreeClientBuilder().createBraintreeClient(onSelectResult: onSelectResult)
         } catch {
             completion(.failure(error))
             return
@@ -75,8 +75,8 @@ import BraintreeApplePay
         }
 
         // Create `PKPaymentRequest`
-        let paymentRequestFabric = PaymentRequestFabric(providerResponse: providerResponse, braintreeClient: braintreeClient)
-        paymentRequestFabric.createPaymentRequest { paymentRequestCreationResult in
+        let paymentRequestBuilder = PaymentRequestBuilder(providerResponse: providerResponse, braintreeClient: braintreeClient)
+        paymentRequestBuilder.createPaymentRequest { paymentRequestCreationResult in
             switch paymentRequestCreationResult {
             case .success(let paymentRequest):
                 // FIXME: Not yet implemented

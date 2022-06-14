@@ -8,7 +8,7 @@ import Payment
 import Networking
 import BraintreeApplePay
 
-struct BraintreeClientFabric {
+struct BraintreeClientBuilder {
     func createBraintreeClient(onSelectResult: OperationResult) throws -> BTAPIClient {
         guard let tokenizationKey = onSelectResult.providerResponse?.parameters?.first(where: { $0.name == "braintreeJsAuthorisation" })?.value else {
             throw PaymentError(errorDescription: "OperationResult doesn't contain braintreeJsAuthorisation")

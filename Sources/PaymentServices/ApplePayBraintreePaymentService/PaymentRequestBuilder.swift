@@ -8,7 +8,7 @@ import Networking
 import Payment
 import BraintreeApplePay
 
-struct PaymentRequestFabric {
+struct PaymentRequestBuilder {
     /// Provider parameters from `OperationResult` for on select call
     let providerResponse: ProviderParameters
     let braintreeClient: BTAPIClient
