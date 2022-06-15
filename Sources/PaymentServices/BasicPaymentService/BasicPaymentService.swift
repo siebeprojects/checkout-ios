@@ -34,7 +34,7 @@ import Payment
 
     // MARK: - Send operation
 
-    public func send(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
+    public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
         let networkRequest: NetworkRequest.Operation
         do {
             networkRequest = try NetworkRequestBuilder().create(from: operationRequest)

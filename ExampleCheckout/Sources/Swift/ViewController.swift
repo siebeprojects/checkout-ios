@@ -7,6 +7,7 @@
 import UIKit
 import PayoneerCheckout
 import IovationRiskProvider
+import ApplePayBraintreePaymentService
 
 class ViewController: UITableViewController {
     @IBOutlet private var textField: UITextField!
@@ -114,6 +115,7 @@ extension ViewController {
         let configuration = CheckoutConfiguration(
             listURL: url,
             appearance: appearance,
+            paymentServices: [ApplePayBraintreePaymentService.self],
             riskProviders: [IovationRiskProvider.self]
         )
 

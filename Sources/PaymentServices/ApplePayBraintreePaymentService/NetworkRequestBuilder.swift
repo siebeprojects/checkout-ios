@@ -10,12 +10,12 @@ import Networking
 
 struct NetworkRequestBuilder {
     func create(from operationRequest: OperationRequest) throws -> NetworkRequest.Operation {
-        guard let operationURL = operationRequest.networkInformation.links["operation"] else {
-            throw NetworkRequestBuilderError.missingOperationLink
+        guard let onSelectURL = operationRequest.networkInformation.links["onSelect"] else {
+            throw PaymentError(errorDescription: "OperationRequest doesn't contain links.onSelect which is mandatory")
         }
 
         let networkRequest = NetworkRequest.Operation(
-            from: operationURL,
+            from: onSelectURL,
             account: operationRequest.form?.inputFields,
             autoRegistration: operationRequest.form?.autoRegistration,
             allowRecurrence: operationRequest.form?.allowRecurrence,
@@ -24,15 +24,5 @@ struct NetworkRequestBuilder {
         )
 
         return networkRequest
-    }
-}
-
-private enum NetworkRequestBuilderError: LocalizedError {
-    case missingOperationLink
-
-    var errorDescription: String? {
-        switch self {
-        case .missingOperationLink: return "OperationRequest doesn't contain links.operations which is mandatory"
-        }
     }
 }

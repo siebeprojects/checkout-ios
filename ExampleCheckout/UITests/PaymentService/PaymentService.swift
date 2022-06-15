@@ -93,14 +93,6 @@ class PaymentService {
             throw "There is no customerRegistrationId parameter inside Redirect object"
         }
 
-        return customerRegistrationParameter.value!
-    }
-}
-
-private extension Array where Self.Element == Parameter {
-    subscript(name: String) -> Parameter? {
-        get {
-            return self.first(where: { $0.name == name })
-        }
+        return customerRegistrationParameter
     }
 }

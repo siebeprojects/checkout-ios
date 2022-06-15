@@ -30,8 +30,7 @@ class NetworksTests: XCTestCase {
             sendRequestButton.tap()
 
             // Wait for loading completion
-            let chooseMethodText = app.tables.staticTexts["Cards"]
-            XCTAssert(chooseMethodText.waitForExistence(timeout: .networkTimeout))
+            XCTAssert(app.tables.element.waitForExistence(timeout: .networkTimeout))
 
             return session
         }

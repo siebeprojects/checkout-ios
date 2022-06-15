@@ -11,6 +11,7 @@
 		070CAE9427D2284A00DE9706 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CAE9227D2284A00DE9706 /* NavigationTests.swift */; };
 		07103F6827FEFFA700098942 /* ListSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07103F6727FEFFA700098942 /* ListSettings.swift */; };
 		07103F6927FEFFA700098942 /* ListSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07103F6727FEFFA700098942 /* ListSettings.swift */; };
+		071467B628478FB2007344D3 /* ApplePayBraintreePaymentService in Frameworks */ = {isa = PBXBuildFile; productRef = 071467B528478FB2007344D3 /* ApplePayBraintreePaymentService */; };
 		0720167527FAE4FE00800598 /* CustomFontProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0720167427FAE4FE00800598 /* CustomFontProvider.swift */; };
 		0720167827FAF31D00800598 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0720167627FAF31D00800598 /* Rubik-Bold.ttf */; };
 		0720167927FAF31D00800598 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0720167727FAF31D00800598 /* Rubik-Regular.ttf */; };
@@ -138,6 +139,8 @@
 		D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
 		D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
+		E29A8622285893C400A5D9D1 /* BraintreeApplePayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* BraintreeApplePayTests.swift */; };
+		E29A8623285893C400A5D9D1 /* BraintreeApplePayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* BraintreeApplePayTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -255,6 +258,7 @@
 		D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		D9E726A9269DBF5700889C64 /* PayPalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalAccount.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
+		E29A861F285893AB00A5D9D1 /* BraintreeApplePayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BraintreeApplePayTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */,
+				071467B628478FB2007344D3 /* ApplePayBraintreePaymentService in Frameworks */,
 				074E02B928351DEB00C24AF2 /* IovationRiskProvider in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +422,7 @@
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				D9B0D98327675E6B00DB928D /* PresetFlowTests.swift */,
 				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
+				E29A861F285893AB00A5D9D1 /* BraintreeApplePayTests.swift */,
 				074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */,
 				07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */,
 				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
@@ -586,6 +592,7 @@
 			packageProductDependencies = (
 				0767BBC4274BF25100005D30 /* PayoneerCheckout */,
 				074E02B828351DEB00C24AF2 /* IovationRiskProvider */,
+				071467B528478FB2007344D3 /* ApplePayBraintreePaymentService */,
 			);
 			productName = Example;
 			productReference = D9E0AEAD234143BD0021184C /* CheckoutSwift.app */;
@@ -606,6 +613,7 @@
 					};
 					D948522F26F2438D00D11DC2 = {
 						CreatedOnToolsVersion = 12.5.1;
+						LastSwiftMigration = 1340;
 					};
 					D9A5FA55253CA701001C71B7 = {
 						CreatedOnToolsVersion = 12.0.1;
@@ -694,6 +702,7 @@
 				0725B40326FCBC9600C607A8 /* NetworksTests.swift in Sources */,
 				D912BB3A2726C1B70004AFAE /* InputElement.swift in Sources */,
 				D912BB622726C1B70004AFAE /* Checkbox.swift in Sources */,
+				E29A8622285893C400A5D9D1 /* BraintreeApplePayTests.swift in Sources */,
 				D912BB482726C1B70004AFAE /* Installments.swift in Sources */,
 				D912BB582726C1B70004AFAE /* InstallmentItem.swift in Sources */,
 				D912BB2E2726C1B70004AFAE /* ExtraElements.swift in Sources */,
@@ -796,6 +805,7 @@
 				D912BB3B2726C1B70004AFAE /* AccountFormData.swift in Sources */,
 				D912BB432726C1B70004AFAE /* PresetAccount.swift in Sources */,
 				D912BB372726C1B70004AFAE /* InstallmentsPlan.swift in Sources */,
+				E29A8623285893C400A5D9D1 /* BraintreeApplePayTests.swift in Sources */,
 				D912BB722726C2BD0004AFAE /* Customer.swift in Sources */,
 				D912BB352726C1B70004AFAE /* ApplicableNetwork.swift in Sources */,
 				D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */,
@@ -938,6 +948,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Sources/Objective-C/Info.plist";
@@ -949,6 +960,8 @@
 				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.payoneer.checkout.examplecheckout-objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -959,6 +972,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Sources/Objective-C/Info.plist";
@@ -970,6 +984,7 @@
 				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.payoneer.checkout.examplecheckout-objc";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1236,6 +1251,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		071467B528478FB2007344D3 /* ApplePayBraintreePaymentService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ApplePayBraintreePaymentService;
+		};
 		074E02B828351DEB00C24AF2 /* IovationRiskProvider */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = IovationRiskProvider;

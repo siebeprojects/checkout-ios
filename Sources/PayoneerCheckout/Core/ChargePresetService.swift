@@ -111,7 +111,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil, riskData: riskData)
 
         // Send request
-        service.send(
+        service.processPayment(
             operationRequest: operationRequest,
             completion: { [weak self] result, error in
                 guard let operationResult = self?.convertToResult(object: result, error: error) else { return }

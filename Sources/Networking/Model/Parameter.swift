@@ -31,3 +31,10 @@ extension Parameter {
         return self == parameter
     }
 }
+
+extension Sequence where Element == Parameter {
+    /// Returns a value for parameter with specified name
+    public subscript(name: String) -> String? {
+        return first(where: { $0.name == name })?.value
+    }
+}
