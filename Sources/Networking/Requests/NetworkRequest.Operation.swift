@@ -14,15 +14,22 @@ public extension NetworkRequest {
     struct Operation: PostRequest {
         public let url: URL
         public let queryItems = [URLQueryItem]()
-        public var body: Body? { chargeBody }
-        private let chargeBody: Body
+        public var body: OperationData?
 
         public typealias Response = OperationResult
 
         /// - Parameter url: value from `links.operation` for charge operation
-        public init(from url: URL, body: Body) {
+        public init(from url: URL, account: [String: String]?, autoRegistration: Bool?, allowRecurrence: Bool?, providerRequest: ProviderParameters?, providerRequests: [ProviderParameters]?) {
             self.url = url
-            self.chargeBody = body
+
+            self.body = OperationData(
+                account: account,
+                autoRegistration: autoRegistration,
+                allowRecurrence: allowRecurrence,
+                providerRequest: providerRequest,
+                providerRequests: providerRequests,
+                browserData: BrowserDataBuilder.build()
+            )
         }
     }
 }
@@ -35,26 +42,5 @@ extension NetworkRequest.Operation: Loggable {
 
     public func logResponse(_ response: OperationResult) {
         logger.info("[POST] ✅ \(response.resultInfo, privacy: .private). Interaction: \(response.interaction.code, privacy: .private)/\(response.interaction.reason, privacy: .private)")
-    }
-}
-
-// MARK: - Body
-
-public extension NetworkRequest.Operation {
-    struct Body: Encodable {
-        var account = [String: String]()
-        var autoRegistration: Bool?
-        var allowRecurrence: Bool?
-        var providerRequests: [ProviderParameters]?
-
-        let browserData: BrowserData
-
-        public init(account: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?, providerRequests: [ProviderParameters]?) {
-            self.account = account
-            self.autoRegistration = autoRegistration
-            self.allowRecurrence = allowRecurrence
-            self.providerRequests = providerRequests
-            self.browserData = BrowserDataBuilder.build()
-        }
     }
 }

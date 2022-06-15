@@ -6,15 +6,35 @@
 
 import Foundation
 
-public class Parameter: NSObject, Decodable {
+public class Parameter: NSObject, Codable {
     /// Parameter name.
     public let name: String
 
     /// Parameter value.
     public let value: String?
 
-    internal init(name: String, value: String?) {
+    public init(name: String, value: String?) {
         self.name = name
         self.value = value
+    }
+}
+
+// MARK: - Equatable
+
+extension Parameter {
+    public static func == (lhs: Parameter, rhs: Parameter) -> Bool {
+        lhs.name == rhs.name && lhs.value == rhs.value
+    }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let parameter = object as? Parameter else { return false }
+        return self == parameter
+    }
+}
+
+extension Sequence where Element == Parameter {
+    /// Returns a value for parameter with specified name
+    public subscript(name: String) -> String? {
+        return first(where: { $0.name == name })?.value
     }
 }
