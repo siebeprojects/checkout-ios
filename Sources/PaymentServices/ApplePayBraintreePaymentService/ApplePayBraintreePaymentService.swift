@@ -25,7 +25,7 @@ import BraintreeApplePay
     // MARK: Process payment
 
     public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
-        // OnSelect
+        // Make OnSelect call
         let onSelectRequest: NetworkRequest.Operation
         do {
             onSelectRequest = try NetworkRequestBuilder().create(from: operationRequest)
