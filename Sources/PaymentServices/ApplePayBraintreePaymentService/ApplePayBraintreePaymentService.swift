@@ -19,7 +19,7 @@ import BraintreeApplePay
     }
 
     public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        return networkCode == "APPLEPAY" && paymentMethod == "WALLET"
+        return networkCode == "APPLEPAY" && paymentMethod == "WALLET" && PKPaymentAuthorizationViewController.canMakePayments()
     }
 
     // MARK: Process payment
@@ -58,7 +58,7 @@ import BraintreeApplePay
         onSelectOperation.start()
     }
 
-    private func handle(onSelectResult: OperationResult, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
+    private func handle(onSelectResult: OperationResult, completion: @escaping ((Result<OperationResult, Error>) -> Void), presentationRequest: @escaping PaymentService.PresentationBlock) {
         let braintreeClient: BTAPIClient
 
         do {
@@ -81,6 +81,8 @@ import BraintreeApplePay
             case .success(let paymentRequest):
                 // FIXME: Not yet implemented
                 print(paymentRequest)
+
+
                 let notImplementedError = PaymentError(errorDescription: "FIXME: Flow is not yet implemented")
                 completion(.failure(notImplementedError))
             case .failure(let paymentRequestCreationError):
