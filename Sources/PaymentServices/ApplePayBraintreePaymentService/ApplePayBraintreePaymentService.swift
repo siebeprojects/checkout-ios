@@ -48,12 +48,12 @@ import BraintreeApplePay
             }
 
             // Process OperationResult
-            self.handle(onSelectResult: onSelectResult) { handleResult in
+            self.handle(onSelectResult: onSelectResult, completion: { handleResult in
                 switch handleResult {
                 case .success(let operationResult): completion(operationResult, nil)
                 case .failure(let error): completion(nil, error)
                 }
-            }
+            }, presentationRequest: presentationRequest)
         }
         onSelectOperation.start()
     }
@@ -79,12 +79,15 @@ import BraintreeApplePay
         paymentRequestBuilder.createPaymentRequest { paymentRequestCreationResult in
             switch paymentRequestCreationResult {
             case .success(let paymentRequest):
-                // FIXME: Not yet implemented
-                print(paymentRequest)
+                do {
+                    let paymentViewController = try ApplePayUIController().createPaymentAuthorizationViewController(paymentRequest: paymentRequest)
+                    presentationRequest(paymentViewController)
+                } catch {
+                    completion(.failure(error))
+                }
 
-
-                let notImplementedError = PaymentError(errorDescription: "FIXME: Flow is not yet implemented")
-                completion(.failure(notImplementedError))
+//                let notImplementedError = PaymentError(errorDescription: "FIXME: Flow is not yet implemented")
+//                completion(.failure(notImplementedError))
             case .failure(let paymentRequestCreationError):
                 completion(.failure(paymentRequestCreationError))
             }
