@@ -25,10 +25,10 @@ struct PaymentSender {
                         throw PaymentError(errorDescription: "OperationResult from OnSelect operation doesn't contain providerResponse")
                     }
 
-                    let chargeRequest = try NetworkRequestBuilder().createChargeRequest(from: operationRequest, providerCode: providerResponse.providerCode, nonce: nonce)
-                    let chargeOperation = SendRequestOperation(connection: connection, request: chargeRequest)
-                    chargeOperation.downloadCompletionBlock = completion
-                    chargeOperation.start()
+                    let operationRequest = try NetworkRequestBuilder().createOperationRequest(from: operationRequest, providerCode: providerResponse.providerCode, nonce: nonce)
+                    let operation = SendRequestOperation(connection: connection, request: operationRequest)
+                    operation.downloadCompletionBlock = completion
+                    operation.start()
                 } catch {
                     completion(.failure(error))
                 }

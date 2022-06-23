@@ -23,7 +23,7 @@ struct NetworkRequestBuilder {
     ///   - operationRequest: origin operation request from PayoneerCheckout
     ///   - providerCode: provider code from `onSelect` operation result
     ///   - nonce: braintree nonce
-    func createChargeRequest(from operationRequest: OperationRequest, providerCode: String, nonce: String) throws -> NetworkRequest.Operation {
+    func createOperationRequest(from operationRequest: OperationRequest, providerCode: String, nonce: String) throws -> NetworkRequest.Operation {
         guard let operationURL = operationRequest.networkInformation.links["operation"] else {
             throw PaymentError(errorDescription: "OperationRequest doesn't contain links.operation which is mandatory")
         }
