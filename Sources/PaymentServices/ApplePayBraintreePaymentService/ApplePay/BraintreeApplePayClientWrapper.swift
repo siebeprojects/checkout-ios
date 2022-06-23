@@ -16,6 +16,9 @@ struct BraintreeApplePayClientWrapper {
         self.applePayClient = BTApplePayClient(apiClient: braintreeClient)
     }
 
+    /// Tokenize `PKPayment` on Braintree.
+    /// - Parameters:
+    ///   - completion: result with nonce from Braintree which should be used for communication with other services.
     func tokenizeApplePay(payment: PKPayment, completion: @escaping ((Result<String, Error>) -> Void)) {
         applePayClient.tokenizeApplePay(payment) { nonce, error in
             if let error = error {

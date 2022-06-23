@@ -46,6 +46,7 @@ import BraintreeApplePay
             // Configure Apple Pay controller
             let applePayController = ApplePayController(braintreeClient: braintreeClient, operationRequest: operationRequest, onSelectResult: onSelectResult, connection: self.connection)
             applePayController.completionHandler = {
+                // Payment finished, route results
                 switch applePayController.paymentResult {
                 case .success(let operationResult): completion(operationResult, nil)
                 case .failure(let error): completion(nil, error)

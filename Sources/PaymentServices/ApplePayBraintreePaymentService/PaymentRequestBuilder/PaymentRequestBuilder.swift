@@ -18,10 +18,12 @@ struct PaymentRequestBuilderOutput {
     let onSelectResult: OperationResult
 }
 
+/// Builder  responsible for creating `PKPaymentRequest`.
 struct PaymentRequestBuilder {
     let connection: Connection
     let operationRequest: OperationRequest
 
+    /// Make onSelect call and get `PKPaymentRequest` from Braintree servers providing data from onSelect call.
     func createPaymentRequest(completion: @escaping (Result<PaymentRequestBuilderOutput, Error>) -> Void) {
         // Make OnSelect call
         let onSelectRequest: NetworkRequest.Operation

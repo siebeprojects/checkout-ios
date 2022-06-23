@@ -10,7 +10,13 @@ import Payment
 import PassKit
 import BraintreeApplePay
 
-/// Wrapper for `PKPaymentAuthorizationViewController` responsible for creating Apple Pay view controller and redirecting delegate responses to closure blocks.
+/// Controller responsible for creating Apple Pay view controller, handling it's delegates events and performing steps to finalize a payment.
+///
+/// ### Payment flow
+/// 1. Listen for delegate event `didAuthorizePayment`.
+/// 2. Tokenize `PKPayment` from payment authorization on Braintree and get nonce for this token.
+/// 3. Send a token to a backend server using `links.operation` from `OperationRequest`. Save `OperationResult` to `paymentResult`
+/// 4. Listen for delegate event `paymentAuthorizationViewControllerDidFinish`, send `paymentResult` to `completionHandler`.
 class ApplePayController: NSObject {
     private let braintreeClient: BTAPIClient
     private let operationRequest: OperationRequest
@@ -28,11 +34,14 @@ class ApplePayController: NSObject {
         self.onSelectResult = onSelectResult
         self.connection = connection
         self.paymentResult = {
+            // Initial error will be returned if payment cancelled before it was was started.
             let errorInfo = CustomErrorInfo(resultInfo: "Payment was aborted before starting", interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
             return .failure(errorInfo)
         }()
     }
 
+    /// When payment will be finished or dismissed, `completionHandler` block will be called. Use `paymentResult` to get payment's status.
+    /// - Returns: configured Apple Pay view controller with assigned delegate, don't set custom delegate.
     func createPaymentAuthorizationViewController(paymentRequest: PKPaymentRequest) throws -> PKPaymentAuthorizationViewController {
         guard let paymentViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else {
             throw PaymentError(errorDescription: "Unable to create PKPaymentAuthorizationViewController because PKPaymentRequest may be invalid")
@@ -43,6 +52,8 @@ class ApplePayController: NSObject {
         return paymentViewController
     }
 }
+
+// MARK: PKPaymentAuthorizationViewControllerDelegate
 
 extension ApplePayController: PKPaymentAuthorizationViewControllerDelegate {
     // This method could be called at any step, even when payment is in progress (e.g. Apple produces timeout error)
