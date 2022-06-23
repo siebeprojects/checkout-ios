@@ -10,12 +10,13 @@ import Payment
 import PassKit
 import BraintreeApplePay
 
+/// Wrapper for `PKPaymentAuthorizationViewController` responsible for creating Apple Pay view controller and redirecting delegate responses to closure blocks.
 class ApplePayUIController: NSObject {
     private(set) weak var paymentViewController: PKPaymentAuthorizationViewController?
 
     private var didAuthorizePaymentBlock: ((PKPayment) -> Void)?
 
-    /// Handler from `paymentAuthorizationViewController`
+    /// Handler with `PKPaymentAuthorizationResult`, call it after transaction completion before Apple Pay view controller dismissal.
     var applePayViewControllerHandler: ((PKPaymentAuthorizationResult) -> Void)?
 
     func createPaymentAuthorizationViewController(paymentRequest: PKPaymentRequest, didAuthorizePayment: @escaping ((PKPayment) -> Void)) throws -> PKPaymentAuthorizationViewController {
@@ -32,11 +33,11 @@ class ApplePayUIController: NSObject {
 }
 
 extension ApplePayUIController: PKPaymentAuthorizationViewControllerDelegate {
-    public func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
+    func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true)
     }
 
-    public func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
+    func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         self.applePayViewControllerHandler = completion
         didAuthorizePaymentBlock?(payment)
     }

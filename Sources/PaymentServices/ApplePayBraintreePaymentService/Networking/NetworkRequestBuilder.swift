@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Payoneer Germany GmbH
+// Copyright (c) 2022 Payoneer Germany GmbH
 // https://www.payoneer.com
 //
 // This file is open source and available under the MIT license.
@@ -8,6 +8,7 @@ import Foundation
 import Payment
 import Networking
 
+/// Builder for `Networking` module requests.
 struct NetworkRequestBuilder {
     func createOnSelectRequest(from operationRequest: OperationRequest) throws -> NetworkRequest.Operation {
         guard let onSelectURL = operationRequest.networkInformation.links["onSelect"] else {

@@ -8,12 +8,14 @@ import Networking
 import Payment
 import BraintreeApplePay
 
-struct PaymentRequestSender {
+/// A structure responsible for processing authorized `PKPayment`.
+struct PaymentSender {
     let applePayClient: BraintreeApplePayClientWrapper
     let operationRequest: OperationRequest
     let connection: Connection
     let onSelectResult: OperationResult
 
+    /// Tokenize `PKPayment` and send it to a server.
     func send(authorizedPayment payment: PKPayment, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
         applePayClient.tokenizeApplePay(payment: payment) { tokenizationResult in
             switch tokenizationResult {

@@ -8,6 +8,7 @@ import UIKit
 import Networking
 import BraintreeApplePay
 
+/// Wrapper for `BTApplePayClient` packing possible undefined state to defined `Result` enumeration.
 struct BraintreeApplePayClientWrapper {
     private let applePayClient: BTApplePayClient
 
