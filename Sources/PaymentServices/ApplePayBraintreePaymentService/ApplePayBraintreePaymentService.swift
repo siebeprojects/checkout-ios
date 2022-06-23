@@ -43,60 +43,22 @@ import BraintreeApplePay
                 return
             }
 
-            // Present ApplePay view controller, wait for authorization
-            self.presentApplePayUI(paymentRequest: paymentRequest, presentationRequest: presentationRequest) { presentationResult in
-                let payment: PKPayment
-                let applePayUIController: ApplePayUIController
-
-                switch presentationResult {
-                case .success(let tuple):
-                    payment = tuple.0
-                    applePayUIController = tuple.1
-                case .failure(let error):
-                    completion(nil, error)
-                    return
-                }
-
-                // Tokenize `PKPayment` and send a charge request
-                let applePayClient = BraintreeApplePayClientWrapper(braintreeClient: braintreeClient)
-                let sender = PaymentSender(applePayClient: applePayClient, operationRequest: operationRequest, connection: self.connection, onSelectResult: onSelectResult)
-
-                sender.send(authorizedPayment: payment) { paymentSendResult in
-                    switch paymentSendResult {
-                    case .success(let operationResult):
-                        let successResult = PKPaymentAuthorizationResult(status: .success, errors: nil)
-                        applePayUIController.applePayViewControllerHandler?(successResult)
-                        completion(operationResult, nil)
-                    case .failure(let error):
-                        let failureResult = PKPaymentAuthorizationResult(status: .failure, errors: [error])
-                        applePayUIController.applePayViewControllerHandler?(failureResult)
-                        completion(nil, error)
-                    }
+            // Configure Apple Pay controller
+            let applePayController = ApplePayController(braintreeClient: braintreeClient, operationRequest: operationRequest, onSelectResult: onSelectResult, connection: self.connection)
+            applePayController.completionHandler = {
+                switch applePayController.paymentResult {
+                case .success(let operationResult): completion(operationResult, nil)
+                case .failure(let error): completion(nil, error)
                 }
             }
-        }
-    }
 
-    /// Present Apple Pay view controller.
-    /// - Parameters:
-    ///   - paymentRequest: payment request required by Apple Pay
-    ///   - presentationRequest: forwarded to a merchant `presentationRequest` block
-    ///   - completion: tuple containing authorized `PKPaymentRequest` and Apple Pay UI controller, which could be used to set `PKPaymentAuthorizationResult` through `ApplePayUIController.applePayViewControllerHandler`
-    private func presentApplePayUI(paymentRequest: PKPaymentRequest, presentationRequest: @escaping PaymentService.PresentationBlock, completion: @escaping ((Result<(PKPayment, ApplePayUIController), Error>) -> Void)) {
-        let applePayController = ApplePayUIController()
-
-        do {
-            let paymentViewController = try applePayController.createPaymentAuthorizationViewController(
-                paymentRequest: paymentRequest,
-                didAuthorizePayment: { payment in
-                    let authorizationResult = (payment, applePayController)
-                    completion(.success(authorizationResult))
-                }
-            )
-
-            presentationRequest(paymentViewController)
-        } catch {
-            completion(.failure(error))
+            do {
+                // Present Apple Pay
+                let viewController = try applePayController.createPaymentAuthorizationViewController(paymentRequest: paymentRequest)
+                presentationRequest(viewController)
+            } catch {
+                completion(nil, error)
+            }
         }
     }
 
