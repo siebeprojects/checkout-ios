@@ -8,23 +8,36 @@ import UIKit
 import Networking
 import Payment
 import PassKit
+import BraintreeApplePay
 
 class ApplePayUIController: NSObject {
-    func createPaymentAuthorizationViewController(paymentRequest: PKPaymentRequest) throws -> PKPaymentAuthorizationViewController {
+    private(set) weak var paymentViewController: PKPaymentAuthorizationViewController?
+
+    private var didAuthorizePaymentBlock: ((PKPayment) -> Void)?
+
+    /// Handler from `paymentAuthorizationViewController`
+    var applePayViewControllerHandler: ((PKPaymentAuthorizationResult) -> Void)?
+
+    func createPaymentAuthorizationViewController(paymentRequest: PKPaymentRequest, didAuthorizePayment: @escaping ((PKPayment) -> Void)) throws -> PKPaymentAuthorizationViewController {
         guard let paymentViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else {
             throw PaymentError(errorDescription: "Unable to create PKPaymentAuthorizationViewController because PKPaymentRequest may be invalid")
         }
+
+        self.didAuthorizePaymentBlock = didAuthorizePayment
+
+        self.paymentViewController = paymentViewController
         paymentViewController.delegate = self
         return paymentViewController
-     }
+    }
 }
 
 extension ApplePayUIController: PKPaymentAuthorizationViewControllerDelegate {
-    func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
+    public func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true)
     }
 
-    func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
-        controller.dismiss(animated: true)
+    public func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
+        self.applePayViewControllerHandler = completion
+        didAuthorizePaymentBlock?(payment)
     }
 }

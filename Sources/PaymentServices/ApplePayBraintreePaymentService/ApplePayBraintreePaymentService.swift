@@ -28,15 +28,16 @@ import BraintreeApplePay
         // Make OnSelect call
         let onSelectRequest: NetworkRequest.Operation
         do {
-            onSelectRequest = try NetworkRequestBuilder().create(from: operationRequest)
+            onSelectRequest = try NetworkRequestBuilder().createOnSelectRequest(from: operationRequest)
         } catch {
             completion(nil, error)
             return
         }
 
+        // 1. Make OnSelect call
         let onSelectOperation = SendRequestOperation(connection: connection, request: onSelectRequest)
         onSelectOperation.downloadCompletionBlock = { onSelectRequestResult in
-            // Unpack OperationResult
+            // Unwrap OperationResult from onSelect call
             let onSelectResult: OperationResult
 
             switch onSelectRequestResult {
@@ -47,51 +48,80 @@ import BraintreeApplePay
                 return
             }
 
-            // Process OperationResult
-            self.handle(onSelectResult: onSelectResult, completion: { handleResult in
-                switch handleResult {
-                case .success(let operationResult): completion(operationResult, nil)
-                case .failure(let error): completion(nil, error)
+            // Create Braintree client
+            let braintreeClient: BTAPIClient
+
+            do {
+                braintreeClient = try BraintreeClientBuilder().createBraintreeClient(onSelectResult: onSelectResult)
+            } catch {
+                completion(nil, error)
+                return
+            }
+
+            // 2. Create `PKPaymentRequest`
+            self.createPaymentRequest(onSelectResult: onSelectResult, braintreeClient: braintreeClient) { paymentRequestCreationResult in
+                let paymentRequest: PKPaymentRequest
+
+                switch paymentRequestCreationResult {
+                case .success(let createdPaymentRequest):
+                    paymentRequest = createdPaymentRequest
+                case .failure(let error):
+                    completion(nil, error)
+                    return
                 }
-            }, presentationRequest: presentationRequest)
+
+                do {
+                    // 3. Present ApplePay view controller, wait for authorization
+                    try self.presentApplePayUI(paymentRequest: paymentRequest, presentationRequest: presentationRequest) { payment, applePayUIController in
+                        // 4. Tokenize `PKPayment` and send charge request
+                        let applePayClient = BraintreeApplePayClientWrapper(braintreeClient: braintreeClient)
+                        let sender = PaymentRequestSender(applePayClient: applePayClient, operationRequest: operationRequest, connection: self.connection, onSelectResult: onSelectResult)
+                        sender.send(authorizedPayment: payment) { paymentSendResult in
+                            // 5. Return results
+                            switch paymentSendResult {
+                            case .success(let operationResult):
+                                let successResult = PKPaymentAuthorizationResult(status: .success, errors: nil)
+                                applePayUIController.applePayViewControllerHandler?(successResult)
+                                completion(operationResult, nil)
+                            case .failure(let error):
+                                let failureResult = PKPaymentAuthorizationResult(status: .failure, errors: [error])
+                                applePayUIController.applePayViewControllerHandler?(failureResult)
+                                completion(nil, error)
+                            }
+                        }
+                    }
+                } catch {
+                    completion(nil, error)
+                    return
+                }
+            }
         }
         onSelectOperation.start()
     }
 
-    private func handle(onSelectResult: OperationResult, completion: @escaping ((Result<OperationResult, Error>) -> Void), presentationRequest: @escaping PaymentService.PresentationBlock) {
-        let braintreeClient: BTAPIClient
-
-        do {
-            braintreeClient = try BraintreeClientBuilder().createBraintreeClient(onSelectResult: onSelectResult)
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
+    private func createPaymentRequest(onSelectResult: OperationResult, braintreeClient: BTAPIClient, completion: @escaping (Result<PKPaymentRequest, Error>) -> Void) {
         guard let providerResponse = onSelectResult.providerResponse else {
             let error = PaymentError(errorDescription: "Response from a server doesn't contain providerResponse which is required to create PKPaymentRequest")
             completion(.failure(error))
             return
         }
 
-        // Create `PKPaymentRequest`
         let paymentRequestBuilder = PaymentRequestBuilder(providerResponse: providerResponse, braintreeClient: braintreeClient)
-        paymentRequestBuilder.createPaymentRequest { paymentRequestCreationResult in
-            switch paymentRequestCreationResult {
-            case .success(let paymentRequest):
-                do {
-                    let paymentViewController = try ApplePayUIController().createPaymentAuthorizationViewController(paymentRequest: paymentRequest)
-                    presentationRequest(paymentViewController)
-                } catch {
-                    completion(.failure(error))
-                }
+        paymentRequestBuilder.createPaymentRequest(completion: completion)
+    }
 
-//                let notImplementedError = PaymentError(errorDescription: "FIXME: Flow is not yet implemented")
-//                completion(.failure(notImplementedError))
-            case .failure(let paymentRequestCreationError):
-                completion(.failure(paymentRequestCreationError))
-            }
-        }
+    /// Present Apple Pay view controller.
+    /// - Parameters:
+    ///   - paymentRequest: payment request required by Apple Pay
+    ///   - presentationRequest: forwarded to a merchant `presentationRequest` block
+    ///   - didAuthorizePayment: tuple containing authorized `PKPaymentRequest` and Apple Pay UI controller, which could be used to set `PKPaymentAuthorizationResult` through `ApplePayUIController.applePayViewControllerHandler`
+    private func presentApplePayUI(paymentRequest: PKPaymentRequest, presentationRequest: @escaping PaymentService.PresentationBlock, didAuthorizePayment: @escaping ((PKPayment, ApplePayUIController) -> Void)) throws {
+        let applePayController = ApplePayUIController()
+        let paymentViewController = try applePayController.createPaymentAuthorizationViewController(
+            paymentRequest: paymentRequest,
+            didAuthorizePayment: { didAuthorizePayment($0, applePayController) }
+        )
+        presentationRequest(paymentViewController)
     }
 
     // MARK: Delete
