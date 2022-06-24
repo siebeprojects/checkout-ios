@@ -35,7 +35,7 @@ class ApplePayController: NSObject {
         self.connection = connection
         self.paymentResult = {
             // Initial error will be returned if payment cancelled before it was was started.
-            let errorInfo = CustomErrorInfo(resultInfo: "Payment was aborted before starting", interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
+            let errorInfo = CustomErrorInfo(resultInfo: "Payment was aborted before starting", interaction: .init(code: .RELOAD, reason: .CLIENTSIDE_ERROR))
             return .failure(errorInfo)
         }()
     }
