@@ -34,7 +34,7 @@ import BraintreeApplePay
         let builder = PaymentRequestBuilder(connection: connection, operationRequest: operationRequest)
 
         // Create `PKPaymentRequest`
-        builder.createPaymentRequest { paymentRequestCreationResult in
+        builder.createPaymentRequest { [connection] paymentRequestCreationResult in
             let braintreeClient: BTAPIClient
             let paymentRequest: PKPaymentRequest
             let onSelectResult: OperationResult
@@ -50,7 +50,7 @@ import BraintreeApplePay
             }
 
             // Configure Apple Pay controller
-            let applePayController = ApplePayController(braintreeClient: braintreeClient, operationRequest: operationRequest, onSelectResult: onSelectResult, connection: self.connection)
+            let applePayController = ApplePayController(braintreeClient: braintreeClient, operationRequest: operationRequest, onSelectResult: onSelectResult, connection: connection)
             applePayController.completionHandler = {
                 // Payment finished, route results
                 switch applePayController.paymentResult {

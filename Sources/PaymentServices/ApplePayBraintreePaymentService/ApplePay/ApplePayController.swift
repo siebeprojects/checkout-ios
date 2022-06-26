@@ -73,7 +73,13 @@ extension ApplePayController: PKPaymentAuthorizationViewControllerDelegate {
         paymentResult = .failure(interruptionError)
 
         // Communicate with Braintree and backend server
-        sender.send(authorizedPayment: payment) { paymentSendResult in
+        sender.send(authorizedPayment: payment) { [weak self] paymentSendResult in
+            guard let self = self else {
+                let paymentError = PaymentError(errorDescription: "Self was deallocated during a payment")
+                completion(.init(status: .failure, errors: [paymentError]))
+                return
+            }
+
             self.paymentResult = paymentSendResult
 
             // Report result to Apple Pay view controller
