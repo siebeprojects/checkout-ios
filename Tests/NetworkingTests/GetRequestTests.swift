@@ -11,7 +11,6 @@ import XCTest
 private final class MockRequest: GetRequest, Loggable {
     typealias Response = String
 
-    var httpMethod: HTTPMethod { .GET }
     let queryItems: [URLQueryItem]
     let url: URL
 
