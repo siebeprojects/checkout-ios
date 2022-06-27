@@ -8,16 +8,11 @@ import XCTest
 @testable import Networking
 @testable import Logging
 
-private final class MockRequest: GetRequest, Loggable {
+private struct MockRequest: GetRequest, Loggable {
     typealias Response = String
 
     let queryItems: [URLQueryItem]
     let url: URL
-
-    init(queryItems: [URLQueryItem], url: URL) {
-        self.queryItems = queryItems
-        self.url = url
-    }
 
     func logRequest() {}
     func logResponse(_ response: String) {}
