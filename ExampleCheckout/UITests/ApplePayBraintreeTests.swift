@@ -6,7 +6,7 @@
 
 import XCTest
 
-class BraintreeApplePayTests: NetworksTests {
+class ApplePayBraintreeTests: NetworksTests {
     private let division = "Exotic-Braintree"
 
     /// Test if Apple Pay network exists in the list
