@@ -139,8 +139,8 @@
 		D9E1A88026948C8500CF4C9C /* XCTAttachment+subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */; };
 		D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
-		E29A8622285893C400A5D9D1 /* BraintreeApplePayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* BraintreeApplePayTests.swift */; };
-		E29A8623285893C400A5D9D1 /* BraintreeApplePayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* BraintreeApplePayTests.swift */; };
+		E29A8622285893C400A5D9D1 /* ApplePayBraintreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */; };
+		E29A8623285893C400A5D9D1 /* ApplePayBraintreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -258,7 +258,7 @@
 		D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
 		D9E726A9269DBF5700889C64 /* PayPalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalAccount.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
-		E29A861F285893AB00A5D9D1 /* BraintreeApplePayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BraintreeApplePayTests.swift; sourceTree = "<group>"; };
+		E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayBraintreeTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,7 +422,7 @@
 				D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */,
 				D9B0D98327675E6B00DB928D /* PresetFlowTests.swift */,
 				07321F3026EB9EEC00DD2F0E /* DeleteButtonTests.swift */,
-				E29A861F285893AB00A5D9D1 /* BraintreeApplePayTests.swift */,
+				E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */,
 				074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */,
 				07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */,
 				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
@@ -702,7 +702,7 @@
 				0725B40326FCBC9600C607A8 /* NetworksTests.swift in Sources */,
 				D912BB3A2726C1B70004AFAE /* InputElement.swift in Sources */,
 				D912BB622726C1B70004AFAE /* Checkbox.swift in Sources */,
-				E29A8622285893C400A5D9D1 /* BraintreeApplePayTests.swift in Sources */,
+				E29A8622285893C400A5D9D1 /* ApplePayBraintreeTests.swift in Sources */,
 				D912BB482726C1B70004AFAE /* Installments.swift in Sources */,
 				D912BB582726C1B70004AFAE /* InstallmentItem.swift in Sources */,
 				D912BB2E2726C1B70004AFAE /* ExtraElements.swift in Sources */,
@@ -805,7 +805,7 @@
 				D912BB3B2726C1B70004AFAE /* AccountFormData.swift in Sources */,
 				D912BB432726C1B70004AFAE /* PresetAccount.swift in Sources */,
 				D912BB372726C1B70004AFAE /* InstallmentsPlan.swift in Sources */,
-				E29A8623285893C400A5D9D1 /* BraintreeApplePayTests.swift in Sources */,
+				E29A8623285893C400A5D9D1 /* ApplePayBraintreeTests.swift in Sources */,
 				D912BB722726C2BD0004AFAE /* Customer.swift in Sources */,
 				D912BB352726C1B70004AFAE /* ApplicableNetwork.swift in Sources */,
 				D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */,
