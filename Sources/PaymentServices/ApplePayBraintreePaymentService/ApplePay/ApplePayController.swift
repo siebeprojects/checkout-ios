@@ -25,7 +25,7 @@ final class ApplePayController: NSObject {
 
     var completionHandler: (() -> Void)?
 
-    private weak var paymentViewController: PKPaymentAuthorizationViewController?
+    private weak var paymentAuthorizationViewController: PKPaymentAuthorizationViewController?
     private(set) var paymentResult: Result<OperationResult, Error>
 
     init(braintreeClient: BTAPIClient, operationRequest: OperationRequest, onSelectResult: OperationResult, connection: Connection) {
@@ -47,7 +47,7 @@ final class ApplePayController: NSObject {
             throw PaymentError(errorDescription: "Unable to create PKPaymentAuthorizationViewController. PKPaymentRequest may be invalid")
         }
 
-        self.paymentViewController = paymentViewController
+        self.paymentAuthorizationViewController = paymentViewController
         paymentViewController.delegate = self
         return paymentViewController
     }
