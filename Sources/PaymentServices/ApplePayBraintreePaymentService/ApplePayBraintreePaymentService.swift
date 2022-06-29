@@ -19,77 +19,57 @@ import BraintreeApplePay
     }
 
     public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        return networkCode == "APPLEPAY" && paymentMethod == "WALLET"
+        return networkCode == "APPLEPAY" && paymentMethod == "WALLET" && PKPaymentAuthorizationViewController.canMakePayments()
     }
 
-    // MARK: Process payment
+    // MARK: - Process payment
 
     public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
-        // Make OnSelect call
-        let onSelectRequest: NetworkRequest.Operation
-        do {
-            onSelectRequest = try NetworkRequestBuilder().create(from: operationRequest)
-        } catch {
-            completion(nil, error)
+        if operationRequest.networkInformation.operationType == "PRESET" {
+            let errorInfo = CustomErrorInfo(resultInfo: "PRESET flow is not supported yet with Apple Pay", interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
+            completion(nil, errorInfo)
             return
         }
 
-        let onSelectOperation = SendRequestOperation(connection: connection, request: onSelectRequest)
-        onSelectOperation.downloadCompletionBlock = { onSelectRequestResult in
-            // Unpack OperationResult
+        let builder = PaymentRequestBuilder(connection: connection, operationRequest: operationRequest)
+
+        // Create `PKPaymentRequest`
+        builder.createPaymentRequest { [connection] paymentRequestCreationResult in
+            let braintreeClient: BTAPIClient
+            let paymentRequest: PKPaymentRequest
             let onSelectResult: OperationResult
 
-            switch onSelectRequestResult {
-            case .success(let operationResult):
-                onSelectResult = operationResult
+            switch paymentRequestCreationResult {
+            case .success(let payload):
+                braintreeClient = payload.braintreeClient
+                paymentRequest = payload.paymentRequest
+                onSelectResult = payload.onSelectResult
             case .failure(let error):
                 completion(nil, error)
                 return
             }
 
-            // Process OperationResult
-            self.handle(onSelectResult: onSelectResult) { handleResult in
-                switch handleResult {
+            // Configure Apple Pay controller
+            let applePayController = ApplePayController(braintreeClient: braintreeClient, operationRequest: operationRequest, onSelectResult: onSelectResult, connection: connection)
+            applePayController.completionHandler = {
+                // Payment finished, route results
+                switch applePayController.paymentResult {
                 case .success(let operationResult): completion(operationResult, nil)
                 case .failure(let error): completion(nil, error)
                 }
             }
-        }
-        onSelectOperation.start()
-    }
 
-    private func handle(onSelectResult: OperationResult, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
-        let braintreeClient: BTAPIClient
-
-        do {
-            braintreeClient = try BraintreeClientBuilder().createBraintreeClient(onSelectResult: onSelectResult)
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        guard let providerResponse = onSelectResult.providerResponse else {
-            let error = PaymentError(errorDescription: "Response from a server doesn't contain providerResponse which is required to create PKPaymentRequest")
-            completion(.failure(error))
-            return
-        }
-
-        // Create `PKPaymentRequest`
-        let paymentRequestBuilder = PaymentRequestBuilder(providerResponse: providerResponse, braintreeClient: braintreeClient)
-        paymentRequestBuilder.createPaymentRequest { paymentRequestCreationResult in
-            switch paymentRequestCreationResult {
-            case .success(let paymentRequest):
-                // FIXME: Not yet implemented
-                print(paymentRequest)
-                let notImplementedError = PaymentError(errorDescription: "FIXME: Flow is not yet implemented")
-                completion(.failure(notImplementedError))
-            case .failure(let paymentRequestCreationError):
-                completion(.failure(paymentRequestCreationError))
+            do {
+                // Present Apple Pay
+                let viewController = try applePayController.createPaymentAuthorizationViewController(paymentRequest: paymentRequest)
+                presentationRequest(viewController)
+            } catch {
+                completion(nil, error)
             }
         }
     }
 
-    // MARK: Delete
+    // MARK: - Delete
 
     public func delete(accountUsing accountURL: URL, completion: @escaping (OperationResult?, Error?) -> Void) {
         let deletionRequest = NetworkRequest.DeleteAccount(url: accountURL)
