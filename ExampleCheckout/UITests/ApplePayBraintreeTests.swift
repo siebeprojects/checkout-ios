@@ -40,7 +40,9 @@ class ApplePayBraintreeTests: NetworksTests {
 
         // Apple Pay
         let applePay = XCUIApplication(bundleIdentifier: "com.apple.PassbookUIService")
-        XCTAssert(applePay.wait(for: .runningForeground, timeout: .networkTimeout))
+        guard applePay.wait(for: .runningForeground, timeout: .networkTimeout) else {
+            throw "Timeout: waiting of Apple Pay presentation"
+        }
 
         let visaCardLabel = "Simulated Card - Visa, ‪•••• 1234‬"
         applePay.buttons[visaCardLabel].tap()
@@ -48,9 +50,13 @@ class ApplePayBraintreeTests: NetworksTests {
         applePay.buttons["Pay with Passcode"].tap()
 
         // Check OperationResult
-        XCTAssertTrue(app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout), "Alert didn't appear in time")
+        guard app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout) else {
+            throw "Alert didn't appear in time"
+        }
+
         let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
-        XCTAssert(interactionResult.contains("PROCEED"))
-        XCTAssert(interactionResult.contains("OK"))
+        guard interactionResult.contains("PROCEED"), interactionResult.contains("OK") else {
+            throw "Interaction result is not PROCEED/OK"
+        }
     }
 }
