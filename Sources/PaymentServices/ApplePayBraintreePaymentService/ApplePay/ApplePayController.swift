@@ -44,7 +44,7 @@ final class ApplePayController: NSObject {
     /// - Returns: configured Apple Pay view controller with assigned delegate, don't set custom delegate.
     func createPaymentAuthorizationViewController(paymentRequest: PKPaymentRequest) throws -> PKPaymentAuthorizationViewController {
         guard let paymentViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else {
-            throw PaymentError(errorDescription: "Unable to create PKPaymentAuthorizationViewController because PKPaymentRequest may be invalid")
+            throw PaymentError(errorDescription: "Unable to create PKPaymentAuthorizationViewController. PKPaymentRequest may be invalid")
         }
 
         self.paymentViewController = paymentViewController
