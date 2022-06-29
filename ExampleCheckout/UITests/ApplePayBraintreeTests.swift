@@ -42,7 +42,7 @@ class ApplePayBraintreeTests: NetworksTests {
         let applePay = XCUIApplication(bundleIdentifier: "com.apple.PassbookUIService")
         XCTAssert(applePay.wait(for: .runningForeground, timeout: .networkTimeout))
 
-        let visaCardLabel = "Simulated Card - Visa, •••• 1234"
+        let visaCardLabel = "Simulated Card - Visa, ‪•••• 1234‬"
         applePay.buttons[visaCardLabel].tap()
         applePay.tables.cells[visaCardLabel].tap()
         applePay.buttons["Pay with Passcode"].tap()
