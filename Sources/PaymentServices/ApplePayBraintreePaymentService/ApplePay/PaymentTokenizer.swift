@@ -8,8 +8,7 @@ import UIKit
 import Networking
 import BraintreeApplePay
 
-/// Wrapper for `BTApplePayClient` packing possible undefined state to defined `Result` enumeration.
-struct BraintreeApplePayClientWrapper {
+struct PaymentTokenizer {
     private let applePayClient: BTApplePayClient
 
     init(braintreeClient: BTAPIClient) {
