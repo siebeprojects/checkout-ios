@@ -25,9 +25,19 @@ import BraintreeApplePay
     // MARK: - Process payment
 
     public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
+
         if operationRequest.networkInformation.operationType == "PRESET" {
-            let errorInfo = CustomErrorInfo(resultInfo: "PRESET flow is not supported yet with Apple Pay", interaction: .init(code: .ABORT, reason: .CLIENTSIDE_ERROR))
-            completion(nil, errorInfo)
+            let operationRequest = NetworkRequestBuilder().createNetworkRequest(from: operationRequest, url: operationRequest.networkInformation.links["operation"]!, providerRequest: nil)
+
+            let operation = SendRequestOperation(connection: connection, request: operationRequest)
+            operation.downloadCompletionBlock = { chargeResult in
+                switch chargeResult {
+                case .success(let operationResult): completion(operationResult, nil)
+                case .failure(let error): completion(nil, error)
+                }
+            }
+
+            operation.start()
             return
         }
 

@@ -33,7 +33,7 @@ struct NetworkRequestBuilder {
         return createNetworkRequest(from: operationRequest, url: operationURL, providerRequest: nonceProviderParameters)
     }
 
-    private func createNetworkRequest(from operationRequest: OperationRequest, url: URL, providerRequest: ProviderParameters? = nil) -> NetworkRequest.Operation {
+    func createNetworkRequest(from operationRequest: OperationRequest, url: URL, providerRequest: ProviderParameters? = nil) -> NetworkRequest.Operation {
         return NetworkRequest.Operation(
             from: url,
             account: operationRequest.form?.inputFields,
