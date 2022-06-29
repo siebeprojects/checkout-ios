@@ -17,7 +17,7 @@ import BraintreeApplePay
 /// 2. Tokenize `PKPayment` from payment authorization on Braintree and get nonce for this token.
 /// 3. Send a token to a backend server using `links.operation` from `OperationRequest`. Save `OperationResult` to `paymentResult`
 /// 4. Listen for delegate event `paymentAuthorizationViewControllerDidFinish`, send `paymentResult` to `completionHandler`.
-class ApplePayController: NSObject {
+final class ApplePayController: NSObject {
     private let braintreeClient: BTAPIClient
     private let operationRequest: OperationRequest
     private let onSelectResult: OperationResult
