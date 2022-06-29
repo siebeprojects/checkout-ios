@@ -8,23 +8,27 @@ import Networking
 import Payment
 import BraintreeApplePay
 
-struct PaymentRequestBuilderOutput {
-    /// Model for Apple Pay UI
-    let paymentRequest: PKPaymentRequest
-
-    let braintreeClient: BTAPIClient
-
-    /// `OperationResult` after on select call
-    let onSelectResult: OperationResult
-}
-
 /// Builder  responsible for creating `PKPaymentRequest`.
 struct PaymentRequestBuilder {
+    struct Payload {
+        /// Model for Apple Pay UI
+        let paymentRequest: PKPaymentRequest
+
+        let braintreeClient: BTAPIClient
+
+        /// `OperationResult` after on select call
+        let onSelectResult: OperationResult
+    }
+
+    // MARK: Properies
+
     let connection: Connection
     let operationRequest: OperationRequest
 
+    // MARK: Methods
+
     /// Make onSelect call and get `PKPaymentRequest` from Braintree servers providing data from onSelect call.
-    func createPaymentRequest(completion: @escaping (Result<PaymentRequestBuilderOutput, Error>) -> Void) {
+    func createPaymentRequest(completion: @escaping (Result<Payload, Error>) -> Void) {
         // Make OnSelect call
         let onSelectRequest: NetworkRequest.Operation
         do {
@@ -67,7 +71,7 @@ struct PaymentRequestBuilder {
             self.fetchPaymentRequestFromBraintree(braintreeClient: braintreeClient, providerResponse: providerResponse) { fetchResult in
                 switch fetchResult {
                 case .success(let paymentRequest):
-                    let output = PaymentRequestBuilderOutput(paymentRequest: paymentRequest, braintreeClient: braintreeClient, onSelectResult: onSelectResult)
+                    let output = Payload(paymentRequest: paymentRequest, braintreeClient: braintreeClient, onSelectResult: onSelectResult)
                     completion(.success(output))
                 case .failure(let error):
                     completion(.failure(error))
