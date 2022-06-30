@@ -17,7 +17,7 @@ class BrowserDataBuilder {
     }
 }
 
-struct BrowserData: Encodable {
+struct BrowserData: Encodable, Equatable {
     var javaEnabled: Bool
     var language: String?
     var colorDepth: Int
