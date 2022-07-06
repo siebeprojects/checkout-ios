@@ -50,10 +50,10 @@ import BraintreeApplePay
             let onSelectResult: OperationResult
 
             switch paymentRequestCreationResult {
-            case .success(let output):
-                braintreeClient = output.braintreeClient
-                paymentRequest = output.paymentRequest
-                onSelectResult = output.onSelectResult
+            case .success(let payload):
+                braintreeClient = payload.braintreeClient
+                paymentRequest = payload.paymentRequest
+                onSelectResult = payload.onSelectResult
             case .failure(let error):
                 completion(nil, error)
                 return

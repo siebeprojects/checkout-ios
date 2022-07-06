@@ -17,7 +17,7 @@ import BraintreeApplePay
 /// 2. Tokenize `PKPayment` from payment authorization on Braintree and get nonce for this token.
 /// 3. Send a token to a backend server using `links.operation` from `OperationRequest`. Save `OperationResult` to `paymentResult`
 /// 4. Listen for delegate event `paymentAuthorizationViewControllerDidFinish`, send `paymentResult` to `completionHandler`.
-class ApplePayController: NSObject {
+final class ApplePayController: NSObject {
     private let braintreeClient: BTAPIClient
     private let operationRequest: OperationRequest
     private let onSelectResult: OperationResult
@@ -25,7 +25,7 @@ class ApplePayController: NSObject {
 
     var completionHandler: (() -> Void)?
 
-    private weak var paymentViewController: PKPaymentAuthorizationViewController?
+    private weak var paymentAuthorizationViewController: PKPaymentAuthorizationViewController?
     private(set) var paymentResult: Result<OperationResult, Error>
 
     init(braintreeClient: BTAPIClient, operationRequest: OperationRequest, onSelectResult: OperationResult, connection: Connection) {
@@ -44,10 +44,10 @@ class ApplePayController: NSObject {
     /// - Returns: configured Apple Pay view controller with assigned delegate, don't set custom delegate.
     func createPaymentAuthorizationViewController(paymentRequest: PKPaymentRequest) throws -> PKPaymentAuthorizationViewController {
         guard let paymentViewController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest) else {
-            throw PaymentError(errorDescription: "Unable to create PKPaymentAuthorizationViewController because PKPaymentRequest may be invalid")
+            throw PaymentError(errorDescription: "Unable to create PKPaymentAuthorizationViewController. PKPaymentRequest may be invalid")
         }
 
-        self.paymentViewController = paymentViewController
+        self.paymentAuthorizationViewController = paymentViewController
         paymentViewController.delegate = self
         return paymentViewController
     }
@@ -65,8 +65,8 @@ extension ApplePayController: PKPaymentAuthorizationViewControllerDelegate {
 
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         // Tokenize `PKPayment` and send a charge request
-        let applePayClient = BraintreeApplePayClientWrapper(braintreeClient: braintreeClient)
-        let sender = PaymentSender(applePayClient: applePayClient, operationRequest: operationRequest, connection: self.connection, onSelectResult: onSelectResult)
+        let paymentTokenizer = PaymentTokenizer(braintreeClient: braintreeClient)
+        let sender = PaymentSender(paymentTokenizer: paymentTokenizer, operationRequest: operationRequest, connection: self.connection, onSelectResult: onSelectResult)
 
         // Set an error if payment will be interrupted during network requests
         let interruptionError = CustomErrorInfo(resultInfo: "Payment was interrupted during a network request", interaction: .init(code: .VERIFY, reason: .CLIENTSIDE_ERROR))

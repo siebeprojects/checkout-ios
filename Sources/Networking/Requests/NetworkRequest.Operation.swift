@@ -13,7 +13,7 @@ public extension NetworkRequest {
     /// Request for an operation (`links.operation`).
     struct Operation: PostRequest {
         public let url: URL
-        public let queryItems = [URLQueryItem]()
+        public let queryItems: [URLQueryItem]
         public var body: OperationData?
 
         public typealias Response = OperationResult
@@ -21,7 +21,7 @@ public extension NetworkRequest {
         /// - Parameter url: value from `links.operation` for charge operation
         public init(from url: URL, account: [String: String]?, autoRegistration: Bool?, allowRecurrence: Bool?, providerRequest: ProviderParameters?, providerRequests: [ProviderParameters]?) {
             self.url = url
-
+            self.queryItems = []
             self.body = OperationData(
                 account: account,
                 autoRegistration: autoRegistration,

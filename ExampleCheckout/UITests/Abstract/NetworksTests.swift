@@ -26,11 +26,15 @@ class NetworksTests: XCTestCase {
             typeListURL(from: session)
             
             let sendRequestButton = app.tables.buttons["Show Payment List"]
-            _ = sendRequestButton.waitForExistence(timeout: .uiTimeout)
+            guard sendRequestButton.waitForExistence(timeout: .uiTimeout) else {
+                throw "Timeout: show payment list button"
+            }
             sendRequestButton.tap()
 
             // Wait for loading completion
-            XCTAssert(app.tables.element.waitForExistence(timeout: .networkTimeout))
+            guard app.tables.element.waitForExistence(timeout: .networkTimeout) else {
+                throw "Timeout: payment networks list loading"
+            }
 
             return session
         }

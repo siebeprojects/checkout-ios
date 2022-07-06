@@ -89,7 +89,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             throw error
         }
 
-        guard let operationType = listResult.operationType, operationType == "PRESET" else {
+        guard listResult.operationType == "PRESET" else {
             let error = InternalError(description: "List result doesn't contain operation type or operation type is not PRESET")
             throw error
         }
@@ -107,7 +107,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         }
 
         // Prepare OperationRequest
-        let networkInformation = NetworkInformation(networkCode: presetAccount.code, paymentMethod: presetAccount.method, operationType: operationType, links: presetAccount.links)
+        let networkInformation = NetworkInformation(networkCode: presetAccount.code, paymentMethod: presetAccount.method, operationType: presetAccount.operationType, links: presetAccount.links)
         let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil, riskData: riskData)
 
         // Send request
