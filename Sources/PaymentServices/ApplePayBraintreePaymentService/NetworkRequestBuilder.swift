@@ -10,30 +10,20 @@ import Networking
 
 /// Builder for `Networking` module requests.
 struct NetworkRequestBuilder {
-    func createOnSelectRequest(from operationRequest: OperationRequest) throws -> NetworkRequest.Operation {
-        guard let onSelectURL = operationRequest.networkInformation.links["onSelect"] else {
-            throw PaymentError(errorDescription: "OperationRequest doesn't contain links.onSelect which is mandatory")
-        }
-
-        return createNetworkRequest(from: operationRequest, url: onSelectURL)
+    enum LinkType: String {
+        case operation, onSelect
     }
 
-    /// Create a charge request.
-    /// - Parameters:
-    ///   - operationRequest: origin operation request from PayoneerCheckout
-    ///   - providerCode: provider code from `onSelect` operation result
-    ///   - nonce: braintree nonce
-    func createOperationRequest(from operationRequest: OperationRequest, providerCode: String, nonce: String) throws -> NetworkRequest.Operation {
-        guard let operationURL = operationRequest.networkInformation.links["operation"] else {
-            throw PaymentError(errorDescription: "OperationRequest doesn't contain links.operation which is mandatory")
-        }
-
+    func providerParameters(withProviderCode providerCode: String, withNonce nonce: String) -> ProviderParameters {
         let nonceParameter = Parameter(name: "nonce", value: nonce)
-        let nonceProviderParameters = ProviderParameters(providerCode: providerCode, providerType: nil, parameters: [nonceParameter])
-        return createNetworkRequest(from: operationRequest, url: operationURL, providerRequest: nonceProviderParameters)
+        return ProviderParameters(providerCode: providerCode, providerType: nil, parameters: [nonceParameter])
     }
 
-    func createNetworkRequest(from operationRequest: OperationRequest, url: URL, providerRequest: ProviderParameters? = nil) -> NetworkRequest.Operation {
+    func networkRequest(from operationRequest: OperationRequest, linkType: LinkType, providerRequest: ProviderParameters? = nil) throws -> NetworkRequest.Operation {
+        guard let url = operationRequest.networkInformation.links[linkType.rawValue] else {
+            throw PaymentError(errorDescription: "OperationRequest links doesn't contain links." + linkType.rawValue + " which is mandatory")
+        }
+
         return NetworkRequest.Operation(
             from: url,
             account: operationRequest.form?.inputFields,

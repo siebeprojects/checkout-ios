@@ -32,7 +32,7 @@ struct PaymentRequestBuilder {
         // Make OnSelect call
         let onSelectRequest: NetworkRequest.Operation
         do {
-            onSelectRequest = try NetworkRequestBuilder().createOnSelectRequest(from: operationRequest)
+            onSelectRequest = try NetworkRequestBuilder().networkRequest(from: operationRequest, linkType: .onSelect)
         } catch {
             completion(.failure(error))
             return

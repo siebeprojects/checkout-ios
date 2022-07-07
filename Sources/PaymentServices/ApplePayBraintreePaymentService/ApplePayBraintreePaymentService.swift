@@ -25,19 +25,15 @@ import BraintreeApplePay
     // MARK: - Process payment
 
     public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
-
+        // If network should be preset (first request of a PRESET flow), applicable network's operationType will be `PRESET`.
         if operationRequest.networkInformation.operationType == "PRESET" {
-            let operationRequest = NetworkRequestBuilder().createNetworkRequest(from: operationRequest, url: operationRequest.networkInformation.links["operation"]!, providerRequest: nil)
-
-            let operation = SendRequestOperation(connection: connection, request: operationRequest)
-            operation.downloadCompletionBlock = { chargeResult in
-                switch chargeResult {
+            preset(using: operationRequest) { presetResult in
+                switch presetResult {
                 case .success(let operationResult): completion(operationResult, nil)
                 case .failure(let error): completion(nil, error)
                 }
             }
 
-            operation.start()
             return
         }
 
@@ -77,6 +73,25 @@ import BraintreeApplePay
                 completion(nil, error)
             }
         }
+    }
+
+    // MARK: - Preset
+
+    /// Preset account or applicable network using data from `OperationRequest`.
+    public func preset(using operationRequest: OperationRequest, completion: @escaping (Result<OperationResult, Error>) -> Void) {
+        let presetRequest: NetworkRequest.Operation
+
+        do {
+            let builder = NetworkRequestBuilder()
+            presetRequest = try builder.networkRequest(from: operationRequest, linkType: .operation)
+        } catch {
+            completion(.failure(error))
+            return
+        }
+
+        let operation = SendRequestOperation(connection: connection, request: presetRequest)
+        operation.downloadCompletionBlock = completion
+        operation.start()
     }
 
     // MARK: - Delete
