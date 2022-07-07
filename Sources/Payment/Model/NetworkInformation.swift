@@ -19,6 +19,6 @@ import Foundation
 
     /// Operation type for applicable network
     public let operationType: String
-    
+
     public let links: [String: URL]
 }
