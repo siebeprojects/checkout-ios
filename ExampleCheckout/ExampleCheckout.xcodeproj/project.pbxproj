@@ -609,7 +609,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CheckoutSwift;
+				TEST_TARGET_NAME = Checkout;
 			};
 			name = Debug;
 		};
@@ -632,7 +632,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CheckoutSwift;
+				TEST_TARGET_NAME = Checkout;
 			};
 			name = Release;
 		};
