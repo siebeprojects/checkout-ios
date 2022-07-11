@@ -186,15 +186,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		070CDFF22876F2F10013BD36 /* Base.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				070CDFF32876F2F10013BD36 /* LaunchScreen.storyboard */,
-				070CDFF52876F2F10013BD36 /* Main.storyboard */,
-			);
-			path = Base.lproj;
-			sourceTree = "<group>";
-		};
 		D912BABF2726C04B0004AFAE /* Abstract */ = {
 			isa = PBXGroup;
 			children = (
@@ -362,15 +353,16 @@
 		D9E0AEAF234143BD0021184C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */,
+				070CDFF32876F2F10013BD36 /* LaunchScreen.storyboard */,
+				070CDFF52876F2F10013BD36 /* Main.storyboard */,
 				070CDFFA2876F2F10013BD36 /* AppDelegate.swift */,
-				070CDFF82876F2F10013BD36 /* Assets.xcassets */,
-				070CDFF22876F2F10013BD36 /* Base.lproj */,
+				070CDFF12876F2F10013BD36 /* ViewController.swift */,
+				070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */,
 				070CDFF02876F2F10013BD36 /* CustomFontProvider.swift */,
-				070CDFEF2876F2F10013BD36 /* Info.plist */,
+				070CDFF82876F2F10013BD36 /* Assets.xcassets */,
 				070CDFED2876F2F10013BD36 /* Rubik-Bold.ttf */,
 				070CDFEE2876F2F10013BD36 /* Rubik-Regular.ttf */,
-				070CDFF12876F2F10013BD36 /* ViewController.swift */,
+				070CDFEF2876F2F10013BD36 /* Info.plist */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
