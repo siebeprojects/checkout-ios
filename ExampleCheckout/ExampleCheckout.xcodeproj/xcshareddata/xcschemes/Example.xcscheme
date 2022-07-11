@@ -34,7 +34,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D9A5FA55253CA701001C71B7"
                BuildableName = "CheckoutUITests.xctest"
-               BlueprintName = "CheckoutUITests"
+               BlueprintName = "UITests"
                ReferencedContainer = "container:ExampleCheckout.xcodeproj">
             </BuildableReference>
             <SkippedTests>

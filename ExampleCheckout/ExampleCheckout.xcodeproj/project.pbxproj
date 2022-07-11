@@ -147,7 +147,7 @@
 		D99D048726ADDBE300C027CB /* SepaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SepaTests.swift; sourceTree = "<group>"; };
 		D99D048926ADDC7E00C027CB /* Sepa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sepa.swift; sourceTree = "<group>"; };
 		D99E9E09253DAA2700DFF8BD /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		D9A5FA56253CA701001C71B7 /* CheckoutUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheckoutUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9A5FA56253CA701001C71B7 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9A5FA5A253CA701001C71B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A5FA61253CA8BE001C71B7 /* PaymentSessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSessionService.swift; sourceTree = "<group>"; };
 		D9A5FA7F253D8B09001C71B7 /* ListSettings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ListSettings.json; sourceTree = "<group>"; };
@@ -345,7 +345,7 @@
 			isa = PBXGroup;
 			children = (
 				D9E0AEAD234143BD0021184C /* Checkout.app */,
-				D9A5FA56253CA701001C71B7 /* CheckoutUITests.xctest */,
+				D9A5FA56253CA701001C71B7 /* UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -380,9 +380,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D9A5FA55253CA701001C71B7 /* CheckoutUITests */ = {
+		D9A5FA55253CA701001C71B7 /* UITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D9A5FA5D253CA701001C71B7 /* Build configuration list for PBXNativeTarget "CheckoutUITests" */;
+			buildConfigurationList = D9A5FA5D253CA701001C71B7 /* Build configuration list for PBXNativeTarget "UITests" */;
 			buildPhases = (
 				D9A5FA52253CA701001C71B7 /* Sources */,
 				D9A5FA53253CA701001C71B7 /* Frameworks */,
@@ -393,9 +393,9 @@
 			dependencies = (
 				D9A5FA5C253CA701001C71B7 /* PBXTargetDependency */,
 			);
-			name = CheckoutUITests;
+			name = UITests;
 			productName = UITests;
-			productReference = D9A5FA56253CA701001C71B7 /* CheckoutUITests.xctest */;
+			productReference = D9A5FA56253CA701001C71B7 /* UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		D9E0AEAC234143BD0021184C /* Checkout */ = {
@@ -455,7 +455,7 @@
 			projectRoot = "";
 			targets = (
 				D9E0AEAC234143BD0021184C /* Checkout */,
-				D9A5FA55253CA701001C71B7 /* CheckoutUITests */,
+				D9A5FA55253CA701001C71B7 /* UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -808,7 +808,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D9A5FA5D253CA701001C71B7 /* Build configuration list for PBXNativeTarget "CheckoutUITests" */ = {
+		D9A5FA5D253CA701001C71B7 /* Build configuration list for PBXNativeTarget "UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D9A5FA5E253CA701001C71B7 /* Debug */,
