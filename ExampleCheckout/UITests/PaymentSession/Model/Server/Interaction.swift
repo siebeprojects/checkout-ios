@@ -6,14 +6,14 @@
 
 import Foundation
 
-@objc public class Interaction: NSObject, Decodable {
+public class Interaction: NSObject, Decodable {
     /// Interaction code that advices further interaction with this customer or payment.
     /// See list of [Interaction Codes](https://www.optile.io/opg#292619).
-    @objc public let code: String
+    public let code: String
 
     /// Reason of this interaction, complements interaction code and has more detailed granularity.
     /// See list of [Interaction Codes](https://www.optile.io/opg#292619).
-    @objc public let reason: String
+    public let reason: String
 
     internal init(code: Code, reason: Reason) {
         self.code = code.rawValue

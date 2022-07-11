@@ -8,7 +8,7 @@ import UIKit
 import Networking
 import Payment
 
-@objc final public class BasicPaymentService: NSObject, PaymentService {
+final public class BasicPaymentService: NSObject, PaymentService {
     private let supportedRedirectTypes = ["PROVIDER", "3DS2-HANDLER"]
     private let redirectController: RedirectController
     private let connection: Connection

@@ -8,7 +8,7 @@ import Foundation
 import Networking
 import UIKit
 
-@objc public protocol PaymentService: AnyObject {
+public protocol PaymentService: AnyObject {
     typealias CompletionBlock = (OperationResult?, Error?) -> Void
     typealias PresentationBlock = (UIViewController) -> Void
 

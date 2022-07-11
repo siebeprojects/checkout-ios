@@ -7,7 +7,7 @@
 import UIKit
 
 /// The default font provider. It returns the system font for the preferred style or combination of size and weight.
-@objc public final class CheckoutDefaultFontProvider: NSObject, CheckoutFontProvider {
+public final class CheckoutDefaultFontProvider: NSObject, CheckoutFontProvider {
     public func font(forTextStyle textStyle: UIFont.TextStyle) -> UIFont {
         return UIFont.preferredFont(forTextStyle: textStyle)
     }

@@ -7,9 +7,9 @@
 import Foundation
 
 /// Error returned from a server
-@objc open class ErrorInfo: NSObject, Decodable {
-    @objc public let resultInfo: String
-    @objc public let interaction: Interaction
+open class ErrorInfo: NSObject, Decodable {
+    public let resultInfo: String
+    public let interaction: Interaction
 
     /// - Note: Use `CustomErrorInfo` instead of that class when creating custom error info
     public init(resultInfo: String, interaction: Interaction) {

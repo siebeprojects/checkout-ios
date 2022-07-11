@@ -9,7 +9,7 @@ import Networking
 import Payment
 import BraintreeApplePay
 
-@objc final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
+final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
     let redirectController: RedirectController
     let connection: Connection
 

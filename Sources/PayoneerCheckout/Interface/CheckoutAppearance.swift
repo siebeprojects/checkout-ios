@@ -7,7 +7,7 @@
 import UIKit
 
 /// An object containing appearance-related settings for the checkout UI.
-@objc public class CheckoutAppearance: NSObject {
+public class CheckoutAppearance: NSObject {
     /// The color of primary text, like titles and body.
     public let primaryTextColor: UIColor
 
@@ -36,7 +36,7 @@ import UIKit
     static var shared: CheckoutAppearance = .default
 
     /// The default appearance used if no custom appearance is set.
-    @objc public static var `default`: CheckoutAppearance {
+    public static var `default`: CheckoutAppearance {
         CheckoutAppearance(
             primaryTextColor: AssetProvider.primaryTextColor,
             secondaryTextColor: AssetProvider.secondaryTextColor,
@@ -58,7 +58,7 @@ import UIKit
     ///   - borderColor: The color of the borders and row separators on the payment list screen.
     ///   - buttonTitleColor: The color of the primary button's title.
     ///   - fontProvider: An object responsible for providing the different variations of a custom font. If not specified, the default system font will be used.
-    @objc public init(
+    public init(
         primaryTextColor: UIColor = CheckoutAppearance.default.primaryTextColor,
         secondaryTextColor: UIColor = CheckoutAppearance.default.secondaryTextColor,
         backgroundColor: UIColor = CheckoutAppearance.default.backgroundColor,
