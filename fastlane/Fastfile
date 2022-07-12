@@ -25,7 +25,6 @@ platform :ios do
     build_ios_app(
       silent: true,
       export_method: "ad-hoc",
-      codesigning_identity: "Payoneer AdHoc",
       scheme: "Swift",
       project: "./ExampleCheckout/ExampleCheckout.xcodeproj",
       output_name: options[:binary]
