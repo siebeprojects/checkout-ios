@@ -156,7 +156,7 @@
 		D9C602672726EA15007CFD6A /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		D9C6026E2726ECB7007CFD6A /* PaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentService.swift; sourceTree = "<group>"; };
 		D9C6026F2726ECB7007CFD6A /* Charge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Charge.swift; sourceTree = "<group>"; };
-		D9E0AEAD234143BD0021184C /* Checkout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Checkout.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9E0AEAD234143BD0021184C /* ExampleCheckout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleCheckout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E1A87B2694810300CF4C9C /* PaymentNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentNetwork.swift; sourceTree = "<group>"; };
 		D9E1A87D2694893F00CF4C9C /* UpdateFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFlowTests.swift; sourceTree = "<group>"; };
 		D9E1A87F26948C8500CF4C9C /* XCTAttachment+subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTAttachment+subject.swift"; sourceTree = "<group>"; };
@@ -344,7 +344,7 @@
 		D9E0AEAE234143BD0021184C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D9E0AEAD234143BD0021184C /* Checkout.app */,
+				D9E0AEAD234143BD0021184C /* ExampleCheckout.app */,
 				D9A5FA56253CA701001C71B7 /* UITests.xctest */,
 			);
 			name = Products;
@@ -398,9 +398,9 @@
 			productReference = D9A5FA56253CA701001C71B7 /* UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		D9E0AEAC234143BD0021184C /* Checkout */ = {
+		D9E0AEAC234143BD0021184C /* ExampleCheckout */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D9E0AEC1234143BF0021184C /* Build configuration list for PBXNativeTarget "Checkout" */;
+			buildConfigurationList = D9E0AEC1234143BF0021184C /* Build configuration list for PBXNativeTarget "ExampleCheckout" */;
 			buildPhases = (
 				D9E0AEA9234143BD0021184C /* Sources */,
 				D9E0AEAA234143BD0021184C /* Frameworks */,
@@ -410,14 +410,14 @@
 			);
 			dependencies = (
 			);
-			name = Checkout;
+			name = ExampleCheckout;
 			packageProductDependencies = (
 				0767BBC4274BF25100005D30 /* PayoneerCheckout */,
 				074E02B828351DEB00C24AF2 /* IovationRiskProvider */,
 				071467B528478FB2007344D3 /* ApplePayBraintreePaymentService */,
 			);
 			productName = Example;
-			productReference = D9E0AEAD234143BD0021184C /* Checkout.app */;
+			productReference = D9E0AEAD234143BD0021184C /* ExampleCheckout.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -454,7 +454,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D9E0AEAC234143BD0021184C /* Checkout */,
+				D9E0AEAC234143BD0021184C /* ExampleCheckout */,
 				D9A5FA55253CA701001C71B7 /* UITests */,
 			);
 		};
@@ -564,7 +564,7 @@
 /* Begin PBXTargetDependency section */
 		D9A5FA5C253CA701001C71B7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D9E0AEAC234143BD0021184C /* Checkout */;
+			target = D9E0AEAC234143BD0021184C /* ExampleCheckout */;
 			targetProxy = D9A5FA5B253CA701001C71B7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -609,7 +609,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Checkout;
+				TEST_TARGET_NAME = ExampleCheckout;
 			};
 			name = Debug;
 		};
@@ -632,7 +632,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Checkout;
+				TEST_TARGET_NAME = ExampleCheckout;
 			};
 			name = Release;
 		};
@@ -826,7 +826,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D9E0AEC1234143BF0021184C /* Build configuration list for PBXNativeTarget "Checkout" */ = {
+		D9E0AEC1234143BF0021184C /* Build configuration list for PBXNativeTarget "ExampleCheckout" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D9E0AEC2234143BF0021184C /* Debug */,
