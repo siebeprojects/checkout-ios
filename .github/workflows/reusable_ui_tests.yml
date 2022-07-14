@@ -9,7 +9,7 @@ on:
         required: false
         type: string
       schemes:
-        default: '["Swift"]'
+        default: '["ExampleCheckout"]'
         description: 'Stringified JSON array listing Xcode schemes'
         required: false
         type: string

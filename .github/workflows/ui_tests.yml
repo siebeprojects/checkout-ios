@@ -22,7 +22,6 @@ jobs:
     name: Multiple devices
     uses: ./.github/workflows/reusable_ui_tests.yml
     with:
-      schemes: '["Swift", "Objective-C"]'
       simulators: '["iPhone 13 (15.2)", "iPhone 12 (14.5)", "iPhone 11 (13.7)"]'
       install-simulators-command: >-
         sudo ln -s $XCODE_12_DEVELOPER_DIR/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.5.simruntime && 
