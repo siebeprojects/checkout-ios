@@ -16,6 +16,9 @@ public class NetworkInformation: NSObject {
 
     public let networkCode: String
     public let paymentMethod: String?
+
+    /// Operation type for applicable network
     public let operationType: String
+
     public let links: [String: URL]
 }

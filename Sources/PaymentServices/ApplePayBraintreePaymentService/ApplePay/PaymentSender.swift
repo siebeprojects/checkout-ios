@@ -18,21 +18,28 @@ struct PaymentSender {
     /// Tokenize `PKPayment` and send it to a server.
     func send(authorizedPayment payment: PKPayment, completion: @escaping ((Result<OperationResult, Error>) -> Void)) {
         paymentTokenizer.tokenizeApplePay(payment: payment) { tokenizationResult in
-            switch tokenizationResult {
-            case .success(let nonce):
-                do {
-                    guard let providerResponse = onSelectResult.providerResponse else {
-                        throw PaymentError(errorDescription: "OperationResult from OnSelect operation doesn't contain providerResponse")
-                    }
+            let nonce: String
 
-                    let operationRequest = try NetworkRequestBuilder().createOperationRequest(from: operationRequest, providerCode: providerResponse.providerCode, nonce: nonce)
-                    let operation = SendRequestOperation(connection: connection, request: operationRequest)
-                    operation.downloadCompletionBlock = completion
-                    operation.start()
-                } catch {
-                    completion(.failure(error))
-                }
+            switch tokenizationResult {
+            case .success(let receivedNonce):
+                nonce = receivedNonce
             case .failure(let error):
+                completion(.failure(error))
+                return
+            }
+
+            do {
+                guard let providerResponse = onSelectResult.providerResponse else {
+                    throw PaymentError(errorDescription: "OperationResult from OnSelect operation doesn't contain providerResponse")
+                }
+
+                let builder = NetworkRequestBuilder()
+                let providerRequest = builder.providerParameters(withProviderCode: providerResponse.providerCode, withNonce: nonce)
+                let operationRequest = try builder.networkRequest(from: operationRequest, linkType: .operation, providerRequest: providerRequest)
+                let operation = SendRequestOperation(connection: connection, request: operationRequest)
+                operation.downloadCompletionBlock = completion
+                operation.start()
+            } catch {
                 completion(.failure(error))
             }
         }
