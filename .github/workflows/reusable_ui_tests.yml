@@ -24,7 +24,7 @@ on:
 
 jobs:
   ui-tests:
-    name: '${{ matrix.scheme }}, ${{matrix.simulator }}'
+    name: '${{matrix.simulator }}'
     runs-on: macos-latest
   
     strategy:
