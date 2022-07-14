@@ -8,7 +8,7 @@ import Foundation
 import Risk
 import FraudForce
 
-@objc final public class IovationRiskProvider: NSObject, RiskProvider {
+final public class IovationRiskProvider: NSObject, RiskProvider {
     public static let code: String = "IOVATION"
     public static let type: String? = "RISK_DATA_PROVIDER"
 

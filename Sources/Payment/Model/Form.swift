@@ -6,7 +6,7 @@
 
 import Foundation
 
-@objc public class Form: NSObject {
+public class Form: NSObject {
     public init(inputFields: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?) {
         self.inputFields = inputFields
         self.autoRegistration = autoRegistration

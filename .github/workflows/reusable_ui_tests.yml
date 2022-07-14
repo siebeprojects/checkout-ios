@@ -9,7 +9,7 @@ on:
         required: false
         type: string
       schemes:
-        default: '["Swift"]'
+        default: '["ExampleCheckout"]'
         description: 'Stringified JSON array listing Xcode schemes'
         required: false
         type: string
@@ -24,7 +24,7 @@ on:
 
 jobs:
   ui-tests:
-    name: '${{ matrix.scheme }}, ${{matrix.simulator }}'
+    name: '${{matrix.simulator }}'
     runs-on: macos-latest
   
     strategy:

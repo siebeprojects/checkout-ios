@@ -8,8 +8,8 @@ import Foundation
 import Networking
 
 /// An object containing relevant information about the result of a checkout operation.
-@objc public class CheckoutResult: NSObject {
-    @objc public var operationResult: OperationResult? {
+public class CheckoutResult: NSObject {
+    public var operationResult: OperationResult? {
         guard case let .success(unwrappedOperationResult) = result else {
             return nil
         }
@@ -17,7 +17,7 @@ import Networking
         return unwrappedOperationResult
     }
 
-    @objc public var errorInfo: ErrorInfo? {
+    public var errorInfo: ErrorInfo? {
         guard case let .failure(error) = result else {
             return nil
         }
@@ -26,15 +26,15 @@ import Networking
     }
 
     /// Contains value if something went wrong inside framework. In the most cases it would contain `InternalError` type.
-    @objc public var cause: Error? {
+    public var cause: Error? {
         return (errorInfo as? CustomErrorInfo)?.underlyingError
     }
 
     /// Contains result info from `OperationResult` or `ErrorInfo`
-    @objc public var resultInfo: String { result.resultInfo }
+    public var resultInfo: String { result.resultInfo }
 
     /// A reference to `Interaction` object inside `operationResult` or `errorInfo`.
-    @objc public var interaction: Interaction { result.interaction }
+    public var interaction: Interaction { result.interaction }
 
     // MARK: Internal
 
