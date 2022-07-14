@@ -10,6 +10,8 @@ import XCTest
 class ApplePayBraintreeTests: NetworksTests {
     private let division = "Exotic-Braintree"
 
+    // MARK: - List
+
     /// Test if Apple Pay network exists in the list
     func testApplePayExists() throws {
         do {
@@ -22,32 +24,25 @@ class ApplePayBraintreeTests: NetworksTests {
         XCTAssertTrue(app.tables.staticTexts["Apple Pay"].exists)
     }
 
-    func testPayment() throws {
+    // MARK: - Charge
+
+    func testCharge() throws {
         do {
-            try makeApplePayPayment()
+            try chargeApplePay()
         } catch {
             throw XCTSkip("There is a problem making Apple Pay payment through Braintree: \(error)")
         }
     }
 
     /// Make a test payment with Apple Pay
-    private func makeApplePayPayment() throws {
+    private func chargeApplePay() throws {
         let listSettings = try ListSettings(magicNumber: .proceedOK, operationType: .charge, division: division)
         try setupPaymentSession(with: listSettings)
 
         app.tables.staticTexts["Apple Pay"].tap()
         app.buttons["Pay"].tap()
 
-        // Apple Pay
-        let applePay = XCUIApplication(bundleIdentifier: "com.apple.PassbookUIService")
-        guard applePay.wait(for: .runningForeground, timeout: .networkTimeout) else {
-            throw "Timeout: waiting of Apple Pay presentation"
-        }
-
-        let visaCardLabel = "Simulated Card - Visa, ‪•••• 1234‬"
-        applePay.buttons[visaCardLabel].tap()
-        applePay.tables.cells[visaCardLabel].tap()
-        applePay.buttons["Pay with Passcode"].tap()
+        try payInApplePayApplication()
 
         // Check OperationResult
         guard app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout) else {
@@ -58,5 +53,76 @@ class ApplePayBraintreeTests: NetworksTests {
         guard interactionResult.contains("PROCEED"), interactionResult.contains("OK") else {
             throw "Interaction result is not PROCEED/OK"
         }
+    }
+
+    // MARK: - Preset
+
+    func testPresetAndCharge() throws {
+        do {
+            try presetAndCharge()
+        } catch {
+            throw XCTSkip("There is a problem making Apple Pay payment through Braintree: \(error)")
+        }
+    }
+
+    private func presetAndCharge() throws {
+        try XCTContext.runActivity(named: "Preset account") { _ in
+            // Create payment session
+            let listSettings = try ListSettings(magicNumber: .nonMagicNumber, operationType: .preset, division: division)
+            try setupPaymentSession(with: listSettings)
+
+            // Fill and submit card's data
+            app.tables.staticTexts["Apple Pay"].tap()
+
+            let continueButton = app.buttons["Continue"]
+            XCTAssertTrue(continueButton.waitForExistence(timeout: .uiTimeout))
+            continueButton.tap()
+
+            // Check OperationResult
+            guard app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout) else {
+                throw "Alert didn't appear in time"
+            }
+
+            let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+            guard interactionResult.contains("PROCEED"), interactionResult.contains("OK") else {
+                throw "Interaction result is not PROCEED/OK"
+            }
+        }
+
+        // Close the alert
+        app.alerts.firstMatch.buttons.firstMatch.tap()
+
+        // Charge the preset account
+        try XCTContext.runActivity(named: "Charge the preset account") { _ in
+            let chargePresetAccountButton = app.tables.buttons["Charge Preset Account"]
+            _ = chargePresetAccountButton.waitForExistence(timeout: .uiTimeout)
+            chargePresetAccountButton.tap()
+
+            try payInApplePayApplication()
+
+            // Check OperationResult
+            guard app.alerts.firstMatch.waitForExistence(timeout: .networkTimeout) else {
+                throw "Alert didn't appear in time"
+            }
+
+            let interactionResult = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+            guard interactionResult.contains("PROCEED"), interactionResult.contains("OK") else {
+                throw "Interaction result is not PROCEED/OK"
+            }
+        }
+    }
+}
+
+private extension ApplePayBraintreeTests {
+    func payInApplePayApplication() throws {
+        let applePay = XCUIApplication(bundleIdentifier: "com.apple.PassbookUIService")
+        guard applePay.wait(for: .runningForeground, timeout: .networkTimeout) else {
+            throw "Timeout: waiting of Apple Pay presentation"
+        }
+
+        let visaCardLabel = "Simulated Card - Visa, ‪•••• 1234‬"
+        applePay.buttons[visaCardLabel].tap()
+        applePay.tables.cells[visaCardLabel].tap()
+        applePay.buttons["Pay with Passcode"].tap()
     }
 }
