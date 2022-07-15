@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Payoneer Germany GmbH
+// Copyright (c) 2021–2022 Payoneer Germany GmbH
 // https://www.payoneer.com
 //
 // This file is open source and available under the MIT license.
@@ -9,21 +9,48 @@ import Networking
 import Logging
 
 extension Input.ModelTransformer {
-    struct ExtraElementsTransformer {
-        func createInputField(from extraElement: ExtraElement) -> InputField? {
-            guard extraElement.checkbox == nil else {
+    struct ExtraElementTransformer {
+        let extraElement: ExtraElement
+
+        var inputField: InputField? {
+            if let checkbox = extraElement.checkbox {
+                guard let inputFieldCheckbox = inputFieldCheckbox(for: checkbox, inside: extraElement) else { return nil }
+                return inputFieldCheckbox
+            }
+
+            return Input.Field.Label(label: label, id: .inputElementName(extraElement.name), value: "")
+        }
+
+        private func inputFieldCheckbox(for checkbox: Checkbox, inside extraElement: ExtraElement) -> Input.Field.Checkbox? {
+            guard let checkboxMode = checkbox.checkboxMode else {
                 if #available(iOS 14.0, *) {
-                    logger.debug("Skipping extra element \(extraElement.name) because it has a checkbox")
+                    logger.error("Checkbox mode is not defined for name=\(extraElement.name), skipping checkbox.")
                 }
 
                 return nil
             }
 
+            let id = Input.Field.Identifier.globalExtraElement(extraElement.name)
+
+            // Reference: https://optile.atlassian.net/wiki/spaces/PPW/pages/3391881231/ExtraElement+Checkbox+modes
+            switch checkboxMode {
+            case .OPTIONAL, .REQUIRED:
+                return .init(id: id, isOn: false, label: label)
+            case .OPTIONAL_PRESELECTED, .REQUIRED_PRESELECTED:
+                return .init(id: id, isOn: true, label: label)
+            case .FORCED, .FORCED_DISPLAYED:
+                // Reference: https://optile.atlassian.net/browse/PCX-3383 (point 4)
+                let checkbox = Input.Field.Checkbox(id: id, isOn: true, label: label)
+                checkbox.isEnabled = false
+                return checkbox
+            }
+        }
+
+        private var label: NSAttributedString {
             let markdownParser = MarkdownParser()
-            let parsedLabel = markdownParser.parse(extraElement.label)
-            return Input.Field.Label(label: parsedLabel, id: .inputElementName(extraElement.name), value: "")
+            return markdownParser.parse(extraElement.label)
         }
     }
 }
 
-extension Input.ModelTransformer.ExtraElementsTransformer: Loggable {}
+extension Input.ModelTransformer.ExtraElementTransformer: Loggable {}

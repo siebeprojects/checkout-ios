@@ -26,6 +26,9 @@ extension Input.Field {
 
         /// The identifier for field that uses server's `name` from input element
         case inputElementName(String)
+
+        /// The identifier for global (in the root of a list result) extra elements fields
+        case globalExtraElement(String)
     }
 }
 
