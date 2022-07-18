@@ -29,6 +29,18 @@ extension Input.Field {
 
         /// The identifier for global (in the root of a list result) extra elements fields
         case globalExtraElement(String)
+
+        /// Represent as textual value. Used for UI tests in accessibility identifiers.
+        var textValue: String {
+            switch self {
+            case .expiryDate: return "expiryDate"
+            case .registration: return "registration"
+            case .recurrence: return "recurrence"
+            case .combinedRegistration: return "combinedRegistration"
+            case .inputElementName(let name): return "inputElement_" + name
+            case .globalExtraElement(let name): return "extraElement_" + name
+            }
+        }
     }
 }
 

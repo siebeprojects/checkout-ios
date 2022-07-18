@@ -87,6 +87,7 @@ extension Input.Table.CheckboxViewCell {
         checkbox.isOn = model.isOn
         checkbox.onTintColor = self.tintColor
         checkbox.isEnabled = model.isEnabled
+        checkbox.accessibilityIdentifier = model.id.textValue
 
         // Configure text view
         if let font = textView.font {

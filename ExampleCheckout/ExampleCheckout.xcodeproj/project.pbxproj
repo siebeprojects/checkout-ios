@@ -12,8 +12,6 @@
 		070CDFFC2876F2F10013BD36 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFEE2876F2F10013BD36 /* Rubik-Regular.ttf */; };
 		070CDFFE2876F2F10013BD36 /* CustomFontProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CDFF02876F2F10013BD36 /* CustomFontProvider.swift */; };
 		070CDFFF2876F2F10013BD36 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CDFF12876F2F10013BD36 /* ViewController.swift */; };
-		070CE0002876F2F10013BD36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF32876F2F10013BD36 /* LaunchScreen.storyboard */; };
-		070CE0012876F2F10013BD36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF52876F2F10013BD36 /* Main.storyboard */; };
 		070CE0022876F2F10013BD36 /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */; };
 		070CE0032876F2F10013BD36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF82876F2F10013BD36 /* Assets.xcassets */; };
 		070CE0052876F2F10013BD36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CDFFA2876F2F10013BD36 /* AppDelegate.swift */; };
@@ -77,6 +75,9 @@
 		D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
 		E29A8623285893C400A5D9D1 /* ApplePayBraintreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */; };
+		E2C7513C288615AD0036F810 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF42876F2F10013BD36 /* LaunchScreen.storyboard */; };
+		E2C7513D288615AD0036F810 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF62876F2F10013BD36 /* Main.storyboard */; };
+		E2C7513F288619F20036F810 /* ExtraElementsCheckboxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C7513E288619F20036F810 /* ExtraElementsCheckboxTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,8 +97,8 @@
 		070CDFEF2876F2F10013BD36 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		070CDFF02876F2F10013BD36 /* CustomFontProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFontProvider.swift; sourceTree = "<group>"; };
 		070CDFF12876F2F10013BD36 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		070CDFF42876F2F10013BD36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		070CDFF62876F2F10013BD36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
+		070CDFF42876F2F10013BD36 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		070CDFF62876F2F10013BD36 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatableButton.swift; sourceTree = "<group>"; };
 		070CDFF82876F2F10013BD36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		070CDFFA2876F2F10013BD36 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -163,6 +164,7 @@
 		D9E726A9269DBF5700889C64 /* PayPalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalAccount.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
 		E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayBraintreeTests.swift; sourceTree = "<group>"; };
+		E2C7513E288619F20036F810 /* ExtraElementsCheckboxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsCheckboxTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,6 +283,7 @@
 				E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */,
 				074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */,
 				07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */,
+				E2C7513E288619F20036F810 /* ExtraElementsCheckboxTests.swift */,
 				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
 				D99D048726ADDBE300C027CB /* SepaTests.swift */,
@@ -353,8 +356,8 @@
 		D9E0AEAF234143BD0021184C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				070CDFF32876F2F10013BD36 /* LaunchScreen.storyboard */,
-				070CDFF52876F2F10013BD36 /* Main.storyboard */,
+				070CDFF42876F2F10013BD36 /* LaunchScreen.storyboard */,
+				070CDFF62876F2F10013BD36 /* Main.storyboard */,
 				070CDFFA2876F2F10013BD36 /* AppDelegate.swift */,
 				070CDFF12876F2F10013BD36 /* ViewController.swift */,
 				070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */,
@@ -474,8 +477,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				070CDFFB2876F2F10013BD36 /* Rubik-Bold.ttf in Resources */,
-				070CE0012876F2F10013BD36 /* Main.storyboard in Resources */,
-				070CE0002876F2F10013BD36 /* LaunchScreen.storyboard in Resources */,
+				E2C7513D288615AD0036F810 /* Main.storyboard in Resources */,
+				E2C7513C288615AD0036F810 /* LaunchScreen.storyboard in Resources */,
 				070CDFFC2876F2F10013BD36 /* Rubik-Regular.ttf in Resources */,
 				070CE0032876F2F10013BD36 /* Assets.xcassets in Resources */,
 			);
@@ -520,6 +523,7 @@
 				D912BB5B2726C1B70004AFAE /* CustomerFormData.swift in Sources */,
 				D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */,
 				D9C602652726CF1F007CFD6A /* Registration.swift in Sources */,
+				E2C7513F288619F20036F810 /* ExtraElementsCheckboxTests.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,
 				074DADF12785EAA900F704E7 /* ExpiredCardTests.swift in Sources */,
 				D9C602722726ECB7007CFD6A /* Charge.swift in Sources */,
@@ -568,25 +572,6 @@
 			targetProxy = D9A5FA5B253CA701001C71B7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		070CDFF32876F2F10013BD36 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				070CDFF42876F2F10013BD36 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		070CDFF52876F2F10013BD36 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				070CDFF62876F2F10013BD36 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D9A5FA5E253CA701001C71B7 /* Debug */ = {
