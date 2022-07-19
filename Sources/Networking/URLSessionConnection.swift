@@ -10,11 +10,11 @@ import os.log
 public class URLSessionConnection: Connection {
     let session = URLSession(configuration: URLSessionConfiguration.default)
 
-    typealias RequestCompletionHandler = (Data?, Error?) -> Void
+    typealias RequestCompletionHandler = (Result<Data, Error>) -> Void
 
     public init() {}
 
-    public func send(request: URLRequest, completionHandler: @escaping ((Data?, Error?) -> Void)) {
+    public func send(request: URLRequest, completionHandler: @escaping ((Result<Data, Error>) -> Void)) {
         // Send a network request
         let task = session.dataTask(with: request) { [handleDataTaskResponse] (data, response, error) in
             handleDataTaskResponse(data, response, error, completionHandler)
@@ -28,36 +28,38 @@ public class URLSessionConnection: Connection {
     private func handleDataTaskResponse(data: Data?, response: URLResponse?, error: Error?, completionHandler: @escaping RequestCompletionHandler) {
         // HTTP Errors
         if let error = error {
-            completionHandler(nil, error)
+            completionHandler(.failure(error))
             return
         }
 
         guard let response = response else {
-            let error = NetworkingError(description: "Incorrect completion from a URLSession, we have no error and no response")
-            completionHandler(nil, error)
+            completionHandler(.failure(NetworkingError(description: "Incorrect completion from a URLSession, we have no error and no response")))
             return
         }
 
         // We expect HTTP response
         guard let httpResponse = response as? HTTPURLResponse else {
-            let error = NetworkingError(description: "Unexpected server response (receive a non-HTTP response)")
-            completionHandler(nil, error)
+            completionHandler(.failure(NetworkingError(description: "Unexpected server response (receive a non-HTTP response)")))
             return
         }
 
         // TODO: Read more about backend's status codes
         guard httpResponse.statusCode >= 200, httpResponse.statusCode < 400 else {
             if let data = data, let backendError = try? JSONDecoder().decode(ErrorInfo.self, from: data) {
-                completionHandler(nil, backendError)
+                completionHandler(.failure(backendError))
             } else {
-                let error = NetworkingError(description: "Non-OK response from a server")
-                completionHandler(nil, error)
+                completionHandler(.failure(NetworkingError(description: "Non-OK response from a server")))
             }
 
             return
         }
 
-        completionHandler(data, nil)
+        guard let data = data else {
+            completionHandler(.failure(NetworkingError(description: "Response doesn't contain data or error")))
+            return
+        }
+
+        completionHandler(.success(data))
     }
 }
 
