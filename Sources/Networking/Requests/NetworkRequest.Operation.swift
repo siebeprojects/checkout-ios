@@ -19,13 +19,14 @@ public extension NetworkRequest {
         public typealias Response = OperationResult
 
         /// - Parameter url: value from `links.operation` for charge operation
-        public init(from url: URL, account: [String: String]?, autoRegistration: Bool?, allowRecurrence: Bool?, providerRequest: ProviderParameters?, providerRequests: [ProviderParameters]?) {
+        public init(from url: URL, account: [String: String]?, autoRegistration: Bool?, allowRecurrence: Bool?, checkboxes: [String: Bool]?, providerRequest: ProviderParameters?, providerRequests: [ProviderParameters]?) {
             self.url = url
             self.queryItems = []
             self.body = OperationData(
                 account: account,
                 autoRegistration: autoRegistration,
                 allowRecurrence: allowRecurrence,
+                checkboxes: checkboxes,
                 providerRequest: providerRequest,
                 providerRequests: providerRequests,
                 browserData: BrowserDataBuilder.build()
