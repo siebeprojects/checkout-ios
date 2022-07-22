@@ -7,7 +7,7 @@
 import UIKit
 
 /// An object containing appearance-related settings for the checkout UI.
-public class CheckoutAppearance: NSObject {
+public struct CheckoutAppearance {
     /// The color of primary text, like titles and body.
     public let primaryTextColor: UIColor
 
