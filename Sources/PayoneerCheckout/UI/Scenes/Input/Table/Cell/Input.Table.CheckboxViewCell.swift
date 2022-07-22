@@ -83,7 +83,6 @@ extension Input.Table {
 extension Input.Table.CheckboxViewCell {
     func configure(with model: Input.Field.Checkbox) {
         checkbox.isOn = model.isOn
-        checkbox.onTintColor = self.tintColor
         checkbox.isEnabled = model.isEnabled
 
         // Configure text view
