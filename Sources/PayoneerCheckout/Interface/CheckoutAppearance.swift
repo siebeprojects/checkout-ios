@@ -7,7 +7,9 @@
 import UIKit
 
 /// An object containing appearance-related settings for the checkout UI.
-public struct CheckoutAppearance {
+public struct CheckoutAppearance: Identifiable {
+    public let id = UUID()
+
     /// The color of primary text, like titles and body.
     public let primaryTextColor: UIColor
 
@@ -76,5 +78,13 @@ public struct CheckoutAppearance {
         self.borderColor = borderColor
         self.buttonTitleColor = buttonTitleColor
         self.fontProvider = fontProvider
+    }
+}
+
+// MARK: - Equatable
+
+extension CheckoutAppearance: Equatable {
+    public static func == (lhs: CheckoutAppearance, rhs: CheckoutAppearance) -> Bool {
+        lhs.id == rhs.id
     }
 }

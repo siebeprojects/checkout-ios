@@ -75,7 +75,7 @@ extension PaymentSessionServiceTests: PaymentSessionServiceDelegate {
 // swiftlint:disable identifier_name
 
 private class PaymentPageFailureDataSource: MockDataSource {
-    func fakeData(for request: URLRequest) -> Result<Data?, Error> {
+    func fakeData(for request: URLRequest) -> Result<Data, Error> {
         guard let path = request.url?.path else {
             let error = TestError(description: "Request doesn't contain URL")
             XCTFail(error)
@@ -97,7 +97,7 @@ private class PaymentPageFailureDataSource: MockDataSource {
 }
 
 private class PaymentSessionDataSource: MockDataSource {
-    func fakeData(for request: URLRequest) -> Result<Data?, Error> {
+    func fakeData(for request: URLRequest) -> Result<Data, Error> {
         guard let path = request.url?.path else {
             let error = TestError(description: "Request doesn't contain URL")
             XCTFail(error)
