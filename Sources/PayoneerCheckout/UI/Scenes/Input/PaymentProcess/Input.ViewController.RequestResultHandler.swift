@@ -20,8 +20,17 @@ extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
     }
 
     func requestSender(didReceiveResult result: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
+        let interaction: Interaction = {
+            switch result {
+            case .success(let operationResult):
+                return operationResult.interaction
+            case .failure(let error):
+                return error.interaction
+            }
+        }()
+
         // Handle internal `COMMUNICATION_FAILURE` error for all flows
-        if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: result.interaction.reason), case let .failure(errorInfo) = result {
+        if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: interaction.reason), case let .failure(errorInfo) = result {
             self.delegate?.requestHandler(communicationFailedWith: errorInfo, forRequestType: requestType)
             return
         }
@@ -30,10 +39,13 @@ extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
         switch requestType {
         case .operation(let operationType):
             switch operationType {
-            case "UPDATE": handle(updateResponse: result)
-            default: handle(operationResponse: result, for: requestType)
+            case "UPDATE":
+                handle(updateResult: result)
+            default:
+                handle(result: result, for: requestType)
             }
-        case .deletion: handle(deletionResponse: result)
+        case .deletion:
+            handle(deletionResult: result)
         }
     }
 }
@@ -41,44 +53,62 @@ extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
 // MARK: - Operation handlers
 
 extension Input.ViewController.RequestResultHandler {
-    private func handle(operationResponse: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
+    private func handle(result: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
+        let resultData: (interaction: Interaction, resultInfo: String) = {
+            switch result {
+            case .success(let operationResult):
+                return (operationResult.interaction, operationResult.resultInfo)
+            case .failure(let error):
+                return (error.interaction, error.resultInfo)
+            }
+        }()
+
         // On retry show an error and leave on that view
-        if case .RETRY = Interaction.Code(rawValue: operationResponse.interaction.code) {
-            let interaction = LocalizableInteraction.create(fromInteraction: operationResponse.interaction, flow: .charge)
-            let errorInfo = ErrorInfo(resultInfo: operationResponse.resultInfo, interaction: interaction)
+        if case .RETRY = Interaction.Code(rawValue: resultData.interaction.code) {
+            let interaction = LocalizableInteraction.create(fromInteraction: resultData.interaction, flow: .charge)
+            let errorInfo = ErrorInfo(resultInfo: resultData.resultInfo, interaction: interaction)
 
             self.delegate?.requestHandler(inputShouldBeChanged: errorInfo)
         }
 
         // In other situations route to a parent view
         else {
-            self.delegate?.requestHandler(route: operationResponse, forRequestType: requestType)
+            self.delegate?.requestHandler(route: result, forRequestType: requestType)
         }
     }
 
     /// Handler for responses in `UPDATE` flow.
     ///
     /// Flow rules are defined in [PCX-1396](https://optile.atlassian.net/browse/PCX-1396).
-    private func handle(updateResponse: Result<OperationResult, ErrorInfo>) {
-        self.delegate?.requestHandler(route: updateResponse, forRequestType: .operation(type: "UPDATE"))
+    private func handle(updateResult: Result<OperationResult, ErrorInfo>) {
+        self.delegate?.requestHandler(route: updateResult, forRequestType: .operation(type: "UPDATE"))
     }
 }
 
 // MARK: - Deletion handler
 
 extension Input.ViewController.RequestResultHandler {
-    private func handle(deletionResponse: Result<OperationResult, ErrorInfo>) {
+    private func handle(deletionResult: Result<OperationResult, ErrorInfo>) {
+        let resultData: (interaction: Interaction, resultInfo: String) = {
+            switch deletionResult {
+            case .success(let operationResult):
+                return (operationResult.interaction, operationResult.resultInfo)
+            case .failure(let error):
+                return (error.interaction, error.resultInfo)
+            }
+        }()
+
         // On retry show an error and leave on that view
-        if case .RETRY = Interaction.Code(rawValue: deletionResponse.interaction.code) {
-            let interaction = LocalizableInteraction.create(fromInteraction: deletionResponse.interaction, flow: .delete)
-            let errorInfo = ErrorInfo(resultInfo: deletionResponse.resultInfo, interaction: interaction)
+        if case .RETRY = Interaction.Code(rawValue: resultData.interaction.code) {
+            let interaction = LocalizableInteraction.create(fromInteraction: resultData.interaction, flow: .delete)
+            let errorInfo = ErrorInfo(resultInfo: resultData.resultInfo, interaction: interaction)
 
             self.delegate?.requestHandler(inputShouldBeChanged: errorInfo)
         }
 
         // In other situations route to a parent view
         else {
-            self.delegate?.requestHandler(route: deletionResponse, forRequestType: .deletion)
+            self.delegate?.requestHandler(route: deletionResult, forRequestType: .deletion)
         }
     }
 }

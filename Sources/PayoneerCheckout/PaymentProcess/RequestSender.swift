@@ -48,12 +48,19 @@ extension RequestSender {
         }
 
         // Delete account
-        service.delete(accountUsing: accountURL, completion: { [weak self] operationResult, error in
-            guard let self = self else { return }
-
-            let deletionResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
+        service.delete(accountUsing: accountURL, completion: { [weak self] result in
             DispatchQueue.main.async {
-                self.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
+                switch result {
+                case .success(let operationResult):
+                    self?.delegate?.requestSender(didReceiveResult: .success(operationResult), for: .deletion)
+                case .failure(let error):
+                    if let errorInfo = error as? ErrorInfo {
+                        self?.delegate?.requestSender(didReceiveResult: .failure(errorInfo), for: .deletion)
+                    } else {
+                        guard let errorInfo = self?.createErrorInfo(from: error, forOperationType: nil) else { return }
+                        self?.delegate?.requestSender(didReceiveResult: .failure(errorInfo), for: .deletion)
+                    }
+                }
             }
         })
     }
@@ -82,17 +89,23 @@ extension RequestSender {
         }
 
         // Send operation request
-        service.processPayment(operationRequest: operationRequest, completion: { [weak self] operationResult, error in
-            guard let self = self else { return }
-
-            let operationResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
+        service.processPayment(operationRequest: operationRequest, completion: { [weak self] result in
+            let errorInfoResult: Result<OperationResult, ErrorInfo> = {
+                switch result {
+                case .success(let operationResult):
+                    return .success(operationResult)
+                case .failure(let error):
+                    let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+                    return .failure(errorInfo)
+                }
+            }()
 
             DispatchQueue.main.async {
-                self.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
+                self?.delegate?.requestSender(didReceiveResult: errorInfoResult, for: .operation(type: network.operationType))
             }
-        }, presentationRequest: { [weak delegate] viewControllerToPresent in
+        }, presentationRequest: { [weak self] viewControllerToPresent in
             DispatchQueue.main.async {
-                delegate?.requestSender(presentationRequestReceivedFor: viewControllerToPresent)
+                self?.delegate?.requestSender(presentationRequestReceivedFor: viewControllerToPresent)
             }
         })
     }
@@ -100,7 +113,8 @@ extension RequestSender {
     /// Find appropriate interaction code for specified operation type.
     private func getFailureInteractionCode(forOperationType operationType: String?) -> Interaction.Code {
         switch operationType {
-        case "PRESET", "UPDATE", "ACTIVATION": return .ABORT
+        case "PRESET", "UPDATE", "ACTIVATION":
+            return .ABORT
         default:
             // "CHARGE", "PAYOUT" and other operation types
             return .VERIFY
@@ -112,24 +126,6 @@ extension RequestSender {
         let interaction = Interaction(code: code, reason: .CLIENTSIDE_ERROR)
         let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
         return errorInfo
-    }
-
-    /// Converts object and error optionals to `Result` with a defined state.
-    private func convertToResult(object: OperationResult?, error: Error?, operationType: String?) -> Result <OperationResult, ErrorInfo> {
-        if let errorInfo = error as? ErrorInfo {
-            return .failure(errorInfo)
-        } else if let error = error {
-            let errorInfo = createErrorInfo(from: error, forOperationType: operationType)
-            return .failure(errorInfo)
-        }
-
-        guard let object = object else {
-            let error = RequestSenderError.malformedResponseBlock
-            let errorInfo = createErrorInfo(from: error, forOperationType: operationType)
-            return .failure(errorInfo)
-        }
-
-        return .success(object)
     }
 }
 
