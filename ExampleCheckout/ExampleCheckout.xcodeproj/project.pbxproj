@@ -8,12 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		070CAE9327D2284A00DE9706 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CAE9227D2284A00DE9706 /* NavigationTests.swift */; };
-		070CDFFB2876F2F10013BD36 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFED2876F2F10013BD36 /* Rubik-Bold.ttf */; };
-		070CDFFC2876F2F10013BD36 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFEE2876F2F10013BD36 /* Rubik-Regular.ttf */; };
 		070CDFFE2876F2F10013BD36 /* CustomFontProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CDFF02876F2F10013BD36 /* CustomFontProvider.swift */; };
 		070CDFFF2876F2F10013BD36 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CDFF12876F2F10013BD36 /* ViewController.swift */; };
-		070CE0002876F2F10013BD36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF32876F2F10013BD36 /* LaunchScreen.storyboard */; };
-		070CE0012876F2F10013BD36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF52876F2F10013BD36 /* Main.storyboard */; };
 		070CE0022876F2F10013BD36 /* ActivityIndicatableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */; };
 		070CE0032876F2F10013BD36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF82876F2F10013BD36 /* Assets.xcassets */; };
 		070CE0052876F2F10013BD36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070CDFFA2876F2F10013BD36 /* AppDelegate.swift */; };
@@ -24,7 +20,11 @@
 		074E02B928351DEB00C24AF2 /* IovationRiskProvider in Frameworks */ = {isa = PBXBuildFile; productRef = 074E02B828351DEB00C24AF2 /* IovationRiskProvider */; };
 		074E5ECC2707447600E35B24 /* CheckoutConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */; };
 		0767BBC5274BF25100005D30 /* PayoneerCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 0767BBC4274BF25100005D30 /* PayoneerCheckout */; };
+		07B6D07D288E961F008EBB48 /* RobotoCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07E3EB26288AEEF80079CDF3 /* RobotoCondensed-Bold.ttf */; };
+		07B6D07E288E9622008EBB48 /* RobotoCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07E3EB27288AEEF80079CDF3 /* RobotoCondensed-Regular.ttf */; };
 		07D5316F26F38FE20042D168 /* ExtraElementsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */; };
+		07E3EB24288AEEBB0079CDF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF42876F2F10013BD36 /* LaunchScreen.storyboard */; };
+		07E3EB25288AEEBB0079CDF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF62876F2F10013BD36 /* Main.storyboard */; };
 		D912BB2D2726C1B70004AFAE /* ExtraElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB122726C1B60004AFAE /* ExtraElements.swift */; };
 		D912BB2F2726C1B70004AFAE /* _Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB132726C1B60004AFAE /* _Style.swift */; };
 		D912BB312726C1B70004AFAE /* FormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D912BB142726C1B60004AFAE /* FormData.swift */; };
@@ -91,13 +91,11 @@
 
 /* Begin PBXFileReference section */
 		070CAE9227D2284A00DE9706 /* NavigationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTests.swift; path = UITests/NavigationTests.swift; sourceTree = SOURCE_ROOT; };
-		070CDFED2876F2F10013BD36 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
-		070CDFEE2876F2F10013BD36 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		070CDFEF2876F2F10013BD36 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		070CDFF02876F2F10013BD36 /* CustomFontProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFontProvider.swift; sourceTree = "<group>"; };
 		070CDFF12876F2F10013BD36 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		070CDFF42876F2F10013BD36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		070CDFF62876F2F10013BD36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
+		070CDFF42876F2F10013BD36 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		070CDFF62876F2F10013BD36 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatableButton.swift; sourceTree = "<group>"; };
 		070CDFF82876F2F10013BD36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		070CDFFA2876F2F10013BD36 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +105,8 @@
 		074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredCardTests.swift; sourceTree = "<group>"; };
 		074E5ECB2707447600E35B24 /* CheckoutConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutConfiguration.swift; sourceTree = "<group>"; };
 		07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsTests.swift; sourceTree = "<group>"; };
+		07E3EB26288AEEF80079CDF3 /* RobotoCondensed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Bold.ttf"; sourceTree = "<group>"; };
+		07E3EB27288AEEF80079CDF3 /* RobotoCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Regular.ttf"; sourceTree = "<group>"; };
 		07E628F62755359D006575E2 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		D912BB122726C1B60004AFAE /* ExtraElements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtraElements.swift; sourceTree = "<group>"; };
 		D912BB132726C1B60004AFAE /* _Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Style.swift; sourceTree = "<group>"; };
@@ -353,15 +353,15 @@
 		D9E0AEAF234143BD0021184C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				070CDFF32876F2F10013BD36 /* LaunchScreen.storyboard */,
-				070CDFF52876F2F10013BD36 /* Main.storyboard */,
+				070CDFF42876F2F10013BD36 /* LaunchScreen.storyboard */,
+				070CDFF62876F2F10013BD36 /* Main.storyboard */,
 				070CDFFA2876F2F10013BD36 /* AppDelegate.swift */,
 				070CDFF12876F2F10013BD36 /* ViewController.swift */,
 				070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */,
 				070CDFF02876F2F10013BD36 /* CustomFontProvider.swift */,
 				070CDFF82876F2F10013BD36 /* Assets.xcassets */,
-				070CDFED2876F2F10013BD36 /* Rubik-Bold.ttf */,
-				070CDFEE2876F2F10013BD36 /* Rubik-Regular.ttf */,
+				07E3EB26288AEEF80079CDF3 /* RobotoCondensed-Bold.ttf */,
+				07E3EB27288AEEF80079CDF3 /* RobotoCondensed-Regular.ttf */,
 				070CDFEF2876F2F10013BD36 /* Info.plist */,
 			);
 			path = Sources;
@@ -473,10 +473,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				070CDFFB2876F2F10013BD36 /* Rubik-Bold.ttf in Resources */,
-				070CE0012876F2F10013BD36 /* Main.storyboard in Resources */,
-				070CE0002876F2F10013BD36 /* LaunchScreen.storyboard in Resources */,
-				070CDFFC2876F2F10013BD36 /* Rubik-Regular.ttf in Resources */,
+				07B6D07E288E9622008EBB48 /* RobotoCondensed-Regular.ttf in Resources */,
+				07B6D07D288E961F008EBB48 /* RobotoCondensed-Bold.ttf in Resources */,
+				07E3EB25288AEEBB0079CDF3 /* Main.storyboard in Resources */,
+				07E3EB24288AEEBB0079CDF3 /* LaunchScreen.storyboard in Resources */,
 				070CE0032876F2F10013BD36 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,25 +568,6 @@
 			targetProxy = D9A5FA5B253CA701001C71B7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		070CDFF32876F2F10013BD36 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				070CDFF42876F2F10013BD36 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		070CDFF52876F2F10013BD36 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				070CDFF62876F2F10013BD36 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		D9A5FA5E253CA701001C71B7 /* Debug */ = {
