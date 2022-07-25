@@ -47,7 +47,6 @@ final class CheckoutTests: XCTestCase {
     }
 
     func testInit_shouldSetAppearanceSingleton() {
-        XCTAssertTrue(CheckoutAppearance.shared == checkout.configuration.appearance)
         XCTAssertEqual(CheckoutAppearance.shared, checkout.configuration.appearance)
     }
 
