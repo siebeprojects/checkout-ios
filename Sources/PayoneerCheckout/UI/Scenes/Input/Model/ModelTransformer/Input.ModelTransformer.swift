@@ -38,6 +38,8 @@ extension Input {
 extension Input.ModelTransformer {
     private typealias InputSection = Input.Network.UIModel.InputSection
 
+    // MARK: Preset Account
+
     func transform(presetAccount: UIModel.PresetAccount) throws -> Input.Network {
         let logo = presetAccount.logo?.value
 
@@ -74,6 +76,8 @@ extension Input.ModelTransformer {
             isDeletable: false
         )
     }
+
+    // MARK: RegisteredAccount
 
     func transform(registeredAccount: UIModel.RegisteredAccount) throws -> Input.Network {
         let logo = registeredAccount.logo?.value
@@ -125,6 +129,8 @@ extension Input.ModelTransformer {
             isDeletable: registeredAccount.isDeletable
         )
     }
+
+    // MARK: Payment Network
 
     func transform(paymentNetwork: UIModel.PaymentNetwork) throws -> Input.Network {
         let logo = paymentNetwork.logo?.value
@@ -181,20 +187,20 @@ extension Input.ModelTransformer {
                      isDeletable: false)
     }
 
+    // MARK: Helper for extra elements
+
     /// Create `InputSection` for top and bottom `ExtraElement`s.
     private func createInputSections(from extraElements: ExtraElements) -> Set<InputSection> {
         var inputSections = Set<InputSection>()
 
-        let extraElementsTransformer = ExtraElementsTransformer()
-
         if let topElements = extraElements.top {
-            let inputFields = topElements.compactMap { extraElementsTransformer.createInputField(from: $0) }
+            let inputFields = topElements.compactMap { ExtraElementTransformer(extraElement: $0).inputField }
             let section = InputSection(category: .extraElements(at: .top), inputFields: inputFields)
             inputSections.insert(section)
         }
 
         if let bottomElements = extraElements.bottom {
-            let inputFields = bottomElements.compactMap { extraElementsTransformer.createInputField(from: $0) }
+            let inputFields = bottomElements.compactMap { ExtraElementTransformer(extraElement: $0).inputField }
             let section = InputSection(category: .extraElements(at: .bottom), inputFields: inputFields)
             inputSections.insert(section)
         }
