@@ -103,7 +103,7 @@ extension ViewController {
             primaryTextColor: .black,
             secondaryTextColor: .darkGray,
             backgroundColor: .white,
-            accentColor: .orange,
+            accentColor: UIColor(named: "CustomAccentColor")!,
             errorColor: .red,
             borderColor: .lightGray,
             buttonTitleColor: .white,
