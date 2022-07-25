@@ -135,7 +135,7 @@ extension RequestSender {
 
 // MARK: - PaymentRequestBuilder
 
-private struct PaymentRequestBuilder: Loggable {
+struct PaymentRequestBuilder: Loggable {
     let riskService: RiskService
 
     /// Create a payment request with data from `Input.Network`
@@ -204,6 +204,9 @@ private struct PaymentRequestBuilder: Loggable {
         for inputField in inputFields {
             switch inputField.id {
             case .expiryDate:
+                // Make conversion only if field is not empty
+                guard !inputField.value.isEmpty else { continue }
+
                 let date = ExpirationDate(shortDate: inputField.value)
                 dictionary["expiryMonth"] = date.getMonth()
                 dictionary["expiryYear"] = try date.getYear()
