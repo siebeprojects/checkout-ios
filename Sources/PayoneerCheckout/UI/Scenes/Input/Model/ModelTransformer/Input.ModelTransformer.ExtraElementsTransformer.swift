@@ -1,4 +1,4 @@
-// Copyright (c) 2021–2022 Payoneer Germany GmbH
+// Copyright (c) 2022 Payoneer Germany GmbH
 // https://www.payoneer.com
 //
 // This file is open source and available under the MIT license.
@@ -30,7 +30,7 @@ extension Input.ModelTransformer {
                 return nil
             }
 
-            let id = Input.Field.Identifier.globalExtraElement(extraElement.name)
+            let id = Input.Field.Identifier.extraElement(extraElement.name)
 
             // Reference: https://optile.atlassian.net/wiki/spaces/PPW/pages/3391881231/ExtraElement+Checkbox+modes
             switch checkboxMode {
