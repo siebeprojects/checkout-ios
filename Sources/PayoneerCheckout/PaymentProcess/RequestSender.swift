@@ -190,7 +190,7 @@ struct PaymentRequestBuilder: Loggable {
             guard let checkbox = inputField as? Input.Field.Checkbox else { continue }
 
             // Get id as a `String`
-            guard case .globalExtraElement(let name) = inputField.id else { continue }
+            guard case .extraElement(let name) = inputField.id else { continue }
 
             dictionary[name] = checkbox.isOn
         }
