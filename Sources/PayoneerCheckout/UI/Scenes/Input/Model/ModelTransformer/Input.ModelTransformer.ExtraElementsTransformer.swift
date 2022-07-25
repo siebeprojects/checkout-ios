@@ -30,7 +30,7 @@ extension Input.ModelTransformer {
                 return nil
             }
 
-            let id = Input.Field.Identifier.globalExtraElement(extraElement.name)
+            let id = Input.Field.Identifier.extraElement(extraElement.name)
 
             // Reference: https://optile.atlassian.net/wiki/spaces/PPW/pages/3391881231/ExtraElement+Checkbox+modes
             switch checkboxMode {

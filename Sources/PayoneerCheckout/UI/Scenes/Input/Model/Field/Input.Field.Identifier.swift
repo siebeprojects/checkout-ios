@@ -28,7 +28,7 @@ extension Input.Field {
         case inputElementName(String)
 
         /// The identifier for global (in the root of a list result) extra elements fields
-        case globalExtraElement(String)
+        case extraElement(String)
 
         /// Represent as textual value. Used for UI tests in accessibility identifiers.
         var textValue: String {
@@ -38,7 +38,7 @@ extension Input.Field {
             case .recurrence: return "recurrence"
             case .combinedRegistration: return "combinedRegistration"
             case .inputElementName(let name): return "inputElement_" + name
-            case .globalExtraElement(let name): return "extraElement_" + name
+            case .extraElement(let name): return "extraElement_" + name
             }
         }
     }
