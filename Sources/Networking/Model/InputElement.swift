@@ -20,8 +20,6 @@ public class InputElement: NSObject, Decodable {
 
     // MARK: - Enumerations
 
-    public var inputElementType: InputElementType? { InputElementType(rawValue: type) }
-
     public enum InputElementType: String, Decodable {
         case string, numeric, integer, select, checkbox
     }

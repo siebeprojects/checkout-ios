@@ -12,9 +12,4 @@ public class DeregistrationData: NSObject, Codable {
 
     /// If set to `true` the recurring registrations will be deleted if present, if set to `false` the registration remains
     public var deleteRecurrence: Bool?
-
-    public init(deleteRegistration: Bool?, deleteRecurrence: Bool?) {
-        self.deleteRegistration = deleteRegistration
-        self.deleteRecurrence = deleteRecurrence
-    }
 }
