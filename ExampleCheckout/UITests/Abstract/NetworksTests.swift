@@ -46,15 +46,7 @@ class NetworksTests: XCTestCase {
         let textField = tablesQuery.textFields.firstMatch
 
         let sessionURL = listResult.links["self"]!
-
-        if #available(iOS 15, *) {
-            textField.doubleTap()
-            UIPasteboard.general.string = sessionURL.absoluteString
-            app.menuItems["Paste"].tap()
-        } else {
-            print(sessionURL.absoluteURL)
-            textField.typeText(sessionURL.absoluteString)
-        }
+        textField.typeText(sessionURL.absoluteString)
     }
 
     static func createPaymentSession(with settings: ListSettings) throws -> ListResult {

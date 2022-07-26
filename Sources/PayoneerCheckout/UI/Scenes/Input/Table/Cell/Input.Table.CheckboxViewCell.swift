@@ -50,16 +50,18 @@ extension Input.Table {
             contentView.addSubview(checkbox)
 
             textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+            textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
             checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
 
-            let bottomtextViewConstraint = textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            let bottomtextViewConstraint = textView.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
             bottomtextViewConstraint.priority = .defaultHigh
 
             NSLayoutConstraint.activate([
                 textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 textView.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
+                textView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+                textView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
                 bottomtextViewConstraint,
-                textView.topAnchor.constraint(equalTo: contentView.topAnchor),
 
                 checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -84,6 +86,7 @@ extension Input.Table.CheckboxViewCell {
     func configure(with model: Input.Field.Checkbox) {
         checkbox.isOn = model.isOn
         checkbox.isEnabled = model.isEnabled
+        checkbox.accessibilityIdentifier = model.id.textValue
 
         // Configure text view
         if let font = textView.font {

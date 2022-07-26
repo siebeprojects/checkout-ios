@@ -77,6 +77,9 @@
 		D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
 		E29A8623285893C400A5D9D1 /* ApplePayBraintreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */; };
+		E2C7513C288615AD0036F810 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF42876F2F10013BD36 /* LaunchScreen.storyboard */; };
+		E2C7513D288615AD0036F810 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF62876F2F10013BD36 /* Main.storyboard */; };
+		E2C7513F288619F20036F810 /* ExtraElementsCheckboxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C7513E288619F20036F810 /* ExtraElementsCheckboxTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +166,7 @@
 		D9E726A9269DBF5700889C64 /* PayPalAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPalAccount.swift; sourceTree = "<group>"; };
 		D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LocalizedError.swift"; sourceTree = "<group>"; };
 		E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayBraintreeTests.swift; sourceTree = "<group>"; };
+		E2C7513E288619F20036F810 /* ExtraElementsCheckboxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraElementsCheckboxTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,6 +285,7 @@
 				E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */,
 				074DADF02785EAA900F704E7 /* ExpiredCardTests.swift */,
 				07D5316E26F38FE20042D168 /* ExtraElementsTests.swift */,
+				E2C7513E288619F20036F810 /* ExtraElementsCheckboxTests.swift */,
 				D9368BAA26B1CC7F0083E5E3 /* ThreeDSTests.swift */,
 				D956D28825DEBE23001A2EAD /* CardTests.swift */,
 				D99D048726ADDBE300C027CB /* SepaTests.swift */,
@@ -520,6 +525,7 @@
 				D912BB5B2726C1B70004AFAE /* CustomerFormData.swift in Sources */,
 				D99D048826ADDBE300C027CB /* SepaTests.swift in Sources */,
 				D9C602652726CF1F007CFD6A /* Registration.swift in Sources */,
+				E2C7513F288619F20036F810 /* ExtraElementsCheckboxTests.swift in Sources */,
 				D99E9E0A253DAA2700DFF8BD /* NetworkService.swift in Sources */,
 				074DADF12785EAA900F704E7 /* ExpiredCardTests.swift in Sources */,
 				D9C602722726ECB7007CFD6A /* Charge.swift in Sources */,
