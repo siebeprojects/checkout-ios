@@ -178,7 +178,7 @@ struct PaymentRequestBuilder: Loggable {
 
     private func createDictionary(forExtraElementsIn sections: Set<Input.Network.UIModel.InputSection>) -> [String: Bool]? {
         // Extract only extra element input fields
-        let checkboxInputFields = [
+        let checkboxInputFields: [InputField] = [
             sections[.extraElements(at: .top)]?.inputFields,
             sections[.extraElements(at: .bottom)]?.inputFields
         ].compactMap { $0 }.flatMap { $0 }
