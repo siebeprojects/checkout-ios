@@ -27,10 +27,7 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
     public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
         // If network should be preset (first request of a PRESET flow), applicable network's operationType will be `PRESET`.
         if operationRequest.networkInformation.operationType == "PRESET" {
-            preset(using: operationRequest) { presetResult in
-                completion(presetResult)
-            }
-
+            preset(using: operationRequest, completion: completion)
             return
         }
 
