@@ -7,8 +7,8 @@
 import UIKit
 import PayoneerCheckout
 
-private let regularFontName = "Rubik-Regular"
-private let boldFontName = "Rubik-Bold"
+private let regularFontName = "RobotoCondensed-Regular"
+private let boldFontName = "RobotoCondensed-Bold"
 
 final class CustomFontProvider: CheckoutFontProvider {
     private let fontVariants: [UIFont.TextStyle: UIFont] = [
