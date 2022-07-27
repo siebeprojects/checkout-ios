@@ -7,13 +7,15 @@
 import Foundation
 
 public class Form: NSObject {
-    public init(inputFields: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?) {
+    public init(inputFields: [String: String], autoRegistration: Bool?, allowRecurrence: Bool?, checkboxes: [String: Bool]?) {
         self.inputFields = inputFields
         self.autoRegistration = autoRegistration
         self.allowRecurrence = allowRecurrence
+        self.checkboxes = checkboxes
     }
 
     public let inputFields: [String: String]
     public let autoRegistration: Bool?
     public let allowRecurrence: Bool?
+    public let checkboxes: [String: Bool]?
 }
