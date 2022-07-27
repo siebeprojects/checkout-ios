@@ -57,8 +57,9 @@ extension RequestSender {
                     if let errorInfo = error as? ErrorInfo {
                         self?.delegate?.requestSender(didReceiveResult: .failure(errorInfo), for: .deletion)
                     } else {
-                        guard let errorInfo = self?.createErrorInfo(from: error, forOperationType: nil) else { return }
-                        self?.delegate?.requestSender(didReceiveResult: .failure(errorInfo), for: .deletion)
+                        guard let self = self else { return }
+                        let errorInfo = self.createErrorInfo(from: error, forOperationType: nil)
+                        self.delegate?.requestSender(didReceiveResult: .failure(errorInfo), for: .deletion)
                     }
                 }
             }
