@@ -22,7 +22,7 @@ extension Input.ModelTransformer {
         }
 
         private func inputFieldCheckbox(for checkbox: Checkbox, inside extraElement: ExtraElement) -> Input.Field.Checkbox? {
-            guard let checkboxMode = checkbox.checkboxMode else {
+            guard let checkboxMode = Checkbox.Mode(rawValue: checkbox.mode) else {
                 if #available(iOS 14.0, *) {
                     logger.error("Checkbox mode is not defined for name=\(extraElement.name), skipping checkbox.")
                 }

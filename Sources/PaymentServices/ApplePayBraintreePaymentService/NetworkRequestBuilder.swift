@@ -29,6 +29,7 @@ struct NetworkRequestBuilder {
             account: operationRequest.form?.inputFields,
             autoRegistration: operationRequest.form?.autoRegistration,
             allowRecurrence: operationRequest.form?.allowRecurrence,
+            checkboxes: operationRequest.form?.checkboxes,
             providerRequest: providerRequest,
             providerRequests: operationRequest.riskData
         )
