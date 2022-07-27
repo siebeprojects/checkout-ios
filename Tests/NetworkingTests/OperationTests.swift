@@ -9,12 +9,12 @@ import XCTest
 
 final class OperationTests: XCTestCase {
     func testInit_shouldSetQueryItems() {
-        let operation = NetworkRequest.Operation(from: URL(string: "/")!, account: nil, autoRegistration: nil, allowRecurrence: nil, providerRequest: nil, providerRequests: nil)
+        let operation = NetworkRequest.Operation(from: URL(string: "/")!, account: nil, autoRegistration: nil, allowRecurrence: nil, checkboxes: nil, providerRequest: nil, providerRequests: nil)
         XCTAssertTrue(operation.queryItems.isEmpty)
     }
 
     func testInit_shouldSetBodyBrowserData() {
-        let operation = NetworkRequest.Operation(from: URL(string: "/")!, account: nil, autoRegistration: nil, allowRecurrence: nil, providerRequest: nil, providerRequests: nil)
+        let operation = NetworkRequest.Operation(from: URL(string: "/")!, account: nil, autoRegistration: nil, allowRecurrence: nil, checkboxes: nil, providerRequest: nil, providerRequests: nil)
         XCTAssertEqual(operation.body?.browserData, BrowserDataBuilder.build())
     }
 }

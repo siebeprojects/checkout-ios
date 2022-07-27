@@ -15,6 +15,9 @@ public struct OperationData: Encodable {
     /// If set to `true` the account will be registered for further recurring payments.
     public var allowRecurrence: Bool?
 
+    /// Map of selected checkboxes; name reflects the checkbox distinguish name, value reflects its state - `true` for selected, `false` for unchecked
+    public var checkboxes: [String: Bool]?
+
     /// Provider request parameters which should be provided to the target payment provider adapter to complete the operation.
     public var providerRequest: ProviderParameters?
 
@@ -24,5 +27,5 @@ public struct OperationData: Encodable {
     /// Customer web browser data.
     internal var browserData: BrowserData?
 
-    // Not used variables: checkboxes: Object, style: ClientStyle
+    // Not used variables: style: ClientStyle
 }

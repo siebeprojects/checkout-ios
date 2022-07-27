@@ -135,7 +135,7 @@ extension RequestSender {
 
 // MARK: - PaymentRequestBuilder
 
-private struct PaymentRequestBuilder: Loggable {
+struct PaymentRequestBuilder: Loggable {
     let riskService: RiskService
 
     /// Create a payment request with data from `Input.Network`
@@ -154,6 +154,7 @@ private struct PaymentRequestBuilder: Loggable {
             return try createDictionary(forInputElementsFields: inputElementsSection.inputFields)
         }()
 
+        // Registration
         let autoRegistration, allowRecurrence: Bool?
         (autoRegistration, allowRecurrence) = {
             guard let registrationSection = network.uiModel.inputSections[.registration] else {
@@ -163,7 +164,10 @@ private struct PaymentRequestBuilder: Loggable {
             return createRegistrationOptions(forRegistrationFields: registrationSection.inputFields)
         }()
 
-        let form = Form(inputFields: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence)
+        // Extra elements with checkboxes
+        let checkboxDictionary = createDictionary(forExtraElementsIn: network.uiModel.inputSections)
+
+        let form = Form(inputFields: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence, checkboxes: checkboxDictionary)
 
         let riskData = riskService.collectRiskData()
 
@@ -172,12 +176,37 @@ private struct PaymentRequestBuilder: Loggable {
         return operationRequest
     }
 
+    private func createDictionary(forExtraElementsIn sections: Set<Input.Network.UIModel.InputSection>) -> [String: Bool]? {
+        // Extract only extra element input fields
+        let checkboxInputFields: [InputField] = [
+            sections[.extraElements(at: .top)]?.inputFields,
+            sections[.extraElements(at: .bottom)]?.inputFields
+        ].compactMap { $0 }.flatMap { $0 }
+
+        // Transform input fields to dictionary with name / value
+        var dictionary = [String: Bool]()
+        for inputField in checkboxInputFields {
+            // Work only with checkboxes, extra elements could containt other items like Labels
+            guard let checkbox = inputField as? Input.Field.Checkbox else { continue }
+
+            // Get id as a `String`
+            guard case .extraElement(let name) = inputField.id else { continue }
+
+            dictionary[name] = checkbox.isOn
+        }
+
+        return dictionary.isEmpty ? nil : dictionary
+    }
+
     private func createDictionary(forInputElementsFields inputFields: [InputField]) throws -> [String: String] {
         var dictionary = [String: String]()
 
         for inputField in inputFields {
             switch inputField.id {
             case .expiryDate:
+                // Make conversion only if field is not empty
+                guard !inputField.value.isEmpty else { continue }
+
                 let date = ExpirationDate(shortDate: inputField.value)
                 dictionary["expiryMonth"] = date.getMonth()
                 dictionary["expiryYear"] = try date.getYear()
