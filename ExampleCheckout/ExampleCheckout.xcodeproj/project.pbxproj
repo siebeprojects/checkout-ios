@@ -77,8 +77,6 @@
 		D9E726AA269DBF5700889C64 /* PayPalAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E726A9269DBF5700889C64 /* PayPalAccount.swift */; };
 		D9FCC6AE25488A9800E0AF74 /* String+LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FCC6AC25488A9800E0AF74 /* String+LocalizedError.swift */; };
 		E29A8623285893C400A5D9D1 /* ApplePayBraintreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29A861F285893AB00A5D9D1 /* ApplePayBraintreeTests.swift */; };
-		E2C7513C288615AD0036F810 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF42876F2F10013BD36 /* LaunchScreen.storyboard */; };
-		E2C7513D288615AD0036F810 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CDFF62876F2F10013BD36 /* Main.storyboard */; };
 		E2C7513F288619F20036F810 /* ExtraElementsCheckboxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C7513E288619F20036F810 /* ExtraElementsCheckboxTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -190,6 +188,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07A4399C2891975800800D5C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				070CDFF82876F2F10013BD36 /* Assets.xcassets */,
+				07E3EB26288AEEF80079CDF3 /* RobotoCondensed-Bold.ttf */,
+				07E3EB27288AEEF80079CDF3 /* RobotoCondensed-Regular.ttf */,
+				070CDFEF2876F2F10013BD36 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D912BABF2726C04B0004AFAE /* Abstract */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,10 +373,7 @@
 				070CDFF12876F2F10013BD36 /* ViewController.swift */,
 				070CDFF72876F2F10013BD36 /* ActivityIndicatableButton.swift */,
 				070CDFF02876F2F10013BD36 /* CustomFontProvider.swift */,
-				070CDFF82876F2F10013BD36 /* Assets.xcassets */,
-				07E3EB26288AEEF80079CDF3 /* RobotoCondensed-Bold.ttf */,
-				07E3EB27288AEEF80079CDF3 /* RobotoCondensed-Regular.ttf */,
-				070CDFEF2876F2F10013BD36 /* Info.plist */,
+				07A4399C2891975800800D5C /* Resources */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -750,7 +756,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = ..;
 				DEVELOPMENT_TEAM = 9FN68XYFY9;
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -777,7 +783,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = ..;
 				DEVELOPMENT_TEAM = 9FN68XYFY9;
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
