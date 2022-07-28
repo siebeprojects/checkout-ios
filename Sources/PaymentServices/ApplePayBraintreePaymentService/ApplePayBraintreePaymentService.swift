@@ -90,11 +90,7 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
         let deletionRequest = NetworkRequest.DeleteAccount(url: accountURL)
 
         let operation = SendRequestOperation(connection: connection, request: deletionRequest)
-
-        operation.downloadCompletionBlock = { result in
-            completion(result)
-        }
-
+        operation.downloadCompletionBlock = completion
         operation.start()
     }
 }
