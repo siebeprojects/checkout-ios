@@ -1,4 +1,4 @@
-name: Publish to BrowserStack
+name: 'ACTION: Publish to BrowserStack'
 
 on:
   workflow_call:
