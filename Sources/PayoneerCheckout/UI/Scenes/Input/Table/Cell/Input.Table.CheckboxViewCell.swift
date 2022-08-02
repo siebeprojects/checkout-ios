@@ -132,8 +132,6 @@ extension Input.Table.CheckboxViewCell: UITextViewDelegate {
     }
 }
 
-extension Input.Table.CheckboxViewCell: ContainsInputCellDelegate {}
-
 // MARK: - Validation
 
 private extension Input.Table.CheckboxViewCell {
