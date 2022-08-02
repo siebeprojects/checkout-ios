@@ -21,6 +21,9 @@ extension Input.Table {
         private let textView: UITextView
         let checkbox: UISwitch
 
+        // FIXME: Temporary value, show be checked in another place not show/hide validation errors multiple times
+        private var validationError: String?
+
         override init(frame: CGRect) {
             textView = .init(frame: .zero)
             checkbox = .init(frame: .zero)
@@ -72,6 +75,7 @@ extension Input.Table {
 
         @objc private func checkboxValueChanged(_ sender: UISwitch) {
             delegate?.inputCellValueDidChange(to: checkbox.isOn.stringValue, cell: self)
+            delegate?.inputCellDidEndEditing(cell: self)
         }
 
         required init?(coder: NSCoder) {
@@ -94,6 +98,16 @@ extension Input.Table.CheckboxViewCell {
             mutableString.addAttributes([.font: font], range: NSRange(location: 0, length: mutableString.length))
             textView.attributedText = mutableString
         }
+
+        if let validatableModel = model as? Validatable, validationError != validatableModel.validationErrorText {
+            self.validationError = validatableModel.validationErrorText
+            
+            if let errorText = validatableModel.validationErrorText {
+                showValidationError(text: errorText)
+            } else {
+                removeValidationError()
+            }
+        }
     }
 }
 
@@ -111,3 +125,15 @@ extension Input.Table.CheckboxViewCell: UITextViewDelegate {
 }
 
 extension Input.Table.CheckboxViewCell: ContainsInputCellDelegate {}
+
+private extension Input.Table.CheckboxViewCell {
+    // Functions will be called twice because of a size calculations.
+
+    func showValidationError(text: String) {
+        print("[VALIDATION] ❌ " + text)
+    }
+
+    func removeValidationError() {
+        print("[VALIDATION] ✅")
+    }
+}
