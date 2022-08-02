@@ -13,9 +13,7 @@ private struct UIConstant {
 extension Input.Table {
     /// Cell that represents a checkbox (UISwitch).
     /// Upon some actions calls `delegate`, don't forget to set it.
-    ///
-    /// - Warning: after initialization before using you have to set `indexPath` to cell's indexPath
-    class CheckboxViewCell: UICollectionViewCell, Dequeueable {
+    class CheckboxViewCell: UICollectionViewCell, ContainsInputCellDelegate, Dequeueable {
         weak var delegate: InputCellDelegate?
 
         private let textView: UITextView
@@ -30,47 +28,9 @@ extension Input.Table {
 
             super.init(frame: frame)
 
-            // Configure a text view
-            textView.textColor = CheckoutAppearance.shared.primaryTextColor
-            textView.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .subheadline)
-            textView.isScrollEnabled = false
-            textView.isEditable = false
-            textView.adjustsFontForContentSizeCategory = true
-
-            textView.textContainerInset = .zero
-            textView.textContainer.lineFragmentPadding = 0
-
-            textView.delegate = self
-
-            // Configure checkbox
+            configureTextView()
             checkbox.addTarget(self, action: #selector(checkboxValueChanged), for: .valueChanged)
-
-            // Layout
-            textView.translatesAutoresizingMaskIntoConstraints = false
-            checkbox.translatesAutoresizingMaskIntoConstraints = false
-
-            contentView.addSubview(textView)
-            contentView.addSubview(checkbox)
-
-            textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-            textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-            checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
-
-            let bottomtextViewConstraint = textView.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
-            bottomtextViewConstraint.priority = .defaultHigh
-
-            NSLayoutConstraint.activate([
-                textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                textView.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
-                textView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                textView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
-                bottomtextViewConstraint,
-
-                checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-                checkbox.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
-                checkbox.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
-            ])
+            configureLayout()
         }
 
         @objc private func checkboxValueChanged(_ sender: UISwitch) {
@@ -84,7 +44,52 @@ extension Input.Table {
     }
 }
 
-// MARK: - Cell configuration
+// MARK: - Layout & initial configuration
+
+private extension Input.Table.CheckboxViewCell {
+    func configureTextView() {
+        textView.textColor = CheckoutAppearance.shared.primaryTextColor
+        textView.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .subheadline)
+        textView.isScrollEnabled = false
+        textView.isEditable = false
+        textView.adjustsFontForContentSizeCategory = true
+
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+
+        textView.delegate = self
+    }
+
+    func configureLayout() {
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        checkbox.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.addSubview(textView)
+        contentView.addSubview(checkbox)
+
+        textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
+
+        let bottomtextViewConstraint = textView.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
+        bottomtextViewConstraint.priority = .defaultHigh
+
+        NSLayoutConstraint.activate([
+            textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
+            textView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            textView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+            bottomtextViewConstraint,
+
+            checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            checkbox.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+            checkbox.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
+        ])
+    }
+}
+
+// MARK: - Configure with model
 
 extension Input.Table.CheckboxViewCell {
     func configure(with model: Input.Field.Checkbox) {
@@ -99,9 +104,10 @@ extension Input.Table.CheckboxViewCell {
             textView.attributedText = mutableString
         }
 
+        // Validation
         if let validatableModel = model as? Validatable, validationError != validatableModel.validationErrorText {
             self.validationError = validatableModel.validationErrorText
-            
+
             if let errorText = validatableModel.validationErrorText {
                 showValidationError(text: errorText)
             } else {
@@ -110,6 +116,8 @@ extension Input.Table.CheckboxViewCell {
         }
     }
 }
+
+// MARK: - UITextViewDelegate
 
 extension Input.Table.CheckboxViewCell: UITextViewDelegate {
     func textViewDidChangeSelection(_ textView: UITextView) {
@@ -125,6 +133,8 @@ extension Input.Table.CheckboxViewCell: UITextViewDelegate {
 }
 
 extension Input.Table.CheckboxViewCell: ContainsInputCellDelegate {}
+
+// MARK: - Validation
 
 private extension Input.Table.CheckboxViewCell {
     // Functions will be called twice because of a size calculations.

@@ -10,11 +10,6 @@ import Logging
 
 extension Input.Field {
     class ExtraElementCheckbox: Checkbox, Loggable {
-        enum Requirement {
-            case notRequired
-            case required(requiredMessage: String)
-        }
-
         /// Indicates if checkbox have to be checked, otherwhise it should lead to validation error
         let isRequired: Requirement
 
@@ -29,6 +24,13 @@ extension Input.Field {
 
             super.init(id: .extraElement(extraElementName), isOn: isOn, label: label)
         }
+    }
+}
+
+extension Input.Field.ExtraElementCheckbox {
+    enum Requirement {
+        case notRequired
+        case required(requiredMessage: String)
     }
 }
 
