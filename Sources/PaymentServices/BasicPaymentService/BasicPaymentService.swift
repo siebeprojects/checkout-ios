@@ -15,7 +15,11 @@ final public class BasicPaymentService: NSObject, PaymentService {
 
     // MARK: - Static methods
 
-    public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
+    public static func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool {
+        if providers != nil && providers?.isEmpty == false {
+            return false
+        }
+
         if let methodString = paymentMethod, let method = PaymentMethod(rawValue: methodString) {
             let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
             if supportedMethods.contains(method) { return true }

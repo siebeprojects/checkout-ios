@@ -18,8 +18,10 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
         self.redirectController = RedirectController(openAppWithURLNotificationName: openAppWithURLNotificationName)
     }
 
-    public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        return networkCode == "APPLEPAY" && paymentMethod == "WALLET" && PKPaymentAuthorizationViewController.canMakePayments()
+    public static func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool {
+        let isApplePay = networkCode == "APPLEPAY" && paymentMethod == "WALLET" && PKPaymentAuthorizationViewController.canMakePayments()
+        let isBraintree = providers != nil && providers?.isEmpty == false && providers?.first == "BRAINTREE"
+        return isApplePay && isBraintree
     }
 
     // MARK: - Process payment
