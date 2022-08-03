@@ -40,12 +40,12 @@ extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
         case .operation(let operationType):
             switch operationType {
             case "UPDATE":
-                handle(updateResult: result)
+                handle(updateResponse: result)
             default:
-                handle(result: result, for: requestType)
+                handle(operationResponse: result, for: requestType)
             }
         case .deletion:
-            handle(deletionResult: result)
+            handle(deletionResponse: result)
         }
     }
 }
@@ -53,9 +53,9 @@ extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
 // MARK: - Operation handlers
 
 extension Input.ViewController.RequestResultHandler {
-    private func handle(result: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
+    private func handle(operationResponse: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
         let resultData: (interaction: Interaction, resultInfo: String) = {
-            switch result {
+            switch operationResponse {
             case .success(let operationResult):
                 return (operationResult.interaction, operationResult.resultInfo)
             case .failure(let error):
@@ -73,24 +73,24 @@ extension Input.ViewController.RequestResultHandler {
 
         // In other situations route to a parent view
         else {
-            self.delegate?.requestHandler(route: result, forRequestType: requestType)
+            self.delegate?.requestHandler(route: operationResponse, forRequestType: requestType)
         }
     }
 
     /// Handler for responses in `UPDATE` flow.
     ///
     /// Flow rules are defined in [PCX-1396](https://optile.atlassian.net/browse/PCX-1396).
-    private func handle(updateResult: Result<OperationResult, ErrorInfo>) {
-        self.delegate?.requestHandler(route: updateResult, forRequestType: .operation(type: "UPDATE"))
+    private func handle(updateResponse: Result<OperationResult, ErrorInfo>) {
+        self.delegate?.requestHandler(route: updateResponse, forRequestType: .operation(type: "UPDATE"))
     }
 }
 
 // MARK: - Deletion handler
 
 extension Input.ViewController.RequestResultHandler {
-    private func handle(deletionResult: Result<OperationResult, ErrorInfo>) {
+    private func handle(deletionResponse: Result<OperationResult, ErrorInfo>) {
         let resultData: (interaction: Interaction, resultInfo: String) = {
-            switch deletionResult {
+            switch deletionResponse {
             case .success(let operationResult):
                 return (operationResult.interaction, operationResult.resultInfo)
             case .failure(let error):
@@ -108,7 +108,7 @@ extension Input.ViewController.RequestResultHandler {
 
         // In other situations route to a parent view
         else {
-            self.delegate?.requestHandler(route: deletionResult, forRequestType: .deletion)
+            self.delegate?.requestHandler(route: deletionResponse, forRequestType: .deletion)
         }
     }
 }

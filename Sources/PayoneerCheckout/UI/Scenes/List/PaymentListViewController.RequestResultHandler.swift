@@ -31,12 +31,12 @@ extension PaymentListViewController.RequestResultHandler {
         case .operation(let operationType):
             switch operationType {
             case "UPDATE":
-                handle(updateResult: result)
+                handle(updateResponse: result)
             default:
-                handle(result: result, for: requestType)
+                handle(operationResponse: result, for: requestType)
             }
         case .deletion:
-            handle(deletionResult: result)
+            handle(deletionResponse: result)
         }
     }
 
@@ -56,9 +56,9 @@ extension PaymentListViewController.RequestResultHandler {
 // MARK: Handler for `PaymentRequest`
 
 private extension PaymentListViewController.RequestResultHandler {
-    private func handle(result: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
+    private func handle(operationResponse: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
         let resultData: (interaction: Interaction, resultInfo: String) = {
-            switch result {
+            switch operationResponse {
             case .success(let operationResult):
                 return (operationResult.interaction, operationResult.resultInfo)
             case .failure(let error):
@@ -75,16 +75,16 @@ private extension PaymentListViewController.RequestResultHandler {
             // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
             delegate?.loadPaymentSession()
         default:
-            delegate?.dismiss(with: result)
+            delegate?.dismiss(with: operationResponse)
         }
     }
 
     /// Handler for responses in `UPDATE` flow.
     ///
     /// Flow rules are defined in [PCX-1396](https://optile.atlassian.net/browse/PCX-1396).
-    private func handle(updateResult: Result<OperationResult, ErrorInfo>) {
+    private func handle(updateResponse: Result<OperationResult, ErrorInfo>) {
         let resultData: (interaction: Interaction, resultInfo: String) = {
-            switch updateResult {
+            switch updateResponse {
             case .success(let operationResult):
                 return (operationResult.interaction, operationResult.resultInfo)
             case .failure(let error):
@@ -106,7 +106,7 @@ private extension PaymentListViewController.RequestResultHandler {
             case .OK:
                 delegate?.loadPaymentSession()
             default:
-                delegate?.dismiss(with: updateResult)
+                delegate?.dismiss(with: updateResponse)
             }
         case .TRY_OTHER_ACCOUNT, .TRY_OTHER_NETWORK, .RETRY:
             let interaction = LocalizableInteraction.create(fromInteraction: resultData.interaction, flow: .update)
@@ -114,7 +114,7 @@ private extension PaymentListViewController.RequestResultHandler {
         case .RELOAD:
             delegate?.loadPaymentSession()
         default:
-            delegate?.dismiss(with: updateResult)
+            delegate?.dismiss(with: updateResponse)
         }
     }
 }
@@ -122,9 +122,9 @@ private extension PaymentListViewController.RequestResultHandler {
 // MARK: Handler for `DeletionRequest`
 
 private extension PaymentListViewController.RequestResultHandler {
-    private func handle(deletionResult: Result<OperationResult, ErrorInfo>) {
+    private func handle(deletionResponse: Result<OperationResult, ErrorInfo>) {
         let resultData: (interaction: Interaction, resultInfo: String) = {
-            switch deletionResult {
+            switch deletionResponse {
             case .success(let operationResult):
                 return (operationResult.interaction, operationResult.resultInfo)
             case .failure(let error):
@@ -141,7 +141,7 @@ private extension PaymentListViewController.RequestResultHandler {
             // Reload the LIST object and re-render the payment method list accordingly, don't show error alert.
             delegate?.loadPaymentSession()
         default:
-            delegate?.dismiss(with: deletionResult)
+            delegate?.dismiss(with: deletionResponse)
         }
     }
 }
