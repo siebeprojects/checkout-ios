@@ -32,6 +32,9 @@ public class PresetAccount: NSObject, Decodable {
     /// Indicates payment method this preset account belongs to.
     public let method: String
 
+    // TODO: Add description
+    public let providers: [String]?
+
     /// The deferred behavior of the payment network. See [Deferred Payments](https://www.optile.io/opg#285066) for more details.
     public let deferral: String?
 

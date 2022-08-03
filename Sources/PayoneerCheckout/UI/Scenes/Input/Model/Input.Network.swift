@@ -69,6 +69,14 @@ extension Input.Network.APIModel {
         case .preset(let presetAccount): return presetAccount.operationType
         }
     }
+
+    var providers: [String]? {
+        switch self {
+        case .account(let account): return account.providers
+        case .network(let network): return network.providers
+        case .preset(let presetAccount): return presetAccount.providers
+        }
+    }
 }
 
 extension Input.Network: Equatable {
