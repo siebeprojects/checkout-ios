@@ -9,6 +9,9 @@ import Networking
 import Payment
 
 final public class BasicPaymentService: NSObject, PaymentService {
+    static let supportedNetworkCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
+    static let supportedPaymentMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
+
     private let supportedRedirectTypes = ["PROVIDER", "3DS2-HANDLER"]
     private let redirectController: RedirectController
     private let connection: Connection
@@ -20,13 +23,15 @@ final public class BasicPaymentService: NSObject, PaymentService {
             return false
         }
 
-        if let methodString = paymentMethod, let method = PaymentMethod(rawValue: methodString) {
-            let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
-            if supportedMethods.contains(method) { return true }
+        if
+            let methodString = paymentMethod,
+            let method = PaymentMethod(rawValue: methodString),
+            supportedPaymentMethods.contains(method)
+        {
+            return true
         }
 
-        let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
-        return supportedCodes.contains(networkCode)
+        return supportedNetworkCodes.contains(networkCode)
     }
 
     // MARK: - Initializer
