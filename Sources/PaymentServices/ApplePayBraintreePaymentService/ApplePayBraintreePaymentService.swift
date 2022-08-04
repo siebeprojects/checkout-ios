@@ -10,6 +10,10 @@ import Payment
 import BraintreeApplePay
 
 final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
+    static let applePayNetworkCode = "APPLEPAY"
+    static let applePayPaymentMethod = "WALLET"
+    static let braintreeProviderCode = "BRAINTREE"
+
     let redirectController: RedirectController
     let connection: Connection
 
@@ -19,8 +23,8 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
     }
 
     public static func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool {
-        let isApplePay = networkCode == "APPLEPAY" && paymentMethod == "WALLET" && PKPaymentAuthorizationViewController.canMakePayments()
-        let isBraintree = providers != nil && providers?.isEmpty == false && providers?.first == "BRAINTREE"
+        let isApplePay = networkCode == applePayNetworkCode && paymentMethod == applePayPaymentMethod && PKPaymentAuthorizationViewController.canMakePayments()
+        let isBraintree = providers != nil && providers?.isEmpty == false && providers?.first == braintreeProviderCode
         return isApplePay && isBraintree
     }
 
