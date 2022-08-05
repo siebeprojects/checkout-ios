@@ -19,6 +19,9 @@ public class AccountRegistration: NSObject, Decodable {
     /// Indicates payment method this registered account network belongs to.
     public let method: String?
 
+    // TODO: Add description
+    public let providers: [String]?
+
     /// Code of button-label when this registered account is selected.
     public let button: String?
 

@@ -19,6 +19,9 @@ public class ApplicableNetwork: NSObject, Decodable {
     /// Grouping code; helps to group several payment networks together while displaying them on payment page (e.g. credit cards).
     public let grouping: String
 
+    // TODO: Add description
+    public let providers: [String]?
+
     /// Indicates whether this payment network supports registration and how this should be presented on payment page
     public let registration: RegistrationOption
 
@@ -56,11 +59,12 @@ public class ApplicableNetwork: NSObject, Decodable {
     public let operationType: String
 
     // swiftlint:disable:next line_length
-    public init(code: String, label: String, method: String, grouping: String, registration: RegistrationOption, recurrence: RegistrationOption, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, inputElements: [InputElement]?, links: [String: URL]? = nil, operationType: String) {
+    public init(code: String, label: String, method: String, grouping: String, providers: [String]?, registration: RegistrationOption, recurrence: RegistrationOption, redirect: Bool, button: String? = nil, selected: Bool? = nil, formData: FormData? = nil, iFrameHeight: Int? = nil, emptyForm: Bool? = nil, inputElements: [InputElement]?, links: [String: URL]? = nil, operationType: String) {
         self.code = code
         self.label = label
         self.method = method
         self.grouping = grouping
+        self.providers = providers
         self.registration = registration
         self.recurrence = recurrence
         self.redirect = redirect

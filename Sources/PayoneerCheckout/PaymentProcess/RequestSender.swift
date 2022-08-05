@@ -32,7 +32,7 @@ extension RequestSender {
         let requestType: RequestType = .deletion
 
         // Prepare models
-        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod, providers: network.apiModel.providers)
         else {
             let error = RequestSenderError.paymentServiceNotFound(networkCode: network.networkCode, paymentMethod: network.paymentMethod)
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
@@ -70,7 +70,7 @@ extension RequestSender {
         let requestType: RequestType = .operation(type: network.operationType)
 
         // Prepare models
-        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod, providers: network.apiModel.providers)
         else {
             let error = RequestSenderError.paymentServiceNotFound(networkCode: network.networkCode, paymentMethod: network.paymentMethod)
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)

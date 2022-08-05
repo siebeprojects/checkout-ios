@@ -13,7 +13,7 @@ public protocol PaymentService: AnyObject {
     typealias PresentationBlock = (UIViewController) -> Void
 
     /// Returns whether the service can make payments
-    static func isSupported(networkCode: String, paymentMethod: String?) -> Bool
+    static func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool
 
     func processPayment(operationRequest: OperationRequest, completion: @escaping CompletionBlock, presentationRequest: @escaping PresentationBlock)
     func delete(accountUsing accountURL: URL, completion: @escaping CompletionBlock)

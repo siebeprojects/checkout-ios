@@ -21,16 +21,16 @@ class PaymentServicesFactory {
     }
 
     /// Lookup for appropriate payment service and create an instance if found
-    func createPaymentService(forNetworkCode networkCode: String, paymentMethod: String?) -> PaymentService? {
-        for service in services where service.isSupported(networkCode: networkCode, paymentMethod: paymentMethod) {
+    func createPaymentService(forNetworkCode networkCode: String, paymentMethod: String?, providers: [String]?) -> PaymentService? {
+        for service in services where service.isSupported(networkCode: networkCode, paymentMethod: paymentMethod, providers: providers) {
             return service.init(connection: connection, openAppWithURLNotificationName: .didReceivePaymentResultURL)
         }
 
         return nil
     }
 
-    func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        for service in services where service.isSupported(networkCode: networkCode, paymentMethod: paymentMethod) {
+    func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool {
+        for service in services where service.isSupported(networkCode: networkCode, paymentMethod: paymentMethod, providers: providers) {
             return true
         }
 

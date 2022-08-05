@@ -97,7 +97,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         let riskData = riskService.collectRiskData()
 
         // Find payment service
-        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method)
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method, providers: presetAccount.providers)
         else {
             let error = InternalError(description: "Payment service for preset account wasn't found")
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
