@@ -20,9 +20,6 @@ extension Input.Table {
         let checkbox: UISwitch
         weak var errorLabel: UILabel?
 
-        // FIXME: Temporary value, show be checked in another place not show/hide validation errors multiple times
-        private var validationError: String?
-
         override init(frame: CGRect) {
             textView = .init(frame: .zero)
             checkbox = .init(frame: .zero)
@@ -116,9 +113,7 @@ extension Input.Table.CheckboxViewCell {
         }
 
         // Validation
-        if let validatableModel = model as? Validatable, validationError != validatableModel.validationErrorText {
-            self.validationError = validatableModel.validationErrorText
-
+        if let validatableModel = model as? Validatable, errorLabel?.text != validatableModel.validationErrorText {
             if let errorText = validatableModel.validationErrorText {
                 showValidationError(text: errorText)
             } else {
