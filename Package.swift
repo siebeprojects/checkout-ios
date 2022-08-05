@@ -69,6 +69,9 @@ let package = Package(
             name: "PaymentTests",
             dependencies: ["Payment", "Networking"]),
         .testTarget(
+            name: "PaymentServicesTests",
+            dependencies: ["BasicPaymentService", "ApplePayBraintreePaymentService", "Networking"]),
+        .testTarget(
             name: "NetworkingTests",
             dependencies: ["Networking"])
     ]

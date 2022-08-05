@@ -9,20 +9,29 @@ import Networking
 import Payment
 
 final public class BasicPaymentService: NSObject, PaymentService {
+    static let supportedNetworkCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
+    static let supportedPaymentMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
+
     private let supportedRedirectTypes = ["PROVIDER", "3DS2-HANDLER"]
     private let redirectController: RedirectController
     private let connection: Connection
 
     // MARK: - Static methods
 
-    public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        if let methodString = paymentMethod, let method = PaymentMethod(rawValue: methodString) {
-            let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
-            if supportedMethods.contains(method) { return true }
+    public static func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool {
+        if providers != nil && providers?.isEmpty == false {
+            return false
         }
 
-        let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
-        return supportedCodes.contains(networkCode)
+        if
+            let methodString = paymentMethod,
+            let method = PaymentMethod(rawValue: methodString),
+            supportedPaymentMethods.contains(method)
+        {
+            return true
+        }
+
+        return supportedNetworkCodes.contains(networkCode)
     }
 
     // MARK: - Initializer
