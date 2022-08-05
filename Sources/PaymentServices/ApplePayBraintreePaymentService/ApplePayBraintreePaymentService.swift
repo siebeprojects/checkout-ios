@@ -24,7 +24,7 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
 
     public static func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool {
         let isApplePay = networkCode == applePayNetworkCode && paymentMethod == applePayPaymentMethod && PKPaymentAuthorizationViewController.canMakePayments()
-        let isBraintree = providers != nil && providers?.isEmpty == false && providers?.first == braintreeProviderCode
+        let isBraintree = providers?.first == braintreeProviderCode
         return isApplePay && isBraintree
     }
 
