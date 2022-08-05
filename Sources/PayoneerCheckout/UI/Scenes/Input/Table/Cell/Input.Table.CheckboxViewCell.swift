@@ -18,6 +18,7 @@ extension Input.Table {
 
         private let textView: UITextView
         let checkbox: UISwitch
+        weak var errorLabel: UILabel?
 
         // FIXME: Temporary value, show be checked in another place not show/hide validation errors multiple times
         private var validationError: String?
@@ -71,20 +72,30 @@ private extension Input.Table.CheckboxViewCell {
         textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
 
-        let bottomtextViewConstraint = textView.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
-        bottomtextViewConstraint.priority = .defaultHigh
+        // TextView should be center if it contains only a single line (`centerY` with low priority, )
+        // If TextView contains multiple ones it follow
 
         NSLayoutConstraint.activate([
+            // Textview
             textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
-            textView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            textView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
-            bottomtextViewConstraint,
 
+            textView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+            {
+                let centerY = textView.centerYAnchor.constraint(equalTo: checkbox.centerYAnchor)
+                centerY.priority = .defaultLow
+                return centerY
+            }(),
+            {
+                let bottom = textView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+                bottom.priority = .defaultHigh
+                return bottom
+            }(),
+
+            // Checkbox
             checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            checkbox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            checkbox.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
-            checkbox.bottomAnchor.constraint(greaterThanOrEqualTo: contentView.bottomAnchor)
+            checkbox.topAnchor.constraint(equalTo: contentView.topAnchor),
+            checkbox.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
         ])
     }
 }
@@ -135,13 +146,32 @@ extension Input.Table.CheckboxViewCell: UITextViewDelegate {
 // MARK: - Validation
 
 private extension Input.Table.CheckboxViewCell {
-    // Functions will be called twice because of a size calculations.
-
     func showValidationError(text: String) {
-        print("[VALIDATION] ❌ " + text)
+        let errorLabel: UILabel = {
+            let label = UILabel(frame: .zero)
+            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .caption2)
+            label.textColor = CheckoutAppearance.shared.errorColor
+            label.numberOfLines = 0
+            label.adjustsFontForContentSizeCategory = true
+            label.text = text
+            return label
+        }()
+        self.errorLabel = errorLabel
+
+        contentView.addSubview(errorLabel)
+
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            errorLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: UIConstant.defaultSpacing),
+            errorLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            errorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            errorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
     }
 
     func removeValidationError() {
-        print("[VALIDATION] ✅")
+        errorLabel?.removeFromSuperview()
+        errorLabel = nil
     }
 }
