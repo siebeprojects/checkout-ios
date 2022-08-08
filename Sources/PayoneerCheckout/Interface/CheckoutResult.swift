@@ -8,39 +8,33 @@ import Foundation
 import Networking
 
 /// An object containing relevant information about the result of a checkout operation.
-public class CheckoutResult: NSObject {
-    public var operationResult: OperationResult? {
-        guard case let .success(unwrappedOperationResult) = result else {
-            return nil
-        }
+public struct CheckoutResult {
+    public let operationResult: OperationResult?
+    public let errorInfo: ErrorInfo?
 
-        return unwrappedOperationResult
-    }
+    /// Contains value if something went wrong inside framework. In the most cases it would contain the `InternalError` type.
+    public let cause: Error?
 
-    public var errorInfo: ErrorInfo? {
-        guard case let .failure(error) = result else {
-            return nil
-        }
-
-        return error
-    }
-
-    /// Contains value if something went wrong inside framework. In the most cases it would contain `InternalError` type.
-    public var cause: Error? {
-        return (errorInfo as? CustomErrorInfo)?.underlyingError
-    }
-
-    /// Contains result info from `OperationResult` or `ErrorInfo`
-    public var resultInfo: String { result.resultInfo }
+    /// Contains result info from `OperationResult` or `ErrorInfo`.
+    public let resultInfo: String
 
     /// A reference to `Interaction` object inside `operationResult` or `errorInfo`.
-    public var interaction: Interaction { result.interaction }
+    public let interaction: Interaction
 
-    // MARK: Internal
-
-    private let result: Result<OperationResult, ErrorInfo>
-
-    internal init(operationResult: Result<OperationResult, ErrorInfo>) {
-        self.result = operationResult
+    init(result: Result<OperationResult, ErrorInfo>) {
+        switch result {
+        case .success(let operationResult):
+            self.operationResult = operationResult
+            self.errorInfo = nil
+            self.cause = nil
+            self.resultInfo = operationResult.resultInfo
+            self.interaction = operationResult.interaction
+        case .failure(let errorInfo):
+            self.operationResult = nil
+            self.errorInfo = errorInfo
+            self.cause = (errorInfo as? CustomErrorInfo)?.underlyingError
+            self.resultInfo = errorInfo.resultInfo
+            self.interaction = errorInfo.interaction
+        }
     }
 }
