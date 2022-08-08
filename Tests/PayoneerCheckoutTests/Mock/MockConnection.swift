@@ -17,14 +17,16 @@ class MockConnection: Connection {
         self.dataSource = dataSource
     }
 
-    func send(request: URLRequest, completionHandler: @escaping ((Data?, Error?) -> Void)) {
+    func send(request: URLRequest, completionHandler: @escaping ((Result<Data, Error>) -> Void)) {
         serialQueue.sync(flags: .barrier) {
             self.requestedURL = request.url!
         }
 
         switch dataSource.fakeData(for: request) {
-        case .success(let data): completionHandler(data, nil)
-        case .failure(let error): completionHandler(nil, error)
+        case .success(let data):
+            completionHandler(.success(data))
+        case .failure(let error):
+            completionHandler(.failure(error))
         }
     }
 

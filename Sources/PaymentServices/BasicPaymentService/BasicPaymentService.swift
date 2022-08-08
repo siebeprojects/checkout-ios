@@ -48,7 +48,7 @@ final public class BasicPaymentService: NSObject, PaymentService {
         do {
             networkRequest = try NetworkRequestBuilder().create(from: operationRequest)
         } catch {
-            completion(nil, error)
+            completion(.failure(error))
             return
         }
 
@@ -67,7 +67,7 @@ final public class BasicPaymentService: NSObject, PaymentService {
             do {
                 redirectURL = try redirectParser.getRedirect(from: operationResult)
             } catch {
-                completion(nil, error)
+                completion(.failure(error))
                 return
             }
 
@@ -75,28 +75,32 @@ final public class BasicPaymentService: NSObject, PaymentService {
                 let viewControllerToPresent = redirectController.createSafariController(presentingURL: redirectURL) {
                     // Presentation completed, route the final result
                     switch $0 {
-                    case .success(let operationResult): completion(operationResult, nil)
-                    case .failure(let error): completion(nil, error)
+                    case .success(let operationResult):
+                        completion(.success(operationResult))
+                    case .failure(let error):
+                        completion(.failure(error))
                     }
                 }
                 presentationRequest(viewControllerToPresent)
             } else {
-                completion(operationResult, nil)
+                completion(.success(operationResult))
             }
         case .failure(let error):
-            completion(nil, error)
+            completion(.failure(error))
         }
     }
 
     // MARK: - Deletion
 
-    public func delete(accountUsing accountURL: URL, completion: @escaping (OperationResult?, Error?) -> Void) {
+    public func delete(accountUsing accountURL: URL, completion: @escaping PaymentService.CompletionBlock) {
         let deletionRequest = NetworkRequest.DeleteAccount(url: accountURL)
         let operation = SendRequestOperation(connection: connection, request: deletionRequest)
         operation.downloadCompletionBlock = { result in
             switch result {
-            case .success(let operationResult): completion(operationResult, nil)
-            case .failure(let error): completion(nil, error)
+            case .success(let operationResult):
+                completion(.success(operationResult))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
         operation.start()

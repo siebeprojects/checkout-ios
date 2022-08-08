@@ -19,7 +19,7 @@ final class MockChargePresetService: ChargePresetServiceProtocol {
     func chargePresetAccount(usingListResultURL listResultURL: URL, completion: @escaping (CheckoutResult) -> Void, presentationRequest: @escaping (UIViewController) -> Void) {
         switch result {
         case .completion:
-            completion(CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
+            completion(CheckoutResult(result: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         case .authenticationChallenge:
             presentationRequest(UIViewController())
         }
