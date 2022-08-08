@@ -9,7 +9,7 @@ import Networking
 import UIKit
 
 public protocol PaymentService: AnyObject {
-    typealias CompletionBlock = (OperationResult?, Error?) -> Void
+    typealias CompletionBlock = (Result<OperationResult, Error>) -> Void
     typealias PresentationBlock = (UIViewController) -> Void
 
     /// Returns whether the service can make payments

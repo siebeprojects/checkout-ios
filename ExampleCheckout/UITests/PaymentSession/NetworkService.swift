@@ -8,9 +8,9 @@ import Foundation
 
 /// Class responsible for sending network requests.
 class NetworkService {
-    typealias RequestCompletionHandler = (Result<Data?, Error>) -> Void
+    typealias RequestCompletionHandler = (Result<Data, Error>) -> Void
 
-    func send(request: URLRequest, completionHandler: @escaping ((Result<Data?, Error>) -> Void)) {
+    func send(request: URLRequest, completionHandler: @escaping ((Result<Data, Error>) -> Void)) {
         // Send a network request
         let task = URLSession.shared.dataTask(with: request) { [handleDataTaskResponse] (data, response, error) in
             handleDataTaskResponse(data, response, error, completionHandler)
@@ -52,6 +52,11 @@ class NetworkService {
                 completionHandler(.failure(error))
             }
 
+            return
+        }
+
+        guard let data = data else {
+            completionHandler(.failure(NetworkError(description: "Response doesn't contain data or error")))
             return
         }
 

@@ -48,11 +48,6 @@ class PaymentSessionService {
         networkService.send(request: httpRequest) { result in
             switch result {
             case .success(let data):
-                guard let data = data else {
-                    completion(.failure("Server's reply doesn't contain data"))
-                    return
-                }
-
                 do {
                     let paymentSession = try JSONDecoder().decode(ListResult.self, from: data)
                     completion(.success(paymentSession))

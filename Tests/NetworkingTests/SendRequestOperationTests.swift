@@ -11,9 +11,9 @@ import Logging
 private final class MockConnection: Connection {
     private(set) var sendCalled = false
 
-    func send(request: URLRequest, completionHandler: @escaping ((Data?, Error?) -> Void)) {
+    func send(request: URLRequest, completionHandler: @escaping ((Result<Data, Error>) -> Void)) {
         sendCalled = true
-        completionHandler("{\"data\":\"data\"}".data(using: .utf8), nil)
+        completionHandler(.success("{\"data\":\"data\"}".data(using: .utf8)!))
     }
 
     static func isRecoverableError(_ error: Error) -> Bool {

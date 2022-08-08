@@ -9,12 +9,8 @@ import Risk
 import Payment
 import BasicPaymentService
 
-enum CheckoutConfigurationError: Error {
-    case invalidRiskProviderType
-}
-
 /// A configuration object that defines the parameters for a `Checkout`.
-public class CheckoutConfiguration: NSObject {
+public struct CheckoutConfiguration {
     /// The URL contained in `links.self` on the response object from a create payment session request.
     public let listURL: URL
 
@@ -38,18 +34,5 @@ public class CheckoutConfiguration: NSObject {
         self.appearance = appearance
         self.paymentServices = paymentServices
         self.riskProviders = riskProviders
-    }
-
-    /// Initializes a configuration object with the given parameters. Objective-C compatible.
-    /// - Parameters:
-    ///   - listURL: The URL contained in `links.self` on the response object from a create payment session request.
-    ///   - appearance: The appearance settings to be used in the checkout UI. If not specified, a default appearance will be used.
-    ///   - riskProviderClasses: An array of risk provider types.
-    public convenience init(listURL: URL, appearance: CheckoutAppearance, riskProviderClasses: [AnyClass]) throws {
-        guard let riskProviders = riskProviderClasses as? [RiskProvider.Type] else {
-            throw CheckoutConfigurationError.invalidRiskProviderType
-        }
-
-        self.init(listURL: listURL, appearance: appearance, riskProviders: riskProviders)
     }
 }
