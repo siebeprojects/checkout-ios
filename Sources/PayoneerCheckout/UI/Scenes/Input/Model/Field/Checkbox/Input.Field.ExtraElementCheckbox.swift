@@ -21,7 +21,6 @@ extension Input.Field {
 
         init(extraElementName: String, isOn: Bool, label: NSAttributedString, isRequired: Requirement) {
             self.isRequired = isRequired
-
             super.init(id: .extraElement(extraElementName), isOn: isOn, label: label)
         }
     }
@@ -47,7 +46,9 @@ extension Input.Field.ExtraElementCheckbox: Validatable {
         }
     }
 
-    var validationRule: Input.Field.Validation.Rule? { return nil }
+    var validationRule: Input.Field.Validation.Rule? {
+        return nil
+    }
 
     func validate(using option: Input.Field.Validation.Option) -> Input.Field.Validation.Result {
         switch isRequired {
