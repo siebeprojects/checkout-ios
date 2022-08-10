@@ -10,6 +10,10 @@ import Payment
 import BraintreeApplePay
 
 final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
+    static let applePayNetworkCode = "APPLEPAY"
+    static let applePayPaymentMethod = "WALLET"
+    static let braintreeProviderCode = "BRAINTREE"
+
     let redirectController: RedirectController
     let connection: Connection
 
@@ -18,8 +22,10 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
         self.redirectController = RedirectController(openAppWithURLNotificationName: openAppWithURLNotificationName)
     }
 
-    public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        return networkCode == "APPLEPAY" && paymentMethod == "WALLET" && PKPaymentAuthorizationViewController.canMakePayments()
+    public static func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool {
+        let isApplePay = networkCode == applePayNetworkCode && paymentMethod == applePayPaymentMethod && PKPaymentAuthorizationViewController.canMakePayments()
+        let isBraintree = providers?.first == braintreeProviderCode
+        return isApplePay && isBraintree
     }
 
     // MARK: - Process payment
@@ -27,13 +33,7 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
     public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
         // If network should be preset (first request of a PRESET flow), applicable network's operationType will be `PRESET`.
         if operationRequest.networkInformation.operationType == "PRESET" {
-            preset(using: operationRequest) { presetResult in
-                switch presetResult {
-                case .success(let operationResult): completion(operationResult, nil)
-                case .failure(let error): completion(nil, error)
-                }
-            }
-
+            preset(using: operationRequest, completion: completion)
             return
         }
 
@@ -51,18 +51,14 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
                 paymentRequest = payload.paymentRequest
                 onSelectResult = payload.onSelectResult
             case .failure(let error):
-                completion(nil, error)
+                completion(.failure(error))
                 return
             }
 
             // Configure Apple Pay controller
             let applePayController = ApplePayController(braintreeClient: braintreeClient, operationRequest: operationRequest, onSelectResult: onSelectResult, connection: connection)
             applePayController.completionHandler = {
-                // Payment finished, route results
-                switch applePayController.paymentResult {
-                case .success(let operationResult): completion(operationResult, nil)
-                case .failure(let error): completion(nil, error)
-                }
+                completion(applePayController.paymentResult)
             }
 
             do {
@@ -70,7 +66,7 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
                 let viewController = try applePayController.createPaymentAuthorizationViewController(paymentRequest: paymentRequest)
                 presentationRequest(viewController)
             } catch {
-                completion(nil, error)
+                completion(.failure(error))
             }
         }
     }
@@ -96,20 +92,11 @@ final public class ApplePayBraintreePaymentService: NSObject, PaymentService {
 
     // MARK: - Delete
 
-    public func delete(accountUsing accountURL: URL, completion: @escaping (OperationResult?, Error?) -> Void) {
+    public func delete(accountUsing accountURL: URL, completion: @escaping (Result<OperationResult, Error>) -> Void) {
         let deletionRequest = NetworkRequest.DeleteAccount(url: accountURL)
 
         let operation = SendRequestOperation(connection: connection, request: deletionRequest)
-
-        operation.downloadCompletionBlock = { result in
-            switch result {
-            case .success(let operationResult):
-                completion(operationResult, nil)
-            case .failure(let error):
-                completion(nil, error)
-            }
-        }
-
+        operation.downloadCompletionBlock = completion
         operation.start()
     }
 }

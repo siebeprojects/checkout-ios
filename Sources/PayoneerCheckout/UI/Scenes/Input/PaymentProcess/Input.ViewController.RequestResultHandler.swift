@@ -20,8 +20,17 @@ extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
     }
 
     func requestSender(didReceiveResult result: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
+        let interaction: Interaction = {
+            switch result {
+            case .success(let operationResult):
+                return operationResult.interaction
+            case .failure(let error):
+                return error.interaction
+            }
+        }()
+
         // Handle internal `COMMUNICATION_FAILURE` error for all flows
-        if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: result.interaction.reason), case let .failure(errorInfo) = result {
+        if case .COMMUNICATION_FAILURE = Interaction.Reason(rawValue: interaction.reason), case let .failure(errorInfo) = result {
             self.delegate?.requestHandler(communicationFailedWith: errorInfo, forRequestType: requestType)
             return
         }
@@ -30,10 +39,13 @@ extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
         switch requestType {
         case .operation(let operationType):
             switch operationType {
-            case "UPDATE": handle(updateResponse: result)
-            default: handle(operationResponse: result, for: requestType)
+            case "UPDATE":
+                handle(updateResponse: result)
+            default:
+                handle(operationResponse: result, for: requestType)
             }
-        case .deletion: handle(deletionResponse: result)
+        case .deletion:
+            handle(deletionResponse: result)
         }
     }
 }
@@ -42,10 +54,19 @@ extension Input.ViewController.RequestResultHandler: RequestSenderDelegate {
 
 extension Input.ViewController.RequestResultHandler {
     private func handle(operationResponse: Result<OperationResult, ErrorInfo>, for requestType: RequestSender.RequestType) {
+        let resultData: (interaction: Interaction, resultInfo: String) = {
+            switch operationResponse {
+            case .success(let operationResult):
+                return (operationResult.interaction, operationResult.resultInfo)
+            case .failure(let error):
+                return (error.interaction, error.resultInfo)
+            }
+        }()
+
         // On retry show an error and leave on that view
-        if case .RETRY = Interaction.Code(rawValue: operationResponse.interaction.code) {
-            let interaction = LocalizableInteraction.create(fromInteraction: operationResponse.interaction, flow: .charge)
-            let errorInfo = ErrorInfo(resultInfo: operationResponse.resultInfo, interaction: interaction)
+        if case .RETRY = Interaction.Code(rawValue: resultData.interaction.code) {
+            let interaction = LocalizableInteraction.create(fromInteraction: resultData.interaction, flow: .charge)
+            let errorInfo = ErrorInfo(resultInfo: resultData.resultInfo, interaction: interaction)
 
             self.delegate?.requestHandler(inputShouldBeChanged: errorInfo)
         }
@@ -68,10 +89,19 @@ extension Input.ViewController.RequestResultHandler {
 
 extension Input.ViewController.RequestResultHandler {
     private func handle(deletionResponse: Result<OperationResult, ErrorInfo>) {
+        let resultData: (interaction: Interaction, resultInfo: String) = {
+            switch deletionResponse {
+            case .success(let operationResult):
+                return (operationResult.interaction, operationResult.resultInfo)
+            case .failure(let error):
+                return (error.interaction, error.resultInfo)
+            }
+        }()
+
         // On retry show an error and leave on that view
-        if case .RETRY = Interaction.Code(rawValue: deletionResponse.interaction.code) {
-            let interaction = LocalizableInteraction.create(fromInteraction: deletionResponse.interaction, flow: .delete)
-            let errorInfo = ErrorInfo(resultInfo: deletionResponse.resultInfo, interaction: interaction)
+        if case .RETRY = Interaction.Code(rawValue: resultData.interaction.code) {
+            let interaction = LocalizableInteraction.create(fromInteraction: resultData.interaction, flow: .delete)
+            let errorInfo = ErrorInfo(resultInfo: resultData.resultInfo, interaction: interaction)
 
             self.delegate?.requestHandler(inputShouldBeChanged: errorInfo)
         }

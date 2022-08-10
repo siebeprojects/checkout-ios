@@ -77,7 +77,7 @@ class ListResultProvider {
     private func filterUnsupportedNetworks(listResult: ListResult, completion: ((ListResultNetworks) -> Void)) {
         // Filter networks
         var filteredPaymentNetworks = listResult.networks.applicable.filter { network in
-            paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method)
+            paymentServicesFactory.isSupported(networkCode: network.code, paymentMethod: network.method, providers: network.providers)
         }
 
         // Filter networks with `NONE/NONE` registration options in `UPDATE` flow, more info at: [PCX-1396](https://optile.atlassian.net/browse/PCX-1396) AC #1.a
@@ -95,7 +95,7 @@ class ListResultProvider {
         let filteredRegisteredNetworks: [AccountRegistration]
         if let accounts = listResult.accounts {
             filteredRegisteredNetworks = accounts.filter {
-                paymentServicesFactory.isSupported(networkCode: $0.code, paymentMethod: $0.method)
+                paymentServicesFactory.isSupported(networkCode: $0.code, paymentMethod: $0.method, providers: $0.providers)
             }
         } else {
             filteredRegisteredNetworks = .init()
@@ -104,7 +104,7 @@ class ListResultProvider {
         // Filter preset account
         let filteredPresetAccount: PresetAccount? = {
             guard let presetAccount = listResult.presetAccount else { return nil }
-            guard paymentServicesFactory.isSupported(networkCode: presetAccount.code, paymentMethod: presetAccount.method) else { return nil }
+            guard paymentServicesFactory.isSupported(networkCode: presetAccount.code, paymentMethod: presetAccount.method, providers: presetAccount.providers) else { return nil }
             return presetAccount
         }()
 

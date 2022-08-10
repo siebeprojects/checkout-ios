@@ -30,20 +30,41 @@ extension Input.ModelTransformer {
                 return nil
             }
 
-            let id = Input.Field.Identifier.extraElement(extraElement.name)
+            let isOn: Bool
+            let isRequiredMode: Bool
+            var isEnabled = true
 
             // Reference: https://optile.atlassian.net/wiki/spaces/PPW/pages/3391881231/ExtraElement+Checkbox+modes
             switch checkboxMode {
-            case .OPTIONAL, .REQUIRED:
-                return .init(id: id, isOn: false, label: label)
-            case .OPTIONAL_PRESELECTED, .REQUIRED_PRESELECTED:
-                return .init(id: id, isOn: true, label: label)
+            case .OPTIONAL:
+                isOn = false
+                isRequiredMode = false
+            case .OPTIONAL_PRESELECTED:
+                isOn = true
+                isRequiredMode = false
+            case .REQUIRED:
+                isOn = false
+                isRequiredMode = true
+            case .REQUIRED_PRESELECTED:
+                isOn = true
+                isRequiredMode = true
             case .FORCED, .FORCED_DISPLAYED:
                 // Reference: https://optile.atlassian.net/browse/PCX-3383 (point 4)
-                let checkbox = Input.Field.Checkbox(id: id, isOn: true, label: label)
-                checkbox.isEnabled = false
-                return checkbox
+                isOn = true
+                isRequiredMode = true
+                isEnabled = false
             }
+
+            let isRequired: Input.Field.ExtraElementCheckbox.Requirement = {
+                if !isRequiredMode { return .notRequired }
+                let requiredMessage = checkbox.requiredMessage ?? extraElement.name + "." + "requiredMessage"
+                return .required(requiredMessage: requiredMessage)
+            }()
+
+            let checkbox = Input.Field.ExtraElementCheckbox(extraElementName: extraElement.name, isOn: isOn, label: label, isRequired: isRequired)
+            checkbox.isEnabled = isEnabled
+
+            return checkbox
         }
 
         private var label: NSAttributedString {

@@ -264,7 +264,7 @@ extension Input.ViewController: InputRequestResultHandlerDelegate {
     func requestHandler(route result: Result<OperationResult, ErrorInfo>, forRequestType requestType: RequestSender.RequestType) {
         navigationController?.popViewController(animated: true)
 
-        listRequestResultHandler?.requestHandler(didReceiveOperationResult: result, forRequestType: requestType)
+        listRequestResultHandler?.requestHandler(didReceiveResult: result, forRequestType: requestType)
     }
 
     func requestHandler(communicationFailedWith error: ErrorInfo, forRequestType requestType: RequestSender.RequestType) {
@@ -278,7 +278,7 @@ extension Input.ViewController: InputRequestResultHandlerDelegate {
                 submitPayment()
             },
             .init(label: .cancel, style: .cancel) { _ in
-                self.listRequestResultHandler?.requestHandler(didReceiveOperationResult: .failure(error), forRequestType: requestType)
+                self.listRequestResultHandler?.requestHandler(didReceiveResult: .failure(error), forRequestType: requestType)
             }
         ]
 

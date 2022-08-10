@@ -44,7 +44,7 @@ extension Input.Table.Validator {
 
     /// Validate all models and display validation results in cells
     /// - Returns: is all fields are valid
-    @discardableResult func validateAll(option: Input.Field.Validation.Option) -> Bool {
+    @discardableResult func validate() -> Bool {
         // We need to resign a responder to avoid double validation after `textFieldDidEndEditing` event (keyboard will disappear on table reload).
         isSingleCellValidationEnabled = false
         collectionView.endEditing(true)
@@ -55,11 +55,18 @@ extension Input.Table.Validator {
             for (rowNumber, row) in section.enumerated() {
                 // Update validation model
                 guard let validatable = row as? Validatable else { continue }
-                validatable.validateAndSaveResult(option: option)
+                validatable.validateAndSaveResult(option: .fullCheck)
+
+                let indexPath = IndexPath(row: rowNumber, section: sectionNumber)
 
                 if let errorText = validatable.validationErrorText {
                     if #available(iOS 14.0, *) {
                         logger.debug("Validation error for row #\(rowNumber, privacy: .private): \(errorText, privacy: .private)")
+                    }
+
+                    // Scroll one-time for the top failing item, after that `isValid` will be `false`
+                    if isValid {
+                        collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
                     }
 
                     isValid = false
@@ -67,7 +74,6 @@ extension Input.Table.Validator {
 
                 // Update cells
                 // We update each cell separately, because if we just use `.reloadData()` something goes wrong with Material TextFields lessOrEqual constraint and error text fields will be positioned incorrectly
-                let indexPath = IndexPath(row: rowNumber, section: sectionNumber)
                 guard let cell = collectionView.cellForItem(at: indexPath) else { continue }
                 let cellRepresentable = dataSource.model[indexPath.section][indexPath.row]
 

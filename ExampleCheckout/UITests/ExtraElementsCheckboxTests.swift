@@ -72,4 +72,53 @@ final class ExtraElementsCheckboxTests: NetworksTests {
             XCTAssertEqual(checkbox.value as! String, "1")
         }
     }
+
+    // MARK: - Validation
+
+    /// Test validation error message appears for switches with `REQUIRED` mode when switch is changed.
+    func testValidationMessagesOnSwitchChange() throws {
+        let checkboxSettings = try ListSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsCheckboxes)
+        try setupPaymentSession(with: checkboxSettings)
+
+        app.staticTexts["Cards"].tap()
+        XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
+
+        XCTContext.runActivity(named: "Test REQUIRED checkbox validation message") { _ in
+            let cell = app.cells.containing(.switch, identifier: "extraElement_REQUIRED")
+            let validationErrorText = cell.staticTexts["REQUIRED error message"]
+            let checkbox = cell.switches.firstMatch
+
+            XCTAssertFalse(validationErrorText.exists)
+            checkbox.tap(withNumberOfTaps: 2, numberOfTouches: 1)
+            XCTAssertTrue(validationErrorText.exists)
+        }
+
+        XCTContext.runActivity(named: "Test REQUIRED_PRESELECTED checkbox validation message") { _ in
+            let cell = app.cells.containing(.switch, identifier: "extraElement_REQUIRED_PRESELECTED")
+            let validationErrorText = cell.staticTexts["REQUIRED_PRESELECTED error message"]
+            let checkbox = cell.switches.firstMatch
+
+            XCTAssertFalse(validationErrorText.exists)
+            checkbox.tap()
+            XCTAssertTrue(validationErrorText.exists)
+        }
+    }
+
+    /// Test validation error message appears for switch with `REQUIRED` mode when "Pay" was tapped.
+    func testValidationMessagesOnFullCheck() throws {
+        let checkboxSettings = try ListSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsCheckboxes)
+        try setupPaymentSession(with: checkboxSettings)
+
+        app.staticTexts["Cards"].tap()
+        XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
+        app.swipeUp()
+        app.buttons["Pay"].tap()
+
+        XCTContext.runActivity(named: "Test REQUIRED checkbox validation message") { _ in
+            let cell = app.cells.containing(.switch, identifier: "extraElement_REQUIRED")
+            let validationErrorText = cell.staticTexts["REQUIRED error message"]
+
+            XCTAssertTrue(validationErrorText.exists)
+        }
+    }
 }

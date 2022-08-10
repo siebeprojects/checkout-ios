@@ -236,7 +236,7 @@ extension PaymentListViewController: ListRequestResultHandlerDelegate {
             }
         }
 
-        let result = CheckoutResult(operationResult: result)
+        let result = CheckoutResult(result: result)
         delegate?.paymentService(didReceiveResult: result)
     }
 }

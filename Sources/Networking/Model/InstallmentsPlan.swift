@@ -17,7 +17,7 @@ public class InstallmentsPlan: NSObject, Decodable {
     public let id: String?
 
     /// Description of the installments plan.
-    /// - Note: renamed for Objective-C compatability, JSON original key: `description`
+    /// - Note: renamed for Objective-C compatibility, JSON original key: `description`
     public let planDescription: String?
 
     /// Number of installments in the installments plan.
