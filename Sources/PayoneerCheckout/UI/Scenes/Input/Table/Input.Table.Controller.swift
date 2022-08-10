@@ -58,7 +58,7 @@ extension Input.Table {
 
         func setModel(network: Input.Network, header: CellRepresentable) {
             network.uiModel.submitButton?.buttonDidTap = { [weak self] _ in
-                if self?.validator.validateAll(option: .fullCheck) == true {
+                if self?.validator.validate() == true {
                     self?.delegate?.submitPayment()
                 }
             }
