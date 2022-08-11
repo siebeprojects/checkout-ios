@@ -54,6 +54,10 @@ extension ViewController {
             startNewCheckout()
         }
 
+        guard checkout != nil else {
+            return
+        }
+
         startLoading()
 
         checkout?.chargePresetAccount(presenter: self) { result in

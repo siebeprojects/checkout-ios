@@ -7,6 +7,11 @@
 import XCTest
 
 final class NavigationTests: NetworksTests {
+    func testChargePresetAccount_whenEmptyURL_shouldNotStartLoading() {
+        app.buttons["Charge Preset Account"].tap()
+        XCTAssertTrue(app.tables.children(matching: .cell).element(boundBy: 3).buttons.firstMatch.isEnabled)
+    }
+
     func testClose() throws {
         let listSettings = try ListSettings()
         try setupPaymentSession(with: listSettings)
