@@ -120,8 +120,8 @@ private extension ApplePayBraintreeTests {
             throw "Timeout: waiting of Apple Pay presentation"
         }
 
-        // iOS 13 doesn't allow interaction with Apple Pay view controller
-        // iOS 14+ use a button instead of cell so we could guess version using a code below
+        // iOS 14 and lower don't allow interaction with Apple Pay view controller.
+        // iOS 15 use a button instead of cell so we could guess version using a code below.
         let cardSelectionButton = applePay.buttons.containing(label: "1234").firstMatch
         guard cardSelectionButton.waitForExistence(timeout: .uiTimeout) else {
             throw "Card selection button doesn't exists, possible unsupported iOS version for Apple Pay UI tests"
