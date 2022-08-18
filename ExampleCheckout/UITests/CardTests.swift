@@ -287,11 +287,3 @@ class CardsTests: NetworksTests {
         XCTAssertEqual(alertText, expectedText)
     }
 }
-
-fileprivate extension XCUIElementQuery {
-    func contains(text: String) -> Bool {
-        let predicate = NSPredicate(format: "label CONTAINS[c] %@", text)
-        let elementQuery = self.containing(predicate)
-        return elementQuery.count != 0
-    }
-}

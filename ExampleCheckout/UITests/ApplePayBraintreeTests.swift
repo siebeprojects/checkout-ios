@@ -120,9 +120,22 @@ private extension ApplePayBraintreeTests {
             throw "Timeout: waiting of Apple Pay presentation"
         }
 
-        let visaCardLabel = "Simulated Card - Visa, ‪•••• 1234‬"
-        applePay.buttons[visaCardLabel].tap()
-        applePay.tables.cells[visaCardLabel].tap()
+        // iOS 14 and lower don't allow interaction with Apple Pay view controller.
+        // iOS 15 use a button instead of cell so we could guess version using a code below.
+        let cardSelectionButton = applePay.buttons.containing(label: "1234").firstMatch
+        guard cardSelectionButton.waitForExistence(timeout: .uiTimeout) else {
+            throw "Card selection button doesn't exists, possible unsupported iOS version for Apple Pay UI tests"
+        }
+
+        cardSelectionButton.tap()
+        applePay.tables.cells.containing(label: "1234").firstMatch.tap()
         applePay.buttons["Pay with Passcode"].tap()
+    }
+}
+
+private extension XCUIElementQuery {
+    func containing(label: String) -> XCUIElementQuery {
+        let predicate = NSPredicate(format: "label CONTAINS[c] %@", label)
+        return self.containing(predicate)
     }
 }
