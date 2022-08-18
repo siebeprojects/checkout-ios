@@ -16,23 +16,22 @@ extension Input.Table {
     class CheckboxViewCell: UICollectionViewCell, ContainsInputCellDelegate, Dequeueable {
         weak var delegate: InputCellDelegate?
 
-        private let textView: UITextView
-        let checkbox: UISwitch
-        weak var errorLabel: UILabel?
+        private let checkboxView: CheckboxView
 
         override init(frame: CGRect) {
-            textView = .init(frame: .zero)
-            checkbox = .init(frame: .zero)
+            checkboxView = CheckboxView(frame: .zero)
 
             super.init(frame: frame)
 
-            configureTextView()
-            checkbox.addTarget(self, action: #selector(checkboxValueChanged), for: .valueChanged)
+            checkboxView.valueDidChange = { [weak self] isOn in
+                self?.checkboxValueDidChange(isOn: isOn)
+            }
+
             configureLayout()
         }
 
-        @objc private func checkboxValueChanged(_ sender: UISwitch) {
-            delegate?.inputCellValueDidChange(to: checkbox.isOn.stringValue, cell: self)
+        private func checkboxValueDidChange(isOn: Bool) {
+            delegate?.inputCellValueDidChange(to: checkboxView.isOn.stringValue, cell: self)
             delegate?.inputCellDidEndEditing(cell: self)
         }
 
@@ -45,54 +44,21 @@ extension Input.Table {
 // MARK: - Layout & initial configuration
 
 private extension Input.Table.CheckboxViewCell {
-    func configureTextView() {
-        textView.textColor = CheckoutAppearance.shared.primaryTextColor
-        textView.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .subheadline)
-        textView.isScrollEnabled = false
-        textView.isEditable = false
-        textView.adjustsFontForContentSizeCategory = true
-
-        textView.textContainerInset = .zero
-        textView.textContainer.lineFragmentPadding = 0
-
-        textView.delegate = self
-    }
-
     func configureLayout() {
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        checkbox.translatesAutoresizingMaskIntoConstraints = false
+        checkboxView.translatesAutoresizingMaskIntoConstraints = false
 
-        contentView.addSubview(textView)
-        contentView.addSubview(checkbox)
-
-        textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        checkbox.setContentHuggingPriority(.defaultLow, for: .vertical)
-
-        // TextView should be center if it contains only a single line (`centerY` with low priority, )
-        // If TextView contains multiple ones it follow
+        contentView.addSubview(checkboxView)
 
         NSLayoutConstraint.activate([
-            // Textview
-            textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: checkbox.leadingAnchor, constant: -UIConstant.defaultSpacing),
-
-            textView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor),
+            checkboxView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            checkboxView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            checkboxView.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            checkboxView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             {
-                let centerY = textView.centerYAnchor.constraint(equalTo: checkbox.centerYAnchor)
-                centerY.priority = .defaultLow
-                return centerY
-            }(),
-            {
-                let bottom = textView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
-                bottom.priority = .defaultHigh
-                return bottom
-            }(),
-
-            // Checkbox
-            checkbox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            checkbox.topAnchor.constraint(equalTo: contentView.topAnchor),
-            checkbox.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+                let bottomConstraint = checkboxView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+                bottomConstraint.priority = .defaultLow
+                return bottomConstraint
+            }()
         ])
     }
 }
@@ -101,72 +67,26 @@ private extension Input.Table.CheckboxViewCell {
 
 extension Input.Table.CheckboxViewCell {
     func configure(with model: Input.Field.Checkbox) {
-        checkbox.isOn = model.isOn
-        checkbox.isEnabled = model.isEnabled
-        checkbox.accessibilityIdentifier = model.id.textValue
+        checkboxView.isOn = model.isOn
+        checkboxView.isEnabled = model.isEnabled
+        checkboxView.switchAccessibilityIdentifier = model.id.textValue
 
         // Configure text view
-        if let font = textView.font {
+        if let font = checkboxView.font {
             let mutableString = NSMutableAttributedString(attributedString: model.label)
             mutableString.addAttributes([.font: font], range: NSRange(location: 0, length: mutableString.length))
-            textView.attributedText = mutableString
+            checkboxView.label = mutableString
         }
 
         // Validation
-        if let validatableModel = model as? Validatable, errorLabel?.text != validatableModel.validationErrorText {
+        if let validatableModel = model as? Validatable, checkboxView.errorText != validatableModel.validationErrorText {
             if let errorText = validatableModel.validationErrorText {
-                showValidationError(text: errorText)
+                checkboxView.errorText = errorText
             } else {
-                removeValidationError()
+                checkboxView.errorText = nil
             }
         }
-    }
-}
 
-// MARK: - UITextViewDelegate
-
-extension Input.Table.CheckboxViewCell: UITextViewDelegate {
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        textView.selectedTextRange = nil
-    }
-
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        typealias BrowserController = Input.ViewController.BrowserController
-
-        NotificationCenter.default.post(name: BrowserController.userDidClickLinkInPaymentView, object: nil, userInfo: [BrowserController.linkUserInfoKey: URL])
-        return false
-    }
-}
-
-// MARK: - Validation
-
-private extension Input.Table.CheckboxViewCell {
-    func showValidationError(text: String) {
-        let errorLabel: UILabel = {
-            let label = UILabel(frame: .zero)
-            label.font = CheckoutAppearance.shared.fontProvider.font(forTextStyle: .caption2)
-            label.textColor = CheckoutAppearance.shared.errorColor
-            label.numberOfLines = 0
-            label.adjustsFontForContentSizeCategory = true
-            label.text = text
-            return label
-        }()
-        self.errorLabel = errorLabel
-
-        contentView.addSubview(errorLabel)
-
-        errorLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            errorLabel.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: UIConstant.defaultSpacing),
-            errorLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            errorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            errorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-    }
-
-    func removeValidationError() {
-        errorLabel?.removeFromSuperview()
-        errorLabel = nil
+        checkboxView.layoutSubviews()
     }
 }
