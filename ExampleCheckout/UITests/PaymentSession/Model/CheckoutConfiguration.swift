@@ -10,6 +10,7 @@ enum CheckoutConfiguration: String {
     case extraElementsTopBottom = "UITests-ExtraElements-TopBottom"
     case extraElementsTop = "UITests-ExtraElements-Top"
     case extraElementsBottom = "UITests-ExtraElements-Bottom"
+    case extraElementsCheckboxes = "UITests-ExtraElements-Modes"
 
     var name: String {
         rawValue

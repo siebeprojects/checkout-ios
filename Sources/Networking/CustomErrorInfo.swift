@@ -18,7 +18,7 @@ public final class CustomErrorInfo: ErrorInfo {
 
     @available(*, unavailable)
     public required init(from decoder: Decoder) throws {
-        fatalError("Can't be inited from decoder")
+        throw DecodingError.typeMismatch(CustomErrorInfo.self, DecodingError.Context(codingPath: [], debugDescription: "CustomErrorInfo cannot be decoded."))
     }
 
     /// Create an instance with `ABORT` and `CLIENTSIDE_ERROR` Interaction

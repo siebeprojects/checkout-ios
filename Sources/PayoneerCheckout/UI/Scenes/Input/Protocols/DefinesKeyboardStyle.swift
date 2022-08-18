@@ -6,6 +6,7 @@
 
 #if canImport(UIKit)
 import UIKit
+import Networking
 
 /// Controls keyboard's appearance
 protocol DefinesKeyboardStyle where Self: TextInputField {
@@ -21,21 +22,26 @@ extension DefinesKeyboardStyle {
 
 extension DefinesKeyboardStyle where Self: InputElementModel {
     var keyboardType: UIKeyboardType {
-        switch inputElement.inputElementType {
-        case .some(.numeric): return .numbersAndPunctuation
-        case .some(.integer): return .numberPad
-        default: return .default
+        switch InputElement.InputElementType(rawValue: inputElement.type) {
+        case .some(.numeric):
+            return .numbersAndPunctuation
+        case .some(.integer):
+            return .numberPad
+        default:
+            return .default
         }
     }
 
     var allowedCharacters: CharacterSet? {
-        switch inputElement.inputElementType {
-        case .some(.integer): return .decimalDigits
+        switch InputElement.InputElementType(rawValue: inputElement.type) {
+        case .some(.integer):
+            return .decimalDigits
         case .some(.numeric):
             var set = CharacterSet.decimalDigits
             set.insert(charactersIn: " -")
             return set
-        default: return nil
+        default:
+            return nil
         }
     }
 }

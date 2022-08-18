@@ -48,7 +48,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
                         })
                 } catch {
                     let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-                    let result = CheckoutResult(operationResult: .failure(errorInfo))
+                    let result = CheckoutResult(result: .failure(errorInfo))
 
                     DispatchQueue.main.async {
                         completion(result)
@@ -60,7 +60,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
                     return CustomErrorInfo.createClientSideError(from: error)
                 }()
 
-                let result = CheckoutResult(operationResult: .failure(errorInfo))
+                let result = CheckoutResult(result: .failure(errorInfo))
 
                 DispatchQueue.main.async {
                     completion(result)
@@ -89,7 +89,7 @@ final class ChargePresetService: ChargePresetServiceProtocol {
             throw error
         }
 
-        guard let operationType = listResult.operationType, operationType == "PRESET" else {
+        guard listResult.operationType == "PRESET" else {
             let error = InternalError(description: "List result doesn't contain operation type or operation type is not PRESET")
             throw error
         }
@@ -97,46 +97,35 @@ final class ChargePresetService: ChargePresetServiceProtocol {
         let riskData = riskService.collectRiskData()
 
         // Find payment service
-        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method)
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: presetAccount.code, paymentMethod: presetAccount.method, providers: presetAccount.providers)
         else {
             let error = InternalError(description: "Payment service for preset account wasn't found")
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-            let result = CheckoutResult(operationResult: .failure(errorInfo))
+            let result = CheckoutResult(result: .failure(errorInfo))
             completion(result)
             return
         }
 
         // Prepare OperationRequest
-        let networkInformation = NetworkInformation(networkCode: presetAccount.code, paymentMethod: presetAccount.method, operationType: operationType, links: presetAccount.links)
+        let networkInformation = NetworkInformation(networkCode: presetAccount.code, paymentMethod: presetAccount.method, operationType: presetAccount.operationType, links: presetAccount.links)
         let operationRequest = OperationRequest(networkInformation: networkInformation, form: nil, riskData: riskData)
 
         // Send request
-        service.send(
+        service.processPayment(
             operationRequest: operationRequest,
-            completion: { [weak self] result, error in
-                guard let operationResult = self?.convertToResult(object: result, error: error) else { return }
-
-                let checkoutResult = CheckoutResult(operationResult: operationResult)
-                completion(checkoutResult)
+            completion: { result in
+                switch result {
+                case .success(let operationResult):
+                    completion(CheckoutResult(result: .success(operationResult)))
+                case .failure(let error):
+                    if let errorInfo = error as? ErrorInfo {
+                        completion(CheckoutResult(result: .failure(errorInfo)))
+                    } else {
+                        completion(CheckoutResult(result: .failure(CustomErrorInfo.createClientSideError(from: error))))
+                    }
+                }
             },
             presentationRequest: presentationRequest
         )
-    }
-
-    /// Converts object and error optionals to `Result` with a defined state.
-    private func convertToResult<T>(object: T?, error: Error?) -> Result <T, ErrorInfo> {
-        if let errorInfo = error as? ErrorInfo {
-            return .failure(errorInfo)
-        } else if let error = error {
-            return .failure(CustomErrorInfo.createClientSideError(from: error))
-        }
-
-        guard let object = object else {
-            let error = InternalError(description: "Malformed response: both data and error objects are nil")
-            let errorInfo = CustomErrorInfo.createClientSideError(from: error)
-            return .failure(errorInfo)
-        }
-
-        return .success(object)
     }
 }

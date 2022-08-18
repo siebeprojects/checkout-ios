@@ -1,0 +1,300 @@
+{
+  "links": {
+    "self": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma",
+    "lang": "https://resources.pi-nightly.integration.oscato.com/resource/lang/MOBILE_TESTING/en_US/checkout.json"
+  },
+  "resultInfo": "5 applicable and 0 registered networks are found",
+  "interaction": {
+    "code": "PROCEED",
+    "reason": "OK"
+  },
+  "networks": {
+    "applicable": [
+      {
+        "code": "VISA",
+        "label": "Visa",
+        "method": "CREDIT_CARD",
+        "grouping": "CREDIT_CARD",
+        "registration": "FORCED_DISPLAYED",
+        "recurrence": "NONE",
+        "redirect": false,
+        "links": {
+          "logo": "https://resources.pi-nightly.integration.oscato.com/resource/network/MOBILE_TESTING/en_US/VISA/logo3x.png",
+          "self": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/VISA",
+          "lang": "https://resources.pi-nightly.integration.oscato.com/resource/lang/MOBILE_TESTING/en_US/VISA.json",
+          "operation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/VISA/charge",
+          "validation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/MOBILE_TESTING/en_US/VISA/standard/validate"
+        },
+        "selected": false,
+        "inputElements": [
+          {
+            "name": "number",
+            "type": "numeric"
+          },
+          {
+            "name": "expiryMonth",
+            "type": "integer"
+          },
+          {
+            "name": "expiryYear",
+            "type": "integer"
+          },
+          {
+            "name": "verificationCode",
+            "type": "integer"
+          },
+          {
+            "name": "holderName",
+            "type": "string"
+          }
+        ],
+        "operationType": "CHARGE",
+        "deferral": "NON_DEFERRED"
+      },
+      {
+        "code": "AMEX",
+        "label": "American Express",
+        "method": "CREDIT_CARD",
+        "grouping": "CREDIT_CARD",
+        "registration": "NONE",
+        "recurrence": "NONE",
+        "redirect": false,
+        "links": {
+          "logo": "https://resources.pi-nightly.integration.oscato.com/resource/network/MOBILE_TESTING/en_US/AMEX/logo3x.png",
+          "self": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/AMEX",
+          "lang": "https://resources.pi-nightly.integration.oscato.com/resource/lang/MOBILE_TESTING/en_US/AMEX.json",
+          "operation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/AMEX/charge",
+          "validation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/MOBILE_TESTING/en_US/AMEX/standard/validate"
+        },
+        "selected": false,
+        "inputElements": [
+          {
+            "name": "number",
+            "type": "numeric"
+          },
+          {
+            "name": "expiryMonth",
+            "type": "integer"
+          },
+          {
+            "name": "expiryYear",
+            "type": "integer"
+          },
+          {
+            "name": "verificationCode",
+            "type": "integer"
+          },
+          {
+            "name": "holderName",
+            "type": "string"
+          }
+        ],
+        "operationType": "CHARGE",
+        "deferral": "NON_DEFERRED"
+      },
+      {
+        "code": "MASTERCARD",
+        "label": "Mastercard",
+        "method": "CREDIT_CARD",
+        "grouping": "CREDIT_CARD",
+        "registration": "OPTIONAL",
+        "recurrence": "NONE",
+        "redirect": false,
+        "links": {
+          "logo": "https://resources.pi-nightly.integration.oscato.com/resource/network/MOBILE_TESTING/en_US/MASTERCARD/logo3x.png",
+          "self": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/MASTERCARD",
+          "lang": "https://resources.pi-nightly.integration.oscato.com/resource/lang/MOBILE_TESTING/en_US/MASTERCARD.json",
+          "operation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/MASTERCARD/charge",
+          "validation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/MOBILE_TESTING/en_US/MASTERCARD/standard/validate"
+        },
+        "selected": false,
+        "inputElements": [
+          {
+            "name": "number",
+            "type": "numeric"
+          },
+          {
+            "name": "expiryMonth",
+            "type": "integer"
+          },
+          {
+            "name": "expiryYear",
+            "type": "integer"
+          },
+          {
+            "name": "verificationCode",
+            "type": "integer"
+          },
+          {
+            "name": "holderName",
+            "type": "string"
+          }
+        ],
+        "operationType": "CHARGE",
+        "deferral": "NON_DEFERRED"
+      },
+      {
+        "code": "SEPADD",
+        "label": "SEPA",
+        "method": "DIRECT_DEBIT",
+        "grouping": "DIRECT_DEBIT",
+        "registration": "OPTIONAL",
+        "recurrence": "NONE",
+        "redirect": false,
+        "links": {
+          "logo": "https://resources.pi-nightly.integration.oscato.com/resource/network/MOBILE_TESTING/en_US/SEPADD/logo3x.png",
+          "self": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/SEPADD",
+          "lang": "https://resources.pi-nightly.integration.oscato.com/resource/lang/MOBILE_TESTING/en_US/SEPADD.json",
+          "operation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/SEPADD/charge",
+          "validation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/MOBILE_TESTING/en_US/SEPADD/standard/validate"
+        },
+        "selected": false,
+        "inputElements": [
+          {
+            "name": "holderName",
+            "type": "string"
+          },
+          {
+            "name": "iban",
+            "type": "string"
+          },
+          {
+            "name": "bic",
+            "type": "string"
+          }
+        ],
+        "operationType": "CHARGE",
+        "deferral": "NON_DEFERRED"
+      },
+      {
+        "code": "PAYPAL",
+        "label": "PayPal",
+        "method": "WALLET",
+        "grouping": "WALLET",
+        "registration": "OPTIONAL",
+        "recurrence": "NONE",
+        "redirect": true,
+        "links": {
+          "logo": "https://resources.pi-nightly.integration.oscato.com/resource/network/MOBILE_TESTING/en_US/PAYPAL/logo3x.png",
+          "self": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/PAYPAL",
+          "lang": "https://resources.pi-nightly.integration.oscato.com/resource/lang/MOBILE_TESTING/en_US/PAYPAL.json",
+          "operation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/PAYPAL/charge",
+          "validation": "https://api.pi-nightly.integration.oscato.com/pci/v1/62dee6d096fe1b523b4e368dlcf60f7b2f0mvp2rk9pge3gjma/MOBILE_TESTING/en_US/PAYPAL/standard/validate"
+        },
+        "selected": false,
+        "contractData": {
+          "PAGE_ENVIRONMENT": "sandbox",
+          "JAVASCRIPT_INTEGRATION": "false",
+          "PAGE_BUTTON_LOCALE": "en_US"
+        },
+        "operationType": "CHARGE",
+        "deferral": "NON_DEFERRED"
+      }
+    ]
+  },
+  "extraElements": {
+    "top": [
+      {
+        "name": "TOP_OPTIONAL",
+        "label": "Top OPTIONAL Checkbox mode",
+        "checkbox": {
+          "mode": "OPTIONAL"
+        }
+      },
+      {
+        "name": "TOP_OPTIONAL_PRESELECTED",
+        "label": "Top OPTIONAL_PRESELECTED Checkbox mode",
+        "checkbox": {
+          "mode": "OPTIONAL_PRESELECTED"
+        }
+      },
+      {
+        "name": "TOP_REQUIRED",
+        "label": "Top REQUIRED Checkbox mode",
+        "checkbox": {
+          "mode": "REQUIRED",
+          "requiredMessage": "REQUIRED error message"
+        }
+      },
+      {
+        "name": "TOP_REQUIRED_PRESELECTED",
+        "label": "Top REQUIRED_PRESELECTED Checkbox mode",
+        "checkbox": {
+          "mode": "REQUIRED_PRESELECTED",
+          "requiredMessage": "REQUIRED_PRESELECTED error message"
+        }
+      },
+      {
+        "name": "TOP_FORCED",
+        "label": "Top FORCED Checkbox mode",
+        "checkbox": {
+          "mode": "FORCED"
+        }
+      },
+      {
+        "name": "TOP_FORCED_DISPLAYED",
+        "label": "Top FORCED_DISPLAYED Checkbox mode",
+        "checkbox": {
+          "mode": "FORCED_DISPLAYED"
+        }
+      }
+    ],
+    "bottom": [
+      {
+        "name": "BOTTOM_OPTIONAL",
+        "label": "Bottom OPTIONAL BOTTOM Checkbox mode",
+        "checkbox": {
+          "mode": "OPTIONAL"
+        }
+      },
+      {
+        "name": "BOTTOM_OPTIONAL_PRESELECTED",
+        "label": "Bottom OPTIONAL_PRESELECTED Checkbox mode",
+        "checkbox": {
+          "mode": "OPTIONAL_PRESELECTED"
+        }
+      },
+      {
+        "name": "BOTTOM_REQUIRED",
+        "label": "Bottom REQUIRED Checkbox mode",
+        "checkbox": {
+          "mode": "REQUIRED",
+          "requiredMessage": "REQUIRED error message"
+        }
+      },
+      {
+        "name": "BOTTOM_REQUIRED_PRESELECTED",
+        "label": "Bottom REQUIRED_PRESELECTED Checkbox mode",
+        "checkbox": {
+          "mode": "REQUIRED_PRESELECTED",
+          "requiredMessage": "REQUIRED_PRESELECTED error message"
+        }
+      },
+      {
+        "name": "BOTTOM_FORCED",
+        "label": "Bottom FORCED Checkbox mode",
+        "checkbox": {
+          "mode": "FORCED"
+        }
+      },
+      {
+        "name": "BOTTOM_FORCED_DISPLAYED",
+        "label": "Bottom FORCED_DISPLAYED Checkbox mode",
+        "checkbox": {
+          "mode": "FORCED_DISPLAYED"
+        }
+      }
+    ]
+  },
+  "operationType": "CHARGE",
+  "allowDelete": true,
+  "style": {
+    "language": "en_US"
+  },
+  "payment": {
+    "reference": "PM Checkout Example",
+    "amount": 15,
+    "currency": "EUR"
+  },
+  "integrationType": "MOBILE_NATIVE"
+}

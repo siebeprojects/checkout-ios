@@ -14,14 +14,16 @@ struct NetworkRequestBuilder {
             throw NetworkRequestBuilderError.missingOperationLink
         }
 
-        let body = NetworkRequest.Operation.Body(
-            account: operationRequest.form?.inputFields ?? [:],
+        let networkRequest = NetworkRequest.Operation(
+            from: operationURL,
+            account: operationRequest.form?.inputFields,
             autoRegistration: operationRequest.form?.autoRegistration,
             allowRecurrence: operationRequest.form?.allowRecurrence,
+            checkboxes: operationRequest.form?.checkboxes,
+            providerRequest: nil,
             providerRequests: operationRequest.riskData
         )
 
-        let networkRequest = NetworkRequest.Operation(from: operationURL, body: body)
         return networkRequest
     }
 }

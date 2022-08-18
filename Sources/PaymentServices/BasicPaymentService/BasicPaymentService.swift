@@ -8,21 +8,30 @@ import UIKit
 import Networking
 import Payment
 
-@objc final public class BasicPaymentService: NSObject, PaymentService {
+final public class BasicPaymentService: NSObject, PaymentService {
+    static let supportedNetworkCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
+    static let supportedPaymentMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
+
     private let supportedRedirectTypes = ["PROVIDER", "3DS2-HANDLER"]
     private let redirectController: RedirectController
     private let connection: Connection
 
     // MARK: - Static methods
 
-    public static func isSupported(networkCode: String, paymentMethod: String?) -> Bool {
-        if let methodString = paymentMethod, let method = PaymentMethod(rawValue: methodString) {
-            let supportedMethods: [PaymentMethod] = [.DEBIT_CARD, .CREDIT_CARD]
-            if supportedMethods.contains(method) { return true }
+    public static func isSupported(networkCode: String, paymentMethod: String?, providers: [String]?) -> Bool {
+        if providers != nil && providers?.isEmpty == false {
+            return false
         }
 
-        let supportedCodes = ["SEPADD", "PAYPAL", "WECHATPC-R"]
-        return supportedCodes.contains(networkCode)
+        if
+            let methodString = paymentMethod,
+            let method = PaymentMethod(rawValue: methodString),
+            supportedPaymentMethods.contains(method)
+        {
+            return true
+        }
+
+        return supportedNetworkCodes.contains(networkCode)
     }
 
     // MARK: - Initializer
@@ -34,12 +43,12 @@ import Payment
 
     // MARK: - Send operation
 
-    public func send(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
+    public func processPayment(operationRequest: OperationRequest, completion: @escaping PaymentService.CompletionBlock, presentationRequest: @escaping PaymentService.PresentationBlock) {
         let networkRequest: NetworkRequest.Operation
         do {
             networkRequest = try NetworkRequestBuilder().create(from: operationRequest)
         } catch {
-            completion(nil, error)
+            completion(.failure(error))
             return
         }
 
@@ -58,7 +67,7 @@ import Payment
             do {
                 redirectURL = try redirectParser.getRedirect(from: operationResult)
             } catch {
-                completion(nil, error)
+                completion(.failure(error))
                 return
             }
 
@@ -66,28 +75,32 @@ import Payment
                 let viewControllerToPresent = redirectController.createSafariController(presentingURL: redirectURL) {
                     // Presentation completed, route the final result
                     switch $0 {
-                    case .success(let operationResult): completion(operationResult, nil)
-                    case .failure(let error): completion(nil, error)
+                    case .success(let operationResult):
+                        completion(.success(operationResult))
+                    case .failure(let error):
+                        completion(.failure(error))
                     }
                 }
                 presentationRequest(viewControllerToPresent)
             } else {
-                completion(operationResult, nil)
+                completion(.success(operationResult))
             }
         case .failure(let error):
-            completion(nil, error)
+            completion(.failure(error))
         }
     }
 
     // MARK: - Deletion
 
-    public func delete(accountUsing accountURL: URL, completion: @escaping (OperationResult?, Error?) -> Void) {
+    public func delete(accountUsing accountURL: URL, completion: @escaping PaymentService.CompletionBlock) {
         let deletionRequest = NetworkRequest.DeleteAccount(url: accountURL)
         let operation = SendRequestOperation(connection: connection, request: deletionRequest)
         operation.downloadCompletionBlock = { result in
             switch result {
-            case .success(let operationResult): completion(operationResult, nil)
-            case .failure(let error): completion(nil, error)
+            case .success(let operationResult):
+                completion(.success(operationResult))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
         operation.start()

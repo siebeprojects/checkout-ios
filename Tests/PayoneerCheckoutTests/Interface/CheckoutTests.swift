@@ -47,7 +47,7 @@ final class CheckoutTests: XCTestCase {
     }
 
     func testInit_shouldSetAppearanceSingleton() {
-        XCTAssertTrue(CheckoutAppearance.shared == checkout.configuration.appearance)
+        XCTAssertEqual(CheckoutAppearance.shared, checkout.configuration.appearance)
     }
 
     func testPresentPayment_shouldSetPresenter() {
@@ -118,20 +118,20 @@ final class CheckoutTests: XCTestCase {
     func testPaymentServiceDidReceiveResult_shouldCallDismiss() {
         let presenter = MockCheckoutPresenter()
         checkout.presentPaymentList(from: presenter, completion: { _ in })
-        checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
+        checkout.paymentService(didReceiveResult: CheckoutResult(result: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         XCTAssertTrue(presenter.dismissCalled)
     }
 
     func testPaymentServiceDidReceiveResult_shouldCallCompletionBlock() {
         var completionCalled = false
         checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in completionCalled = true })
-        checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
+        checkout.paymentService(didReceiveResult: CheckoutResult(result: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         XCTAssertTrue(completionCalled)
     }
 
     func testPaymentServiceDidReceiveResult_shouldNullifyCompletionBlock() {
         checkout.presentPaymentList(from: MockCheckoutPresenter(), completion: { _ in })
-        checkout.paymentService(didReceiveResult: CheckoutResult(operationResult: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
+        checkout.paymentService(didReceiveResult: CheckoutResult(result: .failure(ErrorInfo(resultInfo: "", interaction: Interaction(code: "", reason: "")))))
         XCTAssertNil(checkout.paymentCompletionBlock)
     }
 }

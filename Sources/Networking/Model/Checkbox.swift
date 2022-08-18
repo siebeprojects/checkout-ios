@@ -15,8 +15,6 @@ public class Checkbox: NSObject, Decodable {
 
     // MARK: - Enumerations
 
-    public var checkboxMode: Mode? { Mode(rawValue: mode) }
-
     public enum Mode: String, Decodable {
         case OPTIONAL, OPTIONAL_PRESELECTED, REQUIRED, REQUIRED_PRESELECTED, FORCED, FORCED_DISPLAYED
     }

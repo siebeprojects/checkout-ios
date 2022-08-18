@@ -6,7 +6,7 @@
 
 import Foundation
 
-@objc public class NetworkInformation: NSObject {
+public class NetworkInformation: NSObject {
     public init(networkCode: String, paymentMethod: String?, operationType: String, links: [String: URL]) {
         self.networkCode = networkCode
         self.paymentMethod = paymentMethod
@@ -16,6 +16,9 @@ import Foundation
 
     public let networkCode: String
     public let paymentMethod: String?
+
+    /// Operation type for applicable network
     public let operationType: String
+
     public let links: [String: URL]
 }

@@ -8,10 +8,10 @@ import UIKit
 
 private extension CGFloat {
     /// Spacing between rows in section
-    static var rowLineSpacing: CGFloat { return 8 }
+    static var rowLineSpacing: CGFloat { return 16 }
 
     /// Spacing between sections
-    static var sectionSpacing: CGFloat { return 30 }
+    static var sectionSpacing: CGFloat { return 32 }
 
     /// Spacing between sections
     static var interitemSpacing: CGFloat { return 20 }

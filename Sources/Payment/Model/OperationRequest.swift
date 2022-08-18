@@ -7,7 +7,7 @@
 import Foundation
 import Networking
 
-@objc public class OperationRequest: NSObject {
+public class OperationRequest: NSObject {
     public init(networkInformation: NetworkInformation, form: Form?, riskData: [ProviderParameters]?) {
         self.networkInformation = networkInformation
         self.form = form

@@ -30,16 +30,11 @@ extension Input.Table {
             contentView.addSubview(textInputView)
             textInputView.translatesAutoresizingMaskIntoConstraints = false
 
-            let bottomPadding: CGFloat = 10
-
-            let textFieldBottomAnchor = textInputView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -bottomPadding)
-            textFieldBottomAnchor.priority = .defaultHigh
-
             NSLayoutConstraint.activate([
                 textInputView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                 textInputView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                 textInputView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                textFieldBottomAnchor
+                textInputView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
             ])
         }
 

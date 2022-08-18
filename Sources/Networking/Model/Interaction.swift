@@ -6,14 +6,61 @@
 
 import Foundation
 
-@objc open class Interaction: NSObject, Decodable {
+open class Interaction: NSObject, Decodable {
+    public enum Code: String, Decodable {
+        case PROCEED
+        case ABORT
+        case TRY_OTHER_NETWORK
+        case TRY_OTHER_ACCOUNT
+        case RETRY
+        case RELOAD
+        case VERIFY
+    }
+
+    public enum Reason: String, Decodable {
+        case OK
+        case PENDING
+        case TRUSTED
+        case STRONG_AUTHENTICATION
+        case DECLINED
+        case EXPIRED
+        case EXCEEDS_LIMIT
+        case TEMPORARY_FAILURE
+        case UNKNOWN
+        case NETWORK_FAILURE
+        // swiftlint:disable:next inclusive_language
+        case BLACKLISTED
+        case BLOCKED
+        case SYSTEM_FAILURE
+        case INVALID_ACCOUNT
+        case FRAUD
+        case ADDITIONAL_NETWORKS
+        case INVALID_REQUEST
+        case SCHEDULED
+        case NO_NETWORKS
+        case DUPLICATE_OPERATION
+        case CHARGEBACK
+        case RISK_DETECTED
+        case CUSTOMER_ABORT
+        case EXPIRED_SESSION
+        case EXPIRED_ACCOUNT
+        case ACCOUNT_NOT_ACTIVATED
+        case TRUSTED_CUSTOMER
+        case UNKNOWN_CUSTOMER
+        case ACTIVATED
+        case UPDATED
+        case TAKE_ACTION
+        case COMMUNICATION_FAILURE
+        case CLIENTSIDE_ERROR
+    }
+
     /// Interaction code that advices further interaction with this customer or payment.
     /// See list of [Interaction Codes](https://www.optile.io/opg#292619).
-    @objc public let code: String
+    public let code: String
 
     /// Reason of this interaction, complements interaction code and has more detailed granularity.
     /// See list of [Interaction Codes](https://www.optile.io/opg#292619).
-    @objc public let reason: String
+    public let reason: String
 
     public init(code: Code, reason: Reason) {
         self.code = code.rawValue
@@ -23,17 +70,5 @@ import Foundation
     public init(code: String, reason: String) {
         self.code = code
         self.reason = reason
-    }
-}
-
-public extension Interaction {
-    enum Code: String, Decodable {
-        case PROCEED, ABORT, TRY_OTHER_NETWORK, TRY_OTHER_ACCOUNT, RETRY, RELOAD, VERIFY
-    }
-
-    enum Reason: String, Decodable {
-        // swiftlint:disable:next line_length inclusive_language
-        case OK, PENDING, TRUSTED, STRONG_AUTHENTICATION, DECLINED, EXPIRED, EXCEEDS_LIMIT, TEMPORARY_FAILURE, UNKNOWN, NETWORK_FAILURE, BLACKLISTED, BLOCKED, SYSTEM_FAILURE, INVALID_ACCOUNT, FRAUD, ADDITIONAL_NETWORKS, INVALID_REQUEST, SCHEDULED, NO_NETWORKS, DUPLICATE_OPERATION, CHARGEBACK, RISK_DETECTED, CUSTOMER_ABORT, EXPIRED_SESSION, EXPIRED_ACCOUNT, ACCOUNT_NOT_ACTIVATED, TRUSTED_CUSTOMER, UNKNOWN_CUSTOMER, ACTIVATED, UPDATED, TAKE_ACTION
-        case COMMUNICATION_FAILURE, CLIENTSIDE_ERROR
     }
 }

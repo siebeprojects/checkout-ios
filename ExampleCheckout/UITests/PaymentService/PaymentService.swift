@@ -52,11 +52,6 @@ class PaymentService {
         networkService.send(request: request) { result in
             switch result {
             case .success(let data):
-                guard let data = data else {
-                    completion(.failure("Server's reply doesn't contain data"))
-                    return
-                }
-
                 do {
                     let customerId = try self.getCustomerId(fromChargeResponse: data)
                     completion(.success(customerId))
@@ -93,14 +88,6 @@ class PaymentService {
             throw "There is no customerRegistrationId parameter inside Redirect object"
         }
 
-        return customerRegistrationParameter.value!
-    }
-}
-
-private extension Array where Self.Element == Parameter {
-    subscript(name: String) -> Parameter? {
-        get {
-            return self.first(where: { $0.name == name })
-        }
+        return customerRegistrationParameter
     }
 }

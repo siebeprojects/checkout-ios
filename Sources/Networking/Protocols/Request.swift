@@ -62,7 +62,7 @@ public extension Request where Response == Void {
     }
 }
 
-fileprivate extension Request {
+extension Request {
     /// Generic URL request containing only URL and QueryItems
     func buildGenericRequest() throws -> URLRequest {
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {

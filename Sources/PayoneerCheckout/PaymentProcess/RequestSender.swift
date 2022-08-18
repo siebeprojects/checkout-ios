@@ -32,7 +32,7 @@ extension RequestSender {
         let requestType: RequestType = .deletion
 
         // Prepare models
-        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod, providers: network.apiModel.providers)
         else {
             let error = RequestSenderError.paymentServiceNotFound(networkCode: network.networkCode, paymentMethod: network.paymentMethod)
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
@@ -48,12 +48,20 @@ extension RequestSender {
         }
 
         // Delete account
-        service.delete(accountUsing: accountURL, completion: { [weak self] operationResult, error in
-            guard let self = self else { return }
-
-            let deletionResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
+        service.delete(accountUsing: accountURL, completion: { [weak self] result in
             DispatchQueue.main.async {
-                self.delegate?.requestSender(didReceiveResult: deletionResult, for: .deletion)
+                switch result {
+                case .success(let operationResult):
+                    self?.delegate?.requestSender(didReceiveResult: .success(operationResult), for: .deletion)
+                case .failure(let error):
+                    if let errorInfo = error as? ErrorInfo {
+                        self?.delegate?.requestSender(didReceiveResult: .failure(errorInfo), for: .deletion)
+                    } else {
+                        guard let self = self else { return }
+                        let errorInfo = self.createErrorInfo(from: error, forOperationType: nil)
+                        self.delegate?.requestSender(didReceiveResult: .failure(errorInfo), for: .deletion)
+                    }
+                }
             }
         })
     }
@@ -62,7 +70,7 @@ extension RequestSender {
         let requestType: RequestType = .operation(type: network.operationType)
 
         // Prepare models
-        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod)
+        guard let service = paymentServiceFactory.createPaymentService(forNetworkCode: network.networkCode, paymentMethod: network.paymentMethod, providers: network.apiModel.providers)
         else {
             let error = RequestSenderError.paymentServiceNotFound(networkCode: network.networkCode, paymentMethod: network.paymentMethod)
             let errorInfo = CustomErrorInfo.createClientSideError(from: error)
@@ -82,17 +90,23 @@ extension RequestSender {
         }
 
         // Send operation request
-        service.send(operationRequest: operationRequest, completion: { [weak self] operationResult, error in
-            guard let self = self else { return }
-
-            let operationResult = self.convertToResult(object: operationResult, error: error, operationType: network.operationType)
+        service.processPayment(operationRequest: operationRequest, completion: { [weak self] result in
+            let errorInfoResult: Result<OperationResult, ErrorInfo> = {
+                switch result {
+                case .success(let operationResult):
+                    return .success(operationResult)
+                case .failure(let error):
+                    let errorInfo = CustomErrorInfo.createClientSideError(from: error)
+                    return .failure(errorInfo)
+                }
+            }()
 
             DispatchQueue.main.async {
-                self.delegate?.requestSender(didReceiveResult: operationResult, for: .operation(type: network.operationType))
+                self?.delegate?.requestSender(didReceiveResult: errorInfoResult, for: .operation(type: network.operationType))
             }
-        }, presentationRequest: { [weak delegate] viewControllerToPresent in
+        }, presentationRequest: { [weak self] viewControllerToPresent in
             DispatchQueue.main.async {
-                delegate?.requestSender(presentationRequestReceivedFor: viewControllerToPresent)
+                self?.delegate?.requestSender(presentationRequestReceivedFor: viewControllerToPresent)
             }
         })
     }
@@ -100,7 +114,8 @@ extension RequestSender {
     /// Find appropriate interaction code for specified operation type.
     private func getFailureInteractionCode(forOperationType operationType: String?) -> Interaction.Code {
         switch operationType {
-        case "PRESET", "UPDATE", "ACTIVATION": return .ABORT
+        case "PRESET", "UPDATE", "ACTIVATION":
+            return .ABORT
         default:
             // "CHARGE", "PAYOUT" and other operation types
             return .VERIFY
@@ -113,29 +128,11 @@ extension RequestSender {
         let errorInfo = CustomErrorInfo(resultInfo: error.localizedDescription, interaction: interaction, underlyingError: error)
         return errorInfo
     }
-
-    /// Converts object and error optionals to `Result` with a defined state.
-    private func convertToResult(object: OperationResult?, error: Error?, operationType: String?) -> Result <OperationResult, ErrorInfo> {
-        if let errorInfo = error as? ErrorInfo {
-            return .failure(errorInfo)
-        } else if let error = error {
-            let errorInfo = createErrorInfo(from: error, forOperationType: operationType)
-            return .failure(errorInfo)
-        }
-
-        guard let object = object else {
-            let error = RequestSenderError.malformedResponseBlock
-            let errorInfo = createErrorInfo(from: error, forOperationType: operationType)
-            return .failure(errorInfo)
-        }
-
-        return .success(object)
-    }
 }
 
 // MARK: - PaymentRequestBuilder
 
-private struct PaymentRequestBuilder: Loggable {
+struct PaymentRequestBuilder: Loggable {
     let riskService: RiskService
 
     /// Create a payment request with data from `Input.Network`
@@ -154,6 +151,7 @@ private struct PaymentRequestBuilder: Loggable {
             return try createDictionary(forInputElementsFields: inputElementsSection.inputFields)
         }()
 
+        // Registration
         let autoRegistration, allowRecurrence: Bool?
         (autoRegistration, allowRecurrence) = {
             guard let registrationSection = network.uiModel.inputSections[.registration] else {
@@ -163,7 +161,10 @@ private struct PaymentRequestBuilder: Loggable {
             return createRegistrationOptions(forRegistrationFields: registrationSection.inputFields)
         }()
 
-        let form = Form(inputFields: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence)
+        // Extra elements with checkboxes
+        let checkboxDictionary = createDictionary(forExtraElementsIn: network.uiModel.inputSections)
+
+        let form = Form(inputFields: inputFields, autoRegistration: autoRegistration, allowRecurrence: allowRecurrence, checkboxes: checkboxDictionary)
 
         let riskData = riskService.collectRiskData()
 
@@ -172,12 +173,37 @@ private struct PaymentRequestBuilder: Loggable {
         return operationRequest
     }
 
+    private func createDictionary(forExtraElementsIn sections: Set<Input.Network.UIModel.InputSection>) -> [String: Bool]? {
+        // Extract only extra element input fields
+        let checkboxInputFields: [InputField] = [
+            sections[.extraElements(at: .top)]?.inputFields,
+            sections[.extraElements(at: .bottom)]?.inputFields
+        ].compactMap { $0 }.flatMap { $0 }
+
+        // Transform input fields to dictionary with name / value
+        var dictionary = [String: Bool]()
+        for inputField in checkboxInputFields {
+            // Work only with checkboxes, extra elements could containt other items like Labels
+            guard let checkbox = inputField as? Input.Field.Checkbox else { continue }
+
+            // Get id as a `String`
+            guard case .extraElement(let name) = inputField.id else { continue }
+
+            dictionary[name] = checkbox.isOn
+        }
+
+        return dictionary.isEmpty ? nil : dictionary
+    }
+
     private func createDictionary(forInputElementsFields inputFields: [InputField]) throws -> [String: String] {
         var dictionary = [String: String]()
 
         for inputField in inputFields {
             switch inputField.id {
             case .expiryDate:
+                // Make conversion only if field is not empty
+                guard !inputField.value.isEmpty else { continue }
+
                 let date = ExpirationDate(shortDate: inputField.value)
                 dictionary["expiryMonth"] = date.getMonth()
                 dictionary["expiryYear"] = try date.getYear()

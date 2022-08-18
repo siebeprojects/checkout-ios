@@ -7,17 +7,17 @@
 import Foundation
 
 /// Error returned from a server
-@objc open class ErrorInfo: NSObject, Decodable {
-    @objc public let resultInfo: String
-    @objc public let interaction: Interaction
+open class ErrorInfo: NSObject, Error, Decodable {
+    public let resultInfo: String
+    public let interaction: Interaction
+
+    var localizedDescription: String {
+        resultInfo
+    }
 
     /// - Note: Use `CustomErrorInfo` instead of that class when creating custom error info
     public init(resultInfo: String, interaction: Interaction) {
         self.resultInfo = resultInfo
         self.interaction = interaction
     }
-}
-
-extension ErrorInfo: Error {
-    var localizedDescription: String { return resultInfo }
 }
