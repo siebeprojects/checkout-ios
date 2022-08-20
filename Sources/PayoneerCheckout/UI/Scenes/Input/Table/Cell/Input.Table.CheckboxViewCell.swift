@@ -53,7 +53,6 @@ private extension Input.Table.CheckboxViewCell {
             checkboxView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             checkboxView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             checkboxView.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            checkboxView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             {
                 let bottomConstraint = checkboxView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
                 bottomConstraint.priority = .defaultLow

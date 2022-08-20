@@ -8,7 +8,7 @@ import UIKit
 
 extension Input.Table {
     class CVVTextFieldViewCell: TextFieldViewCell, UIAdaptivePresentationControllerDelegate {
-        weak var modalPresenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
         private let hintButton = UIButton(frame: .zero)
 
         override init(frame: CGRect) {
@@ -49,7 +49,7 @@ extension Input.Table {
                 popoverController.permittedArrowDirections = [.up, .down, .right]
             }
 
-            modalPresenter?.present(tooltipVC, animated: true, completion: nil)
+            presenter?.present(tooltipVC, animated: true, completion: nil)
         }
 
         override func configure(with model: CellRepresentable & DefinesKeyboardStyle) {

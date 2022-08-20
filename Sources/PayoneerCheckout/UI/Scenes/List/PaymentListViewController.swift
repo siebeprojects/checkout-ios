@@ -10,7 +10,7 @@ import Logging
 import Networking
 import Payment
 
-final class PaymentListViewController: UIViewController, ModalPresenter {
+final class PaymentListViewController: UIViewController, ViewControllerPresenter {
     weak var methodsTableView: UITableView?
     weak var activityIndicator: UIActivityIndicatorView?
     weak var errorAlertController: UIAlertController?

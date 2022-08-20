@@ -12,7 +12,7 @@ import Logging
 
 extension Input.ViewController {
     class BrowserController: NSObject {
-        weak var presenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
         weak var safariViewController: SFSafariViewController?
 
         private var notificationSubscriptionToken: NSObjectProtocol?

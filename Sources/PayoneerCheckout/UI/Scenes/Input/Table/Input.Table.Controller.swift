@@ -42,9 +42,9 @@ extension Input.Table {
             didSet { layoutController.inputTableControllerDelegate = delegate }
         }
 
-        weak var modalPresenter: ModalPresenter? {
+        weak var presenter: ViewControllerPresenter? {
             didSet {
-                dataSource.modalPresenter = modalPresenter
+                dataSource.presenter = presenter
             }
         }
 

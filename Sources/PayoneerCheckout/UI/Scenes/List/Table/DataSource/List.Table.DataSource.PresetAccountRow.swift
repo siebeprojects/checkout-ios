@@ -10,12 +10,12 @@ extension List.Table.DataSource {
     class PresetAccountRow {
         let account: UIModel.PresetAccount
         let tintColor: UIColor
-        weak var modalPresenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
 
-        init(account: UIModel.PresetAccount, tintColor: UIColor, modalPresenter: ModalPresenter?) {
+        init(account: UIModel.PresetAccount, tintColor: UIColor, presenter: ViewControllerPresenter?) {
             self.account = account
             self.tintColor = tintColor
-            self.modalPresenter = modalPresenter
+            self.presenter = presenter
         }
     }
 }
