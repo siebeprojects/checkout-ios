@@ -8,7 +8,7 @@
 import UIKit
 
 /// Cell calls that delegate on some actions
-protocol InputCellDelegate: AnyObject {
+protocol InputCellDelegate: ViewControllerPresenter {
     func inputCellBecameFirstResponder(cell: UICollectionViewCell)
     func inputCellValueDidChange(to newValue: String?, cell: UICollectionViewCell)
     func inputCellDidEndEditing(cell: UICollectionViewCell)

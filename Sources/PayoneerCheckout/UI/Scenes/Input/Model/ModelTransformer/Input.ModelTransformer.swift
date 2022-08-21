@@ -46,7 +46,7 @@ extension Input.ModelTransformer {
         var sections = Set<InputSection>()
 
         if let extraElements = paymentContext.extraElements {
-            let extraElementsSections = createInputSections(from: extraElements)
+            let extraElementsSections = createInputSections(from: extraElements, translator: presetAccount.translation)
             sections.formUnion(extraElementsSections)
         }
 
@@ -93,7 +93,7 @@ extension Input.ModelTransformer {
         ]
 
         if let extraElements = paymentContext.extraElements {
-            let extraElementsSections = createInputSections(from: extraElements)
+            let extraElementsSections = createInputSections(from: extraElements, translator: registeredAccount.translation)
             inputSections.formUnion(extraElementsSections)
         }
 
@@ -160,7 +160,7 @@ extension Input.ModelTransformer {
         ]
 
         if let extraElements = paymentContext.extraElements {
-            let extraElementsSections = createInputSections(from: extraElements)
+            let extraElementsSections = createInputSections(from: extraElements, translator: paymentNetwork.translation)
             inputSections.formUnion(extraElementsSections)
         }
 
@@ -190,17 +190,19 @@ extension Input.ModelTransformer {
     // MARK: Helper for extra elements
 
     /// Create `InputSection` for top and bottom `ExtraElement`s.
-    private func createInputSections(from extraElements: ExtraElements) -> Set<InputSection> {
+    private func createInputSections(from extraElements: ExtraElements, translator: TranslationProvider) -> Set<InputSection> {
+        let transformer = ExtraElementTransformer(translator: translator)
+
         var inputSections = Set<InputSection>()
 
         if let topElements = extraElements.top {
-            let inputFields = topElements.compactMap { ExtraElementTransformer(extraElement: $0).inputField }
+            let inputFields = topElements.compactMap { transformer.createInputField(from: $0) }
             let section = InputSection(category: .extraElements(at: .top), inputFields: inputFields)
             inputSections.insert(section)
         }
 
         if let bottomElements = extraElements.bottom {
-            let inputFields = bottomElements.compactMap { ExtraElementTransformer(extraElement: $0).inputField }
+            let inputFields = bottomElements.compactMap { transformer.createInputField(from: $0) }
             let section = InputSection(category: .extraElements(at: .bottom), inputFields: inputFields)
             inputSections.insert(section)
         }
