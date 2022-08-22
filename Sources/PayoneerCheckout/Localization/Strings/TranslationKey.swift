@@ -24,6 +24,9 @@ enum TranslationKey: String, CaseIterable {
     case accountsExpiredBadgeTitle = "accounts.expired.badge.title"
     case accountsExpiredBadgeText = "accounts.expired.badge.text"
 
+    case messagesCheckboxForcedTitle = "messages.checkbox.forced.title"
+    case messagesCheckboxForcedText = "messages.checkbox.forced.text"
+
     var localizedString: String {
         switch self {
         case .errorInternetTitle: return "Oops!"
@@ -36,6 +39,8 @@ enum TranslationKey: String, CaseIterable {
         case .processPendingText: return "Please refresh or check back later for updates."
         case .accountsExpiredBadgeTitle: return "Expired"
         case .accountsExpiredBadgeText: return "This card is expired. Please update it or use another payment method."
+        case .messagesCheckboxForcedTitle: return "Oops!"
+        case .messagesCheckboxForcedText: return "This is a mandatory agreement and cannot be unselected"
         }
     }
 }
