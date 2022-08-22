@@ -49,9 +49,11 @@ extension Input.Field.ExtraElementCheckbox {
         case notRequired
 
         /// Checkbox is required to be on and if user toggles it off validation error should be displayed.
+        /// - Important: requiredMessage is localized string received from a server.
         case required(requiredMessage: String)
 
         /// Checkbox is forced to be on. If user toggles checkbox off it should be automatically turned back on and validation message is shown.
+        /// - Important: associated values are localization keys, not localized Strings.
         case forcedOn(titleKey: String, textKey: String)
     }
 }
