@@ -9,6 +9,9 @@ import UIKit
 
 /// Cell calls that delegate on some actions
 protocol InputCellDelegate: ViewControllerPresenter {
+    // swiftlint:disable:previous class_delegate_protocol
+    // Lint fails because ViewControllerPresenter is class-bound but linter doesn't know about this.
+
     func inputCellBecameFirstResponder(cell: UICollectionViewCell)
     func inputCellValueDidChange(to newValue: String?, cell: UICollectionViewCell)
     func inputCellDidEndEditing(cell: UICollectionViewCell)

@@ -141,10 +141,6 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
             cell.setPrimaryAction(to: action)
         }
 
-        if let cvvCell = cell as? Input.Table.CVVTextFieldViewCell {
-            cvvCell.presenter = presenter
-        }
-
         return cell
     }
 }
