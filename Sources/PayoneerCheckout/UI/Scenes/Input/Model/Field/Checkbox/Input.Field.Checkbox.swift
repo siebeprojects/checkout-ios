@@ -31,7 +31,7 @@ extension Input.Field {
             guard let checkboxViewCell = cell as? Input.Table.CheckboxViewCell else {
                 throw errorForIncorrectView(cell)
             }
-            
+
             checkboxViewCell.configure(with: self)
         }
     }

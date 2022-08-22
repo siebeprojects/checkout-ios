@@ -29,7 +29,7 @@ extension Input.Field {
         }
 
         // MARK: CellRepresentable
-        
+
         override var cellType: (UICollectionViewCell & Dequeueable).Type {
             Input.Table.ExtraElementCheckboxViewCell.self
         }
