@@ -59,14 +59,12 @@ final class ExtraElementsCheckboxTests: NetworksTests {
         XCTContext.runActivity(named: "Test FORCED checkbox") { _ in
             let checkbox = app.switches["extraElement_FORCED"]
             XCTAssert(checkbox.exists)
-            XCTAssertFalse(checkbox.isEnabled)
             XCTAssertEqual(checkbox.value as! String, "1")
         }
 
         XCTContext.runActivity(named: "Test FORCED_DISPLAYED checkbox") { _ in
             let checkbox = app.switches["extraElement_FORCED"]
             XCTAssert(checkbox.exists)
-            XCTAssertFalse(checkbox.isEnabled)
             XCTAssertEqual(checkbox.value as! String, "1")
         }
     }
