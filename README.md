@@ -2,4 +2,4 @@ With Payoneer’s Checkout SDK for iOS you can accept payments in your app and p
 
 For information about integrating the Checkout SDK into your app, visit the [documentation portal](https://checkoutdocs.payoneer.com/docs/checkout-ios-sdk).
 
-<img width="33%" src="docs/list.png"><img width="33%" src="docs/card.png"><img width="33%" src="docs/sepa.png">
+<img width="40%" src="docs/list.png"> <img width="40%" src="docs/card.png">
