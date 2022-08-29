@@ -26,9 +26,6 @@ extension List.Table {
 
         let dataSource: List.Table.DataSource
 
-        fileprivate let isRefreshable: Bool
-        fileprivate var refreshControl: UIRefreshControl?
-
         init(tableView: UITableView, session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider, modalPresenter: ModalPresenter?) throws {
             guard let genericLogo = AssetProvider.iconCard else {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
@@ -45,14 +42,14 @@ extension List.Table {
                 modalPresenter: modalPresenter
             )
 
-            switch session.context.listOperationType {
-            case .UPDATE: isRefreshable = true
-            default: isRefreshable = false
-            }
-
             self.tableView = tableView
             super.init()
-            updateRefreshControl()
+
+            if session.context.listOperationType == .UPDATE {
+                let refreshControl = UIRefreshControl()
+                refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+                tableView.refreshControl = refreshControl
+            }
         }
 
         fileprivate func loadLogo(for indexPath: IndexPath) {
@@ -76,19 +73,6 @@ extension List.Table {
 }
 
 extension List.Table.Controller {
-    fileprivate func updateRefreshControl() {
-        guard isRefreshable else {
-            refreshControl?.removeFromSuperview()
-            refreshControl = nil
-            return
-        }
-
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
-        tableView.addSubview(refreshControl)
-        self.refreshControl = refreshControl
-    }
-
     @objc private func refresh() {
         delegate?.didRefreshRequest()
     }
