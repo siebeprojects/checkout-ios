@@ -15,7 +15,7 @@ final class CheckboxView: UIView {
     private let checkbox: UISwitch
     private weak var errorLabel: UILabel?
 
-    var valueDidChange: ((Bool) -> Void)?
+    weak var delegate: CheckboxViewDelegate?
 
     var isOn: Bool {
         get { checkbox.isOn }
@@ -61,7 +61,7 @@ final class CheckboxView: UIView {
     }
 
     @objc private func checkboxValueChanged(_ sender: UISwitch) {
-        valueDidChange?(sender.isOn)
+        delegate?.checkboxView(self, valueDidChangeTo: sender.isOn)
     }
 
     required init?(coder: NSCoder) {

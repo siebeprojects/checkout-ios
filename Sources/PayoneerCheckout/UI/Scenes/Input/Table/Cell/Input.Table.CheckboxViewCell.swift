@@ -23,16 +23,8 @@ extension Input.Table {
 
             super.init(frame: frame)
 
-            checkboxView.valueDidChange = { [weak self] isOn in
-                self?.checkboxValueDidChange(isOn: isOn)
-            }
-
+            checkboxView.delegate = self
             configureLayout()
-        }
-
-        private func checkboxValueDidChange(isOn: Bool) {
-            delegate?.inputCellValueDidChange(to: checkboxView.isOn.stringValue, cell: self)
-            delegate?.inputCellDidEndEditing(cell: self)
         }
 
         required init?(coder: NSCoder) {
@@ -87,5 +79,14 @@ extension Input.Table.CheckboxViewCell {
         }
 
         checkboxView.layoutSubviews()
+    }
+}
+
+// MARK: - CheckboxViewDelegate
+
+extension Input.Table.CheckboxViewCell: CheckboxViewDelegate {
+    func checkboxView(_ view: CheckboxView, valueDidChangeTo isOn: Bool) {
+        delegate?.inputCellValueDidChange(to: checkboxView.isOn.stringValue, cell: self)
+        delegate?.inputCellDidEndEditing(cell: self)
     }
 }

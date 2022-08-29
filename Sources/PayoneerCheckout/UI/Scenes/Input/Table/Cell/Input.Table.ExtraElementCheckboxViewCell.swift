@@ -24,10 +24,7 @@ extension Input.Table {
 
             super.init(frame: frame)
 
-            checkboxView.valueDidChange = { [weak self] isOn in
-                self?.checkboxValueDidChange(isOn: isOn)
-            }
-
+            checkboxView.delegate = self
             configureLayout()
         }
 
@@ -89,8 +86,8 @@ extension Input.Table.ExtraElementCheckboxViewCell {
 
 // MARK: - Value change handler
 
-private extension Input.Table.ExtraElementCheckboxViewCell {
-    func checkboxValueDidChange(isOn: Bool) {
+extension Input.Table.ExtraElementCheckboxViewCell: CheckboxViewDelegate {
+    func checkboxView(_ view: CheckboxView, valueDidChangeTo isOn: Bool) {
         // If checkbox should be auto turned on
         if
             let model = self.model,
