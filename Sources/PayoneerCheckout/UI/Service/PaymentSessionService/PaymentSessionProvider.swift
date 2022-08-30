@@ -113,7 +113,7 @@ class PaymentSessionProvider {
         }
 
         // Create a global payment context
-        let context = UIModel.PaymentContext(operationType: operation, extraElements: listResult?.extraElements, riskService: riskService)
+        let context = UIModel.PaymentContext(operationType: operation, extraElements: listResult?.extraElements, riskService: riskService, payment: listResult?.payment)
 
         let paymentSession = UIModel.PaymentSession(networks: translations.networks, accounts: translations.accounts, presetAccount: translations.presetAccount, context: context, allowDelete: listResult?.allowDelete)
         completion(.success(paymentSession))

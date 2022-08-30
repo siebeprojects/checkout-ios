@@ -14,16 +14,16 @@ extension UIModel {
 
         let networkLabel: String
         let warningText: String?
-        let submitButtonLabel: String
+        let submitButtonLocalizableText: Localizable
         var logo: Loadable<UIImage>?
 
-        init(from apiModel: Networking.PresetAccount, warningText: String?, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
+        init(from apiModel: Networking.PresetAccount, warningText: String?, submitButtonLocalizableText: Localizable, localizeUsing localizer: TranslationProvider) {
             self.apiModel = apiModel
             self.translation = localizer
             self.warningText = warningText
 
             self.networkLabel = localizer.translation(forKey: "network.label")
-            self.submitButtonLabel = localizer.translation(forKey: submitButtonLocalizationKey)
+            self.submitButtonLocalizableText = submitButtonLocalizableText
 
             logo = Loadable<UIImage>(identifier: apiModel.code.lowercased(), url: apiModel.links["logo"])
         }

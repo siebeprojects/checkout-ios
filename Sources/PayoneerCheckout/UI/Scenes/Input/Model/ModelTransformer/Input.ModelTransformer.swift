@@ -55,7 +55,10 @@ extension Input.ModelTransformer {
             throw InternalError(description: "Incorrect preset account model, operation URL is not present. Links: %@", objects: presetAccount.apiModel.links)
         }
 
-        let submitButton = Input.Field.Button(label: presetAccount.submitButtonLabel)
+        let submitButton: Input.Field.Button = {
+            let label = presetAccount.submitButtonLocalizableText.localize(using: presetAccount.translation)
+            return Input.Field.Button(label: label)
+        }()
 
         let uiModel = Input.Network.UIModel(
             networkLabel: presetAccount.networkLabel,
@@ -107,7 +110,10 @@ extension Input.ModelTransformer {
         if registeredAccount.apiModel.operationType == "UPDATE", accountInputFields.isEmpty {
             submitButton = nil
         } else {
-            submitButton = Input.Field.Button(label: registeredAccount.submitButtonLabel)
+            submitButton = {
+                let label = registeredAccount.submitButtonLocalizableText.localize(using: registeredAccount.translation)
+                return Input.Field.Button(label: label)
+            }()
         }
 
         let uiModel = Input.Network.UIModel(
@@ -164,7 +170,10 @@ extension Input.ModelTransformer {
             inputSections.formUnion(extraElementsSections)
         }
 
-        let submitButton = Input.Field.Button(label: paymentNetwork.submitButtonLabel)
+        let submitButton: Input.Field.Button = {
+            let label = paymentNetwork.submitButtonLocalizableText.localize(using: paymentNetwork.translation)
+            return Input.Field.Button(label: label)
+        }()
 
         let uiModel = Input.Network.UIModel(networkLabel: paymentNetwork.label,
                                             maskedAccountLabel: nil,

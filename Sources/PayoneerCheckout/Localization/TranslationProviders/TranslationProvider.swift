@@ -26,7 +26,6 @@ extension TranslationProvider {
             }
 
             return key
-//            return String()
         }
     }
 

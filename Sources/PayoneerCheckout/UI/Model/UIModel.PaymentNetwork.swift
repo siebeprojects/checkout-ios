@@ -13,15 +13,15 @@ extension UIModel {
         let translation: TranslationProvider
 
         let label: String
-        let submitButtonLabel: String
+        let submitButtonLocalizableText: Localizable
         var logo: Loadable<UIImage>?
 
-        init(from applicableNetwork: ApplicableNetwork, submitButtonLocalizationKey: String, localizeUsing localizer: TranslationProvider) {
+        init(from applicableNetwork: ApplicableNetwork, submitButtonLocalizableText: Localizable, localizeUsing localizer: TranslationProvider) {
             self.applicableNetwork = applicableNetwork
             self.translation = localizer
 
             self.label = localizer.translation(forKey: "network.label")
-            self.submitButtonLabel = translation.translation(forKey: submitButtonLocalizationKey)
+            self.submitButtonLocalizableText = submitButtonLocalizableText
 
             logo = Loadable<UIImage>(identifier: applicableNetwork.code.lowercased(), url: applicableNetwork.links?["logo"])
         }

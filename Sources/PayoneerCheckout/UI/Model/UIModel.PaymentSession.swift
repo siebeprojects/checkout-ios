@@ -17,10 +17,10 @@ extension UIModel {
         init(networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?, presetAccount: TranslatedModel<Networking.PresetAccount>?, context: PaymentContext, allowDelete: Bool?) {
             self.context = context
 
-            let buttonLocalizationKey = "button.operation." + context.listOperationType.rawValue.uppercased() + ".label"
+            let localizableButtonText = PaymentButtonLocalizableText(payment: context.payment, listOperationType: context.listOperationType)
 
             self.networks = networks.map {
-                .init(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator)
+                PaymentNetwork(from: $0.model, submitButtonLocalizableText: localizableButtonText, localizeUsing: $0.translator)
             }
 
             // Registered accounts
@@ -38,7 +38,7 @@ extension UIModel {
             }()
 
             self.registeredAccounts = accounts?.map {
-                UIModel.RegisteredAccount(from: $0.model, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: $0.translator, isDeletable: isDeletable)
+                UIModel.RegisteredAccount(from: $0.model, submitButtonLocalizableText: localizableButtonText, localizeUsing: $0.translator, isDeletable: isDeletable)
             }
 
             // Preset account
@@ -50,7 +50,7 @@ extension UIModel {
                     warningText = nil
                 }
 
-                self.presetAccount = PresetAccount(from: translatedPresetAccount.model, warningText: warningText, submitButtonLocalizationKey: buttonLocalizationKey, localizeUsing: translatedPresetAccount.translator)
+                self.presetAccount = PresetAccount(from: translatedPresetAccount.model, warningText: warningText, submitButtonLocalizableText: localizableButtonText, localizeUsing: translatedPresetAccount.translator)
             } else {
                 self.presetAccount = nil
             }
