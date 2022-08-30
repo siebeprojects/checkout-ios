@@ -10,14 +10,15 @@ import Logging
 
 extension Input.ModelTransformer {
     struct ExtraElementTransformer {
-        let extraElement: ExtraElement
+        let translator: TranslationProvider
 
-        var inputField: InputField? {
+        func createInputField(from extraElement: ExtraElement) -> InputField? {
             if let checkbox = extraElement.checkbox {
                 guard let inputFieldCheckbox = inputFieldCheckbox(for: checkbox, inside: extraElement) else { return nil }
                 return inputFieldCheckbox
             }
 
+            let label = label(for: extraElement)
             return Input.Field.Label(label: label, id: .inputElementName(extraElement.name), value: "")
         }
 
@@ -31,43 +32,40 @@ extension Input.ModelTransformer {
             }
 
             let isOn: Bool
-            let isRequiredMode: Bool
-            var isEnabled = true
+            let isRequired: Input.Field.ExtraElementCheckbox.Requirement
+            let requiredMessage = checkbox.requiredMessage ?? extraElement.name + "." + "requiredMessage"
 
             // Reference: https://optile.atlassian.net/wiki/spaces/PPW/pages/3391881231/ExtraElement+Checkbox+modes
             switch checkboxMode {
             case .OPTIONAL:
                 isOn = false
-                isRequiredMode = false
+                isRequired = .notRequired
             case .OPTIONAL_PRESELECTED:
                 isOn = true
-                isRequiredMode = false
+                isRequired = .notRequired
             case .REQUIRED:
                 isOn = false
-                isRequiredMode = true
+                isRequired = .required(requiredMessage: requiredMessage)
             case .REQUIRED_PRESELECTED:
                 isOn = true
-                isRequiredMode = true
+                isRequired = .required(requiredMessage: requiredMessage)
             case .FORCED, .FORCED_DISPLAYED:
                 // Reference: https://optile.atlassian.net/browse/PCX-3383 (point 4)
                 isOn = true
-                isRequiredMode = true
-                isEnabled = false
+                isRequired = .forcedOn(
+                    titleKey: "messages.checkbox.forced.title",
+                    textKey: "messages.checkbox.forced.text"
+                )
             }
 
-            let isRequired: Input.Field.ExtraElementCheckbox.Requirement = {
-                if !isRequiredMode { return .notRequired }
-                let requiredMessage = checkbox.requiredMessage ?? extraElement.name + "." + "requiredMessage"
-                return .required(requiredMessage: requiredMessage)
-            }()
+            let label = label(for: extraElement)
 
-            let checkbox = Input.Field.ExtraElementCheckbox(extraElementName: extraElement.name, isOn: isOn, label: label, isRequired: isRequired)
-            checkbox.isEnabled = isEnabled
+            let checkbox = Input.Field.ExtraElementCheckbox(extraElementName: extraElement.name, isOn: isOn, label: label, isRequired: isRequired, translator: translator)
 
             return checkbox
         }
 
-        private var label: NSAttributedString {
+        func label(for extraElement: ExtraElement) -> NSAttributedString {
             let markdownParser = MarkdownParser()
             return markdownParser.parse(extraElement.label)
         }

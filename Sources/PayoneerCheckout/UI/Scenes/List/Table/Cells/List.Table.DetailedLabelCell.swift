@@ -44,7 +44,7 @@ extension List.Table {
         }()
 
         var translator: TranslationProvider?
-        weak var modalPresenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
 
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -68,7 +68,7 @@ extension List.Table.DetailedLabelCell {
         trailingButtonImage: UIImage? = nil,
         trailingButtonColor: UIColor? = nil,
         translator: TranslationProvider? = nil,
-        modalPresenter: ModalPresenter? = nil
+        presenter: ViewControllerPresenter? = nil
     ) {
         self.logoImageView.image = logo
         self.titleLabel.text = title
@@ -76,7 +76,7 @@ extension List.Table.DetailedLabelCell {
         self.subtitleLabel.isHidden = subtitle == nil || subtitle?.isEmpty == true
         self.subtitleLabel.textColor = subtitleColor ?? CheckoutAppearance.shared.primaryTextColor
         self.translator = translator
-        self.modalPresenter = modalPresenter
+        self.presenter = presenter
         self.trailingButton.tintColor = trailingButtonColor
 
         if let buttonImage = trailingButtonImage {
@@ -128,7 +128,7 @@ extension List.Table.DetailedLabelCell {
             )
         )
 
-        modalPresenter?.present(alert, animated: true, completion: nil)
+        presenter?.present(alert, animated: true, completion: nil)
     }
 }
 

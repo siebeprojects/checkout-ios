@@ -51,7 +51,7 @@ extension Input {
             stateManager = .init(viewController: self)
 
             tableController.delegate = self
-            tableController.modalPresenter = self
+            tableController.presenter = self
         }
 
         convenience init(for paymentNetworks: [UIModel.PaymentNetwork], context: UIModel.PaymentContext, paymentServiceFactory: PaymentServicesFactory) throws {
@@ -80,7 +80,7 @@ extension Input {
             self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
 
             header.translator = registeredAccount.translation
-            header.modalPresenter = self
+            header.presenter = self
 
             self.title = registeredAccount.translation.translation(forKey: "accounts.form.default.title")
         }
@@ -94,7 +94,7 @@ extension Input {
             self.init(header: header, smartSwitch: smartSwitch, paymentServiceFactory: paymentServiceFactory, context: context)
 
             header.translator = presetAccount.translation
-            header.modalPresenter = self
+            header.presenter = self
 
             self.title = presetAccount.translation.translation(forKey: "accounts.form.default.title")
         }
@@ -308,7 +308,7 @@ extension Input.ViewController: InputRequestResultHandlerDelegate {
     }
 }
 
-extension Input.ViewController: ModalPresenter {}
+extension Input.ViewController: ViewControllerPresenter {}
 
 extension Input.ViewController: Loggable {
     var logCategory: String { "InputScene" }

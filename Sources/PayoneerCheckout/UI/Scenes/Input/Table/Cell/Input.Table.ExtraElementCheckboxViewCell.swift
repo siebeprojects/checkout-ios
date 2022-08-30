@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Payoneer Germany GmbH
+// Copyright (c) 2022 Payoneer Germany GmbH
 // https://www.payoneer.com
 //
 // This file is open source and available under the MIT license.
@@ -13,10 +13,11 @@ private struct UIConstant {
 extension Input.Table {
     /// Cell that represents a checkbox (UISwitch).
     /// Upon some actions calls `delegate`, don't forget to set it.
-    class CheckboxViewCell: UICollectionViewCell, ContainsInputCellDelegate, Dequeueable {
+    class ExtraElementCheckboxViewCell: UICollectionViewCell, ContainsInputCellDelegate, Dequeueable {
         weak var delegate: InputCellDelegate?
 
         private let checkboxView: CheckboxView
+        private var model: Input.Field.ExtraElementCheckbox?
 
         override init(frame: CGRect) {
             checkboxView = CheckboxView(frame: .zero)
@@ -35,7 +36,7 @@ extension Input.Table {
 
 // MARK: - Layout & initial configuration
 
-private extension Input.Table.CheckboxViewCell {
+private extension Input.Table.ExtraElementCheckboxViewCell {
     func configureLayout() {
         checkboxView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -56,11 +57,12 @@ private extension Input.Table.CheckboxViewCell {
 
 // MARK: - Configure with model
 
-extension Input.Table.CheckboxViewCell {
-    func configure(with model: Input.Field.Checkbox) {
+extension Input.Table.ExtraElementCheckboxViewCell {
+    func configure(with model: Input.Field.ExtraElementCheckbox) {
         checkboxView.isOn = model.isOn
         checkboxView.isEnabled = model.isEnabled
         checkboxView.switchAccessibilityIdentifier = model.id.textValue
+        self.model = model
 
         // Configure text view
         if let font = checkboxView.font {
@@ -70,8 +72,8 @@ extension Input.Table.CheckboxViewCell {
         }
 
         // Validation
-        if let validatableModel = model as? Validatable, checkboxView.errorText != validatableModel.validationErrorText {
-            if let errorText = validatableModel.validationErrorText {
+        if checkboxView.errorText != model.validationErrorText {
+            if let errorText = model.validationErrorText {
                 checkboxView.errorText = errorText
             } else {
                 checkboxView.errorText = nil
@@ -82,10 +84,35 @@ extension Input.Table.CheckboxViewCell {
     }
 }
 
-// MARK: - CheckboxViewDelegate
+// MARK: - Value change handler
 
-extension Input.Table.CheckboxViewCell: CheckboxViewDelegate {
+extension Input.Table.ExtraElementCheckboxViewCell: CheckboxViewDelegate {
     func checkboxView(_ view: CheckboxView, valueDidChangeTo isOn: Bool) {
+        // If checkbox should be auto turned on
+        if
+            let model = self.model,
+            case .forcedOn(let titleKey, let textKey) = model.isRequired
+        {
+            let title: String = model.translator.translation(forKey: titleKey)
+            let text: String = model.translator.translation(forKey: textKey)
+
+            var error = UIAlertController.AlertError(title: title, message: text)
+            error.actions = [
+                UIAlertController.Action(
+                    label: .ok,
+                    style: .default,
+                    handler: { [checkboxView] _ in
+                        checkboxView.isOn = true
+                    }
+                )
+            ]
+
+            let alertController = error.createAlertController(translator: model.translator)
+            delegate?.present(alertController, animated: true, completion: nil)
+
+            return
+        }
+
         delegate?.inputCellValueDidChange(to: checkboxView.isOn.stringValue, cell: self)
         delegate?.inputCellDidEndEditing(cell: self)
     }

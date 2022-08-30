@@ -10,7 +10,7 @@ import Logging
 extension Input.Table {
     class DataSource: NSObject {
         weak var inputCellDelegate: InputCellDelegate?
-        weak var modalPresenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
 
         fileprivate(set) var model: [[CellRepresentable]] = .init()
 
@@ -139,10 +139,6 @@ extension Input.Table.DataSource: UICollectionViewDataSource {
             let isLastRow = isLastTextField(at: indexPath)
             let action: PrimaryAction = isLastRow ? .done : .next
             cell.setPrimaryAction(to: action)
-        }
-
-        if let cvvCell = cell as? Input.Table.CVVTextFieldViewCell {
-            cvvCell.modalPresenter = modalPresenter
         }
 
         return cell

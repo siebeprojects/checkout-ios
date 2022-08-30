@@ -6,6 +6,6 @@
 
 import UIKit
 
-protocol ModalPresenter: AnyObject {
+protocol ViewControllerPresenter: AnyObject {
     func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?)
 }

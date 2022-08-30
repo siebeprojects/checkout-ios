@@ -34,8 +34,6 @@ final class ExtraElementsCheckboxTests: NetworksTests {
         app.staticTexts["Cards"].tap()
         XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
 
-        // TODO: Add test for validation error message or popup
-
         XCTContext.runActivity(named: "Test REQUIRED checkbox") { _ in
             let checkbox = app.switches["extraElement_REQUIRED"]
             XCTAssert(checkbox.exists)
@@ -61,14 +59,12 @@ final class ExtraElementsCheckboxTests: NetworksTests {
         XCTContext.runActivity(named: "Test FORCED checkbox") { _ in
             let checkbox = app.switches["extraElement_FORCED"]
             XCTAssert(checkbox.exists)
-            XCTAssertFalse(checkbox.isEnabled)
             XCTAssertEqual(checkbox.value as! String, "1")
         }
 
         XCTContext.runActivity(named: "Test FORCED_DISPLAYED checkbox") { _ in
             let checkbox = app.switches["extraElement_FORCED"]
             XCTAssert(checkbox.exists)
-            XCTAssertFalse(checkbox.isEnabled)
             XCTAssertEqual(checkbox.value as! String, "1")
         }
     }
@@ -119,6 +115,33 @@ final class ExtraElementsCheckboxTests: NetworksTests {
             let validationErrorText = cell.staticTexts["REQUIRED error message"]
 
             XCTAssertTrue(validationErrorText.exists)
+        }
+    }
+
+    func testForcedCheckboxes() throws {
+        let checkboxSettings = try ListSettings(division: "ExtraElements", checkoutConfiguration: .extraElementsCheckboxes)
+        try setupPaymentSession(with: checkboxSettings)
+
+        app.staticTexts["Cards"].tap()
+        XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
+
+        for identifier in ["extraElement_FORCED", "extraElement_FORCED_DISPLAYED"] {
+            XCTContext.runActivity(named: "Test " + identifier + " automation") { context in
+                let checkbox = app.switches[identifier]
+                checkbox.tap()
+
+                // Wait for an alert
+                XCTAssert(app.alerts.firstMatch.waitForExistence(timeout: .uiTimeout))
+
+                let alertBody = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
+                XCTAssertEqual(alertBody, "This is a mandatory agreement and cannot be unselected.")
+
+                app.alerts.buttons.firstMatch.tap()
+
+                // Wait switch to be turned on
+                let turnedOnExpectation = expectation(for: NSPredicate(format: "value == %@", "1"), evaluatedWith: checkbox)
+                wait(for: [turnedOnExpectation], timeout: .uiTimeout)
+            }
         }
     }
 }
