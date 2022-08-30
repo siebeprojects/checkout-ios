@@ -29,7 +29,7 @@ extension List.Table {
         fileprivate let isRefreshable: Bool
         fileprivate var refreshControl: UIRefreshControl?
 
-        init(tableView: UITableView, session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider, modalPresenter: ModalPresenter?) throws {
+        init(tableView: UITableView, session: UIModel.PaymentSession, translationProvider: SharedTranslationProvider, presenter: ViewControllerPresenter?) throws {
             guard let genericLogo = AssetProvider.iconCard else {
                 throw InternalError(description: "Unable to load a credit card's generic icon")
             }
@@ -42,7 +42,7 @@ extension List.Table {
                 genericLogo: genericLogo,
                 context: session.context,
                 tintColor: tableView.tintColor,
-                modalPresenter: modalPresenter
+                presenter: presenter
             )
 
             switch session.context.listOperationType {

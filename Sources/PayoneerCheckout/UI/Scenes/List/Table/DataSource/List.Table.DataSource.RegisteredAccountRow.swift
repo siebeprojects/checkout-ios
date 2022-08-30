@@ -9,11 +9,11 @@ import UIKit
 extension List.Table.DataSource {
     class RegisteredAccountRow {
         let account: UIModel.RegisteredAccount
-        weak var modalPresenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
 
-        init(account: UIModel.RegisteredAccount, modalPresenter: ModalPresenter?) {
+        init(account: UIModel.RegisteredAccount, presenter: ViewControllerPresenter?) {
             self.account = account
-            self.modalPresenter = modalPresenter
+            self.presenter = presenter
         }
     }
 }

@@ -40,7 +40,7 @@ extension Input.Table {
         }()
 
         var translator: TranslationProvider?
-        weak var modalPresenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
 
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -78,7 +78,7 @@ extension Input.Table.DetailedTextLogoView {
         self.subtitleLabel.isHidden = model.subtitle == nil || model.subtitle?.isEmpty == true
         self.subtitleLabel.textColor = model.subtitleColor ?? CheckoutAppearance.shared.primaryTextColor
         self.translator = model.translator
-        self.modalPresenter = model.modalPresenter
+        self.presenter = model.presenter
         self.trailingButton.tintColor = model.trailingButtonColor
 
         if let buttonImage = model.trailingButtonImage {
@@ -108,7 +108,7 @@ extension Input.Table.DetailedTextLogoView {
             )
         )
 
-        modalPresenter?.present(alert, animated: true, completion: nil)
+        presenter?.present(alert, animated: true, completion: nil)
     }
 }
 

@@ -14,7 +14,7 @@ extension List.Table {
         private let translationProvider: TranslationProvider
         let context: UIModel.PaymentContext
         let tintColor: UIColor
-        weak var modalPresenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
 
         init(
             networks: [UIModel.PaymentNetwork],
@@ -24,17 +24,17 @@ extension List.Table {
             genericLogo: UIImage,
             context: UIModel.PaymentContext,
             tintColor: UIColor,
-            modalPresenter: ModalPresenter?
+            presenter: ViewControllerPresenter?
         ) {
             self.translationProvider = translation
             self.context = context
             self.tintColor = tintColor
-            self.modalPresenter = modalPresenter
+            self.presenter = presenter
 
             var sections = [Section]()
 
             if let presetAccount = presetAccount {
-                let row = PresetAccountRow(account: presetAccount, tintColor: tintColor, modalPresenter: modalPresenter)
+                let row = PresetAccountRow(account: presetAccount, tintColor: tintColor, presenter: presenter)
                 let presetSection = Section(rows: .preset(row), additionalHeaderText: presetAccount.warningText)
                 sections.append(presetSection)
             }
@@ -43,7 +43,7 @@ extension List.Table {
             if let accounts = accounts {
                 var rows = [RegisteredAccountRow]()
                 for account in accounts {
-                    let row = RegisteredAccountRow(account: account, modalPresenter: modalPresenter)
+                    let row = RegisteredAccountRow(account: account, presenter: presenter)
                     rows.append(row)
                 }
 
@@ -196,7 +196,7 @@ private protocol DetailedLabelRow: DequeuableRow {
     var isExpired: Bool { get }
     var image: UIImage? { get }
     var borderColor: UIColor { get }
-    var modalPresenter: ModalPresenter? { get }
+    var presenter: ViewControllerPresenter? { get }
     var translator: TranslationProvider? { get }
 }
 
@@ -212,7 +212,7 @@ extension DetailedLabelRow {
             trailingButtonImage: isExpired ? AssetProvider.expirationInfo : nil,
             trailingButtonColor: isExpired ? CheckoutAppearance.shared.errorColor : nil,
             translator: translator,
-            modalPresenter: modalPresenter
+            presenter: presenter
         )
 
         cell.borderColor = borderColor
@@ -252,7 +252,7 @@ extension List.Table.DataSource.SingleNetworkRow: DetailedLabelRow, NetworkRow {
     var secondaryLabel: String? { nil }
     var isExpired: Bool { false }
     var borderColor: UIColor { CheckoutAppearance.shared.borderColor }
-    var modalPresenter: ModalPresenter? { nil }
+    var presenter: ViewControllerPresenter? { nil }
     var translator: TranslationProvider? { nil }
 }
 extension List.Table.DataSource.GroupedNetworkRow: NetworkRow {}

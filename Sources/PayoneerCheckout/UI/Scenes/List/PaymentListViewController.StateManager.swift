@@ -62,7 +62,7 @@ extension PaymentListViewController.StateManager {
         // Show payment methods
         let methodsTableView = viewManager.addMethodsTableView()
 
-        let tableController = try List.Table.Controller(tableView: methodsTableView, session: session, translationProvider: vc.sharedTranslationProvider, modalPresenter: vc)
+        let tableController = try List.Table.Controller(tableView: methodsTableView, session: session, translationProvider: vc.sharedTranslationProvider, presenter: vc)
         tableController.delegate = vc
         self.tableController = tableController
 

@@ -15,7 +15,7 @@ extension Input {
         let trailingButtonImage: UIImage?
         let trailingButtonColor: UIColor?
         var translator: TranslationProvider?
-        weak var modalPresenter: ModalPresenter?
+        weak var presenter: ViewControllerPresenter?
 
         var isEnabled: Bool = true
 

@@ -8,7 +8,7 @@ import Foundation
 import UIKit
 
 extension Input.Field {
-    class Checkbox {
+    class Checkbox: CellRepresentable {
         let id: Identifier
         var isOn: Bool
         var isEnabled: Bool = true
@@ -20,6 +20,20 @@ extension Input.Field {
             self.isOn = isOn
             self.label = label
         }
+
+        // MARK: CellRepresentable
+
+        var cellType: (UICollectionViewCell & Dequeueable).Type {
+            Input.Table.CheckboxViewCell.self
+        }
+
+        func configure(cell: UICollectionViewCell) throws {
+            guard let checkboxViewCell = cell as? Input.Table.CheckboxViewCell else {
+                throw errorForIncorrectView(cell)
+            }
+
+            checkboxViewCell.configure(with: self)
+        }
     }
 }
 
@@ -27,14 +41,5 @@ extension Input.Field.Checkbox: WritableInputField {
     var value: String {
         get { isOn.stringValue }
         set { isOn = Bool(stringValue: newValue) ?? false }
-    }
-}
-
-extension Input.Field.Checkbox: CellRepresentable {
-    var cellType: (UICollectionViewCell & Dequeueable).Type { Input.Table.CheckboxViewCell.self }
-
-    func configure(cell: UICollectionViewCell) throws {
-        guard let checkboxViewCell = cell as? Input.Table.CheckboxViewCell else { throw errorForIncorrectView(cell) }
-        checkboxViewCell.configure(with: self)
     }
 }

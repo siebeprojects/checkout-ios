@@ -42,9 +42,9 @@ extension Input.Table {
             didSet { layoutController.inputTableControllerDelegate = delegate }
         }
 
-        weak var modalPresenter: ModalPresenter? {
+        weak var presenter: ViewControllerPresenter? {
             didSet {
-                dataSource.modalPresenter = modalPresenter
+                dataSource.presenter = presenter
             }
         }
 
@@ -113,6 +113,7 @@ extension Input.Table {
             // Input field cells
             collectionView.register(TextFieldViewCell.self)
             collectionView.register(CheckboxViewCell.self)
+            collectionView.register(Input.Table.ExtraElementCheckboxViewCell.self)
             collectionView.register(ButtonCell.self)
             collectionView.register(LabelViewCell.self)
             collectionView.register(Input.Table.CVVTextFieldViewCell.self)
@@ -147,6 +148,10 @@ extension Input.Table.Controller {
 // MARK: - InputCellDelegate
 
 extension Input.Table.Controller: InputCellDelegate {
+    func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+        presenter?.present(viewControllerToPresent, animated: flag, completion: completion)
+    }
+
     func inputCellPrimaryActionTriggered(cell: UICollectionViewCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else {
             assertionFailure()
