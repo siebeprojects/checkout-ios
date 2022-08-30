@@ -34,6 +34,8 @@ public class ListResult: NSObject, Decodable {
     /// Possible values: `CHARGE`, `PRESET`, `PAYOUT`, `UPDATE`
     public let operationType: String?
 
+    public let payment: Payment?
+
     /// Indicates that deletion of registered accounts is allowed in scope of this `LIST` session
     /// * If set to `true` the deletion accounts is explicitly permitted by merchant.
     /// * If set to `false` the deletion accounts is explicitly disallowed by merchant.
