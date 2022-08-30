@@ -134,7 +134,7 @@ final class ExtraElementsCheckboxTests: NetworksTests {
                 XCTAssert(app.alerts.firstMatch.waitForExistence(timeout: .uiTimeout))
 
                 let alertBody = app.alerts.firstMatch.staticTexts.element(boundBy: 1).label
-                XCTAssertEqual(alertBody, "This is a mandatory agreement and cannot be unselected")
+                XCTAssertEqual(alertBody, "This is a mandatory agreement and cannot be unselected.")
 
                 app.alerts.buttons.firstMatch.tap()
 
