@@ -51,6 +51,7 @@ extension Input.Table {
             button.setTitleColor(CheckoutAppearance.shared.buttonTitleColor, for: .normal)
             button.layer.cornerRadius = .cornerRadius
             button.clipsToBounds = true
+            button.accessibilityIdentifier = "submitButton"
 
             super.init(frame: frame)
 

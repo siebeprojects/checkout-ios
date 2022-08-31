@@ -40,7 +40,7 @@ class ApplePayBraintreeTests: NetworksTests {
         try setupPaymentSession(with: listSettings)
 
         app.tables.staticTexts["Apple Pay"].tap()
-        app.buttons["Pay"].tap()
+        app.buttons["submitButton"].tap()
 
         try payInApplePayApplication()
 

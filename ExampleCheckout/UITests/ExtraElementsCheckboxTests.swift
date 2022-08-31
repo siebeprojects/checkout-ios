@@ -108,7 +108,7 @@ final class ExtraElementsCheckboxTests: NetworksTests {
         app.staticTexts["Cards"].tap()
         XCTAssert(app.navigationBars["Payment details"].waitForExistence(timeout: .uiTimeout))
         app.swipeUp()
-        app.buttons["Pay"].tap()
+        app.buttons["submitButton"].tap()
 
         XCTContext.runActivity(named: "Test REQUIRED checkbox validation message") { _ in
             let cell = app.cells.containing(.switch, identifier: "extraElement_REQUIRED")

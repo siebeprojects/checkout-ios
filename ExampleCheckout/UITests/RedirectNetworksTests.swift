@@ -11,7 +11,7 @@ class RedirectNetworksTests: NetworksTests {
         try setupPaymentSession(with: ListSettings())
 
         app.tables.staticTexts["PayPal"].tap()
-        app.collectionViews.buttons["Pay"].tap()
+        app.collectionViews.buttons["submitButton"].tap()
 
         let button = app.webViews.staticTexts["accept"]
         XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Accept button didn't appear in time")
@@ -28,7 +28,7 @@ class RedirectNetworksTests: NetworksTests {
         try setupPaymentSession(with: ListSettings())
 
         app.tables.staticTexts["PayPal"].tap()
-        app.collectionViews.buttons["Pay"].tap()
+        app.collectionViews.buttons["submitButton"].tap()
 
         let button = app.webViews.staticTexts["abort"]
         XCTAssertTrue(button.waitForExistence(timeout: .networkTimeout), "Abort button didn't appear in time")
