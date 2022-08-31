@@ -12,6 +12,6 @@ extension UIModel.PaymentContext {
     /// Init with empty risk service
     convenience init(operationType: UIModel.PaymentSession.Operation, extraElements: ExtraElements?) {
         let riskService = RiskService(providers: [])
-        self.init(operationType: operationType, extraElements: extraElements, riskService: riskService)
+        self.init(operationType: operationType, extraElements: extraElements, riskService: riskService, payment: nil)
     }
 }

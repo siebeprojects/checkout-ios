@@ -53,7 +53,7 @@ private struct InputNetworkFactory {
 
         let paymentNetwork = UIModel.PaymentNetwork(
             from: listResult.networks.applicable.first!,
-            submitButtonLocalizationKey: "",
+            submitButtonLocalizableText: PaymentButtonLocalizableText(payment: nil, networkOperationType: "CHARGE"),
             localizeUsing: SharedTranslationProvider(localTranslations: [:])
         )
 

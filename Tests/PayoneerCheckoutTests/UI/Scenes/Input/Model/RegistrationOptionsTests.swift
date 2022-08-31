@@ -40,7 +40,10 @@ class RegistrationOptionsTests: XCTestCase {
 
     private func createNetwork(for model: TestingCase) -> UIModel.PaymentNetwork {
         let applicableNetwork = ApplicableNetwork(code: "", label: "", method: "", grouping: "", providers: nil, registration: model.registration, recurrence: model.recurrence, redirect: false, inputElements: nil, links: ["operation": URL(string: "https://example.com")!], operationType: "CHARGE")
-        return UIModel.PaymentNetwork(from: applicableNetwork, submitButtonLocalizationKey: "", localizeUsing: localizationProvider)
+        return UIModel.PaymentNetwork(
+            from: applicableNetwork,
+            submitButtonLocalizableText: PaymentButtonLocalizableText(payment: nil, networkOperationType: "CHARGE"), localizeUsing: localizationProvider
+        )
     }
 }
 
