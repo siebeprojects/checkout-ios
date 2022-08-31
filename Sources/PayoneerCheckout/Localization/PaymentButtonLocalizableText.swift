@@ -9,16 +9,15 @@ import Networking
 
 struct PaymentButtonLocalizableText: Localizable {
     let payment: Payment?
-    let listOperationType: UIModel.PaymentSession.Operation
+    let networkOperationType: String
 
     private var defaultLocalizationKey: String {
-        "button.operation." + listOperationType.rawValue.uppercased() + ".label"
+        "button.operation." + networkOperationType + ".label"
     }
 
     func localize(using translationProvider: TranslationProvider) -> String {
         // Display amount only for CHARGE and PAYOUT flows
-        guard case .CHARGE = listOperationType else {
-            // case .PAYOUT - not yet supported
+        guard ["CHARGE", "PAYOUT"].contains(networkOperationType) else {
             return translationProvider.translation(forKey: defaultLocalizationKey)
         }
 
@@ -31,7 +30,7 @@ struct PaymentButtonLocalizableText: Localizable {
 
         let buttonLabel: String = {
             let amountPlaceholderKey = "${amount}"
-            let localizationWithPlaceholder: String = translationProvider.translation(forKey: "button.operation." + listOperationType.rawValue.uppercased() + ".amount.label")
+            let localizationWithPlaceholder: String = translationProvider.translation(forKey: "button.operation." + networkOperationType + ".amount.label")
             return localizationWithPlaceholder.replacingOccurrences(of: amountPlaceholderKey, with: amount)
         }()
 

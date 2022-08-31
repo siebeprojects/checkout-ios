@@ -17,10 +17,9 @@ extension UIModel {
         init(networks: [TranslatedModel<ApplicableNetwork>], accounts: [TranslatedModel<AccountRegistration>]?, presetAccount: TranslatedModel<Networking.PresetAccount>?, context: PaymentContext, allowDelete: Bool?) {
             self.context = context
 
-            let localizableButtonText = PaymentButtonLocalizableText(payment: context.payment, listOperationType: context.listOperationType)
-
             self.networks = networks.map {
-                PaymentNetwork(from: $0.model, submitButtonLocalizableText: localizableButtonText, localizeUsing: $0.translator)
+                let localizableButtonText = PaymentButtonLocalizableText(payment: context.payment, networkOperationType: $0.model.operationType)
+                return PaymentNetwork(from: $0.model, submitButtonLocalizableText: localizableButtonText, localizeUsing: $0.translator)
             }
 
             // Registered accounts
@@ -38,7 +37,8 @@ extension UIModel {
             }()
 
             self.registeredAccounts = accounts?.map {
-                UIModel.RegisteredAccount(from: $0.model, submitButtonLocalizableText: localizableButtonText, localizeUsing: $0.translator, isDeletable: isDeletable)
+                let localizableButtonText = PaymentButtonLocalizableText(payment: context.payment, networkOperationType: $0.model.operationType)
+                return UIModel.RegisteredAccount(from: $0.model, submitButtonLocalizableText: localizableButtonText, localizeUsing: $0.translator, isDeletable: isDeletable)
             }
 
             // Preset account
@@ -50,6 +50,7 @@ extension UIModel {
                     warningText = nil
                 }
 
+                let localizableButtonText = PaymentButtonLocalizableText(payment: context.payment, networkOperationType: translatedPresetAccount.model.operationType)
                 self.presetAccount = PresetAccount(from: translatedPresetAccount.model, warningText: warningText, submitButtonLocalizableText: localizableButtonText, localizeUsing: translatedPresetAccount.translator)
             } else {
                 self.presetAccount = nil
