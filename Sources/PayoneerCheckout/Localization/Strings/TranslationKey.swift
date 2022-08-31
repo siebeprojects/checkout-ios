@@ -27,6 +27,8 @@ enum TranslationKey: String, CaseIterable {
     case messagesCheckboxForcedTitle = "messages.checkbox.forced.title"
     case messagesCheckboxForcedText = "messages.checkbox.forced.text"
 
+    case buttonOperationChargeAmountLabel = "button.operation.CHARGE.amount.label"
+
     var localizedString: String {
         switch self {
         case .errorInternetTitle: return "Oops!"
@@ -41,6 +43,7 @@ enum TranslationKey: String, CaseIterable {
         case .accountsExpiredBadgeText: return "This card is expired. Please update it or use another payment method."
         case .messagesCheckboxForcedTitle: return "Oops!"
         case .messagesCheckboxForcedText: return "This is a mandatory agreement and cannot be unselected."
+        case .buttonOperationChargeAmountLabel: return "Pay ${amount}"
         }
     }
 }
