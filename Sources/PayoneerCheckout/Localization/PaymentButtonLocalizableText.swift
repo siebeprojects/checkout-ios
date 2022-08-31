@@ -17,10 +17,9 @@ struct PaymentButtonLocalizableText: Localizable {
 
     func localize(using translationProvider: TranslationProvider) -> String {
         // Display amount only for CHARGE and PAYOUT flows
-        switch listOperationType {
-        case .CHARGE: break
-        // case .PAYOUT - not yet supported
-        default: return translationProvider.translation(forKey: defaultLocalizationKey)
+        guard case .CHARGE = listOperationType else {
+            // case .PAYOUT - not yet supported
+            return translationProvider.translation(forKey: defaultLocalizationKey)
         }
 
         guard let payment = payment else {
@@ -28,9 +27,14 @@ struct PaymentButtonLocalizableText: Localizable {
             return translationProvider.translation(forKey: defaultLocalizationKey)
         }
 
-        let payText: String = translationProvider.translation(forKey: "button.operation." + listOperationType.rawValue.uppercased() + ".amount.label")
-        let amount = String(payment.amount)
-        let combinedString = [payText, amount, payment.currency].joined(separator: " ")
-        return combinedString
+        let amount = String(payment.amount) + " " + payment.currency
+
+        let buttonLabel: String = {
+            let amountPlaceholderKey = "${amount}"
+            let localizationWithPlaceholder: String = translationProvider.translation(forKey: "button.operation." + listOperationType.rawValue.uppercased() + ".amount.label")
+            return localizationWithPlaceholder.replacingOccurrences(of: amountPlaceholderKey, with: amount)
+        }()
+
+        return buttonLabel
     }
 }
